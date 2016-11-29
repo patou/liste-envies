@@ -11,27 +11,26 @@ import fr.desaintsteban.liste.envies.model.AppUser;
 
 import java.util.List;
 
-public final class AppUserService {    
+public final class AppUserService {
     private AppUserService() {}
-    
+
     public static AppUser getAppUser(User user) {
     	Objectify ofy = OfyService.ofy();
     	if (user == null) { //Not Logged
-            return null;
-        }
+        return null;
+      }
     	AppUser appUser = ofy.load().type(AppUser.class).id(user.getEmail()).now();
-        UserService userService = UserServiceFactory.getUserService();
+      UserService userService = UserServiceFactory.getUserService();
     	if (appUser == null) { // appUser wasn't in the datastore
     		appUser = new AppUser(user.getEmail(), user.getNickname());
     		appUser.setIsAdmin(userService.isUserAdmin());
     		ofy.save().entity(appUser).now();
     	}
     	else { // appUser is already in the datastore
-    		
     		// update properties if they've changed
     		if (!appUser.getEmail().equalsIgnoreCase(user.getEmail()) || userService.isUserAdmin() != appUser.getIsAdmin()) {
     			appUser.setEmail(user.getEmail());
-                appUser.setIsAdmin(userService.isUserAdmin());
+          appUser.setIsAdmin(userService.isUserAdmin());
     			ofy.save().entity(appUser).now();
     		}
     	}
