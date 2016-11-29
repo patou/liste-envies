@@ -1,0 +1,24 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Liste de mes envies
+                <small>Accueil</small>
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="jumbotron">
+                <p>Bonjour, <strong>{{vm.user.name}}</strong>! sur votre liste des envies</p>
+            </div>
+            <p><a class="btn btn-primary btn-lg" href="#" role="button">Ajouter une envie</a></p>
+        </div>
+    </div>
+    <div class="list-group">
+        <a href="#" class="list-group-item active" ng-repeat="appuser in vm.listeUser">
+            Liste de {{appuser.name}}
+        </a>
+    </div>
+
+</div>

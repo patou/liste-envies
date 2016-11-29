@@ -1,0 +1,10 @@
+angular
+    .module('service')
+    .service('appUserService', appUserService);
+appUserService.$inject = ['$resource'];
+function appUserService($resource) {
+    var base_url = '/api/utilisateur/';
+    return $resource(base_url + ':email', {email: '@email'},
+        {
+        });
+}
