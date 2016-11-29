@@ -42,14 +42,14 @@ public class AppUserServiceTest {
                 return super.begin().cache(false);
             }
         });
+        ObjectifyService.factory().register(AppUser.class);
 
     }
 
     @Before
     public void setUp() {
         helper.setUp();
-        closable = ObjectifyService.begin();
-        OfyService.factory();
+        closable = OfyService.begin();
         AppUserService.createOrUpdate(new AppUser("patrice@desaintsteban.fr", "Patrice"));
         AppUserService.createOrUpdate(new AppUser("emmanuel@desaintsteban.fr", "Emmanuel"));
     }

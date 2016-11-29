@@ -47,14 +47,14 @@ public class EnvieServiceTest {
                 return super.begin().cache(false);
             }
         });
-
+        ObjectifyService.factory().register(AppUser.class);
+        ObjectifyService.factory().register(Envie.class);
     }
 
     @Before
     public void setUp() {
         helper.setUp();
-        closable = ObjectifyService.begin();
-        OfyService.factory();
+        closable = OfyService.begin();
         patrice = new AppUser("patrice@desaintsteban.fr", "Patrice");
         AppUserService.createOrUpdate(patrice);
         emmanuel = new AppUser("emmanuel@desaintsteban.fr", "Emmanuel");
