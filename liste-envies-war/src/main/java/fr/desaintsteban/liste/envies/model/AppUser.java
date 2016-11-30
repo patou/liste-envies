@@ -13,7 +13,7 @@ public class AppUser {
 
 	private String name;
 
-    private Boolean isAdmin;
+    private boolean isAdmin = false;
 	
 	public AppUser() { }
 	

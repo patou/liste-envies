@@ -1,51 +1,55 @@
 package fr.desaintsteban.liste.envies.rest;
 
+import fr.desaintsteban.liste.envies.dto.AppUserDto;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.service.AppUserService;
 import fr.desaintsteban.liste.envies.util.ServletUtils;
 
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 @Path("/utilisateur")
 @Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class AppUserRestService {
     private static final Logger LOGGER = Logger.getLogger(AppUserRestService.class.getName());
 
     @GET
-    public List<AppUser> getAppUsers() {
+    public List<AppUserDto> getAppUsers() {
         final AppUser user = ServletUtils.getUserAuthenticated();
-        if(user != null && user.isAdmin()){
+        if(user != null){
             LOGGER.info("List appuser");
-            return AppUserService.list();
+            List<AppUser> list = AppUserService.list();
+            ArrayList<AppUserDto> convertList = new ArrayList<>();
+            for (AppUser appUser : list) {
+                convertList.add(new AppUserDto(appUser.getEmail(), appUser.getName()));
+            }
+            return convertList;
         }
         return null;
     }
 
-    @PUT
-    public AppUser addUser(AppUser appUser) {
+    @POST
+    @Path("/{email}")
+    public void addUser(@PathParam("email") String email, AppUserDto appUser) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null && user.isAdmin()) {
             LOGGER.info("Put " + appUser.getEmail());
-            return AppUserService.createOrUpdate(appUser);
+            AppUser orUpdate = AppUserService.createOrUpdate(new AppUser(appUser.getEmail(), appUser.getName()));
         }
-        return null;
     }
 
     @GET
     @Path("/{email}")
-    public AppUser addUser(@PathParam("email") String email) {
+    public AppUserDto getUser(@PathParam("email") String email) {
         final AppUser user = ServletUtils.getUserAuthenticated();
-        if (user != null && user.isAdmin()) {
+        if (user != null) {
             LOGGER.info("Get " + email);
-            return AppUserService.get(email);
+            AppUser appUser = AppUserService.get(email);
+            return new AppUserDto(appUser.getEmail(), appUser.getName());
         }
         return null;
     }

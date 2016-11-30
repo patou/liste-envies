@@ -19,10 +19,14 @@ public final class AppUserService {
     	if (user == null) { //Not Logged
         return null;
       }
-    	AppUser appUser = ofy.load().type(AppUser.class).id(user.getEmail()).now();
+	  AppUser appUser = ofy.load().type(AppUser.class).id(user.getEmail()).now();
       UserService userService = UserServiceFactory.getUserService();
     	if (appUser == null) { // appUser wasn't in the datastore
-    		appUser = new AppUser(user.getEmail(), user.getNickname());
+			String nickname = user.getNickname();
+			if (nickname.indexOf('@') > 0) {
+				nickname = nickname.substring(0, nickname.indexOf('@')).replace('.', ' ').replace('-', ' ');
+			}
+    		appUser = new AppUser(user.getEmail(), nickname);
     		appUser.setIsAdmin(userService.isUserAdmin());
     		ofy.save().entity(appUser).now();
     	}

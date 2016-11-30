@@ -1,9 +1,14 @@
-app.controller('HomeCtrl', function ($scope, $http, AuthService, appUserService) {
-    AuthService.refresh();
+app.controller('HomeCtrl', HomeCtrl);
+HomeCtrl.$inject = ['appUserService', '$location'];
+function HomeCtrl(appUserService, $location) {
     var vm = this;
-    vm.user = AuthService.getUser();
-    $scope.$watch(function () { return AuthService.getUser(); }, function () {
-        vm.user = AuthService.getUser();
-    });
     vm.listeUser = appUserService.query();
-});
+    vm.addUser = function (newuser) {
+      appUserService.save(newuser, function() {
+          vm.listeUser = appUserService.query();
+      });
+    };
+    vm.goList = function (email) {
+        $location.url("/"+email);
+    };
+}
