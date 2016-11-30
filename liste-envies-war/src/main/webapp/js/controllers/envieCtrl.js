@@ -20,6 +20,17 @@ function EnvieCtrl(envieService, appUserService, $routeParams, $location, $ancho
             resetForm();
         });
     };
+
+    vm.addNote = function (envie) {
+
+        var note = {text: vm.text, owner: vm.email};
+
+        envieService.addNote({id:envie.id}, note, function() {
+            loadListeEnvies();
+            gotoEnvie(envie.id);
+            vm.text = '';
+        });
+    };
     vm.given = function(id) {
         envieService.give({email:vm.email, id:id}, {}, function() {
             loadListeEnvies();

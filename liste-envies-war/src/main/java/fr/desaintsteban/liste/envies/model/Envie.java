@@ -6,7 +6,11 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Parent;
 import fr.desaintsteban.liste.envies.dto.EnvieDto;
+import fr.desaintsteban.liste.envies.dto.NoteDto;
 import org.codehaus.jackson.annotate.JsonIgnore;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 01/10/2014.
@@ -29,12 +33,17 @@ public class Envie {
     private String url;
     private String userTake;
 
+    private List<Note> notes;
+
+
     public Envie() {
+        this.notes = new ArrayList<>();
     }
 
     public Envie(AppUser owner, String label) {
         this.owner = Key.create(owner);
         this.label = label;
+        this.notes = new ArrayList<>();
     }
 
 
@@ -45,6 +54,9 @@ public class Envie {
         setPrice(envie.getPrice());
         setUrl(envie.getUrl());
         setUserTake(envie.getUserTake());
+
+        this.notes = new ArrayList<>();
+
     }
 
     public EnvieDto toDto() {
@@ -55,6 +67,12 @@ public class Envie {
         envie.setPrice(getPrice());
         envie.setUrl(getUrl());
         envie.setUserTake(getUserTake());
+
+        List<NoteDto> listNoteDto = new ArrayList<>();
+        for (Note note : this.notes) {
+            listNoteDto.add(note.toDto());
+        }
+        envie.setNotes(listNoteDto);
         return envie;
     }
 
@@ -112,5 +130,13 @@ public class Envie {
 
     public void setUserTake(String userTake) {
         this.userTake = userTake;
+    }
+
+    public void addNote(String owner, String text) {
+        this.notes.add(new Note(owner, text));
+    }
+
+    public List<Note> getNotes () {
+        return this.notes;
     }
 }

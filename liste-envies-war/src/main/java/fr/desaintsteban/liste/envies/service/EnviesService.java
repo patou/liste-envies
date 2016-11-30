@@ -5,6 +5,7 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.VoidWork;
 import com.googlecode.objectify.Work;
 import com.googlecode.objectify.cmd.Saver;
+import fr.desaintsteban.liste.envies.dto.NoteDto;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.Envie;
 
@@ -67,6 +68,26 @@ public final class EnviesService {
                     Envie saved = ofy.load().key(Key.create(parent, Envie.class, itemId)).now();
                     Saver saver = ofy.save();
                     saved.setUserTake(user.getEmail());
+                    saver.entity(saved);
+                }
+            });
+        }
+    }
+
+    public static void addNote(final AppUser user, final Long itemId, final NoteDto note) {
+        String email = note.getOwner();
+        if (user.getEmail().equals(email)) {
+
+        }
+        else if (!user.getEmail().equals(email)) {
+            final Key<AppUser> parent = Key.create(AppUser.class, email);
+            OfyService.ofy().transact(new VoidWork() {
+                @Override
+                public void vrun() {
+                    Objectify ofy = OfyService.ofy();
+                    Envie saved = ofy.load().key(Key.create(parent, Envie.class, itemId)).now();
+                    Saver saver = ofy.save();
+                    saved.addNote(user.getName(), note.getText());
                     saver.entity(saved);
                 }
             });
