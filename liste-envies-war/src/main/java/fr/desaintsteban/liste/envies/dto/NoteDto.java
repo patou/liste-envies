@@ -7,6 +7,15 @@ import java.util.Date;
  */
 public class NoteDto {
 
+    private Long envieId;
+
+    public Long getEnvieId() {
+        return envieId;
+    }
+
+    public void setEnvieId(Long envieId) {
+        this.envieId = envieId;
+    }
 
     private Long id;
 

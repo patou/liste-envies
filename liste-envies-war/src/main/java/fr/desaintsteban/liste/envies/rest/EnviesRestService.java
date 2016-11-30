@@ -78,12 +78,13 @@ public class EnviesRestService {
     }
 
     @POST
-    @Path("/{id}/addNote")
-    public void addNote(@PathParam("id") Long id, NoteDto note) {
+    @Path("/note")
+    public void addNote(NoteDto note) {
+        LOGGER.warning("Note "+ note.getOwner());
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null) {
             LOGGER.info("add note from " + note.getOwner());
-            EnviesService.addNote(user, id, note);
+            EnviesService.addNote(user, note.getEnvieId(), note);
         }
     }
 
