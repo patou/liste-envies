@@ -19,8 +19,7 @@
                 <button type="button" class="btn btn-danger" ng-if="envie.userTakeUser.email == main.user.email" ng-click="vm.cancel(envie.id)">Annuler</button>
             </h6>
             <button type="button" class="btn btn-success" ng-if="main.user.email != vm.email && !envie.userTake" ng-click="vm.given(envie.id)">Offrir</button>
-            <br/>
-            <button type="button" class="btn btn-warning" ng-if="main.user.email == vm.email" ng-click="vm.envie =  envie">Modifier</button>
+            <button type="button" class="btn btn-warning" ng-if="main.user.email == vm.email" ng-click="vm.envie = envie">Modifier</button>
         </div>
     </div>
 
