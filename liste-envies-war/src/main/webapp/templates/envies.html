@@ -12,7 +12,7 @@
             <span class="badge">{{envie.price}}</span>
             <h4 class="list-group-item-heading">{{envie.label}}</h4>
             <p class="list-group-item-text">{{envie.comment}}</p>
-            <a ng-href="envie.url">{{envie.url}}</a>
+            <a ng-href="{{envie.url}}">Plus d'informations</a>
             <h6 ng-if="main.user.email != vm.email && envie.userTake">Offert par {{envie.userTakeUser.name || envie.userTake}}</h6>
             <button type="button" class="btn btn-success" ng-if="main.user.email != vm.email && !envie.userTake" ng-click="vm.given(envie.id)">Offrir</button>
         </div>
