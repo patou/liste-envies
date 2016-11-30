@@ -1,3 +1,15 @@
+.edit-button {
+    display: none;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}
+
+.list-group .list-group-item:hover .edit-button {
+    display: block !important;
+}
+
+
 .spin {
     -webkit-animation: spin .4s infinite linear;
     -moz-animation: spin .4s infinite linear;

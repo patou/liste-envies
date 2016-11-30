@@ -8,7 +8,7 @@
         </div>
     </div>
     <div class="list-group">
-        <div class="list-group-item" ng-repeat="envie in vm.listeEnvies" ng-class="{'list-group-item-success':envie.userTake}">
+        <div id="envie{{envie.id}}" class="list-group-item" ng-repeat="envie in vm.listeEnvies" ng-class="{'list-group-item-success':envie.userTake}">
             <span class="badge">{{envie.price}}</span>
             <h3 class="list-group-item-heading">{{envie.label}}</h3>
             <br/>
@@ -19,11 +19,12 @@
                 <button type="button" class="btn btn-danger" ng-if="envie.userTakeUser.email == main.user.email" ng-click="vm.cancel(envie.id)">Annuler</button>
             </h6>
             <button type="button" class="btn btn-success" ng-if="main.user.email != vm.email && !envie.userTake" ng-click="vm.given(envie.id)">Offrir</button>
-            <button type="button" class="btn btn-warning" ng-if="main.user.email == vm.email" ng-click="vm.envie = envie">Modifier</button>
+            <br/>
+            <button type="button" class="btn btn-warning edit-button" ng-if="main.user.email == vm.email" ng-click="vm.editEnvie(envie)">Modifier</button>
         </div>
     </div>
 
-    <form ng-if="main.user.email == vm.email">
+    <form ng-if="main.user.email == vm.email" id="formEdit">
         <div class="form-group">
             <label for="exampleInputEmail1">Titre</label>
             <input type="text" class="form-control" id="exampleInputEmail1" ng-model="vm.envie.label">

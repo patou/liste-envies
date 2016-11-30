@@ -1,14 +1,21 @@
 app.controller('EnvieCtrl', EnvieCtrl);
-EnvieCtrl.$inject = ['envieService', 'appUserService', '$routeParams'];
-function EnvieCtrl(envieService, appUserService, $routeParams) {
+EnvieCtrl.$inject = ['envieService', 'appUserService', '$routeParams', '$location', '$anchorScroll'];
+function EnvieCtrl(envieService, appUserService, $routeParams, $location, $anchorScroll) {
     var vm = this;
     vm.email = $routeParams.email;
     vm.user = loadUser(vm.email);
     loadListeEnvies();
     resetForm();
+
+    vm.editEnvie = function (envie) {
+        vm.envie = envie;
+        gotoForm();
+    };
+
     vm.addEnvie = function (envie) {
         envieService.save({email:vm.email}, envie, function() {
             loadListeEnvies();
+            gotoEnvie(envie.id);
             resetForm();
         });
     };
@@ -23,6 +30,24 @@ function EnvieCtrl(envieService, appUserService, $routeParams) {
             loadListeEnvies();
         });
     };
+
+    function gotoForm() {
+        // set the location.hash to the id of
+        // the element you wish to scroll to.
+        $location.hash('formEdit');
+
+        // call $anchorScroll()
+        $anchorScroll();
+    }
+
+    function gotoEnvie(id) {
+        // set the location.hash to the id of
+        // the element you wish to scroll to.
+        $location.hash('envie'+id);
+
+        // call $anchorScroll()
+        $anchorScroll();
+    }
 
     function resetForm() {
         vm.envie = {};
