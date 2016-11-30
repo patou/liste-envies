@@ -2,12 +2,6 @@ app.controller('EnvieCtrl', EnvieCtrl);
 EnvieCtrl.$inject = ['envieService', 'appUserService', '$routeParams'];
 function EnvieCtrl(envieService, appUserService, $routeParams) {
     var vm = this;
-    vm.envie = {
-        label: '',
-        comment: '',
-        url: '',
-        price: ''
-    };
     vm.email = $routeParams.email;
     vm.user = loadUser(vm.email);
     loadListeEnvies();
@@ -31,10 +25,7 @@ function EnvieCtrl(envieService, appUserService, $routeParams) {
     };
 
     function resetForm() {
-        vm.envie.label = '';
-        vm.envie.comment = '';
-        vm.envie.url = '';
-        vm.envie.price = '';
+        vm.envie = {};
     }
 
     function loadUser(email) {

@@ -76,6 +76,16 @@ public class EnviesRestService {
         }
     }
 
+    @POST
+    @Path("/{id}")
+    public void updateEnvie(@PathParam("email") String email, EnvieDto envie) {
+        final AppUser user = ServletUtils.getUserAuthenticated();
+        if (user != null) {
+            LOGGER.info("Put " + envie.getLabel());
+            EnviesService.createOrUpdate(user, email, new Envie(envie));
+        }
+    }
+
     @DELETE
     @Path("/{id}")
     public void deleteEnvie(@PathParam("email") String email, @PathParam("id") Long id){
