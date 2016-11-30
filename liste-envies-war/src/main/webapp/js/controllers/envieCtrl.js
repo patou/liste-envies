@@ -10,6 +10,7 @@ function EnvieCtrl(envieService, appUserService, $routeParams, $location, $ancho
     vm.editEnvie = function (envie) {
         vm.envie = envie;
         gotoForm();
+        return true;
     };
 
     vm.addEnvie = function (envie) {
@@ -32,12 +33,8 @@ function EnvieCtrl(envieService, appUserService, $routeParams, $location, $ancho
     };
 
     function gotoForm() {
-        // set the location.hash to the id of
-        // the element you wish to scroll to.
-        $location.hash('formEdit');
-
         // call $anchorScroll()
-        $anchorScroll();
+        $anchorScroll('formEdit');
     }
 
     function gotoEnvie(id) {
