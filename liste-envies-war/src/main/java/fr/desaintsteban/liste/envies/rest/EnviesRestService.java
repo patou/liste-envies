@@ -41,6 +41,17 @@ public class EnviesRestService {
         }
     }
 
+
+    @PUT
+    @Path("/{id}/cancel")
+    public void cancel(@PathParam("email") String email, @PathParam("id") Long id) {
+        final AppUser user = ServletUtils.getUserAuthenticated();
+        if (user != null){
+            LOGGER.info("Get " + id);
+            EnviesService.cancel(user, email, id);
+        }
+    }
+
     @GET
     public List<EnvieDto> getEnvie(@PathParam("email") String email) {
         final AppUser user = ServletUtils.getUserAuthenticated();

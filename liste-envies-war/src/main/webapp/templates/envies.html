@@ -10,11 +10,16 @@
     <div class="list-group">
         <div class="list-group-item" ng-repeat="envie in vm.listeEnvies" ng-class="{'list-group-item-success':envie.userTake}">
             <span class="badge">{{envie.price}}</span>
-            <h4 class="list-group-item-heading">{{envie.label}}</h4>
+            <h3 class="list-group-item-heading">{{envie.label}}</h3>
+            <br/>
             <p class="list-group-item-text">{{envie.comment}}</p>
             <a ng-href="{{envie.url}}">Plus d'informations</a>
-            <h6 ng-if="main.user.email != vm.email && envie.userTake">Offert par {{envie.userTakeUser.name || envie.userTake}}</h6>
+            <br/>
+            <h6 ng-if="main.user.email != vm.email && envie.userTake">Offert par {{envie.userTakeUser.name || envie.userTake}}
+                <button type="button" class="btn btn-danger" ng-if="envie.userTakeUser.email == main.user.email && envie.userTake" ng-click="vm.cancel(envie.id)">Annuler</button>
+            </h6>
             <button type="button" class="btn btn-success" ng-if="main.user.email != vm.email && !envie.userTake" ng-click="vm.given(envie.id)">Offrir</button>
+            <br/>
         </div>
     </div>
 
@@ -24,7 +29,7 @@
             <input type="text" class="form-control" id="exampleInputEmail1" ng-model="vm.envie.label">
         </div>
         <div class="form-group">
-            <label for="comment">Commentaire</label>
+            <label for="comment">Description</label>
             <textarea class="form-control"  id="comment" ng-model="vm.envie.comment" >
             </textarea>
         </div>
