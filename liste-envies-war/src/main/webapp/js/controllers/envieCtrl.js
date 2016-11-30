@@ -33,8 +33,8 @@ function EnvieCtrl(envieService, appUserService, $routeParams) {
     function resetForm() {
         vm.envie.label = '';
         vm.envie.comment = '';
-        vm.envie.url = 'http://';
-        vm.envie.price = ' €';
+        vm.envie.url = '';
+        vm.envie.price = '';
     }
 
     function loadUser(email) {

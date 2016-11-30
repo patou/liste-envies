@@ -35,11 +35,11 @@
         </div>
         <div class="form-group">
             <label for="url">Url</label>
-            <input type="url" class="form-control" id="url" ng-model="vm.envie.url">
+            <input type="url" class="form-control" id="url" ng-model="vm.envie.url" placeholder="http://">
         </div>
         <div class="form-group">
             <label for="price">Prix</label>
-            <input type="text" class="form-control" id="price" ng-model="vm.envie.price">
+            <input type="text" class="form-control" id="price" ng-model="vm.envie.price" placeholder=" € ">
         </div>
         <button type="submit" class="btn btn-default" ng-click="vm.addEnvie(vm.envie)">Ajouter</button>
     </form>
