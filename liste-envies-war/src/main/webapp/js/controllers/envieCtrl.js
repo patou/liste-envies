@@ -2,12 +2,20 @@ app.controller('EnvieCtrl', EnvieCtrl);
 EnvieCtrl.$inject = ['envieService', 'appUserService', '$routeParams'];
 function EnvieCtrl(envieService, appUserService, $routeParams) {
     var vm = this;
+    vm.envie = {
+        label: '',
+        comment: '',
+        url: '',
+        price: ''
+    };
     vm.email = $routeParams.email;
     vm.user = loadUser(vm.email);
-    loadListeEnvies()
+    loadListeEnvies();
+    resetForm();
     vm.addEnvie = function (envie) {
         envieService.save({email:vm.email}, envie, function() {
             loadListeEnvies();
+            resetForm();
         });
     };
     vm.given = function(id) {
@@ -15,6 +23,19 @@ function EnvieCtrl(envieService, appUserService, $routeParams) {
             loadListeEnvies();
         });
     };
+
+    vm.cancel = function(id) {
+        envieService.cancel({email:vm.email, id:id}, {}, function() {
+            loadListeEnvies();
+        });
+    };
+
+    function resetForm() {
+        vm.envie.label = '';
+        vm.envie.comment = '';
+        vm.envie.url = 'http://';
+        vm.envie.price = ' €';
+    }
 
     function loadUser(email) {
         return appUserService.get({email:email});

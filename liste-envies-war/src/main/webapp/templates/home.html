@@ -23,13 +23,14 @@
     </div>
 
     <form ng-if="main.isAdmin">
+        <h2>Ajouter une nouvelle liste</h2>
         <div class="form-group">
             <label for="email">Email</label>
             <input type="email" class="form-control" id="email" ng-model="vm.newuser.email" placeholder="Email">
         </div>
         <div class="form-group">
             <label for="name">Nom</label>
-            <input type="text" class="form-control" id="name" ng-model="vm.newuser.name" placeholder="Password">
+            <input type="text" class="form-control" id="name" ng-model="vm.newuser.name" placeholder="Nom">
         </div>
         <button type="submit" class="btn btn-default" ng-click="vm.addUser(vm.newuser)">Ajouter</button>
     </form>

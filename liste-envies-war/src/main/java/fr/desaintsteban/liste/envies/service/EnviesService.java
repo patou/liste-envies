@@ -55,7 +55,10 @@ public final class EnviesService {
     }
 
     public static void given(final AppUser user, String email, final Long itemId) {
-        if (!user.getEmail().equals(email)) {
+        if (user.getEmail().equals(email)) {
+
+        }
+        else if (!user.getEmail().equals(email)) {
             final Key<AppUser> parent = Key.create(AppUser.class, email);
             OfyService.ofy().transact(new VoidWork() {
                 @Override
@@ -64,6 +67,25 @@ public final class EnviesService {
                     Envie saved = ofy.load().key(Key.create(parent, Envie.class, itemId)).now();
                     Saver saver = ofy.save();
                     saved.setUserTake(user.getEmail());
+                    saver.entity(saved);
+                }
+            });
+        }
+    }
+
+    public static void cancel(final AppUser user, String email,  final Long itemId) {
+        if (user.getEmail().equals(email)) {
+
+        }
+        else if (!user.getEmail().equals(email)) {
+            final Key<AppUser> parent = Key.create(AppUser.class, email);
+            OfyService.ofy().transact(new VoidWork() {
+                @Override
+                public void vrun() {
+                    Objectify ofy = OfyService.ofy();
+                    Envie saved = ofy.load().key(Key.create(parent, Envie.class, itemId)).now();
+                    Saver saver = ofy.save();
+                    saved.setUserTake(null);
                     saver.entity(saved);
                 }
             });
