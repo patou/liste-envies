@@ -28,8 +28,8 @@
                 </div>
                 <form>
                     <div class="form-group">
-                        <label for="comment">Commentaires</label>
-                        <textarea class="form-control"  ng-model="vm.note.text" >
+                        <label for="note-{{$index}}">Commentaires</label>
+                        <textarea class="form-control" id="note-{{$index}}" ng-model="vm.note.text" >
                         </textarea>
                     </div>
                     <button type="submit" class="btn btn-default" ng-click="vm.addNote(envie)">Commenter</button>
