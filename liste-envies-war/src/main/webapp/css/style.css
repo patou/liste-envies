@@ -33,6 +33,10 @@
     color: gray;
 }
 
+.list-envie .envie-item .logo-envie {
+    margin-top: -34px;
+}
+
 /** Comentaires **/
 
 .chat .chat-history {
