@@ -17,6 +17,14 @@
     clear: both;
 }
 
+.list-envie .envie-item .panel-body {
+    min-height: 110px;
+}
+
+.list-envie .envie-item .bottom-envie {
+    min-height: 100px;
+}
+
 /** Comentaires **/
 
 .chat .chat-history {

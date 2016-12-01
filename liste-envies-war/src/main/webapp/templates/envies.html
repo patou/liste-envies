@@ -25,8 +25,10 @@
                         <a ng-href="{{envie.url}}" ng-if="envie.url" target="_blank" class="btn btn-block btn3d" ng-class="{'btn-default':envie.userTake, 'btn-info':!envie.userTake}"><i class="fa fa-external-link"></i><b>   Plus d'informations  </b></a>
                     </div>
                     <!--<p class="text-warning"><b>574</b> subscribers <span title="Rating"><i class="fa fa-star-half-empty fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i></span></p>-->
+
+                    <button type="button" class="btn btn-warning edit-button" ng-if="main.user.email == vm.email" ng-click="vm.editEnvie(envie)">Modifier</button>
                 </div>
-                <div class="panel-heading">
+                <div class="panel-heading bottom-envie" ng-if="main.user.email != vm.email">
                     <!--<div class="row">
                         <div class="col-xs-4 col-md-4" title="Receba até 42 de Status">
                             <p class="text-center"><i class="glyphicon glyphicon-stats fa-2x "></i><span class="badge">42</span></p>
@@ -43,7 +45,7 @@
 
 
 
-                    <div title="Cadeau">
+                    <div title="Cadeau" class="gift">
 
                         <h6 ng-if="main.user.email != vm.email && envie.userTake"><i class="fa fa-gift"></i> Offert par {{envie.userTakeUser.name || envie.userTake}}
                             <button type="button" class="btn btn-danger" ng-if="envie.userTakeUser.email == main.user.email" ng-click="vm.cancel(envie.id)">Annuler</button>
@@ -51,9 +53,11 @@
 
                         <button type="button" class="btn btn-success  btn-block btn3d" ng-if="main.user.email != vm.email && !envie.userTake" ng-click="vm.given(envie.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b>   Offrir </b></button>
 
+
+
                     </div>
 
-                    <div class="comments" ng-if="main.user.email != vm.email">
+                    <div class="comments" >
                         <a class="btn btn-link" role="button" aria-expanded="false" aria-controls="collapseExample" ng-click="vm.openComment($index)">
                             ><i class="fa fa-comments"></i> ({{envie.notes.length || 0}}) Commmentaires
                         </a>
@@ -89,10 +93,6 @@
                         </div>
                     </div>
 
-                    <hr>
-                    <p></p>
-
-                    <button type="button" class="btn btn-warning edit-button" ng-if="main.user.email == vm.email" ng-click="vm.editEnvie(envie)">Modifier</button>
                     <!--<p></p><br>
                     <p><span class="label label-success">Tecnologia</span><span class="label label-warning">Programação</span><span class="label label-danger">Python</span><span class="label label-info">Dinâmica</span></p>-->
                 </div>
