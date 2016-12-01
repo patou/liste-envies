@@ -23,7 +23,7 @@ function EnvieCtrl(envieService, appUserService, $routeParams, $location, $ancho
 
     vm.addNote = function (envie, notetext) {
 
-        var note = {text: notetext.text, envieId: envie.id};
+        var note = {text: notetext.text};
 
         console.log('add Note', note, envie.id);
 
