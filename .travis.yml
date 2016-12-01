@@ -16,4 +16,6 @@ install:
 after_success:
   - cd liste-envies-war
   - echo ${GOOGLE_CLIENT_SECRET} > client-secret.json
-  - appcfg.sh --service_account_json_key_file=client-secret.json -A ${CLOUDSDK_CORE_PROJECT} -V ${TRAVIS_BRANCH} update target/liste-envies-war-2016-SNAPSHOT
+  - export PROJECT_CODE=${CLOUDSDK_CORE_PROJECT}
+  - test ${TRAVIS_BRANCH} != "master" && export PROJECT_CODE=test-${CLOUDSDK_CORE_PROJECT}
+  - appcfg.sh --service_account_json_key_file=client-secret.json -A ${PROJECT_CODE} -V ${TRAVIS_BRANCH/_/-} update target/liste-envies-war-2016-SNAPSHOT
