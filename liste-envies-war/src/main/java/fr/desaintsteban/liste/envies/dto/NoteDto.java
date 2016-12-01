@@ -25,6 +25,8 @@ public class NoteDto {
 
     private String owner;
 
+    private String email;
+
     public String getOwner() {
         return owner;
     }
@@ -57,7 +59,13 @@ public class NoteDto {
         this.text = text;
     }
 
+    public String getEmail() {
+        return email;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public NoteDto() {
 
@@ -69,9 +77,10 @@ public class NoteDto {
      * @param text
      * @param date
      */
-    public NoteDto(Long id, String owner, String text, Date date) {
+    public NoteDto(Long id, String owner, String email, String text, Date date) {
         this.id = id;
         this.owner = owner;
+        this.email = email;
         this.text = text;
         this.date = date;
     }

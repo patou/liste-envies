@@ -89,7 +89,7 @@ public final class EnviesService {
                     Objectify ofy = OfyService.ofy();
                     Envie saved = ofy.load().key(Key.create(parent, Envie.class, itemId)).now();
                     Saver saver = ofy.save();
-                    saved.addNote(user.getName(), note.getText());
+                    saved.addNote(user.getName(), user.getEmail(), note.getText());
                     saver.entity(saved);
                 }
             });

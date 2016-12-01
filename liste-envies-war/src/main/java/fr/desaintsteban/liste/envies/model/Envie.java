@@ -135,8 +135,8 @@ public class Envie {
         this.userTake = userTake;
     }
 
-    public void addNote(String owner, String text) {
-        this.notes.add(new Note(owner, text));
+    public void addNote(String owner, String email, String text) {
+        this.notes.add(new Note(owner, email, text));
     }
 
     public List<Note> getNotes () {

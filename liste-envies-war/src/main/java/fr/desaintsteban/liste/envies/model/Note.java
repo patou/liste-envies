@@ -12,10 +12,12 @@ import java.util.Date;
  */
 public class Note {
 
-    String owner;
-
     @Id
     private Long id;
+
+    private String owner;
+
+    private String email;
 
     private Date date;
 
@@ -27,6 +29,14 @@ public class Note {
 
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Long getId() {
@@ -62,9 +72,10 @@ public class Note {
      * @param owner
      * @param text
      */
-    public Note(String owner, String text) {
+    public Note(String owner, String email, String text) {
         this.owner = EncodeUtils.encode(owner);
         this.text = EncodeUtils.encode(text);
+        this.email = EncodeUtils.encode(email);
         this.date = new Date();
     }
 
@@ -73,6 +84,7 @@ public class Note {
         note.setId(getId());
         note.setOwner(EncodeUtils.decode(getOwner()));
         note.setText(EncodeUtils.decode(getText()));
+        note.setEmail(EncodeUtils.decode(getEmail()));
         note.setDate(getDate());
         return note;
     }
