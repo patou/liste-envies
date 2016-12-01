@@ -8,6 +8,15 @@
         </div>
     </div>
     <div class="row row-fluid list-envie">
+        <div class="loading" ng-if="vm.loading"> <div class='loader'>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--text'></div>
+        </div></div>
         <div id="envie{{envie.id}}"  ng-repeat="envie in vm.listeEnvies" >
         <div data-ng-show="$index % 3 == 0" class="envie-separator"></div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" >
