@@ -25,6 +25,14 @@
     min-height: 100px;
 }
 
+.list-envie .envie-item .bottom-envie .comments  a {
+    color: black;
+}
+
+.list-envie .envie-item .bottom-envie .comments  a:hover {
+    color: gray;
+}
+
 /** Comentaires **/
 
 .chat .chat-history {

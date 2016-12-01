@@ -15,8 +15,8 @@
                 <div class="panel-heading">
                     <span class="badge pull-right">{{envie.price}}</span>
                     <h3>{{envie.label}}</h3>
-                    <p title="Popularidade Alta"><i class="fa fa-smile-o fa-lg"></i> 
-                        <a href="#"><i>{{vm.user.name}}</i></a><i class="fa fa-gift fa-4x pull-right"></i></p>
+                    <p ><!--<i class="fa fa-smile-o fa-lg"></i> 
+                        <a href="#"><i>{{vm.user.name}}</i></a>--><i class="fa fa-gift fa-4x pull-right"></i></p>
 
                 </div>
                 <div class="panel-body">
@@ -59,7 +59,7 @@
 
                     <div class="comments" >
                         <a class="btn btn-link" role="button" aria-expanded="false" aria-controls="collapseExample" ng-click="vm.openComment($index)">
-                            ><i class="fa fa-comments"></i> ({{envie.notes.length || 0}}) Commmentaires
+                            ><i class="fa fa-comments"></i> Commmentaires ({{envie.notes.length || 0}})
                         </a>
                         <div class="collapse" id="comment-{{$index}}">
                             <div class="chat">
