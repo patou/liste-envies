@@ -20,7 +20,7 @@
         <div id="envie{{envie.id}}"  ng-repeat="envie in vm.listeEnvies" >
         <div data-ng-show="$index % 3 == 0" class="envie-separator"></div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" >
-            <div class="panel envie-item"  ng-class="{'panel-success':envie.userTake, 'panel-danger':!envie.userTake}">
+            <div class="panel envie-item"  ng-class="{'panel-danger':envie.userTake, 'panel-success':!envie.userTake}">
                 <div class="panel-heading">
                     <span class="badge pull-right">{{envie.price}}</span>
                     <h1>{{envie.label}}</h1>
@@ -56,11 +56,11 @@
 
                     <div title="Cadeau" class="gift pull-right">
 
-                        <h6 ng-if="main.user.email != vm.email && envie.userTake"><i class="fa fa-gift"></i> Offert par {{envie.userTakeUser.name || envie.userTake}}
+                        <h6 ng-if="main.user.email != vm.email && envie.userTake"><i class="fa fa-gift"></i> Offert par {{envie.userTakeUser.name || envie.userTake}} &nbsp;&nbsp;&nbsp;
                             <button type="button" class="btn btn-danger" ng-if="envie.userTakeUser.email == main.user.email" ng-click="vm.cancel(envie.id)">Annuler</button>
                         </h6>
 
-                        <button type="button" class="btn btn-warning btn3d" ng-if="main.user.email != vm.email && !envie.userTake" ng-click="vm.given(envie.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b>   Offrir </b></button>
+                        <button type="button" class="btn btn-success btn3d" ng-if="main.user.email != vm.email && !envie.userTake" ng-click="vm.given(envie.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b>   Offrir </b></button>
 
 
 
