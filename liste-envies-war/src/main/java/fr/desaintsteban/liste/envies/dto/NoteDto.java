@@ -3,7 +3,7 @@ package fr.desaintsteban.liste.envies.dto;
 import java.util.Date;
 
 /**
- * Created by EDE3238 on 30/11/2016.
+ *
  */
 public class NoteDto {
 

@@ -2,12 +2,13 @@ package fr.desaintsteban.liste.envies.model;
 
 import com.googlecode.objectify.annotation.Id;
 import fr.desaintsteban.liste.envies.dto.NoteDto;
+import fr.desaintsteban.liste.envies.util.EncodeUtils;
 
 
 import java.util.Date;
 
 /**
- * Created by EDE3238 on 30/11/2016.
+ *
  */
 public class Note {
 
@@ -62,17 +63,16 @@ public class Note {
      * @param text
      */
     public Note(String owner, String text) {
-
-        this.owner = owner;
-        this.text = text;
+        this.owner = EncodeUtils.encode(owner);
+        this.text = EncodeUtils.encode(text);
         this.date = new Date();
     }
 
     public NoteDto toDto() {
         NoteDto note = new NoteDto();
         note.setId(getId());
-        note.setOwner(getOwner());
-        note.setText(getText());
+        note.setOwner(EncodeUtils.decode(getOwner()));
+        note.setText(EncodeUtils.decode(getText()));
         note.setDate(getDate());
         return note;
     }

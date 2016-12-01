@@ -7,6 +7,7 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Parent;
 import fr.desaintsteban.liste.envies.dto.EnvieDto;
 import fr.desaintsteban.liste.envies.dto.NoteDto;
+import fr.desaintsteban.liste.envies.util.EncodeUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class Envie {
         setComment(envie.getComment());
         setPrice(envie.getPrice());
         setUrl(envie.getUrl());
-        setUserTake(envie.getUserTake());
+        setUserTake(EncodeUtils.encode(envie.getUserTake()));
 
         this.notes = new ArrayList<>();
 
@@ -66,7 +67,7 @@ public class Envie {
         envie.setComment(getComment());
         envie.setPrice(getPrice());
         envie.setUrl(getUrl());
-        envie.setUserTake(getUserTake());
+        envie.setUserTake(EncodeUtils.decode(getUserTake()));
 
         if (this.notes != null && !this.notes.isEmpty()) {
             List<NoteDto> listNoteDto = new ArrayList<>();
