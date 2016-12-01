@@ -83,7 +83,7 @@ public class EnviesRestService {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null) {
             LOGGER.info("add note from " + user.getName());
-            EnviesService.addNote(user, envieId, note);
+            EnviesService.addNote(user, envieId, email, note);
         }
     }
 

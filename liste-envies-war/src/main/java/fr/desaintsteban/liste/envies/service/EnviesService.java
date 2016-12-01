@@ -74,8 +74,8 @@ public final class EnviesService {
         }
     }
 
-    public static void addNote(final AppUser user, final Long itemId, final NoteDto note) {
-        String email = user.getEmail();
+    public static void addNote(final AppUser user, final Long itemId, final String email, final NoteDto note) {
+
         if (user.getEmail().equals(email)) {
 
         }
