@@ -6,19 +6,6 @@ import java.util.Date;
  *
  */
 public class NoteDto {
-
-    private Long envieId;
-
-    public Long getEnvieId() {
-        return envieId;
-    }
-
-    public void setEnvieId(Long envieId) {
-        this.envieId = envieId;
-    }
-
-    private Long id;
-
     private Date date;
 
     private String text;
@@ -33,14 +20,6 @@ public class NoteDto {
 
     public void setOwner(String owner) {
         this.owner = owner;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Date getDate() {
@@ -72,13 +51,11 @@ public class NoteDto {
     }
     /**
      * Add a new Note
-     * @param id
      * @param owner
      * @param text
      * @param date
      */
-    public NoteDto(Long id, String owner, String email, String text, Date date) {
-        this.id = id;
+    public NoteDto(String owner, String email, String text, Date date) {
         this.owner = owner;
         this.email = email;
         this.text = text;

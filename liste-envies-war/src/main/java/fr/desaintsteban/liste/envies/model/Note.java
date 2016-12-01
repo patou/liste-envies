@@ -1,9 +1,7 @@
 package fr.desaintsteban.liste.envies.model;
 
-import com.googlecode.objectify.annotation.Id;
 import fr.desaintsteban.liste.envies.dto.NoteDto;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
-
 
 import java.util.Date;
 
@@ -11,9 +9,6 @@ import java.util.Date;
  *
  */
 public class Note {
-
-    @Id
-    private Long id;
 
     private String owner;
 
@@ -37,14 +32,6 @@ public class Note {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Date getDate() {
@@ -81,7 +68,6 @@ public class Note {
 
     public NoteDto toDto() {
         NoteDto note = new NoteDto();
-        note.setId(getId());
         note.setOwner(EncodeUtils.decode(getOwner()));
         note.setText(EncodeUtils.decode(getText()));
         note.setEmail(EncodeUtils.decode(getEmail()));

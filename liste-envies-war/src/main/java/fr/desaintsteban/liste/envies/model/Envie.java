@@ -10,6 +10,7 @@ import fr.desaintsteban.liste.envies.dto.NoteDto;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import javax.jdo.annotations.Embedded;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class Envie {
     private String url;
     private String userTake;
 
+    @Embedded
     private List<Note> notes;
 
 
