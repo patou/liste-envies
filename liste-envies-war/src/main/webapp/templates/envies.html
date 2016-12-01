@@ -21,19 +21,29 @@
             <button type="button" class="btn btn-success" ng-if="main.user.email != vm.email && !envie.userTake" ng-click="vm.given(envie.id)">Offrir</button>
             <br/>
             <button type="button" class="btn btn-warning edit-button" ng-if="main.user.email == vm.email" ng-click="vm.editEnvie(envie)">Modifier</button>
+
             <div class="comments" ng-if="main.user.email != vm.email">
-                <div class="comment" ng-repeat="note in envie.notes">
-                    <span>{{note.text}}</span>
-                    <span>{{note.owner}}</span>
-                </div>
-                <form>
-                    <div class="form-group">
-                        <label for="note-{{$index}}">Commentaires</label>
-                        <textarea class="form-control" id="note-{{$index}}" ng-model="vm.note.text" >
+                <a class="btn btn-link" role="button" aria-expanded="false" aria-controls="collapseExample" ng-click="vm.openComment($index)">
+                    Commmentaires ({{envie.notes.length || 0}})
+                </a>
+                <div class="collapse" id="comment-{{$index}}">
+                    <div class="panel panel-default" ng-repeat="note in envie.notes">
+                        <div class="panel-heading">
+                            <strong>{{note.owner}}</strong> <span class="text-muted" am-time-ago="note.date">commented 5 days ago</span>
+                        </div>
+                        <div class="panel-body">
+                            {{note.text}}
+                        </div><!-- /panel-body -->
+                    </div><!-- /panel panel-default -->
+                    <form class="form">
+                        <div class="form-group">
+                            <label for="note-{{$index}}">Commentaires</label>
+                            <textarea class="form-control comment-textarea" id="note-{{$index}}" ng-model="note.text" >
                         </textarea>
-                    </div>
-                    <button type="submit" class="btn btn-default" ng-click="vm.addNote(envie)">Commenter</button>
-                </form>
+                        </div>
+                        <button type="submit" class="btn btn-default" ng-click="vm.addNote(envie, note)">Commenter</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

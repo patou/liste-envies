@@ -68,11 +68,13 @@ public class Envie {
         envie.setUrl(getUrl());
         envie.setUserTake(getUserTake());
 
-        List<NoteDto> listNoteDto = new ArrayList<>();
-        for (Note note : this.notes) {
-            listNoteDto.add(note.toDto());
+        if (this.notes != null && !this.notes.isEmpty()) {
+            List<NoteDto> listNoteDto = new ArrayList<>();
+            for (Note note : this.notes) {
+                listNoteDto.add(note.toDto());
+            }
+            envie.setNotes(listNoteDto);
         }
-        envie.setNotes(listNoteDto);
         return envie;
     }
 
@@ -138,5 +140,9 @@ public class Envie {
 
     public List<Note> getNotes () {
         return this.notes;
+    }
+
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
     }
 }

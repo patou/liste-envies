@@ -21,9 +21,9 @@ function EnvieCtrl(envieService, appUserService, $routeParams, $location, $ancho
         });
     };
 
-    vm.addNote = function (envie) {
+    vm.addNote = function (envie, notetext) {
 
-        var note = {text: vm.note.text, envieId: envie.id};
+        var note = {text: notetext.text, envieId: envie.id};
 
         console.log('add Note', note, envie.id);
 
@@ -44,6 +44,10 @@ function EnvieCtrl(envieService, appUserService, $routeParams, $location, $ancho
         envieService.cancel({email:vm.email, id:id}, {}, function() {
             loadListeEnvies();
         });
+    };
+
+    vm.openComment = function(index) {
+        $("#comment-"+index).collapse('toggle');
     };
 
     function gotoForm() {

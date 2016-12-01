@@ -5,6 +5,10 @@
     right: 5px;
 }
 
+.comment-textarea {
+
+}
+
 .list-group .list-group-item:hover .edit-button {
     display: block !important;
 }

@@ -51,6 +51,7 @@ public final class EnviesService {
         Envie envie = OfyService.ofy().load().key(Key.create(parent, Envie.class, itemid)).now();
         if (user.getEmail().equals(email)) {
             envie.setUserTake(null);
+            envie.setNotes(null);
         }
         return envie;
     }
@@ -137,6 +138,7 @@ public final class EnviesService {
     private static void removeUserTake(List<Envie> list) {
         for (Envie envie : list) {
             envie.setUserTake(null); //Si l'utilisateur courrant est le propriétaire des envies, on efface le nom de qui lui a offert un cadeau.
+            envie.setNotes(null);
         }
     }
 }
