@@ -4,6 +4,8 @@ function EnvieCtrl(envieService, appUserService, $routeParams, $location, $ancho
     var vm = this;
     vm.email = $routeParams.email;
     vm.user = loadUser(vm.email);
+
+    vm.loading = false;
     loadListeEnvies();
     resetForm();
 
@@ -72,8 +74,10 @@ function EnvieCtrl(envieService, appUserService, $routeParams, $location, $ancho
         return appUserService.get({email:email});
     }
     function loadListeEnvies() {
+        vm.loading = true;
         vm.listeEnvies = envieService.query({email: $routeParams.email});
         vm.listeEnvies.$promise.then(function(list) {
+            vm.loading = false;
             angular.forEach(list, function(item) {
                 if (item.userTake) {
                     item.userTakeUser = loadUser(item.userTake);

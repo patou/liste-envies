@@ -16,6 +16,15 @@
         </div>
     </div>
     <div class="list-group">
+        <div class="loading" ng-if="vm.loading"> <div class='loader'>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--text'></div>
+        </div></div>
         <a class="list-group-item" ng-class="{active:appuser.email==main.user.email}" ng-click="vm.goList(appuser.email)" ng-repeat="appuser in vm.listeUser">
             <h4 class="list-group-item-heading">Liste de {{appuser.name}}</h4>
             <p class="list-group-item-text">{{appuser.email}}</p>
