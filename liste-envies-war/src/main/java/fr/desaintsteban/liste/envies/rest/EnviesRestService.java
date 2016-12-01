@@ -1,6 +1,7 @@
 package fr.desaintsteban.liste.envies.rest;
 
 import fr.desaintsteban.liste.envies.dto.EnvieDto;
+import fr.desaintsteban.liste.envies.dto.NoteDto;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.Envie;
 import fr.desaintsteban.liste.envies.service.EnviesService;
@@ -73,6 +74,16 @@ public class EnviesRestService {
         if (user != null) {
             LOGGER.info("Put " + envie.getLabel());
             EnviesService.createOrUpdate(user, email, new Envie(envie));
+        }
+    }
+
+    @POST
+    @Path("/{id}/addNote")
+    public void addNote(@PathParam("email") String email, @PathParam("id") Long envieId, NoteDto note) {
+        final AppUser user = ServletUtils.getUserAuthenticated();
+        if (user != null) {
+            LOGGER.info("add note from " + user.getName());
+            EnviesService.addNote(user, envieId, email, note);
         }
     }
 

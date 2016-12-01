@@ -8,11 +8,14 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cache.AsyncCacheFilter;
+import fr.desaintsteban.liste.envies.dto.EnvieDto;
+import fr.desaintsteban.liste.envies.dto.NoteDto;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.Envie;
 import fr.desaintsteban.liste.envies.service.AppUserService;
 import fr.desaintsteban.liste.envies.service.EnviesService;
 import fr.desaintsteban.liste.envies.service.OfyService;
+import fr.desaintsteban.liste.envies.util.EncodeUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -88,21 +91,21 @@ public class EnvieServiceTest {
     public void testGetNotSameUser() throws Exception {
         Envie envie = EnviesService.get(emmanuel, "patrice@desaintsteban.fr", livreId);
         assertThat(envie.getLabel()).isEqualTo("Livre");
-        assertThat(envie.getUserTake()).isEqualTo("emmanuel@desaintsteban.fr");
+        assertThat(envie.getUserTake()).isEqualTo(EncodeUtils.encode("emmanuel@desaintsteban.fr"));
     }
 
     @Test
     public void testList() throws Exception {
         List<Envie> list = EnviesService.list(patrice, "patrice@desaintsteban.fr");
         assertThat(list).hasSize(2).onProperty("label").contains("Livre", "DVD");
-        assertThat(list).hasSize(2).onProperty("userTake").excludes("emmanuel@desaintsteban.fr");
+        assertThat(list).hasSize(2).onProperty("userTake").excludes(EncodeUtils.encode("emmanuel@desaintsteban.fr"));
     }
 
     @Test
     public void testListOther() throws Exception {
         List<Envie> list = EnviesService.list(emmanuel, "patrice@desaintsteban.fr");
         assertThat(list).hasSize(2).onProperty("label").contains("Livre", "DVD");
-        assertThat(list).hasSize(2).onProperty("userTake").contains("emmanuel@desaintsteban.fr");
+        assertThat(list).hasSize(2).onProperty("userTake").contains(EncodeUtils.encode("emmanuel@desaintsteban.fr"));
     }
 
     @Test
@@ -113,5 +116,33 @@ public class EnvieServiceTest {
     @Test
     public void testDelete() throws Exception {
         EnviesService.delete(patrice, "patrice@desaintsteban.fr", livreId);
+    }
+
+    @Test
+    public void testSaveNote() throws Exception {
+        EnvieDto initdto = new EnvieDto();
+        initdto.setLabel("Test");
+        NoteDto c1 = new NoteDto();
+        c1.setOwner("Emmanuel");
+        c1.setEmail("emmanuel@desaintsteban.fr");
+        c1.setText("Commentaire");
+        NoteDto c2 = new NoteDto();
+        c2.setEmail("patrice@desaintsteban.fr");
+        c2.setOwner("Patrice");
+        c2.setText("Commentaire2");
+        Envie envie = new Envie(initdto);
+        AppUser clemence = AppUserService.createOrUpdate(new AppUser("clemence@desaintsteban.fr", "Clemence"));
+
+        Envie saved = EnviesService.createOrUpdate(emmanuel, "emmanuel@desaintsteban.fr", envie);
+
+        EnviesService.addNote(patrice, saved.getId(), "emmanuel@desaintsteban.fr", c1);
+        EnviesService.addNote(clemence, saved.getId(), "emmanuel@desaintsteban.fr", c2);
+        Envie get = EnviesService.get(patrice, "emmanuel@desaintsteban.fr", saved.getId());
+
+        EnvieDto dto = get.toDto();
+
+        assertThat(dto.getLabel()).isEqualTo(initdto.getLabel());
+        assertThat(dto.getNotes()).onProperty("email").contains("clemence@desaintsteban.fr", "patrice@desaintsteban.fr");
+        assertThat(dto.getNotes()).onProperty("text").contains("Commentaire", "Commentaire2");
     }
 }

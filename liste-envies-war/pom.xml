@@ -152,9 +152,6 @@
                 <version>${appengine.target.version}</version>
                 <configuration>
                     <disableUpdateCheck>true</disableUpdateCheck>
-                    <oauth2>false</oauth2>
-                    <passin>true</passin>
-                    <email>dashboardbiquery@gmail.com</email>
                 </configuration>
             </plugin>
         </plugins>

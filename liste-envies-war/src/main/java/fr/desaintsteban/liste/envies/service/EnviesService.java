@@ -5,8 +5,10 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.VoidWork;
 import com.googlecode.objectify.Work;
 import com.googlecode.objectify.cmd.Saver;
+import fr.desaintsteban.liste.envies.dto.NoteDto;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.Envie;
+import fr.desaintsteban.liste.envies.util.EncodeUtils;
 
 import java.util.List;
 
@@ -50,6 +52,7 @@ public final class EnviesService {
         Envie envie = OfyService.ofy().load().key(Key.create(parent, Envie.class, itemid)).now();
         if (user.getEmail().equals(email)) {
             envie.setUserTake(null);
+            envie.setNotes(null);
         }
         return envie;
     }
@@ -66,7 +69,27 @@ public final class EnviesService {
                     Objectify ofy = OfyService.ofy();
                     Envie saved = ofy.load().key(Key.create(parent, Envie.class, itemId)).now();
                     Saver saver = ofy.save();
-                    saved.setUserTake(user.getEmail());
+                    saved.setUserTake(EncodeUtils.encode(user.getEmail()));
+                    saver.entity(saved);
+                }
+            });
+        }
+    }
+
+    public static void addNote(final AppUser user, final Long itemId, final String email, final NoteDto note) {
+
+        if (user.getEmail().equals(email)) {
+
+        }
+        else if (!user.getEmail().equals(email)) {
+            final Key<AppUser> parent = Key.create(AppUser.class, email);
+            OfyService.ofy().transact(new VoidWork() {
+                @Override
+                public void vrun() {
+                    Objectify ofy = OfyService.ofy();
+                    Envie saved = ofy.load().key(Key.create(parent, Envie.class, itemId)).now();
+                    Saver saver = ofy.save();
+                    saved.addNote(user.getName(), user.getEmail(), note.getText());
                     saver.entity(saved);
                 }
             });
@@ -116,6 +139,7 @@ public final class EnviesService {
     private static void removeUserTake(List<Envie> list) {
         for (Envie envie : list) {
             envie.setUserTake(null); //Si l'utilisateur courrant est le propriétaire des envies, on efface le nom de qui lui a offert un cadeau.
+            envie.setNotes(null);
         }
     }
 }

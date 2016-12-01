@@ -6,7 +6,13 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Parent;
 import fr.desaintsteban.liste.envies.dto.EnvieDto;
+import fr.desaintsteban.liste.envies.dto.NoteDto;
+import fr.desaintsteban.liste.envies.util.EncodeUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
+
+import javax.jdo.annotations.Embedded;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 01/10/2014.
@@ -29,12 +35,18 @@ public class Envie {
     private String url;
     private String userTake;
 
+    @Embedded
+    private List<Note> notes;
+
+
     public Envie() {
+        this.notes = new ArrayList<>();
     }
 
     public Envie(AppUser owner, String label) {
         this.owner = Key.create(owner);
         this.label = label;
+        this.notes = new ArrayList<>();
     }
 
 
@@ -44,7 +56,10 @@ public class Envie {
         setComment(envie.getComment());
         setPrice(envie.getPrice());
         setUrl(envie.getUrl());
-        setUserTake(envie.getUserTake());
+        setUserTake(EncodeUtils.encode(envie.getUserTake()));
+
+        this.notes = new ArrayList<>();
+
     }
 
     public EnvieDto toDto() {
@@ -54,7 +69,15 @@ public class Envie {
         envie.setComment(getComment());
         envie.setPrice(getPrice());
         envie.setUrl(getUrl());
-        envie.setUserTake(getUserTake());
+        envie.setUserTake(EncodeUtils.decode(getUserTake()));
+
+        if (this.notes != null && !this.notes.isEmpty()) {
+            List<NoteDto> listNoteDto = new ArrayList<>();
+            for (Note note : this.notes) {
+                listNoteDto.add(note.toDto());
+            }
+            envie.setNotes(listNoteDto);
+        }
         return envie;
     }
 
@@ -112,5 +135,17 @@ public class Envie {
 
     public void setUserTake(String userTake) {
         this.userTake = userTake;
+    }
+
+    public void addNote(String owner, String email, String text) {
+        this.notes.add(new Note(owner, email, text));
+    }
+
+    public List<Note> getNotes () {
+        return this.notes;
+    }
+
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
     }
 }

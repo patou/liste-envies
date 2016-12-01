@@ -1,12 +1,133 @@
 .edit-button {
     display: none;
     position: absolute;
-    bottom: 5px;
-    right: 5px;
+    bottom: 31px;
+    right: 24px;
 }
 
-.list-group .list-group-item:hover .edit-button {
+.comment-textarea {
+
+}
+
+.list-envie .envie-item:hover .edit-button {
     display: block !important;
+}
+
+.list-envie .envie-separator {
+    clear: both;
+}
+
+.list-envie .envie-item .panel-body {
+    min-height: 110px;
+}
+
+.list-envie .envie-item .bottom-envie {
+    min-height: 110px;
+}
+
+.list-envie .envie-item .bottom-envie .comments  a {
+    color: black;
+}
+
+.list-envie .envie-item .bottom-envie .comments  a:hover {
+    color: gray;
+}
+
+.list-envie .envie-item .logo-envie {
+    margin-top: -34px;
+}
+
+/** Comentaires **/
+
+.chat .chat-history {
+    padding: 0;
+    border-bottom: 2px solid white;
+}
+.chat .chat-history .message-data {
+    margin-bottom: 15px;
+}
+.chat .chat-history .message-data-time {
+    color: #a8aab1;
+    padding-left: 6px;
+}
+.chat .chat-history .message {
+    color: white;
+    padding: 18px 20px;
+    line-height: 26px;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    width: 90%;
+    position: relative;
+}
+.chat .chat-history .message:after {
+    content: "";
+    position: absolute;
+    top: -15px;
+    left: 20px;
+    border-width: 0 15px 15px;
+    border-style: solid;
+    border-color: #CCDBDC transparent;
+    display: block;
+    width: 0;
+}
+.chat .chat-history .you-message {
+    background: #CCDBDC;
+    color:#003366;
+}
+.chat .chat-history .me-message {
+    background: #b0afae;
+}
+.chat .chat-history .me-message:after {
+    border-color: #b0afae transparent;
+    right: 20px;
+    top: -15px;
+    left: auto;
+    bottom:auto;
+}
+.chat .chat-message {
+    padding: 30px;
+}
+.chat .chat-message .fa-file-o, .chat .chat-message .fa-file-image-o {
+    font-size: 16px;
+    color: gray;
+    cursor: pointer;
+}
+
+.chat .chat-ul li{
+    list-style-type: none;
+}
+
+.chat .chat-ul{
+    padding: 0;
+}
+
+.chat .align-left {
+    text-align: left;
+}
+
+.chat .align-right {
+    text-align: right;
+}
+
+.chat .float-right {
+    float: right;
+}
+
+.chat .clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+.chat .you {
+    color: #CCDBDC;
+}
+
+.chat .me {
+    color: #5f5e5e;
 }
 
 

@@ -7,7 +7,10 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Parent;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.Envie;
+import fr.desaintsteban.liste.envies.dto.NoteDto;
 import org.codehaus.jackson.annotate.JsonIgnore;
+
+import java.util.List;
 
 /**
  * 01/10/2014.
@@ -22,6 +25,8 @@ public class EnvieDto {
     private String price;
     private String url;
     private String userTake;
+
+    private List<NoteDto> notes;
 
     public EnvieDto() {
     }
@@ -72,5 +77,13 @@ public class EnvieDto {
 
     public void setUserTake(String userTake) {
         this.userTake = userTake;
+    }
+
+    public List<NoteDto> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<NoteDto> notes) {
+        this.notes = notes;
     }
 }

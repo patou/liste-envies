@@ -20,6 +20,20 @@ function EnvieCtrl(envieService, appUserService, $routeParams, $location, $ancho
             resetForm();
         });
     };
+
+    vm.addNote = function (envie, notetext) {
+
+        var note = {text: notetext.text};
+
+        console.log('add Note', note, envie.id);
+
+        envieService.addNote({email:vm.email, id: envie.id}, note, function() {
+            loadListeEnvies();
+            gotoEnvie(envie.id);
+            vm.text = '';
+        });
+    };
+
     vm.given = function(id) {
         envieService.give({email:vm.email, id:id}, {}, function() {
             loadListeEnvies();
@@ -30,6 +44,10 @@ function EnvieCtrl(envieService, appUserService, $routeParams, $location, $ancho
         envieService.cancel({email:vm.email, id:id}, {}, function() {
             loadListeEnvies();
         });
+    };
+
+    vm.openComment = function(index) {
+        $("#comment-"+index).collapse('toggle');
     };
 
     function gotoForm() {
