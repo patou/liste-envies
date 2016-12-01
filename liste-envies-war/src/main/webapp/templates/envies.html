@@ -7,9 +7,11 @@
             </h1>
         </div>
     </div>
-    <div class="row row-fluid">
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" id="envie{{envie.id}}" ng-repeat="envie in vm.listeEnvies">
-            <div class="panel list-group-item"  ng-class="{'panel-success':envie.userTake, 'panel-info':!envie.userTake}">
+    <div class="row row-fluid list-envie">
+        <div id="envie{{envie.id}}"  ng-repeat="envie in vm.listeEnvies" >
+        <div data-ng-show="$index % 3 == 0" class="envie-separator"></div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" >
+            <div class="panel envie-item"  ng-class="{'panel-success':envie.userTake, 'panel-info':!envie.userTake}">
                 <div class="panel-heading">
                     <span class="badge pull-right">{{envie.price}}</span>
                     <h3>{{envie.label}}</h3>
@@ -43,7 +45,7 @@
 
                     <div title="Cadeau">
 
-                        <h6 ng-if="main.user.email != vm.email && envie.userTake">Offert par {{envie.userTakeUser.name || envie.userTake}}
+                        <h6 ng-if="main.user.email != vm.email && envie.userTake"><i class="fa fa-gift"></i> Offert par {{envie.userTakeUser.name || envie.userTake}}
                             <button type="button" class="btn btn-danger" ng-if="envie.userTakeUser.email == main.user.email" ng-click="vm.cancel(envie.id)">Annuler</button>
                         </h6>
 
@@ -53,17 +55,29 @@
 
                     <div class="comments" ng-if="main.user.email != vm.email">
                         <a class="btn btn-link" role="button" aria-expanded="false" aria-controls="collapseExample" ng-click="vm.openComment($index)">
-                            Commmentaires ({{envie.notes.length || 0}})
+                            ><i class="fa fa-comments"></i> ({{envie.notes.length || 0}}) Commmentaires
                         </a>
                         <div class="collapse" id="comment-{{$index}}">
-                            <div class="panel panel-default" ng-repeat="note in envie.notes">
-                                <div class="panel-heading">
-                                    <strong>{{note.owner}}</strong> <span class="text-muted" am-time-ago="note.date">commented 5 days ago</span>
-                                </div>
-                                <div class="panel-body">
-                                    {{note.text}}
-                                </div><!-- /panel-body -->
-                            </div><!-- /panel panel-default -->
+                            <div class="chat">
+                                <div class="chat-history">
+                                    <ul class="chat-ul">
+                                        <li ng-repeat="note in envie.notes" ng-class="{'clearfix':$odd}">
+                                            <div class="message-data" ng-class="{'align-right':$odd}">
+                                                <span class="message-data-name"><i class="fa fa-circle you"></i>&nbsp; <strong> {{note.owner}}</strong> <span class="text-muted" ng-class="{'pull-left':$odd}" am-time-ago="note.date">commented 5 days ago</span></span>
+                                            </div>
+                                            <div class="message" ng-class="{'float-right':$odd, 'me-message':$odd, 'you-message':$even}">
+                                                {{note.text}}
+                                            </div>
+                                        </li>
+
+                                    </ul>
+
+                                </div> <!-- end chat-history -->
+
+                            </div> <!-- end chat -->
+
+
+
                             <form class="form">
                                 <div class="form-group">
                                     <label for="note-{{$index}}">Commentaires</label>
@@ -85,21 +99,8 @@
             </div>
 
         </div>
-        <!--<div id="envie{{envie.id}}" class="list-group-item" ng-repeat="envie in vm.listeEnvies" ng-class="{'list-group-item-success':envie.userTake}">
-            <span class="badge">{{envie.price}}</span>
-            <h3 class="list-group-item-heading">{{envie.label}}</h3>
-            <br/>
-            <p class="list-group-item-text">{{envie.comment}}</p>
-            <a ng-href="{{envie.url}}" ng-if="envie.url" target="_blank">Plus d'informations</a>
-            <br/>
-            <h6 ng-if="main.user.email != vm.email && envie.userTake">Offert par {{envie.userTakeUser.name || envie.userTake}}
-                <button type="button" class="btn btn-danger" ng-if="envie.userTakeUser.email == main.user.email" ng-click="vm.cancel(envie.id)">Annuler</button>
-            </h6>
-            <button type="button" class="btn btn-success" ng-if="main.user.email != vm.email && !envie.userTake" ng-click="vm.given(envie.id)">Offrir</button>
-            <br/>
 
-
-        </div>-->
+    </div>
     </div>
 
     <form ng-if="main.user.email == vm.email" id="formEdit">
