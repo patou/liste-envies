@@ -75,7 +75,7 @@ public final class EnviesService {
     }
 
     public static void addNote(final AppUser user, final Long itemId, final NoteDto note) {
-        String email = note.getOwner();
+        String email = user.getEmail();
         if (user.getEmail().equals(email)) {
 
         }

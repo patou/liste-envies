@@ -52,6 +52,10 @@ public class Note {
         this.text = text;
     }
 
+    public Note () {
+
+    }
+
     /**
      * Add a new Note
      * @param owner

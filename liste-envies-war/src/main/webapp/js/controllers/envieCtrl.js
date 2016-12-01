@@ -23,9 +23,11 @@ function EnvieCtrl(envieService, appUserService, $routeParams, $location, $ancho
 
     vm.addNote = function (envie) {
 
-        var note = {text: vm.note.text, owner: vm.email, envieId: envie.id};
+        var note = {text: vm.note.text, envieId: envie.id};
 
-        envieService.note({email:vm.email, id: envie.id}, note, function() {
+        console.log('add Note', note, envie.id);
+
+        envieService.addNote({email:vm.email, id: envie.id}, note, function() {
             loadListeEnvies();
             gotoEnvie(envie.id);
             vm.text = '';
