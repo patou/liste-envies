@@ -8,6 +8,7 @@ import com.googlecode.objectify.cmd.Saver;
 import fr.desaintsteban.liste.envies.dto.NoteDto;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.Envie;
+import fr.desaintsteban.liste.envies.util.EncodeUtils;
 
 import java.util.List;
 
@@ -68,7 +69,7 @@ public final class EnviesService {
                     Objectify ofy = OfyService.ofy();
                     Envie saved = ofy.load().key(Key.create(parent, Envie.class, itemId)).now();
                     Saver saver = ofy.save();
-                    saved.setUserTake(user.getEmail());
+                    saved.setUserTake(EncodeUtils.encode(user.getEmail()));
                     saver.entity(saved);
                 }
             });
