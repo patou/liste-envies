@@ -24,7 +24,7 @@ public final class EnviesService {
         LoadResult<ListEnvies> loadResult = ofy.load().key(key); //Chargement asynchrone
         List<Envy> list = ofy.load().type(Envy.class).ancestor(key).list();
         ListEnvies listEnvies = loadResult.now();
-        if (listEnvies.containsOwner(user.getName())) {
+        if (listEnvies.containsOwner(user.getEmail())) {
             removeUserTake(list);
         }
         return list;
@@ -43,7 +43,7 @@ public final class EnviesService {
         LoadResult<ListEnvies> loadResult = ofy.load().key(parent); //Chargement asynchrone
         List<Envy> list = ofy.load().type(Envy.class).ancestor(parent).filter("label >=", libelle).filter("label <", libelle + "\uFFFD").list();
         ListEnvies listEnvies = loadResult.now();
-        if (listEnvies.containsOwner(user.getName())) {
+        if (listEnvies.containsOwner(user.getEmail())) {
             removeUserTake(list);
         }
         return list;

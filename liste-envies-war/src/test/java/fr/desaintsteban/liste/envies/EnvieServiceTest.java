@@ -41,6 +41,7 @@ public class EnvieServiceTest {
     private AppUser emmanuel;
     private ListEnvies listePatrice;
     private ListEnvies listeEmmanuel;
+    private AppUser clemence;
 
     @BeforeClass
     public static void setUpBeforeClass()
@@ -67,8 +68,9 @@ public class EnvieServiceTest {
         AppUserService.createOrUpdate(patrice);
         emmanuel = new AppUser("emmanuel@desaintsteban.fr", "Emmanuel");
         AppUserService.createOrUpdate(emmanuel);
+        clemence = AppUserService.createOrUpdate(new AppUser("clemence@desaintsteban.fr", "Clemence"));
         listePatrice = ListEnviesService.createOrUpdate(new ListEnvies("liste-patrice", "Liste de Patrice", patrice.getEmail(), emmanuel.getEmail()));
-        listeEmmanuel = ListEnviesService.createOrUpdate(new ListEnvies("liste-emmanuel", "Liste d'Emmanuel", emmanuel.getEmail(), patrice.getEmail()));
+        listeEmmanuel = ListEnviesService.createOrUpdate(new ListEnvies("liste-emmanuel", "Liste d'Emmanuel", emmanuel.getEmail(), patrice.getEmail(), clemence.getEmail()));
 
         Envy itemLivre = EnviesService.createOrUpdate(patrice, "liste-patrice", new Envy(listePatrice, "Livre"));
         livreId = itemLivre.getId();
@@ -123,7 +125,7 @@ public class EnvieServiceTest {
 
     @Test
     public void testDelete() throws Exception {
-        EnviesService.delete(patrice, "patrice@desaintsteban.fr", livreId);
+        EnviesService.delete(patrice, "liste-patrice", livreId);
     }
 
     @Test
@@ -135,11 +137,10 @@ public class EnvieServiceTest {
         c1.setEmail("emmanuel@desaintsteban.fr");
         c1.setText("Commentaire");
         NoteDto c2 = new NoteDto();
-        c2.setEmail("patrice@desaintsteban.fr");
+        c2.setEmail("clemence@desaintsteban.fr");
         c2.setOwner("Patrice");
         c2.setText("Commentaire2");
         Envy envie = new Envy(initdto);
-        AppUser clemence = AppUserService.createOrUpdate(new AppUser("clemence@desaintsteban.fr", "Clemence"));
 
         Envy saved = EnviesService.createOrUpdate(emmanuel, "liste-emmanuel", envie);
 
