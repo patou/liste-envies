@@ -84,12 +84,26 @@ public class ListEnviesRestService {
 
     @POST
     @Path("/{name}")
-    public void addListeEnvie(@PathParam("name") String name, ListEnviesDto listEnvies) {
+    public ListEnviesDto updateListeEnvie(@PathParam("name") String name, ListEnviesDto listEnvies) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null && user.isAdmin()) {
             LOGGER.info("Save ListEnvies " + listEnvies.getName());
-            ListEnvies orUpdate = ListEnviesService.createOrUpdate(new ListEnvies(listEnvies));
+            ListEnvies orUpdate = ListEnviesService.createOrUpdate(user, new ListEnvies(listEnvies));
+            return orUpdate.toDto(true, user.getEmail());
         }
+        return null;
+    }
+
+    @POST
+    @Path("/")
+    public ListEnviesDto addListeEnvie(ListEnviesDto listEnvies) {
+        final AppUser user = ServletUtils.getUserAuthenticated();
+        if (user != null && user.isAdmin()) {
+            LOGGER.info("Save ListEnvies " + listEnvies.getName());
+            ListEnvies orUpdate = ListEnviesService.createOrUpdate(user, new ListEnvies(listEnvies));
+            return orUpdate.toDto(false, user.getEmail());
+        }
+        return null;
     }
 
     @GET

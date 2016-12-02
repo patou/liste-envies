@@ -24,7 +24,7 @@ public final class EnviesService {
         LoadResult<ListEnvies> loadResult = ofy.load().key(key); //Chargement asynchrone
         List<Envy> list = ofy.load().type(Envy.class).ancestor(key).list();
         ListEnvies listEnvies = loadResult.now();
-        if (listEnvies.containsOwner(user.getEmail())) {
+        if (listEnvies != null && listEnvies.containsOwner(user.getEmail())) {
             removeUserTake(list);
         }
         return list;
@@ -43,7 +43,7 @@ public final class EnviesService {
         LoadResult<ListEnvies> loadResult = ofy.load().key(parent); //Chargement asynchrone
         List<Envy> list = ofy.load().type(Envy.class).ancestor(parent).filter("label >=", libelle).filter("label <", libelle + "\uFFFD").list();
         ListEnvies listEnvies = loadResult.now();
-        if (listEnvies.containsOwner(user.getEmail())) {
+        if (listEnvies != null && listEnvies.containsOwner(user.getEmail())) {
             removeUserTake(list);
         }
         return list;
@@ -64,7 +64,7 @@ public final class EnviesService {
         LoadResult<ListEnvies> loadResult = ofy.load().key(parent); //Chargement asynchrone
         Envy envie = OfyService.ofy().load().key(Key.create(parent, Envy.class, itemid)).now();
         ListEnvies listEnvies = loadResult.now();
-        if (listEnvies.containsOwner(user.getEmail())) {
+        if (listEnvies != null && listEnvies.containsOwner(user.getEmail())) {
             envie.setUserTake(null);
             envie.setNotes(null);
         }
@@ -93,7 +93,7 @@ public final class EnviesService {
         Objectify ofy = OfyService.ofy();
         final Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
         ListEnvies listEnvies = ofy.load().key(parent).now();
-        if (!listEnvies.containsOwner(user.getEmail()) && listEnvies.containsUser(user.getEmail())) {
+        if (listEnvies != null && !listEnvies.containsOwner(user.getEmail()) && listEnvies.containsUser(user.getEmail())) {
             OfyService.ofy().transact(new VoidWork() {
                 @Override
                 public void vrun() {
@@ -111,7 +111,7 @@ public final class EnviesService {
         Objectify ofy = OfyService.ofy();
         final Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
         ListEnvies listEnvies = ofy.load().key(parent).now();
-        if (!listEnvies.containsOwner(user.getEmail()) && listEnvies.containsUser(user.getEmail())) {
+        if (listEnvies != null && !listEnvies.containsOwner(user.getEmail()) && listEnvies.containsUser(user.getEmail())) {
             OfyService.ofy().transact(new VoidWork() {
                 @Override
                 public void vrun() {
@@ -129,7 +129,7 @@ public final class EnviesService {
         Objectify ofy = OfyService.ofy();
         final Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
         ListEnvies listEnvies = ofy.load().key(parent).now();
-        if (listEnvies.containsOwner(user.getEmail())) {
+        if (listEnvies != null && listEnvies.containsOwner(user.getEmail())) {
             return OfyService.ofy().transact(new Work<Envy>() {
                 @Override
                 public Envy run() {

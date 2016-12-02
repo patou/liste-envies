@@ -3,7 +3,9 @@ package fr.desaintsteban.liste.envies.service;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Work;
 import com.googlecode.objectify.cmd.Saver;
+import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.ListEnvies;
+import fr.desaintsteban.liste.envies.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -33,7 +35,20 @@ public final class ListEnviesService {
 		return OfyService.ofy().load().key(Key.create(ListEnvies.class, email)).now();
 	}
 
-	public static ListEnvies createOrUpdate(final ListEnvies item) {
+	public static ListEnvies createOrUpdate(AppUser user, final ListEnvies item) {
+		if (StringUtils.isNullOrEmpty(item.getTitle())) {
+			String title = "Liste de " + user.getName();
+			item.setTitle(title);
+		}
+		if (StringUtils.isNullOrEmpty(item.getName())) {
+			String name = StringUtils.toValidIdName(item.getTitle());
+			int i = 0;
+			String prefix = name;
+			while (OfyService.ofy().load().key(Key.create(ListEnvies.class, name)).now() != null) {
+				name = prefix + '-' + i;
+			}
+			item.setName(name);
+		}
 		return OfyService.ofy().transact(new Work<ListEnvies>() {
 			@Override
 			public ListEnvies run() {

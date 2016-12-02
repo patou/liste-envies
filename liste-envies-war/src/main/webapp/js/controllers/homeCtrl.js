@@ -17,4 +17,17 @@ function HomeCtrl(appUserService, listEnviesService, $location) {
     vm.goList = function (name) {
         $location.url("/"+name);
     };
+
+    vm.addNewList = function (newlist, userEmail) {
+        var user = [];
+        user.push({'email': userEmail, 'type': "OWNER"});
+        if (newlist.emails && newlist.emails.length > 0) {
+            newlist.emails.split("\n").map(function (email) {
+                user.push({'email': email, 'type': "SHARED"});
+            });
+        }
+        listEnviesService.save({title: newlist.title, users:user}, function(listEnvies) {
+            $location.url("/"+listEnvies.name);
+        });
+    };
 }

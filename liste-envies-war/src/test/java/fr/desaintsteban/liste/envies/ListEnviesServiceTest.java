@@ -8,6 +8,7 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cache.AsyncCacheFilter;
+import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.ListEnvies;
 import fr.desaintsteban.liste.envies.service.ListEnviesService;
 import fr.desaintsteban.liste.envies.service.OfyService;
@@ -28,6 +29,7 @@ public class ListEnviesServiceTest {
             new LocalMemcacheServiceTestConfig(),
             new LocalTaskQueueTestConfig());
     private Closeable closable;
+    private AppUser patrice;
 
     @BeforeClass
     public static void setUpBeforeClass()
@@ -43,6 +45,7 @@ public class ListEnviesServiceTest {
             }
         });
         ObjectifyService.factory().register(ListEnvies.class);
+        ObjectifyService.factory().register(AppUser.class);
 
     }
 
@@ -50,8 +53,9 @@ public class ListEnviesServiceTest {
     public void setUp() {
         helper.setUp();
         closable = OfyService.begin();
-        ListEnviesService.createOrUpdate(new ListEnvies("liste-patrice", "Liste de Patrice", "patrice@desaintsteban.fr", "emmanuel@desaintsteban.fr"));
-        ListEnviesService.createOrUpdate(new ListEnvies("liste-emmanuel", "Liste de Emmanuel", "emmanuel@desaintsteban.fr"));
+        patrice = new AppUser("patrice@desaintsteban.fr", "Patrice");
+        ListEnviesService.createOrUpdate(patrice, new ListEnvies("liste-patrice", "Liste de Patrice", "patrice@desaintsteban.fr", "emmanuel@desaintsteban.fr"));
+        ListEnviesService.createOrUpdate(patrice, new ListEnvies("liste-emmanuel", "Liste de Emmanuel", "emmanuel@desaintsteban.fr"));
     }
 
     @After
@@ -86,7 +90,7 @@ public class ListEnviesServiceTest {
 
     @Test
     public void testCreate() throws Exception {
-        ListEnviesService.createOrUpdate(new ListEnvies("liste-clemence", "Clemence", "clemence@desaintsteban.fr", "patrice@desaintsteban.fr", "emmanuel@desaintsteban.fr"));
+        ListEnviesService.createOrUpdate(patrice, new ListEnvies("liste-clemence", "Clemence", "clemence@desaintsteban.fr", "patrice@desaintsteban.fr", "emmanuel@desaintsteban.fr"));
     }
 
     @Test

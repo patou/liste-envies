@@ -2,11 +2,65 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">
-                {{vm.listEnvies.title}}
-                <small>{{vm.name}}</small>
+                <form class="form-inline" ng-if="vm.editTitle">
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="vm.listEnvies.title" placeholder="@">
+                    </div>
+                    <button type="submit" class="btn btn-success" ng-click="vm.saveListEnvies(vm.listEnvies);"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span><span class="sr-only">Ajouter</span></button>
+                </form>
+                <span class="title" ng-if="!vm.editTitle">
+                    {{vm.listEnvies.title}}
+                    <button type="button" class="btn btn-default" tooltip="Partager votre liste" ng-if="vm.listEnvies.owner" ng-click="vm.editTitle = true">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span><span class="sr-only">Partager</span>
+                    </button>
+                    <small>{{vm.name}}</small>
+                </span>
+                <button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#share-list" tooltip="Partager votre liste" ng-if="vm.listEnvies.owner">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span><span class="sr-only">Partager</span>
+                </button>
             </h1>
         </div>
     </div>
+    <div class="modal fade" tabindex="-1" role="dialog" id="share-list">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Partager votre liste</h4>
+                </div>
+                <div class="modal-body">
+
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="user in vm.listEnvies.users" ng-class="{active:user.type == 'OWNER'}">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{user.email}}
+                            <button type="button" class="btn btn-xs btn-warning pull-right" ng-click="vm.removeUser(user);" aria-label="Partager votre liste" ng-if="user.email != main.user.email">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </button>
+                        </li>
+                    </ul>
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="new-email">Email</label>
+                            <input type="email" class="form-control" id="new-email" ng-model="vm.newEmail.email" placeholder="@">
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="" ng-true-value="'OWNER'" ng-false-value="'SHARED'" ng-model="vm.newEmail.type">
+                                    Co-Bénéficiaire
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-default" ng-click="vm.shareUser(vm.newEmail);"><span class="glyphicon glyphicon-share" aria-hidden="true"></span> Ajouter</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary" ng-click="vm.saveListEnvies(vm.listEnvies)">Enregistrer</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <div class="row row-fluid list-envie">
         <div class="loading" ng-if="vm.loading"> <div class='loader'>
             <div class='loader--dot'></div>
@@ -111,26 +165,34 @@
 
     </div>
     </div>
-
-    <form ng-if="vm.listEnvies.owner" id="formEdit">
-        <div class="form-group">
-            <label for="exampleInputEmail1">Titre</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" ng-model="vm.envie.label">
-        </div>
-        <div class="form-group">
-            <label for="description">Description</label>
-            <textarea class="form-control"  id="description" ng-model="vm.envie.description" >
-            </textarea>
-        </div>
-        <div class="form-group">
-            <label for="url">Url</label>
-            <input type="url" class="form-control" id="url" ng-model="vm.envie.url" placeholder="http://">
-        </div>
-        <div class="form-group">
-            <label for="price">Prix</label>
-            <input type="text" class="form-control" id="price" ng-model="vm.envie.price" placeholder=" € ">
-        </div>
-        <button type="submit" class="btn btn-default" ng-click="vm.addEnvie(vm.envie)">{{vm.envie.id ? 'Modifier' : 'Ajouter'}}</button>
-    </form>
-
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" >
+        <form ng-if="vm.listEnvies.owner" id="formEdit">
+            <div class="panel envie-item"  ng-class="{'panel-danger':envie.userTake, 'panel-success':!envie.userTake}">
+                <div class="panel-heading">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Titre</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" ng-model="vm.envie.label">
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control"  id="description" ng-model="vm.envie.description" >
+                        </textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="url">Url</label>
+                        <input type="url" class="form-control" id="url" ng-model="vm.envie.url" placeholder="http://">
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Prix</label>
+                        <input type="text" class="form-control" id="price" ng-model="vm.envie.price" placeholder=" € ">
+                    </div>
+                </div>
+                <div class="panel-heading bottom-envie">
+                    <button type="submit" class="btn btn-default" ng-click="vm.addEnvie(vm.envie)">{{vm.envie.id ? 'Modifier' : 'Ajouter'}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>

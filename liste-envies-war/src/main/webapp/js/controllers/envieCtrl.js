@@ -52,6 +52,30 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         $("#comment-"+index).collapse('toggle');
     };
 
+    vm.removeUser = function(user) {
+        var index = vm.listEnvies.users.indexOf(user);
+        if (index >= 0)
+            vm.listEnvies.users.splice(index, 1);
+    };
+
+    vm.shareUser = function(newUser) {
+        if (!newUser.type) {
+            newUser.type = 'SHARED';
+        }
+        if (newUser.email && newUser.email.indexOf('@') > 0) {
+            vm.listEnvies.users.push(newUser);
+            vm.newUser = {type:'SHARED'};
+        }
+    };
+
+    vm.saveListEnvies = function(listEnvies) {
+        listEnviesService.save(listEnvies, function(listEnvies) {
+            vm.listEnvies = listEnvies;
+            $("#share-list").modal("hide");
+            vm.editTitle = false;
+        });
+    };
+
     function gotoForm() {
         // call $anchorScroll()
         $anchorScroll('formEdit');

@@ -69,8 +69,8 @@ public class EnvieServiceTest {
         emmanuel = new AppUser("emmanuel@desaintsteban.fr", "Emmanuel");
         AppUserService.createOrUpdate(emmanuel);
         clemence = AppUserService.createOrUpdate(new AppUser("clemence@desaintsteban.fr", "Clemence"));
-        listePatrice = ListEnviesService.createOrUpdate(new ListEnvies("liste-patrice", "Liste de Patrice", patrice.getEmail(), emmanuel.getEmail()));
-        listeEmmanuel = ListEnviesService.createOrUpdate(new ListEnvies("liste-emmanuel", "Liste d'Emmanuel", emmanuel.getEmail(), patrice.getEmail(), clemence.getEmail()));
+        listePatrice = ListEnviesService.createOrUpdate(patrice, new ListEnvies("liste-patrice", "Liste de Patrice", patrice.getEmail(), emmanuel.getEmail()));
+        listeEmmanuel = ListEnviesService.createOrUpdate(emmanuel, new ListEnvies("liste-emmanuel", "Liste d'Emmanuel", emmanuel.getEmail(), patrice.getEmail(), clemence.getEmail()));
 
         Envy itemLivre = EnviesService.createOrUpdate(patrice, "liste-patrice", new Envy(listePatrice, "Livre"));
         livreId = itemLivre.getId();

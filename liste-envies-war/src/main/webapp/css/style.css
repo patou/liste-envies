@@ -8,6 +8,12 @@
 .comment-textarea {
 
 }
+.title .btn {
+    display: none;
+}
+.title:hover .btn {
+    display: inline-block !important;
+}
 
 .list-envie .envie-item:hover .edit-button {
     display: block !important;
