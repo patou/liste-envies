@@ -1,26 +1,16 @@
 package fr.desaintsteban.liste.envies.dto;
 
-import com.googlecode.objectify.Key;
-import com.googlecode.objectify.annotation.Cache;
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Parent;
-import fr.desaintsteban.liste.envies.model.AppUser;
-import fr.desaintsteban.liste.envies.model.Envie;
-import fr.desaintsteban.liste.envies.dto.NoteDto;
-import org.codehaus.jackson.annotate.JsonIgnore;
-
 import java.util.List;
 
 /**
  * 01/10/2014.
  */
-public class EnvieDto {
+public class EnvyDto {
     private Long id;
 
     private String label;
 
-    private String comment;
+    private String description;
 
     private String price;
     private String url;
@@ -28,7 +18,7 @@ public class EnvieDto {
 
     private List<NoteDto> notes;
 
-    public EnvieDto() {
+    public EnvyDto() {
     }
 
     public Long getId() {
@@ -47,12 +37,12 @@ public class EnvieDto {
         this.label = label;
     }
 
-    public String getComment() {
-        return comment;
+    public String getDescription() {
+        return description;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getPrice() {

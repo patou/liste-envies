@@ -10,6 +10,7 @@ import com.googlecode.objectify.cmd.Saver;
 import fr.desaintsteban.liste.envies.model.AppUser;
 
 import java.util.List;
+import java.util.Map;
 
 public final class AppUserService {
     private AppUserService() {}
@@ -47,6 +48,9 @@ public final class AppUserService {
 		return list;
 	}
 
+	public static Map<String, AppUser> loadAll(List<String> emails) {
+    	return OfyService.ofy().load().type(AppUser.class).ids(emails);
+	}
 
 	public static void delete(String email) {
 		OfyService.ofy().delete().key(Key.create(AppUser.class, email)).now();

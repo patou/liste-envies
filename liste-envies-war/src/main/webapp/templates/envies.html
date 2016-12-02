@@ -2,8 +2,8 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">
-                Liste des envies de {{vm.user.name}}
-                <small>{{vm.email}}</small>
+                {{vm.listEnvies.title}}
+                <small>{{vm.name}}</small>
             </h1>
         </div>
     </div>
@@ -17,7 +17,7 @@
             <div class='loader--dot'></div>
             <div class='loader--text'></div>
         </div></div>
-        <div id="envie{{envie.id}}"  ng-repeat="envie in vm.listeEnvies" >
+        <div id="envie{{envie.id}}"  ng-repeat="envie in vm.envies" >
         <div data-ng-show="$index % 3 == 0" class="envie-separator"></div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" >
             <div class="panel envie-item"  ng-class="{'panel-danger':envie.userTake, 'panel-success':!envie.userTake}">
@@ -29,15 +29,15 @@
 
                 </div>
                 <div class="panel-body">
-                    <p class="text-center">{{envie.comment}}</p>
+                    <p class="text-center">{{envie.description}}</p>
                     <div>
                         <a ng-href="{{envie.url}}" ng-if="envie.url" target="_blank" class="btn btn-block btn3d btn-default"><i class="fa fa-external-link"></i><b>   Plus d'informations  </b></a>
                     </div>
                     <!--<p class="text-warning"><b>574</b> subscribers <span title="Rating"><i class="fa fa-star-half-empty fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i></span></p>-->
 
-                    <button type="button" class="btn btn-warning edit-button" ng-if="main.user.email == vm.email" ng-click="vm.editEnvie(envie)">Modifier</button>
+                    <button type="button" class="btn btn-warning edit-button" ng-if="vm.listEnvies.owner" ng-click="vm.editEnvie(envie)">Modifier</button>
                 </div>
-                <div class="panel-heading bottom-envie" ng-if="main.user.email != vm.email">
+                <div class="panel-heading bottom-envie" ng-if="!vm.listEnvies.owner">
                     <!--<div class="row">
                         <div class="col-xs-4 col-md-4" title="Receba até 42 de Status">
                             <p class="text-center"><i class="glyphicon glyphicon-stats fa-2x "></i><span class="badge">42</span></p>
@@ -56,11 +56,11 @@
 
                     <div title="Cadeau" class="gift pull-right">
 
-                        <h6 ng-if="main.user.email != vm.email && envie.userTake"><i class="fa fa-gift"></i> Offert par {{envie.userTakeUser.name || envie.userTake}} &nbsp;&nbsp;&nbsp;
+                        <h6 ng-if="!vm.listEnvies.owner && envie.userTake"><i class="fa fa-gift"></i> Offert par {{envie.userTakeUser.name || envie.userTake}} &nbsp;&nbsp;&nbsp;
                             <button type="button" class="btn btn-danger" ng-if="envie.userTakeUser.email == main.user.email" ng-click="vm.cancel(envie.id)">Annuler</button>
                         </h6>
 
-                        <button type="button" class="btn btn-success btn3d" ng-if="main.user.email != vm.email && !envie.userTake" ng-click="vm.given(envie.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b>   Offrir </b></button>
+                        <button type="button" class="btn btn-success btn3d" ng-if="!vm.listEnvies.owner && !envie.userTake" ng-click="vm.given(envie.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b>   Offrir </b></button>
 
 
 
@@ -112,14 +112,14 @@
     </div>
     </div>
 
-    <form ng-if="main.user.email == vm.email" id="formEdit">
+    <form ng-if="vm.listEnvies.owner" id="formEdit">
         <div class="form-group">
             <label for="exampleInputEmail1">Titre</label>
             <input type="text" class="form-control" id="exampleInputEmail1" ng-model="vm.envie.label">
         </div>
         <div class="form-group">
-            <label for="comment">Description</label>
-            <textarea class="form-control"  id="comment" ng-model="vm.envie.comment" >
+            <label for="description">Description</label>
+            <textarea class="form-control"  id="description" ng-model="vm.envie.description" >
             </textarea>
         </div>
         <div class="form-group">

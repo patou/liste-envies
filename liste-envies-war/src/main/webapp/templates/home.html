@@ -25,9 +25,9 @@
             <div class='loader--dot'></div>
             <div class='loader--text'></div>
         </div></div>
-        <a class="list-group-item" ng-class="{active:appuser.email==main.user.email}" ng-click="vm.goList(appuser.email)" ng-repeat="appuser in vm.listeUser">
-            <h4 class="list-group-item-heading">Liste de {{appuser.name}}</h4>
-            <p class="list-group-item-text">{{appuser.email}}</p>
+        <a class="list-group-item" ng-class="{active:listenvies.owner}" ng-click="vm.goList(listenvies.name)" ng-repeat="listenvies in vm.envies">
+            <h4 class="list-group-item-heading">{{listenvies.title}}</h4>
+            <p class="list-group-item-text">{{listenvies.description}}</p>
         </a>
     </div>
 

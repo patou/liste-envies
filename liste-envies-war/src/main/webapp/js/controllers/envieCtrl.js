@@ -1,12 +1,12 @@
 app.controller('EnvieCtrl', EnvieCtrl);
-EnvieCtrl.$inject = ['envieService', 'appUserService', '$routeParams', '$location', '$anchorScroll'];
-function EnvieCtrl(envieService, appUserService, $routeParams, $location, $anchorScroll) {
+EnvieCtrl.$inject = ['envieService', 'appUserService', 'listEnviesService', '$routeParams', '$location', '$anchorScroll'];
+function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams, $location, $anchorScroll) {
     var vm = this;
-    vm.email = $routeParams.email;
-    vm.user = loadUser(vm.email);
+    vm.name = $routeParams.name;
+    vm.listEnvies = loadListEnvies(vm.name);
 
     vm.loading = false;
-    loadListeEnvies();
+    loadEnvies();
     resetForm();
 
     vm.editEnvie = function (envie) {
@@ -16,8 +16,8 @@ function EnvieCtrl(envieService, appUserService, $routeParams, $location, $ancho
     };
 
     vm.addEnvie = function (envie) {
-        envieService.save({email:vm.email}, envie, function() {
-            loadListeEnvies();
+        envieService.save({name:vm.name}, envie, function() {
+            loadEnvies();
             gotoEnvie(envie.id);
             resetForm();
         });
@@ -29,22 +29,22 @@ function EnvieCtrl(envieService, appUserService, $routeParams, $location, $ancho
 
         console.log('add Note', note, envie.id);
 
-        envieService.addNote({email:vm.email, id: envie.id}, note, function() {
-            loadListeEnvies();
+        envieService.addNote({name:vm.name, id: envie.id}, note, function() {
+            loadEnvies();
             gotoEnvie(envie.id);
             vm.text = '';
         });
     };
 
     vm.given = function(id) {
-        envieService.give({email:vm.email, id:id}, {}, function() {
-            loadListeEnvies();
+        envieService.give({name:vm.name, id:id}, {}, function() {
+            loadEnvies();
         });
     };
 
     vm.cancel = function(id) {
-        envieService.cancel({email:vm.email, id:id}, {}, function() {
-            loadListeEnvies();
+        envieService.cancel({name:vm.name, id:id}, {}, function() {
+            loadEnvies();
         });
     };
 
@@ -73,10 +73,13 @@ function EnvieCtrl(envieService, appUserService, $routeParams, $location, $ancho
     function loadUser(email) {
         return appUserService.get({email:email});
     }
-    function loadListeEnvies() {
+    function loadListEnvies(name) {
+        return listEnviesService.get({name:name});
+    }
+    function loadEnvies() {
         vm.loading = true;
-        vm.listeEnvies = envieService.query({email: $routeParams.email});
-        vm.listeEnvies.$promise.then(function(list) {
+        vm.envies = envieService.query({name: $routeParams.name});
+        vm.envies.$promise.then(function(list) {
             vm.loading = false;
             angular.forEach(list, function(item) {
                 if (item.userTake) {

@@ -8,12 +8,14 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cache.AsyncCacheFilter;
-import fr.desaintsteban.liste.envies.dto.EnvieDto;
+import fr.desaintsteban.liste.envies.dto.EnvyDto;
 import fr.desaintsteban.liste.envies.dto.NoteDto;
 import fr.desaintsteban.liste.envies.model.AppUser;
-import fr.desaintsteban.liste.envies.model.Envie;
+import fr.desaintsteban.liste.envies.model.Envy;
+import fr.desaintsteban.liste.envies.model.ListEnvies;
 import fr.desaintsteban.liste.envies.service.AppUserService;
 import fr.desaintsteban.liste.envies.service.EnviesService;
+import fr.desaintsteban.liste.envies.service.ListEnviesService;
 import fr.desaintsteban.liste.envies.service.OfyService;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
 import org.junit.After;
@@ -37,6 +39,8 @@ public class EnvieServiceTest {
     private Long livreId;
     private Long dvdId;
     private AppUser emmanuel;
+    private ListEnvies listePatrice;
+    private ListEnvies listeEmmanuel;
 
     @BeforeClass
     public static void setUpBeforeClass()
@@ -51,7 +55,8 @@ public class EnvieServiceTest {
             }
         });
         ObjectifyService.factory().register(AppUser.class);
-        ObjectifyService.factory().register(Envie.class);
+        ObjectifyService.factory().register(Envy.class);
+        ObjectifyService.factory().register(ListEnvies.class);
     }
 
     @Before
@@ -62,11 +67,14 @@ public class EnvieServiceTest {
         AppUserService.createOrUpdate(patrice);
         emmanuel = new AppUser("emmanuel@desaintsteban.fr", "Emmanuel");
         AppUserService.createOrUpdate(emmanuel);
-        Envie itemLivre = EnviesService.createOrUpdate(patrice, "patrice@desaintsteban.fr", new Envie(patrice, "Livre"));
+        listePatrice = ListEnviesService.createOrUpdate(new ListEnvies("liste-patrice", "Liste de Patrice", patrice.getEmail(), emmanuel.getEmail()));
+        listeEmmanuel = ListEnviesService.createOrUpdate(new ListEnvies("liste-emmanuel", "Liste d'Emmanuel", emmanuel.getEmail(), patrice.getEmail()));
+
+        Envy itemLivre = EnviesService.createOrUpdate(patrice, "liste-patrice", new Envy(listePatrice, "Livre"));
         livreId = itemLivre.getId();
-        Envie itemDvd = EnviesService.createOrUpdate(patrice, "patrice@desaintsteban.fr", new Envie(patrice, "DVD"));
+        Envy itemDvd = EnviesService.createOrUpdate(patrice, "liste-patrice", new Envy(listePatrice, "DVD"));
         dvdId = itemDvd.getId();
-        EnviesService.given(emmanuel, "patrice@desaintsteban.fr", livreId);
+        EnviesService.given(emmanuel, "liste-patrice", livreId);
     }
 
     @After
@@ -82,35 +90,35 @@ public class EnvieServiceTest {
 
     @Test
     public void testGetSameUser() throws Exception {
-        Envie envie = EnviesService.get(patrice, "patrice@desaintsteban.fr", livreId);
+        Envy envie = EnviesService.get(patrice, "liste-patrice", livreId);
         assertThat(envie.getLabel()).isEqualTo("Livre");
         assertThat(envie.getUserTake()).isNull();
     }
 
     @Test
     public void testGetNotSameUser() throws Exception {
-        Envie envie = EnviesService.get(emmanuel, "patrice@desaintsteban.fr", livreId);
+        Envy envie = EnviesService.get(emmanuel, "liste-patrice", livreId);
         assertThat(envie.getLabel()).isEqualTo("Livre");
         assertThat(envie.getUserTake()).isEqualTo(EncodeUtils.encode("emmanuel@desaintsteban.fr"));
     }
 
     @Test
     public void testList() throws Exception {
-        List<Envie> list = EnviesService.list(patrice, "patrice@desaintsteban.fr");
+        List<Envy> list = EnviesService.list(patrice, "liste-patrice");
         assertThat(list).hasSize(2).onProperty("label").contains("Livre", "DVD");
         assertThat(list).hasSize(2).onProperty("userTake").excludes(EncodeUtils.encode("emmanuel@desaintsteban.fr"));
     }
 
     @Test
     public void testListOther() throws Exception {
-        List<Envie> list = EnviesService.list(emmanuel, "patrice@desaintsteban.fr");
+        List<Envy> list = EnviesService.list(emmanuel, "liste-patrice");
         assertThat(list).hasSize(2).onProperty("label").contains("Livre", "DVD");
         assertThat(list).hasSize(2).onProperty("userTake").contains(EncodeUtils.encode("emmanuel@desaintsteban.fr"));
     }
 
     @Test
     public void testCreate() throws Exception {
-        Envie itemDvd = EnviesService.createOrUpdate(emmanuel, "emmanuel@desaintsteban.fr", new Envie(emmanuel, "DVD"));
+        Envy itemDvd = EnviesService.createOrUpdate(emmanuel, "liste-emmanuel", new Envy(listeEmmanuel, "DVD"));
     }
 
     @Test
@@ -120,7 +128,7 @@ public class EnvieServiceTest {
 
     @Test
     public void testSaveNote() throws Exception {
-        EnvieDto initdto = new EnvieDto();
+        EnvyDto initdto = new EnvyDto();
         initdto.setLabel("Test");
         NoteDto c1 = new NoteDto();
         c1.setOwner("Emmanuel");
@@ -130,16 +138,16 @@ public class EnvieServiceTest {
         c2.setEmail("patrice@desaintsteban.fr");
         c2.setOwner("Patrice");
         c2.setText("Commentaire2");
-        Envie envie = new Envie(initdto);
+        Envy envie = new Envy(initdto);
         AppUser clemence = AppUserService.createOrUpdate(new AppUser("clemence@desaintsteban.fr", "Clemence"));
 
-        Envie saved = EnviesService.createOrUpdate(emmanuel, "emmanuel@desaintsteban.fr", envie);
+        Envy saved = EnviesService.createOrUpdate(emmanuel, "liste-emmanuel", envie);
 
-        EnviesService.addNote(patrice, saved.getId(), "emmanuel@desaintsteban.fr", c1);
-        EnviesService.addNote(clemence, saved.getId(), "emmanuel@desaintsteban.fr", c2);
-        Envie get = EnviesService.get(patrice, "emmanuel@desaintsteban.fr", saved.getId());
+        EnviesService.addNote(patrice, saved.getId(), "liste-emmanuel", c1);
+        EnviesService.addNote(clemence, saved.getId(), "liste-emmanuel", c2);
+        Envy get = EnviesService.get(patrice, "liste-emmanuel", saved.getId());
 
-        EnvieDto dto = get.toDto();
+        EnvyDto dto = get.toDto();
 
         assertThat(dto.getLabel()).isEqualTo(initdto.getLabel());
         assertThat(dto.getNotes()).onProperty("email").contains("clemence@desaintsteban.fr", "patrice@desaintsteban.fr");

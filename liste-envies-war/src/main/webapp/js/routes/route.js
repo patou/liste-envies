@@ -6,7 +6,7 @@ app.config(function ($routeProvider) {
             controller: "HomeCtrl",
             controllerAs: "vm"
         })
-        .when("/:email", {
+        .when("/:name", {
             templateUrl: "templates/envies.html",
             name: 'Envie',
             controller: "EnvieCtrl",

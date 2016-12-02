@@ -19,18 +19,17 @@ import java.util.List;
  */
 @Cache
 @Entity
-@Deprecated
-public class Envie {
+public class Envy {
 
     @Parent
     @JsonIgnore
-    Key<AppUser> owner;
+    Key<ListEnvies> list;
     @Id
     private Long id;
 
     private String label;
 
-    private String comment;
+    private String description;
 
     private String price;
     private String url;
@@ -40,32 +39,34 @@ public class Envie {
     private List<Note> notes;
 
 
-    public Envie() {
+    public Envy() {
         this.notes = new ArrayList<>();
     }
 
-    public Envie(AppUser owner, String label) {
-        this.owner = Key.create(owner);
+    public Envy(ListEnvies list, String label) {
+        this.list = Key.create(list);
         this.label = label;
         this.notes = new ArrayList<>();
     }
 
 
-    public Envie(EnvyDto envie) {
+    public Envy(EnvyDto envie) {
         setId(envie.getId());
         setLabel(envie.getLabel());
-        setComment(envie.getDescription());
+        setDescription(envie.getDescription());
         setPrice(envie.getPrice());
         setUrl(envie.getUrl());
         setUserTake(EncodeUtils.encode(envie.getUserTake()));
+
         this.notes = new ArrayList<>();
+
     }
 
     public EnvyDto toDto() {
         EnvyDto envie = new EnvyDto();
         envie.setId(getId());
         envie.setLabel(getLabel());
-        envie.setDescription(getComment());
+        envie.setDescription(getDescription());
         envie.setPrice(getPrice());
         envie.setUrl(getUrl());
         envie.setUserTake(EncodeUtils.decode(getUserTake()));
@@ -80,12 +81,12 @@ public class Envie {
         return envie;
     }
 
-    public Key<AppUser> getOwner() {
-        return owner;
+    public Key<ListEnvies> getOwner() {
+        return list;
     }
 
-    public void setOwner(Key<AppUser> owner) {
-        this.owner = owner;
+    public void setOwner(Key<ListEnvies> owner) {
+        this.list = owner;
     }
 
     public Long getId() {
@@ -104,12 +105,12 @@ public class Envie {
         this.label = label;
     }
 
-    public String getComment() {
-        return comment;
+    public String getDescription() {
+        return description;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getPrice() {
