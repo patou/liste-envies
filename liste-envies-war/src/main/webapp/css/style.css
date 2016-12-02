@@ -15,6 +15,13 @@
     display: inline-block !important;
 }
 
+.title-edit {
+    font-size: 36px;
+    width: auto;
+    outline: none;
+    padding: 0;
+}
+
 .list-envie .envie-item:hover .edit-button {
     display: block !important;
 }
