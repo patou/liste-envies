@@ -13,6 +13,16 @@ public class ListEnviesDto {
     private Boolean isOwner;
     private List<UserShareDto> users;
 
+    private List<UserShareDto> owners;
+
+    public List<UserShareDto> getOwners() {
+        return owners;
+    }
+
+    public void setOwners(List<UserShareDto> owners) {
+        this.owners = owners;
+    }
+
     public String getName() {
         return name;
     }

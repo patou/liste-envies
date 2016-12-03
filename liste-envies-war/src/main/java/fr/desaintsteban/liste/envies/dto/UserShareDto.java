@@ -13,8 +13,9 @@ public class UserShareDto {
     public UserShareDto() {
     }
 
-    public UserShareDto(String email, UserShareType type) {
+    public UserShareDto(String email, String name, UserShareType type) {
         this.email = email;
+        this.name = name;
         this.type = type;
     }
 
