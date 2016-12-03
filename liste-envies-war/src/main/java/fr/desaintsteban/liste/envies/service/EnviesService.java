@@ -135,7 +135,7 @@ public final class EnviesService {
                 public Envy run() {
                     Objectify ofy = OfyService.ofy();
                     Saver saver = ofy.save();
-                    item.setOwner(parent);
+                    item.setList(parent);
                     if (item.getId() != null) {
                         Envy saved = ofy.load().key(Key.create(parent, Envy.class, item.getId())).now();
                         item.setUserTake(saved.getUserTake());

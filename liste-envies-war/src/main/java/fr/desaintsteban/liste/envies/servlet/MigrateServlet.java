@@ -49,7 +49,8 @@ public class MigrateServlet extends HttpServlet {
             List<Envy> listConverted = new ArrayList<>();
             for (Envie envie : list) {
                 Envy envy = new Envy();
-                envy.setOwner(key);
+                envy.setList(key);
+                envy.setOwner(envie.getOwner().getName());
                 envy.setLabel(envie.getLabel());
                 envy.setDescription(envie.getComment());
                 envy.setPrice(envie.getPrice());

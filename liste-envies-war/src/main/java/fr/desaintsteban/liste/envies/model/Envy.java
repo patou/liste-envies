@@ -1,10 +1,7 @@
 package fr.desaintsteban.liste.envies.model;
 
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.annotation.Cache;
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Parent;
+import com.googlecode.objectify.annotation.*;
 import fr.desaintsteban.liste.envies.dto.EnvyDto;
 import fr.desaintsteban.liste.envies.dto.NoteDto;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
@@ -27,13 +24,16 @@ public class Envy {
     @Id
     private Long id;
 
+    private String owner;
+
     private String label;
 
     private String description;
 
     private String price;
     private String url;
-    private String userTake;
+    @Index
+    private List<String> userTake;
 
     @Embedded
     private List<Note> notes;
@@ -81,11 +81,11 @@ public class Envy {
         return envie;
     }
 
-    public Key<ListEnvies> getOwner() {
+    public Key<ListEnvies> getList() {
         return list;
     }
 
-    public void setOwner(Key<ListEnvies> owner) {
+    public void setList(Key<ListEnvies> owner) {
         this.list = owner;
     }
 
@@ -95,6 +95,14 @@ public class Envy {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public String getLabel() {
@@ -130,11 +138,14 @@ public class Envy {
     }
 
     public String getUserTake() {
-        return userTake;
+        return userTake != null && !userTake.isEmpty() ? userTake.get(0) : null;
     }
 
     public void setUserTake(String userTake) {
-        this.userTake = userTake;
+        if (userTake == null) {
+            this.userTake = new ArrayList<>();
+        }
+        this.userTake.add(userTake);
     }
 
     public void addNote(String owner, String email, String text) {
