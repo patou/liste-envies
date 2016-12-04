@@ -26,6 +26,10 @@ public class Envy {
     private Long id;
 
     private String owner;
+    /**
+     * L'envie à été suggéré par une autre personne
+     */
+    private Boolean suggest = false;
 
     private String label;
 
@@ -55,6 +59,8 @@ public class Envy {
 
     public Envy(EnvyDto envie) {
         setId(envie.getId());
+        setOwner(envie.getOwner());
+        setSuggest(envie.getSuggest());
         setLabel(envie.getLabel());
         setDescription(envie.getDescription());
         setPrice(envie.getPrice());
@@ -73,6 +79,8 @@ public class Envy {
     public EnvyDto toDto() {
         EnvyDto envie = new EnvyDto();
         envie.setId(getId());
+        envie.setOwner(getOwner());
+        envie.setSuggest(suggest);
         envie.setLabel(getLabel());
         envie.setDescription(getDescription());
         envie.setPrice(getPrice());
@@ -117,6 +125,14 @@ public class Envy {
 
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    public Boolean getSuggest() {
+        return suggest;
+    }
+
+    public void setSuggest(Boolean suggest) {
+        this.suggest = suggest;
     }
 
     public String getLabel() {

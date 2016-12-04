@@ -125,8 +125,8 @@ public final class EnviesService {
     public static Envy createOrUpdate(final AppUser user, final String name, final Envy item) {
         Objectify ofy = OfyService.ofy();
         final Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
-        ListEnvies listEnvies = ofy.load().key(parent).now();
-        if (listEnvies != null && listEnvies.containsOwner(user.getEmail())) {
+        final ListEnvies listEnvies = ofy.load().key(parent).now();
+        if (listEnvies != null) {
             return OfyService.ofy().transact(new Work<Envy>() {
                 @Override
                 public Envy run() {
@@ -137,7 +137,12 @@ public final class EnviesService {
                     Envy saved = ofy.load().key(Key.create(parent, Envy.class, item.getId())).now();
                     item.setUserTake(saved.getUserTake());
                     item.setNotes(saved.getNotes());
+                    item.setOwner(saved.getOwner());
                 }
+                if (item.getOwner() == null) {
+                    item.setOwner(user.getEmail());
+                }
+                item.setSuggest(!listEnvies.containsOwner(item.getOwner()));
                 Key<Envy> key = saver.entity(item).now();
                 return item;
                 }
@@ -154,10 +159,10 @@ public final class EnviesService {
                 envy.setNotes(null);
             }
             else {
-                if (listEnvies.containsOwner(user.getEmail())) { //Si l'utilisateur courrant est le propriétaire des envies, on efface le nom de qui lui a offert un cadeau.
+                if (listEnvies.containsOwner(user.getEmail())) { //Si l'utilisateur courant est le propriétaire des envies, on efface le nom de qui lui a offert un cadeau.
                     envy.setUserTake(null);
                     envy.setNotes(null);
-                    if (envy.getOwner() != null && !envy.getOwner().equals(user.getEmail()) && listEnvies.containsOwner(envy.getOwner())) { // On supprime les envies ajoutés par d'autres personnes
+                    if (envy.getSuggest()) { // On supprime les envies ajoutés par d'autres personnes
                         toRemove.add(envy);
                     }
                 }

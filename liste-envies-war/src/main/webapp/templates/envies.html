@@ -13,7 +13,7 @@
                     <button type="button" class="btn btn-default" tooltip="Partager votre liste" ng-if="vm.listEnvies.owner" ng-click="vm.editTitle = true">
                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span><span class="sr-only">Partager</span>
                     </button>
-                    <small>{{vm.name}}</small>
+                    <small> de <span class="owners" ng-repeat="owner in vm.listEnvies.owners">{{owner.name}}({{owner.email}})</span></small>
                 </span>
                 <button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#share-list" tooltip="Partager votre liste" ng-if="vm.listEnvies.owner">
                     <span class="glyphicon glyphicon-user" aria-hidden="true"></span><span class="sr-only">Partager</span>
@@ -75,12 +75,13 @@
         <div id="envie{{envie.id}}"  ng-repeat="envie in vm.envies" >
             <div data-ng-show="$index % 3 == 0" class="envie-separator"></div>
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" >
-                <div class="panel envie-item"  ng-class="{'panel-danger':envie.userTakeUsers, 'panel-success':!envie.userTakeUsers}">
+                <div class="panel envie-item"  ng-class="{'panel-danger':envie.userTakeUsers, 'panel-info':envie.suggest, 'panel-success':!envie.userTakeUsers}">
                     <div class="panel-heading">
                         <span class="badge pull-right">{{envie.price}}</span>
                         <h1>{{envie.label}}</h1>
-                        <p><!--<i class="fa fa-smile-o fa-lg"></i> 
-                            <a href="#"><i>{{vm.user.name}}</i></a>--><i class="fa fa-gift fa-3x pull-right logo-envie"></i></p>
+                        <p><i class="fa fa-smile-o fa-lg"></i> 
+                            <a href="javascript:;"><i>{{envie.ownerUser.name}}</i></a>
+                        <i class="fa fa-gift fa-3x pull-right logo-envie"></i></p>
                     </div>
                     <div class="panel-body">
                         <a ng-if="envie.picture" ng-href="{{envie.picture}}" target="_blank" class="thumbnail">
@@ -91,7 +92,7 @@
                             <a ng-href="{{link.url}}" ng-repeat="link in envie.urls" target="_blank" class="btn btn-block btn3d btn-default"><i class="fa fa-external-link"></i><b>   {{link.name||"Plus d'informations"}}  </b></a>
                         </div>
                         <!--<p class="text-warning"><b>574</b> subscribers <span title="Rating"><i class="fa fa-star-half-empty fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i></span></p>-->
-                        <button type="button" class="btn btn-warning edit-button" ng-if="vm.listEnvies.owner" ng-click="vm.editEnvie(envie)">Modifier</button>
+                        <button type="button" class="btn btn-warning edit-button" ng-if="vm.listEnvies.owner || envie.owner == main.user.email" ng-click="vm.editEnvie(envie)">Modifier</button>
                     </div>
                     <div class="panel-heading bottom-envie" ng-if="!vm.listEnvies.owner">
                         <!--<div class="row">
@@ -150,8 +151,8 @@
         </div>
         <div data-ng-show="$index % 3 == 0" class="envie-separator"></div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" >
-            <form ng-if="vm.listEnvies.owner" id="formEdit">
-                <div class="panel envie-item"  ng-class="{'panel-danger':envie.userTake, 'panel-success':!envie.userTake}">
+            <form id="formEdit">
+                <div class="panel envie-item"  ng-class="{'panel-danger':envie.userTake, 'panel-info':envie.suggest, 'panel-success':!envie.userTake}">
                     <div class="panel-heading">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Titre</label>
@@ -187,6 +188,7 @@
                     </div>
                     <div class="panel-heading bottom-envie">
                         <button type="submit" class="btn btn-default" ng-click="vm.addEnvie(vm.envie)">{{vm.envie.id ? 'Modifier' : 'Ajouter'}}</button>
+                        <button type="submit" class="btn btn-link" ng-click="vm.envie = {}">Annuler</button>
                     </div>
                 </div>
             </form>

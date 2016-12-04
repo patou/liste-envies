@@ -19,6 +19,9 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         if (vm.link) {
             vm.addLink(vm.link);
         }
+        if (!envie.id) {
+            vm.envies.push(envie);
+        }
         envieService.save({name:vm.name}, envie, function() {
             loadEnvies();
             gotoEnvie(envie.id);
@@ -114,6 +117,9 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         });
         return foundUser;
     }
+    vm.userName = function(email) {
+        return loadUser(email).name;
+    };
     function loadListEnvies(name) {
         return listEnviesService.get({name:name});
     }
@@ -122,6 +128,9 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         vm.envies.$promise.then(function(list) {
             vm.loading = false;
             angular.forEach(list, function(item) {
+                if (item.owner) {
+                    item.ownerUser = loadUser(item.owner);
+                }
                 if (item.userTake) {
                     var userTakeNames = [];
                     angular.forEach(item.userTake, function(user) {

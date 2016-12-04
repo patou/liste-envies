@@ -12,6 +12,8 @@ import java.util.List;
 public class EnvyDto {
     private Long id;
 
+    private String owner;
+    private Boolean suggest = false;
     private String label;
 
     private String description;
@@ -32,6 +34,22 @@ public class EnvyDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public Boolean getSuggest() {
+        return suggest;
+    }
+
+    public void setSuggest(Boolean suggest) {
+        this.suggest = suggest;
     }
 
     public String getLabel() {

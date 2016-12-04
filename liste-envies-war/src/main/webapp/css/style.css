@@ -1,7 +1,7 @@
 .edit-button {
     display: none;
     position: absolute;
-    bottom: 31px;
+    top: 31px;
     right: 24px;
 }
 
