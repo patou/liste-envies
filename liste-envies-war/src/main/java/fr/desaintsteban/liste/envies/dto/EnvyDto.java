@@ -1,12 +1,14 @@
 package fr.desaintsteban.liste.envies.dto;
 
 import fr.desaintsteban.liste.envies.model.Link;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import java.util.List;
 
 /**
  * 01/10/2014.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EnvyDto {
     private Long id;
 

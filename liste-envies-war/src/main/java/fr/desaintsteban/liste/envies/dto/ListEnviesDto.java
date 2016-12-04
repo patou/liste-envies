@@ -1,10 +1,13 @@
 package fr.desaintsteban.liste.envies.dto;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import java.util.List;
 
 /**
  *
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ListEnviesDto {
     private String name;
 
