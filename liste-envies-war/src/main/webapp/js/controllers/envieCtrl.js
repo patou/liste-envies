@@ -5,7 +5,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     vm.name = $routeParams.name;
     vm.listEnvies = loadListEnvies(vm.name);
 
-    vm.loading = false;
+    vm.loading = true;
     loadEnvies();
     resetForm();
 
@@ -16,6 +16,9 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     };
 
     vm.addEnvie = function (envie) {
+        if (vm.link) {
+            vm.addLink(vm.link);
+        }
         envieService.save({name:vm.name}, envie, function() {
             loadEnvies();
             gotoEnvie(envie.id);
@@ -24,11 +27,8 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     };
 
     vm.addNote = function (envie, notetext) {
-
         var note = {text: notetext.text};
-
         console.log('add Note', note, envie.id);
-
         envieService.addNote({name:vm.name, id: envie.id}, note, function() {
             loadEnvies();
             gotoEnvie(envie.id);
@@ -69,6 +69,9 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     };
 
     vm.saveListEnvies = function(listEnvies) {
+        if (vm.newEmail.email) {
+            vm.shareUser(vm.newEmail);
+        }
         listEnviesService.save(listEnvies, function(listEnvies) {
             vm.listEnvies = listEnvies;
             $("#share-list").modal("hide");
@@ -115,7 +118,6 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         return listEnviesService.get({name:name});
     }
     function loadEnvies() {
-        vm.loading = true;
         vm.envies = envieService.query({name: $routeParams.name});
         vm.envies.$promise.then(function(list) {
             vm.loading = false;
