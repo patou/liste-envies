@@ -76,6 +76,14 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         });
     };
 
+    vm.addLink = function(link) {
+        if (!vm.envie.urls) {
+           vm.envie.urls = [];
+        }
+        vm.envie.urls.push(link);
+        vm.link = undefined;
+    };
+
     function gotoForm() {
         // call $anchorScroll()
         $anchorScroll('formEdit');
@@ -95,7 +103,13 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     }
 
     function loadUser(email) {
-        return appUserService.get({email:email});
+        var foundUser = {email: email, name: ''};
+        angular.forEach(vm.listEnvies.users, function(user) {
+            if (user.email == email) {
+                foundUser.name = user.name;
+            }
+        });
+        return foundUser;
     }
     function loadListEnvies(name) {
         return listEnviesService.get({name:name});
@@ -107,7 +121,11 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
             vm.loading = false;
             angular.forEach(list, function(item) {
                 if (item.userTake) {
-                    item.userTakeUser = loadUser(item.userTake);
+                    var userTakeNames = [];
+                    angular.forEach(item.userTake, function(user) {
+                        this.push(loadUser(user).name || user)
+                    }, userTakeNames);
+                    item.userTakeUsers = userTakeNames.join(", ");
                 }
             });
         });

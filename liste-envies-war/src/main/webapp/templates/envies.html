@@ -74,18 +74,21 @@
         <div id="envie{{envie.id}}"  ng-repeat="envie in vm.envies" >
         <div data-ng-show="$index % 3 == 0" class="envie-separator"></div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" >
-            <div class="panel envie-item"  ng-class="{'panel-danger':envie.userTake, 'panel-success':!envie.userTake}">
+            <div class="panel envie-item"  ng-class="{'panel-danger':envie.userTakeUsers, 'panel-success':!envie.userTakeUsers}">
                 <div class="panel-heading">
                     <span class="badge pull-right">{{envie.price}}</span>
                     <h1>{{envie.label}}</h1>
-                    <p ><!--<i class="fa fa-smile-o fa-lg"></i> 
+                    <p><!--<i class="fa fa-smile-o fa-lg"></i> 
                         <a href="#"><i>{{vm.user.name}}</i></a>--><i class="fa fa-gift fa-3x pull-right logo-envie"></i></p>
 
                 </div>
                 <div class="panel-body">
+                    <a ng-if="envie.picture" ng-href="{{envie.picture}}" target="_blank" class="thumbnail">
+                        <img ng-src="{{envie.picture}}" alt="Image Envie">
+                    </a>
                     <p class="text-center">{{envie.description}}</p>
-                    <div>
-                        <a ng-href="{{envie.url}}" ng-if="envie.url" target="_blank" class="btn btn-block btn3d btn-default"><i class="fa fa-external-link"></i><b>   Plus d'informations  </b></a>
+                    <div ng-if="envie.urls && envie.urls.length > 0">
+                        <a ng-href="{{link.url}}" ng-repeat="link in envie.urls" target="_blank" class="btn btn-block btn3d btn-default"><i class="fa fa-external-link"></i><b>   {{link.name||"Plus d'informations"}}  </b></a>
                     </div>
                     <!--<p class="text-warning"><b>574</b> subscribers <span title="Rating"><i class="fa fa-star-half-empty fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i></span></p>-->
 
@@ -103,21 +106,11 @@
                             <p class="text-center"><i class="glyphicon glyphicon-file fa-2x"></i><span class="badge">1</span></p>
                         </div>
                     </div>-->
-
-                    <p></p>
-
-
-
                     <div title="Cadeau" class="gift pull-right">
-
-                        <h6 ng-if="!vm.listEnvies.owner && envie.userTake"><i class="fa fa-gift"></i> Offert par {{envie.userTakeUser.name || envie.userTake}} &nbsp;&nbsp;&nbsp;
-                            <button type="button" class="btn btn-danger" ng-if="envie.userTakeUser.email == main.user.email" ng-click="vm.cancel(envie.id)">Annuler</button>
+                        <h6 ng-if="!vm.listEnvies.owner && envie.userTakeUsers"><i class="fa fa-gift"></i> Offert par {{envie.userTakeUsers}} &nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-danger" ng-if="envie.userTake.indexOf(main.user.email) >= 0" ng-click="vm.cancel(envie.id)">Annuler</button>
                         </h6>
-
-                        <button type="button" class="btn btn-success btn3d" ng-if="!vm.listEnvies.owner && !envie.userTake" ng-click="vm.given(envie.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b>   Offrir </b></button>
-
-
-
+                        <button type="button" class="btn btn-success btn3d" ng-if="!vm.listEnvies.owner && envie.userTake.indexOf(main.user.email) < 0" ng-click="vm.given(envie.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b>   {{!envie.userTake || envie.userTake.length == 0 ? 'Offrir':'Participer'}} </b></button>
                     </div>
 
                     <div class="comments" >
@@ -136,15 +129,9 @@
                                                 {{note.text}}
                                             </div>
                                         </li>
-
                                     </ul>
-
                                 </div> <!-- end chat-history -->
-
                             </div> <!-- end chat -->
-
-
-
                             <form class="form">
                                 <div class="form-group">
                                     <label for="note-{{$index}}">Commentaires</label>
@@ -181,12 +168,24 @@
                         </textarea>
                     </div>
                     <div class="form-group">
-                        <label for="url">Url</label>
-                        <input type="url" class="form-control" id="url" ng-model="vm.envie.url" placeholder="http://">
+                        <label for="link-url">Urls</label>
+                        <div ng-repeat="link in vm.envie.urls" class="links-editor">
+                            <input type="url" class="form-control" id="url-{{$index}}" ng-model="link.url" placeholder="http://">
+                            <input type="text" class="form-control" id="name-{{$index}}" ng-model="link.name" placeholder="texte du lien">
+                        </div>
+                        <div class="links-editor">
+                            <input type="url" class="form-control" id="link-url" ng-model="vm.link.url" placeholder="http://">
+                            <input type="text" class="form-control" id="link-name" ng-model="vm.link.name" placeholder="texte du lien">
+                            <button type="submit" class="btn btn-success" ng-click="vm.addLink(vm.link);"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="sr-only">Ajouter le lien</span></button>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="price">Prix</label>
                         <input type="text" class="form-control" id="price" ng-model="vm.envie.price" placeholder=" € ">
+                    </div>
+                    <div class="form-group">
+                        <label for="picture">Image</label>
+                        <input type="url" class="form-control" id="picture" ng-model="vm.envie.picture">
                     </div>
                 </div>
                 <div class="panel-heading bottom-envie">

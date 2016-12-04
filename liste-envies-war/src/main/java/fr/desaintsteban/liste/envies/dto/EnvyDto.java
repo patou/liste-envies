@@ -1,5 +1,7 @@
 package fr.desaintsteban.liste.envies.dto;
 
+import fr.desaintsteban.liste.envies.model.Link;
+
 import java.util.List;
 
 /**
@@ -13,8 +15,9 @@ public class EnvyDto {
     private String description;
 
     private String price;
-    private String url;
-    private String userTake;
+    private String picture;
+    private List<Link> urls;
+    private List<String> userTake;
 
     private List<NoteDto> notes;
 
@@ -45,28 +48,36 @@ public class EnvyDto {
         this.description = description;
     }
 
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public List<Link> getUrls() {
+        return urls;
+    }
+
+    public void setUrls(List<Link> urls) {
+        this.urls = urls;
+    }
+
+    public List<String> getUserTake() {
+        return userTake;
+    }
+
+    public void setUserTake(List<String> userTake) {
+        this.userTake = userTake;
+    }
+
     public String getPrice() {
         return price;
     }
 
     public void setPrice(String price) {
         this.price = price;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getUserTake() {
-        return userTake;
-    }
-
-    public void setUserTake(String userTake) {
-        this.userTake = userTake;
     }
 
     public List<NoteDto> getNotes() {

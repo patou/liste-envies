@@ -54,9 +54,9 @@ public class MigrateServlet extends HttpServlet {
                 envy.setLabel(envie.getLabel());
                 envy.setDescription(envie.getComment());
                 envy.setPrice(envie.getPrice());
-                envy.setUrl(envie.getUrl());
+                envy.addUrl(envie.getUrl());
                 envy.setNotes(envie.getNotes());
-                envy.setUserTake(envie.getUserTake());
+                envy.addUserTake(envie.getUserTake());
                 listConverted.add(envy);
             }
             ofy.save().entities(listConverted);

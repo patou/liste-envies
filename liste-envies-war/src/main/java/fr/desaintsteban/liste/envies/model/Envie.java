@@ -50,36 +50,6 @@ public class Envie {
         this.notes = new ArrayList<>();
     }
 
-
-    public Envie(EnvyDto envie) {
-        setId(envie.getId());
-        setLabel(envie.getLabel());
-        setComment(envie.getDescription());
-        setPrice(envie.getPrice());
-        setUrl(envie.getUrl());
-        setUserTake(EncodeUtils.encode(envie.getUserTake()));
-        this.notes = new ArrayList<>();
-    }
-
-    public EnvyDto toDto() {
-        EnvyDto envie = new EnvyDto();
-        envie.setId(getId());
-        envie.setLabel(getLabel());
-        envie.setDescription(getComment());
-        envie.setPrice(getPrice());
-        envie.setUrl(getUrl());
-        envie.setUserTake(EncodeUtils.decode(getUserTake()));
-
-        if (this.notes != null && !this.notes.isEmpty()) {
-            List<NoteDto> listNoteDto = new ArrayList<>();
-            for (Note note : this.notes) {
-                listNoteDto.add(note.toDto());
-            }
-            envie.setNotes(listNoteDto);
-        }
-        return envie;
-    }
-
     public Key<AppUser> getOwner() {
         return owner;
     }

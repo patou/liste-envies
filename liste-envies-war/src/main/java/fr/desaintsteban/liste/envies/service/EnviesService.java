@@ -13,6 +13,7 @@ import fr.desaintsteban.liste.envies.model.Envy;
 import fr.desaintsteban.liste.envies.model.ListEnvies;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class EnviesService {
@@ -24,16 +25,14 @@ public final class EnviesService {
         LoadResult<ListEnvies> loadResult = ofy.load().key(key); //Chargement asynchrone
         List<Envy> list = ofy.load().type(Envy.class).ancestor(key).list();
         ListEnvies listEnvies = loadResult.now();
-        if (listEnvies != null && listEnvies.containsOwner(user.getEmail())) {
-            removeUserTake(list);
-        }
+        removeUserTake(user, listEnvies, list);
         return list;
     }
 
     public static List<Envy> listAll() {
         List<Envy> list = OfyService.ofy().load().type(Envy.class).list();
         //On supprime toujours celui qui a donner le cadeaux
-        removeUserTake(list);
+        removeUserTake(null, null, list);
         return list;
     }
 
@@ -43,9 +42,7 @@ public final class EnviesService {
         LoadResult<ListEnvies> loadResult = ofy.load().key(parent); //Chargement asynchrone
         List<Envy> list = ofy.load().type(Envy.class).ancestor(parent).filter("label >=", libelle).filter("label <", libelle + "\uFFFD").list();
         ListEnvies listEnvies = loadResult.now();
-        if (listEnvies != null && listEnvies.containsOwner(user.getEmail())) {
-            removeUserTake(list);
-        }
+        removeUserTake(user, listEnvies, list);
         return list;
     }
     
@@ -82,7 +79,7 @@ public final class EnviesService {
                     Objectify ofy = OfyService.ofy();
                     Envy saved = ofy.load().key(Key.create(parent, Envy.class, itemId)).now();
                     Saver saver = ofy.save();
-                    saved.setUserTake(EncodeUtils.encode(user.getEmail()));
+                    saved.addUserTake(EncodeUtils.encode(user.getEmail()));
                     saver.entity(saved);
                 }
             });
@@ -97,11 +94,11 @@ public final class EnviesService {
             OfyService.ofy().transact(new VoidWork() {
                 @Override
                 public void vrun() {
-                    Objectify ofy = OfyService.ofy();
-                    Envy saved = ofy.load().key(Key.create(parent, Envy.class, itemId)).now();
-                    Saver saver = ofy.save();
-                    saved.addNote(user.getName(), user.getEmail(), note.getText());
-                    saver.entity(saved);
+                Objectify ofy = OfyService.ofy();
+                Envy saved = ofy.load().key(Key.create(parent, Envy.class, itemId)).now();
+                Saver saver = ofy.save();
+                saved.addNote(user.getName(), user.getEmail(), note.getText());
+                saver.entity(saved);
                 }
             });
         }
@@ -115,11 +112,11 @@ public final class EnviesService {
             OfyService.ofy().transact(new VoidWork() {
                 @Override
                 public void vrun() {
-                    Objectify ofy = OfyService.ofy();
-                    Envy saved = ofy.load().key(Key.create(parent, Envy.class, itemId)).now();
-                    Saver saver = ofy.save();
-                    saved.setUserTake(null);
-                    saver.entity(saved);
+                Objectify ofy = OfyService.ofy();
+                Envy saved = ofy.load().key(Key.create(parent, Envy.class, itemId)).now();
+                Saver saver = ofy.save();
+                saved.setUserTake(null);
+                saver.entity(saved);
                 }
             });
         }
@@ -133,26 +130,39 @@ public final class EnviesService {
             return OfyService.ofy().transact(new Work<Envy>() {
                 @Override
                 public Envy run() {
-                    Objectify ofy = OfyService.ofy();
-                    Saver saver = ofy.save();
-                    item.setList(parent);
-                    if (item.getId() != null) {
-                        Envy saved = ofy.load().key(Key.create(parent, Envy.class, item.getId())).now();
-                        item.setUserTake(saved.getUserTake());
-                        item.setNotes(saved.getNotes());
-                    }
-                    Key<Envy> key = saver.entity(item).now();
-                    return item;
+                Objectify ofy = OfyService.ofy();
+                Saver saver = ofy.save();
+                item.setList(parent);
+                if (item.getId() != null) {
+                    Envy saved = ofy.load().key(Key.create(parent, Envy.class, item.getId())).now();
+                    item.setUserTake(saved.getUserTake());
+                    item.setNotes(saved.getNotes());
+                }
+                Key<Envy> key = saver.entity(item).now();
+                return item;
                 }
             });
         }
         return null;
     }
 
-    private static void removeUserTake(List<Envy> list) {
+    private static void removeUserTake(AppUser user, ListEnvies listEnvies, List<Envy> list) {
+        List<Envy> toRemove = new ArrayList<>();
         for (Envy envy : list) {
-            envy.setUserTake(null); //Si l'utilisateur courrant est le propriétaire des envies, on efface le nom de qui lui a offert un cadeau.
-            envy.setNotes(null);
+            if (listEnvies == null  || user == null) { //Liste globale
+                envy.setUserTake(null);
+                envy.setNotes(null);
+            }
+            else {
+                if (listEnvies.containsOwner(user.getEmail())) { //Si l'utilisateur courrant est le propriétaire des envies, on efface le nom de qui lui a offert un cadeau.
+                    envy.setUserTake(null);
+                    envy.setNotes(null);
+                    if (envy.getOwner() != null && !envy.getOwner().equals(user.getEmail()) && listEnvies.containsOwner(envy.getOwner())) { // On supprime les envies ajoutés par d'autres personnes
+                        toRemove.add(envy);
+                    }
+                }
+            }
         }
+        list.removeAll(toRemove);
     }
 }

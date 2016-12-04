@@ -143,6 +143,11 @@
     color: #5f5e5e;
 }
 
+.links-editor input {
+    width: 44%;
+    display: inline-block;
+}
+
 
 .spin {
     -webkit-animation: spin .4s infinite linear;

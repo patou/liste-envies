@@ -5,6 +5,7 @@ import com.googlecode.objectify.annotation.*;
 import fr.desaintsteban.liste.envies.dto.EnvyDto;
 import fr.desaintsteban.liste.envies.dto.NoteDto;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
+import fr.desaintsteban.liste.envies.util.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.jdo.annotations.Embedded;
@@ -31,7 +32,9 @@ public class Envy {
     private String description;
 
     private String price;
-    private String url;
+    private String picture;
+    @Embedded
+    private List<Link> urls;
     @Index
     private List<String> userTake;
 
@@ -55,11 +58,16 @@ public class Envy {
         setLabel(envie.getLabel());
         setDescription(envie.getDescription());
         setPrice(envie.getPrice());
-        setUrl(envie.getUrl());
-        setUserTake(EncodeUtils.encode(envie.getUserTake()));
-
+        setPicture(envie.getPicture());
+        setUrls(envie.getUrls());
+        if (envie.getUserTake() != null) {
+            List<String> userTake = new ArrayList<>();
+            for (String email : envie.getUserTake()) {
+                userTake.add(EncodeUtils.encode(email));
+            }
+            setUserTake(userTake);
+        }
         this.notes = new ArrayList<>();
-
     }
 
     public EnvyDto toDto() {
@@ -68,9 +76,15 @@ public class Envy {
         envie.setLabel(getLabel());
         envie.setDescription(getDescription());
         envie.setPrice(getPrice());
-        envie.setUrl(getUrl());
-        envie.setUserTake(EncodeUtils.decode(getUserTake()));
-
+        envie.setPicture(getPicture());
+        envie.setUrls(getUrls());
+        List<String> userTake = new ArrayList<>();
+        if (getUserTake() != null) {
+            for (String email : getUserTake()) {
+                userTake.add(EncodeUtils.decode(email));
+            }
+        }
+        envie.setUserTake(userTake);
         if (this.notes != null && !this.notes.isEmpty()) {
             List<NoteDto> listNoteDto = new ArrayList<>();
             for (Note note : this.notes) {
@@ -129,23 +143,52 @@ public class Envy {
         this.price = price;
     }
 
-    public String getUrl() {
-        return url;
+    public String getPicture() {
+        return picture;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
-    public String getUserTake() {
-        return userTake != null && !userTake.isEmpty() ? userTake.get(0) : null;
+    public List<Link> getUrls() {
+        return urls;
     }
 
-    public void setUserTake(String userTake) {
-        if (userTake == null) {
+    public void setUrls(List<Link> urls) {
+        this.urls = urls;
+    }
+
+    public void addUrl(String url) {
+        if (this.urls == null) {
+            this.urls = new ArrayList<>();
+        }
+        if (!StringUtils.isNullOrEmpty(url)) {
+            this.urls.add(new Link(url));
+        }
+    }
+
+    public void setUserTake(List<String> userTake) {
+        this.userTake = userTake;
+    }
+
+    public List<String> getUserTake() {
+        return userTake;
+    }
+
+    public void addUserTake(String userTake) {
+        if (this.userTake == null) {
             this.userTake = new ArrayList<>();
         }
-        this.userTake.add(userTake);
+        if (!StringUtils.isNullOrEmpty(userTake)) {
+            this.userTake.add(userTake);
+        }
+    }
+
+    public void removeUserTake(String userTake) {
+        if (userTake != null) {
+            this.userTake.remove(userTake);
+        }
     }
 
     public void addNote(String owner, String email, String text) {
