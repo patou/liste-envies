@@ -9,6 +9,7 @@ import com.googlecode.objectify.Work;
 import com.googlecode.objectify.cmd.Saver;
 import fr.desaintsteban.liste.envies.model.AppUser;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -48,7 +49,7 @@ public final class AppUserService {
 		return list;
 	}
 
-	public static Map<String, AppUser> loadAll(List<String> emails) {
+	public static Map<String, AppUser> loadAll(Collection<String> emails) {
     	return OfyService.ofy().load().type(AppUser.class).ids(emails);
 	}
 

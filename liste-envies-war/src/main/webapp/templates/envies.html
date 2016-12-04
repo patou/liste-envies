@@ -109,8 +109,9 @@
                     <div title="Cadeau" class="gift pull-right">
                         <h6 ng-if="!vm.listEnvies.owner && envie.userTakeUsers"><i class="fa fa-gift"></i> Offert par {{envie.userTakeUsers}} &nbsp;&nbsp;&nbsp;
                             <button type="button" class="btn btn-danger" ng-if="envie.userTake.indexOf(main.user.email) >= 0" ng-click="vm.cancel(envie.id)">Annuler</button>
+                            <button type="button" class="btn btn-success btn3d" ng-if="envie.userTake.indexOf(main.user.email) < 0" ng-click="vm.given(envie.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b>Participer</b></button>
                         </h6>
-                        <button type="button" class="btn btn-success btn3d" ng-if="!vm.listEnvies.owner && envie.userTake.indexOf(main.user.email) < 0" ng-click="vm.given(envie.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b>   {{!envie.userTake || envie.userTake.length == 0 ? 'Offrir':'Participer'}} </b></button>
+                        <button type="button" class="btn btn-success btn3d" ng-if="!vm.listEnvies.owner && !envie.userTakeUsers" ng-click="vm.given(envie.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b>Offrir</b></button>
                     </div>
 
                     <div class="comments" >

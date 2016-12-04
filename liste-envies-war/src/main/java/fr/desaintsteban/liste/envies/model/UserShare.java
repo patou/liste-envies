@@ -8,15 +8,6 @@ import com.googlecode.objectify.annotation.Index;
 public class UserShare {
     @Index
     private String email;
-    private String name;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     private UserShareType type;
 
@@ -25,7 +16,6 @@ public class UserShare {
 
     public UserShare(String email, UserShareType type) {
         this.email = email;
-        this.name = email;
         this.type = type;
     }
 

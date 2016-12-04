@@ -49,18 +49,22 @@ public class ListEnvies {
         dto.setName(getName());
         dto.setTitle(getTitle());
         dto.setDescription(getDescription());
-
-            List<UserShare> users = getUsers();
-            List<UserShareDto> usersDto = new ArrayList<>();
-            List<UserShareDto> ownersDto = new ArrayList<>();
-            for (UserShare user : users) {
-                usersDto.add(new UserShareDto(user.getEmail(), user.getType(), userName));
+        List<UserShare> users = getUsers();
+        List<UserShareDto> usersDto = new ArrayList<>();
+        List<UserShareDto> ownersDto = new ArrayList<>();
+        for (UserShare user : users) {
+            UserShareDto userShareDto = new UserShareDto(user.getEmail(), user.getType(), userName);
+            if (user.getType() == UserShareType.OWNER) {
+                ownersDto.add(userShareDto);
             }
             if (convertUsers) {
-                dto.setUsers(usersDto);
+                usersDto.add(userShareDto);
             }
-            dto.setOwners(ownersDto);
-
+        }
+        if (convertUsers) {
+            dto.setUsers(usersDto);
+        }
+        dto.setOwners(ownersDto);
         if (userEmail != null) {
             dto.setOwner(containsOwner(userEmail));
         }
