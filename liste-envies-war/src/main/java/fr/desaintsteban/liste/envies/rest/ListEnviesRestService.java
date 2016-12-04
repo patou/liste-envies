@@ -31,7 +31,7 @@ public class ListEnviesRestService {
     public List<ListEnviesDto> getListEnvies() {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null){
-            LOGGER.info("List appuser");
+            LOGGER.info("List users");
             List<ListEnvies> list = ListEnviesService.list(user.getEmail());
             ArrayList<ListEnviesDto> convertList = new ArrayList<>();
             for (ListEnvies listeEnvy : list) {
@@ -52,7 +52,7 @@ public class ListEnviesRestService {
     public List<ListEnviesDto> getListEnvies(@PathParam("email") String email) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null){
-            LOGGER.info("List appuser");
+            LOGGER.info("List authorized liste for user: "+email);
             List<ListEnvies> list = ListEnviesService.list(email);
             ArrayList<ListEnviesDto> convertList = new ArrayList<>();
             for (ListEnvies listeEnvy : list) {
