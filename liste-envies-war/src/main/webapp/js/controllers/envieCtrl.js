@@ -6,6 +6,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     vm.listEnvies = loadListEnvies(vm.name);
 
     vm.loading = true;
+    vm.newUser = {email: '', type:'SHARED'};
     loadEnvies();
     resetForm();
 
@@ -66,14 +67,18 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
             newUser.type = 'SHARED';
         }
         if (newUser.email && newUser.email.indexOf('@') > 0) {
-            vm.listEnvies.users.push(newUser);
-            vm.newUser = {type:'SHARED'};
+            var pushUser = {};
+            pushUser.email = newUser.email;
+            pushUser.type = newUser.type;
+            vm.listEnvies.users.push(pushUser);
         }
+        newUser = {email: '', type:'SHARED'};
+        vm.newUser = newUser;
     };
 
     vm.saveListEnvies = function(listEnvies) {
-        if (vm.newEmail.email) {
-            vm.shareUser(vm.newEmail);
+        if (vm.newUser.email) {
+            vm.shareUser(vm.newUser);
         }
         listEnviesService.save(listEnvies, function(listEnvies) {
             vm.listEnvies = listEnvies;
