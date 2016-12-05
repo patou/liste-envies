@@ -1,8 +1,11 @@
 package fr.desaintsteban.liste.envies.dto;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 /**
- * Created by sfeir on 30/11/2016.
+ *
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AppUserDto {
     private String email;
 

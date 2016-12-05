@@ -1,12 +1,13 @@
 app.controller('EnvieCtrl', EnvieCtrl);
-EnvieCtrl.$inject = ['envieService', 'appUserService', '$routeParams', '$location', '$anchorScroll'];
-function EnvieCtrl(envieService, appUserService, $routeParams, $location, $anchorScroll) {
+EnvieCtrl.$inject = ['envieService', 'appUserService', 'listEnviesService', '$routeParams', '$location', '$anchorScroll'];
+function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams, $location, $anchorScroll) {
     var vm = this;
-    vm.email = $routeParams.email;
-    vm.user = loadUser(vm.email);
+    vm.name = $routeParams.name;
+    vm.listEnvies = loadListEnvies(vm.name);
 
-    vm.loading = false;
-    loadListeEnvies();
+    vm.loading = true;
+    vm.newUser = {email: '', type:'SHARED'};
+    loadEnvies();
     resetForm();
 
     vm.editEnvie = function (envie) {
@@ -16,40 +17,82 @@ function EnvieCtrl(envieService, appUserService, $routeParams, $location, $ancho
     };
 
     vm.addEnvie = function (envie) {
-        envieService.save({email:vm.email}, envie, function() {
-            loadListeEnvies();
+        if (vm.link) {
+            vm.addLink(vm.link);
+        }
+        if (!envie.id) {
+            vm.envies.push(envie);
+        }
+        envieService.save({name:vm.name}, envie, function() {
+            loadEnvies();
             gotoEnvie(envie.id);
             resetForm();
         });
     };
 
     vm.addNote = function (envie, notetext) {
-
         var note = {text: notetext.text};
-
         console.log('add Note', note, envie.id);
-
-        envieService.addNote({email:vm.email, id: envie.id}, note, function() {
-            loadListeEnvies();
+        envieService.addNote({name:vm.name, id: envie.id}, note, function() {
+            loadEnvies();
             gotoEnvie(envie.id);
             vm.text = '';
         });
     };
 
     vm.given = function(id) {
-        envieService.give({email:vm.email, id:id}, {}, function() {
-            loadListeEnvies();
+        envieService.give({name:vm.name, id:id}, {}, function() {
+            loadEnvies();
         });
     };
 
     vm.cancel = function(id) {
-        envieService.cancel({email:vm.email, id:id}, {}, function() {
-            loadListeEnvies();
+        envieService.cancel({name:vm.name, id:id}, {}, function() {
+            loadEnvies();
         });
     };
 
     vm.openComment = function(index) {
         $("#comment-"+index).collapse('toggle');
+    };
+
+    vm.removeUser = function(user) {
+        var index = vm.listEnvies.users.indexOf(user);
+        if (index >= 0)
+            vm.listEnvies.users.splice(index, 1);
+    };
+
+    vm.shareUser = function(newUser) {
+        if (!newUser.type) {
+            newUser.type = 'SHARED';
+        }
+        if (newUser.email && newUser.email.indexOf('@') > 0) {
+            var pushUser = {};
+            pushUser.email = newUser.email;
+            pushUser.type = newUser.type;
+            vm.listEnvies.users.push(pushUser);
+        }
+        newUser = {email: '', type:'SHARED'};
+        vm.newUser = newUser;
+    };
+
+    vm.saveListEnvies = function(listEnvies) {
+        if (vm.newUser.email) {
+            vm.shareUser(vm.newUser);
+        }
+        listEnviesService.save(listEnvies, function(listEnvies) {
+            vm.listEnvies = listEnvies;
+            $("#share-list").modal("hide");
+            vm.editTitle = false;
+        });
+    };
+
+    vm.addLink = function(link) {
+        if (!vm.envie.urls) {
+           vm.envie.urls = [];
+        }
+        vm.envie.urls.push(link);
+        vm.link = undefined;
     };
 
     function gotoForm() {
@@ -71,16 +114,34 @@ function EnvieCtrl(envieService, appUserService, $routeParams, $location, $ancho
     }
 
     function loadUser(email) {
-        return appUserService.get({email:email});
+        var foundUser = {email: email, name: ''};
+        angular.forEach(vm.listEnvies.users, function(user) {
+            if (user.email == email) {
+                foundUser.name = user.name;
+            }
+        });
+        return foundUser;
     }
-    function loadListeEnvies() {
-        vm.loading = true;
-        vm.listeEnvies = envieService.query({email: $routeParams.email});
-        vm.listeEnvies.$promise.then(function(list) {
+    vm.userName = function(email) {
+        return loadUser(email).name;
+    };
+    function loadListEnvies(name) {
+        return listEnviesService.get({name:name});
+    }
+    function loadEnvies() {
+        vm.envies = envieService.query({name: $routeParams.name});
+        vm.envies.$promise.then(function(list) {
             vm.loading = false;
             angular.forEach(list, function(item) {
+                if (item.owner) {
+                    item.ownerUser = loadUser(item.owner);
+                }
                 if (item.userTake) {
-                    item.userTakeUser = loadUser(item.userTake);
+                    var userTakeNames = [];
+                    angular.forEach(item.userTake, function(user) {
+                        this.push(loadUser(user).name || user)
+                    }, userTakeNames);
+                    item.userTakeUsers = userTakeNames.join(", ");
                 }
             });
         });

@@ -5,7 +5,7 @@ import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Parent;
-import fr.desaintsteban.liste.envies.dto.EnvieDto;
+import fr.desaintsteban.liste.envies.dto.EnvyDto;
 import fr.desaintsteban.liste.envies.dto.NoteDto;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -19,6 +19,7 @@ import java.util.List;
  */
 @Cache
 @Entity
+@Deprecated
 public class Envie {
 
     @Parent
@@ -47,38 +48,6 @@ public class Envie {
         this.owner = Key.create(owner);
         this.label = label;
         this.notes = new ArrayList<>();
-    }
-
-
-    public Envie(EnvieDto envie) {
-        setId(envie.getId());
-        setLabel(envie.getLabel());
-        setComment(envie.getComment());
-        setPrice(envie.getPrice());
-        setUrl(envie.getUrl());
-        setUserTake(EncodeUtils.encode(envie.getUserTake()));
-
-        this.notes = new ArrayList<>();
-
-    }
-
-    public EnvieDto toDto() {
-        EnvieDto envie = new EnvieDto();
-        envie.setId(getId());
-        envie.setLabel(getLabel());
-        envie.setComment(getComment());
-        envie.setPrice(getPrice());
-        envie.setUrl(getUrl());
-        envie.setUserTake(EncodeUtils.decode(getUserTake()));
-
-        if (this.notes != null && !this.notes.isEmpty()) {
-            List<NoteDto> listNoteDto = new ArrayList<>();
-            for (Note note : this.notes) {
-                listNoteDto.add(note.toDto());
-            }
-            envie.setNotes(listNoteDto);
-        }
-        return envie;
     }
 
     public Key<AppUser> getOwner() {

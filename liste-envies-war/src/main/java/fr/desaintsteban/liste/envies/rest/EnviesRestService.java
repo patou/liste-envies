@@ -1,19 +1,26 @@
 package fr.desaintsteban.liste.envies.rest;
 
-import fr.desaintsteban.liste.envies.dto.EnvieDto;
+import fr.desaintsteban.liste.envies.dto.EnvyDto;
 import fr.desaintsteban.liste.envies.dto.NoteDto;
 import fr.desaintsteban.liste.envies.model.AppUser;
-import fr.desaintsteban.liste.envies.model.Envie;
+import fr.desaintsteban.liste.envies.model.Envy;
 import fr.desaintsteban.liste.envies.service.EnviesService;
 import fr.desaintsteban.liste.envies.util.ServletUtils;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-@Path("/liste/{email}/envies")
+@Path("/envies/{name}")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class EnviesRestService {
@@ -21,11 +28,11 @@ public class EnviesRestService {
 
     @GET
     @Path("/{id}")
-    public EnvieDto getEnvie(@PathParam("email") String email, @PathParam("id") Long id) {
+    public EnvyDto getEnvie(@PathParam("name") String name, @PathParam("id") Long id) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null){
             LOGGER.info("Get " + id);
-            Envie envie = EnviesService.get(user, email, id);
+            Envy envie = EnviesService.get(user, name, id);
             if (envie != null)
                 return envie.toDto();
         }
@@ -34,33 +41,33 @@ public class EnviesRestService {
 
     @PUT
     @Path("/{id}/give")
-    public void give(@PathParam("email") String email, @PathParam("id") Long id) {
+    public void give(@PathParam("name") String name, @PathParam("id") Long id) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null){
             LOGGER.info("Get " + id);
-            EnviesService.given(user, email, id);
+            EnviesService.given(user, name, id);
         }
     }
 
 
     @PUT
     @Path("/{id}/cancel")
-    public void cancel(@PathParam("email") String email, @PathParam("id") Long id) {
+    public void cancel(@PathParam("name") String name, @PathParam("id") Long id) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null){
             LOGGER.info("Get " + id);
-            EnviesService.cancel(user, email, id);
+            EnviesService.cancel(user, name, id);
         }
     }
 
     @GET
-    public List<EnvieDto> getEnvie(@PathParam("email") String email) {
+    public List<EnvyDto> getEnvie(@PathParam("name") String name) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null){
             LOGGER.info("List");
-            List<Envie> list = EnviesService.list(user, email);
-            List<EnvieDto> result = new ArrayList<>(list.size());
-            for (Envie envie : list) {
+            List<Envy> list = EnviesService.list(user, name);
+            List<EnvyDto> result = new ArrayList<>(list.size());
+            for (Envy envie : list) {
                 result.add(envie.toDto());
             }
             return result;
@@ -69,41 +76,41 @@ public class EnviesRestService {
     }
 
     @POST
-    public void addEnvie(@PathParam("email") String email, EnvieDto envie) {
+    public void addEnvie(@PathParam("name") String name, EnvyDto envie) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null) {
             LOGGER.info("Put " + envie.getLabel());
-            EnviesService.createOrUpdate(user, email, new Envie(envie));
+            EnviesService.createOrUpdate(user, name, new Envy(envie));
         }
     }
 
     @POST
     @Path("/{id}/addNote")
-    public void addNote(@PathParam("email") String email, @PathParam("id") Long envieId, NoteDto note) {
+    public void addNote(@PathParam("name") String name, @PathParam("id") Long envieId, NoteDto note) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null) {
             LOGGER.info("add note from " + user.getName());
-            EnviesService.addNote(user, envieId, email, note);
+            EnviesService.addNote(user, envieId, name, note);
         }
     }
 
     @POST
     @Path("/{id}")
-    public void updateEnvie(@PathParam("email") String email, EnvieDto envie) {
+    public void updateEnvie(@PathParam("name") String name, EnvyDto envie) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null) {
             LOGGER.info("Put " + envie.getLabel());
-            EnviesService.createOrUpdate(user, email, new Envie(envie));
+            EnviesService.createOrUpdate(user, name, new Envy(envie));
         }
     }
 
     @DELETE
     @Path("/{id}")
-    public void deleteEnvie(@PathParam("email") String email, @PathParam("id") Long id){
+    public void deleteEnvie(@PathParam("name") String name, @PathParam("id") Long id){
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null){
             LOGGER.info("Delete " + id);
-            EnviesService.delete(user, email, id);
+            EnviesService.delete(user, name, id);
         }
     }
 }
