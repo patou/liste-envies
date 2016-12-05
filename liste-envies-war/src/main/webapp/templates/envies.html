@@ -59,8 +59,8 @@
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-    <div class="row row-fluid list-envie">
+    </div><!-- /.modal --><!--row row-fluid-->
+    <div class=" list-envie" masonry='{ "transitionDuration" : "0.4s" , "itemSelector" : ".envie-card", percentPosition: true }'>
         <div class="loading" ng-if="vm.loading">
             <div class='loader'>
                 <div class='loader--dot'></div>
@@ -72,9 +72,9 @@
                 <div class='loader--text'></div>
             </div>
         </div>
-        <div id="envie{{envie.id}}"  ng-repeat="envie in vm.envies" >
-            <div data-ng-show="$index % 3 == 0" class="envie-separator"></div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" >
+        <div id="envie{{envie.id}}" masonry-tile class="envie-card" ng-repeat="envie in vm.envies" >
+            <!--<div data-ng-show="$index % 3 == 0" class="envie-separator"></div>-->
+            <div >
                 <div class="panel envie-item"  ng-class="{'panel-danger':envie.userTakeUsers, 'panel-info':envie.suggest, 'panel-success':!envie.userTakeUsers}">
                     <div class="panel-heading">
                         <span class="badge pull-right">{{envie.price}}</span>
@@ -149,8 +149,8 @@
                 </div>
             </div>
         </div>
-        <div data-ng-show="$index % 3 == 0" class="envie-separator"></div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" >
+        <!--<div data-ng-show="$index % 3 == 0" class="envie-separator"></div>-->
+        <div masonry-tile class="envie-card" >
             <form id="formEdit">
                 <div class="panel envie-item"  ng-class="{'panel-danger':envie.userTake, 'panel-info':envie.suggest, 'panel-success':!envie.userTake}">
                     <div class="panel-heading">

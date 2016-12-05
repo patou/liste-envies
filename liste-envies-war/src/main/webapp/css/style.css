@@ -30,13 +30,13 @@
     clear: both;
 }
 
-.list-envie .envie-item .panel-body {
+/*.list-envie .envie-item .panel-body {
     min-height: 110px;
 }
 
 .list-envie .envie-item .bottom-envie {
     min-height: 70px;
-}
+}*/
 
 .list-envie .envie-item .bottom-envie .comments  a {
     color: black;
@@ -48,6 +48,11 @@
 
 .list-envie .envie-item .logo-envie {
     margin-top: -34px;
+}
+
+.list-envie .envie-card {
+    width: 30%;
+    margin: 0.5em;
 }
 
 /** Comentaires **/
