@@ -58,8 +58,6 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     vm.openComment = function(id) {
 
         const commentId = $("#comment-"+id);
-        commentId.collapse('toggle');
-
 
         var $element = $("#envie"+id);
 
@@ -72,19 +70,16 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
             isStamped = true;
         }
 
+        commentId.collapse('toggle').promise().done(function () {
+            $scope.masonry.layout();
+            clearInterval(intervalUpdate);
+        });
+
         // Expand
         var intervalUpdate = setInterval(function () {
             // trigger layout
             $scope.masonry.layout();
         }, 100);
-
-
-        // When collapse ended relayout mansory
-        commentId.on("shown.bs.collapse", function(){
-            $scope.masonry.layout();
-            clearInterval(intervalUpdate);
-        });
-
     };
 
     vm.removeUser = function(user) {

@@ -91,10 +91,10 @@
                 <div class='loader--text'></div>
             </div>
         </div>
-        <div id="envie{{envie.id}}" masonry-tile class="envie-card" ng-repeat="envie in vm.envies | orderBy:vm.order" >
+        <div id="envie{{envie.id}}" masonry-tile class="envie-card col-xs-12 col-sm-6 col-md-4 col-lg-4" ng-repeat="envie in vm.envies | orderBy:vm.order" >
             <!--<div data-ng-show="$index % 3 == 0" class="envie-separator"></div>-->
             <div >
-                <div class="panel envie-item"  ng-class="{'panel-danger':envie.userTakeUsers, 'panel-info':envie.suggest, 'panel-success':!envie.userTakeUsers}">
+                <div class="panel envie-item "  ng-class="{'panel-danger':envie.userTakeUsers, 'panel-info':envie.suggest, 'panel-success':!envie.userTakeUsers}">
                     <div class="panel-heading">
                         <span class="badge pull-right">{{envie.price}}</span>
                         <h1>{{envie.label}}</h1>
@@ -169,7 +169,7 @@
             </div>
         </div>
         <!--<div data-ng-show="$index % 3 == 0" class="envie-separator"></div>-->
-        <div masonry-tile class="envie-card" >
+        <div masonry-tile class="envie-card envie-card col-xs-12 col-sm-6 col-md-4 col-lg-4" >
             <form id="formEdit">
                 <div class="panel envie-item"  ng-class="{'panel-danger':envie.userTake, 'panel-info':envie.suggest, 'panel-success':!envie.userTake}">
                     <div class="panel-heading">
