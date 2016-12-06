@@ -134,10 +134,10 @@
                         </div>
 
                         <div class="comments" >
-                            <a class="btn btn-link" role="button" aria-expanded="false" aria-controls="collapseExample" ng-click="vm.openComment($index)">
+                            <a class="btn btn-link" role="button" aria-expanded="false" aria-controls="collapseExample" ng-click="vm.openComment(envie.id)">
                                 <i class="fa fa-comments"></i> Commmentaires ({{envie.notes.length || 0}})
                             </a>
-                            <div class="collapse" id="comment-{{$index}}">
+                            <div class="collapse" id="comment-{{envie.id}}">
                                 <div class="chat">
                                     <div class="chat-history">
                                         <ul class="chat-ul">

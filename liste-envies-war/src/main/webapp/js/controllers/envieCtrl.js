@@ -22,6 +22,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         }
         if (!envie.id) {
             vm.envies.push(envie);
+            $scope.masonry.update();
         }
         envieService.save({name:vm.name}, envie, function() {
             loadEnvies();
@@ -52,8 +53,38 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         });
     };
 
-    vm.openComment = function(index) {
-        $("#comment-"+index).collapse('toggle');
+    isStamped = false;
+
+    vm.openComment = function(id) {
+
+        const commentId = $("#comment-"+id);
+        commentId.collapse('toggle');
+
+
+        var $element = $("#envie"+id);
+
+        // stamp or unstamp element to rest in place.
+        if ( $scope.masonry.stamps.indexOf($element) ) {
+            $scope.masonry.unstamp( $element );
+            isStamped = false;
+        } else {
+            $scope.masonry.stamp( $element );
+            isStamped = true;
+        }
+
+        // Expand
+        var intervalUpdate = setInterval(function () {
+            // trigger layout
+            $scope.masonry.layout();
+        }, 100);
+
+
+        // When collapse ended relayout mansory
+        commentId.on("shown.bs.collapse", function(){
+            $scope.masonry.layout();
+            clearInterval(intervalUpdate);
+        });
+
     };
 
     vm.removeUser = function(user) {
@@ -99,7 +130,6 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         vm.order = (vm.order == property)? '-'+property : property;
         console.log('Sort List : ', vm.order, elemt);
         elemt.update();
-        //$scope.$emit('masonry.layout');
     }
 
     function gotoForm() {
