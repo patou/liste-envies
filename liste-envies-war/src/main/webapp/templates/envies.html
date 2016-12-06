@@ -60,7 +60,26 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal --><!--row row-fluid-->
-    <div class=" list-envie" masonry='{ "transitionDuration" : "0.4s" , "itemSelector" : ".envie-card", percentPosition: true }'>
+
+    <div>
+        <!--<div class="btn-group" opt-kind="" ok-key="filter">
+            <button type="button" class="btn btn-default active" ng-model="vm.filter.$">Show All</button>
+            <button type="button" class="btn btn-warning" ok-sel=".panel-warning">Offerts</button>
+            <button type="button" class="btn btn-success" ok-sel=".panel-success">A offrir</button>
+            <button type="button" class="btn btn-info" ok-sel=".panel-info">Suggestion</button>
+            <button type="button" class="btn btn-sucess ok-sel=":not(.panel-warning)">Non Offert</button>
+        </div>-->
+        <label>Trie</label>
+        <div class="btn-group" opt-kind="" ok-key="sortBy">
+            <button type="button" class="btn btn-default" ng-click="vm.sortList('label', this);">Label</button>
+            <button type="button" class="btn btn-default" ng-click="vm.sortList('price', this);">Prix</button>
+            <button type="button" class="btn btn-default" ng-click="vm.sortList('userTakeUsers', this);">Offert</button>
+            <button type="button" class="btn btn-default" ng-click="vm.sortList('notes.length', this);">Commentaires</button>
+            <!--<button type="button" class="btn btn-default" ok-sel="[date]" ok-type="integer">Date</button>-->
+        </div>
+    </div>
+
+    <div class=" list-envie" masonry='{ "transitionDuration" : "0.4s" , "itemSelector" : ".envie-card", "percentPosition": "true" }'>
         <div class="loading" ng-if="vm.loading">
             <div class='loader'>
                 <div class='loader--dot'></div>
@@ -72,7 +91,7 @@
                 <div class='loader--text'></div>
             </div>
         </div>
-        <div id="envie{{envie.id}}" masonry-tile class="envie-card" ng-repeat="envie in vm.envies" >
+        <div id="envie{{envie.id}}" masonry-tile class="envie-card" ng-repeat="envie in vm.envies | orderBy:vm.order" >
             <!--<div data-ng-show="$index % 3 == 0" class="envie-separator"></div>-->
             <div >
                 <div class="panel envie-item"  ng-class="{'panel-danger':envie.userTakeUsers, 'panel-info':envie.suggest, 'panel-success':!envie.userTakeUsers}">

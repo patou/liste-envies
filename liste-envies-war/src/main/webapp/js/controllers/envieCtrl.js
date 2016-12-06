@@ -1,6 +1,6 @@
 app.controller('EnvieCtrl', EnvieCtrl);
-EnvieCtrl.$inject = ['envieService', 'appUserService', 'listEnviesService', '$routeParams', '$location', '$anchorScroll'];
-function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams, $location, $anchorScroll) {
+EnvieCtrl.$inject = ['envieService', 'appUserService', 'listEnviesService', '$routeParams', '$location', '$anchorScroll', '$scope'];
+function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams, $location, $anchorScroll, $scope) {
     var vm = this;
     vm.name = $routeParams.name;
     vm.listEnvies = loadListEnvies(vm.name);
@@ -95,6 +95,13 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         vm.link = undefined;
     };
 
+    vm.sortList = function(property, elemt) {
+        vm.order = (vm.order == property)? '-'+property : property;
+        console.log('Sort List : ', vm.order, elemt);
+        elemt.update();
+        //$scope.$emit('masonry.layout');
+    }
+
     function gotoForm() {
         // call $anchorScroll()
         $anchorScroll('formEdit');
@@ -143,6 +150,9 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
                     }, userTakeNames);
                     item.userTakeUsers = userTakeNames.join(", ");
                 }
+
+                $scope.$emit('masonry.layout');
+                $scope.update();
             });
         });
     }
