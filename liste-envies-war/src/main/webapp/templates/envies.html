@@ -60,26 +60,26 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal --><!--row row-fluid-->
-
-    <div>
-        <!--<div class="btn-group" opt-kind="" ok-key="filter">
-            <button type="button" class="btn btn-default active" ng-model="vm.filter.$">Show All</button>
-            <button type="button" class="btn btn-warning" ok-sel=".panel-warning">Offerts</button>
-            <button type="button" class="btn btn-success" ok-sel=".panel-success">A offrir</button>
-            <button type="button" class="btn btn-info" ok-sel=".panel-info">Suggestion</button>
-            <button type="button" class="btn btn-sucess ok-sel=":not(.panel-warning)">Non Offert</button>
-        </div>-->
-        <label>Trie</label>
-        <div class="btn-group" opt-kind="" ok-key="sortBy">
-            <button type="button" class="btn btn-default" ng-click="vm.sortList('label', this);">Label</button>
-            <button type="button" class="btn btn-default" ng-click="vm.sortList('price', this);">Prix</button>
-            <button type="button" class="btn btn-default" ng-click="vm.sortList('userTakeUsers', this);">Offert</button>
-            <button type="button" class="btn btn-default" ng-click="vm.sortList('notes.length', this);">Commentaires</button>
-            <!--<button type="button" class="btn btn-default" ok-sel="[date]" ok-type="integer">Date</button>-->
+    <div class="order-filter">
+        <div class="filter">
+            <div class="btn-group" opt-kind="" ok-key="filter">
+                <button type="button" class="btn" ng-class="filter.class" ng-click="vm.filterList(filter.expression, this);" ng-repeat="filter in vm.filterProperties">
+                    {{filter.label}}
+                </button>
+            </div>
+        </div>
+        <div class="order">
+            <label>Trie</label>
+            <div class="btn-group order-btn " opt-kind="" ok-key="sortBy">
+                <button type="button" class="btn btn-link" ng-class="{dropup:vm.order == order.property}" ng-click="vm.sortList(order.property, this);" ng-repeat="order in vm.orderProperties">
+                    {{order.label}}
+                    <span ng-class="{caret:vm.order == order.property || vm.order == '-'+order.property}"></span>
+                </button>
+            </div>
         </div>
     </div>
 
-    <div class=" list-envie" masonry='{ "transitionDuration" : "0.4s" , "itemSelector" : ".envie-card", "percentPosition": "true" }'>
+    <div class="row list-envie" masonry='{ "transitionDuration" : "0.4s" , "itemSelector" : ".envie-card", "percentPosition": "true" }'>
         <div class="loading" ng-if="vm.loading">
             <div class='loader'>
                 <div class='loader--dot'></div>
@@ -91,11 +91,12 @@
                 <div class='loader--text'></div>
             </div>
         </div>
-        <div id="envie{{envie.id}}" masonry-tile class="envie-card col-xs-12 col-sm-6 col-md-4 col-lg-4" ng-repeat="envie in vm.envies | orderBy:vm.order" >
+        <div id="envie{{envie.id}}" masonry-tile class="envie-card col-xs-12 col-sm-6 col-md-4 col-lg-4" ng-repeat="envie in vm.envies | filter:vm.filter | orderBy:vm.order" >
             <!--<div data-ng-show="$index % 3 == 0" class="envie-separator"></div>-->
             <div >
                 <div class="panel envie-item "  ng-class="{'panel-danger':envie.userTakeUsers, 'panel-info':envie.suggest, 'panel-success':!envie.userTakeUsers}">
                     <div class="panel-heading">
+                        <span class="text-muted pull-left" am-time-ago="envie.date"></span>
                         <span class="badge pull-right">{{envie.price}}</span>
                         <h1>{{envie.label}}</h1>
                         <p><i class="fa fa-smile-o fa-lg"></i> 

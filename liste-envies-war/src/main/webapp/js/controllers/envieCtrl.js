@@ -1,12 +1,14 @@
 app.controller('EnvieCtrl', EnvieCtrl);
-EnvieCtrl.$inject = ['envieService', 'appUserService', 'listEnviesService', '$routeParams', '$location', '$anchorScroll', '$scope'];
-function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams, $location, $anchorScroll, $scope) {
+EnvieCtrl.$inject = ['envieService', 'appUserService', 'listEnviesService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse'];
+function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams, $location, $anchorScroll, $scope, $parse) {
     var vm = this;
     vm.name = $routeParams.name;
     vm.listEnvies = loadListEnvies(vm.name);
 
     vm.loading = true;
     vm.newUser = {email: '', type:'SHARED'};
+    vm.orderProperties = [{property:'label', label:'Titre'},{property:'date', label:'Date'},{property:'price', label:'Prix'},{property:'userTakeUsers', label:'Offert'},{property:'notes.length', label:'Commentaires'}];
+    vm.filterProperties = [{expression:'true', label:'Toutes', class:'btn-default'},{expression:'userTake.length > 0', label:'Offerts', class:'btn-warning'},{expression:'userTake.length == 0', label:'A offrir', class:'btn-success'},{expression:'suggest == true', label:'Suggestion', class:'btn-info'}];
     loadEnvies();
     resetForm();
 
@@ -125,7 +127,16 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         vm.order = (vm.order == property)? '-'+property : property;
         console.log('Sort List : ', vm.order, elemt);
         elemt.update();
-    }
+    };
+
+    vm.filterList = function(expr) {
+        var expression = $parse(expr)
+        vm.filter = function(value) {
+            return expression(value);
+        };
+        console.log('Filter List : ', vm.order, elemt);
+        elemt.update();
+    };
 
     function gotoForm() {
         // call $anchorScroll()

@@ -14,6 +14,7 @@ import fr.desaintsteban.liste.envies.model.ListEnvies;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public final class EnviesService {
@@ -143,6 +144,7 @@ public final class EnviesService {
                     item.setOwner(user.getEmail());
                 }
                 item.setSuggest(!listEnvies.containsOwner(item.getOwner()));
+                item.setDate(new Date());
                 Key<Envy> key = saver.entity(item).now();
                 return item;
                 }

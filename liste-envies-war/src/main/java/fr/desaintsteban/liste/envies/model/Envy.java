@@ -10,6 +10,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.jdo.annotations.Embedded;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,6 +38,7 @@ public class Envy {
 
     private String price;
     private String picture;
+    private Date date;
     @Embedded
     private List<Link> urls;
     @Index
@@ -65,6 +67,7 @@ public class Envy {
         setDescription(envie.getDescription());
         setPrice(envie.getPrice());
         setPicture(envie.getPicture());
+        setDate(envie.getDate());
         setUrls(envie.getUrls());
         if (envie.getUserTake() != null) {
             List<String> userTake = new ArrayList<>();
@@ -85,6 +88,7 @@ public class Envy {
         envie.setDescription(getDescription());
         envie.setPrice(getPrice());
         envie.setPicture(getPicture());
+        envie.setDate(getDate());
         envie.setUrls(getUrls());
         List<String> userTake = new ArrayList<>();
         if (getUserTake() != null) {
@@ -165,6 +169,14 @@ public class Envy {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public List<Link> getUrls() {

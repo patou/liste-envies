@@ -22,6 +22,15 @@
     padding: 0;
 }
 
+.order-filter {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+.order-btn .btn:active, .order-btn .btn:focus {
+    outline: none;
+}
+
 .list-envie .envie-item:hover .edit-button {
     display: block !important;
 }
