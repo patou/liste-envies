@@ -29,14 +29,17 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         },
         height: 200
     };
-    vm.orderProperties = [{property:'label', label:'Titre'},
-        {property:'date', label:'Date'},{property:'price', label:'Prix'},
-        {property:'-userTakeUsers', label:'Offert'},
-        {property:'notes', label:'Commentaires'}];
+    vm.orderProperties = [{property:'label', label:'Titre', reverse: false, selected: false},
+        {property:'date', label:'Date', reverse: true, selected: true},
+        {property:'price', label:'Prix', reverse: false, selected: false},
+        {property:'userTakeUsers', label:'Offert', reverse: true, selected: false},
+        {property:function (value) {
+            return (value.notes)? value.notes.length : -1;
+        }, label:'Commentaires', reverse: true, selected: false}];
 
-    vm.orderPropertiesOwners = [{property:'label', label:'Titre'},
-        {property:'date', label:'Date'},
-        {property:'price', label:'Prix'}];
+    vm.orderPropertiesOwners = [{property:'label', label:'Titre', reverse: false, selected: false},
+        {property:'date', label:'Date', reverse: true, selected: false},
+        {property:'price', label:'Prix', reverse: false, selected: false}];
 
     vm.filterProperties = [{expression:'true', label:'Toutes', class:'btn-primary'},
         {expression:'userTake.length > 0', label:'Offerts', class:'btn-warning'},
@@ -103,6 +106,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
             loadEnvies();
         });
     };
+
 
     vm.cancel = function(id) {
         envieService.cancel({name:vm.name, id:id}, {}, function() {
@@ -178,12 +182,25 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         vm.link = undefined;
     };
 
-    vm.sortList = function(property) {
-        var reversePropertie = (property.indexOf('-'))? property.replace('-', '') : '-'+property;
-        vm.order = (vm.order == property)? reversePropertie : property;
+    vm.selectedItems = null;
+
+    vm.sortList = function(order) {
+
+        vm.order = order.property;
+        vm.reverse = order.reverse;
+
+        order.reverse = !order.reverse;
+        order.selected = true;
+
+        if (vm.selectedItems)  vm.selectedItems.selected = false;
+
+        vm.selectedItems = order;
 
         $scope.update();
     };
+
+
+
 
     vm.filterList = function(expr) {
         var expression = $parse(expr)

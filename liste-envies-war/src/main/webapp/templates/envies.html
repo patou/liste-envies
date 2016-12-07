@@ -115,15 +115,15 @@
                     <label class="control-label">Trier</label><br/>
                     <div class="btn-group order-btn " data-toggle="buttons">
                         <!-- Shared -->
-                        <button ng-if="!vm.listEnvies.owner" type="button" class="btn btn-link" ng-class="{dropup:vm.order == order.property}" ng-click="vm.sortList(order.property);" ng-repeat="order in vm.orderProperties">
+                        <button ng-if="!vm.listEnvies.owner" type="button" class="btn btn-link" ng-class="{dropup:order.reverse}" ng-click="vm.sortList(order);" ng-repeat="order in vm.orderProperties">
                             {{order.label}}
-                            <span ng-class="{caret:vm.order == order.property || vm.order == '-'+order.property}"></span>
+                            <span ng-class="{caret:vm.selectedItems == order}"></span>
                         </button>
 
                         <!-- Owners -->
-                        <button ng-if="vm.listEnvies.owner" type="button" class="btn btn-link" ng-class="{dropup:vm.order == order.property}" ng-click="vm.sortList(order.property);" ng-repeat="order in vm.orderPropertiesOwners">
+                        <button ng-if="vm.listEnvies.owner" type="button" class="btn btn-link" ng-class="{dropup:order.reverse}" ng-click="vm.sortList(order);" ng-repeat="order in vm.orderPropertiesOwners">
                             {{order.label}}
-                            <span ng-class="{caret:vm.order == order.property || vm.order == '-'+order.property}"></span>
+                            <span ng-class="{caret:vm.selectedItems == order}"></span>
                         </button>
                     </div>
                 </div>
@@ -142,7 +142,7 @@
                 <div class='loader--text'></div>
             </div>
         </div>
-        <div id="envie{{envie.id}}" masonry-tile class="envie-card col-xs-12 col-sm-6 col-md-4 col-lg-4" ng-repeat="envie in vm.envies | filter:vm.filter | filter:vm.search | orderBy:vm.order" >
+        <div id="envie{{envie.id}}" masonry-tile class="envie-card col-xs-12 col-sm-6 col-md-4 col-lg-4" ng-repeat="envie in vm.envies | filter:vm.filter | filter:vm.search | orderBy:vm.order:vm.reverse" >
             <!--<div data-ng-show="$index % 3 == 0" class="envie-separator"></div>-->
             <div >
                 <div class="panel envie-item "  ng-class="{'panel-warning':envie.userTakeUsers, 'panel-info':envie.suggest, 'panel-success':!envie.userTakeUsers}">
