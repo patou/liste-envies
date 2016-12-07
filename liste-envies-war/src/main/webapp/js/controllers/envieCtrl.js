@@ -32,18 +32,18 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     vm.orderProperties = [{property:'label', label:'Titre'},
         {property:'date', label:'Date'},{property:'price', label:'Prix'},
         {property:'-userTakeUsers', label:'Offert'},
-        {property:'-notes.length', label:'Commentaires'}];
+        {property:'notes', label:'Commentaires'}];
 
     vm.orderPropertiesOwners = [{property:'label', label:'Titre'},
         {property:'date', label:'Date'},
         {property:'price', label:'Prix'}];
 
-    vm.filterProperties = [{expression:'true', label:'Toutes', class:'btn-default'},
+    vm.filterProperties = [{expression:'true', label:'Toutes', class:'btn-primary'},
         {expression:'userTake.length > 0', label:'Offerts', class:'btn-warning'},
         {expression:'userTake.length == 0', label:'A offrir', class:'btn-success'},
         {expression:'suggest == true', label:'Suggestion', class:'btn-info'},
-        {expression:'notes.length > 0', label:'Commentaires', class:'btn-warning'}];
-    vm.filterPropertiesOwners = [{expression:'true', label:'Toutes', class:'btn-default'},
+        {expression:'notes.length > 0', label:'Commentaires', class:'btn-default'}];
+    vm.filterPropertiesOwners = [{expression:'true', label:'Toutes', class:'btn-primary'},
         {expression:'description == null', label:'Sans description', class:'btn-default'},
         {expression:'price == null', label:'Sans prix', class:'btn-default'},
         {expression:'picture == null', label:'Sans images', class:'btn-default'},

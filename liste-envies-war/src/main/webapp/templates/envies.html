@@ -145,7 +145,7 @@
         <div id="envie{{envie.id}}" masonry-tile class="envie-card col-xs-12 col-sm-6 col-md-4 col-lg-4" ng-repeat="envie in vm.envies | filter:vm.filter | filter:vm.search | orderBy:vm.order" >
             <!--<div data-ng-show="$index % 3 == 0" class="envie-separator"></div>-->
             <div >
-                <div class="panel envie-item "  ng-class="{'panel-danger':envie.userTakeUsers, 'panel-info':envie.suggest, 'panel-success':!envie.userTakeUsers}">
+                <div class="panel envie-item "  ng-class="{'panel-warning':envie.userTakeUsers, 'panel-info':envie.suggest, 'panel-success':!envie.userTakeUsers}">
                     <div class="panel-heading">
                         <span class="text-muted pull-left" am-time-ago="envie.date"></span>
                         <span class="badge pull-right">{{envie.price}}</span>
