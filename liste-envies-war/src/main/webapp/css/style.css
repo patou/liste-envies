@@ -23,12 +23,16 @@
 }
 
 .order-filter {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
+    /*display: flex;
+    justify-content: space-between;*/
+    margin-bottom: 15px;
 }
 .order-btn .btn:active, .order-btn .btn:focus {
     outline: none;
+}
+
+.order-filter .form-group {
+    margin-bottom: 0;
 }
 
 .list-envie .envie-item:hover .edit-button {
@@ -62,6 +66,15 @@
 .list-envie .envie-card {
 
 
+}
+
+.order-filter .has-feedback label~.form-control-feedback {
+    top: 33px;
+}
+
+.order-filter span.fa.fa-search.form-control-feedback {
+    top: 10px;
+    right: 34px;
 }
 
 /** Comentaires **/

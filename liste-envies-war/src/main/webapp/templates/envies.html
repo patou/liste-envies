@@ -62,22 +62,58 @@
     </div><!-- /.modal --><!--row row-fluid-->
     <p ng-bind-html="vm.listEnvies.description" ng-if="!vm.listEnvies.owner"></p>
     <summernote airMode ng-model="vm.listEnvies.description" ng-if="vm.listEnvies.owner" config="vm.editorOptions" ng-change="vm.saveListEnvies(vm.listEnvies);" ng-model-options="{ updateOn: 'default', debounce: 5000 }" lang="fr-FR"></summernote>
-    <div class="order-filter">
-        <div class="filter">
-            <div class="btn-group" opt-kind="" ok-key="filter">
-                <button type="button" class="btn" ng-class="filter.class" ng-click="vm.filterList(filter.expression, this);" ng-repeat="filter in vm.filterProperties">
+
+    <div class="order-filter row row-fluid well well-sm">
+        <div class="filter col-xs-12 col-md-4">
+            <div class="form-group">
+                <label class="control-label">Filtrer</label><br/>
+                <div class="btn-group">
+
+                <!-- for shared -->
+                <button ng-if="!vm.listEnvies.owner" type="button" class="btn" ng-class="filter.class" ng-click="vm.filterList(filter.expression);" ng-repeat="filter in vm.filterProperties">
+                    {{filter.label}}
+                </button>
+
+                <!-- for owners -->
+                <button ng-if="vm.listEnvies.owner" type="button" class="btn" ng-class="filter.class" ng-click="vm.filterList(filter.expression);" ng-repeat="filter in vm.filterPropertiesOwners">
                     {{filter.label}}
                 </button>
             </div>
-        </div>
-        <div class="order">
-            <label>Trie</label>
-            <div class="btn-group order-btn " opt-kind="" ok-key="sortBy">
-                <button type="button" class="btn btn-link" ng-class="{dropup:vm.order == order.property}" ng-click="vm.sortList(order.property, this);" ng-repeat="order in vm.orderProperties">
-                    {{order.label}}
-                    <span ng-class="{caret:vm.order == order.property || vm.order == '-'+order.property}"></span>
-                </button>
             </div>
+        </div>
+        <div class="search col-xs-12 col-md-4">
+            <div class="form-group has-feedback">
+                <label class="control-label" for="searchEnvieFilter">Rechercher</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="searchEnvieFilter" ng-change="vm.searchList(vm.search);" ng-model="vm.search">
+                    <span class="fa fa-search form-control-feedback" aria-hidden="true"></span>
+                    <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" ng-click="vm.search = ''; vm.searchList('');"><i class="fa fa-close" ></i></button>
+                  </span>
+                </div>
+
+            </div>
+
+
+        </div>
+        <div class="order  col-xs-12 col-md-4">
+
+                <div class="form-group">
+                    <label class="control-label">Trier</label><br/>
+                    <div class="btn-group order-btn ">
+                        <!-- Shared -->
+                        <button ng-if="!vm.listEnvies.owner" type="button" class="btn btn-link" ng-class="{dropup:vm.order == order.property}" ng-click="vm.sortList(order.property);" ng-repeat="order in vm.orderProperties">
+                            {{order.label}}
+                            <span ng-class="{caret:vm.order == order.property || vm.order == '-'+order.property}"></span>
+                        </button>
+
+                        <!-- Owners -->
+                        <button ng-if="vm.listEnvies.owner" type="button" class="btn btn-link" ng-class="{dropup:vm.order == order.property}" ng-click="vm.sortList(order.property);" ng-repeat="order in vm.orderPropertiesOwners">
+                            {{order.label}}
+                            <span ng-class="{caret:vm.order == order.property || vm.order == '-'+order.property}"></span>
+                        </button>
+                    </div>
+                </div>
         </div>
     </div>
 
@@ -174,7 +210,7 @@
         <!--<div data-ng-show="$index % 3 == 0" class="envie-separator"></div>-->
         <div masonry-tile class="envie-card envie-card col-xs-12 col-sm-6 col-md-4 col-lg-4" >
             <form id="formEdit">
-                <div class="panel envie-item"  ng-class="{'panel-danger':envie.userTake, 'panel-info':envie.suggest, 'panel-success':!envie.userTake}">
+                <div class="panel envie-item"  ng-class="{'panel-info':!vm.listEnvies.owner, 'panel-success':vm.listEnvies.owner}">
                     <div class="panel-heading">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Titre</label>

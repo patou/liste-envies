@@ -29,8 +29,25 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         },
         height: 200
     };
-    vm.orderProperties = [{property:'label', label:'Titre'},{property:'date', label:'Date'},{property:'price', label:'Prix'},{property:'userTakeUsers', label:'Offert'},{property:'notes.length', label:'Commentaires'}];
-    vm.filterProperties = [{expression:'true', label:'Toutes', class:'btn-default'},{expression:'userTake.length > 0', label:'Offerts', class:'btn-warning'},{expression:'userTake.length == 0', label:'A offrir', class:'btn-success'},{expression:'suggest == true', label:'Suggestion', class:'btn-info'}];
+    vm.orderProperties = [{property:'label', label:'Titre'},
+        {property:'date', label:'Date'},{property:'price', label:'Prix'},
+        {property:'-userTakeUsers', label:'Offert'},
+        {property:'-notes.length', label:'Commentaires'}];
+
+    vm.orderPropertiesOwners = [{property:'label', label:'Titre'},
+        {property:'date', label:'Date'},
+        {property:'price', label:'Prix'}];
+
+    vm.filterProperties = [{expression:'true', label:'Toutes', class:'btn-default'},
+        {expression:'userTake.length > 0', label:'Offerts', class:'btn-warning'},
+        {expression:'userTake.length == 0', label:'A offrir', class:'btn-success'},
+        {expression:'suggest == true', label:'Suggestion', class:'btn-info'},
+        {expression:'notes.length > 0', label:'Commentaires', class:'btn-warning'}];
+    vm.filterPropertiesOwners = [{expression:'true', label:'Toutes', class:'btn-default'},
+        {expression:'description == null', label:'Sans description', class:'btn-default'},
+        {expression:'price == null', label:'Sans prix', class:'btn-default'},
+        {expression:'picture == null', label:'Sans images', class:'btn-default'},
+        {expression:'urls == null', label:'Sans liens', class:'btn-default'}];
     loadEnvies();
     resetForm();
 
@@ -145,10 +162,11 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         vm.link = undefined;
     };
 
-    vm.sortList = function(property, elemt) {
-        vm.order = (vm.order == property)? '-'+property : property;
-        console.log('Sort List : ', vm.order, elemt);
-        elemt.update();
+    vm.sortList = function(property) {
+        var reversePropertie = (property.indexOf('-'))? property.replace('-', '') : '-'+property;
+        vm.order = (vm.order == property)? reversePropertie : property;
+
+        $scope.update();
     };
 
     vm.filterList = function(expr) {
@@ -156,8 +174,20 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         vm.filter = function(value) {
             return expression(value);
         };
-        console.log('Filter List : ', vm.order, elemt);
-        elemt.update();
+        $scope.update();
+    };
+
+    vm.searchList = function(search) {
+        var expression;
+        if (search == '') {
+            expression = function () {
+                return true;
+            };
+        } else {
+            expression = {$: search};
+        }
+        vm.filter = expression;
+        $scope.update();
     };
 
     function gotoForm() {
