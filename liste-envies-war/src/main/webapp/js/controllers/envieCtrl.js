@@ -63,7 +63,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         }
         if (!envie.id) {
             vm.envies.push(envie);
-            $scope.masonry.update();
+            $scope.update();
         }
         envieService.save({name:vm.name}, envie, function() {
             loadEnvies();
