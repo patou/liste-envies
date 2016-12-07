@@ -67,7 +67,7 @@
         <div class="filter col-xs-12 col-md-4">
             <div class="form-group">
                 <label class="control-label">Filtrer</label><br/>
-                <div class="btn-group">
+                <div class="btn-group" data-toggle="buttons">
 
                 <!-- for shared -->
                 <button ng-if="!vm.listEnvies.owner" type="button" class="btn" ng-class="filter.class" ng-click="vm.filterList(filter.expression);" ng-repeat="filter in vm.filterProperties">
@@ -78,6 +78,19 @@
                 <button ng-if="vm.listEnvies.owner" type="button" class="btn" ng-class="filter.class" ng-click="vm.filterList(filter.expression);" ng-repeat="filter in vm.filterPropertiesOwners">
                     {{filter.label}}
                 </button>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Prix <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="price in vm.filtersPriceList" role="{{price.role}}" class="{{price.class}}">
+                            <a ng-if="price.role == 'filter'" ng-click="vm.filterPrice(price.min, price.max)">{{price.label}}</a>
+                        </li>
+                    </ul>
+                </div>
+
+
             </div>
             </div>
         </div>
@@ -85,10 +98,10 @@
             <div class="form-group has-feedback">
                 <label class="control-label" for="searchEnvieFilter">Rechercher</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" id="searchEnvieFilter" ng-change="vm.searchList(vm.search);" ng-model="vm.search">
+                    <input type="text" class="form-control" id="searchEnvieFilter" ng-change="vm.searchList();" ng-model="vm.search">
                     <span class="fa fa-search form-control-feedback" aria-hidden="true"></span>
                     <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" ng-click="vm.search = ''; vm.searchList('');"><i class="fa fa-close" ></i></button>
+                    <button class="btn btn-default" type="button" ng-click="vm.searchList(true);"><i class="fa fa-close" ></i></button>
                   </span>
                 </div>
 
@@ -100,7 +113,7 @@
 
                 <div class="form-group">
                     <label class="control-label">Trier</label><br/>
-                    <div class="btn-group order-btn ">
+                    <div class="btn-group order-btn " data-toggle="buttons">
                         <!-- Shared -->
                         <button ng-if="!vm.listEnvies.owner" type="button" class="btn btn-link" ng-class="{dropup:vm.order == order.property}" ng-click="vm.sortList(order.property);" ng-repeat="order in vm.orderProperties">
                             {{order.label}}
@@ -129,7 +142,7 @@
                 <div class='loader--text'></div>
             </div>
         </div>
-        <div id="envie{{envie.id}}" masonry-tile class="envie-card col-xs-12 col-sm-6 col-md-4 col-lg-4" ng-repeat="envie in vm.envies | filter:vm.filter | orderBy:vm.order" >
+        <div id="envie{{envie.id}}" masonry-tile class="envie-card col-xs-12 col-sm-6 col-md-4 col-lg-4" ng-repeat="envie in vm.envies | filter:vm.filter | filter:vm.search | orderBy:vm.order" >
             <!--<div data-ng-show="$index % 3 == 0" class="envie-separator"></div>-->
             <div >
                 <div class="panel envie-item "  ng-class="{'panel-danger':envie.userTakeUsers, 'panel-info':envie.suggest, 'panel-success':!envie.userTakeUsers}">

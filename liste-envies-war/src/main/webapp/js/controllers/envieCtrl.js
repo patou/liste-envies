@@ -48,6 +48,22 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         {expression:'price == null', label:'Sans prix', class:'btn-default'},
         {expression:'picture == null', label:'Sans images', class:'btn-default'},
         {expression:'urls == null', label:'Sans liens', class:'btn-default'}];
+
+    vm.filtersPriceList = [
+        {role: "filter", min:0, max: 30, label:'Moins de 30 €', class:''},
+        {role: "filter", min:0, max: 50, label:'Moins de 50 €', class:''},
+        {role: "filter", min:0, max: 100, label:'Moins de 100 €', class:''},
+        {role: "filter", min:0, max: 200, label:'Moins de 200 €', class:''},
+        {role: "separator", class:"divider"},
+        {role: "filter", min:30, max: 50, label:'entre 30 et 50 €', class:''},
+        {role: "filter", min:50, max: 100, label:'entre 50 et 100 €', class:''},
+        {role: "filter", min:100, max: 200, label:'entre 100 et 200 €', class:''},
+        {role: "separator", class:"divider"},
+        {role: "filter", min:30, max: null, label:'Plus de 30 €', class:''},
+        {role: "filter", min:50, max: null, label:'Plus de 50 €', class:''},
+        {role: "filter", min:100, max: null, label:'Plus de 100 €', class:''},
+        {role: "filter", min:200, max: null, label:'Plus de 200 €', class:''},
+       ];
     loadEnvies();
     resetForm();
 
@@ -177,18 +193,43 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         $scope.update();
     };
 
-    vm.searchList = function(search) {
-        var expression;
-        if (search == '') {
-            expression = function () {
-                return true;
-            };
-        } else {
-            expression = {$: search};
+    vm.searchList = function(reset) {
+        if (reset) {
+            vm.search = '';
         }
-        vm.filter = expression;
         $scope.update();
     };
+
+    function parseSentenceForNumber(sentence){
+        var matches = sentence.replace(/,/g, '').match(/(\+|-)?((\d+(\.\d+)?)|(\.\d+))/);
+        return matches && matches[0] || null;
+    }
+    vm.filterPrice = function(min, max) {
+
+        vm.filter = function(value) {
+            var price = value.price;
+            if (!price) return false;
+
+            var matches = price.replace(',', '.').replace(' ', '').match(/(\d+\.?\d+|\.\d+)/g);
+
+            if (!matches) return false;
+
+            return matches.some(function (value) {
+                if (value >= min && value <= max) {
+                    return true;
+                } else if (max == null && value >= min) {
+                    return true;
+                }
+                return false;
+            });
+
+            return false;
+        };
+
+        $scope.update();
+    };
+
+
 
     function gotoForm() {
         // call $anchorScroll()
