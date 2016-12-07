@@ -4,9 +4,31 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     var vm = this;
     vm.name = $routeParams.name;
     vm.listEnvies = loadListEnvies(vm.name);
-
     vm.loading = true;
     vm.newUser = {email: '', type:'SHARED'};
+    vm.editorOptions = {
+        disableDragAndDrop: true,
+        placeholder: "Ajouter une description",
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear', 'color', 'fontsize']],
+            ['para', ['ul', 'ol', 'paragraph']]
+        ],
+        popover: {
+            image: [
+                ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
+                ['float', ['floatLeft', 'floatRight', 'floatNone']],
+                ['remove', ['removeMedia']]
+            ],
+            link: [
+                ['link', ['linkDialogShow', 'unlink']]
+            ],
+            air: [
+                ['style', ['bold', 'italic', 'underline', 'clear', 'color', 'fontsize']],
+                ['para', ['ul', 'ol', 'paragraph']]
+            ]
+        },
+        height: 200
+    };
     vm.orderProperties = [{property:'label', label:'Titre'},{property:'date', label:'Date'},{property:'price', label:'Prix'},{property:'userTakeUsers', label:'Offert'},{property:'notes.length', label:'Commentaires'}];
     vm.filterProperties = [{expression:'true', label:'Toutes', class:'btn-default'},{expression:'userTake.length > 0', label:'Offerts', class:'btn-warning'},{expression:'userTake.length == 0', label:'A offrir', class:'btn-success'},{expression:'suggest == true', label:'Suggestion', class:'btn-info'}];
     loadEnvies();

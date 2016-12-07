@@ -60,6 +60,8 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal --><!--row row-fluid-->
+    <p ng-bind-html="vm.listEnvies.description" ng-if="!vm.listEnvies.owner"></p>
+    <summernote airMode ng-model="vm.listEnvies.description" ng-if="vm.listEnvies.owner" config="vm.editorOptions" ng-change="vm.saveListEnvies(vm.listEnvies);" ng-model-options="{ updateOn: 'default', debounce: 5000 }" lang="fr-FR"></summernote>
     <div class="order-filter">
         <div class="filter">
             <div class="btn-group" opt-kind="" ok-key="filter">
@@ -107,7 +109,7 @@
                         <a ng-if="envie.picture" ng-href="{{envie.picture}}" target="_blank" class="thumbnail">
                             <img ng-src="{{envie.picture}}" alt="Image Envie">
                         </a>
-                        <p class="text-center">{{envie.description}}</p>
+                        <p class="text-center" ng-bind-html="envie.description"></p>
                         <div ng-if="envie.urls && envie.urls.length > 0">
                             <a ng-href="{{link.url}}" ng-repeat="link in envie.urls" target="_blank" class="btn btn-block btn3d btn-default"><i class="fa fa-external-link"></i><b>   {{link.name||"Plus d'informations"}}  </b></a>
                         </div>
@@ -182,8 +184,7 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <label for="description">Description</label>
-                        <textarea class="form-control"  id="description" ng-model="vm.envie.description" >
-                        </textarea>
+                            <summernote id="description" ng-model="vm.envie.description" heigth="500" config="vm.editorOptions" lang="fr-FR"></summernote>
                         </div>
                         <div class="form-group">
                             <label for="link-url">Urls</label>

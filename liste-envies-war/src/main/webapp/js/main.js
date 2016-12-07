@@ -3,6 +3,8 @@ var app = angular.module('ListeEnviesApp', [
     'ngResource',
     'angularMoment',
     'masonry',
-    'service'
+    'service',
+    'summernote',
+    'ngSanitize'
 ]);
 
