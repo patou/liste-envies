@@ -15,7 +15,7 @@
     <link href="js/lib/summernotes/summernote.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="css/sb-admin.css" rel="stylesheet">
+    <!--<link href="css/sb-admin.css" rel="stylesheet">-->
     <link href="css/style.css" rel="stylesheet">
 
 
@@ -47,13 +47,16 @@
                 <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{main.user.name}}
                     <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li>{{main.user.email}}</li>
+                    <li><div>{{main.user.email}}</div></li>
+                    <li>
+                        <a href="/"><i class="fa fa-fw fa-user"></i> Mon profil</a>
+                    </li>
                     <li>
                         <a ng-href="{{main.logoutPath()}}"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                     </li>
                 </ul>
             </li>
-            <li class="dropdown" ng-hide="main.isAuthenticated">
+            <li ng-hide="main.isAuthenticated">
                 <a ng-href="{{main.loginPath()}}">Connexion</a>
             </li>
         </ul>
