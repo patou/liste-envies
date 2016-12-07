@@ -151,7 +151,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         }
         if (newUser.email && newUser.email.indexOf('@') > 0) {
             var pushUser = {};
-            pushUser.email = newUser.email;
+            pushUser.email = newUser.email.trim();
             pushUser.type = newUser.type;
             vm.listEnvies.users.push(pushUser);
         }

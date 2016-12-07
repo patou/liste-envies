@@ -31,7 +31,7 @@
                 <div class="modal-body">
                     <ul class="list-group">
                         <li class="list-group-item" ng-repeat="user in vm.listEnvies.users" ng-class="{active:user.type == 'OWNER'}">
-                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{user.email}}
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>{{user.email}}
                             <button type="button" class="btn btn-xs btn-warning pull-right" ng-click="vm.removeUser(user);" aria-label="Partager votre liste" ng-if="user.email != main.user.email">
                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                             </button>

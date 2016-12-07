@@ -22,8 +22,8 @@ function HomeCtrl(appUserService, listEnviesService, $location) {
         var user = [];
         user.push({'email': userEmail, 'type': "OWNER"});
         if (newlist.emails && newlist.emails.length > 0) {
-            newlist.emails.split("\n").map(function (email) {
-                user.push({'email': email, 'type': "SHARED"});
+            newlist.emails.split(/[\n\s,]+/).map(function (email) {
+                user.push({'email': email.trim(), 'type': "SHARED"});
             });
         }
         listEnviesService.save({title: newlist.title, users:user}, function(listEnvies) {
