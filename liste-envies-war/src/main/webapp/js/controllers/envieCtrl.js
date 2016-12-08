@@ -101,6 +101,10 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         });
     };
 
+
+
+
+
     vm.given = function(id) {
         envieService.give({name:vm.name, id:id}, {}, function() {
             loadEnvies();
@@ -116,32 +120,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
 
     isStamped = false;
 
-    vm.openComment = function(id) {
 
-        const commentId = $("#comment-"+id);
-
-        var $element = $("#envie"+id);
-
-        // stamp or unstamp element to rest in place.
-        if ( $scope.masonry.stamps.indexOf($element) ) {
-            $scope.masonry.unstamp( $element );
-            isStamped = false;
-        } else {
-            $scope.masonry.stamp( $element );
-            isStamped = true;
-        }
-
-        commentId.collapse('toggle').promise().done(function () {
-            $scope.masonry.layout();
-            clearInterval(intervalUpdate);
-        });
-
-        // Expand
-        var intervalUpdate = setInterval(function () {
-            // trigger layout
-            $scope.masonry.layout();
-        }, 100);
-    };
 
     vm.removeUser = function(user) {
         var index = vm.listEnvies.users.indexOf(user);
@@ -174,13 +153,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         });
     };
 
-    vm.addLink = function(link) {
-        if (!vm.envie.urls) {
-           vm.envie.urls = [];
-        }
-        vm.envie.urls.push(link);
-        vm.link = undefined;
-    };
+
 
     vm.selectedItems = null;
 
@@ -199,6 +172,48 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         $scope.update();
     };
 
+    var intervalUpdate;
+    vm.refreshingLayoutAuto = function (delay, end) {
+        intervalUpdate = setInterval(function () {
+            // trigger layout
+            $scope.masonry.layout();
+        }, delay);
+
+        if (end) {
+            setTimeout(function () {
+                vm.clearRefreshingLayoutAuto();
+            }, end);
+        }
+    };
+
+    vm.clearRefreshingLayoutAuto = function () {
+        clearInterval(intervalUpdate);
+    };
+
+    vm.refreshLayout = function (delay) {
+        vm.refreshingLayoutAuto(30, delay);
+    };
+
+
+    vm.stampElement = function (id) {
+        var $element = $("#envie"+id);
+        // stamp or unstamp element to rest in place.
+        if (!$scope.masonry.stamps.indexOf($element) ) {
+            $scope.masonry.stamp( $element );
+        }
+        vm.refreshLayout(200);
+
+    };
+
+    vm.unStampElement = function (id) {
+        var $element = $("#envie"+id);
+        // stamp or unstamp element to rest in place.
+        if ( $scope.masonry.stamps.indexOf($element) ) {
+            $scope.masonry.unstamp($element);
+        }
+        vm.refreshLayout(200);
+    };
+
 
 
 
@@ -215,6 +230,10 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
             vm.search = '';
         }
         $scope.update();
+    };
+
+    vm.refresh = function() {
+        loadEnvies();
     };
 
     function parseSentenceForNumber(sentence){
@@ -282,8 +301,8 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         return listEnviesService.get({name:name});
     }
     function loadEnvies() {
-        vm.envies = envieService.query({name: $routeParams.name});
-        vm.envies.$promise.then(function(list) {
+        var newEnvies = envieService.query({name: $routeParams.name});
+        newEnvies.$promise.then(function(list) {
             vm.loading = false;
             angular.forEach(list, function(item) {
                 if (item.owner) {
@@ -297,8 +316,11 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
                     item.userTakeUsers = userTakeNames.join(", ");
                 }
 
-                $scope.$emit('masonry.layout');
-                $scope.update();
+
+
+                vm.envies = newEnvies;
+
+                //$scope.masonry.reloadItems();
             });
         });
     }
