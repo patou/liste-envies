@@ -1,21 +1,36 @@
-app.controller('HeaderCtrl', function($scope, $http, $location, AuthService) {
+app.controller('HeaderCtrl', function($scope, $http, $location, AuthService, UtilitiesServices) {
     AuthService.refresh();
-    var vm = this;
-    vm.isActive = function(viewLocation) {
+    var main = this;
+    main.isActive = function(viewLocation) {
         return viewLocation === $location.path();
     };
 
-    vm.user = AuthService.getUser();
+    main.wishLists = null;
+
+    main.user = AuthService.getUser();
     $scope.$watch(function () { return AuthService.getUser(); }, function () {
-        vm.isAuthenticated = AuthService.isAuthenticated();
-        vm.isAdmin = AuthService.isAdmin();
-        vm.user = AuthService.getUser();
+        main.isAuthenticated = AuthService.isAuthenticated();
+        main.isAdmin = AuthService.isAdmin();
+        main.user = AuthService.getUser();
+
+        if (main.isAuthenticated) {
+            UtilitiesServices.getList().then(function (data) {
+                main.wishLists = data;
+            });
+        } else {
+            main.wishLists = null;
+        }
+
     });
 
-    vm.loginPath = function() {
+    main.goList = function (name) {
+        $location.url("/"+name);
+    };
+
+    main.loginPath = function() {
         return "/login?path=" + $location.path();
     };
-    vm.logoutPath = function() {
+    main.logoutPath = function() {
         return "/logout?path=" + $location.path();
     };
 

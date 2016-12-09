@@ -1,12 +1,12 @@
 app.controller('HomeCtrl', HomeCtrl);
-HomeCtrl.$inject = ['appUserService', 'listEnviesService', '$location'];
-function HomeCtrl(appUserService, listEnviesService, $location) {
+HomeCtrl.$inject = ['appUserService', 'listEnviesService', '$location', 'UtilitiesServices'];
+function HomeCtrl(appUserService, listEnviesService, $location, UtilitiesServices) {
     var vm = this;
     vm.loading = true;
-    vm.envies = listEnviesService.query();
 
-    vm.envies.$promise.then(function () {
+    UtilitiesServices.getList().then(function (data) {
         vm.loading = false;
+        vm.envies = data;
     });
     /** Deprecated */
     vm.addUser = function (newuser) {
