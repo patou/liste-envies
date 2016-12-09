@@ -70,25 +70,11 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     loadEnvies();
     resetForm();
 
-    vm.editEnvie = function (envie) {
-        vm.envie = envie;
-        gotoForm();
-        return true;
-    };
+
 
     vm.addEnvie = function (envie) {
-        if (vm.link) {
-            vm.addLink(vm.link);
-        }
-        if (!envie.id) {
             vm.envies.push(envie);
             $scope.update();
-        }
-        envieService.save({name:vm.name}, envie, function() {
-            loadEnvies();
-            gotoEnvie(envie.id);
-            resetForm();
-        });
     };
 
     vm.addNote = function (envie, notetext) {
@@ -174,16 +160,17 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
 
     var intervalUpdate;
     vm.refreshingLayoutAuto = function (delay, end) {
+        clearInterval(intervalUpdate);
         intervalUpdate = setInterval(function () {
             // trigger layout
             $scope.masonry.layout();
         }, delay);
 
-        if (end) {
-            setTimeout(function () {
-                vm.clearRefreshingLayoutAuto();
-            }, end);
-        }
+        if (end) end = 1000;
+
+        setTimeout(function () {
+            vm.clearRefreshingLayoutAuto();
+        }, end);
     };
 
     vm.clearRefreshingLayoutAuto = function () {
@@ -236,6 +223,20 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         loadEnvies();
     };
 
+    /**
+     * Function to update a wish, whithout changing the js link.
+     * @param target
+     * @param source
+     */
+    vm.updatePropertiesWish = function (target, source) {
+        if (!target && !source) return;
+        for(var propertyName in source) {
+            // propertyName is what you want
+            // you can get the value like this: myObject[propertyName]
+            target[propertyName] = source[propertyName];
+        }
+    };
+
     function parseSentenceForNumber(sentence){
         var matches = sentence.replace(/,/g, '').match(/(\+|-)?((\d+(\.\d+)?)|(\.\d+))/);
         return matches && matches[0] || null;
@@ -282,7 +283,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     }
 
     function resetForm() {
-        vm.envie = {};
+        vm.newWish = {};
     }
 
     function loadUser(email) {
@@ -316,9 +317,18 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
                     item.userTakeUsers = userTakeNames.join(", ");
                 }
 
+                if (vm.envies) {
+                    vm.envies = newEnvies;
+
+                    $scope.masonry.layoutItems($('.envie-card'), false);
+                } else {
+                    vm.envies = newEnvies;
+                    $scope.update();
+                }
 
 
-                vm.envies = newEnvies;
+
+
 
                 //$scope.masonry.reloadItems();
             });

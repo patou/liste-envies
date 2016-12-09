@@ -72,9 +72,9 @@ public class EnvieServiceTest {
         listePatrice = ListEnviesService.createOrUpdate(patrice, new ListEnvies("liste-patrice", "Liste de Patrice", patrice.getEmail(), emmanuel.getEmail()));
         listeEmmanuel = ListEnviesService.createOrUpdate(emmanuel, new ListEnvies("liste-emmanuel", "Liste d'Emmanuel", emmanuel.getEmail(), patrice.getEmail(), clemence.getEmail()));
 
-        Envy itemLivre = EnviesService.createOrUpdate(patrice, "liste-patrice", new Envy(listePatrice, "Livre"));
+        EnvyDto itemLivre = EnviesService.createOrUpdate(patrice, "liste-patrice", new Envy(listePatrice, "Livre"));
         livreId = itemLivre.getId();
-        Envy itemDvd = EnviesService.createOrUpdate(patrice, "liste-patrice", new Envy(listePatrice, "DVD"));
+        EnvyDto itemDvd = EnviesService.createOrUpdate(patrice, "liste-patrice", new Envy(listePatrice, "DVD"));
         dvdId = itemDvd.getId();
         EnviesService.given(emmanuel, "liste-patrice", livreId);
     }
@@ -120,7 +120,7 @@ public class EnvieServiceTest {
 
     @Test
     public void testCreate() throws Exception {
-        Envy itemDvd = EnviesService.createOrUpdate(emmanuel, "liste-emmanuel", new Envy(listeEmmanuel, "DVD"));
+        EnvyDto itemDvd = EnviesService.createOrUpdate(emmanuel, "liste-emmanuel", new Envy(listeEmmanuel, "DVD"));
     }
 
     @Test
@@ -142,7 +142,7 @@ public class EnvieServiceTest {
         c2.setText("Commentaire2");
         Envy envie = new Envy(initdto);
 
-        Envy saved = EnviesService.createOrUpdate(emmanuel, "liste-emmanuel", envie);
+        EnvyDto saved = EnviesService.createOrUpdate(emmanuel, "liste-emmanuel", envie);
 
         EnviesService.addNote(patrice, saved.getId(), "liste-emmanuel", c1);
         EnviesService.addNote(clemence, saved.getId(), "liste-emmanuel", c2);

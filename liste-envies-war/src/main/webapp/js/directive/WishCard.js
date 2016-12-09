@@ -11,7 +11,29 @@
 var WishCard = function ($scope, envieService) {
     var w = this;
 
+    w.add = false;
     w.edit = false;
+
+    var resetAddForm = function () {
+        w.wish = {};
+
+        if (!w.ownerList) w.wish.suggest = true;
+        w.edit = true;
+        w.add = true;
+    };
+    if (!w.wish.id) {
+
+        resetAddForm();
+    }
+
+    $scope.$watch('ownerList', function () {
+        if (!w.ownerList && w.add) {
+            if (w.wish) w.wish.suggest = true;
+            else w.wish = {suggest: true};
+        }
+    });
+
+
 
     w.link = undefined;
 
@@ -53,10 +75,25 @@ var WishCard = function ($scope, envieService) {
     };
 
     w.updateWish = function () {
+
+
+        //w.parentController.addEnvie(w.wish);
+        if (w.link) {
+            w.addLink(w.link);
+        }
         w.edit = false;
-        lastWish = null;
-        w.parentController.unStampElement(w.wish.id);
-        w.parentController.addEnvie(w.wish)
+        envieService.save({name:w.listName}, w.wish, function(updatedData) {
+            if (w.add) {
+                w.parentController.addEnvie(updatedData);
+                resetAddForm();
+            } else {
+                w.edit = false;
+                w.parentController.updatePropertiesWish(w.wish, updatedData);
+                lastWish = null;
+                w.parentController.unStampElement(w.wish.id);
+            }
+
+        });
     };
 
     w.addLink = function(link) {
@@ -82,10 +119,15 @@ var WishCard = function ($scope, envieService) {
         w.parentController.refreshingLayoutAuto(100);
     };
 
-    w.addNote = function (envie, notetext) {
-        w.parentController.addNote(w.wish, notetext);
-        w.note.text = '';
+    w.addNote = function (wish, notetext) {
+        var note = {text: notetext.text};
+        envieService.addNote({name:w.listName, id: wish.id}, notetext, function(data) {
+            w.parentController.updatePropertiesWish(wish, data);
+            w.note.text = '';
+        });
     };
+
+
 
 
 

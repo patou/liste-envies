@@ -6,11 +6,9 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.VoidWork;
 import com.googlecode.objectify.Work;
 import com.googlecode.objectify.cmd.Saver;
+import fr.desaintsteban.liste.envies.dto.EnvyDto;
 import fr.desaintsteban.liste.envies.dto.NoteDto;
-import fr.desaintsteban.liste.envies.model.AppUser;
-import fr.desaintsteban.liste.envies.model.Envie;
-import fr.desaintsteban.liste.envies.model.Envy;
-import fr.desaintsteban.liste.envies.model.ListEnvies;
+import fr.desaintsteban.liste.envies.model.*;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
 
 import java.util.ArrayList;
@@ -87,22 +85,25 @@ public final class EnviesService {
         }
     }
 
-    public static void addNote(final AppUser user, final Long itemId, final String name, final NoteDto note) {
+    public static EnvyDto addNote(final AppUser user, final Long itemId, final String name, final NoteDto note) {
         Objectify ofy = OfyService.ofy();
         final Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
         ListEnvies listEnvies = ofy.load().key(parent).now();
         if (listEnvies != null && !listEnvies.containsOwner(user.getEmail()) && listEnvies.containsUser(user.getEmail())) {
-            OfyService.ofy().transact(new VoidWork() {
+            return OfyService.ofy().transact(new Work<EnvyDto>() {
                 @Override
-                public void vrun() {
-                Objectify ofy = OfyService.ofy();
-                Envy saved = ofy.load().key(Key.create(parent, Envy.class, itemId)).now();
-                Saver saver = ofy.save();
-                saved.addNote(user.getName(), user.getEmail(), note.getText());
-                saver.entity(saved);
+                public EnvyDto run() {
+                    Objectify ofy = OfyService.ofy();
+                    Envy saved = ofy.load().key(Key.create(parent, Envy.class, itemId)).now();
+                    Saver saver = ofy.save();
+                    saved.addNote(user.getName(), user.getEmail(), note.getText());
+                    saver.entity(saved);
+
+                    return saved.toDto();
                 }
             });
         }
+        return null;
     }
 
     public static void cancel(final AppUser user, String name,  final Long itemId) {
@@ -123,14 +124,14 @@ public final class EnviesService {
         }
     }
     
-    public static Envy createOrUpdate(final AppUser user, final String name, final Envy item) {
+    public static EnvyDto createOrUpdate(final AppUser user, final String name, final Envy item) {
         Objectify ofy = OfyService.ofy();
         final Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
         final ListEnvies listEnvies = ofy.load().key(parent).now();
         if (listEnvies != null) {
-            return OfyService.ofy().transact(new Work<Envy>() {
+            return OfyService.ofy().transact(new Work<EnvyDto>() {
                 @Override
-                public Envy run() {
+                public EnvyDto run() {
                 Objectify ofy = OfyService.ofy();
                 Saver saver = ofy.save();
                 item.setList(parent);
@@ -146,7 +147,7 @@ public final class EnviesService {
                 item.setSuggest(!listEnvies.containsOwner(item.getOwner()));
                 item.setDate(new Date());
                 Key<Envy> key = saver.entity(item).now();
-                return item;
+                return item.toDto();
                 }
             });
         }

@@ -13,7 +13,6 @@ UtilitiesServices.$inject = ['listEnviesService', '$q'];
             else {
                 promise = $q.defer();
                 listEnviesService.query().$promise.then(function (data) {
-                    console.log('get List ', data);
                     list = data;
                     promise.resolve(list);
                     promise = false;

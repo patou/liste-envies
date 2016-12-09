@@ -16,8 +16,8 @@
 
 
                 <p><i class="fa fa-smile-o fa-lg"></i> 
-                    <a href="javascript:;"><i>{{w.wish.ownerUser.name}}</i></a>
-                    <i class="fa fa-gift fa-3x pull-right logo-envie"></i></p>
+                    <a href="javascript:;"><i>{{(w.add)? w.user.name : w.wish.ownerUser.name}}</i></a>
+                    <i class="fa fa-a fa-3x pull-right logo-envie" ng-class="{'fa-gift': !w.add, 'fa-plus': w.add, 'wish-edit': w.edit}"></i></p>
             </div>
             <div class="panel-body">
 
@@ -46,10 +46,19 @@
                         <button type="submit" class="btn btn-success" ng-click="w.addLink(w.link);"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="sr-only">Ajouter le lien</span></button>
                     </div>
                 </div>
-                <div class="form-group" ng-if="w.edit">
-                    <label for="picture">Image</label>
-                    <input type="url" class="form-control" id="picture" ng-model="w.wish.picture">
+                <div class="media row" ng-if="w.edit">
+
+                    <div class="media-body form-group col-xs-8">
+                            <label for="picture">Image (url)</label>
+                            <input type="url" class="form-control" id="picture" ng-model="w.wish.picture">
+                    </div>
+                    <div class="media-left col-xs-4">
+                        <img src="{{w.wish.picture? w.wish.picture : 'https://placeholdit.imgix.net/~text?txtsize=20&txt=Choisir+une+image&w=100&h=100&txttrack=0'}}"  class="pull-right img-thumbnail preview-image">
+                    </div>
+
                 </div>
+
+
                 <div class="form-group" ng-if="w.edit">
                     <label for="price">Prix</label>
                     <input type="text" class="form-control" id="price" ng-model="w.wish.price" placeholder=" € ">
@@ -57,9 +66,9 @@
 
 
                 <!--<p class="text-warning"><b>574</b> subscribers <span title="Rating"><i class="fa fa-star-half-empty fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i></span></p>-->
-                <button type="button" class="btn btn-warning edit-button" ng-if="w.owner || w.wish.owner == w.user.email" ng-click="w.edit? w.cancelWish() : w.editWish()">{{w.edit ? 'Anuler' : 'Modifier'}}</button>
+                <button type="button" class="btn btn-warning edit-button" ng-if="(w.owner && !w.add) || w.wish.owner == w.user.email" ng-click="w.edit? w.cancelWish() : w.editWish()">{{w.edit ? 'Anuler' : 'Modifier'}}</button>
             </div>
-            <div class="panel-heading bottom-envie" ng-if="!w.owner && !w.edit">
+            <div class="panel-heading bottom-envie" ng-if="!w.ownerList && !w.edit">
                 <!--<div class="row">
                     <div class="col-xs-4 col-md-4" title="Receba até 42 de Status">
                         <p class="text-center"><i class="glyphicon glyphicon-stats fa-2x "></i><span class="badge">42</span></p>
@@ -112,8 +121,8 @@
                 <p><span class="label label-success">Tecnologia</span><span class="label label-warning">Programação</span><span class="label label-danger">Python</span><span class="label label-info">Dinâmica</span></p>-->
             </div>
             <div class="panel-heading bottom-envie" ng-if="w.edit">
-                <button type="submit" class="btn btn-default" ng-click="w.updateWish()">{{w.wish.id ? 'Modifier' : 'Ajouter'}}</button>
-                <button type="submit" class="btn btn-link" ng-click="w.cancelWish()">Annuler</button>
+                <button type="submit" class="btn btn-default" ng-click="w.updateWish()">{{!w.add ? 'Modifier' : 'Ajouter'}}</button>
+                <button type="submit" class="btn btn-link" ng-click="w.cancelWish()" ng-if="!w.add">Annuler</button>
             </div>
         </div>
     </div>
