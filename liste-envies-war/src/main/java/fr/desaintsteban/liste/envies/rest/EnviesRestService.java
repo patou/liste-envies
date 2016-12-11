@@ -100,12 +100,13 @@ public class EnviesRestService {
 
     @POST
     @Path("/{id}")
-    public void updateEnvie(@PathParam("name") String name, EnvyDto envie) {
+    public EnvyDto updateEnvie(@PathParam("name") String name, EnvyDto envie) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null) {
             LOGGER.info("Put " + envie.getLabel());
-            EnviesService.createOrUpdate(user, name, new Envy(envie));
+            return EnviesService.createOrUpdate(user, name, new Envy(envie));
         }
+        return envie;
     }
 
     @DELETE

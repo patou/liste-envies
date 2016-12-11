@@ -320,7 +320,8 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
                 if (vm.envies) {
                     vm.envies = newEnvies;
 
-                    $scope.masonry.layoutItems($('.envie-card'), false);
+                    //$scope.masonry.layoutItems($('.envie-card'), false);
+                    $scope.update();
                 } else {
                     vm.envies = newEnvies;
                     $scope.update();

@@ -39,6 +39,10 @@ public class Envy {
     private String price;
     private String picture;
     private Date date;
+
+
+
+    private int rating;
     @Embedded
     private List<Link> urls;
     @Index
@@ -50,12 +54,14 @@ public class Envy {
 
     public Envy() {
         this.notes = new ArrayList<>();
+        this.rating = 0;
     }
 
     public Envy(ListEnvies list, String label) {
         this.list = Key.create(list);
         this.label = label;
         this.notes = new ArrayList<>();
+        this.rating = 0;
     }
 
 
@@ -69,6 +75,7 @@ public class Envy {
         setPicture(envie.getPicture());
         setDate(envie.getDate());
         setUrls(envie.getUrls());
+        setRating(envie.getRating());
         if (envie.getUserTake() != null) {
             List<String> userTake = new ArrayList<>();
             for (String email : envie.getUserTake()) {
@@ -89,6 +96,7 @@ public class Envy {
         envie.setPrice(getPrice());
         envie.setPicture(getPicture());
         envie.setDate(getDate());
+        envie.setRating(getRating());
         envie.setUrls(getUrls());
         List<String> userTake = new ArrayList<>();
         if (getUserTake() != null) {
@@ -185,6 +193,14 @@ public class Envy {
 
     public void setUrls(List<Link> urls) {
         this.urls = urls;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 
     public void addUrl(String url) {

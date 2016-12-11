@@ -65,7 +65,13 @@
                 </div>
 
 
-                <!--<p class="text-warning"><b>574</b> subscribers <span title="Rating"><i class="fa fa-star-half-empty fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i></span></p>-->
+                <div class="text-warning">
+                    <div title="Rating">
+                        <div star-rating ng-model="w.wish.rating" readonly="w.wish.owner !== w.user.email" on-rating-select="w.rateFunction(w.wish.rating)">
+
+                        </div>
+                    </div>
+                </div>
                 <button type="button" class="btn btn-warning edit-button" ng-if="(w.owner && !w.add) || w.wish.owner == w.user.email" ng-click="w.edit? w.cancelWish() : w.editWish()">{{w.edit ? 'Anuler' : 'Modifier'}}</button>
             </div>
             <div class="panel-heading bottom-envie" ng-if="!w.ownerList && !w.edit">

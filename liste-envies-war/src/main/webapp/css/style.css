@@ -474,3 +474,32 @@ body {
         content: "Chargement...";
     }
 }
+
+/** Rating **/
+
+.star-rating {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+.star-rating .star {
+    padding: 1px;
+    color: #ddd;
+    font-size: 20px;
+    text-shadow: .05em .05em #aaa;
+    list-style-type: none;
+    display: inline-block;
+    cursor: pointer;
+}
+.star-rating .star.filled {
+    color: #ff572d;
+}
+.star-rating.readonly .star.filled {
+    color: #ffa77c;
+    cursor: not-allowed;
+}
+
+.star-rating:not(.readonly) .star:hover {
+    color: #ff002c;
+}
+

@@ -127,6 +127,15 @@ var WishCard = function ($scope, envieService) {
         });
     };
 
+    w.rateFunction = function(rating){
+
+        if (!w.edit) {
+            setTimeout(function (w) {
+                w.updateWish();
+            }, 100, w);
+        }
+    };
+
 
 
 

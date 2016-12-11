@@ -27,6 +27,9 @@ public class EnvyDto {
 
     private List<NoteDto> notes;
 
+
+    private int rating;
+
     public EnvyDto() {
     }
 
@@ -116,5 +119,13 @@ public class EnvyDto {
 
     public void setNotes(List<NoteDto> notes) {
         this.notes = notes;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 }
