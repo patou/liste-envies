@@ -482,7 +482,7 @@ body {
     padding: 0;
     display: inline-block;
 }
-.star-rating .star {
+.star-rating > .star, .star-rating > .cancel-rating {
     padding: 1px;
     color: #ddd;
     font-size: 20px;
@@ -491,6 +491,12 @@ body {
     display: inline-block;
     cursor: pointer;
 }
+
+.star-rating.readonly > .star {
+    cursor: not-allowed;
+}
+
+
 .star-rating .star.filled {
     color: #ff572d;
 }
@@ -499,7 +505,13 @@ body {
     cursor: not-allowed;
 }
 
-.star-rating:not(.readonly) .star:hover {
+.star-rating:not(.readonly):hover .star, .star-rating:not(.readonly):hover .star.filled {
     color: #ff002c;
 }
+
+.star-rating:not(.readonly) > .star:hover ~ .star, .star-rating:not(.readonly) > .cancel-rating:hover ~ .star {
+    color: #ddd !important;
+}
+
+
 
