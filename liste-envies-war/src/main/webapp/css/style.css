@@ -137,6 +137,10 @@ body {
     margin-top: -4px !important;
 }
 
+.list-envie .note-statusbar {
+    display: none !important;
+}
+
 .list-envie .preview-image {
     height: 100px;
     width: 100px;

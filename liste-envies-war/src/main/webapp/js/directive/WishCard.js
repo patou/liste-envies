@@ -39,6 +39,7 @@ var WishCard = function ($scope, envieService) {
 
     w.editorOptions = {
         disableDragAndDrop: true,
+        disableResizeEditor: true,
         placeholder: "Ajouter une description",
         toolbar: [
             ['style', ['bold', 'italic', 'underline', 'clear', 'color', 'fontsize']],
@@ -109,14 +110,15 @@ var WishCard = function ($scope, envieService) {
 
         const commentId = $("#comment-"+w.wish.id);
 
-        w.parentController.stampElement(w.wish.id);
+        w.parentController.stampElement(w.wish.id, true);
+        w.parentController.refreshingLayoutAuto(30);
 
         commentId.collapse('toggle').promise().done(function () {
-            w.parentController.unStampElement(w.wish.id);
+            w.parentController.unStampElement(w.wish.id, true);
             w.parentController.clearRefreshingLayoutAuto();
         });
 
-        w.parentController.refreshingLayoutAuto(100);
+
     };
 
     w.addNote = function (wish, notetext) {

@@ -53,7 +53,7 @@
                             <input type="url" class="form-control" id="picture" ng-model="w.wish.picture">
                     </div>
                     <div class="media-left col-xs-4">
-                        <img src="{{w.wish.picture? w.wish.picture : 'https://placeholdit.imgix.net/~text?txtsize=20&txt=Choisir+une+image&w=100&h=100&txttrack=0'}}"  class="pull-right img-thumbnail preview-image">
+                        <img ng-src="{{w.wish.picture? w.wish.picture : 'https://placeholdit.imgix.net/~text?txtsize=20&txt=Choisir+une+image&w=100&h=100&txttrack=0'}}"  class="pull-right img-thumbnail preview-image">
                     </div>
 
                 </div>

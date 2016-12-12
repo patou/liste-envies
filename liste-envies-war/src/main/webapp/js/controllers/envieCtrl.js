@@ -1,6 +1,6 @@
 app.controller('EnvieCtrl', EnvieCtrl);
-EnvieCtrl.$inject = ['envieService', 'appUserService', 'listEnviesService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse'];
-function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams, $location, $anchorScroll, $scope, $parse) {
+EnvieCtrl.$inject = ['envieService', 'appUserService', 'listEnviesService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse', '$interval', '$timeout'];
+function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams, $location, $anchorScroll, $scope, $parse, $interval, $timeout) {
     var vm = this;
     vm.name = $routeParams.name;
     vm.listEnvies = loadListEnvies(vm.name);
@@ -29,9 +29,32 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         },
         height: 200
     };
+
+
     vm.orderProperties = [{property:'label', label:'Titre', reverse: false, selected: false},
         {property:'date', label:'Date', reverse: true, selected: true},
-        {property:'price', label:'Prix', reverse: false, selected: false},
+        {property:function (value) {
+            var price = value.price;
+            if (!price) return (vm.reverse)? -1 : 99999999;
+
+            var matches = price.replace(',', '.').replace(' ', '').match(/(\d+\.?\d+|\.\d+)/g);
+            if (!matches) return (vm.reverse)? -1 : 99999999;
+
+
+            // Todo depending on the reverse, use the min or max value.
+            return parseInt(matches[0]);
+
+            /*return matches.reduce(function (value) {
+                if (value >= min && value <= max) {
+                    return true;
+                } else if (max == null && value >= min) {
+                    return true;
+                }
+                return false;
+            });*/
+
+            return (vm.reverse)? -1 : 99999999;
+        }, label:'Prix', reverse: false, selected: false},
         {property:'userTakeUsers', label:'Offert', reverse: true, selected: false},
         {property:function (value) {
             return (value.notes)? value.notes.length : -1;
@@ -45,12 +68,15 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         {expression:'userTake.length > 0', label:'Offerts', class:'btn-warning'},
         {expression:'userTake.length == 0', label:'A offrir', class:'btn-success'},
         {expression:'suggest == true', label:'Suggestion', class:'btn-info'},
-        {expression:'notes.length > 0', label:'Commentaires', class:'btn-default'}];
+        {expression:'notes.length > 0', label:'Commentaires', class:'btn-default'},
+        {expression:'rating > 0', label:'Note', class:'btn-default'}
+        ];
     vm.filterPropertiesOwners = [{expression:'true', label:'Toutes', class:'btn-primary'},
         {expression:'description == null', label:'Sans description', class:'btn-default'},
         {expression:'price == null', label:'Sans prix', class:'btn-default'},
         {expression:'picture == null', label:'Sans images', class:'btn-default'},
-        {expression:'urls == null', label:'Sans liens', class:'btn-default'}];
+        {expression:'urls == null', label:'Sans liens', class:'btn-default'},
+        {expression:'rating > 0', label:'Note', class:'btn-default'}];
 
     vm.filtersPriceList = [
         {role: "filter", min:0, max: 30, label:'Moins de 30 €', class:''},
@@ -65,7 +91,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         {role: "filter", min:30, max: null, label:'Plus de 30 €', class:''},
         {role: "filter", min:50, max: null, label:'Plus de 50 €', class:''},
         {role: "filter", min:100, max: null, label:'Plus de 100 €', class:''},
-        {role: "filter", min:200, max: null, label:'Plus de 200 €', class:''},
+        {role: "filter", min:200, max: null, label:'Plus de 200 €', class:''}
        ];
     loadEnvies();
     resetForm();
@@ -159,22 +185,29 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     };
 
     var intervalUpdate;
+    var timeoutUpdate;
     vm.refreshingLayoutAuto = function (delay, end) {
-        clearInterval(intervalUpdate);
-        intervalUpdate = setInterval(function () {
+        if (intervalUpdate) $interval.cancel(intervalUpdate);
+
+        intervalUpdate = $interval(function () {
+            console.log('Refresh layout :');
             // trigger layout
             $scope.masonry.layout();
-        }, delay);
+        }, delay, 50);
 
-        if (end) end = 1000;
+        if (!end) end = 500;
 
-        setTimeout(function () {
+        timeoutUpdate = $timeout(function () {
             vm.clearRefreshingLayoutAuto();
         }, end);
     };
 
     vm.clearRefreshingLayoutAuto = function () {
-        clearInterval(intervalUpdate);
+        if (intervalUpdate) $interval.cancel(intervalUpdate);
+        if (timeoutUpdate) $timeout.cancel(timeoutUpdate);
+
+        intervalUpdate = null;
+        $scope.masonry.layout();
     };
 
     vm.refreshLayout = function (delay) {
@@ -182,23 +215,25 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     };
 
 
-    vm.stampElement = function (id) {
+    vm.stampElement = function (id, refresh) {
+        if (!refresh) refresh = true;
         var $element = $("#envie"+id);
         // stamp or unstamp element to rest in place.
         if (!$scope.masonry.stamps.indexOf($element) ) {
             $scope.masonry.stamp( $element );
         }
-        vm.refreshLayout(200);
+        refresh && vm.refreshLayout(200);
 
     };
 
-    vm.unStampElement = function (id) {
+    vm.unStampElement = function (id, refresh) {
+        if (!refresh) refresh = true;
         var $element = $("#envie"+id);
         // stamp or unstamp element to rest in place.
         if ( $scope.masonry.stamps.indexOf($element) ) {
             $scope.masonry.unstamp($element);
         }
-        vm.refreshLayout(200);
+        refresh && vm.refreshLayout(200);
     };
 
 
