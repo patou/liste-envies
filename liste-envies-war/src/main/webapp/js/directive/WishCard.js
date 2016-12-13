@@ -149,7 +149,7 @@ var WishCard = function ($scope, envieService) {
 
 };
 
-app
+angular.module('ListeEnviesDirectives')
     .directive('wishCard', function () {
         return {
             restrict: 'E',
@@ -163,9 +163,6 @@ app
                 'user': '=',
                 'parentController': '=',
                 'listName': '='
-            },
-            link: function (scope, elem, attr) {
-
             }
         };
 });
