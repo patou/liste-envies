@@ -117,7 +117,7 @@ public final class EnviesService {
                 Objectify ofy = OfyService.ofy();
                 Envy saved = ofy.load().key(Key.create(parent, Envy.class, itemId)).now();
                 Saver saver = ofy.save();
-                saved.setUserTake(null);
+                saved.removeUserTake(EncodeUtils.encode(user.getEmail()));
                 saver.entity(saved);
                 }
             });
