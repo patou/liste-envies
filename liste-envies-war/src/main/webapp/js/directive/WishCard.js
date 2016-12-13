@@ -13,6 +13,7 @@ var WishCard = function ($scope, envieService) {
 
     w.add = false;
     w.edit = false;
+    w.remove = false;
 
     var resetAddForm = function () {
         w.wish = {};
@@ -138,15 +139,25 @@ var WishCard = function ($scope, envieService) {
         }
     };
 
+    w.deleteWish = function() {
+        w.remove = true;
+    };
 
+    w.receivedWish = function() {
+        w.remove = true;
+        w.wish.archived = true;
+    };
 
+    w.cancelRemove = function() {
+        w.remove = false;
+        w.wish.archived = false;
+    };
 
-
-
-
-
-
-
+    w.doRemove = function() {
+        w.remove = false;
+        //TODO
+        w.wish.$delete();
+    };
 };
 
 angular.module('ListeEnviesDirectives')

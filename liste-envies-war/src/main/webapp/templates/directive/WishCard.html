@@ -1,6 +1,7 @@
 
     <div >
-        <div class="panel envie-item "  ng-class="{'panel-warning':w.wish.userTakeUsers, 'panel-info':w.wish.suggest, 'panel-success':!w.wish.userTakeUsers}">
+        <cancel-directive whish-name="w.wish.label" show="w.remove" on-cancel="w.cancelRemove()" on-delete="w.doRemove()"></cancel-directive>
+        <div class="panel envie-item " ng-if="!w.remove"  ng-class="{'panel-warning':w.wish.userTakeUsers, 'panel-info':w.wish.suggest, 'panel-success':!w.wish.userTakeUsers}">
             <div class="panel-heading">
                 <span class="text-muted pull-left" am-time-ago="w.wish.date"></span>
                 <span class="badge pull-right" ng-if="!w.edit">{{w.wish.price}}</span>
@@ -72,7 +73,18 @@
                         </div>
                     </div>
                 </div>
-                <button type="button" class="btn btn-warning edit-button" ng-if="(w.owner && !w.add) || w.wish.owner == w.user.email" ng-click="w.edit? w.cancelWish() : w.editWish()">{{w.edit ? 'Anuler' : 'Modifier'}}</button>
+                <div class="btn-group edit-button" ng-if="(w.owner && !w.add) || w.wish.owner == w.user.email">
+                    <button type="button" class="btn btn-warning" ng-click="w.editWish()">Modifier</button>
+                    <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Autres actions</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="javascript:;" ng-click="w.receivedWish()">Reçu</a></li>
+                        <li><a href="javascript:;" ng-click="w.deleteWish()">Supprimer</a></li>
+                    </ul>
+                </div>
+                <button type="button" class="btn btn-warning edit-button" ng-if="w.edit" ng-click="w.cancelWish()">Anuler</button>
             </div>
             <div class="panel-heading bottom-envie" ng-if="!w.ownerList && !w.edit">
                 <!--<div class="row">
