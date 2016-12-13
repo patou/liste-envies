@@ -102,22 +102,22 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
 
     vm.filterProperties = [{owner: true, shared: true, expression:'true', label:'Toutes', class:'btn-primary'},
         {owner: false, shared: true, expression:'userTake.length > 0', label:'Offerts', class:'btn-warning'},
-        {owner: false, shared: true, expression:'userTake.length == 0', label:'A offrir', class:'btn-success'},
-        {owner: false, shared: true, expression:'suggest == true', label:'Suggestion', class:'btn-info'},
+        {owner: false, shared: true, expression:'userTake.length == 0', label:'A offrir', class:'btn-success', child: [
+            {role: "filter", expression:'userTake.length == 0 && suggest == true', label:'Suggestion', class:'btn-info'},
+            {role: "filter", expression:'userTake.length == 0 && suggest == false ', label:'Envie', class:'btn-sucess'}
+        ]},
         {owner: false, shared: true, expression:'notes.length > 0', label:'Commentaires', class:'btn-default'},
-        {owner: true, shared: false, expression:'description == null', label:'Sans texte', class:'btn-default'},
-        {owner: true, shared: false, expression:'price == null', label:'Sans prix', class:'btn-default'},
-        {owner: true, shared: false, expression:'picture == null', label:'Sans image', class:'btn-default'},
-        {owner: true, shared: false, expression:'urls == null', label:'Sans lien', class:'btn-default'},
+        {owner: true, shared: false, expression:'description == null || price == null || picture == null || urls == null', label:'A compléter', class:'btn-default', child: [
+            {role: "filter", expression:'description == null', label:'Sans texte', class:'btn-default'},
+            {role: "filter", expression:'price == null', label:'Sans prix', class:'btn-default'},
+            {role: "filter", expression:'picture == null', label:'Sans image', class:'btn-default'},
+            {role: "filter", expression:'urls == null', label:'Sans lien', class:'btn-default'}
+        ]},
+
         {owner: true, shared: true, expression:'rating > 0', label:'Note', class:'btn-danger', child: vm.filtersRatingList},
         {owner: true, shared: true, expression:'price != null', label:'Prix', class:'btn-primary', child: vm.filtersPriceList}
         ];
-    vm.filterPropertiesOwners = [{expression:'true', label:'Toutes', class:'btn-primary'},
-        {expression:'description == null', label:'Sans description', class:'btn-default'},
-        {expression:'price == null', label:'Sans prix', class:'btn-default'},
-        {expression:'picture == null', label:'Sans images', class:'btn-default'},
-        {expression:'urls == null', label:'Sans liens', class:'btn-default'},
-        {expression:'rating > 0', label:'Note', class:'btn-default'}];
+
 
 
     loadEnvies();
