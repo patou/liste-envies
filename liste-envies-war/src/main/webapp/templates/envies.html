@@ -70,22 +70,28 @@
                 <div class="btn-group" data-toggle="buttons">
 
                 <!-- for shared -->
-                <button ng-if="!vm.listEnvies.owner" type="button" class="btn" ng-class="filter.class" ng-click="vm.filterList(filter.expression);" ng-repeat="filter in vm.filterProperties">
+               <!-- <button ng-if="!vm.listEnvies.owner" type="button" class="btn" ng-class="filter.class" ng-click="vm.filterList(filter.expression);" ng-repeat="filter in vm.filterProperties">
                     {{filter.label}}
                 </button>
 
-                <!-- for owners -->
+                &lt;!&ndash; for owners &ndash;&gt;
                 <button ng-if="vm.listEnvies.owner" type="button" class="btn" ng-class="filter.class" ng-click="vm.filterList(filter.expression);" ng-repeat="filter in vm.filterPropertiesOwners">
                     {{filter.label}}
-                </button>
+                </button>-->
 
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Prix <span class="caret"></span>
+                    <!--ng-if="(!vm.listEnvies.owner && filter.owner) || (vm.listEnvies.owner && filter.shared)"-->
+                <div ng-if="(vm.listEnvies.owner && filter.owner) || (!vm.listEnvies.owner && filter.shared)"
+                        class="btn-group"  type="button" class="btn"  ng-repeat="filter in vm.filterProperties">
+                    <button type="button" class="btn {{filter.class}}"  ng-class="{'dropdown-toggle' : filter.child}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-click="vm.filterList(filter.expression);" >
+                        {{filter.label}}
                     </button>
-                    <ul class="dropdown-menu">
-                        <li ng-repeat="price in vm.filtersPriceList" role="{{price.role}}" class="{{price.class}}">
-                            <a ng-if="price.role == 'filter'" ng-click="vm.filterPrice(price.min, price.max)">{{price.label}}</a>
+                    <button type="button"  ng-if="filter.child" class="btn {{filter.class}} dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" ng-if="filter.child">
+                        <li ng-repeat="children in filter.child" role="{{children.role}}" class="{{children.class}}">
+                            <a ng-if="children.role == 'filter'" ng-click="vm.filterChild(children)">{{children.label}}</a>
                         </li>
                     </ul>
                 </div>

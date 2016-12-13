@@ -31,30 +31,36 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     };
 
 
+    var orderPrice = function (value) {
+        var price = value.price;
+        if (!price) return (vm.reverse)? -1 : 99999999;
+
+        var matches = price.replace(',', '.').replace(' ', '').match(/(\d+\.?\d+|\.\d+)/g);
+        if (!matches) return (vm.reverse)? -1 : 99999999;
+
+        var valTri = matches.reduce(function (returnValue, currentValue) {
+            if (typeof returnValue == 'string') returnValue = parseFloat(returnValue);
+            currentValue = parseFloat(currentValue);
+            if (vm.reverse && returnValue > currentValue) { // If reverse find min
+                return returnValue;
+            } else if (!vm.reverse && returnValue < currentValue) { // If no reverse find max
+                return returnValue;
+            }
+            return currentValue;
+        });
+        if (typeof valTri == 'string') valTri = parseFloat(valTri);
+        if (valTri >= 0) {
+            return valTri;
+        } else {
+            return (vm.reverse)? -1 : 99999999;
+        }
+
+
+
+    };
     vm.orderProperties = [{property:'label', label:'Titre', reverse: false, selected: false},
         {property:'date', label:'Date', reverse: true, selected: true},
-        {property:function (value) {
-            var price = value.price;
-            if (!price) return (vm.reverse)? -1 : 99999999;
-
-            var matches = price.replace(',', '.').replace(' ', '').match(/(\d+\.?\d+|\.\d+)/g);
-            if (!matches) return (vm.reverse)? -1 : 99999999;
-
-
-            // Todo depending on the reverse, use the min or max value.
-            return parseInt(matches[0]);
-
-            /*return matches.reduce(function (value) {
-                if (value >= min && value <= max) {
-                    return true;
-                } else if (max == null && value >= min) {
-                    return true;
-                }
-                return false;
-            });*/
-
-            return (vm.reverse)? -1 : 99999999;
-        }, label:'Prix', reverse: false, selected: false},
+        {property: orderPrice, label:'Prix', reverse: false, selected: false},
         {property:'userTakeUsers', label:'Offert', reverse: true, selected: false},
         {property:function (value) {
             return (value.notes)? value.notes.length : -1;
@@ -62,14 +68,49 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
 
     vm.orderPropertiesOwners = [{property:'label', label:'Titre', reverse: false, selected: false},
         {property:'date', label:'Date', reverse: true, selected: false},
-        {property:'price', label:'Prix', reverse: false, selected: false}];
+        {property:orderPrice, label:'Prix', reverse: false, selected: false}];
 
-    vm.filterProperties = [{expression:'true', label:'Toutes', class:'btn-primary'},
-        {expression:'userTake.length > 0', label:'Offerts', class:'btn-warning'},
-        {expression:'userTake.length == 0', label:'A offrir', class:'btn-success'},
-        {expression:'suggest == true', label:'Suggestion', class:'btn-info'},
-        {expression:'notes.length > 0', label:'Commentaires', class:'btn-default'},
-        {expression:'rating > 0', label:'Note', class:'btn-default'}
+    vm.filtersPriceList = [
+        {role: "filter", type: 'price', min:0, max: 30, label:'Moins de 30 €', class:''},
+        {role: "filter", type: 'price', min:0, max: 50, label:'Moins de 50 €', class:''},
+        {role: "filter", type: 'price', min:0, max: 100, label:'Moins de 100 €', class:''},
+        {role: "filter", type: 'price', min:0, max: 200, label:'Moins de 200 €', class:''},
+        {role: "separator", class:"divider"},
+        {role: "filter", type: 'price', min:30, max: 50, label:'entre 30 et 50 €', class:''},
+        {role: "filter", type: 'price', min:50, max: 100, label:'entre 50 et 100 €', class:''},
+        {role: "filter", type: 'price', min:100, max: 200, label:'entre 100 et 200 €', class:''},
+        {role: "separator", class:"divider"},
+        {role: "filter", type: 'price', min:30, max: null, label:'Plus de 30 €', class:''},
+        {role: "filter", type: 'price', min:50, max: null, label:'Plus de 50 €', class:''},
+        {role: "filter", type: 'price', min:100, max: null, label:'Plus de 100 €', class:''},
+        {role: "filter", type: 'price', min:200, max: null, label:'Plus de 200 €', class:''}
+    ];
+
+    vm.filtersRatingList = [
+        {role: "filter", type: 'rating', expression:'rating == 1', label:'1 coeur', class:''},
+        {role: "filter", type: 'rating', expression:'rating == 2', label:'2 coeurs', class:''},
+        {role: "filter", type: 'rating', expression:'rating == 3', label:'3 coeurs', class:''},
+        {role: "filter", type: 'rating', expression:'rating == 4', label:'4 coeurs', class:''},
+        {role: "filter", type: 'rating', expression:'rating == 5', label:'5 coeurs', class:''},
+        {role: "separator", class:"divider"},
+        {role: "filter", type: 'rating', expression:'rating >= 1', label:'plus de 1 coeurs', class:''},
+        {role: "filter", type: 'rating', expression:'rating >= 2', label:'plus de 2 coeurs', class:''},
+        {role: "filter", type: 'rating', expression:'rating >= 3', label:'plus de 3 coeurs', class:''},
+        {role: "filter", type: 'rating', expression:'rating >= 4', label:'plus de 4 coeurs', class:''},
+        {role: "filter", type: 'rating', expression:'rating >= 5', label:'plus de 5 coeurs', class:''}
+    ];
+
+    vm.filterProperties = [{owner: true, shared: true, expression:'true', label:'Toutes', class:'btn-primary'},
+        {owner: false, shared: true, expression:'userTake.length > 0', label:'Offerts', class:'btn-warning'},
+        {owner: false, shared: true, expression:'userTake.length == 0', label:'A offrir', class:'btn-success'},
+        {owner: false, shared: true, expression:'suggest == true', label:'Suggestion', class:'btn-info'},
+        {owner: false, shared: true, expression:'notes.length > 0', label:'Commentaires', class:'btn-default'},
+        {owner: true, shared: false, expression:'description == null', label:'Sans texte', class:'btn-default'},
+        {owner: true, shared: false, expression:'price == null', label:'Sans prix', class:'btn-default'},
+        {owner: true, shared: false, expression:'picture == null', label:'Sans image', class:'btn-default'},
+        {owner: true, shared: false, expression:'urls == null', label:'Sans lien', class:'btn-default'},
+        {owner: true, shared: true, expression:'rating > 0', label:'Note', class:'btn-danger', child: vm.filtersRatingList},
+        {owner: true, shared: true, expression:'price != null', label:'Prix', class:'btn-primary', child: vm.filtersPriceList}
         ];
     vm.filterPropertiesOwners = [{expression:'true', label:'Toutes', class:'btn-primary'},
         {expression:'description == null', label:'Sans description', class:'btn-default'},
@@ -78,21 +119,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         {expression:'urls == null', label:'Sans liens', class:'btn-default'},
         {expression:'rating > 0', label:'Note', class:'btn-default'}];
 
-    vm.filtersPriceList = [
-        {role: "filter", min:0, max: 30, label:'Moins de 30 €', class:''},
-        {role: "filter", min:0, max: 50, label:'Moins de 50 €', class:''},
-        {role: "filter", min:0, max: 100, label:'Moins de 100 €', class:''},
-        {role: "filter", min:0, max: 200, label:'Moins de 200 €', class:''},
-        {role: "separator", class:"divider"},
-        {role: "filter", min:30, max: 50, label:'entre 30 et 50 €', class:''},
-        {role: "filter", min:50, max: 100, label:'entre 50 et 100 €', class:''},
-        {role: "filter", min:100, max: 200, label:'entre 100 et 200 €', class:''},
-        {role: "separator", class:"divider"},
-        {role: "filter", min:30, max: null, label:'Plus de 30 €', class:''},
-        {role: "filter", min:50, max: null, label:'Plus de 50 €', class:''},
-        {role: "filter", min:100, max: null, label:'Plus de 100 €', class:''},
-        {role: "filter", min:200, max: null, label:'Plus de 200 €', class:''}
-       ];
+
     loadEnvies();
     resetForm();
 
@@ -276,6 +303,15 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         var matches = sentence.replace(/,/g, '').match(/(\+|-)?((\d+(\.\d+)?)|(\.\d+))/);
         return matches && matches[0] || null;
     }
+
+    vm.filterChild = function (filterChild) {
+      if (filterChild.type == 'price') {
+          vm.filterPrice(filterChild.min, filterChild.max);
+      } else {
+          vm.filterList(filterChild.expression);
+      }
+    };
+
     vm.filterPrice = function(min, max) {
 
         vm.filter = function(value) {
@@ -287,6 +323,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
             if (!matches) return false;
 
             return matches.some(function (value) {
+                if (typeof value == 'string') value = parseFloat(value);
                 if (value >= min && value <= max) {
                     return true;
                 } else if (max == null && value >= min) {
