@@ -13,7 +13,7 @@ $red-A100: #ff8a80 !default;
 $red-A200: #ff5252 !default;
 $red-A400: #ff1744 !default;
 $red-A700: #d50000 !default;
-$red: $red-500 !default;
+$red: $red-700 !default;
 
 
 $pink-50: #fce4ec !default;
@@ -30,7 +30,7 @@ $pink-A100: #ff80ab !default;
 $pink-A200: #ff4081 !default;
 $pink-A400: #f50057 !default;
 $pink-A700: #c51162 !default;
-$pink: $pink-500 !default;
+$pink: $pink-700 !default;
 
 
 $purple-50: #f3e5f5 !default;
@@ -47,7 +47,7 @@ $purple-A100: #ea80fc !default;
 $purple-A200: #e040fb !default;
 $purple-A400: #d500f9 !default;
 $purple-A700: #aa00ff !default;
-$purple: $purple-500 !default;
+$purple: $purple-700 !default;
 
 
 $deep-purple-50: #ede7f6 !default;
@@ -64,7 +64,7 @@ $deep-purple-A100: #b388ff !default;
 $deep-purple-A200: #7c4dff !default;
 $deep-purple-A400: #651fff !default;
 $deep-purple-A700: #6200ea !default;
-$deep-purple: $deep-purple-500 !default;
+$deep-purple: $deep-purple-700 !default;
 
 
 $indigo-50: #e8eaf6 !default;
@@ -81,7 +81,7 @@ $indigo-A100: #8c9eff !default;
 $indigo-A200: #536dfe !default;
 $indigo-A400: #3d5afe !default;
 $indigo-A700: #304ffe !default;
-$indigo: $indigo-500 !default;
+$indigo: $indigo-700 !default;
 
 
 $blue-50: #e3f2fd !default;
@@ -98,7 +98,7 @@ $blue-A100: #82b1ff !default;
 $blue-A200: #448aff !default;
 $blue-A400: #2979ff !default;
 $blue-A700: #2962ff !default;
-$blue: $blue-500 !default;
+$blue: $blue-700 !default;
 
 
 $light-blue-50: #e1f5fe !default;
@@ -115,7 +115,7 @@ $light-blue-A100: #80d8ff !default;
 $light-blue-A200: #40c4ff !default;
 $light-blue-A400: #00b0ff !default;
 $light-blue-A700: #0091ea !default;
-$light-blue: $light-blue-500 !default;
+$light-blue: $light-blue-700 !default;
 
 
 $cyan-50: #e0f7fa !default;
@@ -132,7 +132,7 @@ $cyan-A100: #84ffff !default;
 $cyan-A200: #18ffff !default;
 $cyan-A400: #00e5ff !default;
 $cyan-A700: #00b8d4 !default;
-$cyan: $cyan-500 !default;
+$cyan: $cyan-700 !default;
 
 
 $teal-50: #e0f2f1 !default;
@@ -149,7 +149,7 @@ $teal-A100: #a7ffeb !default;
 $teal-A200: #64ffda !default;
 $teal-A400: #1de9b6 !default;
 $teal-A700: #00bfa5 !default;
-$teal: $teal-500 !default;
+$teal: $teal-700 !default;
 
 
 $green-50: #e8f5e9 !default;
@@ -166,7 +166,7 @@ $green-A100: #b9f6ca !default;
 $green-A200: #69f0ae !default;
 $green-A400: #00e676 !default;
 $green-A700: #00c853 !default;
-$green: $green-500 !default;
+$green: $green-700 !default;
 
 
 $light-green-50: #f1f8e9 !default;
@@ -183,7 +183,7 @@ $light-green-A100: #ccff90 !default;
 $light-green-A200: #b2ff59 !default;
 $light-green-A400: #76ff03 !default;
 $light-green-A700: #64dd17 !default;
-$light-green: $light-green-500 !default;
+$light-green: $light-green-700 !default;
 
 
 $lime-50: #f9fbe7 !default;
@@ -234,7 +234,7 @@ $amber-A100: #ffe57f !default;
 $amber-A200: #ffd740 !default;
 $amber-A400: #ffc400 !default;
 $amber-A700: #ffab00 !default;
-$amber: $amber-500 !default;
+$amber: $amber-700 !default;
 
 
 $orange-50: #fff3e0 !default;
@@ -251,7 +251,7 @@ $orange-A100: #ffd180 !default;
 $orange-A200: #ffab40 !default;
 $orange-A400: #ff9100 !default;
 $orange-A700: #ff6d00 !default;
-$orange: $orange-500 !default;
+$orange: $orange-700 !default;
 
 
 $deep-orange-50: #fbe9e7 !default;
@@ -268,7 +268,7 @@ $deep-orange-A100: #ff9e80 !default;
 $deep-orange-A200: #ff6e40 !default;
 $deep-orange-A400: #ff3d00 !default;
 $deep-orange-A700: #dd2c00 !default;
-$deep-orange: $deep-orange-500 !default;
+$deep-orange: $deep-orange-700 !default;
 
 
 $brown-50: #efebe9 !default;
@@ -285,7 +285,7 @@ $brown-A100: #d7ccc8 !default;
 $brown-A200: #bcaaa4 !default;
 $brown-A400: #8d6e63 !default;
 $brown-A700: #5d4037 !default;
-$brown: $brown-500 !default;
+$brown: $brown-700 !default;
 
 
 $grey-50: #fafafa !default;
@@ -302,7 +302,7 @@ $grey-A100: #f5f5f5 !default;
 $grey-A200: #eeeeee !default;
 $grey-A400: #bdbdbd !default;
 $grey-A700: #616161 !default;
-$grey: $grey-500 !default;
+$grey: $grey-700 !default;
 
 
 $blue-grey-50: #eceff1 !default;
@@ -319,7 +319,7 @@ $blue-grey-A100: #cfd8dc !default;
 $blue-grey-A200: #b0bec5 !default;
 $blue-grey-A400: #78909c !default;
 $blue-grey-A700: #455a64 !default;
-$blue-grey: $blue-grey-500 !default;
+$blue-grey: $blue-grey-700 !default;
 
 
 $black: #000000; $rgb-black: "0,0,0" !default;

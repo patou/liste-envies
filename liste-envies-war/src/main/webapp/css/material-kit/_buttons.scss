@@ -60,6 +60,21 @@
         }
     }
 
+    &.btn-link{
+      &,
+      &.btn-simple{
+        color: $gray-light;
+        background: transparent;
+        box-shadow: none;
+      }
+
+      &:focus,
+      &:hover{
+        color: $black-color;
+      }
+
+    }
+
 
     &:focus,
     &:active,
