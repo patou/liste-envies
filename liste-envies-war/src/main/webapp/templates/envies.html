@@ -101,17 +101,16 @@
             </div>
         </div>
         <div class="search col-xs-12 col-md-4">
-            <div class="form-group has-feedback">
-                <label class="control-label" for="searchEnvieFilter">Rechercher</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" id="searchEnvieFilter" ng-change="vm.searchList();" ng-model="vm.search">
+            <div class="row">
+                <div class="form-group label-floating has-feedback has-success col-xs-11">
+                    <label class="control-label" for="searchEnvieFilter">Rechercher</label>
                     <span class="fa fa-search form-control-feedback" aria-hidden="true"></span>
-                    <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" ng-click="vm.searchList(true);"><i class="fa fa-close" ></i></button>
-                  </span>
-                </div>
+                    <input type="text" class="form-control" id="searchEnvieFilter" ng-change="vm.searchList();" ng-model="vm.search">
 
+                </div>
+                <div class="material-icons form-control-feedback col-xs-11" ng-click="vm.searchList(true);">clear</div>
             </div>
+
 
 
         </div>
@@ -160,84 +159,9 @@
                    list-name = "vm.name"
 
         >
-            <!--<div data-ng-show="$index % 3 == 0" class="envie-separator"></div>-->
-            <!--<div >
-                <div class="panel envie-item "  ng-class="{'panel-warning':envie.userTakeUsers, 'panel-info':envie.suggest, 'panel-success':!envie.userTakeUsers}">
-                    <div class="panel-heading">
-                        <span class="text-muted pull-left" am-time-ago="envie.date"></span>
-                        <span class="badge pull-right">{{envie.price}}</span>
-                        <h1>{{envie.label}}</h1>
-                        <p><i class="fa fa-smile-o fa-lg"></i> 
-                            <a href="javascript:;"><i>{{envie.ownerUser.name}}</i></a>
-                        <i class="fa fa-gift fa-3x pull-right logo-envie"></i></p>
-                    </div>
-                    <div class="panel-body">
-                        <a ng-if="envie.picture" ng-href="{{envie.picture}}" target="_blank" class="thumbnail">
-                            <img ng-src="{{envie.picture}}" alt="Image Envie">
-                        </a>
-                        <p class="text-center" ng-bind-html="envie.description"></p>
-                        <div ng-if="envie.urls && envie.urls.length > 0">
-                            <a ng-href="{{link.url}}" ng-repeat="link in envie.urls" target="_blank" class="btn btn-block btn3d btn-default"><i class="fa fa-external-link"></i><b>   {{link.name||"Plus d'informations"}}  </b></a>
-                        </div>
-                        &lt;!&ndash;<p class="text-warning"><b>574</b> subscribers <span title="Rating"><i class="fa fa-star-half-empty fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i><i class="fa fa-star fa-lg pull-right"></i></span></p>&ndash;&gt;
-                        <button type="button" class="btn btn-warning edit-button" ng-if="vm.listEnvies.owner || envie.owner == main.user.email" ng-click="vm.editEnvie(envie)">Modifier</button>
-                    </div>
-                    <div class="panel-heading bottom-envie" ng-if="!vm.listEnvies.owner">
-                        &lt;!&ndash;<div class="row">
-                            <div class="col-xs-4 col-md-4" title="Receba até 42 de Status">
-                                <p class="text-center"><i class="glyphicon glyphicon-stats fa-2x "></i><span class="badge">42</span></p>
-                            </div>
-                            <div class="col-xs-4 col-md-4" title="Ganhe até 3 Badges">
-                                <p class="text-center"><i class="glyphicon glyphicon-fire fa-2x "></i><span style class="badge"></span><span class="badge">3</span></p>
-                            </div>
-                            <div class="col-xs-4 col-md-4" title="Ganhe Certificado">
-                                <p class="text-center"><i class="glyphicon glyphicon-file fa-2x"></i><span class="badge">1</span></p>
-                            </div>
-                        </div>&ndash;&gt;
-                        <div title="Cadeau" class="gift pull-right">
-                            <h6 ng-if="!vm.listEnvies.owner && envie.userTakeUsers"><i class="fa fa-gift"></i> Offert par {{envie.userTakeUsers}} &nbsp;&nbsp;&nbsp;
-                                <button type="button" class="btn btn-danger" ng-if="envie.userTake.indexOf(main.user.email) >= 0" ng-click="vm.cancel(envie.id)">Annuler</button>
-                                <button type="button" class="btn btn-success btn3d" ng-if="envie.userTake.indexOf(main.user.email) < 0" ng-click="vm.given(envie.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b>Participer</b></button>
-                            </h6>
-                            <button type="button" class="btn btn-success btn3d" ng-if="!vm.listEnvies.owner && !envie.userTakeUsers" ng-click="vm.given(envie.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b>Offrir</b></button>
-                        </div>
 
-                        <div class="comments" >
-                            <a class="btn btn-link" role="button" aria-expanded="false" aria-controls="collapseExample" ng-click="vm.openComment(envie.id)">
-                                <i class="fa fa-comments"></i> Commmentaires ({{envie.notes.length || 0}})
-                            </a>
-                            <div class="collapse" id="comment-{{envie.id}}">
-                                <div class="chat">
-                                    <div class="chat-history">
-                                        <ul class="chat-ul">
-                                            <li ng-repeat="note in envie.notes" ng-class="{'clearfix':$odd}">
-                                                <div class="message-data" ng-class="{'align-right':$odd}">
-                                                    <span class="message-data-name"><i class="fa fa-circle you"></i>&nbsp; <strong> {{note.owner}}</strong> <span class="text-muted" ng-class="{'pull-left':$odd}" am-time-ago="note.date">commented 5 days ago</span></span>
-                                                </div>
-                                                <div class="message" ng-class="{'float-right':$odd, 'me-message':$odd, 'you-message':$even}">
-                                                    {{note.text}}
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div> &lt;!&ndash; end chat-history &ndash;&gt;
-                                </div> &lt;!&ndash; end chat &ndash;&gt;
-                                <form class="form">
-                                    <div class="form-group">
-                                        <label for="note-{{$index}}">Commentaires</label>
-                                        <textarea class="form-control comment-textarea" id="note-{{$index}}" ng-model="note.text" >
-                                        </textarea>
-                                    </div>
-                                    <button type="submit" class="btn btn-default" ng-click="vm.addNote(envie, note)">Commenter</button>
-                                </form>
-                            </div>
-                        </div>
-                        &lt;!&ndash;<p></p><br>
-                        <p><span class="label label-success">Tecnologia</span><span class="label label-warning">Programação</span><span class="label label-danger">Python</span><span class="label label-info">Dinâmica</span></p>&ndash;&gt;
-                    </div>
-                </div>
-            </div>-->
         </wish-card>
-        <!--<div data-ng-show="$index % 3 == 0" class="envie-separator"></div>-->
+
         <wish-card masonry-tile
                    wish="vm.newWish"
                    owner-list="vm.listEnvies.owner"
@@ -245,46 +169,7 @@
                    parent-controller="vm"
                    list-name = "vm.name"
                    class="envie-card envie-card col-xs-12 col-sm-6 col-md-4 col-lg-4" >
-           <!-- <form id="formEdit">
-                <div class="panel envie-item"  ng-class="{'panel-info':!vm.listEnvies.owner, 'panel-success':vm.listEnvies.owner}">
-                    <div class="panel-heading">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Titre</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" ng-model="vm.envie.label">
-                        </div>
-                    </div>
-                    <div class="panel-body">
-                        <div class="form-group">
-                            <label for="description">Description</label>
-                            <summernote id="description" ng-model="vm.envie.description" heigth="500" config="vm.editorOptions" lang="fr-FR"></summernote>
-                        </div>
-                        <div class="form-group">
-                            <label for="link-url">Urls</label>
-                            <div ng-repeat="link in vm.envie.urls" class="links-editor">
-                                <input type="url" class="form-control" id="url-{{$index}}" ng-model="link.url" placeholder="http://">
-                                <input type="text" class="form-control" id="name-{{$index}}" ng-model="link.name" placeholder="texte du lien">
-                            </div>
-                            <div class="links-editor">
-                                <input type="url" class="form-control" id="link-url" ng-model="vm.link.url" placeholder="http://">
-                                <input type="text" class="form-control" id="link-name" ng-model="vm.link.name" placeholder="texte du lien">
-                                <button type="submit" class="btn btn-success" ng-click="vm.addLink(vm.link);"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="sr-only">Ajouter le lien</span></button>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="price">Prix</label>
-                            <input type="text" class="form-control" id="price" ng-model="vm.envie.price" placeholder=" € ">
-                        </div>
-                        <div class="form-group">
-                            <label for="picture">Image</label>
-                            <input type="url" class="form-control" id="picture" ng-model="vm.envie.picture">
-                        </div>
-                    </div>
-                    <div class="panel-heading bottom-envie">
-                        <button type="submit" class="btn btn-default" ng-submit="vm.addEnvie(vm.envie)">{{vm.envie.id ? 'Modifier' : 'Ajouter'}}</button>
-                        <button type="button" class="btn btn-link" ng-click="vm.envie = {}">Annuler</button>
-                    </div>
-                </div>
-            </form>-->
+
         </wish-card>
     </div>
 

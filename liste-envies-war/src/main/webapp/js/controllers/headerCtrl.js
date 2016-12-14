@@ -34,4 +34,6 @@ app.controller('HeaderCtrl', function($scope, $http, $location, AuthService, Uti
         return "/logout?path=" + $location.path();
     };
 
+    $.material.init();
+
 });

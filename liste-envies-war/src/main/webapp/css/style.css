@@ -1,22 +1,17 @@
 body {
-    margin-top: 100px;
-    background-color: #fff;
+
 }
 
 @media(min-width:768px) {
-    body {
-        margin-top: 50px;
-    }
+
 }
 
 #wrapper {
-    padding-left: 0;
+
 }
 
 #page-wrapper {
-    width: 100%;
-    padding: 0;
-    background-color: #fff;
+
 }
 
 @media(min-width:768px) {
@@ -27,6 +22,14 @@ body {
     #page-wrapper {
         padding: 10px;
     }
+}
+
+.wrapper > .header {
+    background-image: url('https://images.unsplash.com/photo-1453834190665-46ff0a1fbd5a?dpr=1&auto=format&fit=crop&w=1500&h=994&q=80&cs=tinysrgb&crop=');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: 50% 66% !important;
+    background-size: cover;
 }
 
 .top-nav {
@@ -91,7 +94,7 @@ body {
 .edit-button {
     display: none;
     position: absolute;
-    top: 31px;
+    top: 60px;
     right: 24px;
 }
 
@@ -122,8 +125,11 @@ body {
 }
 
 .order-filter .form-group {
-    margin-bottom: 0;
+    margin: 0;
+    padding: 0;
 }
+
+
 
 .list-envie .envie-item:hover .edit-button {
     display: block !important;
@@ -171,13 +177,42 @@ body {
 
 }
 
+.order-filter .search {
+    padding-top: 45px;
+}
+
 .order-filter .has-feedback label~.form-control-feedback {
-    top: 33px;
+    top: 6px;
+}
+
+.order-filter input#searchEnvieFilter {
+
+}
+
+div.material-icons.form-control-feedback {
+    cursor: pointer;
+    color: gray;
+}
+
+.card .header {
+    padding: 2px !important;
+    margin-top: -15px;
+}
+
+.card.card-signup.envie-item.ng-scope {
+    margin-top: 20px;
+}
+
+.envie-card .panel {
+     /*box-shadow: none;*/
+}
+
+.envie-card .panel .footer {
+    padding: 5px;
 }
 
 .order-filter span.fa.fa-search.form-control-feedback {
     top: 10px;
-    right: 34px;
 }
 
 /** Comentaires **/
