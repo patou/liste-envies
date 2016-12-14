@@ -30,4 +30,6 @@ function HomeCtrl(appUserService, listEnviesService, $location, UtilitiesService
             $location.url("/"+listEnvies.name);
         });
     };
+
+    $.material.init();
 }

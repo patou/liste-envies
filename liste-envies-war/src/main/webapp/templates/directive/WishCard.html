@@ -11,15 +11,13 @@
                     <span ng-if="!w.edit">{{w.wish.label}}</span>
 
                 </h1>
-                <div class="form-group" ng-if="w.edit">
-                    <label for="wishEditTitle">Titre</label>
+                <div class="form-group label-floating" ng-if="w.edit">
+                    <label for="wishEditTitle" class="control-label">Titre</label>
                     <input type="text" class="form-control" id="wishEditTitle" ng-model="w.wish.label">
                 </div>
 
 
-                <p><i class="fa fa-smile-o fa-lg"></i> 
-                    <a href="javascript:;"><i>{{(w.add)? w.user.name : w.wish.ownerUser.name}}</i></a>
-                    <i class="fa fa-a fa-3x pull-right logo-envie" ng-class="{'fa-gift': !w.add, 'fa-plus': w.add, 'wish-edit': w.edit}"></i></p>
+
             </div>
             <div class="panel-body">
                 <div class="alert alert-warning" role="alert" ng-if="w.wish.deleted">
@@ -27,21 +25,28 @@
                     Cette envie a été supprimé par la/les bénéficiaires de la liste, mais gardé en mode privé car une personne c'est proposé de l'offrir. Si vous ne l'avez pas donné ou déjà acheté voyez avec le(s) bénéficiaire(s) si elle(s) souhaite(nt) encore le cadeau.
                     <a class="btn btn-warning btn-link alert-link" ng-click="w.receivedWish()">Déjà donné</a>
                 </div>
+                <span class="badge pull-right" ng-if="!w.edit">{{w.wish.price}}</span>
+                <p><span class="text-muted pull-left" am-time-ago="w.wish.date"></span> <i class="fa fa-smile-o fa-lg"></i> 
+
+                    <a href="javascript:;"><i>{{(w.add)? w.user.name : w.wish.ownerUser.name}}</i></a>
+                    <!--<i class="fa fa-a fa-3x pull-right logo-envie" ng-class="{'fa-gift': !w.add, 'fa-plus': w.add, 'wish-edit': w.edit}"></i></p>-->
                 <a ng-if="w.wish.picture && !w.edit" ng-href="{{w.wish.picture}}" target="_blank" class="thumbnail">
                     <img ng-src="{{w.wish.picture}}" alt="Image Envie">
                 </a>
+
+
                 <p class="text-center" ng-bind-html="w.wish.description" ng-if="!w.edit"></p>
 
                 <div ng-if="!w.edit && w.wish.urls && w.wish.urls.length > 0">
                     <a ng-href="{{link.url}}" ng-repeat="link in w.wish.urls" target="_blank" class="btn btn-block btn3d btn-default"><i class="fa fa-external-link"></i><b>   {{link.name||"Plus d'informations"}}  </b></a>
                 </div>
 
-                <div class="form-group" ng-if="w.edit">
-                    <label for="description">Description</label>
+                <div class="form-group label-floating " ng-if="w.edit">
+                    <label for="description" class="control-label">Description</label>
                     <summernote id="description" ng-model="w.wish.description" heigth="500" config="w.editorOptions" lang="fr-FR"></summernote>
                 </div>
-                <div class="form-group" ng-if="w.edit">
-                    <label for="link-url">Urls</label>
+                <div class="form-group label-floating" ng-if="w.edit">
+                    <label for="link-url" class="control-label">Urls</label>
                     <div ng-repeat="link in w.wish.urls" class="links-editor">
                         <input type="url" class="form-control" id="url-{{$index}}" ng-model="link.url" placeholder="http://">
                         <input type="text" class="form-control" id="name-{{$index}}" ng-model="link.name" placeholder="texte du lien">
@@ -49,25 +54,25 @@
                     <div class="links-editor">
                         <input type="url" class="form-control" id="link-url" ng-model="w.link.url" placeholder="http://">
                         <input type="text" class="form-control" id="link-name" ng-model="w.link.name" placeholder="texte du lien">
-                        <button type="submit" class="btn btn-success" ng-click="w.addLink(w.link);"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="sr-only">Ajouter le lien</span></button>
+                        <button type="submit" class="btn btn-success  btn-just-icon" ng-click="w.addLink(w.link);"><span class="fa fa-plus" aria-hidden="true"></span><span class="sr-only">Ajouter le lien</span></button>
                     </div>
                 </div>
-                <div class="media row" ng-if="w.edit">
+                <div class="row" ng-if="w.edit">
 
-                    <div class="media-body form-group col-xs-8">
-                            <label for="picture">Image (url)</label>
+                    <div class="form-group label-floating col-xs-8">
+                            <label for="picture" class="control-label floating-image_label">Image (url)</label>
                             <input type="url" class="form-control" id="picture" ng-model="w.wish.picture">
                     </div>
-                    <div class="media-left col-xs-4">
+                    <div class="col-xs-4">
                         <img ng-src="{{w.wish.picture? w.wish.picture : 'https://placeholdit.imgix.net/~text?txtsize=20&txt=Choisir+une+image&w=100&h=100&txttrack=0'}}"  class="pull-right img-thumbnail preview-image">
                     </div>
 
                 </div>
 
 
-                <div class="form-group" ng-if="w.edit">
-                    <label for="price">Prix</label>
-                    <input type="text" class="form-control" id="price" ng-model="w.wish.price" placeholder=" € ">
+                <div class="form-group label-floating" ng-if="w.edit">
+                    <label for="price" class="control-label">Prix</label>
+                    <input type="text" class="form-control" id="price" ng-model="w.wish.price">
                 </div>
 
 
@@ -91,7 +96,7 @@
                 </div>
                 <button type="button" class="btn btn-warning edit-button" ng-if="w.edit" ng-click="w.cancelWish()">Anuler</button>
             </div>
-            <div class="panel-heading bottom-envie" ng-if="!w.ownerList && !w.edit">
+            <div class="footer panel-footer bottom-envie" ng-if="!w.ownerList && !w.edit">
                 <!--<div class="row">
                     <div class="col-xs-4 col-md-4" title="Receba até 42 de Status">
                         <p class="text-center"><i class="glyphicon glyphicon-stats fa-2x "></i><span class="badge">42</span></p>
@@ -143,7 +148,7 @@
                 <!--<p></p><br>
                 <p><span class="label label-success">Tecnologia</span><span class="label label-warning">Programação</span><span class="label label-danger">Python</span><span class="label label-info">Dinâmica</span></p>-->
             </div>
-            <div class="panel-heading bottom-envie" ng-if="w.edit">
+            <div class="footer panel-footer bottom-envie" ng-if="w.edit">
                 <button type="submit" class="btn btn-default" ng-click="w.updateWish()">{{!w.add ? 'Modifier' : 'Ajouter'}}</button>
                 <button type="submit" class="btn btn-link" ng-click="w.cancelWish()" ng-if="!w.add">Annuler</button>
             </div>

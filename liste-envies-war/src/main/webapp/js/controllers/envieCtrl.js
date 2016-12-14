@@ -402,6 +402,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
                     vm.envies = newEnvies;
                     $scope.update();
                 }
+                $.material.init();
 
 
 
@@ -411,4 +412,6 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
             });
         });
     }
+
+    $.material.init();
 }
