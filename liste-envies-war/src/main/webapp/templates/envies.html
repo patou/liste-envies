@@ -64,7 +64,7 @@
     <summernote airMode ng-model="vm.listEnvies.description" ng-if="vm.listEnvies.owner" config="vm.editorOptions" ng-change="vm.saveListEnvies(vm.listEnvies);" ng-model-options="{ updateOn: 'default', debounce: 5000 }" lang="fr-FR"></summernote>
 
     <div class="order-filter row row-fluid well well-sm">
-        <div class="filter col-xs-12 col-md-4">
+        <div class="filter col-xs-12 col-md-5">
             <div class="form-group">
                 <label class="control-label">Filtrer</label><br/>
                 <div class="btn-group" data-toggle="buttons">
@@ -82,10 +82,10 @@
                     <!--ng-if="(!vm.listEnvies.owner && filter.owner) || (vm.listEnvies.owner && filter.shared)"-->
                 <div ng-if="(vm.listEnvies.owner && filter.owner) || (!vm.listEnvies.owner && filter.shared)"
                         class="btn-group"  type="button" class="btn"  ng-repeat="filter in vm.filterProperties">
-                    <button type="button" class="btn {{filter.class}}"  ng-class="{'dropdown-toggle' : filter.child}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-click="vm.filterList(filter.expression);" >
+                    <button type="button" class="btn btn-sm {{filter.class}}"  ng-class="{'dropdown-toggle' : filter.child}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-click="vm.filterList(filter.expression);" >
                         {{filter.label}}
                     </button>
-                    <button type="button"  ng-if="filter.child" class="btn {{filter.class}} dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button type="button"  ng-if="filter.child" class="btn btn-sm {{filter.class}} dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
@@ -100,7 +100,7 @@
             </div>
             </div>
         </div>
-        <div class="search col-xs-12 col-md-4">
+        <div class="search col-xs-12 col-md-3">
             <div class="row ">
                 <div class="col-xs-11">
                     <div class="form-group label-floating has-feedback">
@@ -110,7 +110,7 @@
                     </div>
                 </div>
                 <div class="col-xs-1">
-                    <div class="btn btn-white btn-just-icon reset-search-icon" ng-click="vm.searchList(true);">
+                    <div class="btn btn-white btn-just-icon reset-search-icon btn-bordered-danger" ng-click="vm.searchList(true);">
                         <span class="fa fa-close " aria-hidden="true"></span>
                     </div>
                 </div>
@@ -122,7 +122,7 @@
 
                 <div class="form-group">
                     <label class="control-label">Trier</label><br/>
-                    <div class="btn-group order-btn " data-toggle="buttons">
+                    <div class="btn-group order-btn btn-group-sm" data-toggle="buttons">
                         <!-- Shared -->
                         <button ng-if="!vm.listEnvies.owner" type="button" class="btn btn-link" ng-class="{dropup:order.reverse}" ng-click="vm.sortList(order);" ng-repeat="order in vm.orderProperties">
                             {{order.label}}
@@ -135,8 +135,10 @@
                             <span ng-class="{caret:vm.selectedItems == order}"></span>
                         </button>
 
-                        <button class="btn btn-default pull-right" type="button" ng-click="vm.refresh();"><i class="fa fa-refresh" ></i></button>
+
                     </div>
+
+                    <button class="btn btn-default btn-just-icon btn-sm pull-right btn-bordered-success" type="button" ng-click="vm.refresh();"><i class="fa fa-refresh" ></i></button>
                 </div>
         </div>
     </div>

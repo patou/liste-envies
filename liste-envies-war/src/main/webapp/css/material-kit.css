@@ -645,6 +645,27 @@ a, a:hover, a:focus {
     color: #FFFFFF;
     background: transparent;
     box-shadow: none; }
+  .btn.btn-bordered-gray,
+  .navbar .navbar-nav > li > a.btn.btn-bordered-gray {
+    border-top: solid 3px #999999; }
+  .btn.btn-bordered-primary,
+  .navbar .navbar-nav > li > a.btn.btn-bordered-primary {
+    border-top: solid 3px #0288d1; }
+  .btn.btn-bordered-info,
+  .navbar .navbar-nav > li > a.btn.btn-bordered-info {
+    border-top: solid 3px #0097a7; }
+  .btn.btn-bordered-success,
+  .navbar .navbar-nav > li > a.btn.btn-bordered-success {
+    border-top: solid 3px #689f38; }
+  .btn.btn-bordered-warning,
+  .navbar .navbar-nav > li > a.btn.btn-bordered-warning {
+    border-top: solid 3px #ffa000; }
+  .btn.btn-bordered-danger,
+  .navbar .navbar-nav > li > a.btn.btn-bordered-danger {
+    border-top: solid 3px #f57c00; }
+  .btn.btn-bordered-upgrade,
+  .navbar .navbar-nav > li > a.btn.btn-bordered-upgrade {
+    border-top: solid 3px #512da8; }
   .btn.btn-link, .btn.btn-link.btn-simple,
   .navbar .navbar-nav > li > a.btn.btn-link,
   .navbar .navbar-nav > li > a.btn.btn-link.btn-simple {
