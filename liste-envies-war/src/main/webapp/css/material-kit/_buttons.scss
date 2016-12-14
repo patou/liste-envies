@@ -46,19 +46,44 @@
     &.btn-upgrade{
       @include btn-styles($brand-rose);
     }
+
     &.btn-white{
-        &,
-        &:focus,
-        &:hover{
-            background-color: $white-color;
-            color: $gray-light;
-        }
-        &.btn-simple{
-            color: #FFFFFF;
-            background: transparent;
-            box-shadow: none;
-        }
+      &,
+      &:focus,
+      &:hover{
+        background-color: $white-color;
+        color: $gray-light;
+      }
+      &.btn-simple{
+        color: #FFFFFF;
+        background: transparent;
+        box-shadow: none;
+      }
     }
+
+
+    &.btn-bordered-gray{
+      border-top: solid 3px $gray-light;
+    }
+    &.btn-bordered-primary{
+      border-top: solid 3px $brand-primary;
+    }
+    &.btn-bordered-info{
+      border-top: solid 3px $brand-info;
+    }
+    &.btn-bordered-success{
+      border-top: solid 3px $brand-success;
+    }
+    &.btn-bordered-warning{
+      border-top: solid 3px $brand-warning;
+    }
+    &.btn-bordered-danger{
+      border-top: solid 3px $brand-danger;
+    }
+    &.btn-bordered-upgrade{
+      border-top: solid 3px $brand-rose;
+    }
+
 
     &.btn-link{
       &,

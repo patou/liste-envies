@@ -100,22 +100,22 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         {role: "filter", type: 'rating', expression:'rating >= 5', label:'plus de 5 coeurs', class:''}
     ];
 
-    vm.filterProperties = [{owner: true, shared: true, expression:'true', label:'Toutes', class:'btn-primary'},
-        {owner: false, shared: true, expression:'userTake.length > 0', label:'Offerts', class:'btn-primary'},
-        {owner: false, shared: true, expression:'userTake.length == 0', label:'A offrir', class:'btn-primary', child: [
-            {role: "filter", expression:'userTake.length == 0 && suggest == true', label:'Suggestion', class:'btn-primary'},
-            {role: "filter", expression:'userTake.length == 0 && suggest == false ', label:'Envie', class:'btn-primary'}
+    vm.filterProperties = [{owner: true, shared: true, expression:'true', label:'Toutes', class:'btn-white btn-bordered-primary'},
+        {owner: false, shared: true, expression:'userTake.length > 0', label:'Offerts', class:'btn-white btn-bordered-warning'},
+        {owner: false, shared: true, expression:'userTake.length == 0', label:'A offrir', class:'btn-white btn-bordered-success', child: [
+            {role: "filter", expression:'userTake.length == 0 && suggest == true', label:'Suggestion', class:'btn-white btn-bordered-info'},
+            {role: "filter", expression:'userTake.length == 0 && suggest == false ', label:'Envie', class:'btn-white btn-bordered-success'}
         ]},
-        {owner: false, shared: true, expression:'notes.length > 0', label:'Commentaires', class:'btn-primary'},
-        {owner: true, shared: false, expression:'description == null || price == null || picture == null || urls == null', label:'A compléter', class:'btn-primary', child: [
-            {role: "filter", expression:'description == null', label:'Sans texte', class:'btn-primary'},
-            {role: "filter", expression:'price == null', label:'Sans prix', class:'btn-primary'},
-            {role: "filter", expression:'picture == null', label:'Sans image', class:'btn-primary'},
-            {role: "filter", expression:'urls == null', label:'Sans lien', class:'btn-primary'}
+        {owner: false, shared: true, expression:'notes.length > 0', label:'Commentaires', class:'btn-white btn-bordered-danger'},
+        {owner: true, shared: false, expression:'description == null || price == null || picture == null || urls == null', label:'A compléter', class:'btn-white btn-bordered-danger', child: [
+            {role: "filter", expression:'description == null', label:'Sans texte', class:'btn-white btn-bordered-danger'},
+            {role: "filter", expression:'price == null', label:'Sans prix', class:'btn-white btn-bordered-danger'},
+            {role: "filter", expression:'picture == null', label:'Sans image', class:'btn-white btn-bordered-danger'},
+            {role: "filter", expression:'urls == null', label:'Sans lien', class:'btn-white btn-bordered-danger'}
         ]},
 
-        {owner: true, shared: true, expression:'rating > 0', label:'Note', class:'btn-primary', child: vm.filtersRatingList},
-        {owner: true, shared: true, expression:'price != null', label:'Prix', class:'btn-primary', child: vm.filtersPriceList}
+        {owner: true, shared: true, expression:'rating > 0', label:'Note', class:'btn-white btn-bordered-upgrade', child: vm.filtersRatingList},
+        {owner: true, shared: true, expression:'price != null', label:'Prix', class:'btn-white btn-bordered-gray', child: vm.filtersPriceList}
         ];
 
 

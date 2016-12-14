@@ -94,13 +94,11 @@ body {
 .edit-button {
     display: none;
     position: absolute;
-    top: 60px;
-    right: 24px;
+    top: 2px;
+    right: 9px;
 }
 
-.comment-textarea {
 
-}
 .title .btn {
     display: none;
 }
@@ -177,6 +175,17 @@ body {
 
 }
 
+.envie-card .panel-body {
+    padding-top: 2px;
+}
+
+.envie-card .envie-infos .fa{
+    margin-right: 3px;
+}
+.envie-card .envie-infos .col{
+    padding: 1px;
+}
+
 .order-filter .search {
     padding-top: 45px;
 }
@@ -219,6 +228,18 @@ div.material-icons.form-control-feedback {
 .envie-card .panel .footer {
     padding: 5px;
 }
+
+.envie-card .gift {
+    margin: 0;
+    margin-top: 0;
+    padding: 0px 13px 0 0;
+}
+
+.envie-card .gift h6 {
+    margin: 0;
+}
+
+
 
 
 /** Comentaires **/
@@ -323,6 +344,9 @@ div.material-icons.form-control-feedback {
 
 
 
+.chat {
+    padding: 0 10px;
+}
 
 
 .chat .chat-message {
@@ -373,6 +397,30 @@ div.material-icons.form-control-feedback {
 .links-editor input {
     width: 44%;
     display: inline-block;
+}
+
+.envie-item .comment-form {
+    background: white;
+    padding: 1px 2px;
+    margin: 5px 0 0;
+}
+
+.envie-item .comment-form label {
+    margin: 0;
+}
+
+.envie-item .comment-form .comment-textarea {
+    margin: 0;
+    padding: 0;
+}
+
+.envie-item form.form.form-add-comment {
+    padding: 0 11px 2px 26px;
+}
+
+.envie-item form.form.form-add-comment button.btn {
+    position: relative;
+    bottom: -10px;
 }
 
 
@@ -557,6 +605,15 @@ div.material-icons.form-control-feedback {
 .star-rating:not(.readonly) > .star:hover ~ .star, .star-rating:not(.readonly) > .cancel-rating:hover ~ .star {
     color: #ddd !important;
 }
+
+.modal-dialog {
+    z-index: 1500 !important;
+}
+
+.modal-backdrop {
+    z-index: 1 !important;
+}
+
 
 
 

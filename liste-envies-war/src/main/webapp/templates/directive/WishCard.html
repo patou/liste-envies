@@ -2,7 +2,7 @@
     <div class="" >
         <cancel-directive whish-name="w.wish.label" show="w.remove" on-cancel="w.cancelRemove()" on-delete="w.doRemove()"></cancel-directive>
         <div class="panel card card-signup envie-item " ng-if="!w.remove"  ng-class="{'panel-warning':w.wish.userTakeUsers, 'panel-info':w.wish.suggest, 'panel-success':!w.wish.userTakeUsers}">
-            <div class="header text-center" ng-class="{'header-warning':w.wish.userTakeUsers, 'header-info':w.wish.suggest, 'header-success':!w.wish.userTakeUsers}">
+            <div class="header text-center" ng-class="{'header-warning':w.wish.userTakeUsers, 'header-info':w.wish.suggest && !w.wish.userTakeUsers, 'header-success':!w.wish.suggest && !w.wish.userTakeUsers}">
 
 
 
@@ -19,20 +19,30 @@
 
             </div>
             <div class="panel-body">
-                <span class="badge pull-right" ng-if="!w.edit">{{w.wish.price}}</span>
-                <p><span class="text-muted pull-left" am-time-ago="w.wish.date"></span> <i class="fa fa-smile-o fa-lg"></i> 
+                <div class="row envie-infos">
+                   <div class="col col-xs-4 col-md-3" title="Dernière modification">
+                       <p class="text-center"><i class="fa fa-calendar fa-pull-left fa-border"></i><span class="text-muted" am-time-ago="w.wish.date"></span></p>
+                   </div>
+                   <div class="col col-xs-4 col-md-3" title="Crée par">
+                       <p class="text-center"><i class="fa fa-smile-o fa-pull-left fa-border"></i><span class="text-muted">{{(w.add)? w.user.name : w.wish.ownerUser.name}}</span></p>
+                   </div>
+                   <div class="col col-xs-4 col-md-6" title="Prix" ng-if="!w.edit">
+                       <p class="text-center"><i class="fa fa-euro fa-pull-left fa-border"></i><span class="text-muted">{{w.wish.price}}</span></p>
+                   </div>
+               </div>
 
-                    <a href="javascript:;"><i>{{(w.add)? w.user.name : w.wish.ownerUser.name}}</i></a>
+
+
                     <!--<i class="fa fa-a fa-3x pull-right logo-envie" ng-class="{'fa-gift': !w.add, 'fa-plus': w.add, 'wish-edit': w.edit}"></i></p>-->
                 <a ng-if="w.wish.picture && !w.edit" ng-href="{{w.wish.picture}}" target="_blank" class="thumbnail">
                     <img ng-src="{{w.wish.picture}}" alt="Image Envie">
                 </a>
 
 
-                <p class="text-center" ng-bind-html="w.wish.description" ng-if="!w.edit"></p>
+                <p class="text-center lead"  ng-bind-html="w.wish.description" ng-if="!w.edit"></p>
 
                 <div ng-if="!w.edit && w.wish.urls && w.wish.urls.length > 0">
-                    <a ng-href="{{link.url}}" ng-repeat="link in w.wish.urls" target="_blank" class="btn btn-block btn3d btn-default"><i class="fa fa-external-link"></i><b>   {{link.name||"Plus d'informations"}}  </b></a>
+                    <a ng-href="{{link.url}}" ng-repeat="link in w.wish.urls" target="_blank" class="btn btn-block btn-bordered-gray btn3d btn-default"><i class="fa fa-external-link"></i><b>   {{link.name||"Plus d'informations"}}  </b></a>
                 </div>
 
                 <div class="form-group label-floating " ng-if="w.edit">
@@ -77,7 +87,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="btn-group edit-button" ng-if="(w.owner && !w.add) || w.wish.owner == w.user.email">
+                <div class="btn-group btn-group-sm edit-button" ng-if="(w.owner && !w.add) || w.wish.owner == w.user.email">
                     <button type="button" class="btn btn-warning" ng-click="w.editWish()">Modifier</button>
                     <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="caret"></span>
@@ -88,21 +98,11 @@
                         <li><a href="javascript:;" ng-click="w.deleteWish()">Supprimer</a></li>
                     </ul>
                 </div>
-                <button type="button" class="btn btn-warning edit-button" ng-if="w.edit" ng-click="w.cancelWish()">Anuler</button>
+                <button type="button" class="btn btn-warning edit-button" ng-if="w.edit" ng-click="w.cancelWish()">Annuler</button>
             </div>
             <div class="footer panel-footer bottom-envie" ng-if="!w.ownerList && !w.edit">
-                <!--<div class="row">
-                    <div class="col-xs-4 col-md-4" title="Receba até 42 de Status">
-                        <p class="text-center"><i class="glyphicon glyphicon-stats fa-2x "></i><span class="badge">42</span></p>
-                    </div>
-                    <div class="col-xs-4 col-md-4" title="Ganhe até 3 Badges">
-                        <p class="text-center"><i class="glyphicon glyphicon-fire fa-2x "></i><span style class="badge"></span><span class="badge">3</span></p>
-                    </div>
-                    <div class="col-xs-4 col-md-4" title="Ganhe Certificado">
-                        <p class="text-center"><i class="glyphicon glyphicon-file fa-2x"></i><span class="badge">1</span></p>
-                    </div>
-                </div>-->
-                <div title="Cadeau" class="gift pull-right">
+
+                <div title="Cadeau" class="gift pull-right text-warning">
                     <h6 ng-if="!w.owner && w.wish.userTakeUsers"><i class="fa fa-gift"></i> Offert par {{w.wish.userTakeUsers}} &nbsp;&nbsp;&nbsp;
                         <button type="button" class="btn btn-danger" ng-if="w.wish.userTake.indexOf(w.user.email) >= 0" ng-click="w.parentController.cancel(w.wish.id)">Annuler</button>
                         <button type="button" class="btn btn-success btn3d" ng-if="w.wish.userTake.indexOf(w.user.email) < 0" ng-click="w.parentController.given(w.wish.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b>Participer</b></button>
@@ -129,13 +129,20 @@
                                 </ul>
                             </div> <!-- end chat-history -->
                         </div> <!-- end chat -->
-                        <form class="form card">
-                            <div class="form-group label-floating">
-                                <label for="note-{{$index}}" class="control-label" >Commentaires</label>
-                                <textarea class="form-control comment-textarea" id="note-{{$index}}" ng-model="w.note.text" >
+                        <form class="form form-add-comment">
+                            <div class="row">
+                                <div class="form-group col-xs-9 comment-form">
+                                    <label for="note-{{$index}}" class="control-label" >Commentaires</label>
+                                    <textarea class="form-control comment-textarea" id="note-{{$index}}" ng-model="w.note.text" >
                                         </textarea>
+                                </div>
+                                <div class="col-xs-3">
+                                    <button type="submit" class="btn btn-default btn-sm btn-bordered-gray" ng-click="w.addNote(w.wish, w.note)">Commenter</button>
+                                </div>
+
                             </div>
-                            <button type="submit" class="btn btn-default" ng-click="w.addNote(w.wish, w.note)">Commenter</button>
+
+
                         </form>
                     </div>
                 </div>
