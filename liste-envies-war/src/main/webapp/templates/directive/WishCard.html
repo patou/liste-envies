@@ -11,7 +11,7 @@
                     <span ng-if="!w.edit">{{w.wish.label}}</span>
 
                 </h1>
-                <div class="form-group label-floating" ng-if="w.edit">
+                <div class="form-group " ng-if="w.edit">
                     <label for="wishEditTitle" class="control-label">Titre</label>
                     <input type="text" class="form-control" id="wishEditTitle" ng-model="w.wish.label">
                 </div>
@@ -45,7 +45,7 @@
                     <label for="description" class="control-label">Description</label>
                     <summernote id="description" ng-model="w.wish.description" heigth="500" config="w.editorOptions" lang="fr-FR"></summernote>
                 </div>
-                <div class="form-group label-floating" ng-if="w.edit">
+                <div class="form-group" ng-if="w.edit">
                     <label for="link-url" class="control-label">Urls</label>
                     <div ng-repeat="link in w.wish.urls" class="links-editor">
                         <input type="url" class="form-control" id="url-{{$index}}" ng-model="link.url" placeholder="http://">
@@ -59,7 +59,7 @@
                 </div>
                 <div class="row" ng-if="w.edit">
 
-                    <div class="form-group label-floating col-xs-8">
+                    <div class="form-group col-xs-8">
                             <label for="picture" class="control-label floating-image_label">Image (url)</label>
                             <input type="url" class="form-control" id="picture" ng-model="w.wish.picture">
                     </div>
@@ -70,7 +70,7 @@
                 </div>
 
 
-                <div class="form-group label-floating" ng-if="w.edit">
+                <div class="form-group" ng-if="w.edit">
                     <label for="price" class="control-label">Prix</label>
                     <input type="text" class="form-control" id="price" ng-model="w.wish.price">
                 </div>
@@ -135,9 +135,9 @@
                                 </ul>
                             </div> <!-- end chat-history -->
                         </div> <!-- end chat -->
-                        <form class="form">
-                            <div class="form-group">
-                                <label for="note-{{$index}}">Commentaires</label>
+                        <form class="form card">
+                            <div class="form-group label-floating">
+                                <label for="note-{{$index}}" class="control-label" >Commentaires</label>
                                 <textarea class="form-control comment-textarea" id="note-{{$index}}" ng-model="w.note.text" >
                                         </textarea>
                             </div>

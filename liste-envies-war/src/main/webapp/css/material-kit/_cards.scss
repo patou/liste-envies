@@ -73,23 +73,30 @@
     }
 
     .header-primary{
-        background: linear-gradient(60deg, $light-blue-300, $light-blue-600);
+        background: $gray-lighter;
+        border-top: $light-blue-700 6px solid;
     }
     .header-info{
-        background: linear-gradient(60deg, $cyan-300, $cyan-600);
+        background: $gray-lighter;
+        border-top: $cyan-700 6px solid;
     }
     .header-success{
-        background: linear-gradient(60deg, $light-green-300, $light-green-600);
+        background: $gray-lighter;
+        border-top: $light-green-700 6px solid;
     }
     .header-warning{
-        background: linear-gradient(60deg, $amber-300, $amber-600);
+        background: $gray-lighter;
+        border-top: $amber-700 6px solid;
     }
     .header-danger{
-        background: linear-gradient(60deg, $orange-300, $orange-600);
+        background: $gray-lighter;
+        border-top: $orange-700 6px solid;
     }
 
+
+
     [class*="header-"]{
-        color: #FFFFFF;
+        color: $black-color;
     }
 }
 
