@@ -110,10 +110,10 @@
                 </div>-->
                 <div title="Cadeau" class="gift pull-right">
                     <h6 ng-if="!w.owner && w.wish.userTakeUsers"><i class="fa fa-gift"></i> Offert par {{w.wish.userTakeUsers}} &nbsp;&nbsp;&nbsp;
-                        <button type="button" class="btn btn-danger" ng-if="w.wish.userTake.indexOf(w.user.email) >= 0" ng-click="w.parentController.cancel(w.wish.id)">Annuler</button>
-                        <button type="button" class="btn btn-success btn3d" ng-if="w.wish.userTake.indexOf(w.user.email) < 0" ng-click="w.parentController.given(w.wish.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b>Participer</b></button>
+                        <button type="button" class="btn btn-danger" ng-if="w.wish.userTake.indexOf(w.user.email) >= 0" ng-click="w.cancel(w.wish.id)">Annuler</button>
+                        <button type="button" class="btn btn-success btn3d" ng-if="w.wish.userTake.indexOf(w.user.email) < 0" ng-click="w.given(w.wish.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b>Participer</b></button>
                     </h6>
-                    <button type="button" class="btn btn-success btn3d" ng-if="!w.owner && !w.wish.userTakeUsers" ng-click="w.parentController.given(w.wish.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b>Offrir</b></button>
+                    <button type="button" class="btn btn-success btn3d" ng-if="!w.owner && !w.wish.userTakeUsers" ng-click="w.given(w.wish.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b>Offrir</b></button>
                 </div>
 
                 <div class="comments" >

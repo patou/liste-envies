@@ -130,34 +130,12 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
             $scope.update();
     };
 
-    vm.addNote = function (envie, notetext) {
-        var note = {text: notetext.text};
-        console.log('add Note', note, envie.id);
-        envieService.addNote({name:vm.name, id: envie.id}, note, function() {
-            loadEnvies();
-            gotoEnvie(envie.id);
-            vm.text = '';
-        });
-    };
 
 
 
 
 
-    vm.given = function(id) {
-        envieService.give({name:vm.name, id:id}, {}, function() {
-            loadEnvies();
-        });
-    };
 
-
-    vm.cancel = function(id) {
-        envieService.cancel({name:vm.name, id:id}, {}, function() {
-            loadEnvies();
-        });
-    };
-
-    isStamped = false;
 
 
 
@@ -397,11 +375,14 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
                     vm.envies = newEnvies;
 
                     //$scope.masonry.layoutItems($('.envie-card'), false);
-                    $scope.update();
+                    vm.refreshingLayoutAuto(100, 500);
+
                 } else {
                     vm.envies = newEnvies;
                     $scope.update();
+                    vm.refreshingLayoutAuto(100, 500);
                 }
+
                 $.material.init();
 
 

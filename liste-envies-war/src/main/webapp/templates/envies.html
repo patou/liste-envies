@@ -69,17 +69,7 @@
                 <label class="control-label">Filtrer</label><br/>
                 <div class="btn-group" data-toggle="buttons">
 
-                <!-- for shared -->
-               <!-- <button ng-if="!vm.listEnvies.owner" type="button" class="btn" ng-class="filter.class" ng-click="vm.filterList(filter.expression);" ng-repeat="filter in vm.filterProperties">
-                    {{filter.label}}
-                </button>
 
-                &lt;!&ndash; for owners &ndash;&gt;
-                <button ng-if="vm.listEnvies.owner" type="button" class="btn" ng-class="filter.class" ng-click="vm.filterList(filter.expression);" ng-repeat="filter in vm.filterPropertiesOwners">
-                    {{filter.label}}
-                </button>-->
-
-                    <!--ng-if="(!vm.listEnvies.owner && filter.owner) || (vm.listEnvies.owner && filter.shared)"-->
                 <div ng-if="(vm.listEnvies.owner && filter.owner) || (!vm.listEnvies.owner && filter.shared)"
                         class="btn-group"  type="button" class="btn"  ng-repeat="filter in vm.filterProperties">
                     <button type="button" class="btn btn-sm {{filter.class}}"  ng-class="{'dropdown-toggle' : filter.child}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-click="vm.filterList(filter.expression);" >
@@ -110,7 +100,7 @@
                     </div>
                 </div>
                 <div class="col-xs-1">
-                    <div class="btn btn-white btn-just-icon reset-search-icon btn-bordered-danger" ng-click="vm.searchList(true);">
+                    <div class="btn btn-white btn-just-icon reset-search-icon btn-bordered-danger" ng-click="vm.searchList(true);" ng-if="vm.search">
                         <span class="fa fa-close " aria-hidden="true"></span>
                     </div>
                 </div>
