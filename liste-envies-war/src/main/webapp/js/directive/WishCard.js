@@ -71,9 +71,13 @@ var WishCard = function ($scope, envieService) {
     };
 
     w.cancelWish = function () {
-        w.wish = lastWish;
-        w.edit = false;
-        w.parentController.unStampElement(w.wish.id);
+        if (w.add) {
+            resetAddForm();
+        } else if (w.edit) {
+            w.wish = lastWish;
+            w.edit = false;
+            w.parentController.unStampElement(w.wish.id);
+        }
     };
 
     w.updateWish = function () {
