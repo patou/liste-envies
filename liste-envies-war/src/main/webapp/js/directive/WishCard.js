@@ -148,14 +148,14 @@ var WishCard = function ($scope, envieService) {
 
 
     w.given = function(id) {
-        envieService.give({name:w.name, id:id}, {}, function(updatedData) {
+        envieService.give({name:w.listName, id:id}, {}, function(updatedData) {
             w.parentController.updatePropertiesWish(w.wish, updatedData);
         });
     };
 
 
     w.cancel = function(id) {
-        envieService.cancel({name:w.name, id:id}, {}, function(updatedData) {
+        envieService.cancel({name:w.listName, id:id}, {}, function(updatedData) {
             w.parentController.updatePropertiesWish(w.wish, updatedData);
         });
     };
