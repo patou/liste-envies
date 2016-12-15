@@ -39,7 +39,7 @@ public class EnviesRestService {
         return null;
     }
 
-    @GET
+    @PUT
     @Path("/{id}/give")
     public EnvyDto give(@PathParam("name") String name, @PathParam("id") Long id) {
         final AppUser user = ServletUtils.getUserAuthenticated();
@@ -51,7 +51,7 @@ public class EnviesRestService {
     }
 
 
-    @GET
+    @PUT
     @Path("/{id}/cancel")
     public EnvyDto cancel(@PathParam("name") String name, @PathParam("id") Long id) {
         final AppUser user = ServletUtils.getUserAuthenticated();
