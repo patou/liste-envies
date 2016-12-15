@@ -17,5 +17,5 @@ after_success:
   - cd liste-envies-war
   - echo ${GOOGLE_CLIENT_SECRET} > client-secret.json
   - echo ${GOOGLE_CLIENT_SECRET_TEST} > client-secret-test.json
-  - test ${TRAVIS_BRANCH} != "master" && appcfg.sh --service_account_json_key_file=client-secret-test.json -A test-${CLOUDSDK_CORE_PROJECT} -V ${TRAVIS_BRANCH/_/-} update target/liste-envies-war-2016-SNAPSHOT
+  - test ${TRAVIS_BRANCH} != "master" && appcfg.sh --service_account_json_key_file=client-secret-test.json -A ${CLOUDSDK_TEST_PROJECT} -V ${TRAVIS_BRANCH//_/-} update target/liste-envies-war-2016-SNAPSHOT
   - test ${TRAVIS_BRANCH} = "master" && appcfg.sh --service_account_json_key_file=client-secret.json -A ${CLOUDSDK_CORE_PROJECT} -V master update target/liste-envies-war-2016-SNAPSHOT
