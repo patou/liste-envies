@@ -32,6 +32,10 @@ body {
     background-size: cover;
 }
 
+#page-wrapper {
+    min-height: 50%;
+}
+
 .top-nav {
     padding: 0 15px;
 }
@@ -111,6 +115,30 @@ body {
     width: auto;
     outline: none;
     padding: 0;
+}
+
+.form-share-to-user {
+    border: solid lightgray 1px;
+    border-radius: 4px;
+    padding: 1px;
+    margin: 0;
+}
+
+.form-share-to-user .checkbox {
+    margin-top: 41px;
+}
+
+.form-share-to-user .col-xs-6 {
+    padding: 1px;
+}
+
+.form-share-to-user .col-xs-3 {
+    padding: 1px;
+    text-align: right;
+}
+
+.form-share-to-user button.btn {
+    margin-top: 31px;
 }
 
 .order-filter {
@@ -238,6 +266,8 @@ div.material-icons.form-control-feedback {
 .envie-card .gift h6 {
     margin: 0;
 }
+
+
 
 
 

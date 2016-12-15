@@ -16,9 +16,20 @@ var WishCard = function ($scope, envieService) {
     w.remove = false;
 
     var resetAddForm = function () {
-        w.wish = {};
+        w.wish = {
+            label: null,
+            description: null,
+            picture: null,
+            urls: null,
+            price: null,
+            rating: 0
+        };
 
-        if (!w.ownerList) w.wish.suggest = true;
+        if (!w.link) {w.link = {};}
+        w.link.url = null;
+        w.link.name = null;
+
+        if (!w.ownerList) {w.wish.suggest = true;}
         w.edit = true;
         w.add = true;
     };
@@ -65,7 +76,7 @@ var WishCard = function ($scope, envieService) {
 
     var lastWish;
     w.editWish = function () {
-        lastWish = Object.assign({}, w.wish);
+        lastWish = angular.extend({}, w.wish);
         w.edit = true;
         w.parentController.stampElement(w.wish.id);
     };
@@ -76,6 +87,8 @@ var WishCard = function ($scope, envieService) {
         } else if (w.edit) {
             w.wish = lastWish;
             w.edit = false;
+            w.link.url = null;
+            w.link.name = null;
             w.parentController.unStampElement(w.wish.id);
         }
     };

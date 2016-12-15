@@ -37,14 +37,15 @@
                             </button>
                         </li>
                     </ul>
-                    <form class="form-inline ">
 
-
-                        <div class="form-group label-floating ">
-                            <label class="control-label" for="new-email">Email</label>
-                            <input type="email" class="form-control col-xs-5" id="new-email" ng-model="vm.newUser.email" placeholder="                @">
+                    <div class="row form-share-to-user">
+                        <div class="col-xs-6">
+                            <div class="form-group label-floating ">
+                                <label class="control-label" for="new-email">Email</label>
+                                <input type="email" class="form-control col-xs-5" id="new-email" ng-model="vm.newUser.email" placeholder="">
+                            </div>
                         </div>
-                        <div class="form-group">
+                        <div class="col-xs-3">
                             <div class="checkbox">
                                 <label>
                                     <input type="checkbox" value="" ng-true-value="'OWNER'" ng-false-value="'SHARED'" ng-model="vm.newUser.type">
@@ -52,8 +53,10 @@
                                 </label>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-default btn-success" ng-click="vm.shareUser(vm.newUser);"><span class="fa fa-share" aria-hidden="true"></span> Ajouter</button>
-                    </form>
+                        <div class="col-xs-3">
+                            <button type="submit" class="btn btn-default btn-success btn-sm" ng-click="vm.shareUser(vm.newUser);"><span class="fa fa-share" aria-hidden="true"></span> Ajouter</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-gray btn-bordered-danger" data-dismiss="modal">Fermer</button>

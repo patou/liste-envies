@@ -1,6 +1,6 @@
 app.controller('EnvieCtrl', EnvieCtrl);
-EnvieCtrl.$inject = ['envieService', 'appUserService', 'listEnviesService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse', '$interval', '$timeout'];
-function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams, $location, $anchorScroll, $scope, $parse, $interval, $timeout) {
+EnvieCtrl.$inject = ['envieService', 'appUserService', 'listEnviesService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse', '$interval', '$timeout', '$filter'];
+function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams, $location, $anchorScroll, $scope, $parse, $interval, $timeout, $filter) {
     var vm = this;
     vm.name = $routeParams.name;
     vm.listEnvies = loadListEnvies(vm.name);
@@ -269,12 +269,16 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
      * @param source
      */
     vm.updatePropertiesWish = function (target, source) {
-        if (!target && !source) return;
-        for(var propertyName in source) {
+        if (!target && !source && target !== undefined) return;
+        /*for(var propertyName in source) {
             // propertyName is what you want
             // you can get the value like this: myObject[propertyName]
             target[propertyName] = source[propertyName];
-        }
+        }*/
+        target = angular.merge(target, source);
+        target.userTake = source.userTake;
+        updateWishUser(target);
+        return target;
     };
 
     function parseSentenceForNumber(sentence){
@@ -355,42 +359,52 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     function loadListEnvies(name) {
         return listEnviesService.get({name:name});
     }
+
+    var updateWishUser = function (item) {
+        if (item.owner) {
+            item.ownerUser = loadUser(item.owner);
+        }
+        if (item.userTake && item.userTake.length > 0) {
+            var userTakeNames = [];
+            angular.forEach(item.userTake, function (user) {
+                this.push(loadUser(user).name || user);
+            }, userTakeNames);
+            item.userTakeUsers = userTakeNames.join(", ");
+        } else {
+            //delete item.userTake;
+            delete item.userTakeUsers;
+        }
+    };
+
     function loadEnvies() {
+        var firstLoad = false;
+        if (!vm.envies) {
+            vm.envies = [];
+            firstLoad = true;
+        }
         var newEnvies = envieService.query({name: $routeParams.name});
         newEnvies.$promise.then(function(list) {
             vm.loading = false;
+            vm.refreshingLayoutAuto(100, 800);
             angular.forEach(list, function(item) {
-                if (item.owner) {
-                    item.ownerUser = loadUser(item.owner);
-                }
-                if (item.userTake) {
-                    var userTakeNames = [];
-                    angular.forEach(item.userTake, function(user) {
-                        this.push(loadUser(user).name || user)
-                    }, userTakeNames);
-                    item.userTakeUsers = userTakeNames.join(", ");
-                }
+                // add to vm.envies
+                var foundwish = $filter('filter')(vm.envies, {id: item.id});
+                updateWishUser(item);
 
-                if (vm.envies) {
-                    vm.envies = newEnvies;
-
-                    //$scope.masonry.layoutItems($('.envie-card'), false);
-                    vm.refreshingLayoutAuto(100, 500);
-
+                if (foundwish.length) {
+                    vm.updatePropertiesWish(foundwish[0], item);
                 } else {
-                    vm.envies = newEnvies;
-                    $scope.update();
-                    vm.refreshingLayoutAuto(100, 500);
+
+                    vm.envies.push(item);
                 }
-
-                $.material.init();
-
-
-
-
-
-                //$scope.masonry.reloadItems();
             });
+
+
+                //$scope.update();
+            //vm.clearRefreshingLayoutAuto();
+            if (firstLoad) $scope.update();
+
+            $.material.init();
         });
     }
 
