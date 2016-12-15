@@ -109,7 +109,7 @@ var WishCard = function ($scope, envieService) {
 
     w.openComment = function() {
 
-        const commentId = $("#comment-"+w.wish.id);
+        var commentId = $("#comment-"+w.wish.id);
 
         w.parentController.stampElement(w.wish.id, true);
         w.parentController.refreshingLayoutAuto(30);
@@ -124,8 +124,11 @@ var WishCard = function ($scope, envieService) {
 
     w.addNote = function (wish, notetext) {
         var note = {text: notetext.text};
+        w.parentController.stampElement(w.wish.id, false);
         envieService.addNote({name:w.listName, id: wish.id}, notetext, function(data) {
+            w.parentController.refreshingLayoutAuto(30, 200);
             w.parentController.updatePropertiesWish(wish, data);
+            w.parentController.unStampElement(w.wish.id, false);
             w.note.text = '';
         });
     };
@@ -137,6 +140,20 @@ var WishCard = function ($scope, envieService) {
                 w.updateWish();
             }, 100, w);
         }
+    };
+
+
+    w.given = function(id) {
+        envieService.give({name:w.name, id:id}, {}, function(updatedData) {
+            w.parentController.updatePropertiesWish(w.wish, updatedData);
+        });
+    };
+
+
+    w.cancel = function(id) {
+        envieService.cancel({name:w.name, id:id}, {}, function(updatedData) {
+            w.parentController.updatePropertiesWish(w.wish, updatedData);
+        });
     };
 
     w.deleteWish = function() {

@@ -3,7 +3,6 @@ package fr.desaintsteban.liste.envies.service;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.LoadResult;
 import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.VoidWork;
 import com.googlecode.objectify.Work;
 import com.googlecode.objectify.cmd.Saver;
 import fr.desaintsteban.liste.envies.dto.EnvyDto;
@@ -67,22 +66,26 @@ public final class EnviesService {
         return envie;
     }
 
-    public static void given(final AppUser user, String name, final Long itemId) {
+
+    public static EnvyDto given(final AppUser user, String name, final Long itemId) {
         Objectify ofy = OfyService.ofy();
         final Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
         ListEnvies listEnvies = ofy.load().key(parent).now();
         if (!listEnvies.containsOwner(user.getEmail()) && listEnvies.containsUser(user.getEmail())) {
-            OfyService.ofy().transact(new VoidWork() {
+            return OfyService.ofy().transact(new Work<EnvyDto>() {
                 @Override
-                public void vrun() {
+                public EnvyDto run() {
                     Objectify ofy = OfyService.ofy();
                     Envy saved = ofy.load().key(Key.create(parent, Envy.class, itemId)).now();
                     Saver saver = ofy.save();
                     saved.addUserTake(EncodeUtils.encode(user.getEmail()));
                     saver.entity(saved);
+
+                    return saved.toDto();
                 }
             });
         }
+        return null;
     }
 
     public static EnvyDto addNote(final AppUser user, final Long itemId, final String name, final NoteDto note) {
@@ -106,22 +109,24 @@ public final class EnviesService {
         return null;
     }
 
-    public static void cancel(final AppUser user, String name,  final Long itemId) {
+    public static EnvyDto cancel(final AppUser user, String name, final Long itemId) {
         Objectify ofy = OfyService.ofy();
         final Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
         ListEnvies listEnvies = ofy.load().key(parent).now();
         if (listEnvies != null && !listEnvies.containsOwner(user.getEmail()) && listEnvies.containsUser(user.getEmail())) {
-            OfyService.ofy().transact(new VoidWork() {
+            return OfyService.ofy().transact(new Work<EnvyDto>() {
                 @Override
-                public void vrun() {
+                public EnvyDto run() {
                 Objectify ofy = OfyService.ofy();
                 Envy saved = ofy.load().key(Key.create(parent, Envy.class, itemId)).now();
                 Saver saver = ofy.save();
                 saved.removeUserTake(EncodeUtils.encode(user.getEmail()));
                 saver.entity(saved);
+                    return saved.toDto();
                 }
             });
         }
+        return null;
     }
     
     public static EnvyDto createOrUpdate(final AppUser user, final String name, final Envy item) {
