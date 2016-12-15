@@ -220,6 +220,10 @@ public class Envy {
         return userTake;
     }
 
+    public boolean hasUserTaken() {
+        return userTake != null && !userTake.isEmpty();
+    }
+
     public void addUserTake(String userTake) {
         if (this.userTake == null) {
             this.userTake = new ArrayList<>();

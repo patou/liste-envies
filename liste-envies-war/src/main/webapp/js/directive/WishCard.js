@@ -144,19 +144,25 @@ var WishCard = function ($scope, envieService) {
     };
 
     w.receivedWish = function() {
-        w.remove = true;
-        w.wish.archived = true;
+        w.archive = true;
     };
 
     w.cancelRemove = function() {
         w.remove = false;
-        w.wish.archived = false;
     };
 
     w.doRemove = function() {
         w.remove = false;
         //TODO
         w.wish.$delete();
+    };
+
+    w.cancelArchive = function() {
+        w.archive = false;
+    };
+
+    w.doArchive = function() {
+        w.archive = false;
     };
 };
 

@@ -1,7 +1,8 @@
 
     <div >
-        <cancel-directive whish-name="w.wish.label" show="w.remove" on-cancel="w.cancelRemove()" on-delete="w.doRemove()"></cancel-directive>
-        <div class="panel envie-item " ng-if="!w.remove"  ng-class="{'panel-warning':w.wish.userTakeUsers, 'panel-info':w.wish.suggest, 'panel-success':!w.wish.userTakeUsers}">
+        <cancel-directive title="Supprimer" show="w.remove" on-cancel="w.cancelRemove()" on-delete="w.doRemove()">Suppression de l'envie {{vm.whishName}}</cancel-directive>
+        <cancel-directive title="Reçu" show="w.archive" on-cancel="w.cancelArchive()" on-delete="w.doArchive()">Le cadeau a été reçu, il est maintenant archivé {{vm.whishName}}</cancel-directive>
+        <div class="panel envie-item " ng-if="!w.remove && !w.archive"  ng-class="{'panel-warning':w.wish.userTakeUsers, 'panel-info':w.wish.suggest, 'panel-success':!w.wish.userTakeUsers}">
             <div class="panel-heading">
                 <span class="text-muted pull-left" am-time-ago="w.wish.date"></span>
                 <span class="badge pull-right" ng-if="!w.edit">{{w.wish.price}}</span>

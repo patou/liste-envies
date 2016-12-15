@@ -1,5 +1,5 @@
 <div class="alert alert-warning" role="alert" ng-if="vm.show">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <strong>Supprimer</strong>
-    Suppression de l'envie {{vm.whishName}} <a ng-click="vm.cancelDelete()">Annuler</a>
+    <strong ng-bind="vm.title"></strong>
+    <span ng-transclude></span> <a class="btn btn-warning btn-link alert-link" ng-click="vm.cancelDelete()">Annuler</a>
 </div>

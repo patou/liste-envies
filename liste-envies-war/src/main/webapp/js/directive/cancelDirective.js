@@ -12,13 +12,13 @@ angular.module('ListeEnviesDirectives')
         templateUrl: 'templates/directive/cancelDirective.html',
         controller: CancelDirectivesController,
         controllerAs: 'vm',
+        transclude: true,
         bindings: {
-            whishName: '<',
+            title: '@',
             show: '<',
             onCancel: '&',
             onDelete: '&'
         }
-
     });
 CancelDirectivesController.$inject = ['$timeout'];
 function CancelDirectivesController ($timeout) {
@@ -30,13 +30,18 @@ function CancelDirectivesController ($timeout) {
         }
     };
     vm.cancelDelete = function() {
-        if (vm.timeout) {
-            $timeout.cancel(vm.timeout);
-        }
+        cancelTimeout();
         vm.onCancel();
     };
 
     vm.delete = function() {
+        cancelTimeout();
         vm.onDelete();
     };
+
+    function cancelTimeout() {
+        if (vm.timeout) {
+            $timeout.cancel(vm.timeout);
+        }
+    }
 }

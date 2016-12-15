@@ -45,13 +45,25 @@ public final class EnviesService {
         return list;
     }
     
-    public static void delete(AppUser user, String name, Long itemid) {
+    public static void delete(AppUser user, String name, final Long itemid) {
         Objectify ofy = OfyService.ofy();
-        Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
-        ListEnvies listEnvies = ofy.load().key(parent).now();
-        if (listEnvies.containsOwner(user.getEmail()) || user.isAdmin()) {
-            OfyService.ofy().delete().key(Key.create(parent, Envie.class, itemid)).now();
-        }
+        final Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
+        final ListEnvies listEnvies = ofy.load().key(parent).now();
+        OfyService.ofy().transact(new VoidWork() {
+            @Override
+            public void vrun() {
+                Objectify ofy = OfyService.ofy();
+                Envy saved = ofy.load().key(Key.create(parent, Envy.class, itemid)).now();
+                if (saved.hasUserTaken() && listEnvies.containsOwner(saved.getOwner())) {
+                    Saver saver = ofy.save();
+                    saved.setSuggest(true);
+                    saver.entity(saved);
+                }
+                else {
+                    ofy.delete().key(Key.create(parent, Envie.class, itemid)).now();
+                }
+            }
+        });
     }
 
     public static Envy get(AppUser user, String name, Long itemid) {
