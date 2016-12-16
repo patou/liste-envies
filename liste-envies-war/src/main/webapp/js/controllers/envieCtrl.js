@@ -244,7 +244,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
 
 
     vm.filterList = function(expr) {
-        var expression = $parse(expr)
+        var expression = $parse(expr);
         vm.filter = function(value) {
             return expression(value);
         };
@@ -319,7 +319,11 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         $scope.update();
     };
 
-
+    vm.deleteWish = function(wish) {
+        var index = vm.envies.indexOf(wish);
+        if (index > -1)
+            vm.envies.splice(index, 1);
+    };
 
     function gotoForm() {
         // call $anchorScroll()

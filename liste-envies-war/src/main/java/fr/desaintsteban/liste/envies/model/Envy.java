@@ -31,6 +31,14 @@ public class Envy {
      * L'envie à été suggéré par une autre personne
      */
     private Boolean suggest = false;
+    /**
+     * L'envie est archivé
+     */
+    private Boolean archived = false;
+    /**
+     * L'envie a été supprimé, mais elle a été noté comme donné.
+     */
+    private Boolean deleted = false;
 
     private String label;
 
@@ -69,6 +77,7 @@ public class Envy {
         setId(envie.getId());
         setOwner(envie.getOwner());
         setSuggest(envie.getSuggest());
+        setDeleted(envie.getDeleted());
         setLabel(envie.getLabel());
         setDescription(envie.getDescription());
         setPrice(envie.getPrice());
@@ -90,7 +99,8 @@ public class Envy {
         EnvyDto envie = new EnvyDto();
         envie.setId(getId());
         envie.setOwner(getOwner());
-        envie.setSuggest(suggest);
+        envie.setSuggest(getSuggest());
+        envie.setDeleted(getDeleted());
         envie.setLabel(getLabel());
         envie.setDescription(getDescription());
         envie.setPrice(getPrice());
@@ -141,6 +151,22 @@ public class Envy {
 
     public Boolean getSuggest() {
         return suggest;
+    }
+
+    public Boolean getArchived() {
+        return archived;
+    }
+
+    public void setArchived(Boolean archived) {
+        this.archived = archived;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 
     public void setSuggest(Boolean suggest) {
@@ -218,6 +244,10 @@ public class Envy {
 
     public List<String> getUserTake() {
         return userTake;
+    }
+
+    public boolean hasUserTaken() {
+        return userTake != null && !userTake.isEmpty();
     }
 
     public void addUserTake(String userTake) {

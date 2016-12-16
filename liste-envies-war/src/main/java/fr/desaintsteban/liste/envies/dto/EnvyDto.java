@@ -15,6 +15,7 @@ public class EnvyDto {
 
     private String owner;
     private Boolean suggest = false;
+    private Boolean deleted = false;
     private String label;
 
     private String description;
@@ -55,6 +56,14 @@ public class EnvyDto {
 
     public void setSuggest(Boolean suggest) {
         this.suggest = suggest;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 
     public String getLabel() {
