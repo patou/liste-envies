@@ -195,7 +195,6 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         if (intervalUpdate) $interval.cancel(intervalUpdate);
 
         intervalUpdate = $interval(function () {
-            console.log('Refresh layout :');
             // trigger layout
             $scope.masonry.layout();
         }, delay, 50);
