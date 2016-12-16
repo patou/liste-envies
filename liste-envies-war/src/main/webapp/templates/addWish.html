@@ -1,0 +1,16 @@
+<div class="container-fluid">
+
+
+    <div class="row list-envie" masonry='{ "transitionDuration" : "0.4s" , "itemSelector" : ".envie-card", "percentPosition": "true" }'>
+        <wish-card masonry-tile
+                   wish="vm.newWish"
+                   owner-list="vm.listEnvies.owner"
+                   user="main.user"
+                   parent-controller="vm"
+                   list-name = "vm.name"
+                   class="envie-card envie-card col-xs-12 col-sm-6 col-md-4 col-lg-4" >
+
+        </wish-card>
+    </div>
+
+</div>
