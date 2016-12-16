@@ -40,24 +40,26 @@ public class EnviesRestService {
     }
 
     @PUT
-    @Path("/{id}/give")
-    public void give(@PathParam("name") String name, @PathParam("id") Long id) {
+    @Path("/give/{id}")
+    public EnvyDto give(@PathParam("name") String name, @PathParam("id") Long id) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null){
-            LOGGER.info("Get " + id);
-            EnviesService.given(user, name, id);
+            LOGGER.info("Give " + id);
+            return EnviesService.given(user, name, id);
         }
+        return null;
     }
 
 
-    @PUT
-    @Path("/{id}/cancel")
-    public void cancel(@PathParam("name") String name, @PathParam("id") Long id) {
+    @DELETE
+    @Path("/give/{id}")
+    public EnvyDto cancel(@PathParam("name") String name, @PathParam("id") Long id) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null){
-            LOGGER.info("Get " + id);
-            EnviesService.cancel(user, name, id);
+            LOGGER.info("Cancel " + id);
+            return EnviesService.cancel(user, name, id);
         }
+        return null;
     }
 
     @GET

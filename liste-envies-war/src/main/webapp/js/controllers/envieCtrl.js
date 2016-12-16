@@ -1,6 +1,6 @@
 app.controller('EnvieCtrl', EnvieCtrl);
-EnvieCtrl.$inject = ['envieService', 'appUserService', 'listEnviesService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse', '$interval', '$timeout'];
-function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams, $location, $anchorScroll, $scope, $parse, $interval, $timeout) {
+EnvieCtrl.$inject = ['envieService', 'appUserService', 'listEnviesService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse', '$interval', '$timeout', '$filter'];
+function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams, $location, $anchorScroll, $scope, $parse, $interval, $timeout, $filter) {
     var vm = this;
     vm.name = $routeParams.name;
     vm.listEnvies = loadListEnvies(vm.name);
@@ -100,22 +100,22 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         {role: "filter", type: 'rating', expression:'rating >= 5', label:'plus de 5 coeurs', class:''}
     ];
 
-    vm.filterProperties = [{owner: true, shared: true, expression:'true', label:'Toutes', class:'btn-primary'},
-        {owner: false, shared: true, expression:'userTake.length > 0', label:'Offerts', class:'btn-warning'},
-        {owner: false, shared: true, expression:'userTake.length == 0', label:'A offrir', class:'btn-success', child: [
-            {role: "filter", expression:'userTake.length == 0 && suggest == true', label:'Suggestion', class:'btn-info'},
-            {role: "filter", expression:'userTake.length == 0 && suggest == false ', label:'Envie', class:'btn-sucess'}
+    vm.filterProperties = [{owner: true, shared: true, expression:'true', label:'Toutes', class:'btn-white btn-bordered-primary'},
+        {owner: false, shared: true, expression:'userTake.length > 0', label:'Offerts', class:'btn-white btn-bordered-warning'},
+        {owner: false, shared: true, expression:'userTake.length == 0', label:'A offrir', class:'btn-white btn-bordered-success', child: [
+            {role: "filter", expression:'userTake.length == 0 && suggest == true', label:'Suggestion', class:'btn-white btn-bordered-info'},
+            {role: "filter", expression:'userTake.length == 0 && suggest == false ', label:'Envie', class:'btn-white btn-bordered-success'}
         ]},
-        {owner: false, shared: true, expression:'notes.length > 0', label:'Commentaires', class:'btn-default'},
-        {owner: true, shared: false, expression:'description == null || price == null || picture == null || urls == null', label:'A compléter', class:'btn-default', child: [
-            {role: "filter", expression:'description == null', label:'Sans texte', class:'btn-default'},
-            {role: "filter", expression:'price == null', label:'Sans prix', class:'btn-default'},
-            {role: "filter", expression:'picture == null', label:'Sans image', class:'btn-default'},
-            {role: "filter", expression:'urls == null', label:'Sans lien', class:'btn-default'}
+        {owner: false, shared: true, expression:'notes.length > 0', label:'Commentaires', class:'btn-white btn-bordered-danger'},
+        {owner: true, shared: false, expression:'description == null || price == null || picture == null || urls == null', label:'A compléter', class:'btn-white btn-bordered-danger', child: [
+            {role: "filter", expression:'description == null', label:'Sans texte', class:'btn-white btn-bordered-danger'},
+            {role: "filter", expression:'price == null', label:'Sans prix', class:'btn-white btn-bordered-danger'},
+            {role: "filter", expression:'picture == null', label:'Sans image', class:'btn-white btn-bordered-danger'},
+            {role: "filter", expression:'urls == null', label:'Sans lien', class:'btn-white btn-bordered-danger'}
         ]},
 
-        {owner: true, shared: true, expression:'rating > 0', label:'Note', class:'btn-danger', child: vm.filtersRatingList},
-        {owner: true, shared: true, expression:'price != null', label:'Prix', class:'btn-primary', child: vm.filtersPriceList}
+        {owner: true, shared: true, expression:'rating > 0', label:'Note', class:'btn-white btn-bordered-upgrade', child: vm.filtersRatingList},
+        {owner: true, shared: true, expression:'price != null', label:'Prix', class:'btn-white btn-bordered-gray', child: vm.filtersPriceList}
         ];
 
 
@@ -130,34 +130,12 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
             $scope.update();
     };
 
-    vm.addNote = function (envie, notetext) {
-        var note = {text: notetext.text};
-        console.log('add Note', note, envie.id);
-        envieService.addNote({name:vm.name, id: envie.id}, note, function() {
-            loadEnvies();
-            gotoEnvie(envie.id);
-            vm.text = '';
-        });
-    };
 
 
 
 
 
-    vm.given = function(id) {
-        envieService.give({name:vm.name, id:id}, {}, function() {
-            loadEnvies();
-        });
-    };
 
-
-    vm.cancel = function(id) {
-        envieService.cancel({name:vm.name, id:id}, {}, function() {
-            loadEnvies();
-        });
-    };
-
-    isStamped = false;
 
 
 
@@ -217,7 +195,6 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         if (intervalUpdate) $interval.cancel(intervalUpdate);
 
         intervalUpdate = $interval(function () {
-            console.log('Refresh layout :');
             // trigger layout
             $scope.masonry.layout();
         }, delay, 50);
@@ -291,12 +268,16 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
      * @param source
      */
     vm.updatePropertiesWish = function (target, source) {
-        if (!target && !source) return;
-        for(var propertyName in source) {
+        if (!target && !source && target !== undefined) return;
+        /*for(var propertyName in source) {
             // propertyName is what you want
             // you can get the value like this: myObject[propertyName]
             target[propertyName] = source[propertyName];
-        }
+        }*/
+        target = angular.merge(target, source);
+        target.userTake = source.userTake;
+        updateWishUser(target);
+        return target;
     };
 
     function parseSentenceForNumber(sentence){
@@ -377,38 +358,54 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     function loadListEnvies(name) {
         return listEnviesService.get({name:name});
     }
+
+    var updateWishUser = function (item) {
+        if (item.owner) {
+            item.ownerUser = loadUser(item.owner);
+        }
+        if (item.userTake && item.userTake.length > 0) {
+            var userTakeNames = [];
+            angular.forEach(item.userTake, function (user) {
+                this.push(loadUser(user).name || user);
+            }, userTakeNames);
+            item.userTakeUsers = userTakeNames.join(", ");
+        } else {
+            //delete item.userTake;
+            delete item.userTakeUsers;
+        }
+    };
+
     function loadEnvies() {
+        var firstLoad = false;
+        if (!vm.envies) {
+            vm.envies = [];
+            firstLoad = true;
+        }
         var newEnvies = envieService.query({name: $routeParams.name});
         newEnvies.$promise.then(function(list) {
             vm.loading = false;
+            vm.refreshingLayoutAuto(100, 800);
             angular.forEach(list, function(item) {
-                if (item.owner) {
-                    item.ownerUser = loadUser(item.owner);
-                }
-                if (item.userTake) {
-                    var userTakeNames = [];
-                    angular.forEach(item.userTake, function(user) {
-                        this.push(loadUser(user).name || user)
-                    }, userTakeNames);
-                    item.userTakeUsers = userTakeNames.join(", ");
-                }
+                // add to vm.envies
+                var foundwish = $filter('filter')(vm.envies, {id: item.id});
+                updateWishUser(item);
 
-                if (vm.envies) {
-                    vm.envies = newEnvies;
-
-                    //$scope.masonry.layoutItems($('.envie-card'), false);
-                    $scope.update();
+                if (foundwish.length) {
+                    vm.updatePropertiesWish(foundwish[0], item);
                 } else {
-                    vm.envies = newEnvies;
-                    $scope.update();
+
+                    vm.envies.push(item);
                 }
-
-
-
-
-
-                //$scope.masonry.reloadItems();
             });
+
+
+                //$scope.update();
+            //vm.clearRefreshingLayoutAuto();
+            if (firstLoad) $scope.update();
+
+            $.material.init();
         });
     }
+
+    $.material.init();
 }

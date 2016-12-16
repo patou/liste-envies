@@ -16,9 +16,20 @@ var WishCard = function ($scope, envieService) {
     w.remove = false;
 
     var resetAddForm = function () {
-        w.wish = {};
+        w.wish = {
+            label: null,
+            description: null,
+            picture: null,
+            urls: null,
+            price: null,
+            rating: 0
+        };
 
-        if (!w.ownerList) w.wish.suggest = true;
+        if (!w.link) {w.link = {};}
+        w.link.url = null;
+        w.link.name = null;
+
+        if (!w.ownerList) {w.wish.suggest = true;}
         w.edit = true;
         w.add = true;
     };
@@ -65,15 +76,21 @@ var WishCard = function ($scope, envieService) {
 
     var lastWish;
     w.editWish = function () {
-        lastWish = Object.assign({}, w.wish);
+        lastWish = angular.extend({}, w.wish);
         w.edit = true;
         w.parentController.stampElement(w.wish.id);
     };
 
     w.cancelWish = function () {
-        w.wish = lastWish;
-        w.edit = false;
-        w.parentController.unStampElement(w.wish.id);
+        if (w.add) {
+            resetAddForm();
+        } else if (w.edit) {
+            w.wish = lastWish;
+            w.edit = false;
+            w.link.url = null;
+            w.link.name = null;
+            w.parentController.unStampElement(w.wish.id);
+        }
     };
 
     w.updateWish = function () {
@@ -109,7 +126,7 @@ var WishCard = function ($scope, envieService) {
 
     w.openComment = function() {
 
-        const commentId = $("#comment-"+w.wish.id);
+        var commentId = $("#comment-"+w.wish.id);
 
         w.parentController.stampElement(w.wish.id, true);
         w.parentController.refreshingLayoutAuto(30);
@@ -124,8 +141,11 @@ var WishCard = function ($scope, envieService) {
 
     w.addNote = function (wish, notetext) {
         var note = {text: notetext.text};
+        w.parentController.stampElement(w.wish.id, false);
         envieService.addNote({name:w.listName, id: wish.id}, notetext, function(data) {
+            w.parentController.refreshingLayoutAuto(30, 200);
             w.parentController.updatePropertiesWish(wish, data);
+            w.parentController.unStampElement(w.wish.id, false);
             w.note.text = '';
         });
     };
@@ -137,6 +157,20 @@ var WishCard = function ($scope, envieService) {
                 w.updateWish();
             }, 100, w);
         }
+    };
+
+
+    w.given = function(id) {
+        envieService.give({name:w.listName, id:id}, {}, function(updatedData) {
+            w.parentController.updatePropertiesWish(w.wish, updatedData);
+        });
+    };
+
+
+    w.cancel = function(id) {
+        envieService.cancel({name:w.listName, id:id}, {}, function(updatedData) {
+            w.parentController.updatePropertiesWish(w.wish, updatedData);
+        });
     };
 
     w.deleteWish = function() {
