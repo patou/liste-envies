@@ -19,6 +19,9 @@ function HomeCtrl(appUserService, listEnviesService, $location, UtilitiesService
     };
 
     vm.addNewList = function (newlist, userEmail) {
+        $('#new-list').modal('hide');
+        $('body').removeClass('modal-open'); // bug this css class is not removed and the modal will block the pages
+        vm.loading = true;
         var user = [];
         user.push({'email': userEmail, 'type': "OWNER"});
         if (newlist.emails && newlist.emails.length > 0) {
@@ -27,6 +30,7 @@ function HomeCtrl(appUserService, listEnviesService, $location, UtilitiesService
             });
         }
         listEnviesService.save({title: newlist.title, users:user}, function(listEnvies) {
+            vm.loading = false;
             $location.url("/"+listEnvies.name);
         });
     };
