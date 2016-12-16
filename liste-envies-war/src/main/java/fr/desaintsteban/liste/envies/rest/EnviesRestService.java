@@ -118,4 +118,14 @@ public class EnviesRestService {
             EnviesService.delete(user, name, id);
         }
     }
+
+    @PUT
+    @Path("/archive/{id}")
+    public void archiveEnvie(@PathParam("name") String name, @PathParam("id") Long id){
+        final AppUser user = ServletUtils.getUserAuthenticated();
+        if(user != null){
+            LOGGER.info("Archive " + id);
+            EnviesService.archive(user, name, id);
+        }
+    }
 }

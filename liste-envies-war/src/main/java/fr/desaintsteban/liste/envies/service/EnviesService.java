@@ -56,12 +56,29 @@ public final class EnviesService {
                 Envy saved = ofy.load().key(Key.create(parent, Envy.class, itemid)).now();
                 if (saved.hasUserTaken() && listEnvies.containsOwner(saved.getOwner())) {
                     Saver saver = ofy.save();
-                    saved.setSuggest(true);
+                    saved.setDeleted(true);
                     saver.entity(saved);
                 }
                 else {
-                    ofy.delete().key(Key.create(parent, Envie.class, itemid)).now();
+                    ofy.delete().key(Key.create(parent, Envy.class, itemid)).now();
                 }
+            }
+        });
+    }
+
+    public static void archive(AppUser user, String name, final Long itemid) {
+        Objectify ofy = OfyService.ofy();
+        final Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
+        final ListEnvies listEnvies = ofy.load().key(parent).now();
+        OfyService.ofy().transact(new VoidWork() {
+            @Override
+            public void vrun() {
+                Objectify ofy = OfyService.ofy();
+                Envy saved = ofy.load().key(Key.create(parent, Envy.class, itemid)).now();
+                Saver saver = ofy.save();
+                saved.setArchived(true);
+                saved.setDeleted(false);
+                saver.entity(saved);
             }
         });
     }
@@ -169,7 +186,10 @@ public final class EnviesService {
     private static void removeUserTake(AppUser user, ListEnvies listEnvies, List<Envy> list) {
         List<Envy> toRemove = new ArrayList<>();
         for (Envy envy : list) {
-            if (listEnvies == null  || user == null) { //Liste globale
+            if (envy.getArchived()) {
+                toRemove.add(envy);
+            }
+            else if (listEnvies == null  || user == null) { //Liste globale
                 envy.setUserTake(null);
                 envy.setNotes(null);
             }
@@ -177,7 +197,7 @@ public final class EnviesService {
                 if (listEnvies.containsOwner(user.getEmail())) { //Si l'utilisateur courant est le propriétaire des envies, on efface le nom de qui lui a offert un cadeau.
                     envy.setUserTake(null);
                     envy.setNotes(null);
-                    if (envy.getSuggest()) { // On supprime les envies ajoutés par d'autres personnes
+                    if (envy.getSuggest() || envy.getDeleted()) { // On supprime les envies ajoutés par d'autres personnes
                         toRemove.add(envy);
                     }
                 }

@@ -22,7 +22,11 @@
                     <i class="fa fa-a fa-3x pull-right logo-envie" ng-class="{'fa-gift': !w.add, 'fa-plus': w.add, 'wish-edit': w.edit}"></i></p>
             </div>
             <div class="panel-body">
-
+                <div class="alert alert-warning" role="alert" ng-if="w.wish.deleted">
+                    <strong>Supprimé</strong>
+                    Cette envie a été supprimé par la/les bénéficiaires de la liste, mais gardé en mode privé car une personne c'est proposé de l'offrir. Si vous ne l'avez pas donné ou déjà acheté voyez avec le(s) bénéficiaire(s) si elle(s) souhaite(nt) encore le cadeau.
+                    <a class="btn btn-warning btn-link alert-link" ng-click="w.receivedWish()">Déjà donné</a>
+                </div>
                 <a ng-if="w.wish.picture && !w.edit" ng-href="{{w.wish.picture}}" target="_blank" class="thumbnail">
                     <img ng-src="{{w.wish.picture}}" alt="Image Envie">
                 </a>

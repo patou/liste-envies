@@ -152,9 +152,10 @@ var WishCard = function ($scope, envieService) {
     };
 
     w.doRemove = function() {
-        w.remove = false;
-        //TODO
-        w.wish.$delete();
+        envieService.delete({name:w.listName, id: w.wish.id}, function() {
+            w.onDelete({wish: w.wish});
+            w.remove = false;
+        });
     };
 
     w.cancelArchive = function() {
@@ -162,7 +163,10 @@ var WishCard = function ($scope, envieService) {
     };
 
     w.doArchive = function() {
-        w.archive = false;
+        envieService.archive({name:w.listName, id: w.wish.id}, function() {
+            w.onDelete({wish: w.wish});
+            w.archive = false;
+        });
     };
 };
 
@@ -179,7 +183,8 @@ angular.module('ListeEnviesDirectives')
                 'ownerList': '=',
                 'user': '=',
                 'parentController': '=',
-                'listName': '='
+                'listName': '=',
+                'onDelete': '&'
             }
         };
 });
