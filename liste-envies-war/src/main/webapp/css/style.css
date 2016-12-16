@@ -141,6 +141,15 @@ body {
     margin-top: 31px;
 }
 
+#share-list li.list-group-item.ng-binding.ng-scope {
+    padding: 5px 10px;
+}
+
+#share-list li.list-group-item .btn-sm {
+    padding: 2px;
+    margin: 2px 5px 2px 0;
+}
+
 .order-filter {
     /*display: flex;
     justify-content: space-between;*/
@@ -212,6 +221,27 @@ body {
 }
 .envie-card .envie-infos .col{
     padding: 1px;
+}
+
+.envie-card .wish-price {
+    margin: 0 !important;
+}
+
+.envie-card .rating {
+    margin-top: 2px;
+}
+
+.envie-card .envie-infos {
+    min-height: 29px;
+    border-bottom: lightgray dashed 0.5px;
+    margin-bottom: 10px;
+}
+
+.envie-card a.btn-wish-link {
+    /* Do not surcharge border top, used bordered */
+    border-left: #f1f1f1 solid 1px;
+    border-right: #f1f1f1 solid 1px;
+    border-bottom: #f1f1f1 solid 1px;
 }
 
 .order-filter .search {
