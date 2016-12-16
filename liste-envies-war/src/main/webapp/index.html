@@ -60,7 +60,7 @@
 
         <div class="collapse navbar-collapse ng-cloak" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="dropdown" ng-if="main.wishLists != null">
+                <li class="dropdown" ng-if="main.wishLists != null && !main.isActive('/')">
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Changer de liste <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li ng-class="{active:aWishList.owner}" ng-repeat="aWishList in main.wishLists"><a ng-click="main.goList(aWishList.name)">
