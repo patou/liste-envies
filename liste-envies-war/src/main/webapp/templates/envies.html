@@ -6,7 +6,7 @@
                     <div class="form-group">
                         <input type="text" class="form-control title-edit" ng-model="vm.listEnvies.title" placeholder="@">
                     </div>
-                    <button type="submit" class="btn btn-success btn-just-icon" ng-click="vm.saveListEnvies(vm.listEnvies);"><span class="fa fa-ok" aria-hidden="true"></span><span class="sr-only">Ajouter</span></button>
+                    <button type="submit" class="btn btn-success btn-just-icon" ng-click="vm.saveListEnvies(vm.listEnvies);"><span class="fa fa-check" aria-hidden="true"></span><span class="sr-only">Ajouter</span></button>
                 </form>
                 <span class="title" ng-if="!vm.editTitle">
                     {{vm.listEnvies.title}}
