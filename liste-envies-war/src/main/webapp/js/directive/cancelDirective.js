@@ -15,6 +15,7 @@ angular.module('ListeEnviesDirectives')
         transclude: true,
         bindings: {
             title: '@',
+            type: '@',
             show: '<',
             onCancel: '&',
             onDelete: '&'
@@ -25,6 +26,7 @@ function CancelDirectivesController ($timeout) {
     var vm = this;
 
     vm.$onChanges = function (changesObj) {
+        cancelTimeout();
         if (changesObj.show && changesObj.show.currentValue) {
             vm.timeout = $timeout(vm.delete, 5000);
         }

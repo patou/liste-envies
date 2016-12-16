@@ -145,6 +145,7 @@ var WishCard = function ($scope, envieService) {
 
     w.receivedWish = function() {
         w.archive = true;
+        w.remove = false;
     };
 
     w.cancelRemove = function() {

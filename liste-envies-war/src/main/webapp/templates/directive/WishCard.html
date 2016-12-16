@@ -1,7 +1,7 @@
 
     <div >
-        <cancel-directive title="Supprimer" show="w.remove" on-cancel="w.cancelRemove()" on-delete="w.doRemove()">Suppression de l'envie {{vm.whishName}}</cancel-directive>
-        <cancel-directive title="Reçu" show="w.archive" on-cancel="w.cancelArchive()" on-delete="w.doArchive()">Le cadeau a été reçu, il est maintenant archivé {{vm.whishName}}</cancel-directive>
+        <cancel-directive type="warning" title="Supprimer" show="w.remove" on-cancel="w.cancelRemove()" on-delete="w.doRemove()">Suppression définitive de l'envie {{vm.whishName}}. Si vous l'avez reçu, archivez le en le marquant comme <a class="btn btn-warning btn-link alert-link" ng-click="w.receivedWish()">reçu</a></cancel-directive>
+        <cancel-directive type="info" title="Reçu" show="w.archive" on-cancel="w.cancelArchive()" on-delete="w.doArchive()">Le cadeau a été reçu, il est maintenant archivé {{vm.whishName}}</cancel-directive>
         <div class="panel envie-item " ng-if="!w.remove && !w.archive"  ng-class="{'panel-warning':w.wish.userTakeUsers, 'panel-info':w.wish.suggest, 'panel-success':!w.wish.userTakeUsers}">
             <div class="panel-heading">
                 <span class="text-muted pull-left" am-time-ago="w.wish.date"></span>
