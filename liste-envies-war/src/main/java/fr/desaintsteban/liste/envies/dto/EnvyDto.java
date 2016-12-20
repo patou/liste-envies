@@ -3,6 +3,7 @@ package fr.desaintsteban.liste.envies.dto;
 import fr.desaintsteban.liste.envies.model.Link;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,16 +15,21 @@ public class EnvyDto {
 
     private String owner;
     private Boolean suggest = false;
+    private Boolean deleted = false;
     private String label;
 
     private String description;
 
     private String price;
     private String picture;
+    private Date date;
     private List<Link> urls;
     private List<String> userTake;
 
     private List<NoteDto> notes;
+
+
+    private int rating;
 
     public EnvyDto() {
     }
@@ -52,6 +58,14 @@ public class EnvyDto {
         this.suggest = suggest;
     }
 
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
     public String getLabel() {
         return label;
     }
@@ -74,6 +88,14 @@ public class EnvyDto {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public List<Link> getUrls() {
@@ -106,5 +128,13 @@ public class EnvyDto {
 
     public void setNotes(List<NoteDto> notes) {
         this.notes = notes;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 }

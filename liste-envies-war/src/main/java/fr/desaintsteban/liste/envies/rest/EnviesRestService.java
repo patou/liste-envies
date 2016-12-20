@@ -40,24 +40,26 @@ public class EnviesRestService {
     }
 
     @PUT
-    @Path("/{id}/give")
-    public void give(@PathParam("name") String name, @PathParam("id") Long id) {
+    @Path("/give/{id}")
+    public EnvyDto give(@PathParam("name") String name, @PathParam("id") Long id) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null){
-            LOGGER.info("Get " + id);
-            EnviesService.given(user, name, id);
+            LOGGER.info("Give " + id);
+            return EnviesService.given(user, name, id);
         }
+        return null;
     }
 
 
-    @PUT
-    @Path("/{id}/cancel")
-    public void cancel(@PathParam("name") String name, @PathParam("id") Long id) {
+    @DELETE
+    @Path("/give/{id}")
+    public EnvyDto cancel(@PathParam("name") String name, @PathParam("id") Long id) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null){
-            LOGGER.info("Get " + id);
-            EnviesService.cancel(user, name, id);
+            LOGGER.info("Cancel " + id);
+            return EnviesService.cancel(user, name, id);
         }
+        return null;
     }
 
     @GET
@@ -76,32 +78,37 @@ public class EnviesRestService {
     }
 
     @POST
-    public void addEnvie(@PathParam("name") String name, EnvyDto envie) {
+    public EnvyDto addEnvie(@PathParam("name") String name, EnvyDto envie) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null) {
             LOGGER.info("Put " + envie.getLabel());
-            EnviesService.createOrUpdate(user, name, new Envy(envie));
+            return EnviesService.createOrUpdate(user, name, new Envy(envie));
         }
+        return null;
     }
 
     @POST
     @Path("/{id}/addNote")
-    public void addNote(@PathParam("name") String name, @PathParam("id") Long envieId, NoteDto note) {
+    public EnvyDto addNote(@PathParam("name") String name, @PathParam("id") Long envieId, NoteDto note) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null) {
-            LOGGER.info("add note from " + user.getName());
-            EnviesService.addNote(user, envieId, name, note);
+            LOGGER.info("add note from " + user.getName()+"envie id : "+envieId+" Note : "+note.getText());
+            EnvyDto envyDto = EnviesService.addNote(user, envieId, name, note);
+            LOGGER.info("Updated envie with notes " + envyDto.getLabel());
+            return envyDto;
         }
+        return null;
     }
 
     @POST
     @Path("/{id}")
-    public void updateEnvie(@PathParam("name") String name, EnvyDto envie) {
+    public EnvyDto updateEnvie(@PathParam("name") String name, EnvyDto envie) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null) {
             LOGGER.info("Put " + envie.getLabel());
-            EnviesService.createOrUpdate(user, name, new Envy(envie));
+            return EnviesService.createOrUpdate(user, name, new Envy(envie));
         }
+        return envie;
     }
 
     @DELETE
@@ -111,6 +118,16 @@ public class EnviesRestService {
         if(user != null){
             LOGGER.info("Delete " + id);
             EnviesService.delete(user, name, id);
+        }
+    }
+
+    @PUT
+    @Path("/archive/{id}")
+    public void archiveEnvie(@PathParam("name") String name, @PathParam("id") Long id){
+        final AppUser user = ServletUtils.getUserAuthenticated();
+        if(user != null){
+            LOGGER.info("Archive " + id);
+            EnviesService.archive(user, name, id);
         }
     }
 }

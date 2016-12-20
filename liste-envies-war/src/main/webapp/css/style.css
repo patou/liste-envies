@@ -1,13 +1,108 @@
+body {
+
+}
+
+@media(min-width:768px) {
+
+}
+
+#wrapper {
+
+}
+
+#page-wrapper {
+
+}
+
+@media(min-width:768px) {
+    #wrapper {
+
+    }
+
+    #page-wrapper {
+        padding: 10px;
+    }
+}
+
+.wrapper > .header {
+    background-image: url('https://images.unsplash.com/photo-1453834190665-46ff0a1fbd5a?dpr=1&auto=format&fit=crop&w=1500&h=994&q=80&cs=tinysrgb&crop=');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: 50% 66% !important;
+    background-size: cover;
+}
+
+#page-wrapper {
+    min-height: 800px;
+}
+
+.top-nav {
+    padding: 0 15px;
+}
+
+.top-nav>li {
+    display: inline-block;
+    float: left;
+}
+
+.top-nav>li>a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    line-height: 20px;
+    color: #999;
+}
+
+.top-nav>li>a:hover,
+.top-nav>li>a:focus,
+.top-nav>.open>a,
+.top-nav>.open>a:hover,
+.top-nav>.open>a:focus {
+    color: #fff;
+    background-color: #000;
+}
+
+.top-nav>.open>.dropdown-menu {
+    float: left;
+    position: absolute;
+    margin-top: 0;
+    border: 1px solid rgba(0,0,0,.15);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    background-color: #fff;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+
+.top-nav>.open>.dropdown-menu>li>a {
+    white-space: normal;
+}
+.dropdown-menu > li > div {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #999;
+    white-space: nowrap;
+}
+
+@media(max-width:768px) {
+    .navbar-header {
+        display: inline-block;
+    }
+    .navbar-right {
+        float: right;
+    }
+}
+
 .edit-button {
     display: none;
     position: absolute;
-    top: 31px;
-    right: 24px;
+    top: 2px;
+    right: 9px;
 }
 
-.comment-textarea {
 
-}
 .title .btn {
     display: none;
 }
@@ -22,6 +117,55 @@
     padding: 0;
 }
 
+.form-share-to-user {
+    border: solid lightgray 1px;
+    border-radius: 4px;
+    padding: 1px;
+    margin: 0;
+}
+
+.form-share-to-user .checkbox {
+    margin-top: 41px;
+}
+
+.form-share-to-user .col-xs-6 {
+    padding: 1px;
+}
+
+.form-share-to-user .col-xs-3 {
+    padding: 1px;
+    text-align: right;
+}
+
+.form-share-to-user button.btn {
+    margin-top: 31px;
+}
+
+#share-list li.list-group-item.ng-binding.ng-scope {
+    padding: 5px 10px;
+}
+
+#share-list li.list-group-item .btn-sm {
+    padding: 2px;
+    margin: 2px 5px 2px 0;
+}
+
+.order-filter {
+    /*display: flex;
+    justify-content: space-between;*/
+    margin-bottom: 15px;
+}
+.order-btn .btn:active, .order-btn .btn:focus {
+    outline: none;
+}
+
+.order-filter .form-group {
+    margin: 0;
+    padding: 0;
+}
+
+
+
 .list-envie .envie-item:hover .edit-button {
     display: block !important;
 }
@@ -30,13 +174,26 @@
     clear: both;
 }
 
-.list-envie .envie-item .panel-body {
+.list-envie .wish-edit {
+    margin-top: -4px !important;
+}
+
+.list-envie .note-statusbar {
+    display: none !important;
+}
+
+.list-envie .preview-image {
+    height: 100px;
+    width: 100px;
+}
+
+/*.list-envie .envie-item .panel-body {
     min-height: 110px;
 }
 
 .list-envie .envie-item .bottom-envie {
     min-height: 70px;
-}
+}*/
 
 .list-envie .envie-item .bottom-envie .comments  a {
     color: black;
@@ -49,6 +206,101 @@
 .list-envie .envie-item .logo-envie {
     margin-top: -34px;
 }
+
+.list-envie .envie-card {
+
+
+}
+
+.envie-card .panel-body {
+    padding-top: 2px;
+}
+
+.envie-card .envie-infos .fa{
+    margin-right: 3px;
+}
+.envie-card .envie-infos .col{
+    padding: 1px;
+}
+
+.envie-card .wish-price {
+    margin: 0 !important;
+}
+
+.envie-card .rating {
+    margin-top: 2px;
+}
+
+.envie-card .envie-infos {
+    min-height: 29px;
+    border-bottom: lightgray dashed 0.5px;
+    margin-bottom: 10px;
+}
+
+.envie-card a.btn-wish-link {
+    /* Do not surcharge border top, used bordered */
+    border-left: #f1f1f1 solid 1px;
+    border-right: #f1f1f1 solid 1px;
+    border-bottom: #f1f1f1 solid 1px;
+}
+
+.order-filter .search {
+    padding-top: 45px;
+}
+
+.order-filter .has-feedback label~.form-control-feedback {
+    opacity: 1;
+    top: 14px;
+    display: block;
+}
+
+.order-filter input#searchEnvieFilter {
+
+}
+
+.order-filter .reset-search-icon {
+    margin-top: -10px;
+}
+
+div.material-icons.form-control-feedback {
+    cursor: pointer;
+    color: gray;
+}
+
+.card .header {
+    padding: 2px !important;
+    margin: 6px;
+    margin-top: 4px;
+    box-shadow: 0 4px 16px -3px rgba(0, 0, 0, 0.56);
+    background: white;
+}
+
+.card.card-signup.envie-item.ng-scope {
+    margin-top: 20px;
+}
+
+.envie-card .panel {
+     /*box-shadow: none;*/
+}
+
+.envie-card .panel .footer {
+    padding: 5px;
+}
+
+.envie-card .gift {
+    margin: 0;
+    margin-top: 0;
+    padding: 0px 13px 0 0;
+}
+
+.envie-card .gift h6 {
+    margin: 0;
+}
+
+
+
+
+
 
 /** Comentaires **/
 
@@ -80,24 +332,83 @@
     left: 20px;
     border-width: 0 15px 15px;
     border-style: solid;
-    border-color: #CCDBDC transparent;
+    border-color: #31708f transparent;
     display: block;
     width: 0;
 }
 .chat .chat-history .you-message {
-    background: #CCDBDC;
-    color:#003366;
+    background: #31708f;
+    color:#FFFFFF;
 }
 .chat .chat-history .me-message {
-    background: #b0afae;
+    background: #8a6d3b;
 }
 .chat .chat-history .me-message:after {
-    border-color: #b0afae transparent;
     right: 20px;
     top: -15px;
     left: auto;
     bottom:auto;
 }
+
+/** For success **/
+.panel-success .chat .chat-history .you-message {
+    background: #3c763d;
+}
+
+.panel-success .chat .chat-history .message:after {
+    border-color: #3c763d transparent;
+}
+
+.panel-success .chat .chat-history .me-message {
+    background: #5cb85c;
+}
+
+.panel-success .chat .chat-history .me-message:after {
+    border-color: #5cb85c transparent;
+}
+
+/** For Warning **/
+.panel-warning .chat .chat-history .you-message {
+    background: #8a6d3b;
+}
+
+.panel-warning .chat .chat-history .message:after {
+    border-color: #8a6d3b transparent;
+}
+
+.panel-warning .chat .chat-history .me-message {
+    background: #f0ad4e;
+}
+
+.panel-warning .chat .chat-history .me-message:after {
+    border-color: #f0ad4e transparent;
+}
+
+/** For info **/
+.panel-info .chat .chat-history .you-message {
+    background: #31708f;
+}
+
+.panel-info .chat .chat-history .message:after {
+    border-color: #31708f transparent;
+}
+
+.panel-info .chat .chat-history .me-message {
+    background: #5bc0de;
+}
+
+.panel-info .chat .chat-history .me-message:after {
+    border-color: #5bc0de transparent;
+}
+
+
+
+
+.chat {
+    padding: 0 10px;
+}
+
+
 .chat .chat-message {
     padding: 30px;
 }
@@ -146,6 +457,30 @@
 .links-editor input {
     width: 44%;
     display: inline-block;
+}
+
+.envie-item .comment-form {
+    background: white;
+    padding: 1px 2px;
+    margin: 5px 0 0;
+}
+
+.envie-item .comment-form label {
+    margin: 0;
+}
+
+.envie-item .comment-form .comment-textarea {
+    margin: 0;
+    padding: 0;
+}
+
+.envie-item form.form.form-add-comment {
+    padding: 0 11px 2px 26px;
+}
+
+.envie-item form.form.form-add-comment button.btn {
+    position: relative;
+    bottom: -10px;
 }
 
 
@@ -292,3 +627,53 @@
         content: "Chargement...";
     }
 }
+
+/** Rating **/
+
+.star-rating {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+.star-rating > .star, .star-rating > .cancel-rating {
+    padding: 1px;
+    color: #ddd;
+    font-size: 20px;
+    text-shadow: .05em .05em #aaa;
+    list-style-type: none;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.star-rating.readonly > .star {
+    cursor: not-allowed;
+}
+
+
+.star-rating .star.filled {
+    color: #ff572d;
+}
+.star-rating.readonly .star.filled {
+    color: #ffa77c;
+    cursor: not-allowed;
+}
+
+.star-rating:not(.readonly):hover .star, .star-rating:not(.readonly):hover .star.filled {
+    color: #ff002c;
+}
+
+.star-rating:not(.readonly) > .star:hover ~ .star, .star-rating:not(.readonly) > .cancel-rating:hover ~ .star {
+    color: #ddd !important;
+}
+
+.modal-dialog {
+    z-index: 1500 !important;
+}
+
+.modal-backdrop {
+    z-index: 1 !important;
+}
+
+
+
+

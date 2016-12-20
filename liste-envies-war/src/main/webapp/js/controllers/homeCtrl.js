@@ -1,12 +1,12 @@
 app.controller('HomeCtrl', HomeCtrl);
-HomeCtrl.$inject = ['appUserService', 'listEnviesService', '$location'];
-function HomeCtrl(appUserService, listEnviesService, $location) {
+HomeCtrl.$inject = ['appUserService', 'listEnviesService', '$location', 'UtilitiesServices'];
+function HomeCtrl(appUserService, listEnviesService, $location, UtilitiesServices) {
     var vm = this;
     vm.loading = true;
-    vm.envies = listEnviesService.query();
 
-    vm.envies.$promise.then(function () {
+    UtilitiesServices.getList().then(function (data) {
         vm.loading = false;
+        vm.envies = data;
     });
     /** Deprecated */
     vm.addUser = function (newuser) {
@@ -19,15 +19,21 @@ function HomeCtrl(appUserService, listEnviesService, $location) {
     };
 
     vm.addNewList = function (newlist, userEmail) {
+        $('#new-list').modal('hide');
+        $('body').removeClass('modal-open'); // bug this css class is not removed and the modal will block the pages
+        vm.loading = true;
         var user = [];
         user.push({'email': userEmail, 'type': "OWNER"});
         if (newlist.emails && newlist.emails.length > 0) {
-            newlist.emails.split("\n").map(function (email) {
-                user.push({'email': email, 'type': "SHARED"});
+            newlist.emails.split(/[\n\s,]+/).map(function (email) {
+                user.push({'email': email.trim(), 'type': "SHARED"});
             });
         }
         listEnviesService.save({title: newlist.title, users:user}, function(listEnvies) {
+            vm.loading = false;
             $location.url("/"+listEnvies.name);
         });
     };
+
+    $.material.init();
 }

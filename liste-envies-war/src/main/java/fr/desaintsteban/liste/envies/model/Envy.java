@@ -10,6 +10,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.jdo.annotations.Embedded;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,6 +31,14 @@ public class Envy {
      * L'envie à été suggéré par une autre personne
      */
     private Boolean suggest = false;
+    /**
+     * L'envie est archivé
+     */
+    private Boolean archived = false;
+    /**
+     * L'envie a été supprimé, mais elle a été noté comme donné.
+     */
+    private Boolean deleted = false;
 
     private String label;
 
@@ -37,6 +46,11 @@ public class Envy {
 
     private String price;
     private String picture;
+    private Date date;
+
+
+
+    private int rating;
     @Embedded
     private List<Link> urls;
     @Index
@@ -48,12 +62,14 @@ public class Envy {
 
     public Envy() {
         this.notes = new ArrayList<>();
+        this.rating = 0;
     }
 
     public Envy(ListEnvies list, String label) {
         this.list = Key.create(list);
         this.label = label;
         this.notes = new ArrayList<>();
+        this.rating = 0;
     }
 
 
@@ -61,11 +77,14 @@ public class Envy {
         setId(envie.getId());
         setOwner(envie.getOwner());
         setSuggest(envie.getSuggest());
+        setDeleted(envie.getDeleted());
         setLabel(envie.getLabel());
         setDescription(envie.getDescription());
         setPrice(envie.getPrice());
         setPicture(envie.getPicture());
+        setDate(envie.getDate());
         setUrls(envie.getUrls());
+        setRating(envie.getRating());
         if (envie.getUserTake() != null) {
             List<String> userTake = new ArrayList<>();
             for (String email : envie.getUserTake()) {
@@ -80,11 +99,14 @@ public class Envy {
         EnvyDto envie = new EnvyDto();
         envie.setId(getId());
         envie.setOwner(getOwner());
-        envie.setSuggest(suggest);
+        envie.setSuggest(getSuggest());
+        envie.setDeleted(getDeleted());
         envie.setLabel(getLabel());
         envie.setDescription(getDescription());
         envie.setPrice(getPrice());
         envie.setPicture(getPicture());
+        envie.setDate(getDate());
+        envie.setRating(getRating());
         envie.setUrls(getUrls());
         List<String> userTake = new ArrayList<>();
         if (getUserTake() != null) {
@@ -131,6 +153,22 @@ public class Envy {
         return suggest;
     }
 
+    public Boolean getArchived() {
+        return archived;
+    }
+
+    public void setArchived(Boolean archived) {
+        this.archived = archived;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
     public void setSuggest(Boolean suggest) {
         this.suggest = suggest;
     }
@@ -167,12 +205,28 @@ public class Envy {
         this.picture = picture;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     public List<Link> getUrls() {
         return urls;
     }
 
     public void setUrls(List<Link> urls) {
         this.urls = urls;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 
     public void addUrl(String url) {
@@ -190,6 +244,10 @@ public class Envy {
 
     public List<String> getUserTake() {
         return userTake;
+    }
+
+    public boolean hasUserTaken() {
+        return userTake != null && !userTake.isEmpty();
     }
 
     public void addUserTake(String userTake) {

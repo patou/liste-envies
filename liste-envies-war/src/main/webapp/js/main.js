@@ -1,7 +1,12 @@
+angular.module('ListeEnviesDirectives',[]);
 var app = angular.module('ListeEnviesApp', [
     'ngRoute',
     'ngResource',
     'angularMoment',
-    'service'
+    'masonry',
+    'service',
+    'summernote',
+    'ngSanitize',
+    'ListeEnviesDirectives'
 ]);
 
