@@ -1,8 +1,8 @@
     <div class="" >
         <cancel-directive type="warning" title="Supprimer" show="w.remove" on-cancel="w.cancelRemove()" on-delete="w.doRemove()">Suppression définitive de l'envie {{vm.whishName}}. Si vous l'avez reçu, archivez le en le marquant comme <a class="btn btn-warning btn-link alert-link" ng-click="w.receivedWish()">reçu</a></cancel-directive>
         <cancel-directive type="info" title="Reçu" show="w.archive" on-cancel="w.cancelArchive()" on-delete="w.doArchive()">Le cadeau a été reçu, il est maintenant archivé {{vm.whishName}}</cancel-directive>
-        <div class="panel card card-signup envie-item " ng-if="!w.remove && !w.archive"  ng-class="{'panel-warning':w.wish.userTakeUsers, 'panel-info':w.wish.suggest, 'panel-success':!w.wish.userTakeUsers}">
-            <div class="header text-center" ng-class="{'header-warning':w.wish.userTakeUsers, 'header-info':w.wish.suggest && !w.wish.userTakeUsers, 'header-success':!w.wish.suggest && !w.wish.userTakeUsers}">
+        <div class="panel card card-signup envie-item " ng-if="!w.remove && !w.archive"  ng-class="{'panel-warning':w.wish.userTakeUsers && !w.ownerList, 'panel-info':w.wish.suggest, 'panel-success':!w.wish.userTakeUsers}">
+            <div class="header text-center" ng-class="{'header-warning':w.wish.userTakeUsers && !w.ownerList, 'header-info':w.wish.suggest && !w.wish.userTakeUsers, 'header-success':!w.wish.suggest && !w.wish.userTakeUsers}">
                 <h1 >
                     <span ng-if="!w.edit">{{w.wish.label}}</span>
 
@@ -86,11 +86,11 @@
                         </div>
                     </div>
 
-                        <div class="btn btn-round btn-xs wish-price  pull-right" title="Prix" ng-show="!w.edit && w.wish.price" ng-class="{'btn-warning':w.wish.userTakeUsers, 'btn-info':w.wish.suggest && !w.wish.userTakeUsers, 'btn-success':!w.wish.suggest && !w.wish.userTakeUsers}">
+                        <div class="btn btn-round btn-xs wish-price  pull-right" title="Prix" ng-show="!w.edit && w.wish.price" ng-class="{'btn-warning':w.wish.userTakeUsers && !w.owner, 'btn-info':w.wish.suggest && !w.wish.userTakeUsers, 'btn-success':!w.wish.suggest && !w.wish.userTakeUsers}">
                             <i class="fa fa-euro"></i>&nbsp;&nbsp;<span class="">{{w.wish.price}}</span>
                         </div>
                 </div>
-                <div class="btn-group btn-group-sm edit-button" ng-if="(w.owner && !w.add) || (w.wish.owner == w.user.email && !w.edit) ">
+                <div class="btn-group btn-group-sm edit-button" ng-if="(w.ownerList && !w.add) || (w.wish.owner == w.user.email && !w.edit) ">
                     <button type="button" class="btn btn-warning" ng-click="w.editWish()">Modifier</button>
                     <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="caret"></span>
@@ -106,11 +106,11 @@
             <div class="footer panel-footer bottom-envie" ng-if="!w.ownerList && !w.edit">
 
                 <div title="Cadeau" class="gift pull-right text-warning">
-                    <h6 ng-if="!w.owner && w.wish.userTakeUsers"><i class="fa fa-gift"></i> Offert par {{w.wish.userTakeUsers}} &nbsp;&nbsp;&nbsp;
+                    <h6 ng-if="!w.ownerList && w.wish.userTakeUsers"><i class="fa fa-gift"></i> Offert par {{w.wish.userTakeUsers}} &nbsp;&nbsp;&nbsp;
                         <button type="button" class="btn btn-danger" ng-if="w.wish.userTake.indexOf(w.user.email) >= 0" ng-click="w.cancel(w.wish.id)">Annuler</button>
                         <button type="button" class="btn btn-success btn3d" ng-if="w.wish.userTake.indexOf(w.user.email) < 0" ng-click="w.given(w.wish.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b>Participer</b></button>
                     </h6>
-                    <button type="button" class="btn btn-success btn3d" ng-if="!w.owner && !w.wish.userTakeUsers" ng-click="w.given(w.wish.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b>Offrir</b></button>
+                    <button type="button" class="btn btn-success btn3d" ng-if="!w.ownerList && !w.wish.userTakeUsers" ng-click="w.given(w.wish.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b>Offrir</b></button>
                 </div>
 
                 <div class="comments" >

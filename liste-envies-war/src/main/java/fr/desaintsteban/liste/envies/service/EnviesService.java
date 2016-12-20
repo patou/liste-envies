@@ -181,10 +181,12 @@ public final class EnviesService {
                 if (item.getOwner() == null) {
                     item.setOwner(user.getEmail());
                 }
-                item.setSuggest(!listEnvies.containsOwner(item.getOwner()));
+                    boolean containsOwner = listEnvies.containsOwner(item.getOwner());
+                    item.setSuggest(!containsOwner);
                 item.setDate(new Date());
                 Key<Envy> key = saver.entity(item).now();
-                return item.toDto();
+
+                return item.toDto(containsOwner);
                 }
             });
         }

@@ -96,6 +96,10 @@ public class Envy {
     }
 
     public EnvyDto toDto() {
+        return this.toDto(false);
+    }
+
+    public EnvyDto toDto(boolean filter) {
         EnvyDto envie = new EnvyDto();
         envie.setId(getId());
         envie.setOwner(getOwner());
@@ -108,20 +112,24 @@ public class Envy {
         envie.setDate(getDate());
         envie.setRating(getRating());
         envie.setUrls(getUrls());
-        List<String> userTake = new ArrayList<>();
-        if (getUserTake() != null) {
-            for (String email : getUserTake()) {
-                userTake.add(EncodeUtils.decode(email));
+
+        if (!filter) { // Do not add this, if you dosent want to have this information. For filter it.
+            List<String> userTake = new ArrayList<>();
+            if (getUserTake() != null) {
+                for (String email : getUserTake()) {
+                    userTake.add(EncodeUtils.decode(email));
+                }
+            }
+            envie.setUserTake(userTake);
+            if (this.notes != null && !this.notes.isEmpty()) {
+                List<NoteDto> listNoteDto = new ArrayList<>();
+                for (Note note : this.notes) {
+                    listNoteDto.add(note.toDto());
+                }
+                envie.setNotes(listNoteDto);
             }
         }
-        envie.setUserTake(userTake);
-        if (this.notes != null && !this.notes.isEmpty()) {
-            List<NoteDto> listNoteDto = new ArrayList<>();
-            for (Note note : this.notes) {
-                listNoteDto.add(note.toDto());
-            }
-            envie.setNotes(listNoteDto);
-        }
+
         return envie;
     }
 
