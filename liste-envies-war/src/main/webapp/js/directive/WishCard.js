@@ -16,14 +16,19 @@ var WishCard = function ($scope, envieService) {
     w.remove = false;
 
     var resetAddForm = function () {
-        w.wish = {
-            label: null,
-            description: null,
-            picture: null,
-            urls: null,
-            price: null,
-            rating: 0
-        };
+        if (w.wish.external) {
+            delete w.wish.external;
+        } else {
+            w.wish = {
+                label: null,
+                description: null,
+                picture: null,
+                urls: null,
+                price: null,
+                rating: 0
+            };
+        }
+
 
         if (!w.link) {w.link = {};}
         w.link.url = null;

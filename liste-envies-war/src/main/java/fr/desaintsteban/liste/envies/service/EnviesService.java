@@ -1,9 +1,6 @@
 package fr.desaintsteban.liste.envies.service;
 
-import com.googlecode.objectify.Key;
-import com.googlecode.objectify.LoadResult;
-import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.Work;
+import com.googlecode.objectify.*;
 import com.googlecode.objectify.cmd.Saver;
 import fr.desaintsteban.liste.envies.dto.EnvyDto;
 import fr.desaintsteban.liste.envies.dto.NoteDto;

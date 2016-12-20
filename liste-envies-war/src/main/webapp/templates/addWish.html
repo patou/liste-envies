@@ -1,5 +1,15 @@
 <div class="container-fluid">
 
+    Choisir sur quel liste l'ajouter :
+    <select name="" id="" ng-if="vm.wishLists != null" ng-model="vm.name">
+        <option ng-class="{active:aWishList.owner}" ng-repeat="aWishList in vm.wishLists" value="{{aWishList.name}}">
+            {{aWishList.title}} {{(!aWishList.owner)? '*': ''}}
+        </option>
+    </select>
+
+    <p>
+        * ajout sous forme de suggestion
+    </p>
 
     <div class="row list-envie" masonry='{ "transitionDuration" : "0.4s" , "itemSelector" : ".envie-card", "percentPosition": "true" }'>
         <wish-card masonry-tile

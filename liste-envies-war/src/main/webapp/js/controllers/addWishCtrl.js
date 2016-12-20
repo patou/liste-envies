@@ -1,6 +1,6 @@
 app.controller('AddWishCtrl', AddWishCtrl);
-AddWishCtrl.$inject = ['envieService', 'appUserService', 'listEnviesService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse', '$interval', '$timeout', '$filter'];
-function AddWishCtrl(envieService, appUserService, listEnviesService, $routeParams, $location, $anchorScroll, $scope, $parse, $interval, $timeout, $filter) {
+AddWishCtrl.$inject = ['UtilitiesServices', 'appUserService', 'listEnviesService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse', '$interval', '$timeout', '$filter'];
+function AddWishCtrl(UtilitiesServices, appUserService, listEnviesService, $routeParams, $location, $anchorScroll, $scope, $parse, $interval, $timeout, $filter) {
     var vm = this;
     //vm.name = $routeParams.name;
 
@@ -30,38 +30,26 @@ function AddWishCtrl(envieService, appUserService, listEnviesService, $routePara
         height: 200
     };
 
+    vm.newWish = {};
+    if ($routeParams.title || $routeParams.url) {
+        vm.newWish.external = true;
+        if ($routeParams.title)
+        {
+            vm.newWish.label = $routeParams.title;
+        }
+        if ($routeParams.url)
+        {
+            vm.newWish.urls = [{url: $routeParams.url, name:null}];
+        }
+    }
 
-
-
-
-    vm.filterProperties = [{owner: true, shared: true, expression:'true', label:'Toutes', class:'btn-white btn-bordered-primary'},
-        {owner: false, shared: true, expression:'userTake.length > 0', label:'Offerts', class:'btn-white btn-bordered-warning'},
-        {owner: false, shared: true, expression:'userTake.length == 0', label:'A offrir', class:'btn-white btn-bordered-success', child: [
-            {role: "filter", expression:'userTake.length == 0 && suggest == true', label:'Suggestion', class:'btn-white btn-bordered-info'},
-            {role: "filter", expression:'userTake.length == 0 && suggest == false ', label:'Envie', class:'btn-white btn-bordered-success'}
-        ]},
-        {owner: false, shared: true, expression:'notes.length > 0', label:'Commentaires', class:'btn-white btn-bordered-danger'},
-        {owner: true, shared: false, expression:'description == null || price == null || picture == null || urls == null', label:'A compléter', class:'btn-white btn-bordered-danger', child: [
-            {role: "filter", expression:'description == null', label:'Sans texte', class:'btn-white btn-bordered-danger'},
-            {role: "filter", expression:'price == null', label:'Sans prix', class:'btn-white btn-bordered-danger'},
-            {role: "filter", expression:'picture == null', label:'Sans image', class:'btn-white btn-bordered-danger'},
-            {role: "filter", expression:'urls == null', label:'Sans lien', class:'btn-white btn-bordered-danger'}
-        ]},
-
-        {owner: true, shared: true, expression:'rating > 0', label:'Note', class:'btn-white btn-bordered-upgrade', child: vm.filtersRatingList},
-        {owner: true, shared: true, expression:'price != null', label:'Prix', class:'btn-white btn-bordered-gray', child: vm.filtersPriceList}
-        ];
-
-
-
-
-    resetForm();
-
+    UtilitiesServices.getList().then(function (data) {
+        vm.wishLists = data;
+    });
 
 
     vm.addEnvie = function (envie) {
-            vm.envies.push(envie);
-            $scope.update();
+        $location.url("/"+vm.name);
     };
 
 

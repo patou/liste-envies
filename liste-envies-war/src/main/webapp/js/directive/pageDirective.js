@@ -11,6 +11,7 @@ angular.module('ListeEnviesDirectives')
     .directive('page', function () {
         return {
             restrict: 'E',
+            transclude: true,
             link: function (scope, elem, attr) {
 
             }
