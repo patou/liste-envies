@@ -1,131 +1,169 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">
-                <form class="form-inline" ng-if="vm.editTitle">
-                    <div class="form-group">
-                        <input type="text" class="form-control title-edit" ng-model="vm.listEnvies.title" placeholder="@">
-                    </div>
-                    <button type="submit" class="btn btn-success btn-just-icon" ng-click="vm.saveListEnvies(vm.listEnvies);"><span class="fa fa-check" aria-hidden="true"></span><span class="sr-only">Ajouter</span></button>
-                </form>
-                <span class="title" ng-if="!vm.editTitle">
+<page>
+    <div class="container-fluid">
+
+       <div class="main main-raised">
+           <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    <form class="form-inline" ng-if="vm.editTitle">
+                        <div class="form-group">
+                            <input type="text" class="form-control title-edit" ng-model="vm.listEnvies.title"
+                                   placeholder="@">
+                        </div>
+                        <button type="submit" class="btn btn-success btn-just-icon"
+                                ng-click="vm.saveListEnvies(vm.listEnvies);"><span class="fa fa-check"
+                                                                                   aria-hidden="true"></span><span
+                                class="sr-only">Ajouter</span></button>
+                    </form>
+                    <span class="title" ng-if="!vm.editTitle">
                     {{vm.listEnvies.title}}
-                    <button type="button" class="btn btn-just-icon btn-warning" tooltip="Editer le titre de la liste" ng-if="vm.listEnvies.owner" ng-click="vm.editTitle = true">
+                    <button type="button" class="btn btn-just-icon btn-warning" tooltip="Editer le titre de la liste"
+                            ng-if="vm.listEnvies.owner" ng-click="vm.editTitle = true">
                         <span class="fa fa-edit" aria-hidden="true"></span><span class="sr-only">Editer titre</span>
                     </button>
-                    <small> de <span class="owners" ng-repeat="owner in vm.listEnvies.owners"> <i class="fa fa-user" ></i> {{owner.name}} ({{owner.email}})<span ng-if="!$last" >, </span> </span></small>
+                    <small> de <span class="owners" ng-repeat="owner in vm.listEnvies.owners"> <i
+                            class="fa fa-user"></i> {{owner.name}} ({{owner.email}})<span
+                            ng-if="!$last">, </span> </span></small>
                 </span>
-                <button type="button" class="btn pull-right btn-just-icon btn-warning" data-toggle="modal" data-target="#share-list" tooltip="Partager votre liste" ng-if="vm.listEnvies.owner">
-                    <span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Partager</span>
-                </button>
-            </h1>
+                    <button type="button" class="btn pull-right btn-just-icon btn-warning" data-toggle="modal"
+                            data-target="#share-list" tooltip="Partager votre liste" ng-if="vm.listEnvies.owner">
+                        <span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Partager</span>
+                    </button>
+                </h1>
+            </div>
         </div>
-    </div>
-    <div class="modal fade" tabindex="-1" role="dialog" id="share-list">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Partager votre liste</h4>
-                </div>
-                <div class="modal-body">
-                    <ul class="list-group">
-                        <li class="list-group-item" ng-repeat="user in vm.listEnvies.users" ng-class="{active:user.type == 'OWNER'}">
-                            <i class="fa fa-user btn btn-simple btn-sm  btn-just-icon btn-gray" aria-hidden="true"></i>{{user.email}}
-                            <button type="button" class="btn btn-sm btn-warning  pull-right btn-just-icon" ng-click="vm.removeUser(user);" aria-label="Partager votre liste" ng-if="user.email != main.user.email">
-                                <span class="fa fa-remove" aria-hidden="true"></span>
+        <div class="modal fade" tabindex="-1" role="dialog" id="share-list">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Partager votre liste</h4>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="list-group">
+                            <li class="list-group-item" ng-repeat="user in vm.listEnvies.users"
+                                ng-class="{active:user.type == 'OWNER'}">
+                                <i class="fa fa-user btn btn-simple btn-sm  btn-just-icon btn-gray"
+                                   aria-hidden="true"></i>{{user.email}}
+                                <button type="button" class="btn btn-sm btn-warning  pull-right btn-just-icon"
+                                        ng-click="vm.removeUser(user);" aria-label="Partager votre liste"
+                                        ng-if="user.email != main.user.email">
+                                    <span class="fa fa-remove" aria-hidden="true"></span>
+                                </button>
+                            </li>
+                        </ul>
+
+                        <div class="row form-share-to-user">
+                            <div class="col-xs-6">
+                                <div class="form-group label-floating ">
+                                    <label class="control-label" for="new-email">Email</label>
+                                    <input type="email" class="form-control col-xs-5" id="new-email"
+                                           ng-model="vm.newUser.email" placeholder="">
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" value="" ng-true-value="'OWNER'"
+                                               ng-false-value="'SHARED'" ng-model="vm.newUser.type">
+                                        Co-Bénéficiaire
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <button type="submit" class="btn btn-default btn-success btn-sm"
+                                        ng-click="vm.shareUser(vm.newUser);"><span class="fa fa-share"
+                                                                                   aria-hidden="true"></span> Ajouter
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-gray btn-bordered-danger" data-dismiss="modal">Fermer
+                        </button>
+                        <button type="submit" class="btn btn-primary" ng-click="vm.saveListEnvies(vm.listEnvies)">
+                            Enregistrer
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal --><!--row row-fluid-->
+        <p ng-bind-html="vm.listEnvies.description" ng-if="!vm.listEnvies.owner"></p>
+        <summernote airMode ng-model="vm.listEnvies.description" ng-if="vm.listEnvies.owner" config="vm.editorOptions"
+                    ng-change="vm.saveListEnvies(vm.listEnvies);"
+                    ng-model-options="{ updateOn: 'default', debounce: 5000 }" lang="fr-FR"></summernote>
+
+        <div class="order-filter row row-fluid well-sm">
+            <div class="filter col-xs-12 col-md-5">
+                <div class="form-group">
+                    <label class="control-label">Filtrer</label><br/>
+                    <div class="btn-group" data-toggle="buttons">
+
+
+                        <div ng-if="(vm.listEnvies.owner && filter.owner) || (!vm.listEnvies.owner && filter.shared)"
+                             class="btn-group" type="button" class="btn" ng-repeat="filter in vm.filterProperties">
+                            <button type="button" class="btn btn-sm {{filter.class}}"
+                                    ng-class="{'dropdown-toggle' : filter.child}" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false"
+                                    ng-click="vm.filterList(filter.expression);">
+                                {{filter.label}}
                             </button>
-                        </li>
-                    </ul>
+                            <button type="button" ng-if="filter.child"
+                                    class="btn btn-sm {{filter.class}} dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" ng-if="filter.child">
+                                <li ng-repeat="children in filter.child" role="{{children.role}}"
+                                    class="{{children.class}}">
+                                    <a ng-if="children.role == 'filter'" ng-click="vm.filterChild(children)">{{children.label}}</a>
+                                </li>
+                            </ul>
+                        </div>
 
-                    <div class="row form-share-to-user">
-                        <div class="col-xs-6">
-                            <div class="form-group label-floating ">
-                                <label class="control-label" for="new-email">Email</label>
-                                <input type="email" class="form-control col-xs-5" id="new-email" ng-model="vm.newUser.email" placeholder="">
-                            </div>
-                        </div>
-                        <div class="col-xs-3">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="" ng-true-value="'OWNER'" ng-false-value="'SHARED'" ng-model="vm.newUser.type">
-                                    Co-Bénéficiaire
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-xs-3">
-                            <button type="submit" class="btn btn-default btn-success btn-sm" ng-click="vm.shareUser(vm.newUser);"><span class="fa fa-share" aria-hidden="true"></span> Ajouter</button>
-                        </div>
+
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-gray btn-bordered-danger" data-dismiss="modal">Fermer</button>
-                    <button type="submit" class="btn btn-primary" ng-click="vm.saveListEnvies(vm.listEnvies)">Enregistrer</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal --><!--row row-fluid-->
-    <p ng-bind-html="vm.listEnvies.description" ng-if="!vm.listEnvies.owner"></p>
-    <summernote airMode ng-model="vm.listEnvies.description" ng-if="vm.listEnvies.owner" config="vm.editorOptions" ng-change="vm.saveListEnvies(vm.listEnvies);" ng-model-options="{ updateOn: 'default', debounce: 5000 }" lang="fr-FR"></summernote>
-
-    <div class="order-filter row row-fluid well well-sm">
-        <div class="filter col-xs-12 col-md-5">
-            <div class="form-group">
-                <label class="control-label">Filtrer</label><br/>
-                <div class="btn-group" data-toggle="buttons">
-
-
-                <div ng-if="(vm.listEnvies.owner && filter.owner) || (!vm.listEnvies.owner && filter.shared)"
-                        class="btn-group"  type="button" class="btn"  ng-repeat="filter in vm.filterProperties">
-                    <button type="button" class="btn btn-sm {{filter.class}}"  ng-class="{'dropdown-toggle' : filter.child}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-click="vm.filterList(filter.expression);" >
-                        {{filter.label}}
-                    </button>
-                    <button type="button"  ng-if="filter.child" class="btn btn-sm {{filter.class}} dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu" ng-if="filter.child">
-                        <li ng-repeat="children in filter.child" role="{{children.role}}" class="{{children.class}}">
-                            <a ng-if="children.role == 'filter'" ng-click="vm.filterChild(children)">{{children.label}}</a>
-                        </li>
-                    </ul>
+            </div>
+            <div class="search col-xs-12 col-md-3">
+                <div class="row ">
+                    <div class="col-xs-11">
+                        <div class="form-group label-floating has-feedback">
+                            <label class="control-label" for="searchEnvieFilter">Rechercher</label>
+                            <input type="text" class="form-control" id="searchEnvieFilter" ng-change="vm.searchList();"
+                                   ng-model="vm.search">
+                            <span class="fa fa-search form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                    <div class="col-xs-1">
+                        <div class="btn btn-white btn-just-icon reset-search-icon btn-bordered-danger"
+                             ng-click="vm.searchList(true);" ng-if="vm.search">
+                            <span class="fa fa-close " aria-hidden="true"></span>
+                        </div>
+                    </div>
                 </div>
 
 
             </div>
-            </div>
-        </div>
-        <div class="search col-xs-12 col-md-3">
-            <div class="row ">
-                <div class="col-xs-11">
-                    <div class="form-group label-floating has-feedback">
-                        <label class="control-label" for="searchEnvieFilter">Rechercher</label>
-                        <input type="text" class="form-control" id="searchEnvieFilter" ng-change="vm.searchList();" ng-model="vm.search">
-                        <span class="fa fa-search form-control-feedback" aria-hidden="true"></span>
-                    </div>
-                </div>
-                <div class="col-xs-1">
-                    <div class="btn btn-white btn-just-icon reset-search-icon btn-bordered-danger" ng-click="vm.searchList(true);" ng-if="vm.search">
-                        <span class="fa fa-close " aria-hidden="true"></span>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-        <div class="order  col-xs-12 col-md-4">
+            <div class="order  col-xs-12 col-md-4">
 
                 <div class="form-group">
                     <label class="control-label">Trier</label><br/>
                     <div class="btn-group order-btn btn-group-sm" data-toggle="buttons">
                         <!-- Shared -->
-                        <button ng-if="!vm.listEnvies.owner" type="button" class="btn btn-link" ng-class="{dropup:order.reverse}" ng-click="vm.sortList(order);" ng-repeat="order in vm.orderProperties">
+                        <button ng-if="!vm.listEnvies.owner" type="button" class="btn btn-link"
+                                ng-class="{dropup:order.reverse}" ng-click="vm.sortList(order);"
+                                ng-repeat="order in vm.orderProperties">
                             {{order.label}}
                             <span ng-class="{caret:vm.selectedItems == order}"></span>
                         </button>
 
                         <!-- Owners -->
-                        <button ng-if="vm.listEnvies.owner" type="button" class="btn btn-link" ng-class="{dropup:order.reverse}" ng-click="vm.sortList(order);" ng-repeat="order in vm.orderPropertiesOwners">
+                        <button ng-if="vm.listEnvies.owner" type="button" class="btn btn-link"
+                                ng-class="{dropup:order.reverse}" ng-click="vm.sortList(order);"
+                                ng-repeat="order in vm.orderPropertiesOwners">
                             {{order.label}}
                             <span ng-class="{caret:vm.selectedItems == order}"></span>
                         </button>
@@ -133,12 +171,14 @@
 
                     </div>
 
-                    <button class="btn btn-default btn-just-icon btn-sm pull-right btn-bordered-success" type="button" ng-click="vm.refresh();"><i class="fa fa-refresh" ></i></button>
+                    <button class="btn btn-default btn-just-icon btn-sm pull-right btn-bordered-success" type="button"
+                            ng-click="vm.refresh();"><i class="fa fa-refresh"></i></button>
                 </div>
+            </div>
         </div>
-    </div>
+       </div>
 
-    <div class="row list-envie" masonry='{ "transitionDuration" : "0.4s" , "itemSelector" : ".envie-card", "percentPosition": "true" }'>
+    <div class="row list-envie" masonry-object="vm.masonry" masonry='{ "transitionDuration" : "0.4s" , "itemSelector" : ".envie-card", "percentPosition": "true" }'>
         <div class="loading" ng-if="vm.loading">
             <div class='loader'>
                 <div class='loader--dot'></div>
@@ -176,3 +216,4 @@
     </div>
 
 </div>
+</page>
