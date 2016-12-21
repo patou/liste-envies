@@ -1,0 +1,103 @@
+<!-- Navigation -->
+<!--  -->
+<nav class="navbar navbar-transparent navbar-fixed-top navbar-color-on-scroll top-nav" role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#/"><i class="fa fa-gift"></i> Liste de mes envies</a>
+        </div>
+
+        <div class="collapse navbar-collapse ng-cloak " id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="dropdown mega-dropdown " ng-if="main.wishLists != null">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Changer de liste <span class="caret"></span></a>
+                    <ul class="dropdown-menu mega-dropdown-menu row">
+
+                        <li class="list-group-item" ng-class="{active:aWishList.owner}" ng-repeat="aWishList in main.wishLists"><a ng-click="main.goList(aWishList.name)">
+                            {{aWishList.title}}
+                            <p class="list-group-item-text"> de <span class="owners" ng-repeat="owner in aWishList.owners" title="{{owner.name}}({{owner.email}})"><i class="fa fa-user"></i> {{owner.name}}<span ng-if="!$last" >, </span></span>  </p>
+                        </a></li>
+
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown" ng-show="main.isAuthenticated">
+                    <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{main.user.name}}
+                        <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><div>{{main.user.email}}</div></li>
+                        <li>
+                            <a href="/"><i class="fa fa-fw fa-user"></i> Mon profil</a>
+                        </li>
+                        <li>
+                            <a ng-href="{{main.logoutPath()}}"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                        </li>
+                    </ul>
+                </li>
+                <li ng-hide="main.isAuthenticated">
+                    <a ng-href="{{main.loginPath()}}">Connexion</a>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+
+
+    </div>
+</nav>
+
+<div id="wrapper"  class="wrapper page-background">
+
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <h1 class="title">Liste d'envies</h1>
+                    <h4>la seule liste de d'envies que vous pouvez partagez de manière privés avec vos amis et familles afin qu'ils puissent se mettre d'accord sur les cadeaux à offrir, mais sans que vous soyez au courants. Vous aurez la surprise le jour J.</h4>
+                    <br />
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="page-wrapper" class="page-background">
+
+        <div ng-transclude></div>
+
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <nav class="pull-left">
+                <ul>
+                    <li>
+                        <a href="http://liste-envie.desaintsteban.fr">
+                            <i class="fa fa-link"></i> Liste envies
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/patou/liste-envies">
+                            <i class="fa fa-github"></i> Git hub
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+            <div class="copyright pull-right">
+                &copy; 2016, made with <i class="fa fa-heart heart"></i> by Patrice et Emmanuel DE SAINT STEBAN
+            </div>
+        </div>
+    </footer>
+
+    <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->

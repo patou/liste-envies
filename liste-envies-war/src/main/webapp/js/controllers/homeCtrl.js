@@ -25,7 +25,7 @@ function HomeCtrl(appUserService, listEnviesService, $location, UtilitiesService
         var user = [];
         user.push({'email': userEmail, 'type': "OWNER"});
         if (newlist.emails && newlist.emails.length > 0) {
-            newlist.emails.split(/[\n\s,]+/).map(function (email) {
+            newlist.emails.split(/[\n\s,;]+/).map(function (email) {
                 user.push({'email': email.trim(), 'type': "SHARED"});
             });
         }

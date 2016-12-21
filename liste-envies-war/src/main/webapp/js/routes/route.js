@@ -6,7 +6,12 @@ app.config(function ($routeProvider) {
             controller: "HomeCtrl",
             controllerAs: "vm"
         })
-        .when("/:name", {
+        .when("/addWish/", {
+            templateUrl: "templates/addWish.html",
+            name: 'addWish',
+            controller: "AddWishCtrl",
+            controllerAs: "vm"
+        }).when("/:name", {
             templateUrl: "templates/envies.html",
             name: 'Envie',
             controller: "EnvieCtrl",

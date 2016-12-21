@@ -5,6 +5,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     vm.name = $routeParams.name;
     vm.listEnvies = loadListEnvies(vm.name);
     vm.loading = true;
+    vm.masonry = null;
     vm.newUser = {email: '', type:'SHARED'};
     vm.editorOptions = {
         disableDragAndDrop: true,
@@ -196,7 +197,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
 
         intervalUpdate = $interval(function () {
             // trigger layout
-            $scope.masonry.layout();
+            if (vm.masonry) vm.masonry.layout();
         }, delay, 50);
 
         if (!end) end = 500;
@@ -211,7 +212,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         if (timeoutUpdate) $timeout.cancel(timeoutUpdate);
 
         intervalUpdate = null;
-        $scope.masonry.layout();
+        if (vm.masonry) vm.masonry.layout();
     };
 
     vm.refreshLayout = function (delay) {
@@ -223,8 +224,8 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         if (!refresh) refresh = true;
         var $element = $("#envie"+id);
         // stamp or unstamp element to rest in place.
-        if (!$scope.masonry.stamps.indexOf($element) ) {
-            $scope.masonry.stamp( $element );
+        if (vm.masonry && !vm.masonry.stamps.indexOf($element) ) {
+            if (vm.masonry) vm.masonry.stamp( $element );
         }
         refresh && vm.refreshLayout(200);
 
@@ -234,8 +235,8 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         if (!refresh) refresh = true;
         var $element = $("#envie"+id);
         // stamp or unstamp element to rest in place.
-        if ( $scope.masonry.stamps.indexOf($element) ) {
-            $scope.masonry.unstamp($element);
+        if (vm.masonry && !vm.masonry.stamps.indexOf($element) ) {
+            if (vm.masonry) vm.masonry.unstamp($element);
         }
         refresh && vm.refreshLayout(200);
     };
@@ -401,7 +402,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
 
                 //$scope.update();
             //vm.clearRefreshingLayoutAuto();
-            if (firstLoad) $scope.update();
+            if (firstLoad) vm.masonry.update();
 
             $.material.init();
         });
