@@ -1,15 +1,24 @@
-<div class="container-fluid">
+<div class="container-fluid" translate-namespace="ADD_WISH">
 
-    Choisir sur quel liste l'ajouter :
-    <select name="" id="" ng-if="vm.wishLists != null" ng-model="vm.name">
-        <option ng-class="{active:aWishList.owner}" ng-repeat="aWishList in vm.wishLists" value="{{aWishList.name}}">
-            {{aWishList.title}} {{(!aWishList.owner)? '*': ''}}
-        </option>
-    </select>
 
-    <p>
-        * ajout sous forme de suggestion
+    <div class="navbar navbar-default navbar-form" >
+        <label class="navbar-brand" translate=".CHOOSE_LIST"></label>
+        <div class="form-group btn btn-white btn-xs">
+            <select name="" id="" ng-if="vm.wishLists != null" ng-model="vm.name"
+                    class="form-control" >
+                <option translate>.CHOOSE_LIST_PLACEHOLDER</option>
+                <option ng-class="{active:aWishList.owner}" ng-repeat="aWishList in vm.wishLists | filter:'owner'" value="{{aWishList.name}}">
+                    {{aWishList.title}} {{(!aWishList.owner)? '*': ''}}
+                </option>
+            </select>
+        </div>
+
+    </div>
+
+    <p translate>
+        .NO_OWNER_LIST_TIPS
     </p>
+
 
     <div class="row list-envie" masonry='{ "transitionDuration" : "0.4s" , "itemSelector" : ".envie-card", "percentPosition": "true" }'>
         <wish-card masonry-tile

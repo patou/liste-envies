@@ -1,0 +1,70 @@
+{
+  "TITLE": "Listes de mes envies",
+  "NAME": "Liste-envies",
+  "COMMONS": {
+    "OK": "Ok",
+    "YES": "Oui",
+    "NO": "Non",
+    "CANCEL": "Annuler",
+    "ADD": "Ajouter",
+    "EDIT": "Modifier"
+  },
+  "NAVBAR": {
+    "TITLE": "@:TITLE",
+    "TOGGLE_NAVIGATION": "Afficher la navigation",
+    "CHANGE_LIST": "Changer de liste",
+    "MY_PROFIL": "Mon profil",
+    "LOG_OUT": "Déconnexion",
+    "LOG_IN": "Connexion",
+    "MAGIC_BUTTON_POPOVER_TITLE": "Bouton magique pour ajouter une envie depuis n'importe quel site",
+    "MAGIC_BUTTON_POPOVER_CONTENT": "Déplacer le lien sur votre bar des favoris, puis sur un site où vous souhaitez ajouter une envies, appuyer simplement sur ce liens pour l'ajouter.",
+    "MAGIC_BUTTON": "Ajouter a une liste d'envie"
+  },
+  "PAGE": {
+    "TITLE": "Liste d'envies",
+    "DESCRIPTION": "la seule liste d'envies que vous pouvez partager de manière privées avec vos amis et familles afin qu'ils puissent se mettre d'accord sur les cadeaux à offrir, mais sans que vous soyez au courants. Vous aurez la surprise le jour J.",
+    "FOOTER_LINKS": {
+      "LISTE_ENVIES" : "Liste envies",
+      "GITHUB" : "Git hub",
+      "COPYRIGHT": "&copy; 2016, made with <i class='fa fa-heart heart'></i> by Patrice et Emmanuel DE SAINT STEBAN"
+    }
+  },
+  "CANCEL_COMPONENT": {
+    "CANCEL": "@:COMMONS.CANCEL"
+  },
+  "ADD_WISH": {
+    "NO_OWNER_LIST_TIPS": "* ajout sous forme de suggestion",
+    "CHOOSE_LIST": "Sur quelle liste :",
+    "CHOOSE_LIST_PLACEHOLDER": "Choisir liste :"
+  },
+  "WISH_CARD_COMPONENT": {
+    "DELETE_MESSAGE": "Suppression définitive de l'envie {{whishName}}. Si vous l'avez reçu, archivez le en le marquant comme ",
+    "RECEIVED_MESSAGE": "Le cadeau a été reçu, il est maintenant archivé {{whishName}}",
+    "INPUT_TITRE": "Titre de l'envie",
+    "INPUT_DESCRIPTION": "Description de l'envie",
+    "INPUT_LINKS": "Urls",
+    "INPUT_LINKS_URL_PLACEHOLDER": "Url : http://",
+    "INPUT_LINKS_NAME_PLACEHOLDER": "Nom du lien",
+    "INPUT_ADD_LINK": "Ajouter le lien",
+    "INPUT_IMAGE_URL": "Image (url)",
+    "INPUT_IMAGE_PLACEHOLDER": "https://placeholdit.imgix.net/~text?txtsize=20&txt=Choisir+une+image&w=100&h=100&txttrack=0",
+    "INPUT_PRICE": "Prix",
+    "EDIT": "@:COMMONS.EDIT",
+    "EDIT_OTHER_OPTIONS": "Autres options",
+    "EDIT_OPTIONS_RECEIVED": "Reçu",
+    "EDIT_OPTIONS_DELETE": "Supprimer",
+    "OFFERED_BY": "Offert par {{name}} &nbsp;&nbsp;&nbsp;",
+    "PARTICIPATE": "Participer",
+    "TO_OFFER": "Offrir",
+    "COMMENTS": "Commmentaires ({{comment_number  || 0}})",
+    "ADD_COMMENTS_LABEL": "Ajouter un commmentaire",
+    "ADD_COMMENTS_BUTTON": "Commenter",
+    "WISH_DELETED_MESSAGE": "<strong>Supprimé</strong>Cette envie a été supprimé par la/les bénéficiaires de la liste, mais gardé en mode privé car une personne c'est proposé de l'offrir. Si vous ne l'avez pas donné ou déjà acheté voyez avec le(s) bénéficiaire(s) si elle(s) souhaite(nt) encore le cadeau.",
+    "ALREADY_DONE": "Déjà donné",
+    "TITLE_LAST_CHANGE": "Dernière modification",
+    "TITLE_CREATED_BY": "Crée par",
+    "ADD": "@:COMMONS.ADD",
+    "CANCEL": "@:COMMONS.CANCEL"
+  }
+
+}

@@ -6,7 +6,9 @@ var app = angular.module('ListeEnviesApp', [
     'masonry',
     'service',
     'summernote',
+    'pascalprecht.translate',
     'ngSanitize',
-    'ListeEnviesDirectives'
+    'ListeEnviesDirectives',
+    'ListeEnviesTranslation'
 ]);
 
