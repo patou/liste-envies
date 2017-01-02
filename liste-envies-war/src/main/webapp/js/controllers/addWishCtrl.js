@@ -1,6 +1,6 @@
 app.controller('AddWishCtrl', AddWishCtrl);
-AddWishCtrl.$inject = ['UtilitiesServices', 'appUserService', 'listEnviesService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse', '$interval', '$timeout', '$filter'];
-function AddWishCtrl(UtilitiesServices, appUserService, listEnviesService, $routeParams, $location, $anchorScroll, $scope, $parse, $interval, $timeout, $filter) {
+AddWishCtrl.$inject = ['UtilitiesServices', 'appUserService', 'listEnviesService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse', '$interval', '$timeout', 'pageInfo'];
+function AddWishCtrl(UtilitiesServices, appUserService, listEnviesService, $routeParams, $location, $anchorScroll, $scope, $parse, $interval, $timeout, pageInfo) {
     var vm = this;
     //vm.name = $routeParams.name;
 
@@ -32,7 +32,27 @@ function AddWishCtrl(UtilitiesServices, appUserService, listEnviesService, $rout
 
 
     vm.newWish = {};
-    if ($routeParams.title || $routeParams.url) {
+    if (pageInfo) {
+        //pageInfo = pageInfo.data;
+        vm.newWish.external = true;
+        vm.newWish.label = $routeParams.title? $routeParams.title : pageInfo.title;
+        vm.newWish.urls = [{url: pageInfo.url, name:pageInfo.domain}];
+        vm.newWish.description =  pageInfo.excerpt;
+        if (pageInfo.domain.indexOf('amazon') > 0) { // case for amazon
+            var spiltedImage = pageInfo.lead_image_url.split('%22');
+            if (spiltedImage.length > 1) {
+                vm.newWish.picture =  spiltedImage[1];
+            } else if (spiltedImage.length === 0) {
+                vm.newWish.picture =  spiltedImage[0];
+            } else {
+                vm.newWish.picture =  pageInfo.lead_image_url;
+            }
+
+        } else {
+            vm.newWish.picture =  pageInfo.lead_image_url;
+        }
+
+    } else if ($routeParams.title || $routeParams.url) {
         vm.newWish.external = true;
         if ($routeParams.title)
         {
