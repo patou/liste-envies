@@ -26,6 +26,9 @@ function PagesDirectivesController ($scope, $http, $location, AuthService, Utili
 
     main.wishLists = null;
 
+
+    main.host = window.location.host;
+
     main.user = AuthService.getUser();
     $scope.$watch(function () { return AuthService.getUser(); }, function () {
         main.isAuthenticated = AuthService.isAuthenticated();

@@ -30,6 +30,7 @@ function AddWishCtrl(UtilitiesServices, appUserService, listEnviesService, $rout
         height: 200
     };
 
+
     vm.newWish = {};
     if ($routeParams.title || $routeParams.url) {
         vm.newWish.external = true;

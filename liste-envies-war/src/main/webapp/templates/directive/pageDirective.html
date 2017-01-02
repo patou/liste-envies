@@ -1,22 +1,22 @@
 <!-- Navigation -->
 <!--  -->
-<nav class="navbar navbar-transparent navbar-fixed-top navbar-color-on-scroll top-nav" role="navigation">
+<nav class="navbar navbar-transparent navbar-fixed-top navbar-color-on-scroll top-nav" role="navigation" translate-namespace="NAVBAR">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
+                <span class="sr-only" translate>.TOGGLE_NAVIGATION</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#/"><i class="fa fa-gift"></i> Liste de mes envies</a>
+            <a class="navbar-brand" href="#/"><i class="fa fa-gift"></i> <span translate=".TITLE"></span></a>
         </div>
 
         <div class="collapse navbar-collapse ng-cloak " id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li class="dropdown mega-dropdown " ng-if="main.wishLists != null">
-                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Changer de liste <span class="caret"></span></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span translate>.CHANGE_LIST</span> <span class="caret"></span></a>
                     <ul class="dropdown-menu mega-dropdown-menu row">
 
                         <li class="list-group-item" ng-class="{active:aWishList.owner}" ng-repeat="aWishList in main.wishLists"><a ng-click="main.goList(aWishList.name)">
@@ -29,37 +29,51 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown" >
+                    <a type="button"
+                        href="javascript:(function(){ function centeredPopupPosition(w, h) {var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left; var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top; var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width; var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height; var left = ((width / 2) - (w / 2)) + dualScreenLeft; var top = ((height / 2) - (h / 2)) + dualScreenTop; return [left, top]; } var width = 500, height = 700, position = centeredPopupPosition(width, height); window.open('http://{{main.host}}/#/addWish/?url='+encodeURIComponent(document.location.href)+'&title='+encodeURIComponent(document.title),'bookyBookmarklet','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=' + width + ',height=' + height + ',top=' + position[1] + ',left=' + position[0]).focus(); }());"
+
+                       class="btn btn-default"
+                       data-container="body" data-toggle="popover" data-placement="bottom"
+
+                       translate-attr-title=".MAGIC_BUTTON_POPOVER_TITLE"
+                       translate-attr-data-content=".MAGIC_BUTTON_POPOVER_CONTENT"
+                        translate>
+                        .MAGIC_BUTTON
+                    </a>
+
+                </li>
                 <li class="dropdown" ng-show="main.isAuthenticated">
                     <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{main.user.name}}
                         <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><div>{{main.user.email}}</div></li>
                         <li>
-                            <a href="/"><i class="fa fa-fw fa-user"></i> Mon profil</a>
+                            <a href="/"><i class="fa fa-fw fa-user"></i> <span translate=".MY_PROFIL"></span> </a>
                         </li>
                         <li>
-                            <a ng-href="{{main.logoutPath()}}"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            <a ng-href="{{main.logoutPath()}}"><i class="fa fa-fw fa-power-off"></i><span translate=".LOG_OUT"></span></a>
                         </li>
                     </ul>
                 </li>
                 <li ng-hide="main.isAuthenticated">
-                    <a ng-href="{{main.loginPath()}}">Connexion</a>
+                    <a ng-href="{{main.loginPath()}}" translate>.LOG_IN</a>
                 </li>
             </ul>
         </div><!-- /.navbar-collapse -->
 
 
     </div>
-</nav>
+</nav >
 
-<div id="wrapper"  class="wrapper page-background">
+<div id="wrapper"  class="wrapper page-background" translate-namespace="PAGE">
 
     <div class="header">
         <div class="container">
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
-                    <h1 class="title">Liste d'envies</h1>
-                    <h4>la seule liste de d'envies que vous pouvez partagez de manière privés avec vos amis et familles afin qu'ils puissent se mettre d'accord sur les cadeaux à offrir, mais sans que vous soyez au courants. Vous aurez la surprise le jour J.</h4>
+                    <h1 class="title" translate=".TITLE"></h1>
+                    <h4 translate=".DESCRIPTION"></h4>
                     <br />
 
                 </div>
@@ -80,19 +94,18 @@
                 <ul>
                     <li>
                         <a href="http://liste-envie.desaintsteban.fr">
-                            <i class="fa fa-link"></i> Liste envies
+                            <i class="fa fa-link"></i> <span translate=".FOOTER_LINKS.LISTE_ENVIES"></span>
                         </a>
                     </li>
                     <li>
                         <a href="https://github.com/patou/liste-envies">
-                            <i class="fa fa-github"></i> Git hub
+                            <i class="fa fa-github"></i> <span translate=".FOOTER_LINKS.GITHUB"></span>
                         </a>
                     </li>
 
                 </ul>
             </nav>
-            <div class="copyright pull-right">
-                &copy; 2016, made with <i class="fa fa-heart heart"></i> by Patrice et Emmanuel DE SAINT STEBAN
+            <div class="copyright pull-right" translate="FOOTER_LINKS.COPYRIGHT">
             </div>
         </div>
     </footer>
