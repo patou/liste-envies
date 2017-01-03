@@ -29,13 +29,26 @@
       "COPYRIGHT": "&copy; 2016, made with <i class='fa fa-heart heart'></i> by Patrice et Emmanuel DE SAINT STEBAN"
     }
   },
-  "CANCEL_COMPONENT": {
+  "WISH_LIST_PAGE": {
     "CANCEL": "@:COMMONS.CANCEL"
+  },
+  "HOME_PAGE": {
+    "HOME_TITLE": "Liste de mes envies <small>Accueil</small>",
+    "WELCOME_MESSAGE": "Bonjour, <strong>{{userName}}</strong>! Bienvenue sur votre liste des envies",
+    "SEPARATOR_USER": "de",
+    "BUTTON_CREATE_LIST": "Créer une liste"
+  },
+  "CANCEL_COMPONENT": {
+    "BUTTON_EDIT_LIST": "Editer le titre de la liste",
+    "BUTTON_EDIT_LIST2": "Editer la liste",
+    "BUTTON_EDIT_LIST3": "Editer la liste"
   },
   "ADD_WISH": {
     "NO_OWNER_LIST_TIPS": "* ajout sous forme de suggestion",
     "CHOOSE_LIST": "Sur quelle liste :",
-    "CHOOSE_LIST_PLACEHOLDER": "Choisir liste :"
+    "CHOOSE_LIST_PLACEHOLDER": "Choisir liste :",
+    "CHOOSE_MY_LIST_PLACEHOLDER": "Ajouter dans mes listes :",
+    "CHOOSE_OTHER_LIST_PLACEHOLDER": "Suggestion dans les autres listes :"
   },
   "WISH_CARD_COMPONENT": {
     "DELETE_MESSAGE": "Suppression définitive de l'envie {{whishName}}. Si vous l'avez reçu, archivez le en le marquant comme ",

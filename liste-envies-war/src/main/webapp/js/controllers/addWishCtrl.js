@@ -37,8 +37,8 @@ function AddWishCtrl(UtilitiesServices, appUserService, listEnviesService, $rout
         vm.newWish.external = true;
         vm.newWish.label = $routeParams.title? $routeParams.title : pageInfo.title;
         vm.newWish.urls = [{url: pageInfo.url, name:pageInfo.domain}];
-        vm.newWish.description =  pageInfo.excerpt;
-        if (pageInfo.domain.indexOf('amazon') > 0) { // case for amazon
+
+        if (pageInfo.domain.indexOf('amazon') > 0 && pageInfo.lead_image_url) { // case for amazon, that can have sometimes a list of images url.
             var spiltedImage = pageInfo.lead_image_url.split('%22');
             if (spiltedImage.length > 1) {
                 vm.newWish.picture =  spiltedImage[1];
@@ -49,7 +49,8 @@ function AddWishCtrl(UtilitiesServices, appUserService, listEnviesService, $rout
             }
 
         } else {
-            vm.newWish.picture =  pageInfo.lead_image_url;
+            vm.newWish.description =  pageInfo.excerpt;
+            vm.newWish.picture =  pageInfo.lead_image_url? pageInfo.lead_image_url : null;
         }
 
     } else if ($routeParams.title || $routeParams.url) {

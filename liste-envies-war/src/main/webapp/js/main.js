@@ -7,6 +7,7 @@ var app = angular.module('ListeEnviesApp', [
     'service',
     'summernote',
     'pascalprecht.translate',
+    'angular-loading-bar',
     'ngSanitize',
     'ListeEnviesDirectives',
     'ListeEnviesTranslation'

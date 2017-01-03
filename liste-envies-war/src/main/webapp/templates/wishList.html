@@ -1,4 +1,4 @@
-<page>
+<page translate-namespace="WISH_LIST_PAGE">
     <div class="container-fluid">
 
        <div class="main main-raised">
@@ -11,14 +11,19 @@
                                    placeholder="@">
                         </div>
                         <button type="submit" class="btn btn-success btn-just-icon"
-                                ng-click="vm.saveListEnvies(vm.listEnvies);"><span class="fa fa-check"
-                                                                                   aria-hidden="true"></span><span
-                                class="sr-only">Ajouter</span></button>
+                                ng-click="vm.saveListEnvies(vm.listEnvies);"
+                            translate translate-attr-title=".BUTTON_EDIT_LIST"
+                        >
+                            <span class="fa fa-check" aria-hidden="true"></span>
+                            <span class="sr-only" translate>.BUTTON_EDIT_LIST</span>
+                        </button>
                     </form>
                     <span class="title" ng-if="!vm.editTitle">
                     {{vm.listEnvies.title}}
                     <button type="button" class="btn btn-just-icon btn-warning" tooltip="Editer le titre de la liste"
-                            ng-if="vm.listEnvies.owner" ng-click="vm.editTitle = true">
+                            ng-if="vm.listEnvies.owner" ng-click="vm.editTitle = true"
+                            translate translate-attr-title=".BUTTON_EDIT_LIST"
+                        >
                         <span class="fa fa-edit" aria-hidden="true"></span><span class="sr-only">Editer titre</span>
                     </button>
                     <small> de <span class="owners" ng-repeat="owner in vm.listEnvies.owners"> <i

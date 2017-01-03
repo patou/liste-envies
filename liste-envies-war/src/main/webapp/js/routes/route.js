@@ -34,7 +34,7 @@ app.config(function ($routeProvider) {
             }]},
             controllerAs: "vm"
         }).when("/:name", {
-            templateUrl: "templates/envies.html",
+            templateUrl: "templates/wishList.html",
             name: 'Envie',
             controller: "EnvieCtrl",
             controllerAs: "vm"

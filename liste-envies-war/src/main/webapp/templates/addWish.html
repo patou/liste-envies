@@ -5,11 +5,20 @@
         <label class="navbar-brand" translate=".CHOOSE_LIST"></label>
         <div class="form-group btn btn-white btn-xs">
             <select name="" id="" ng-if="vm.wishLists != null" ng-model="vm.name"
-                    class="form-control" >
-                <option translate>.CHOOSE_LIST_PLACEHOLDER</option>
-                <option ng-class="{active:aWishList.owner}" ng-repeat="aWishList in vm.wishLists | filter:'owner'" value="{{aWishList.name}}">
-                    {{aWishList.title}} {{(!aWishList.owner)? '*': ''}}
-                </option>
+                    class="form-control">
+
+                    <option selected disabled value="" translate>.CHOOSE_LIST_PLACEHOLDER</option>
+                <optgroup translate translate-attr-label=".CHOOSE_MY_LIST_PLACEHOLDER">
+                    <option ng-class="{active:aWishList.owner}" ng-repeat="aWishList in vm.wishLists | filter : {owner: true}" value="{{aWishList.name}}">
+                        {{aWishList.title}}
+                    </option>
+                </optgroup>
+                <optgroup translate translate-attr-label=".CHOOSE_OTHER_LIST_PLACEHOLDER">
+                    <option ng-class="{active:aWishList.owner}" ng-repeat="aWishList in vm.wishLists | filter : {owner: false}" value="{{aWishList.name}}">
+                        {{aWishList.title}} {{(!aWishList.owner)? '*': ''}}
+                    </option>
+                </optgroup>
+
             </select>
         </div>
 
