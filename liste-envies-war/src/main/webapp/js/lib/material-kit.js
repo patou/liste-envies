@@ -39,7 +39,6 @@ var navbar_initialized = false;
 
 loadMaterialsKits = function (){
 
-    console.log('loadMaterials kits');
 
     // Init Material scripts for buttons ripples, inputs animations etc, more info on the next link https://github.com/FezVrasta/bootstrap-material-design#materialjs
     $.material.init();

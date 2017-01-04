@@ -30,6 +30,8 @@ function AddWishCtrl(UtilitiesServices, appUserService, listEnviesService, $rout
         height: 200
     };
 
+    vm.added = false;
+
 
     vm.newWish = {};
     if (pageInfo) {
@@ -71,8 +73,19 @@ function AddWishCtrl(UtilitiesServices, appUserService, listEnviesService, $rout
 
 
     vm.addEnvie = function (envie) {
-        $location.url("/"+vm.name);
+        vm.newWish = envie;
+        vm.added = true;
+        $anchorScroll();
+        $anchorScroll('add_wish_top');
+        //updateWishUser(vm.newWish);
+        //$location.url("/"+vm.name);
     };
+
+    vm.closeWithDelay = function() {
+        setTimeout(function () {
+            window.close();
+        }, 200);
+    }
 
 
 
@@ -176,6 +189,22 @@ function AddWishCtrl(UtilitiesServices, appUserService, listEnviesService, $rout
     }
     vm.userName = function(email) {
         return loadUser(email).name;
+    };
+
+    var updateWishUser = function (item) {
+        if (item.owner) {
+            item.ownerUser = loadUser(item.owner);
+        }
+        if (item.userTake && item.userTake.length > 0) {
+            var userTakeNames = [];
+            angular.forEach(item.userTake, function (user) {
+                this.push(loadUser(user).name || user);
+            }, userTakeNames);
+            item.userTakeUsers = userTakeNames.join(", ");
+        } else {
+            //delete item.userTake;
+            delete item.userTakeUsers;
+        }
     };
 
 

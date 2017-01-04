@@ -1,7 +1,8 @@
-<div class="container-fluid" translate-namespace="ADD_WISH">
+<!-- -->
+<div class="container-fluid" translate-namespace="ADD_WISH"  id="add_wish_top">
 
 
-    <div class="navbar navbar-default navbar-form" >
+    <div class="navbar navbar-default navbar-form"  ng-if="!vm.added">
         <label class="navbar-brand" translate=".CHOOSE_LIST"></label>
         <div class="form-group btn btn-white btn-xs">
             <select name="" id="" ng-if="vm.wishLists != null" ng-model="vm.name"
@@ -24,21 +25,28 @@
 
     </div>
 
-    <p translate>
+    <p translate  ng-if="!vm.added">
         .NO_OWNER_LIST_TIPS
     </p>
+    <div class="alert alert-success" ng-if="vm.added">
+        <span translate translate-values="{name: vm.name, wishName: vm.newWish.label}">
+            .MESSAGE_SUCESS_CREATE_WISH
+        </span>
+        <a class="btn btn-primary" translate translate-values="{name: vm.name}" href="/#/{{vm.name}}" ng-click="vm.closeWithDelay()" target="_blank">.BUTTON_OPEN_WISH_LIST</a>
+        <a class="btn btn-warning" translate ng-click="vm.closeWithDelay()" >.BUTTON_CLOSE_POP_UP</a>
+    </div>
 
-
-    <div class="row list-envie" masonry='{ "transitionDuration" : "0.4s" , "itemSelector" : ".envie-card", "percentPosition": "true" }'>
-        <wish-card masonry-tile
+    <div class="row list-envie">
+        <wish-card
                    wish="vm.newWish"
                    owner-list="vm.listEnvies.owner"
                    user="main.user"
                    parent-controller="vm"
                    list-name = "vm.name"
                    class="envie-card envie-card col-xs-12 col-sm-6 col-md-4 col-lg-4" >
-
         </wish-card>
     </div>
+
+
 
 </div>
