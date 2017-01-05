@@ -15,6 +15,9 @@ hs_err_pid*
 target
 liste-envies-war/liste-envies-war.iml
 liste-envies-war/.classpath
+liste-envies-war/src/main/webapp/.temp
+liste-envies-war/src/main/webapp/nodes_modules
+liste-envies-war/src/main/webapp/nodes_modules
 *.project
 .project
 .classpath

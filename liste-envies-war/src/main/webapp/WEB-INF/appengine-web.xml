@@ -6,6 +6,12 @@
     
     <static-files>
 	  <include path="/js/*.*" />
+	  <include path="/dist/*.*" />
+	  <include path="/dist/scripts/*.*" />
+	  <include path="/dist/styles/*.*" />
+	  <include path="/dist/styles/font/*.*" />
+	  <include path="/dist/fonts/*.*" />
+	  <include path="/dist/lang/*.*" />
 	  <include path="/css/*.*" />
 	  <include path="/templates/*.*" />
 	</static-files>

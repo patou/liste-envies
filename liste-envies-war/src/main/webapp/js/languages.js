@@ -127,7 +127,7 @@ angular.module("ngLocale", [], ["$provide", function($provide) {
 }]);
 app.config(['$translateProvider', function ($translateProvider) {
     // add translation table
-    $translateProvider.useUrlLoader('js/lang/fr-FR.json');
+    $translateProvider.useUrlLoader('lang/fr-FR.json');
     $translateProvider.preferredLanguage('fr-FR');
     $translateProvider.useSanitizeValueStrategy('sanitizeParameters');
 }]);

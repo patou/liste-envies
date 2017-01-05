@@ -9,6 +9,7 @@ var app = angular.module('ListeEnviesApp', [
     'pascalprecht.translate',
     'angular-loading-bar',
     'ngSanitize',
+    'app.templates',
     'ListeEnviesDirectives',
     'ListeEnviesTranslation'
 ]);
