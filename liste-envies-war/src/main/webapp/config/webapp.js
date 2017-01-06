@@ -22,6 +22,8 @@ var runSequence = require('run-sequence');
 var fs = require('fs');
 var path = require('path');
 
+var gnf = require('gulp-npm-files');
+
 
 gulp.task('webapp:clean', function () {
     if (!fs.existsSync(options.targetFolderPath)) {
@@ -82,6 +84,15 @@ gulp.task('webapp:copy-font-awesome', function () {
 });
 
 
+
+gulp.task('webapp:copyNpmDependenciesOnly', function() {
+    var listDependencies = gnf();
+    listDependencies.push(listDependencies.pop());
+    gulp.src(listDependencies, {base:'./'}).pipe(gulp.dest(options.tempFolderPath));
+});
+
+
+
 // ----- To target/webapp
 
 /*gulp.task('webapp:copy-bootstrap-resources', function () {
@@ -118,6 +129,7 @@ gulp.task('webapp:useref-webapp', function () {
 module.exports = function (callback) {
     return runSequence(
         'webapp:clean',
+        'webapp:copyNpmDependenciesOnly',
         [
             'webapp:copy-index',
             'webapp:copy-css',

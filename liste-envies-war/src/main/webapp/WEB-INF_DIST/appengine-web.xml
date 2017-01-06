@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
+    <application>liste-envies</application>
+    <version>${appengine.app.version}</version>
+    <threadsafe>true</threadsafe>
+    <sessions-enabled>true</sessions-enabled>
+    
+    <static-files>
+	  <include path="/dist/*.*" />
+	  <include path="/dist/scripts/*.*" />
+	  <include path="/dist/styles/*.*" />
+	  <include path="/dist/styles/font/*.*" />
+	  <include path="/dist/fonts/*.*" />
+	  <include path="/dist/lang/*.*" />
+	</static-files>
+    
+    <system-properties>
+        <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
+    </system-properties>
+</appengine-web-app>
