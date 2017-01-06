@@ -21,8 +21,20 @@ var concat = require('gulp-concat');
 var runSequence = require('run-sequence');
 var fs = require('fs');
 var path = require('path');
+var es = require('event-stream');
 
 var gnf = require('gulp-npm-files');
+
+function onlyFiles() {
+    return es.map(function(file, cb) {
+        if (file.stat.isFile()) {
+            return cb(null, file);
+
+        } else {
+            return cb();
+        }
+    });
+};
 
 
 gulp.task('webapp:clean', function () {
@@ -87,19 +99,20 @@ gulp.task('webapp:copy-font-awesome', function () {
 // Séparer en plusieurs taches, car cela semble ne pas aller jusqu'au bout, et ne pas copier les derniers eléments.
 gulp.task('webapp:copyNpmDependenciesOnly', function() {
     var listDependencies = gnf();
-    gulp.src(listDependencies.slice(0,6), {base: options.srcFolderPath}).pipe(gulp.dest(options.tempFolderPath));
+    gulp.src(listDependencies, {base: options.srcFolderPath}).pipe(onlyFiles()).pipe(gulp.dest(options.tempFolderPath));
 });
 
 
 gulp.task('webapp:copyNpmDependenciesOnly2', function() {
     var listDependencies = gnf();
-    gulp.src(listDependencies.slice(5,10), {base: options.srcFolderPath}).pipe(gulp.dest(options.tempFolderPath));
+    gulp.src(listDependencies.slice(5,12), {base: options.srcFolderPath}).pipe(onlyFiles()).pipe(gulp.dest(options.tempFolderPath));
 });
 
 gulp.task('webapp:copyNpmDependenciesOnly3', function() {
     var listDependencies = gnf();
-    gulp.src(listDependencies.slice(9), {base: options.srcFolderPath}).pipe(gulp.dest(options.tempFolderPath));
+    gulp.src(listDependencies.slice(-5), {base: options.srcFolderPath}).pipe(onlyFiles()).pipe(gulp.dest(options.tempFolderPath));
 });
+
 
 
 
