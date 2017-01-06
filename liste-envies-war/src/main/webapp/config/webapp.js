@@ -87,13 +87,18 @@ gulp.task('webapp:copy-font-awesome', function () {
 // Séparer en plusieurs taches, car cela semble ne pas aller jusqu'au bout, et ne pas copier les derniers eléments.
 gulp.task('webapp:copyNpmDependenciesOnly', function() {
     var listDependencies = gnf();
-    gulp.src(listDependencies.slice(0,10), {base: options.srcFolderPath}).pipe(gulp.dest(options.tempFolderPath));
+    gulp.src(listDependencies.slice(0,6), {base: options.srcFolderPath}).pipe(gulp.dest(options.tempFolderPath));
 });
 
 
 gulp.task('webapp:copyNpmDependenciesOnly2', function() {
     var listDependencies = gnf();
-    gulp.src(listDependencies.slice(10), {base: options.srcFolderPath}).pipe(gulp.dest(options.tempFolderPath));
+    gulp.src(listDependencies.slice(6,11), {base: options.srcFolderPath}).pipe(gulp.dest(options.tempFolderPath));
+});
+
+gulp.task('webapp:copyNpmDependenciesOnly3', function() {
+    var listDependencies = gnf();
+    gulp.src(listDependencies.slice(11), {base: options.srcFolderPath}).pipe(gulp.dest(options.tempFolderPath));
 });
 
 
@@ -136,6 +141,7 @@ module.exports = function (callback) {
         'webapp:clean',
         'webapp:copyNpmDependenciesOnly',
         'webapp:copyNpmDependenciesOnly2',
+        'webapp:copyNpmDependenciesOnly3',
         [
             'webapp:copy-index',
             'webapp:copy-css',
