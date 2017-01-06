@@ -93,12 +93,12 @@ gulp.task('webapp:copyNpmDependenciesOnly', function() {
 
 gulp.task('webapp:copyNpmDependenciesOnly2', function() {
     var listDependencies = gnf();
-    gulp.src(listDependencies.slice(6,11), {base: options.srcFolderPath}).pipe(gulp.dest(options.tempFolderPath));
+    gulp.src(listDependencies.slice(5,10), {base: options.srcFolderPath}).pipe(gulp.dest(options.tempFolderPath));
 });
 
 gulp.task('webapp:copyNpmDependenciesOnly3', function() {
     var listDependencies = gnf();
-    gulp.src(listDependencies.slice(11), {base: options.srcFolderPath}).pipe(gulp.dest(options.tempFolderPath));
+    gulp.src(listDependencies.slice(9), {base: options.srcFolderPath}).pipe(gulp.dest(options.tempFolderPath));
 });
 
 
