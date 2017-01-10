@@ -4,7 +4,7 @@
 'use strict';
 
 module.exports = {
-    'targetFolderPath': './target',
+    'targetFolderPath': './target/liste-envies-war/dist/',
     'tempFolderPath': __dirname + '/.temp',
     'distFolderPath': './dist',
     'srcFolderPath': './',

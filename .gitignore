@@ -22,3 +22,6 @@ liste-envies-war/src/main/webapp/nodes_modules
 .project
 .classpath
 .settings
+liste-envies-war/src/main/webapp/node/
+liste-envies-war/src/main/webapp/npm-debug.log
+liste-envies-war/src/main/webapp/node_modules/
