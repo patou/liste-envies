@@ -38,14 +38,14 @@ function onlyFiles() {
 
 
 gulp.task('webapp:clean', function () {
-    if (!fs.existsSync(options.targetFolderPath)) {
-        fs.mkdirSync(options.targetFolderPath);
+    if (!fs.existsSync(options.distFolderPath)) {
+        fs.mkdirSync(options.distFolderPath);
     }
     if (!fs.existsSync(options.tempFolderPath)) {
         fs.mkdirSync(options.tempFolderPath);
     }
     return gulp
-        .src([options.targetFolderPath + '/webapp', options.tempFolderPath], { 'read': false })
+        .src([options.distFolderPath, options.tempFolderPath], { 'read': false })
         .pipe(clean({ 'force': true }));
 });
 
