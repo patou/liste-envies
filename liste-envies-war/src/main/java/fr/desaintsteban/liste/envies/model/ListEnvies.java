@@ -1,5 +1,6 @@
 package fr.desaintsteban.liste.envies.model;
 
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import fr.desaintsteban.liste.envies.dto.ListEnviesDto;
@@ -14,7 +15,8 @@ import java.util.Map;
  */
 @Entity()
 public class ListEnvies {
-    @Id private String name;
+    @Id
+    private String name;
 
     private String title;
     private String description;
@@ -121,5 +123,9 @@ public class ListEnvies {
             }
         }
         return false;
+    }
+
+    public Key<ListEnvies> getKey() {
+        return Key.create(ListEnvies.class, getName());
     }
 }

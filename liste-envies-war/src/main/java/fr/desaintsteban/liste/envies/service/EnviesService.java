@@ -7,6 +7,7 @@ import fr.desaintsteban.liste.envies.dto.NoteDto;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.Envy;
 import fr.desaintsteban.liste.envies.model.ListEnvies;
+import fr.desaintsteban.liste.envies.model.NotificationType;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public final class EnviesService {
         return list;
     }
     
-    public static void delete(AppUser user, String name, final Long itemid) {
+    public static void delete(final AppUser user, final String name, final Long itemid) {
         Objectify ofy = OfyService.ofy();
         final Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
         final ListEnvies listEnvies = ofy.load().key(parent).now();
@@ -56,6 +57,8 @@ public final class EnviesService {
                     Saver saver = ofy.save();
                     saved.setDeleted(true);
                     saver.entity(saved);
+
+                    NotificationsService.notify(NotificationType.DELETE_WISH, saved, user, name);
                 }
                 else {
                     ofy.delete().key(Key.create(parent, Envy.class, itemid)).now();
@@ -64,7 +67,7 @@ public final class EnviesService {
         });
     }
 
-    public static void archive(AppUser user, String name, final Long itemid) {
+    public static void archive(final AppUser user, final String name, final Long itemid) {
         Objectify ofy = OfyService.ofy();
         final Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
         final ListEnvies listEnvies = ofy.load().key(parent).now();
@@ -77,6 +80,9 @@ public final class EnviesService {
                 saved.setArchived(true);
                 saved.setDeleted(false);
                 saver.entity(saved);
+
+                NotificationsService.notify(NotificationType.ARCHIVE_WISH, saved, user, name);
+
             }
         });
     }
@@ -95,7 +101,7 @@ public final class EnviesService {
     }
 
 
-    public static EnvyDto given(final AppUser user, String name, final Long itemId) {
+    public static EnvyDto given(final AppUser user, final String name, final Long itemId) {
         Objectify ofy = OfyService.ofy();
         final Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
         ListEnvies listEnvies = ofy.load().key(parent).now();
@@ -109,6 +115,8 @@ public final class EnviesService {
                     saved.addUserTake(EncodeUtils.encode(user.getEmail()));
                     saver.entity(saved);
 
+                    NotificationsService.notify(NotificationType.GIVEN_WISH, saved, user, name);
+
                     return saved.toDto();
                 }
             });
@@ -116,6 +124,14 @@ public final class EnviesService {
         return null;
     }
 
+    /**
+     * Ajouter un commentaire
+     * @param user user qui ajoute le commentaire
+     * @param itemId id de l'envy
+     * @param name nom de la liste
+     * @param note le commentaire
+     * @return
+     */
     public static EnvyDto addNote(final AppUser user, final Long itemId, final String name, final NoteDto note) {
         Objectify ofy = OfyService.ofy();
         final Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
@@ -130,6 +146,8 @@ public final class EnviesService {
                     saved.addNote(user.getName(), user.getEmail(), note.getText());
                     saver.entity(saved);
 
+                    NotificationsService.notify(NotificationType.ADD_NOTE, saved, user, name, note.getText());
+
                     return saved.toDto();
                 }
             });
@@ -137,6 +155,14 @@ public final class EnviesService {
         return null;
     }
 
+    /**
+     * Annuler le fait de donner un cadeau.
+     *
+     * @param user current user
+     * @param name nom de la liste
+     * @param itemId wish id.
+     * @return l'envy modifié.
+     */
     public static EnvyDto cancel(final AppUser user, String name, final Long itemId) {
         Objectify ofy = OfyService.ofy();
         final Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
@@ -156,7 +182,14 @@ public final class EnviesService {
         }
         return null;
     }
-    
+
+    /**
+     * Créer ou mettre à jour une envie
+     * @param user l'utilisateur
+     * @param name
+     * @param item
+     * @return
+     */
     public static EnvyDto createOrUpdate(final AppUser user, final String name, final Envy item) {
         Objectify ofy = OfyService.ofy();
         final Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
@@ -167,12 +200,14 @@ public final class EnviesService {
                 public EnvyDto run() {
                 Objectify ofy = OfyService.ofy();
                 Saver saver = ofy.save();
+                boolean add = true;
                 item.setList(parent);
                 if (item.getId() != null) {
                     Envy saved = ofy.load().key(Key.create(parent, Envy.class, item.getId())).now();
                     item.setUserTake(saved.getUserTake());
                     item.setNotes(saved.getNotes());
                     item.setOwner(saved.getOwner());
+                    add = false;
                 }
                 if (item.getOwner() == null) {
                     item.setOwner(user.getEmail());
@@ -182,6 +217,8 @@ public final class EnviesService {
                 item.setDate(new Date());
                 Key<Envy> key = saver.entity(item).now();
 
+                NotificationsService.notify((add)? NotificationType.ADD_WISH : NotificationType.UPDATE_WISH, item, user, name);
+
                 return item.toDto(containsOwner);
                 }
             });
@@ -189,6 +226,12 @@ public final class EnviesService {
         return null;
     }
 
+    /**
+     * Permerttre de supprimer les infos sensibles à cacher au propriétaire par exemple.
+     * @param user utilisateur courant
+     * @param listEnvies La liste entière
+     * @param list liste des envies.
+     */
     private static void removeUserTake(AppUser user, ListEnvies listEnvies, List<Envy> list) {
         List<Envy> toRemove = new ArrayList<>();
         for (Envy envy : list) {

@@ -4,10 +4,7 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.util.Closeable;
-import fr.desaintsteban.liste.envies.model.AppUser;
-import fr.desaintsteban.liste.envies.model.Envie;
-import fr.desaintsteban.liste.envies.model.Envy;
-import fr.desaintsteban.liste.envies.model.ListEnvies;
+import fr.desaintsteban.liste.envies.model.*;
 
 public final class OfyService {
     static {
@@ -15,6 +12,7 @@ public final class OfyService {
     	factory().register(Envie.class);
         factory().register(Envy.class);
         factory().register(ListEnvies.class);
+        factory().register(Notification.class);
     }
 
     private OfyService() {}
