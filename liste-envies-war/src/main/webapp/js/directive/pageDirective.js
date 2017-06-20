@@ -16,8 +16,8 @@ angular.module('ListeEnviesDirectives')
 
         }
     });
-PagesDirectivesController.$inject = ['$scope', '$http', '$location', 'AuthService', 'UtilitiesServices'];
-function PagesDirectivesController ($scope, $http, $location, AuthService, UtilitiesServices) {
+PagesDirectivesController.$inject = ['$scope', '$http', '$location', 'AuthService', 'UtilitiesServices', 'appUserService'];
+function PagesDirectivesController ($scope, $http, $location, AuthService, UtilitiesServices, appUserService) {
     AuthService.refresh();
     var main = this;
     main.isActive = function(viewLocation) {
@@ -25,6 +25,9 @@ function PagesDirectivesController ($scope, $http, $location, AuthService, Utili
     };
 
     main.wishLists = null;
+
+
+    main.Notifications = [];
 
 
     main.host = window.location.host;
@@ -38,6 +41,10 @@ function PagesDirectivesController ($scope, $http, $location, AuthService, Utili
         if (main.isAuthenticated) {
             UtilitiesServices.getList().then(function (data) {
                 main.wishLists = data;
+            });
+
+            appUserService.notification({email: main.user.email}).$promise.then(function (data) {
+                main.Notifications = eval(data);
             });
         } else {
             main.wishLists = null;

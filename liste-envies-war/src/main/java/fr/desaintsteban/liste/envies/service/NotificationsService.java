@@ -14,7 +14,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 public final class NotificationsService {
@@ -30,8 +29,12 @@ public final class NotificationsService {
 		return list;
 	}
 
-	public static Map<String, ListEnvies> loadAll(List<String> names) {
-    	return OfyService.ofy().load().type(ListEnvies.class).ids(names);
+	public static List<Notification> loadAll(List<Key<ListEnvies>> keys) {
+    	return OfyService.ofy().load().type(Notification.class)/*.ancestor(keys).filterKey("in", keys).order("-date").order("parentListName").order("notificationType")*/.list();
+	}
+
+	public static List<Notification> loadAllByListName(List<String> ListNames) {
+		return OfyService.ofy().load().type(Notification.class).filter("parentListName in", ListNames).order("-date").order("parentListName").order("notificationType").list();
 	}
 
 	public static void delete(String email) {
@@ -97,9 +100,13 @@ public final class NotificationsService {
 		Session session = Session.getDefaultInstance(props, null);
 
 		try {
+			String addedUser = newNotif.getAddedUserEmail();
+
+			if (addedUser == null) return false;
+
 			Message msg = new MimeMessage(session);
 			msg.setFrom(new InternetAddress(currentUser.getEmail(), currentUser.getName()+ " - via list-envies"));
-			String addedUser = newNotif.getAddedUserEmail();
+
 			msg.addRecipient(Message.RecipientType.TO,
 					new InternetAddress(addedUser, addedUser));
 			msg.setSubject("Viens découvrir ma liste d'envie");

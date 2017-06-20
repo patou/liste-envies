@@ -1,6 +1,6 @@
 app.controller('HomeCtrl', HomeCtrl);
-HomeCtrl.$inject = ['appUserService', 'listEnviesService', '$location', 'UtilitiesServices'];
-function HomeCtrl(appUserService, listEnviesService, $location, UtilitiesServices) {
+HomeCtrl.$inject = ['appUserService', 'listEnviesService', '$location', 'UtilitiesServices', 'AuthService'];
+function HomeCtrl(appUserService, listEnviesService, $location, UtilitiesServices, AuthService) {
     var vm = this;
     vm.loading = true;
 
@@ -22,6 +22,12 @@ function HomeCtrl(appUserService, listEnviesService, $location, UtilitiesService
         $('#new-list').modal('hide');
         $('body').removeClass('modal-open'); // bug this css class is not removed and the modal will block the pages
         vm.loading = true;
+        if (userEmail == null) {
+
+
+            const currentUser = AuthService.getUser();
+            userEmail = currentUser.email;
+        }
         var user = [];
         user.push({'email': userEmail, 'type': "OWNER"});
         if (newlist.emails && newlist.emails.length > 0) {

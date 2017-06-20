@@ -185,10 +185,10 @@ public final class EnviesService {
 
     /**
      * Créer ou mettre à jour une envie
-     * @param user l'utilisateur
-     * @param name
-     * @param item
-     * @return
+     * @param user l'utilisateur qui as fait la modification
+     * @param name le nom de la liste
+     * @param item l'envy a ajouter ou modifier
+     * @return l'envy modifié.
      */
     public static EnvyDto createOrUpdate(final AppUser user, final String name, final Envy item) {
         Objectify ofy = OfyService.ofy();

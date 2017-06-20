@@ -4,8 +4,12 @@
         </cancel-directive>
         <cancel-directive type="info" title="Reçu" show="w.archive" on-cancel="w.cancelArchive()" on-delete="w.doArchive()"><span translate="RECEIVED_MESSAGE" translate-value='{whishName: vm.whishName}'></span></cancel-directive>
 
-        <div class="panel card card-signup envie-item " ng-if="!w.remove && !w.archive"  ng-class="{'panel-warning':w.wish.userTakeUsers && !w.ownerList, 'panel-info':w.wish.suggest, 'panel-success':!w.wish.userTakeUsers}">
-            <div class="header text-center" ng-class="{'header-warning':w.wish.userTakeUsers && !w.ownerList, 'header-info':w.wish.suggest && !w.wish.userTakeUsers, 'header-success':!w.wish.suggest && !w.wish.userTakeUsers}">
+        <div class="panel card card-signup envie-item " ng-if="!w.remove && !w.archive"
+             ng-class="{'panel-warning':w.wish.userTakeUsers && !w.ownerList, 'panel-info':w.wish.suggest, 'panel-success':!w.wish.userTakeUsers}">
+            <div class="header text-center"
+                 ng-class="{'header-warning':w.wish.userTakeUsers && !w.ownerList,
+                            'header-info':w.wish.suggest && !w.wish.userTakeUsers,
+                            'header-success':!w.wish.suggest && !w.wish.userTakeUsers}">
                 <h1 >
                     <span ng-if="!w.edit">{{w.wish.label}}</span>
 
@@ -83,7 +87,7 @@
 
                 <div class="">
                     <div title="Rating" class="text-warning col-xs-5 rating pull-left">
-                        <div star-rating ng-model="w.wish.rating" readonly="w.wish.owner !== w.user.email && !w.add" on-rating-select="w.rateFunction(w.wish.rating)">
+                        <div star-rating ng-model="w.wish.rating" readonly=" !w.ownerList && (w.wish.owner !== w.user.email && !w.add)" on-rating-select="w.rateFunction(w.wish.rating)">
 
                         </div>
                     </div>

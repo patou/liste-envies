@@ -2,13 +2,15 @@ package fr.desaintsteban.liste.envies.service;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Work;
+import com.googlecode.objectify.cmd.QueryKeys;
 import com.googlecode.objectify.cmd.Saver;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.ListEnvies;
 import fr.desaintsteban.liste.envies.model.UserShare;
-import fr.desaintsteban.liste.envies.rest.ListEnviesRestService;
+import fr.desaintsteban.liste.envies.model.UserShareType;
 import fr.desaintsteban.liste.envies.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -77,5 +79,14 @@ public final class ListEnviesService {
 				return item;
 			}
 		});
+	}
+
+	public static List<Key<ListEnvies>> userListKeys(String email) {
+		QueryKeys<ListEnvies> keys = OfyService.ofy().load().type(ListEnvies.class)/*.filter("users.type =", UserShareType.SHARED)*/.filter("users.email =", email).keys()/*.list()*/;
+		List<Key<ListEnvies>> list = new ArrayList<>();
+		for (Key<ListEnvies> key : keys) {
+			list.add(key);
+		}
+		return list;
 	}
 }

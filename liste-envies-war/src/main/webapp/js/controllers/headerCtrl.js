@@ -1,4 +1,4 @@
-app.controller('HeaderCtrl', function($scope, $http, $location, AuthService, UtilitiesServices) {
+app.controller('HeaderCtrl', function($scope, $http, $location, AuthService, UtilitiesServices, appUserService) {
     AuthService.refresh();
     var main = this;
     main.isActive = function(viewLocation) {
@@ -13,15 +13,21 @@ app.controller('HeaderCtrl', function($scope, $http, $location, AuthService, Uti
         main.isAdmin = AuthService.isAdmin();
         main.user = AuthService.getUser();
 
+
+
         if (main.isAuthenticated) {
             UtilitiesServices.getList().then(function (data) {
                 main.wishLists = data;
             });
+
+
         } else {
             main.wishLists = null;
         }
 
     });
+
+
 
     main.goList = function (name) {
         $location.url("/"+name);

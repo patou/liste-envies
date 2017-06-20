@@ -1,8 +1,14 @@
 package fr.desaintsteban.liste.envies.rest;
 
+import com.googlecode.objectify.Key;
 import fr.desaintsteban.liste.envies.dto.AppUserDto;
+import fr.desaintsteban.liste.envies.dto.NotificationDto;
 import fr.desaintsteban.liste.envies.model.AppUser;
+import fr.desaintsteban.liste.envies.model.ListEnvies;
+import fr.desaintsteban.liste.envies.model.Notification;
 import fr.desaintsteban.liste.envies.service.AppUserService;
+import fr.desaintsteban.liste.envies.service.ListEnviesService;
+import fr.desaintsteban.liste.envies.service.NotificationsService;
 import fr.desaintsteban.liste.envies.util.ServletUtils;
 
 import javax.ws.rs.*;
@@ -53,6 +59,38 @@ public class AppUserRestService {
         }
         return null;
     }
+
+
+    @GET
+    @Path("/{email}/notifications")
+    public List<NotificationDto> getUserNotifications(@PathParam("email") String email) {
+        final AppUser user = ServletUtils.getUserAuthenticated();
+        if (user == null)  return null;
+
+        //List<Key<ListEnvies>> list = ListEnviesService.userListKeys(email);
+        List<ListEnvies> list = ListEnviesService.list(email);
+
+
+        if (list.isEmpty()) return null;
+
+        List<String> listNames = new ArrayList<>(list.size());
+        for (ListEnvies listEnvies : list) {
+            //if (listEnvies.containsUser(email))
+            listNames.add(listEnvies.getName());
+        }
+
+        List<Notification> notifs = NotificationsService.loadAllByListName(listNames);
+        if (notifs.isEmpty()) return null;
+
+        List<NotificationDto> listNotification = new ArrayList<>();
+        for (Notification notif : notifs) {
+            listNotification.add(notif.toDto());
+        }
+
+        return listNotification;
+
+    }
+
 
     @DELETE
     @Path("/{email}")

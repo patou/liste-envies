@@ -1,26 +1,20 @@
-package fr.desaintsteban.liste.envies.model;
+package fr.desaintsteban.liste.envies.dto;
 
-import com.google.appengine.repackaged.com.google.api.client.util.DateTime;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.*;
-import fr.desaintsteban.liste.envies.dto.NotificationDto;
+import fr.desaintsteban.liste.envies.model.*;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import java.util.Date;
 
 
-/**
- * Class pour stocker toutes les modifications faites sur les listes, afin d'afficher et notifier tous les changements.
- *
- */
-@Entity
-public class Notification {
 
-    @Id
+public class NotificationDto {
+
+
     private Long id;
 
 
-    Key<ListEnvies> parentListId;
 
     public String getParentListName() {
         return parentListName;
@@ -31,18 +25,13 @@ public class Notification {
     }
 
     /** List name for getting the url to list **/
-    @Index
     private String parentListName;
 
-    public void setParentList(ListEnvies list) {
-        this.parentListId = list.getKey();
-        this.parentListName = list.getName();
-    }
 
-    @Index
+
     private String ownerEmail;
 
-    private AppUser owner;
+    private AppUserDto owner;
 
     public String getOwnerEmail() {
         return ownerEmail;
@@ -52,21 +41,21 @@ public class Notification {
         this.ownerEmail = ownerEmail;
     }
 
-    public AppUser getOwner() {
+    public AppUserDto getOwner() {
         return owner;
     }
 
-    public void setOwner(AppUser owner) {
+    public void setOwner(AppUserDto owner) {
         this.owner = owner;
         this.setOwnerEmail(owner.getEmail());
     }
 
 
-    public UserShare getAddedUser() {
+    public UserShareDto getAddedUser() {
         return addedUser;
     }
 
-    public void setAddedUser(UserShare addedUser) {
+    public void setAddedUser(UserShareDto addedUser) {
         this.addedUser = addedUser;
         this.addedUserEmail = addedUser.getEmail();
         this.ownerType = addedUser.getType();
@@ -84,13 +73,13 @@ public class Notification {
         this.addedUserEmail = addedUserEmail;
     }
 
-    private UserShare addedUser;
+    private UserShareDto addedUser;
 
     /**
      * Afin de savoir si c'est une modification faites par un owner ou un shared. car dans le cas d'une modif d'un shared,
      * Il ne faut pas l'afficher pour les owners.
      */
-    @Index
+
     private UserShareType ownerType;
 
     private NotificationType notificationType;
@@ -98,14 +87,14 @@ public class Notification {
 
     private Date date;
 
-    private Envy wish;
+    private EnvyDto wish;
 
     private String message;
 
 
 
 
-    public Notification() {
+    public NotificationDto() {
         this.date = new Date();
     }
 
@@ -121,13 +110,6 @@ public class Notification {
         this.id = id;
     }
 
-    public Key<ListEnvies> getParentListId() {
-        return parentListId;
-    }
-
-    public void setParentListId(Key<ListEnvies> parentListId) {
-        this.parentListId = parentListId;
-    }
 
 
 
@@ -155,11 +137,11 @@ public class Notification {
         this.date = date;
     }
 
-    public Envy getWish() {
+    public EnvyDto getWish() {
         return wish;
     }
 
-    public void setWish(Envy wish) {
+    public void setWish(EnvyDto wish) {
         this.wish = wish;
     }
 
@@ -171,19 +153,5 @@ public class Notification {
         this.message = message;
     }
 
-    public NotificationDto toDto() {
-        NotificationDto dto = new NotificationDto();
-        dto.setId(this.getId());
-        dto.setParentListName(this.getParentListName());
-        dto.setOwnerEmail(this.getOwnerEmail());
-        dto.setOwner(this.getOwner().toDto());
-        dto.setAddedUserEmail(this.getAddedUserEmail());
-        if (this.addedUser != null) dto.setAddedUser(this.getAddedUser().toDto());
-        dto.setOwnerType(this.getOwnerType());
-        dto.setNotificationType(this.getNotificationType());
-        dto.setDate(this.getDate());
-        if (this.wish != null) dto.setWish(this.getWish().toDto());
-        dto.setMessage(this.getMessage());
-        return dto;
-    }
+
 }
