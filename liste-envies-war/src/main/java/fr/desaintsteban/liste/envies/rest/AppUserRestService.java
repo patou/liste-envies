@@ -64,31 +64,17 @@ public class AppUserRestService {
     @GET
     @Path("/{email}/notifications")
     public List<NotificationDto> getUserNotifications(@PathParam("email") String email) {
-        final AppUser user = ServletUtils.getUserAuthenticated();
-        if (user == null)  return null;
-
-        //List<Key<ListEnvies>> list = ListEnviesService.userListKeys(email);
-        List<ListEnvies> list = ListEnviesService.list(email);
-
-
-        if (list.isEmpty()) return null;
-
-        List<String> listNames = new ArrayList<>(list.size());
-        for (ListEnvies listEnvies : list) {
-            //if (listEnvies.containsUser(email))
-            listNames.add(listEnvies.getName());
-        }
-
-        List<Notification> notifs = NotificationsService.loadAllByListName(listNames);
-        if (notifs.isEmpty()) return null;
-
         List<NotificationDto> listNotification = new ArrayList<>();
+        final AppUser user = ServletUtils.getUserAuthenticated();
+        if (user == null)  return listNotification;
+
+        List<Notification> notifs = NotificationsService.list(user);
+        if (notifs.isEmpty()) return listNotification;
+
         for (Notification notif : notifs) {
             listNotification.add(notif.toDto());
         }
-
         return listNotification;
-
     }
 
 

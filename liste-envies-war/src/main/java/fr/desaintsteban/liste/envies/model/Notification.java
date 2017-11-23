@@ -1,12 +1,10 @@
 package fr.desaintsteban.liste.envies.model;
 
-import com.google.appengine.repackaged.com.google.api.client.util.DateTime;
-import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.*;
 import fr.desaintsteban.liste.envies.dto.NotificationDto;
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -15,136 +13,61 @@ import java.util.Date;
  */
 @Entity
 public class Notification {
-
     @Id
-    private Long id;
-
-
-    Key<ListEnvies> parentListId;
-
-    public String getParentListName() {
-        return parentListName;
-    }
-
-    public void setParentListName(String parentListName) {
-        this.parentListName = parentListName;
-    }
-
-    /** List name for getting the url to list **/
-    @Index
-    private String parentListName;
-
-    public void setParentList(ListEnvies list) {
-        this.parentListId = list.getKey();
-        this.parentListName = list.getName();
-    }
+    Long id;
 
     @Index
-    private String ownerEmail;
+    List<String> user;
 
-    private AppUser owner;
+    NotificationType type;
 
-    public String getOwnerEmail() {
-        return ownerEmail;
-    }
+    String listName;
 
-    public void setOwnerEmail(String ownerEmail) {
-        this.ownerEmail = ownerEmail;
-    }
+    String listId;
 
-    public AppUser getOwner() {
-        return owner;
-    }
+    String actionUser;
 
-    public void setOwner(AppUser owner) {
-        this.owner = owner;
-        this.setOwnerEmail(owner.getEmail());
-    }
+    String actionUserName;
 
-
-    public UserShare getAddedUser() {
-        return addedUser;
-    }
-
-    public void setAddedUser(UserShare addedUser) {
-        this.addedUser = addedUser;
-        this.addedUserEmail = addedUser.getEmail();
-        this.ownerType = addedUser.getType();
-    }
-
-    private String addedUserEmail;
-
-
-
-    public String getAddedUserEmail() {
-        return addedUserEmail;
-    }
-
-    public void setAddedUserEmail(String addedUserEmail) {
-        this.addedUserEmail = addedUserEmail;
-    }
-
-    private UserShare addedUser;
-
-    /**
-     * Afin de savoir si c'est une modification faites par un owner ou un shared. car dans le cas d'une modif d'un shared,
-     * Il ne faut pas l'afficher pour les owners.
-     */
     @Index
-    private UserShareType ownerType;
+    Date date;
 
-    private NotificationType notificationType;
+    String message;
 
-
-    private Date date;
-
-    private Envy wish;
-
-    private String message;
-
-
-
-
-    public Notification() {
-        this.date = new Date();
+    public NotificationDto toDto() {
+        NotificationDto dto = new NotificationDto();
+        dto.setDate(this.getDate());
+        dto.setListName(this.getListName());
+        dto.setListId(this.getListId());
+        dto.setType(this.getType());
+        dto.setMessage(this.getMessage());
+        dto.setActionUser(this.getActionUser());
+        dto.setActionUserName(this.getActionUserName());
+        return dto;
     }
 
-
-
-
-
-    public Long getId() {
-        return id;
+    public NotificationType getType() {
+        return type;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setType(NotificationType type) {
+        this.type = type;
     }
 
-    public Key<ListEnvies> getParentListId() {
-        return parentListId;
+    public String getListName() {
+        return listName;
     }
 
-    public void setParentListId(Key<ListEnvies> parentListId) {
-        this.parentListId = parentListId;
+    public void setListName(String listName) {
+        this.listName = listName;
     }
 
-
-
-    public UserShareType getOwnerType() {
-        return ownerType;
+    public String getListId() {
+        return listId;
     }
 
-    public void setOwnerType(UserShareType ownerType) {
-        this.ownerType = ownerType;
-    }
-
-    public NotificationType getNotificationType() {
-        return notificationType;
-    }
-
-    public void setNotificationType(NotificationType notificationType) {
-        this.notificationType = notificationType;
+    public void setListId(String listId) {
+        this.listId = listId;
     }
 
     public Date getDate() {
@@ -155,14 +78,6 @@ public class Notification {
         this.date = date;
     }
 
-    public Envy getWish() {
-        return wish;
-    }
-
-    public void setWish(Envy wish) {
-        this.wish = wish;
-    }
-
     public String getMessage() {
         return message;
     }
@@ -171,19 +86,27 @@ public class Notification {
         this.message = message;
     }
 
-    public NotificationDto toDto() {
-        NotificationDto dto = new NotificationDto();
-        dto.setId(this.getId());
-        dto.setParentListName(this.getParentListName());
-        dto.setOwnerEmail(this.getOwnerEmail());
-        dto.setOwner(this.getOwner().toDto());
-        dto.setAddedUserEmail(this.getAddedUserEmail());
-        if (this.addedUser != null) dto.setAddedUser(this.getAddedUser().toDto());
-        dto.setOwnerType(this.getOwnerType());
-        dto.setNotificationType(this.getNotificationType());
-        dto.setDate(this.getDate());
-        if (this.wish != null) dto.setWish(this.getWish().toDto());
-        dto.setMessage(this.getMessage());
-        return dto;
+    public List<String> getUser() {
+        return user;
+    }
+
+    public void setUser(List<String> user) {
+        this.user = user;
+    }
+
+    public String getActionUser() {
+        return actionUser;
+    }
+
+    public void setActionUser(String actionUser) {
+        this.actionUser = actionUser;
+    }
+
+    public String getActionUserName() {
+        return actionUserName;
+    }
+
+    public void setActionUserName(String actionUserName) {
+        this.actionUserName = actionUserName;
     }
 }

@@ -1,132 +1,48 @@
 package fr.desaintsteban.liste.envies.dto;
 
-import com.googlecode.objectify.Key;
-import com.googlecode.objectify.annotation.*;
 import fr.desaintsteban.liste.envies.model.*;
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 import java.util.Date;
 
 
 
 public class NotificationDto {
+    NotificationType type;
 
+    String listName;
 
-    private Long id;
+    String listId;
 
+    Date date;
 
+    String message;
 
-    public String getParentListName() {
-        return parentListName;
+    String actionUser;
+
+    String actionUserName;
+
+    public NotificationType getType() {
+        return type;
     }
 
-    public void setParentListName(String parentListName) {
-        this.parentListName = parentListName;
+    public void setType(NotificationType type) {
+        this.type = type;
     }
 
-    /** List name for getting the url to list **/
-    private String parentListName;
-
-
-
-    private String ownerEmail;
-
-    private AppUserDto owner;
-
-    public String getOwnerEmail() {
-        return ownerEmail;
+    public String getListName() {
+        return listName;
     }
 
-    public void setOwnerEmail(String ownerEmail) {
-        this.ownerEmail = ownerEmail;
+    public void setListName(String listName) {
+        this.listName = listName;
     }
 
-    public AppUserDto getOwner() {
-        return owner;
+    public String getListId() {
+        return listId;
     }
 
-    public void setOwner(AppUserDto owner) {
-        this.owner = owner;
-        this.setOwnerEmail(owner.getEmail());
-    }
-
-
-    public UserShareDto getAddedUser() {
-        return addedUser;
-    }
-
-    public void setAddedUser(UserShareDto addedUser) {
-        this.addedUser = addedUser;
-        this.addedUserEmail = addedUser.getEmail();
-        this.ownerType = addedUser.getType();
-    }
-
-    private String addedUserEmail;
-
-
-
-    public String getAddedUserEmail() {
-        return addedUserEmail;
-    }
-
-    public void setAddedUserEmail(String addedUserEmail) {
-        this.addedUserEmail = addedUserEmail;
-    }
-
-    private UserShareDto addedUser;
-
-    /**
-     * Afin de savoir si c'est une modification faites par un owner ou un shared. car dans le cas d'une modif d'un shared,
-     * Il ne faut pas l'afficher pour les owners.
-     */
-
-    private UserShareType ownerType;
-
-    private NotificationType notificationType;
-
-
-    private Date date;
-
-    private EnvyDto wish;
-
-    private String message;
-
-
-
-
-    public NotificationDto() {
-        this.date = new Date();
-    }
-
-
-
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-
-
-
-    public UserShareType getOwnerType() {
-        return ownerType;
-    }
-
-    public void setOwnerType(UserShareType ownerType) {
-        this.ownerType = ownerType;
-    }
-
-    public NotificationType getNotificationType() {
-        return notificationType;
-    }
-
-    public void setNotificationType(NotificationType notificationType) {
-        this.notificationType = notificationType;
+    public void setListId(String listId) {
+        this.listId = listId;
     }
 
     public Date getDate() {
@@ -137,14 +53,6 @@ public class NotificationDto {
         this.date = date;
     }
 
-    public EnvyDto getWish() {
-        return wish;
-    }
-
-    public void setWish(EnvyDto wish) {
-        this.wish = wish;
-    }
-
     public String getMessage() {
         return message;
     }
@@ -153,5 +61,19 @@ public class NotificationDto {
         this.message = message;
     }
 
+    public String getActionUser() {
+        return actionUser;
+    }
 
+    public void setActionUser(String actionUser) {
+        this.actionUser = actionUser;
+    }
+
+    public String getActionUserName() {
+        return actionUserName;
+    }
+
+    public void setActionUserName(String actionUserName) {
+        this.actionUserName = actionUserName;
+    }
 }

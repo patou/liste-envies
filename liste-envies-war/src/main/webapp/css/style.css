@@ -677,6 +677,15 @@ div.material-icons.form-control-feedback {
     z-index: 1 !important;
 }
 
+.notif-menu {
+    padding: 5px;
+}
+
+li.notif {
+    color: #333;
+    border-bottom: solid green;
+}
+
 
 
 

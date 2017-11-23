@@ -57,8 +57,7 @@ public final class EnviesService {
                     Saver saver = ofy.save();
                     saved.setDeleted(true);
                     saver.entity(saved);
-
-                    NotificationsService.notify(NotificationType.DELETE_WISH, saved, user, name);
+                    NotificationsService.notify(NotificationType.DELETE_WISH, user, listEnvies, true, saved.getLabel());
                 }
                 else {
                     ofy.delete().key(Key.create(parent, Envy.class, itemid)).now();
@@ -81,7 +80,7 @@ public final class EnviesService {
                 saved.setDeleted(false);
                 saver.entity(saved);
 
-                NotificationsService.notify(NotificationType.ARCHIVE_WISH, saved, user, name);
+                NotificationsService.notify(NotificationType.ARCHIVE_WISH, user, listEnvies, true);
 
             }
         });
@@ -104,7 +103,7 @@ public final class EnviesService {
     public static EnvyDto given(final AppUser user, final String name, final Long itemId) {
         Objectify ofy = OfyService.ofy();
         final Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
-        ListEnvies listEnvies = ofy.load().key(parent).now();
+        final ListEnvies listEnvies = ofy.load().key(parent).now();
         if (!listEnvies.containsOwner(user.getEmail()) && listEnvies.containsUser(user.getEmail())) {
             return OfyService.ofy().transact(new Work<EnvyDto>() {
                 @Override
@@ -114,9 +113,7 @@ public final class EnviesService {
                     Saver saver = ofy.save();
                     saved.addUserTake(EncodeUtils.encode(user.getEmail()));
                     saver.entity(saved);
-
-                    NotificationsService.notify(NotificationType.GIVEN_WISH, saved, user, name);
-
+                    NotificationsService.notify(NotificationType.GIVEN_WISH, user, listEnvies, true, saved.getLabel());
                     return saved.toDto();
                 }
             });
@@ -135,7 +132,7 @@ public final class EnviesService {
     public static EnvyDto addNote(final AppUser user, final Long itemId, final String name, final NoteDto note) {
         Objectify ofy = OfyService.ofy();
         final Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
-        ListEnvies listEnvies = ofy.load().key(parent).now();
+        final ListEnvies listEnvies = ofy.load().key(parent).now();
         if (listEnvies != null && !listEnvies.containsOwner(user.getEmail()) && listEnvies.containsUser(user.getEmail())) {
             return OfyService.ofy().transact(new Work<EnvyDto>() {
                 @Override
@@ -146,7 +143,7 @@ public final class EnviesService {
                     saved.addNote(user.getName(), user.getEmail(), note.getText());
                     saver.entity(saved);
 
-                    NotificationsService.notify(NotificationType.ADD_NOTE, saved, user, name, note.getText());
+                    NotificationsService.notify(NotificationType.ADD_NOTE, user, listEnvies, true, note.getText());
 
                     return saved.toDto();
                 }
@@ -212,12 +209,12 @@ public final class EnviesService {
                 if (item.getOwner() == null) {
                     item.setOwner(user.getEmail());
                 }
-                    boolean containsOwner = listEnvies.containsOwner(item.getOwner());
-                    item.setSuggest(!containsOwner);
+                boolean containsOwner = listEnvies.containsOwner(item.getOwner());
+                item.setSuggest(!containsOwner);
                 item.setDate(new Date());
                 Key<Envy> key = saver.entity(item).now();
 
-                NotificationsService.notify((add)? NotificationType.ADD_WISH : NotificationType.UPDATE_WISH, item, user, name);
+                NotificationsService.notify((add)? NotificationType.ADD_WISH : NotificationType.UPDATE_WISH, user, listEnvies, !containsOwner, item.getLabel());
 
                 return item.toDto(containsOwner);
                 }
