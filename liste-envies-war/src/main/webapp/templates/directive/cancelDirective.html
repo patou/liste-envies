@@ -1,5 +1,5 @@
-<div class="alert alert-{{vm.type}}" role="alert" ng-if="vm.show" translate-namespace="CANCEL_COMPONENT">
+<div class="alert alert-{{vm.type}}" role="alert" ng-if="vm.show">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     <strong ng-bind="vm.title"></strong>
-    <span ng-transclude></span> <a class="btn btn-warning btn-link alert-link" ng-click="vm.cancelDelete()" translate=".CANCEL"></a>
+    <span ng-transclude></span> <a class="btn btn-warning btn-link alert-link" ng-click="vm.cancelDelete()" translate="CANCEL_COMPONENT.CANCEL"></a>
 </div>

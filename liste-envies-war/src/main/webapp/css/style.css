@@ -290,6 +290,10 @@ div.material-icons.form-control-feedback {
     padding: 5px;
 }
 
+.envie-card h1 {
+    font-size: 1.5em;
+}
+
 .envie-card .gift {
     margin: 0;
     margin-top: 0;
@@ -636,7 +640,7 @@ div.material-icons.form-control-feedback {
 .star-rating {
     margin: 0;
     padding: 0;
-    display: inline-block;
+    display: flex;
 }
 .star-rating > .star, .star-rating > .cancel-rating {
     padding: 1px;
@@ -683,7 +687,7 @@ div.material-icons.form-control-feedback {
 
 li.notif {
     color: #333;
-    border-bottom: solid green;
+    border-bottom: 1px solid green;
 }
 
 

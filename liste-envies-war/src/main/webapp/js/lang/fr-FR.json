@@ -43,7 +43,8 @@
   "CANCEL_COMPONENT": {
     "BUTTON_EDIT_LIST": "Editer le titre de la liste",
     "BUTTON_EDIT_LIST2": "Editer la liste",
-    "BUTTON_EDIT_LIST3": "Editer la liste"
+    "BUTTON_EDIT_LIST3": "Editer la liste",
+    "CANCEL": "Annuler"
   },
   "ADD_WISH": {
     "NO_OWNER_LIST_TIPS": "* ajout sous forme de suggestion",
@@ -56,6 +57,8 @@
     "BUTTON_CLOSE_POP_UP": "Fermer la popup"
   },
   "WISH_CARD_COMPONENT": {
+    "DELETE_TITLE":"Supprimé",
+    "RECEIVED_TITLE":"Reçu",
     "DELETE_MESSAGE": "Suppression définitive de l'envie {{whishName}}. Si vous l'avez reçu, archivez le en le marquant comme ",
     "RECEIVED_MESSAGE": "Le cadeau a été reçu, il est maintenant archivé {{whishName}}",
     "INPUT_TITRE": "Titre de l'envie",

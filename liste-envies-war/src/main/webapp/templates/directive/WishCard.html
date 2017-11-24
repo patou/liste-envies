@@ -1,8 +1,11 @@
     <div class="" translate-namespace="WISH_CARD_COMPONENT">
-        <cancel-directive type="warning" title="Supprimer" show="w.remove" on-cancel="w.cancelRemove()" on-delete="w.doRemove()"><span translate="DELETE_MESSAGE" translate-value='{whishName: vm.whishName}'></span>
-            <a class="btn btn-warning btn-link alert-link" ng-click="w.receivedWish()" translate=".EDIT_OPTIONS_RECEIVED"></a>
+        <cancel-directive type="warning" title="{{'WISH_CARD_COMPONENT.DELETE_TITLE'|translate}}" show="w.remove" on-cancel="w.cancelRemove()" on-delete="w.doRemove()">
+            <span translate="WISH_CARD_COMPONENT.DELETE_MESSAGE" translate-value='{whishName: vm.whishName}'></span>
+            <a class="btn btn-warning btn-link alert-link" ng-click="w.receivedWish()" translate="WISH_CARD_COMPONENT.EDIT_OPTIONS_RECEIVED"></a>
         </cancel-directive>
-        <cancel-directive type="info" title="Reçu" show="w.archive" on-cancel="w.cancelArchive()" on-delete="w.doArchive()"><span translate="RECEIVED_MESSAGE" translate-value='{whishName: vm.whishName}'></span></cancel-directive>
+        <cancel-directive type="info" title="{{'WISH_CARD_COMPONENT.RECEIVED_TITLE'|translate}}" show="w.archive" on-cancel="w.cancelArchive()" on-delete="w.doArchive()">
+            <span translate="WISH_CARD_COMPONENT.RECEIVED_MESSAGE" translate-value='{whishName: vm.whishName}'></span>
+        </cancel-directive>
 
         <div class="panel card card-signup envie-item " ng-if="!w.remove && !w.archive"
              ng-class="{'panel-warning':w.wish.userTakeUsers && !w.ownerList, 'panel-info':w.wish.suggest, 'panel-success':!w.wish.userTakeUsers}">
@@ -10,17 +13,13 @@
                  ng-class="{'header-warning':w.wish.userTakeUsers && !w.ownerList,
                             'header-info':w.wish.suggest && !w.wish.userTakeUsers,
                             'header-success':!w.wish.suggest && !w.wish.userTakeUsers}">
-                <h1 >
+                <h1>
                     <span ng-if="!w.edit">{{w.wish.label}}</span>
-
                 </h1>
                 <div class="form-group " ng-if="w.edit">
                     <label for="wishEditTitle" class="control-label" translate=".INPUT_TITRE"></label>
                     <input type="text" class="form-control" id="wishEditTitle" ng-model="w.wish.label">
                 </div>
-
-
-
             </div>
             <div class="panel-body">
                 <div class="envie-infos">
@@ -96,7 +95,7 @@
                             <i class="fa fa-euro"></i>&nbsp;&nbsp;<span class="">{{w.wish.price}}</span>
                 </div>
                 </div>
-                <div class="btn-group btn-group-sm edit-button" ng-if="(w.ownerList && !w.add) || (w.wish.owner == w.user.email && !w.edit) ">
+                <div class="btn-group btn-group-sm edit-button" ng-if="!w.edit && (w.ownerList || w.wish.owner == w.user.email) ">
                     <button type="button" class="btn btn-warning" ng-click="w.editWish()" translate=".EDIT"></button>
                     <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" translate translate-attr-title=".EDIT_OTHER_OPTIONS">
                         <span class="caret"></span>

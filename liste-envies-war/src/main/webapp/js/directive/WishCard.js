@@ -99,8 +99,6 @@ var WishCard = function ($scope, envieService) {
     };
 
     w.updateWish = function () {
-
-
         //w.parentController.addEnvie(w.wish);
         if (w.link) {
             w.addLink(w.link);
@@ -156,7 +154,6 @@ var WishCard = function ($scope, envieService) {
     };
 
     w.rateFunction = function(rating){
-
         if (!w.edit) {
             setTimeout(function (w) {
                 w.updateWish();
