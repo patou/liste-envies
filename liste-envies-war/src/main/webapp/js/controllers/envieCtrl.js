@@ -368,6 +368,9 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
             var userTakeNames = [];
             angular.forEach(item.userTake, function (user) {
                 this.push(loadUser(user).name || user);
+                if (vm.main.user && user == vm.main.user.email) {
+                    item.userGiven = true;
+                }
             }, userTakeNames);
             item.userTakeUsers = userTakeNames.join(", ");
         } else {

@@ -76,6 +76,7 @@
     "EDIT_OPTIONS_DELETE": "Supprimer",
     "OFFERED_BY": "Offert par {{name}} &nbsp;&nbsp;&nbsp;",
     "PARTICIPATE": "Participer",
+    "GIVEN": "Offert",
     "TO_OFFER": "Offrir",
     "COMMENTS": "Commmentaires ({{comment_number  || 0}})",
     "ADD_COMMENTS_LABEL": "Ajouter un commmentaire",

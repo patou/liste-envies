@@ -1,4 +1,4 @@
-<page >
+<page scope="vm">
     <div class="container-fluid" translate-namespace="WISH_LIST_PAGE">
 
        <div class="main main-raised">
@@ -54,7 +54,7 @@
                                    aria-hidden="true"></i>{{user.email}}
                                 <button type="button" class="btn btn-sm btn-warning  pull-right btn-just-icon"
                                         ng-click="vm.removeUser(user);" aria-label="Partager votre liste"
-                                        ng-if="user.email != main.user.email">
+                                        ng-if="user.email != vm.main.user.email">
                                     <span class="fa fa-remove" aria-hidden="true"></span>
                                 </button>
                             </li>
@@ -201,7 +201,7 @@
                    ng-repeat="envie in vm.envies | filter:vm.filter | filter:vm.search | orderBy:vm.order:vm.reverse"
                    wish="envie"
                    owner-list="vm.listEnvies.owner"
-                   user="main.user"
+                   user="vm.main.user"
                    parent-controller="vm"
                    list-name = "vm.name"
                    on-delete="vm.deleteWish(envie)"
@@ -213,7 +213,7 @@
         <wish-card masonry-tile
                    wish="vm.newWish"
                    owner-list="vm.listEnvies.owner"
-                   user="main.user"
+                   user="vm.main.user"
                    parent-controller="vm"
                    list-name = "vm.name"
                    class="envie-card envie-card col-xs-12 col-sm-6 col-md-4 col-lg-4" >
