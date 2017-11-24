@@ -123,23 +123,23 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
 
     loadEnvies();
     resetForm();
-
-
+    
+    vm.update = function() {
+        if (vm.masonry) {
+            vm.masonry.update();
+        }    
+    };
 
     vm.addEnvie = function (envie) {
             vm.envies.push(envie);
-            $scope.update();
+            vm.update();
     };
 
-
-
-
-
-
-
-
-
-
+    vm.resetFilter = function() {
+        vm.filterList("true");
+        vm.search = '';
+    };
+    
     vm.removeUser = function(user) {
         var index = vm.listEnvies.users.indexOf(user);
         if (index >= 0)
@@ -187,7 +187,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
 
         vm.selectedItems = order;
 
-        $scope.update();
+        vm.update();
     };
 
     var intervalUpdate;
@@ -249,14 +249,14 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         vm.filter = function(value) {
             return expression(value);
         };
-        $scope.update();
+        vm.update();
     };
 
     vm.searchList = function(reset) {
         if (reset) {
             vm.search = '';
         }
-        $scope.update();
+        vm.update();
     };
 
     vm.refresh = function() {
@@ -317,13 +317,14 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
             return false;
         };
 
-        $scope.update();
+        vm.update();
     };
 
     vm.deleteWish = function(wish) {
         var index = vm.envies.indexOf(wish);
         if (index > -1)
             vm.envies.splice(index, 1);
+        vm.update();
     };
 
     function gotoForm() {
@@ -403,7 +404,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
             });
 
 
-                //$scope.update();
+                //vm.update();
             //vm.clearRefreshingLayoutAuto();
             if (firstLoad) vm.masonry.update();
 

@@ -278,8 +278,8 @@ div.material-icons.form-control-feedback {
     background: white;
 }
 
-.card.card-signup.envie-item.ng-scope {
-    margin-top: 20px;
+.envie-container {
+    padding-top: 20px;
 }
 
 .envie-card .panel {
