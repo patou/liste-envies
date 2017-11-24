@@ -23,8 +23,6 @@ function HomeCtrl(appUserService, listEnviesService, $location, UtilitiesService
         $('body').removeClass('modal-open'); // bug this css class is not removed and the modal will block the pages
         vm.loading = true;
         if (userEmail == null) {
-
-
             const currentUser = AuthService.getUser();
             userEmail = currentUser.email;
         }

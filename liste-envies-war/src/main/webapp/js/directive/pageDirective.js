@@ -13,13 +13,16 @@ angular.module('ListeEnviesDirectives')
         controllerAs: 'main',
         transclude: true,
         bindings: {
-
+            scope: "="
         }
     });
 PagesDirectivesController.$inject = ['$scope', '$http', '$location', 'AuthService', 'UtilitiesServices', 'appUserService'];
 function PagesDirectivesController ($scope, $http, $location, AuthService, UtilitiesServices, appUserService) {
     AuthService.refresh();
     var main = this;
+    if (this.scope) {
+        this.scope.main = this;
+    }
     main.isActive = function(viewLocation) {
         return viewLocation === $location.path();
     };

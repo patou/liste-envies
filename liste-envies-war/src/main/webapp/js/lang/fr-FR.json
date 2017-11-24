@@ -37,7 +37,8 @@
     "HOME_TITLE": "Liste de mes envies <small>Accueil</small>",
     "WELCOME_MESSAGE": "Bonjour, <strong>{{userName}}</strong>! Bienvenue sur votre liste des envies",
     "SEPARATOR_USER": "de",
-    "BUTTON_CREATE_LIST": "Créer une liste"
+    "BUTTON_CREATE_LIST": "Créer une liste",
+    "BUTTON_CONNEXION": "@:NAVBAR.LOG_IN"
   },
   "CANCEL_COMPONENT": {
     "BUTTON_EDIT_LIST": "Editer le titre de la liste",
