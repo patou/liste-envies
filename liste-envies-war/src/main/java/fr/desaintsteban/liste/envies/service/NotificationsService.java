@@ -65,12 +65,12 @@ public final class NotificationsService {
 	}
 
 
-	public static Notification notifyUserAddedToList(final ListEnvies list, UserShare userToAdd, final AppUser currentUser) {
+	public static Notification notifyUserAddedToList(final ListEnvies list, List<String> users, final AppUser currentUser) {
 		final Notification newNotif = new Notification();
 		newNotif.setType(NotificationType.ADD_USER);
 		newNotif.setListId(list.getName());
 		newNotif.setListName(list.getTitle());
-		newNotif.setUser(Lists.newArrayList(userToAdd.getEmail()));
+		newNotif.setUser(users);
 		newNotif.setActionUser(currentUser.getEmail());
 		newNotif.setActionUserName(currentUser.getName());
 		return OfyService.ofy().transact(new Work<Notification>() {

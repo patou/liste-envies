@@ -42,7 +42,7 @@ public final class ListEnviesService {
 		return OfyService.ofy().load().key(Key.create(ListEnvies.class, email)).now();
 	}
 
-	public static ListEnvies createOrUpdate(AppUser user, final ListEnvies item) {
+	public static ListEnvies createOrUpdate(final AppUser user, final ListEnvies item) {
 		if (StringUtils.isNullOrEmpty(item.getTitle())) {
 			String title = "Liste de " + user.getName();
 			item.setTitle(title);
@@ -56,19 +56,16 @@ public final class ListEnviesService {
 				i++;
 			}
 			item.setName(name);
-		} else { // Update
-			ListEnvies updateElement = OfyService.ofy().load().key(Key.create(ListEnvies.class, item.getName())).now();
+		}
 
-
-			// test si y a eu de nouveau mail.
-			List<UserShare> filteredUserList = item.getUsers();
-
-			filteredUserList.removeAll(updateElement.getUsers());
-			if (filteredUserList != null && !filteredUserList.isEmpty()) {
-				for (UserShare userToEmail : filteredUserList) {
-					LOGGER.info("Send  email to " + userToEmail.getEmail());
-					NotificationsService.notifyUserAddedToList(item, userToEmail, user);
-				}
+		final List<String> userToEmail = new ArrayList<>();
+		for (UserShare userShare : item.getUsers()) {
+			userToEmail.add(userShare.getEmail());
+		}
+		ListEnvies updateElement = OfyService.ofy().load().key(Key.create(ListEnvies.class, item.getName())).now();
+		if (updateElement != null) { // Update
+			for (UserShare oldUsers : updateElement.getUsers()) {
+				userToEmail.remove(oldUsers.getEmail());
 			}
 		}
 		return OfyService.ofy().transact(new Work<ListEnvies>() {
@@ -76,6 +73,7 @@ public final class ListEnviesService {
 			public ListEnvies run() {
 				final Saver saver = OfyService.ofy().save();
 				saver.entities(item).now();
+				NotificationsService.notifyUserAddedToList(item, userToEmail, user);
 				return item;
 			}
 		});

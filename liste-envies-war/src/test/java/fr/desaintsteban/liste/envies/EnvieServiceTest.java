@@ -13,6 +13,7 @@ import fr.desaintsteban.liste.envies.dto.NoteDto;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.Envy;
 import fr.desaintsteban.liste.envies.model.ListEnvies;
+import fr.desaintsteban.liste.envies.model.Notification;
 import fr.desaintsteban.liste.envies.service.AppUserService;
 import fr.desaintsteban.liste.envies.service.EnviesService;
 import fr.desaintsteban.liste.envies.service.ListEnviesService;
@@ -58,6 +59,7 @@ public class EnvieServiceTest {
         ObjectifyService.factory().register(AppUser.class);
         ObjectifyService.factory().register(Envy.class);
         ObjectifyService.factory().register(ListEnvies.class);
+        ObjectifyService.factory().register(Notification.class);
     }
 
     @Before
