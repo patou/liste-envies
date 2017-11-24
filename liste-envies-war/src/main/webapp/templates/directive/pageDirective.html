@@ -48,7 +48,7 @@
                         <span class="badge">{{main.Notifications.length}}</span>
                     </a>
                     <ul class="dropdown-menu notif-menu" ng-if="main.Notifications.length > 0">
-                        <li class="notif" ng-repeat="notif in main.Notifications "><div>{{"NOTIFICATIONS.TYPE."+notif.type | translate:notif}}</div></li>
+                        <li class="notif" ng-repeat="notif in main.Notifications "><i class="fa" ng-class="main.notifClass(notif.type)"></i><span class="text-muted" am-time-ago="notif.date"></span>: {{"NOTIFICATIONS.TYPE."+notif.type | translate:notif}}</li>
                     </ul>
                 </li>
                 <li class="dropdown" ng-show="main.isAuthenticated">
@@ -57,7 +57,7 @@
                     <ul class="dropdown-menu">
                         <li><div>{{main.user.email}}</div></li>
                         <li>
-                            <a href="/"><i class="fa fa-fw fa-user"></i> <span translate=".MY_PROFIL"></span> </a>
+                            <a href="javascript:;"><i class="fa fa-fw fa-user"></i> <span translate=".MY_PROFIL"></span> </a>
                         </li>
                         <li>
                             <a ng-href="{{main.logoutPath()}}"><i class="fa fa-fw fa-power-off"></i><span translate=".LOG_OUT"></span></a>
