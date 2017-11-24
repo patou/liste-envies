@@ -89,14 +89,14 @@
   },
   "NOTIFICATIONS": {
     "TYPE": {
-      "ADD_WISH" : "{{actionUserName}} a ajouté une nouvelle envie à la liste {{listName}}",
-      "UPDATE_WISH": "L'envie {{message}} de la liste {{listName}} a été mise à jour",
-      "DELETE_WISH": "L'envie {{message}} de la liste {{listName}} a été supprimée",
-      "GIVEN_WISH": "L'envie {{message}} de la liste {{listName}} sera offert par {{actionUserName}}",
-      "NEW_LIST": "Une nouvelle liste {{message}} a été crée par {{actionUserName}}",
+      "ADD_WISH" : "{{actionUserName}} a ajouté une nouvelle envie à la liste <i>{{listName}}</i>",
+      "UPDATE_WISH": "L'envie <i>{{message}}</i> de la liste <i>{{listName}}</i> a été mise à jour",
+      "DELETE_WISH": "L'envie <i>{{message}}</i> de la liste <i>{{listName}}</i> a été supprimée",
+      "GIVEN_WISH": "L'envie <i>{{message}}</i> de la liste <i>{{listName}}</i> sera offert par {{actionUserName}}",
+      "NEW_LIST": "Une nouvelle liste <i>{{message}}</i> a été crée par {{actionUserName}}",
       "ADD_USER": "La liste {{listeName}} vous a été partagé par {{actionUserName}}",
-      "ARCHIVE_WISH": "{{actionUserName}} a archivé l'envie {{message}} de la liste {{listName}}",
-      "ADD_NOTE": "{{actionUserName}} a commenté {{message}} sur une envie de la liste {{listName}}"
+      "ARCHIVE_WISH": "{{actionUserName}} a archivé l'envie <i>{{message}}</i> de la liste <i>{{listName}}</i>",
+      "ADD_NOTE": "{{actionUserName}} a commenté <i>{{message}}</i> sur une envie de la liste <i>{{listName}}</i>"
     }
   }
 
