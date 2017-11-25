@@ -23,15 +23,19 @@
   },
   "PAGE": {
     "TITLE": "Liste d'envies",
-    "DESCRIPTION": "la seule liste d'envies que vous pouvez partager de manière privées avec vos amis et familles afin qu'ils puissent se mettre d'accord sur les cadeaux à offrir, mais sans que vous soyez au courants. Vous aurez la surprise le jour J.",
+    "DESCRIPTION": "la seule liste d'envies que vous pouvez partager de manière privée avec vos amis et familles afin qu'ils puissent se mettre d'accord sur les cadeaux à offrir, sans que vous soyez au courant. Vous aurez la surprise le jour J.",
     "FOOTER_LINKS": {
-      "LISTE_ENVIES" : "Liste envies",
+      "LISTE_ENVIES" : "Liste d'envies",
       "GITHUB" : "Git hub",
       "COPYRIGHT": "&copy; 2016, made with <i class='fa fa-heart heart'></i> by Patrice et Emmanuel DE SAINT STEBAN"
     }
   },
   "WISH_LIST_PAGE": {
-    "CANCEL": "@:COMMONS.CANCEL"
+    "CANCEL": "@:COMMONS.CANCEL",
+    "BUTTON_EDIT_END": "Mettre à jour titre",
+    "BUTTON_EDIT_LIST": "Editer le titre de la liste",
+    "CLEAR_FILTER": "Réinitialiser les filtres",
+    "REFRESH_LIST": "Rafraichir la liste"
   },
   "HOME_PAGE": {
     "HOME_TITLE": "Liste de mes envies <small>Accueil</small>",
@@ -41,7 +45,7 @@
     "BUTTON_CONNEXION": "@:NAVBAR.LOG_IN"
   },
   "CANCEL_COMPONENT": {
-    "BUTTON_EDIT_LIST": "Editer le titre de la liste",
+
     "BUTTON_EDIT_LIST2": "Editer la liste",
     "BUTTON_EDIT_LIST3": "Editer la liste",
     "CANCEL": "Annuler"
@@ -91,14 +95,14 @@
   "NOTIFICATIONS": {
     "NOTIFICATION_TILTE" : "Notifications",
     "TYPE": {
-      "ADD_WISH" : "<b>{{actionUserName}}</b> a ajouté une nouvelle envie à la liste \"<i>{{listName}}</i>\"",
-      "UPDATE_WISH": "L'envie <i>{{message}}</i> de la liste \"<i>{{listName}}</i>\" a été mise à jour",
-      "DELETE_WISH": "L'envie <i>{{message}}</i> de la liste \"<i>{{listName}}</i>\" a été supprimée",
-      "GIVEN_WISH": "L'envie <i>{{message}}</i> de la liste \"<i>{{listName}}</i>\" sera offerte par <b>{{actionUserName}}</b>",
+      "ADD_WISH" : "<b>{{actionUserName}}</b> a ajouté une nouvelle envie à la liste \"<u>{{listName}}</u>\"",
+      "UPDATE_WISH": "L'envie <b>{{message}}</b> de la liste \"<u>{{listName}}</u>\" a été mise à jour",
+      "DELETE_WISH": "L'envie <b>{{message}}</b> de la liste \"<u>{{listName}}</u>\" a été supprimée",
+      "GIVEN_WISH": "L'envie <b>{{message}}</b> de la liste \"<u>{{listName}}</u>\" sera offerte par <b>{{actionUserName}}</b>",
       "NEW_LIST": "Une nouvelle liste <i>{{message}}</i> a été créée par <b>{{actionUserName}}</b>",
-      "ADD_USER": "La liste \"<i>{{listeName}}</i>\" vous a été partagée par <b>{{actionUserName}}</b>",
-      "ARCHIVE_WISH": "<b>{{actionUserName}}</b> a archivé l'envie <i>{{message}}</i> de la liste \"<i>{{listName}}</i>\"",
-      "ADD_NOTE": "<b>{{actionUserName}}</b> a commenté <i>{{message}}</i> sur une envie de la liste \"<i>{{listName}}</i>\""
+      "ADD_USER": "La liste \"<u>{{listeName}}</u>\" vous a été partagée par <b>{{actionUserName}}</b>",
+      "ARCHIVE_WISH": "<b>{{actionUserName}}</b> a archivé une envie <i>{{message}}</i> de la liste \"<u>{{listName}}</u>\"",
+      "ADD_NOTE": "<b>{{actionUserName}}</b> a commenté <i>{{message}}</i> sur une envie de la liste \"<u>{{listName}}</u>\""
     }
   }
 

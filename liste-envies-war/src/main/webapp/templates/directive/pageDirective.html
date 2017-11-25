@@ -34,9 +34,13 @@
                         href="javascript:(function(){ function centeredPopupPosition(w, h) {var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left; var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top; var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width; var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height; var left = ((width / 2) - (w / 2)) + dualScreenLeft; var top = ((height / 2) - (h / 2)) + dualScreenTop; return [left, top]; } var width = 500, height = 700, position = centeredPopupPosition(width, height); window.open('http://{{main.host}}/#/addWish/?url='+encodeURIComponent(document.location.href)+'&title='+encodeURIComponent(document.title),'bookyBookmarklet','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=' + width + ',height=' + height + ',top=' + position[1] + ',left=' + position[0]).focus(); }());"
 
                        class="btn btn-default"
-                       data-container="body" data-toggle="popover" data-placement="bottom" trigger="hover focus click"
+                       data-container="body" data-toggle="popover" data-placement="bottom" data-trigger="hover click focus"
+                       ng-mouseover="main.displayPopover($event)"
+                       data-delay = '{ "show": 100, "hide": 900 }'
 
-                       title="{{::NAVBAR.MAGIC_BUTTON_POPOVER_TITLE}}"
+                       title="Bouton magique pour ajouter une envie depuis n'importe quel site"
+
+                       translate-attr-title=".MAGIC_BUTTON_POPOVER_TITLE"
                        translate-attr-data-content=".MAGIC_BUTTON_POPOVER_CONTENT"
                         translate>
                         .MAGIC_BUTTON
@@ -48,8 +52,13 @@
                         <span class="badge">{{main.Notifications.length}}</span>
                     </a>
                     <ul class="dropdown-menu notif-menu" ng-if="main.Notifications.length > 0">
-                        <li translate>.NOTIFICATION_TILTE</li>
-                        <li class="notif" ng-repeat="notif in main.Notifications "><i class="fa" ng-class="main.notifClass(notif.type)"></i><span class="text-muted" am-time-ago="notif.date"></span>: <span translate-values="notif" translate="NOTIFICATIONS.TYPE.{{notif.type}}"></span></li>
+                        <li class="title-notification" translate>.NOTIFICATIONS</li>
+                        <li role="separator" class="divider"></li>
+                        <li class="notif" ng-repeat="notif in main.Notifications " ng-click="main.goList(notif.listId)">
+                            <i class="fa" ng-class="main.notifClass(notif.type)"></i>
+                            <span class="text-muted" am-time-ago="notif.date"></span>:
+                            <span translate-values="notif" translate="NOTIFICATIONS.TYPE.{{notif.type}}"></span>
+                        </li>
                     </ul>
                 </li>
                 <li class="dropdown" ng-show="main.isAuthenticated">
@@ -57,9 +66,9 @@
                         <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><div>{{main.user.email}}</div></li>
-                        <li>
+                       <!-- <li>
                             <a href="javascript:;"><i class="fa fa-fw fa-user"></i> <span translate=".MY_PROFIL"></span> </a>
-                        </li>
+                        </li>-->
                         <li>
                             <a ng-href="{{main.logoutPath()}}"><i class="fa fa-fw fa-power-off"></i><span translate=".LOG_OUT"></span></a>
                         </li>

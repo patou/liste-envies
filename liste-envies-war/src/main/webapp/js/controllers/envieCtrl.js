@@ -4,6 +4,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     var vm = this;
     vm.name = $routeParams.name;
     vm.listEnvies = loadListEnvies(vm.name);
+    vm.hasFilter = false;
     vm.loading = true;
     vm.masonry = null;
     vm.newUser = {email: '', type:'SHARED'};
@@ -245,6 +246,8 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
 
 
     vm.filterList = function(expr) {
+        vm.hasFilter = (expr !== "true");
+
         var expression = $parse(expr);
         vm.filter = function(value) {
             return expression(value);
@@ -412,5 +415,15 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         });
     }
 
-    $.material.init();
+
+
+    vm.$onInit = function () {
+        $.material.init();
+
+        vm.refreshLayout(5000);
+
+        $('[data-toggle="tooltip"]').tooltip();
+    };
+
+
 }

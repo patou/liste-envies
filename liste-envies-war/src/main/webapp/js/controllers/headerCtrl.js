@@ -40,6 +40,10 @@ app.controller('HeaderCtrl', function($scope, $http, $location, AuthService, Uti
         return "/logout?path=" + $location.path();
     };
 
+    main.displayPopover = function($event) {
+        $($event.target).popover('show');
+    };
+
     $.material.init();
 
 });
