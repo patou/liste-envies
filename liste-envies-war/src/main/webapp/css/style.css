@@ -24,76 +24,78 @@ body {
     }
 }
 
-.wrapper > .header {
-    background-image: url('https://images.unsplash.com/photo-1453834190665-46ff0a1fbd5a?dpr=1&auto=format&fit=crop&w=1500&h=994&q=80&cs=tinysrgb&crop=');
+.page-background {
+    background-image: url('https://images.unsplash.com/photo-1477728275068-39b7f46df4d2?dpr=1&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=');
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-position: 50% 66% !important;
+    background-position: center;
     background-size: cover;
 }
 
 #page-wrapper {
-    min-height: 800px;
+    min-height: 1000px;
 }
 
-.top-nav {
-    padding: 0 15px;
+.main-raised {
+    margin: -60px 0px 0px;
+    padding: 2px;
 }
 
-.top-nav>li {
-    display: inline-block;
-    float: left;
+.home-header {
+    margin-bottom: 10px;
+    padding: 0 20px;
 }
 
-.top-nav>li>a {
-    padding-top: 15px;
-    padding-bottom: 15px;
-    line-height: 20px;
-    color: #999;
+.list-envies .list-envies-item {
+    margin: 10px 0;
+    border-radius: 6px;
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
 }
 
-.top-nav>li>a:hover,
-.top-nav>li>a:focus,
-.top-nav>.open>a,
-.top-nav>.open>a:hover,
-.top-nav>.open>a:focus {
-    color: #fff;
-    background-color: #000;
+.mega-dropdown {
+    position: static !important;
+    width:100%;
 }
-
-.top-nav>.open>.dropdown-menu {
-    float: left;
+.mega-dropdown-menu {
+    padding: 20px;
+    width: 100%;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+.mega-dropdown-menu:before {
+    content: "";
+    border-bottom: 15px solid #fff;
+    border-right: 17px solid transparent;
+    border-left: 17px solid transparent;
     position: absolute;
-    margin-top: 0;
-    border: 1px solid rgba(0,0,0,.15);
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    background-color: #fff;
-    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    top: -15px;
+    left: 205px;
+    z-index: 10;
+}
+.mega-dropdown-menu:after {
+    content: "";
+    border-bottom: 17px solid #ccc;
+    border-right: 19px solid transparent;
+    border-left: 19px solid transparent;
+    position: absolute;
+    top: -17px;
+    left: 203px;
+    z-index: 8;
 }
 
-.top-nav>.open>.dropdown-menu>li>a {
-    white-space: normal;
-}
-.dropdown-menu > li > div {
-    display: block;
-    padding: 3px 20px;
-    clear: both;
-    font-weight: 400;
-    line-height: 1.42857143;
-    color: #999;
-    white-space: nowrap;
+.mega-dropdown-menu .list-group-item {
+    float: left;
+    width: 15%;
+    margin: 0.2%;
+    padding: 0;
+    border-radius: 5px;
 }
 
-@media(max-width:768px) {
-    .navbar-header {
-        display: inline-block;
-    }
-    .navbar-right {
-        float: right;
-    }
+.mega-dropdown-menu .list-group-item a {
+    margin: 0;
+    cursor: pointer;
 }
+
 
 .edit-button {
     display: none;
@@ -207,9 +209,10 @@ body {
     margin-top: -34px;
 }
 
-.list-envie .envie-card {
 
 
+.list-envie .envie-item {
+    box-shadow: 0 13px 18px 0 rgba(0, 0, 0, 0.58), 0 13px 22px 0 rgba(0, 0, 0, 0.12);
 }
 
 .envie-card .panel-body {
@@ -275,8 +278,8 @@ div.material-icons.form-control-feedback {
     background: white;
 }
 
-.card.card-signup.envie-item.ng-scope {
-    margin-top: 20px;
+.envie-container {
+    padding-top: 20px;
 }
 
 .envie-card .panel {
@@ -285,6 +288,10 @@ div.material-icons.form-control-feedback {
 
 .envie-card .panel .footer {
     padding: 5px;
+}
+
+.envie-card h1 {
+    font-size: 1.5em;
 }
 
 .envie-card .gift {
@@ -633,7 +640,7 @@ div.material-icons.form-control-feedback {
 .star-rating {
     margin: 0;
     padding: 0;
-    display: inline-block;
+    display: flex;
 }
 .star-rating > .star, .star-rating > .cancel-rating {
     padding: 1px;
@@ -674,6 +681,23 @@ div.material-icons.form-control-feedback {
     z-index: 1 !important;
 }
 
+.notif-menu {
+    padding: 5px;
+    min-width: 250px;
+}
 
+li.notif {
+    color: #333;
+    border-bottom: 1px solid #e2e2e2;
+}
+
+li.notif .fa {
+    color: #666;
+    margin: 0 5px;
+}
+
+.dropdown-menu {
+    z-index: 2000 !important;
+}
 
 

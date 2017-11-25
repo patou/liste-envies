@@ -1,20 +1,21 @@
-<div class="container-fluid">
-    <div class="row">
+<page scope="vm">
+    <div class="container-fluid" translate-namespace="HOME_PAGE">
+    <div class="main main-raised home-header"><div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">
-                Liste de mes envies
-                <small>Accueil</small>
+            <h1 class="page-header" translate>.HOME_TITLE
+
             </h1>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-12">
             <div class="jumbotron">
-                <p>Bonjour, <strong>{{main.user.name}}</strong>! Bienvenue sur votre liste des envies</p>
-                <button class="btn btn-primary btn-lg" role="button" data-toggle="modal" data-target="#new-list">Créer une liste</button>
+                <p translate translate-values="{userName: vm.main.user.name}">.WELCOME_MESSAGE</p>
+                <button class="btn btn-primary btn-lg" role="button" data-toggle="modal" data-target="#new-list" ng-if="vm.main.isAuthenticated" translate>.BUTTON_CREATE_LIST</button>
+                <a ng-href="{{vm.main.loginPath()}}" class="btn btn-primary btn-lg" role="button" ng-if="!vm.main.isAuthenticated" translate>.BUTTON_CONNEXION</a>
             </div>
         </div>
-    </div>
+    </div></div>
     <div class="modal fade" tabindex="-1" role="dialog" id="new-list">
         <div class="modal-dialog" role="document">
             <form>
@@ -46,7 +47,7 @@
             </form>
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    <div class="list-group">
+    <div class="list-group list-envies">
         <div class="loading" ng-if="vm.loading"> <div class='loader'>
             <div class='loader--dot'></div>
             <div class='loader--dot'></div>
@@ -56,9 +57,9 @@
             <div class='loader--dot'></div>
             <div class='loader--text'></div>
         </div></div>
-        <a class="list-group-item" ng-class="{active:listenvies.owner}" ng-click="vm.goList(listenvies.name)" ng-repeat="listenvies in vm.envies">
+        <a class="list-group-item list-envies-item" ng-class="{active:listenvies.owner}" ng-click="vm.goList(listenvies.name)" ng-repeat="listenvies in vm.envies">
             <h4 class="list-group-item-heading">{{listenvies.title}}</h4>
-            <p class="list-group-item-text"> de <span class="owners" ng-repeat="owner in listenvies.owners"><i class="fa fa-user"></i> {{owner.name}}({{owner.email}})<span ng-if="!$last" >, </span></span>  </p>
+            <p class="list-group-item-text"> <span translate>.SEPARATOR_USER</span> <span class="owners" ng-repeat="owner in listenvies.owners"><i class="fa fa-user"></i> {{owner.name}}({{owner.email}})<span ng-if="!$last" >, </span></span>  </p>
         </a>
     </div>
 
@@ -76,3 +77,4 @@
     </form>
 
 </div>
+</page>

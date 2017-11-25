@@ -4,6 +4,7 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import fr.desaintsteban.liste.envies.dto.AppUserDto;
 
 @Cache
 @Entity
@@ -53,4 +54,9 @@ public class AppUser {
     public void setIsAdmin(Boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
+
+	public AppUserDto toDto() {
+		return new AppUserDto(this.getEmail(), this.getName());
+	}
+
 }

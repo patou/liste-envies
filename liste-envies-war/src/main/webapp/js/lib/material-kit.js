@@ -37,7 +37,8 @@ var fixedTop = false;
 
 var navbar_initialized = false;
 
-$(document).ready(function(){
+loadMaterialsKits = function (){
+
 
     // Init Material scripts for buttons ripples, inputs animations etc, more info on the next link https://github.com/FezVrasta/bootstrap-material-design#materialjs
     $.material.init();
@@ -46,11 +47,11 @@ $(document).ready(function(){
     $('[data-toggle="tooltip"], [rel="tooltip"]').tooltip();
 
     // Activate Datepicker
-    if($('.datepicker').length != 0){
+    /*if($('.datepicker').length != 0){
         $('.datepicker').datepicker({
-             weekStart:1
+            weekStart:1
         });
-    }
+    }*/
 
     // Check if we have the class "navbar-color-on-scroll" then add the function to remove the class "navbar-transparent" so it will transform to a plain color.
     if($('.navbar-color-on-scroll').length != 0){
@@ -61,11 +62,13 @@ $(document).ready(function(){
     $('[data-toggle="popover"]').popover();
 
     // Active Carousel
-	$('.carousel').carousel({
-      interval: 400000
-    });
+    /*$('.carousel').carousel({
+        interval: 400000
+    });*/
 
-});
+};
+
+$(document).ready(loadMaterialsKits);
 
 materialKit = {
     misc:{
@@ -106,7 +109,7 @@ materialKit = {
             }
         });
     }
-}
+};
 
 
 var big_image;

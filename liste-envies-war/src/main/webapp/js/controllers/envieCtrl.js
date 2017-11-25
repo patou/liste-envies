@@ -5,6 +5,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     vm.name = $routeParams.name;
     vm.listEnvies = loadListEnvies(vm.name);
     vm.loading = true;
+    vm.masonry = null;
     vm.newUser = {email: '', type:'SHARED'};
     vm.editorOptions = {
         disableDragAndDrop: true,
@@ -122,23 +123,23 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
 
     loadEnvies();
     resetForm();
-
-
+    
+    vm.update = function() {
+        if (vm.masonry) {
+            vm.masonry.update();
+        }    
+    };
 
     vm.addEnvie = function (envie) {
             vm.envies.push(envie);
-            $scope.update();
+            vm.update();
     };
 
-
-
-
-
-
-
-
-
-
+    vm.resetFilter = function() {
+        vm.filterList("true");
+        vm.search = '';
+    };
+    
     vm.removeUser = function(user) {
         var index = vm.listEnvies.users.indexOf(user);
         if (index >= 0)
@@ -186,7 +187,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
 
         vm.selectedItems = order;
 
-        $scope.update();
+        vm.update();
     };
 
     var intervalUpdate;
@@ -196,7 +197,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
 
         intervalUpdate = $interval(function () {
             // trigger layout
-            $scope.masonry.layout();
+            if (vm.masonry) vm.masonry.layout();
         }, delay, 50);
 
         if (!end) end = 500;
@@ -211,7 +212,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         if (timeoutUpdate) $timeout.cancel(timeoutUpdate);
 
         intervalUpdate = null;
-        $scope.masonry.layout();
+        if (vm.masonry) vm.masonry.layout();
     };
 
     vm.refreshLayout = function (delay) {
@@ -223,8 +224,8 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         if (!refresh) refresh = true;
         var $element = $("#envie"+id);
         // stamp or unstamp element to rest in place.
-        if (!$scope.masonry.stamps.indexOf($element) ) {
-            $scope.masonry.stamp( $element );
+        if (vm.masonry && !vm.masonry.stamps.indexOf($element) ) {
+            if (vm.masonry) vm.masonry.stamp( $element );
         }
         refresh && vm.refreshLayout(200);
 
@@ -234,8 +235,8 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         if (!refresh) refresh = true;
         var $element = $("#envie"+id);
         // stamp or unstamp element to rest in place.
-        if ( $scope.masonry.stamps.indexOf($element) ) {
-            $scope.masonry.unstamp($element);
+        if (vm.masonry && !vm.masonry.stamps.indexOf($element) ) {
+            if (vm.masonry) vm.masonry.unstamp($element);
         }
         refresh && vm.refreshLayout(200);
     };
@@ -248,14 +249,14 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         vm.filter = function(value) {
             return expression(value);
         };
-        $scope.update();
+        vm.update();
     };
 
     vm.searchList = function(reset) {
         if (reset) {
             vm.search = '';
         }
-        $scope.update();
+        vm.update();
     };
 
     vm.refresh = function() {
@@ -316,13 +317,14 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
             return false;
         };
 
-        $scope.update();
+        vm.update();
     };
 
     vm.deleteWish = function(wish) {
         var index = vm.envies.indexOf(wish);
         if (index > -1)
             vm.envies.splice(index, 1);
+        vm.update();
     };
 
     function gotoForm() {
@@ -367,6 +369,9 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
             var userTakeNames = [];
             angular.forEach(item.userTake, function (user) {
                 this.push(loadUser(user).name || user);
+                if (vm.main.user && user == vm.main.user.email) {
+                    item.userGiven = true;
+                }
             }, userTakeNames);
             item.userTakeUsers = userTakeNames.join(", ");
         } else {
@@ -399,9 +404,9 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
             });
 
 
-                //$scope.update();
+                //vm.update();
             //vm.clearRefreshingLayoutAuto();
-            if (firstLoad) $scope.update();
+            if (firstLoad) vm.masonry.update();
 
             $.material.init();
         });

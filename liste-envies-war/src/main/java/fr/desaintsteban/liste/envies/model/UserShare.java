@@ -1,6 +1,7 @@
 package fr.desaintsteban.liste.envies.model;
 
 import com.googlecode.objectify.annotation.Index;
+import fr.desaintsteban.liste.envies.dto.UserShareDto;
 
 /**
  *
@@ -33,5 +34,9 @@ public class UserShare {
 
     public void setType(UserShareType type) {
         this.type = type;
+    }
+
+    public UserShareDto toDto() {
+        return new UserShareDto(this.getEmail(), this.getType(), null);
     }
 }

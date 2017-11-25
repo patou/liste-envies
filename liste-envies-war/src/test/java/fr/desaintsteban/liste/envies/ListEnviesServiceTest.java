@@ -10,6 +10,7 @@ import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cache.AsyncCacheFilter;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.ListEnvies;
+import fr.desaintsteban.liste.envies.model.Notification;
 import fr.desaintsteban.liste.envies.service.ListEnviesService;
 import fr.desaintsteban.liste.envies.service.OfyService;
 import org.junit.After;
@@ -46,6 +47,7 @@ public class ListEnviesServiceTest {
         });
         ObjectifyService.factory().register(ListEnvies.class);
         ObjectifyService.factory().register(AppUser.class);
+        ObjectifyService.factory().register(Notification.class);
 
     }
 

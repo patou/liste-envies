@@ -1,0 +1,125 @@
+<!-- Navigation -->
+<!--  -->
+<nav class="navbar navbar-transparent navbar-fixed-top navbar-color-on-scroll top-nav" role="navigation" translate-namespace="NAVBAR">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only" translate>.TOGGLE_NAVIGATION</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#/"><i class="fa fa-gift"></i> <span translate=".TITLE"></span></a>
+        </div>
+
+        <div class="collapse navbar-collapse ng-cloak " id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="dropdown mega-dropdown " ng-if="main.wishLists != null">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span translate>.CHANGE_LIST</span> <span class="caret"></span></a>
+                    <ul class="dropdown-menu mega-dropdown-menu row">
+
+                        <li class="list-group-item" ng-class="{active:aWishList.owner}" ng-repeat="aWishList in main.wishLists"><a ng-click="main.goList(aWishList.name)">
+                            {{aWishList.title}}
+                            <p class="list-group-item-text"> de <span class="owners" ng-repeat="owner in aWishList.owners" title="{{owner.name}}({{owner.email}})"><i class="fa fa-user"></i> {{owner.name}}<span ng-if="!$last" >, </span></span>  </p>
+                        </a></li>
+
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown" ng-show="main.isAuthenticated">
+                    <a type="button"
+                        href="javascript:(function(){ function centeredPopupPosition(w, h) {var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left; var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top; var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width; var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height; var left = ((width / 2) - (w / 2)) + dualScreenLeft; var top = ((height / 2) - (h / 2)) + dualScreenTop; return [left, top]; } var width = 500, height = 700, position = centeredPopupPosition(width, height); window.open('http://{{main.host}}/#/addWish/?url='+encodeURIComponent(document.location.href)+'&title='+encodeURIComponent(document.title),'bookyBookmarklet','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=' + width + ',height=' + height + ',top=' + position[1] + ',left=' + position[0]).focus(); }());"
+
+                       class="btn btn-default"
+                       data-container="body" data-toggle="popover" data-placement="bottom" trigger="hover focus click"
+
+                       title="{{::NAVBAR.MAGIC_BUTTON_POPOVER_TITLE}}"
+                       translate-attr-data-content=".MAGIC_BUTTON_POPOVER_CONTENT"
+                        translate>
+                        .MAGIC_BUTTON
+                    </a>
+
+                </li>
+                <li class="dropdown" ng-show="main.isAuthenticated">
+                    <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i>
+                        <span class="badge">{{main.Notifications.length}}</span>
+                    </a>
+                    <ul class="dropdown-menu notif-menu" ng-if="main.Notifications.length > 0">
+                        <li translate>.NOTIFICATION_TILTE</li>
+                        <li class="notif" ng-repeat="notif in main.Notifications "><i class="fa" ng-class="main.notifClass(notif.type)"></i><span class="text-muted" am-time-ago="notif.date"></span>: <span translate-values="notif" translate="NOTIFICATIONS.TYPE.{{notif.type}}"></span></li>
+                    </ul>
+                </li>
+                <li class="dropdown" ng-show="main.isAuthenticated">
+                    <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{main.user.name}}
+                        <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><div>{{main.user.email}}</div></li>
+                        <li>
+                            <a href="javascript:;"><i class="fa fa-fw fa-user"></i> <span translate=".MY_PROFIL"></span> </a>
+                        </li>
+                        <li>
+                            <a ng-href="{{main.logoutPath()}}"><i class="fa fa-fw fa-power-off"></i><span translate=".LOG_OUT"></span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li ng-hide="main.isAuthenticated">
+                    <a ng-href="{{main.loginPath()}}" translate>.LOG_IN</a>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+
+
+    </div>
+</nav >
+
+<div id="wrapper"  class="wrapper page-background" translate-namespace="PAGE">
+
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <h1 class="title" translate=".TITLE"></h1>
+                    <h4 translate=".DESCRIPTION"></h4>
+                    <br />
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="page-wrapper" class="page-background">
+
+        <div ng-transclude></div>
+
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <nav class="pull-left">
+                <ul>
+                    <li>
+                        <a href="http://liste-envie.desaintsteban.fr">
+                            <i class="fa fa-link"></i> <span translate=".FOOTER_LINKS.LISTE_ENVIES"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/patou/liste-envies">
+                            <i class="fa fa-github"></i> <span translate=".FOOTER_LINKS.GITHUB"></span>
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+            <div class="copyright pull-right" translate=".FOOTER_LINKS.COPYRIGHT">
+            </div>
+        </div>
+    </footer>
+
+    <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->

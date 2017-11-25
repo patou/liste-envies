@@ -4,6 +4,9 @@
     angular.module('masonry', ['ng']).directive('masonry', function($timeout) {
         return {
             restrict: 'AC',
+            scope: {
+                'masonry': '=masonryObject'
+            },
             link: function(scope, elem, attrs) {
                 var container = elem[0];
                 var options = angular.extend({
@@ -13,7 +16,7 @@
                 var masonry = scope.masonry = new Masonry(container, options);
 
                 var debounceTimeout = 0;
-                scope.update = function() {
+                masonry.update = scope.update = function() {
                     if (debounceTimeout) {
                         $timeout.cancel(debounceTimeout);
                     }
@@ -41,6 +44,8 @@
                 scope.$on('masonry.layout', function() {
                     masonry.layout();
                 });
+
+
 
                 scope.update();
             }

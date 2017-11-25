@@ -97,7 +97,7 @@ public class ListEnviesRestService {
     public ListEnviesDto addListeEnvie(ListEnviesDto listEnvies) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null) {
-            LOGGER.info("Save ListEnvies " + listEnvies.getName());
+            LOGGER.info("Add ListEnvies " + listEnvies.getName());
             ListEnvies listEnvie = ListEnviesService.createOrUpdate(user, new ListEnvies(listEnvies));
             return getListEnviesDto(user, listEnvie);
         }
