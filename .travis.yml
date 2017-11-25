@@ -2,20 +2,30 @@ language: java
 
 #command to install dependencies
 before_install:
-  - export GAE_SDK_VERSION=1.9.46
+  - export GAE_SDK_VERSION=1.9.59
   - wget http://storage.googleapis.com/appengine-sdks/featured/appengine-java-sdk-${GAE_SDK_VERSION}.zip -nv -P /tmp/
   - mkdir -p ~/appengine-java-sdk
   - unzip /tmp/appengine-java-sdk-${GAE_SDK_VERSION}.zip -d ~/appengine-java-sdks/
   - rm -rf /tmp/appengine-java-sdk-${GAE_SDK_VERSION}.zip
   - export PATH=~/appengine-java-sdks/appengine-java-sdk-${GAE_SDK_VERSION}/bin:${PATH}
+  - if [ ! -d ${HOME}/google-cloud-sdk ]; then
+       curl https://sdk.cloud.google.com | bash;
+    fi
 
 install:
+  - cd liste-envies-war
   - "mvn clean install"
 
 #command to deploy
 after_success:
-  - cd liste-envies-war
-  - echo ${GOOGLE_CLIENT_SECRET} > client-secret.json
-  - echo ${GOOGLE_CLIENT_SECRET_TEST} > client-secret-test.json
-  - test ${TRAVIS_BRANCH} != "master" && appcfg.sh --service_account_json_key_file=client-secret-test.json -A ${CLOUDSDK_TEST_PROJECT} -V ${TRAVIS_BRANCH/_/-/g} update target/liste-envies-war-2016-SNAPSHOT
-  - test ${TRAVIS_BRANCH} = "master" && appcfg.sh --service_account_json_key_file=client-secret.json -A ${CLOUDSDK_CORE_PROJECT} -V master update target/liste-envies-war-2016-SNAPSHOT
+  - if [ ${TRAVIS_BRANCH} != "master" ]; then
+      echo ${GOOGLE_CLIENT_SECRET_TEST} > client-secret.json
+      export APP_ID=${CLOUDSDK_TEST_PROJECT}
+      export APP_VERSION=${TRAVIS_BRANCH/_/-/g}
+    else
+      echo ${GOOGLE_CLIENT_SECRET} > client-secret.json
+      export APP_ID=${CLOUDSDK_CORE_PROJECT}
+      export APP_VERSION=${TRAVIS_BRANCH/_/-/g}
+    fi
+  - gcloud auth activate-service-account --key-file client-secret.json
+  - mvn appengine:deploy -Dapp.deploy.project=${APP_ID} -Dapp.deploy.project=${APP_VERSION}

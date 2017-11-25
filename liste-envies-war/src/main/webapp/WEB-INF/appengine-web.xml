@@ -4,6 +4,7 @@
     <version>${appengine.app.version}</version>
     <threadsafe>true</threadsafe>
     <sessions-enabled>true</sessions-enabled>
+    <runtime>java8</runtime>
     
     <static-files>
 	  <include path="/js/*.*" />
