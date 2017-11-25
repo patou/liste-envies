@@ -18,8 +18,8 @@
     "LOG_OUT": "Déconnexion",
     "LOG_IN": "Connexion",
     "MAGIC_BUTTON_POPOVER_TITLE": "Bouton magique pour ajouter une envie depuis n'importe quel site",
-    "MAGIC_BUTTON_POPOVER_CONTENT": "Déplacer le lien sur votre bar des favoris, puis sur un site où vous souhaitez ajouter une envies, appuyer simplement sur ce liens pour l'ajouter.",
-    "MAGIC_BUTTON": "Ajouter a une liste d'envie"
+    "MAGIC_BUTTON_POPOVER_CONTENT": "Déplacer le lien sur votre barre des favoris, puis sur un site où vous souhaitez ajouter une envies, appuyer simplement sur ce favori pour l'ajouter.",
+    "MAGIC_BUTTON": "Ajouter à une liste d'envie"
   },
   "PAGE": {
     "TITLE": "Liste d'envies",
@@ -59,7 +59,7 @@
   "WISH_CARD_COMPONENT": {
     "DELETE_TITLE":"Supprimé",
     "RECEIVED_TITLE":"Reçu",
-    "DELETE_MESSAGE": "Suppression définitive de l'envie {{whishName}}. Si vous l'avez reçu, archivez le en le marquant comme ",
+    "DELETE_MESSAGE": "Suppression définitive de l'envie {{whishName}}. Si vous l'avez reçu, archivez la en la marquant comme ",
     "RECEIVED_MESSAGE": "Le cadeau a été reçu, il est maintenant archivé {{whishName}}",
     "INPUT_TITRE": "Titre de l'envie",
     "INPUT_DESCRIPTION": "Description de l'envie",
@@ -81,7 +81,7 @@
     "COMMENTS": "Commmentaires ({{comment_number  || 0}})",
     "ADD_COMMENTS_LABEL": "Ajouter un commmentaire",
     "ADD_COMMENTS_BUTTON": "Commenter",
-    "WISH_DELETED_MESSAGE": "<strong>Supprimé</strong>Cette envie a été supprimé par la/les bénéficiaires de la liste, mais gardé en mode privé car une personne c'est proposé de l'offrir. Si vous ne l'avez pas donné ou déjà acheté voyez avec le(s) bénéficiaire(s) si elle(s) souhaite(nt) encore le cadeau.",
+    "WISH_DELETED_MESSAGE": "<strong>Supprimé</strong>Cette envie a été supprimée par le(s) bénéficiaire(s) de la liste, mais gardé en mode privé car une personne s'est proposée de l'offrir. Si vous ne l'avez pas donné ou déjà acheté voyez avec le(s) bénéficiaire(s) si il(s) souhaite(nt) encore le cadeau.",
     "ALREADY_DONE": "Déjà donné",
     "TITLE_LAST_CHANGE": "Dernière modification",
     "TITLE_CREATED_BY": "Crée par",
@@ -89,15 +89,16 @@
     "CANCEL": "@:COMMONS.CANCEL"
   },
   "NOTIFICATIONS": {
+    "NOTIFICATION_TILTE" : "Notifications",
     "TYPE": {
-      "ADD_WISH" : "{{actionUserName}} a ajouté une nouvelle envie à la liste <i>{{listName}}</i>",
-      "UPDATE_WISH": "L'envie <i>{{message}}</i> de la liste <i>{{listName}}</i> a été mise à jour",
-      "DELETE_WISH": "L'envie <i>{{message}}</i> de la liste <i>{{listName}}</i> a été supprimée",
-      "GIVEN_WISH": "L'envie <i>{{message}}</i> de la liste <i>{{listName}}</i> sera offert par {{actionUserName}}",
-      "NEW_LIST": "Une nouvelle liste <i>{{message}}</i> a été crée par {{actionUserName}}",
-      "ADD_USER": "La liste {{listeName}} vous a été partagé par {{actionUserName}}",
-      "ARCHIVE_WISH": "{{actionUserName}} a archivé l'envie <i>{{message}}</i> de la liste <i>{{listName}}</i>",
-      "ADD_NOTE": "{{actionUserName}} a commenté <i>{{message}}</i> sur une envie de la liste <i>{{listName}}</i>"
+      "ADD_WISH" : "<b>{{actionUserName}}</b> a ajouté une nouvelle envie à la liste \"<i>{{listName}}</i>\"",
+      "UPDATE_WISH": "L'envie <i>{{message}}</i> de la liste \"<i>{{listName}}</i>\" a été mise à jour",
+      "DELETE_WISH": "L'envie <i>{{message}}</i> de la liste \"<i>{{listName}}</i>\" a été supprimée",
+      "GIVEN_WISH": "L'envie <i>{{message}}</i> de la liste \"<i>{{listName}}</i>\" sera offerte par <b>{{actionUserName}}</b>",
+      "NEW_LIST": "Une nouvelle liste <i>{{message}}</i> a été créée par <b>{{actionUserName}}</b>",
+      "ADD_USER": "La liste \"<i>{{listeName}}</i>\" vous a été partagée par <b>{{actionUserName}}</b>",
+      "ARCHIVE_WISH": "<b>{{actionUserName}}</b> a archivé l'envie <i>{{message}}</i> de la liste \"<i>{{listName}}</i>\"",
+      "ADD_NOTE": "<b>{{actionUserName}}</b> a commenté <i>{{message}}</i> sur une envie de la liste \"<i>{{listName}}</i>\""
     }
   }
 

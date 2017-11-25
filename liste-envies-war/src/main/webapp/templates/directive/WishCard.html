@@ -114,7 +114,7 @@
                     <h6 ng-if="!w.ownerList && w.wish.userTakeUsers"><i class="fa fa-gift"></i><span translate translate-values="{name: w.wish.userTakeUsers}">.OFFERED_BY</span>
                         <button type="button" class="btn btn-danger" ng-if="w.wish.userTake.indexOf(w.user.email) >= 0" ng-click="w.cancel(w.wish.id)" translate>.CANCEL</button>
                         <button type="button" class="btn btn-success" ng-if="w.wish.userTake.indexOf(w.user.email) >= 0" ng-click="w.receivedWish()" translate>.GIVEN</button>
-                        <button type="button" class="btn btn-success btn3d" ng-if="w.wish.userTake.indexOf(w.user.email) < 0" ng-click="w.given(w.wish.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b translate>PARTICIPATE</b></button>
+                        <button type="button" class="btn btn-success btn3d" ng-if="w.wish.userTake.indexOf(w.user.email) < 0" ng-click="w.given(w.wish.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b translate>.PARTICIPATE</b></button>
                     </h6>
                     <button type="button" class="btn btn-success btn3d" ng-if="!w.ownerList && !w.wish.userTakeUsers" ng-click="w.given(w.wish.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b translate >.TO_OFFER</b></button>
                 </div>
