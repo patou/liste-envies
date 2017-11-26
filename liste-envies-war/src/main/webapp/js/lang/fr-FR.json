@@ -100,7 +100,7 @@
       "DELETE_WISH": "L'envie <b>{{message}}</b> de la liste \"<u>{{listName}}</u>\" a été supprimée",
       "GIVEN_WISH": "L'envie <b>{{message}}</b> de la liste \"<u>{{listName}}</u>\" sera offerte par <b>{{actionUserName}}</b>",
       "NEW_LIST": "Une nouvelle liste <i>{{message}}</i> a été créée par <b>{{actionUserName}}</b>",
-      "ADD_USER": "La liste \"<u>{{listeName}}</u>\" vous a été partagée par <b>{{actionUserName}}</b>",
+      "ADD_USER": "La liste \"<u>{{listName}}</u>\" vous a été partagée par <b>{{actionUserName}}</b>",
       "ARCHIVE_WISH": "<b>{{actionUserName}}</b> a archivé une envie <i>{{message}}</i> de la liste \"<u>{{listName}}</u>\"",
       "ADD_NOTE": "<b>{{actionUserName}}</b> a commenté <i>{{message}}</i> sur une envie de la liste \"<u>{{listName}}</u>\""
     }

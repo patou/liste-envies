@@ -62,9 +62,10 @@ public final class ListEnviesService {
 		final List<String> userToEmail = item.getUsers().stream().map(UserShare::getEmail).collect(Collectors.toList());
 		ListEnvies updateElement = OfyService.ofy().load().key(Key.create(ListEnvies.class, item.getName())).now();
 		if (updateElement != null) { // Update
-			for (UserShare oldUsers : updateElement.getUsers()) {
-				userToEmail.remove(oldUsers.getEmail());
-			}
+			updateElement.getUsers().stream()
+					.map(UserShare::getEmail)
+					.filter(email -> email.equals(user.getEmail()))
+					.forEach(userToEmail::remove);
 		}
 		return OfyService.ofy().transact(() -> {
             final Saver saver = OfyService.ofy().save();

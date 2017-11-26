@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
+
 public final class NotificationsService {
     private NotificationsService() {}
 
@@ -47,9 +49,11 @@ public final class NotificationsService {
 		newNotif.setActionUser(currentUser.getEmail());
 		newNotif.setActionUserName(currentUser.getName());
 
-		List<String> users = listEnvies.getUsers().stream().filter(userShare -> (userShare.getType() != UserShareType.OWNER || !noOwners) && !userShare.getEmail().equals(currentUser.getEmail())).map(UserShare::getEmail).collect(Collectors.toList());
-
-		newNotif.setUser(users);
+		newNotif.setUser(listEnvies.getUsers().stream()
+				.filter(userShare ->
+						(userShare.getType() != UserShareType.OWNER || !noOwners)
+								&& !userShare.getEmail().equals(currentUser.getEmail()))
+				.map(UserShare::getEmail).collect(toList()));
 
 		return OfyService.ofy().transact(() -> {
             final Saver saver = OfyService.ofy().save();
@@ -65,6 +69,7 @@ public final class NotificationsService {
 		newNotif.setListId(list.getName());
 		newNotif.setListName(list.getTitle());
 		newNotif.setUser(users);
+		newNotif.setDate(new Date());
 		newNotif.setActionUser(currentUser.getEmail());
 		newNotif.setActionUserName(currentUser.getName());
 		return OfyService.ofy().transact(() -> {
