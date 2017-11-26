@@ -3,6 +3,11 @@ cache:
   directories:
     - $HOME/.m2
     - $HOME/google-cloud-sdk
+install:
+  - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+  - source $HOME/google-cloud-sdk/path.bash.inc
+  - gcloud version
+  - gcloud --quiet components update app-engine-java
 
 #command to install dependencies
 script:
@@ -21,10 +26,6 @@ after_success:
       export APP_VERSION=${TRAVIS_BRANCH/_/-/g};
     fi
   - echo "Deploy application ${APP_ID} version ${APP_VERSION}"
-  - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
-  - source $HOME/google-cloud-sdk/path.bash.inc
-  - gcloud version
-  - gcloud --quiet components update app-engine-java
   - gcloud auth activate-service-account --key-file client-secret.json
-  - mvn appengine:deploy -Dproject=${APP_ID} -Dversion=${APP_VERSION}
+  - mvn -B -DskipTests=true -Dapp.deploy.project=${APP_ID} -Dapp.deploy.version=${APP_VERSION} appengine:deploy
 
