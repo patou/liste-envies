@@ -1,4 +1,8 @@
 language: java
+cache:
+  directories:
+    - $HOME/.m2
+    - $HOME/google-cloud-sdk
 
 #command to install dependencies
 script:
@@ -7,17 +11,14 @@ script:
 
 #command to deploy
 after_success:
-  - echo "Branch ${TRAVIS_BRANCH}"
   - if [ a${TRAVIS_BRANCH} = "amaster" ]; then
       echo ${GOOGLE_CLIENT_SECRET} > client-secret.json;
       export APP_ID=${CLOUDSDK_CORE_PROJECT};
       export APP_VERSION=master;
-      echo "Deploy application ${APP_ID} version ${APP_VERSION}";
     else
       echo ${GOOGLE_CLIENT_SECRET_TEST} > client-secret.json;
       export APP_ID=${CLOUDSDK_TEST_PROJECT};
       export APP_VERSION=${TRAVIS_BRANCH/_/-/g};
-      echo "Deploy application ${APP_ID} version ${APP_VERSION}";
     fi
   - echo "Deploy application ${APP_ID} version ${APP_VERSION}"
   - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
@@ -25,5 +26,5 @@ after_success:
   - gcloud version
   - gcloud --quiet components update app-engine-java
   - gcloud auth activate-service-account --key-file client-secret.json
-  - mvn appengine:deploy -Dapp.deploy.project=${APP_ID} -Dapp.deploy.project=${APP_VERSION}
+  - mvn appengine:deploy -Dproject=${APP_ID} -Dversion=${APP_VERSION}
 
