@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Path("/utilisateur")
 @Produces(MediaType.APPLICATION_JSON)
@@ -29,10 +30,7 @@ public class AppUserRestService {
         if(user != null){
             LOGGER.info("List appuser");
             List<AppUser> list = AppUserService.list();
-            ArrayList<AppUserDto> convertList = new ArrayList<>();
-            for (AppUser appUser : list) {
-                convertList.add(new AppUserDto(appUser.getEmail(), appUser.getName()));
-            }
+            List<AppUserDto> convertList = list.stream().map(appUser -> new AppUserDto(appUser.getEmail(), appUser.getName())).collect(Collectors.toList());
             return convertList;
         }
         return null;
@@ -71,9 +69,7 @@ public class AppUserRestService {
         List<Notification> notifs = NotificationsService.list(user);
         if (notifs.isEmpty()) return listNotification;
 
-        for (Notification notif : notifs) {
-            listNotification.add(notif.toDto());
-        }
+        listNotification = notifs.stream().map(Notification::toDto).collect(Collectors.toList());
         return listNotification;
     }
 

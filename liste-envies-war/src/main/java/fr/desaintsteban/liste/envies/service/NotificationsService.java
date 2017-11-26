@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 public final class NotificationsService {
     private NotificationsService() {}
@@ -46,22 +47,15 @@ public final class NotificationsService {
 		newNotif.setActionUser(currentUser.getEmail());
 		newNotif.setActionUserName(currentUser.getName());
 
-		List<String> users = new ArrayList<>();
-		for (UserShare userShare : listEnvies.getUsers()) {
-			if (userShare.getType() == UserShareType.OWNER && noOwners || userShare.getEmail().equals(currentUser.getEmail())) continue;
-			users.add(userShare.getEmail());
-		}
+		List<String> users = listEnvies.getUsers().stream().filter(userShare -> (userShare.getType() != UserShareType.OWNER || !noOwners) && !userShare.getEmail().equals(currentUser.getEmail())).map(UserShare::getEmail).collect(Collectors.toList());
 
 		newNotif.setUser(users);
 
-		return OfyService.ofy().transact(new Work<Notification>() {
-			@Override
-			public Notification run() {
-				final Saver saver = OfyService.ofy().save();
-				saver.entities(newNotif).now();
-				return newNotif;
-			}
-		});
+		return OfyService.ofy().transact(() -> {
+            final Saver saver = OfyService.ofy().save();
+            saver.entities(newNotif).now();
+            return newNotif;
+        });
 	}
 
 
@@ -73,15 +67,12 @@ public final class NotificationsService {
 		newNotif.setUser(users);
 		newNotif.setActionUser(currentUser.getEmail());
 		newNotif.setActionUserName(currentUser.getName());
-		return OfyService.ofy().transact(new Work<Notification>() {
-			@Override
-			public Notification run() {
-				final Saver saver = OfyService.ofy().save();
-				saver.entities(newNotif).now();
-				//sendMailAddToList(newNotif, currentUser);
-				return newNotif;
-			}
-		});
+		return OfyService.ofy().transact(() -> {
+            final Saver saver = OfyService.ofy().save();
+            saver.entities(newNotif).now();
+            //sendMailAddToList(newNotif, currentUser);
+            return newNotif;
+        });
 	}
 
 	/*

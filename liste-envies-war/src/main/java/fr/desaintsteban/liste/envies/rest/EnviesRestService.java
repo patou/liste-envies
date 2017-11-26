@@ -19,6 +19,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Path("/envies/{name}")
 @Produces(MediaType.APPLICATION_JSON)
@@ -68,10 +69,7 @@ public class EnviesRestService {
         if(user != null){
             LOGGER.info("List");
             List<Envy> list = EnviesService.list(user, name);
-            List<EnvyDto> result = new ArrayList<>(list.size());
-            for (Envy envie : list) {
-                result.add(envie.toDto());
-            }
+            List<EnvyDto> result = list.stream().map(Envy::toDto).collect(Collectors.toList());
             return result;
         }
         return null;
