@@ -80,11 +80,11 @@ function PagesDirectivesController ($scope, $http, $location, AuthService, Utili
             case 'NEW_LIST':
                 return 'fa-list';
             case 'ADD_USER':
-                return 'fa-user-plus';
+                return 'fa-share-square-o';
             case 'ARCHIVE_WISH':
                 return 'fa-archive';
             case 'ADD_NOTE':
-                return 'fa-commenting';
+                return 'fa-comment';
             default:
                 return 'fa-bell';
         }

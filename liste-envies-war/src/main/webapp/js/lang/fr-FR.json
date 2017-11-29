@@ -95,7 +95,7 @@
   "NOTIFICATIONS": {
     "NOTIFICATION_TILTE" : "Notifications",
     "TYPE": {
-      "ADD_WISH" : "<b>{{actionUserName}}</b> a ajouté une nouvelle envie à la liste \"<u>{{listName}}</u>\"",
+      "ADD_WISH" : "<b>{{actionUserName}}</b> a ajouté une nouvelle envie  <b>{{message}}</b> à la liste \"<u>{{listName}}</u>\"",
       "UPDATE_WISH": "L'envie <b>{{message}}</b> de la liste \"<u>{{listName}}</u>\" a été mise à jour",
       "DELETE_WISH": "L'envie <b>{{message}}</b> de la liste \"<u>{{listName}}</u>\" a été supprimée",
       "GIVEN_WISH": "L'envie <b>{{message}}</b> de la liste \"<u>{{listName}}</u>\" sera offerte par <b>{{actionUserName}}</b>",

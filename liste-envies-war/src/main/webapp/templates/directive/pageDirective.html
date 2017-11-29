@@ -55,8 +55,8 @@
                         <li class="title-notification" translate>.NOTIFICATIONS</li>
                         <li role="separator" class="divider"></li>
                         <li class="notif" ng-repeat="notif in main.Notifications " ng-click="main.goList(notif.listId)">
-                            <i class="fa" ng-class="main.notifClass(notif.type)"></i>
-                            <span class="text-muted" am-time-ago="notif.date"></span>:
+                            <i class="fa fa-2x pull-left" ng-class="main.notifClass(notif.type)"></i>
+                            <span class="text-muted" am-time-ago="notif.date" title="{{notif.date | date: 'fullDate'}} à {{notif.date | date: 'shortTime'}}"></span>:
                             <span translate-values="notif" translate="NOTIFICATIONS.TYPE.{{notif.type}}"></span>
                         </li>
                     </ul>
