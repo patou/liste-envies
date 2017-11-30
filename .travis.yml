@@ -28,4 +28,6 @@ after_success:
   - echo "Deploy application ${APP_ID} version ${APP_VERSION}"
   - gcloud auth activate-service-account --key-file client-secret.json
   - mvn -B -DskipTests=true -Dapp.deploy.project=${APP_ID} -Dapp.deploy.version=${APP_VERSION} appengine:deploy
-
+  
+notifications:
+  slack: desaintsteban:OBrvC8hmnZXdW1HTa0QOE5tM
