@@ -8,7 +8,7 @@
  * @restrict E
  * */
 
-var WishCard = function ($scope, envieService) {
+var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
     var w = this;
 
     w.add = false;
@@ -200,6 +200,16 @@ var WishCard = function ($scope, envieService) {
         w.archive = false;
     };
 
+    w.copyWish = function() {
+        var wishCopy = angular.copy(w.wish);
+        delete wishCopy.id;
+        wishCopy.usertake = [];
+        wishCopy.ownerUser = w.owner;
+        UtilitiesServices.setData(wishCopy);
+        $location.url("/addWish");
+    };
+
+
     w.doArchive = function() {
         envieService.archive({name:w.listName, id: w.wish.id}, function() {
             w.onDelete({wish: w.wish});
@@ -215,7 +225,7 @@ angular.module('ListeEnviesDirectives')
             templateUrl: 'templates/directive/WishCard.html',
             bindToController: true,
             controllerAs: 'w',
-            controller: ['$scope', 'envieService', WishCard],
+            controller: ['$scope', 'envieService', '$location', 'UtilitiesServices', WishCard],
             scope: {
                 'wish': '=',
                 'ownerList': '=',

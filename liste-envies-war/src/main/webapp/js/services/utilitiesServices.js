@@ -2,8 +2,8 @@ angular
 	.module('service')
     .service('UtilitiesServices', UtilitiesServices);
 
-UtilitiesServices.$inject = ['listEnviesService', '$q'];
-    function UtilitiesServices(listEnviesService, $q){
+UtilitiesServices.$inject = ['listEnviesService', '$q', '$http'];
+    function UtilitiesServices(listEnviesService, $q, $http){
         var obj = {};
         var promise = false;
         var list = false;
@@ -20,6 +20,33 @@ UtilitiesServices.$inject = ['listEnviesService', '$q'];
 
                 return promise.promise;
             }
+        };
+
+        obj.findInfoFromurl = function (url) {
+            var req = {
+                method: 'GET',
+                url: 'https://mercury.postlight.com/parser?url='+url,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': '0LYlvHDUtTj7ZNzPOm8FGKBmLEhTuASqNj1zwdxI'
+                }
+            };
+            return $http(req).then(function(data){
+                return data.data;
+            }, function(error){
+                return error;
+            });
+        };
+
+        // Send data by url
+
+        var SavedData = null;
+        obj.setData = function (data) {
+            SavedData = data;
+        };
+
+        obj.getData = function () {
+            return SavedData;
         };
 
         

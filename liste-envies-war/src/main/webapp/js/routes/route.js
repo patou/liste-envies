@@ -10,27 +10,14 @@ app.config(function ($routeProvider) {
             templateUrl: "templates/addWish.html",
             name: 'addWish',
             controller: "AddWishCtrl",
-            resolve: { pageInfo: ['$http', '$location', '$q', function ($http, $location, $q) {
+            resolve: { pageInfo: ['$http', '$location', '$q', 'UtilitiesServices', function ($http, $location, $q, UtilitiesServices) {
                 var searchObject = $location.search();
                 console.log('resolve :', searchObject);
-                var req = {
-                    method: 'GET',
-                    url: 'https://mercury.postlight.com/parser?url='+searchObject.url,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-api-key': '0LYlvHDUtTj7ZNzPOm8FGKBmLEhTuASqNj1zwdxI'
-                    }
-                };
+                if (searchObject.url) {
+                    return UtilitiesServices.findInfoFromurl(searchObject.url);
+                }
+                return $q.resolve(null);
 
-                var deferred = $q.defer();
-
-                $http(req).then(function(data){
-                    deferred.resolve(data.data);
-                }, function(error){
-                    deferred.reject(error);
-                });
-
-                return deferred.promise;
             }]},
             controllerAs: "vm"
         }).when("/:name", {
