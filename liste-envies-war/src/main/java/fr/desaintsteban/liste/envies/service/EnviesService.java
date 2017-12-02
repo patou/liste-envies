@@ -27,6 +27,18 @@ public final class EnviesService {
         return list;
     }
 
+    public static List<Envy> archived(AppUser user) {
+        Objectify ofy = OfyService.ofy();
+        List<Envy> list = ofy.load().type(Envy.class).list(); // todo filter by user name and archived
+        return list;
+    }
+
+    public static List<Envy> gived(AppUser user) {
+        Objectify ofy = OfyService.ofy();
+        List<Envy> list = ofy.load().type(Envy.class).list(); // todo filter by user taken
+        return list;
+    }
+
     public static List<Envy> listAll() {
         List<Envy> list = OfyService.ofy().load().type(Envy.class).list();
         //On supprime toujours celui qui a donner le cadeaux

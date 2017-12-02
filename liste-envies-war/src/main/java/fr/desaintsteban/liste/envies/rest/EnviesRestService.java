@@ -75,6 +75,8 @@ public class EnviesRestService {
         return null;
     }
 
+
+
     @POST
     public EnvyDto addEnvie(@PathParam("name") String name, EnvyDto envie) {
         final AppUser user = ServletUtils.getUserAuthenticated();

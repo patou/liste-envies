@@ -20,6 +20,37 @@ app.config(function ($routeProvider) {
 
             }]},
             controllerAs: "vm"
+        }).when("/archive", {
+            templateUrl: "templates/wishesList.html",
+            name: 'archive',
+            controller: "WichesCtrl",
+            resolve: { wishes: ['appUserService', 'AuthService', function (appUserService, AuthService) {
+
+                    const user = AuthService.getUser();
+                    if (user) {
+                        return appUserService.archived({email: user.email});
+                    }
+                    return {};
+            }], type: [function () {
+                return 'ARCHIVE';
+            }]},
+            controllerAs: "vm"
+        }).when("/given", {
+            templateUrl: "templates/wishesList.html",
+            name: 'given',
+            controller: "WichesCtrl",
+        resolve: { wishes: ['appUserService', 'AuthService',function (appUserService, AuthService) {
+
+                const user = AuthService.getUser();
+                if (user) {
+                    return appUserService.given({email: user.email});
+                }
+                return {};
+
+            }], type: [function () {
+                    return 'GIVEN';
+                }]},
+            controllerAs: "vm"
         }).when("/:name", {
             templateUrl: "templates/wishList.html",
             name: 'Envie',
