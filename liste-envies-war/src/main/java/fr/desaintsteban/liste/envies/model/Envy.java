@@ -2,6 +2,7 @@ package fr.desaintsteban.liste.envies.model;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.*;
+import com.googlecode.objectify.condition.IfNotNull;
 import fr.desaintsteban.liste.envies.dto.EnvyDto;
 import fr.desaintsteban.liste.envies.dto.NoteDto;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
@@ -57,6 +58,8 @@ public class Envy {
     private List<Link> urls;
     @Index
     private List<String> userTake;
+    @Index(IfNotNull.class)
+    private List<String> userReceived;
 
     @Embedded
     private List<Note> notes;
@@ -266,6 +269,14 @@ public class Envy {
         if (userTake != null) {
             this.userTake.remove(userTake);
         }
+    }
+
+    public List<String> getUserReceived() {
+        return userReceived;
+    }
+
+    public void setUserReceived(List<String> userReceived) {
+        this.userReceived = userReceived;
     }
 
     public void addNote(String owner, String email, String text) {

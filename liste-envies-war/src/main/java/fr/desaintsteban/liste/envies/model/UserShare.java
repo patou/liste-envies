@@ -32,6 +32,10 @@ public class UserShare {
         return type;
     }
 
+    public boolean isOwner() {
+        return type == UserShareType.OWNER;
+    }
+
     public void setType(UserShareType type) {
         this.type = type;
     }

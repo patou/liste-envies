@@ -66,6 +66,15 @@
 		<url-pattern>/logout</url-pattern>
 	</servlet-mapping>
 
+    <servlet>
+        <servlet-name>MigrateServlet</servlet-name>
+        <servlet-class>fr.desaintsteban.liste.envies.servlet.MigrateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MigrateServlet</servlet-name>
+        <url-pattern>/admin/migrate</url-pattern>
+    </servlet-mapping>
+
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>App</web-resource-name>

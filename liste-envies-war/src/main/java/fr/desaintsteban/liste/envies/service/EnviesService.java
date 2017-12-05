@@ -4,15 +4,13 @@ import com.googlecode.objectify.*;
 import com.googlecode.objectify.cmd.Saver;
 import fr.desaintsteban.liste.envies.dto.EnvyDto;
 import fr.desaintsteban.liste.envies.dto.NoteDto;
-import fr.desaintsteban.liste.envies.model.AppUser;
-import fr.desaintsteban.liste.envies.model.Envy;
-import fr.desaintsteban.liste.envies.model.ListEnvies;
-import fr.desaintsteban.liste.envies.model.NotificationType;
+import fr.desaintsteban.liste.envies.model.*;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class EnviesService {
     private EnviesService() {}
@@ -29,13 +27,13 @@ public final class EnviesService {
 
     public static List<Envy> archived(AppUser user) {
         Objectify ofy = OfyService.ofy();
-        List<Envy> list = ofy.load().type(Envy.class).list(); // todo filter by user name and archived
+        List<Envy> list = ofy.load().type(Envy.class).filter("userReceived =", user.getEmail()).list(); // todo filter by user name and archived
         return list;
     }
 
     public static List<Envy> gived(AppUser user) {
         Objectify ofy = OfyService.ofy();
-        List<Envy> list = ofy.load().type(Envy.class).list(); // todo filter by user taken
+        List<Envy> list = ofy.load().type(Envy.class).filter("userTake =", EncodeUtils.encode(user.getEmail())).list(); // todo filter by user taken
         return list;
     }
 
@@ -90,6 +88,11 @@ public final class EnviesService {
                 Saver saver = ofy.save();
                 saved.setArchived(true);
                 saved.setDeleted(false);
+                saved.setUserReceived(listEnvies.getUsers()
+                        .stream()
+                        .filter(UserShare::isOwner)
+                        .map(UserShare::getEmail)
+                        .collect(Collectors.toList()));
                 saver.entity(saved);
 
                 NotificationsService.notify(NotificationType.ARCHIVE_WISH, user, listEnvies, true);
