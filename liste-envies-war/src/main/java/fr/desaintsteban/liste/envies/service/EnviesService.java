@@ -27,13 +27,13 @@ public final class EnviesService {
 
     public static List<Envy> archived(AppUser user) {
         Objectify ofy = OfyService.ofy();
-        List<Envy> list = ofy.load().type(Envy.class).filter("userReceived =", user.getEmail()).list(); // todo filter by user name and archived
+        List<Envy> list = ofy.load().type(Envy.class).filter("userReceived =", user.getEmail()).list();
         return list;
     }
 
     public static List<Envy> gived(AppUser user) {
         Objectify ofy = OfyService.ofy();
-        List<Envy> list = ofy.load().type(Envy.class).filter("userTake =", EncodeUtils.encode(user.getEmail())).list(); // todo filter by user taken
+        List<Envy> list = ofy.load().type(Envy.class).filter("userTake =", EncodeUtils.encode(user.getEmail())).list();
         return list;
     }
 
