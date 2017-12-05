@@ -1,16 +1,13 @@
 package fr.desaintsteban.liste.envies.service;
 
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.Work;
 import com.googlecode.objectify.cmd.QueryKeys;
 import com.googlecode.objectify.cmd.Saver;
 import fr.desaintsteban.liste.envies.model.AppUser;
-import fr.desaintsteban.liste.envies.model.ListEnvies;
+import fr.desaintsteban.liste.envies.model.WishList;
 import fr.desaintsteban.liste.envies.model.UserShare;
-import fr.desaintsteban.liste.envies.model.UserShareType;
 import fr.desaintsteban.liste.envies.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -21,29 +18,29 @@ public final class ListEnviesService {
 
     private ListEnviesService() {}
 
-	public static List<ListEnvies> list() {
-		List<ListEnvies> list = OfyService.ofy().load().type(ListEnvies.class).list();
+	public static List<WishList> list() {
+		List<WishList> list = OfyService.ofy().load().type(WishList.class).list();
 		return list;
 	}
 
-	public static List<ListEnvies> list(String email) {
-		List<ListEnvies> list = OfyService.ofy().load().type(ListEnvies.class).filter("users.email =", email).list();
+	public static List<WishList> list(String email) {
+		List<WishList> list = OfyService.ofy().load().type(WishList.class).filter("users.email =", email).list();
 		return list;
 	}
 
-	public static Map<String, ListEnvies> loadAll(List<String> names) {
-    	return OfyService.ofy().load().type(ListEnvies.class).ids(names);
+	public static Map<String, WishList> loadAll(List<String> names) {
+    	return OfyService.ofy().load().type(WishList.class).ids(names);
 	}
 
 	public static void delete(String email) {
-		OfyService.ofy().delete().key(Key.create(ListEnvies.class, email)).now();
+		OfyService.ofy().delete().key(Key.create(WishList.class, email)).now();
 	}
 
-	public static ListEnvies get(String email) {
-		return OfyService.ofy().load().key(Key.create(ListEnvies.class, email)).now();
+	public static WishList get(String email) {
+		return OfyService.ofy().load().key(Key.create(WishList.class, email)).now();
 	}
 
-	public static ListEnvies createOrUpdate(final AppUser user, final ListEnvies item) {
+	public static WishList createOrUpdate(final AppUser user, final WishList item) {
 		if (StringUtils.isNullOrEmpty(item.getTitle())) {
 			String title = "Liste de " + user.getName();
 			item.setTitle(title);
@@ -52,7 +49,7 @@ public final class ListEnviesService {
 			String name = StringUtils.toValidIdName(item.getTitle());
 			int i = 0;
 			String prefix = name;
-			while (OfyService.ofy().load().key(Key.create(ListEnvies.class, name)).now() != null) {
+			while (OfyService.ofy().load().key(Key.create(WishList.class, name)).now() != null) {
 				name = prefix + '-' + i;
 				i++;
 			}
@@ -60,7 +57,7 @@ public final class ListEnviesService {
 		}
 
 		final List<String> userToEmail = item.getUsers().stream().map(UserShare::getEmail).collect(Collectors.toList());
-		ListEnvies updateElement = OfyService.ofy().load().key(Key.create(ListEnvies.class, item.getName())).now();
+		WishList updateElement = OfyService.ofy().load().key(Key.create(WishList.class, item.getName())).now();
 		if (updateElement != null) { // Update
 			updateElement.getUsers().stream()
 					.map(UserShare::getEmail)
@@ -75,8 +72,8 @@ public final class ListEnviesService {
         });
 	}
 
-	public static List<Key<ListEnvies>> userListKeys(String email) {
-		QueryKeys<ListEnvies> keys = OfyService.ofy().load().type(ListEnvies.class)/*.filter("users.type =", UserShareType.SHARED)*/.filter("users.email =", email).keys()/*.list()*/;
+	public static List<Key<WishList>> userListKeys(String email) {
+		QueryKeys<WishList> keys = OfyService.ofy().load().type(WishList.class)/*.filter("users.type =", UserShareType.SHARED)*/.filter("users.email =", email).keys()/*.list()*/;
 		return keys.list();
 	}
 }

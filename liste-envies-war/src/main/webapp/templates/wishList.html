@@ -7,11 +7,11 @@
                 <h1 class="page-header">
                     <form class="form-inline" ng-if="vm.editTitle">
                         <div class="form-group">
-                            <input type="text" class="form-control title-edit" ng-model="vm.listEnvies.title"
+                            <input type="text" class="form-control title-edit" ng-model="vm.wishList.title"
                                    placeholder="@">
                         </div>
                         <button type="submit" class="btn btn-success btn-just-icon"
-                                ng-click="vm.saveListEnvies(vm.listEnvies);"
+                                ng-click="vm.saveListEnvies(vm.wishList);"
                                 data-toggle="tooltip" data-placement="bottom"
                                 translate-attr-title=".BUTTON_EDIT_END"
                         >
@@ -20,19 +20,19 @@
                         </button>
                     </form>
                     <span class="title" ng-if="!vm.editTitle">
-                    {{vm.listEnvies.title}}
+                    {{vm.wishList.title}}
                     <button type="button" class="btn btn-just-icon btn-warning" tooltip="Editer le titre de la liste"
-                            ng-if="vm.listEnvies.owner" ng-click="vm.editTitle = true"
+                            ng-if="vm.wishList.owner" ng-click="vm.editTitle = true"
                             translate-attr-title=".BUTTON_EDIT_LIST"
                         >
                         <span class="fa fa-edit" aria-hidden="true"></span><span class="sr-only" translate="">.BUTTON_EDIT_LIST</span>
                     </button>
-                    <small> de <span class="owners" ng-repeat="owner in vm.listEnvies.owners"> <i
+                    <small> de <span class="owners" ng-repeat="owner in vm.wishList.owners"> <i
                             class="fa fa-user"></i> {{owner.name}} ({{owner.email}})<span
                             ng-if="!$last">, </span> </span></small>
                 </span>
                     <button type="button" class="btn pull-right btn-just-icon btn-warning" data-toggle="modal"
-                            data-target="#share-list" tooltip="Partager votre liste" ng-if="vm.listEnvies.owner">
+                            data-target="#share-list" tooltip="Partager votre liste" ng-if="vm.wishList.owner">
                         <span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Partager</span>
                     </button>
                 </h1>
@@ -48,7 +48,7 @@
                     </div>
                     <div class="modal-body">
                         <ul class="list-group">
-                            <li class="list-group-item" ng-repeat="user in vm.listEnvies.users"
+                            <li class="list-group-item" ng-repeat="user in vm.wishList.users"
                                 ng-class="{active:user.type == 'OWNER'}">
                                 <i class="fa fa-user btn btn-simple btn-sm  btn-just-icon btn-gray"
                                    aria-hidden="true"></i>{{user.email}}
@@ -88,16 +88,16 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-gray btn-bordered-danger" data-dismiss="modal">Fermer
                         </button>
-                        <button type="submit" class="btn btn-primary" ng-click="vm.saveListEnvies(vm.listEnvies)">
+                        <button type="submit" class="btn btn-primary" ng-click="vm.saveListEnvies(vm.wishList)">
                             Enregistrer
                         </button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal --><!--row row-fluid-->
-        <p ng-bind-html="vm.listEnvies.description" ng-if="!vm.listEnvies.owner"></p>
-        <summernote airMode ng-model="vm.listEnvies.description" ng-if="vm.listEnvies.owner" config="vm.editorOptions"
-                    ng-change="vm.saveListEnvies(vm.listEnvies);"
+        <p ng-bind-html="vm.wishList.description" ng-if="!vm.wishList.owner"></p>
+        <summernote airMode ng-model="vm.wishList.description" ng-if="vm.wishList.owner" config="vm.editorOptions"
+                    ng-change="vm.saveListEnvies(vm.wishList);"
                     ng-model-options="{ updateOn: 'default', debounce: 5000 }" lang="fr-FR"></summernote>
 
         <div class="order-filter row row-fluid well-sm">
@@ -107,7 +107,7 @@
                     <div class="btn-group" data-toggle="buttons">
 
 
-                        <div ng-if="(vm.listEnvies.owner && filter.owner) || (!vm.listEnvies.owner && filter.shared)"
+                        <div ng-if="(vm.wishList.owner && filter.owner) || (!vm.wishList.owner && filter.shared)"
                              class="btn-group" type="button" class="btn" ng-repeat="filter in vm.filterProperties">
                             <button type="button" class="btn btn-sm {{filter.class}}"
                                     ng-class="{'dropdown-toggle' : filter.child}" data-toggle="dropdown"
@@ -159,7 +159,7 @@
                     <label class="control-label">Trier</label><br/>
                     <div class="btn-group order-btn btn-group-sm" data-toggle="buttons">
                         <!-- Shared -->
-                        <button ng-if="!vm.listEnvies.owner" type="button" class="btn btn-link"
+                        <button ng-if="!vm.wishList.owner" type="button" class="btn btn-link"
                                 ng-class="{dropup:order.reverse}" ng-click="vm.sortList(order);"
                                 ng-repeat="order in vm.orderProperties">
                             {{order.label}}
@@ -167,7 +167,7 @@
                         </button>
 
                         <!-- Owners -->
-                        <button ng-if="vm.listEnvies.owner" type="button" class="btn btn-link"
+                        <button ng-if="vm.wishList.owner" type="button" class="btn btn-link"
                                 ng-class="{dropup:order.reverse}" ng-click="vm.sortList(order);"
                                 ng-repeat="order in vm.orderPropertiesOwners">
                             {{order.label}}
@@ -202,7 +202,7 @@
                    class="envie-card col-xs-12 col-sm-6 col-md-4 col-lg-4"
                    ng-repeat="envie in vm.envies | filter:vm.filter | filter:vm.search | orderBy:vm.order:vm.reverse"
                    wish="envie"
-                   owner-list="vm.listEnvies.owner"
+                   owner-list="vm.wishList.owner"
                    user="vm.main.user"
                    parent-controller="vm"
                    list-name = "vm.name"
@@ -215,7 +215,7 @@
 
         <wish-card masonry-tile
                    wish="vm.newWish"
-                   owner-list="vm.listEnvies.owner"
+                   owner-list="vm.wishList.owner"
                    user="vm.main.user"
                    parent-controller="vm"
                    list-name = "vm.name"

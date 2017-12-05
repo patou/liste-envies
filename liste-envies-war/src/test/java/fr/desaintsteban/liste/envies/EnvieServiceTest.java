@@ -12,7 +12,7 @@ import fr.desaintsteban.liste.envies.dto.EnvyDto;
 import fr.desaintsteban.liste.envies.dto.NoteDto;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.Envy;
-import fr.desaintsteban.liste.envies.model.ListEnvies;
+import fr.desaintsteban.liste.envies.model.WishList;
 import fr.desaintsteban.liste.envies.model.Notification;
 import fr.desaintsteban.liste.envies.service.AppUserService;
 import fr.desaintsteban.liste.envies.service.EnviesService;
@@ -40,8 +40,8 @@ public class EnvieServiceTest {
     private Long livreId;
     private Long dvdId;
     private AppUser emmanuel;
-    private ListEnvies listePatrice;
-    private ListEnvies listeEmmanuel;
+    private WishList listePatrice;
+    private WishList listeEmmanuel;
     private AppUser clemence;
 
     @BeforeClass
@@ -58,7 +58,7 @@ public class EnvieServiceTest {
         });
         ObjectifyService.factory().register(AppUser.class);
         ObjectifyService.factory().register(Envy.class);
-        ObjectifyService.factory().register(ListEnvies.class);
+        ObjectifyService.factory().register(WishList.class);
         ObjectifyService.factory().register(Notification.class);
     }
 
@@ -71,8 +71,8 @@ public class EnvieServiceTest {
         emmanuel = new AppUser("emmanuel@desaintsteban.fr", "Emmanuel");
         AppUserService.createOrUpdate(emmanuel);
         clemence = AppUserService.createOrUpdate(new AppUser("clemence@desaintsteban.fr", "Clemence"));
-        listePatrice = ListEnviesService.createOrUpdate(patrice, new ListEnvies("liste-patrice", "Liste de Patrice", patrice.getEmail(), emmanuel.getEmail()));
-        listeEmmanuel = ListEnviesService.createOrUpdate(emmanuel, new ListEnvies("liste-emmanuel", "Liste d'Emmanuel", emmanuel.getEmail(), patrice.getEmail(), clemence.getEmail()));
+        listePatrice = ListEnviesService.createOrUpdate(patrice, new WishList("liste-patrice", "Liste de Patrice", patrice.getEmail(), emmanuel.getEmail()));
+        listeEmmanuel = ListEnviesService.createOrUpdate(emmanuel, new WishList("liste-emmanuel", "Liste d'Emmanuel", emmanuel.getEmail(), patrice.getEmail(), clemence.getEmail()));
 
         EnvyDto itemLivre = EnviesService.createOrUpdate(patrice, "liste-patrice", new Envy(listePatrice, "Livre"));
         livreId = itemLivre.getId();

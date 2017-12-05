@@ -1,16 +1,13 @@
 package fr.desaintsteban.liste.envies.rest;
 
-import com.googlecode.objectify.Key;
 import fr.desaintsteban.liste.envies.dto.AppUserDto;
 import fr.desaintsteban.liste.envies.dto.EnvyDto;
 import fr.desaintsteban.liste.envies.dto.NotificationDto;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.Envy;
-import fr.desaintsteban.liste.envies.model.ListEnvies;
 import fr.desaintsteban.liste.envies.model.Notification;
 import fr.desaintsteban.liste.envies.service.AppUserService;
 import fr.desaintsteban.liste.envies.service.EnviesService;
-import fr.desaintsteban.liste.envies.service.ListEnviesService;
 import fr.desaintsteban.liste.envies.service.NotificationsService;
 import fr.desaintsteban.liste.envies.util.ServletUtils;
 

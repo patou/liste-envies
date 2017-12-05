@@ -69,7 +69,7 @@
                     <label class="control-label">Trier</label><br/>
                     <div class="btn-group order-btn btn-group-sm" data-toggle="buttons">
                         <!-- Shared -->
-                        <button ng-if="!vm.listEnvies.owner" type="button" class="btn btn-link"
+                        <button ng-if="!vm.wishList.owner" type="button" class="btn btn-link"
                                 ng-class="{dropup:order.reverse}" ng-click="vm.sortList(order);"
                                 ng-repeat="order in vm.orderProperties">
                             {{order.label}}
@@ -77,7 +77,7 @@
                         </button>
 
                         <!-- Owners -->
-                        <button ng-if="vm.listEnvies.owner" type="button" class="btn btn-link"
+                        <button ng-if="vm.wishList.owner" type="button" class="btn btn-link"
                                 ng-class="{dropup:order.reverse}" ng-click="vm.sortList(order);"
                                 ng-repeat="order in vm.orderPropertiesOwners">
                             {{order.label}}

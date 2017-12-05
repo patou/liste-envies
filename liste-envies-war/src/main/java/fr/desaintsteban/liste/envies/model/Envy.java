@@ -25,7 +25,7 @@ public class Envy {
 
     @Parent
     @JsonIgnore
-    Key<ListEnvies> list;
+    Key<WishList> list;
     @Id
     private Long id;
 
@@ -70,7 +70,7 @@ public class Envy {
         this.rating = 0;
     }
 
-    public Envy(ListEnvies list, String label) {
+    public Envy(WishList list, String label) {
         this.list = Key.create(list);
         this.label = label;
         this.notes = new ArrayList<>();
@@ -131,11 +131,11 @@ public class Envy {
         return envie;
     }
 
-    public Key<ListEnvies> getList() {
+    public Key<WishList> getList() {
         return list;
     }
 
-    public void setList(Key<ListEnvies> owner) {
+    public void setList(Key<WishList> owner) {
         this.list = owner;
     }
 

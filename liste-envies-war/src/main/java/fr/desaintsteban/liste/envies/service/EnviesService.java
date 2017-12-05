@@ -17,11 +17,11 @@ public final class EnviesService {
     
     public static List<Envy> list(AppUser user, String name) {
         Objectify ofy = OfyService.ofy();
-        Key<ListEnvies> key = Key.create(ListEnvies.class, name);
-        LoadResult<ListEnvies> loadResult = ofy.load().key(key); //Chargement asynchrone
+        Key<WishList> key = Key.create(WishList.class, name);
+        LoadResult<WishList> loadResult = ofy.load().key(key); //Chargement asynchrone
         List<Envy> list = ofy.load().type(Envy.class).ancestor(key).list();
-        ListEnvies listEnvies = loadResult.now();
-        removeUserTake(user, listEnvies, list);
+        WishList wishList = loadResult.now();
+        removeUserTake(user, wishList, list);
         return list;
     }
 
@@ -46,28 +46,28 @@ public final class EnviesService {
 
     public static List<Envy> list(AppUser user, String name, String libelle) {
         Objectify ofy = OfyService.ofy();
-        Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
-        LoadResult<ListEnvies> loadResult = ofy.load().key(parent); //Chargement asynchrone
+        Key<WishList> parent = Key.create(WishList.class, name);
+        LoadResult<WishList> loadResult = ofy.load().key(parent); //Chargement asynchrone
         List<Envy> list = ofy.load().type(Envy.class).ancestor(parent).filter("label >=", libelle).filter("label <", libelle + "\uFFFD").list();
-        ListEnvies listEnvies = loadResult.now();
-        removeUserTake(user, listEnvies, list);
+        WishList wishList = loadResult.now();
+        removeUserTake(user, wishList, list);
         return list;
     }
     
     public static void delete(final AppUser user, final String name, final Long itemid) {
         Objectify ofy = OfyService.ofy();
-        final Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
-        final ListEnvies listEnvies = ofy.load().key(parent).now();
+        final Key<WishList> parent = Key.create(WishList.class, name);
+        final WishList wishList = ofy.load().key(parent).now();
         OfyService.ofy().transact(new VoidWork() {
             @Override
             public void vrun() {
                 Objectify ofy = OfyService.ofy();
                 Envy saved = ofy.load().key(Key.create(parent, Envy.class, itemid)).now();
-                if (saved.hasUserTaken() && listEnvies.containsOwner(saved.getOwner())) {
+                if (saved.hasUserTaken() && wishList.containsOwner(saved.getOwner())) {
                     Saver saver = ofy.save();
                     saved.setDeleted(true);
                     saver.entity(saved);
-                    NotificationsService.notify(NotificationType.DELETE_WISH, user, listEnvies, true, saved.getLabel());
+                    NotificationsService.notify(NotificationType.DELETE_WISH, user, wishList, true, saved.getLabel());
                 }
                 else {
                     ofy.delete().key(Key.create(parent, Envy.class, itemid)).now();
@@ -78,8 +78,8 @@ public final class EnviesService {
 
     public static void archive(final AppUser user, final String name, final Long itemid) {
         Objectify ofy = OfyService.ofy();
-        final Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
-        final ListEnvies listEnvies = ofy.load().key(parent).now();
+        final Key<WishList> parent = Key.create(WishList.class, name);
+        final WishList wishList = ofy.load().key(parent).now();
         OfyService.ofy().transact(new VoidWork() {
             @Override
             public void vrun() {
@@ -95,7 +95,7 @@ public final class EnviesService {
                         .collect(Collectors.toList()));
                 saver.entity(saved);
 
-                NotificationsService.notify(NotificationType.ARCHIVE_WISH, user, listEnvies, true);
+                NotificationsService.notify(NotificationType.ARCHIVE_WISH, user, wishList, true);
 
             }
         });
@@ -103,11 +103,11 @@ public final class EnviesService {
 
     public static Envy get(AppUser user, String name, Long itemid) {
         Objectify ofy = OfyService.ofy();
-        Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
-        LoadResult<ListEnvies> loadResult = ofy.load().key(parent); //Chargement asynchrone
+        Key<WishList> parent = Key.create(WishList.class, name);
+        LoadResult<WishList> loadResult = ofy.load().key(parent); //Chargement asynchrone
         Envy envie = OfyService.ofy().load().key(Key.create(parent, Envy.class, itemid)).now();
-        ListEnvies listEnvies = loadResult.now();
-        if (listEnvies != null && listEnvies.containsOwner(user.getEmail())) {
+        WishList wishList = loadResult.now();
+        if (wishList != null && wishList.containsOwner(user.getEmail())) {
             envie.setUserTake(null);
             envie.setNotes(null);
         }
@@ -117,9 +117,9 @@ public final class EnviesService {
 
     public static EnvyDto given(final AppUser user, final String name, final Long itemId) {
         Objectify ofy = OfyService.ofy();
-        final Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
-        final ListEnvies listEnvies = ofy.load().key(parent).now();
-        if (!listEnvies.containsOwner(user.getEmail()) && listEnvies.containsUser(user.getEmail())) {
+        final Key<WishList> parent = Key.create(WishList.class, name);
+        final WishList wishList = ofy.load().key(parent).now();
+        if (!wishList.containsOwner(user.getEmail()) && wishList.containsUser(user.getEmail())) {
             return OfyService.ofy().transact(new Work<EnvyDto>() {
                 @Override
                 public EnvyDto run() {
@@ -128,7 +128,7 @@ public final class EnviesService {
                     Saver saver = ofy.save();
                     saved.addUserTake(EncodeUtils.encode(user.getEmail()));
                     saver.entity(saved);
-                    NotificationsService.notify(NotificationType.GIVEN_WISH, user, listEnvies, true, saved.getLabel());
+                    NotificationsService.notify(NotificationType.GIVEN_WISH, user, wishList, true, saved.getLabel());
                     return saved.toDto();
                 }
             });
@@ -146,9 +146,9 @@ public final class EnviesService {
      */
     public static EnvyDto addNote(final AppUser user, final Long itemId, final String name, final NoteDto note) {
         Objectify ofy = OfyService.ofy();
-        final Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
-        final ListEnvies listEnvies = ofy.load().key(parent).now();
-        if (listEnvies != null && !listEnvies.containsOwner(user.getEmail()) && listEnvies.containsUser(user.getEmail())) {
+        final Key<WishList> parent = Key.create(WishList.class, name);
+        final WishList wishList = ofy.load().key(parent).now();
+        if (wishList != null && !wishList.containsOwner(user.getEmail()) && wishList.containsUser(user.getEmail())) {
             return OfyService.ofy().transact(new Work<EnvyDto>() {
                 @Override
                 public EnvyDto run() {
@@ -158,7 +158,7 @@ public final class EnviesService {
                     saved.addNote(user.getName(), user.getEmail(), note.getText());
                     saver.entity(saved);
 
-                    NotificationsService.notify(NotificationType.ADD_NOTE, user, listEnvies, true, note.getText());
+                    NotificationsService.notify(NotificationType.ADD_NOTE, user, wishList, true, note.getText());
 
                     return saved.toDto();
                 }
@@ -177,9 +177,9 @@ public final class EnviesService {
      */
     public static EnvyDto cancel(final AppUser user, String name, final Long itemId) {
         Objectify ofy = OfyService.ofy();
-        final Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
-        ListEnvies listEnvies = ofy.load().key(parent).now();
-        if (listEnvies != null && !listEnvies.containsOwner(user.getEmail()) && listEnvies.containsUser(user.getEmail())) {
+        final Key<WishList> parent = Key.create(WishList.class, name);
+        WishList wishList = ofy.load().key(parent).now();
+        if (wishList != null && !wishList.containsOwner(user.getEmail()) && wishList.containsUser(user.getEmail())) {
             return OfyService.ofy().transact(() -> {
             Objectify ofy1 = OfyService.ofy();
             Envy saved = ofy1.load().key(Key.create(parent, Envy.class, itemId)).now();
@@ -201,9 +201,9 @@ public final class EnviesService {
      */
     public static EnvyDto createOrUpdate(final AppUser user, final String name, final Envy item) {
         Objectify ofy = OfyService.ofy();
-        final Key<ListEnvies> parent = Key.create(ListEnvies.class, name);
-        final ListEnvies listEnvies = ofy.load().key(parent).now();
-        if (listEnvies != null) {
+        final Key<WishList> parent = Key.create(WishList.class, name);
+        final WishList wishList = ofy.load().key(parent).now();
+        if (wishList != null) {
             return OfyService.ofy().transact(() -> {
             Objectify ofy1 = OfyService.ofy();
             Saver saver = ofy1.save();
@@ -219,12 +219,12 @@ public final class EnviesService {
             if (item.getOwner() == null) {
                 item.setOwner(user.getEmail());
             }
-            boolean containsOwner = listEnvies.containsOwner(item.getOwner());
+            boolean containsOwner = wishList.containsOwner(item.getOwner());
             item.setSuggest(!containsOwner);
             item.setDate(new Date());
             Key<Envy> key = saver.entity(item).now();
 
-            NotificationsService.notify((add)? NotificationType.ADD_WISH : NotificationType.UPDATE_WISH, user, listEnvies, !containsOwner, item.getLabel());
+            NotificationsService.notify((add)? NotificationType.ADD_WISH : NotificationType.UPDATE_WISH, user, wishList, !containsOwner, item.getLabel());
 
             return item.toDto(containsOwner);
             });
@@ -235,10 +235,10 @@ public final class EnviesService {
     /**
      * Permerttre de supprimer les infos sensibles à cacher au propriétaire par exemple.
      * @param user utilisateur courant
-     * @param listEnvies La liste entière
+     * @param wishList La liste entière
      * @param list liste des envies.
      */
-    private static void removeUserTake(AppUser user, ListEnvies listEnvies, List<Envy> list) {
+    private static void removeUserTake(AppUser user, WishList wishList, List<Envy> list) {
         List<Envy> toRemove = new ArrayList<>();
         //Liste globale
 //Si l'utilisateur courant est le propriétaire des envies, on efface le nom de qui lui a offert un cadeau.
@@ -246,11 +246,11 @@ public final class EnviesService {
         list.forEach(envy -> {
             if (envy.getArchived()) {
                 toRemove.add(envy);
-            } else if (listEnvies == null || user == null) { //Liste globale
+            } else if (wishList == null || user == null) { //Liste globale
                 envy.setUserTake(null);
                 envy.setNotes(null);
             } else {
-                if (listEnvies.containsOwner(user.getEmail())) { //Si l'utilisateur courant est le propriétaire des envies, on efface le nom de qui lui a offert un cadeau.
+                if (wishList.containsOwner(user.getEmail())) { //Si l'utilisateur courant est le propriétaire des envies, on efface le nom de qui lui a offert un cadeau.
                     envy.setUserTake(null);
                     envy.setNotes(null);
                     if (envy.getSuggest() || envy.getDeleted()) { // On supprime les envies ajoutés par d'autres personnes

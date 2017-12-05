@@ -8,6 +8,7 @@ import fr.desaintsteban.liste.envies.dto.ListEnviesDto;
 import fr.desaintsteban.liste.envies.dto.UserShareDto;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
  */
 @Cache
 @Entity()
-public class ListEnvies {
+public class WishList {
     @Id
     private String name;
 
@@ -25,10 +26,18 @@ public class ListEnvies {
     private String description;
     private List<UserShare> users;
 
-    public ListEnvies() {
+    // settings
+    private String picture; // Picture used for background, or for the list info
+    private WishListType type; // Purpose of the event for this list
+    private Date date; // date of the event
+    private WishOptionType option; // Option for display wish given, or not
+    private SharingPrivacyType privacy; // Option for sharing privacy of the all list.
+
+
+    public WishList() {
     }
 
-    public ListEnvies(String name, String title, String owner, String... shared) {
+    public WishList(String name, String title, String owner, String... shared) {
         this.name = name;
         this.title = title;
         users = new ArrayList<>();
@@ -38,7 +47,7 @@ public class ListEnvies {
         }
     }
 
-    public ListEnvies(ListEnviesDto dto) {
+    public WishList(ListEnviesDto dto) {
         setName(dto.getName());
         setTitle(dto.getTitle());
         setDescription(dto.getDescription());
@@ -113,7 +122,7 @@ public class ListEnvies {
         return (users != null) && users.stream().anyMatch(user -> user.getEmail().equals(email));
     }
 
-    public Key<ListEnvies> getKey() {
-        return Key.create(ListEnvies.class, getName());
+    public Key<WishList> getKey() {
+        return Key.create(WishList.class, getName());
     }
 }

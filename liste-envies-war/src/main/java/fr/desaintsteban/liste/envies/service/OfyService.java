@@ -10,7 +10,7 @@ public final class OfyService {
     static {
     	factory().register(AppUser.class);
         factory().register(Envy.class);
-        factory().register(ListEnvies.class);
+        factory().register(WishList.class);
         factory().register(Notification.class);
     }
 
