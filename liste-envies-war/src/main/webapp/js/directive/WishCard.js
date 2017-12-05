@@ -232,6 +232,7 @@ angular.module('ListeEnviesDirectives')
                 'user': '=',
                 'parentController': '=',
                 'listName': '=',
+                'canEdit': '=',
                 'onDelete': '&'
             }
         };

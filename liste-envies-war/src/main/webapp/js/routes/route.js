@@ -29,11 +29,10 @@ app.config(function ($routeProvider) {
         resolve: {
             wishes: ['appUserService', 'AuthService', function (appUserService, AuthService) {
 
-                const user = AuthService.getUser();
-                if (user) {
-                    return appUserService.archived({email: user.email}).$promise;
-                }
-                return [];
+                    const user = AuthService.getUser();
+
+                    const email = (user)? user.email : 'email';
+                    return appUserService.archived({email: email}).$promise;
             }], type: [function () {
                 return 'ARCHIVE';
             }]
@@ -47,11 +46,9 @@ app.config(function ($routeProvider) {
             wishes: ['appUserService', 'AuthService', function (appUserService, AuthService) {
 
                 const user = AuthService.getUser();
-                if (user) {
-                    return appUserService.given({email: user.email}).$promise;
-                }
-                return [];
 
+                const email = (user)? user.email : 'email';
+                return appUserService.given({email: email}).$promise;
             }], type: [function () {
                 return 'GIVEN';
             }]

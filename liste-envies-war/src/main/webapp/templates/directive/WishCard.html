@@ -86,7 +86,7 @@
 
                 <div class="">
                     <div title="Rating" class="text-warning col-xs-5 rating pull-left">
-                        <div star-rating ng-model="w.wish.rating" readonly=" !w.ownerList && (w.wish.owner !== w.user.email && !w.add)" on-rating-select="w.rateFunction(w.wish.rating)">
+                        <div star-rating ng-model="w.wish.rating" readonly=" !w.ownerList && (w.wish.owner !== w.user.email && !w.add) || !w.canEdit" on-rating-select="w.rateFunction(w.wish.rating)">
 
                         </div>
                     </div>
@@ -95,7 +95,7 @@
                             <i class="fa fa-euro"></i>&nbsp;&nbsp;<span class="">{{w.wish.price}}</span>
                 </div>
                 </div>
-                <div class="btn-group btn-group-sm edit-button hover-button" ng-if="!w.edit && (w.ownerList || w.wish.owner == w.user.email) " ng-hide="w.edit">
+                <div class="btn-group btn-group-sm edit-button hover-button" ng-if="!w.edit && (w.ownerList || w.wish.owner == w.user.email) && w.canEdit" ng-hide="w.edit">
                     <button type="button" class="btn btn-warning" ng-click="w.editWish()" translate=".EDIT"></button>
                     <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" translate translate-attr-title=".EDIT_OTHER_OPTIONS">
                         <span class="caret"></span>
@@ -109,7 +109,7 @@
                 </div>
                 <button type="button" class="btn btn-warning btn-sm edit-button" ng-if="w.edit && !w.add" ng-click="w.cancelWish()" translate=".CANCEL"></button>
                 <!-- -->
-                <button type="button" class="btn btn-info btn-sm  edit-button hover-button"  ng-if="!w.edit && (w.wish.owner !== w.user.email)" ng-hide="w.edit || w.ownerList"
+                <button type="button" class="btn btn-info btn-sm  edit-button hover-button"  ng-if="!w.edit && (w.wish.owner !== w.user.email) || !w.canEdit" ng-hide="w.edit || (w.ownerList && !w.canEdit)"
                         ng-click="w.copyWish()" translate=".EDIT_OPTIONS_COPY"></button>
             </div>
             <div class="footer panel-footer bottom-envie" ng-if="!w.ownerList && !w.edit">
@@ -142,7 +142,7 @@
                                 </ul>
                             </div> <!-- end chat-history -->
                         </div> <!-- end chat -->
-                        <form class="form form-add-comment">
+                        <form class="form form-add-comment" ng-if="w.canEdit">
                             <div class="row">
                                 <div class="form-group col-xs-9 comment-form">
                                 <label for="note-{{$index}}" class="control-label" translate=".ADD_COMMENTS_LABEL"></label>

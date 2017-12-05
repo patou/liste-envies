@@ -4,7 +4,7 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
     var vm = this;
     vm.name = $routeParams.name;
     vm.hasFilter = false;
-    vm.loading = true;
+    vm.loading = false;
     vm.masonry = null;
     vm.type = type;
 
@@ -43,7 +43,6 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
     vm.orderProperties = [{property:'label', label:'Titre', reverse: false, selected: false},
         {property:'date', label:'Date', reverse: true, selected: true},
         {property: orderPrice, label:'Prix', reverse: false, selected: false},
-        {property:'userTakeUsers', label:'Offert', reverse: true, selected: false},
         {property:function (value) {
             return (value.notes)? value.notes.length : -1;
         }, label:'Commentaires', reverse: true, selected: false}];
@@ -83,19 +82,7 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
     ];
 
     vm.filterProperties = [{owner: true, shared: true, expression:'true', label:'Toutes', class:'btn-white btn-bordered-primary'},
-        {owner: false, shared: true, expression:'userTake.length > 0', label:'Offerts', class:'btn-white btn-bordered-warning'},
-        {owner: false, shared: true, expression:'userTake.length == 0', label:'A offrir', class:'btn-white btn-bordered-success', child: [
-            {role: "filter", expression:'userTake.length == 0 && suggest == true', label:'Suggestion', class:'btn-white btn-bordered-info'},
-            {role: "filter", expression:'userTake.length == 0 && suggest == false ', label:'Envie', class:'btn-white btn-bordered-success'}
-        ]},
         {owner: false, shared: true, expression:'notes.length > 0', label:'Commentaires', class:'btn-white btn-bordered-danger'},
-        {owner: true, shared: false, expression:'description == null || price == null || picture == null || urls == null', label:'A compléter', class:'btn-white btn-bordered-danger', child: [
-            {role: "filter", expression:'description == null', label:'Sans texte', class:'btn-white btn-bordered-danger'},
-            {role: "filter", expression:'price == null', label:'Sans prix', class:'btn-white btn-bordered-danger'},
-            {role: "filter", expression:'picture == null', label:'Sans image', class:'btn-white btn-bordered-danger'},
-            {role: "filter", expression:'urls == null', label:'Sans lien', class:'btn-white btn-bordered-danger'}
-        ]},
-
         {owner: true, shared: true, expression:'rating > 0', label:'Note', class:'btn-white btn-bordered-upgrade', child: vm.filtersRatingList},
         {owner: true, shared: true, expression:'price != null', label:'Prix', class:'btn-white btn-bordered-gray', child: vm.filtersPriceList}
         ];

@@ -27,17 +27,8 @@
 
                     </ul>
                 </li>
-
-
             </ul>
-            <ul class="nav navbar-nav">
-                <li class=" " ng-if="main.isAuthenticated">
-                    <a class="" role="button" href="#/archive" aria-haspopup="true" aria-expanded="false"><span translate>.MENU_ARCHIVED</span></a>
-                </li>
-                <li class=" " ng-if="main.isAuthenticated">
-                    <a class="" role="button" href="#/given" aria-haspopup="true" aria-expanded="false"><span translate>.MENU_GIVEN</span></a>
-                </li>
-            </ul>
+
 
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown" ng-show="main.isAuthenticated">
@@ -80,6 +71,12 @@
                        <!-- <li>
                             <a href="javascript:;"><i class="fa fa-fw fa-user"></i> <span translate=".MY_PROFIL"></span> </a>
                         </li>-->
+                        <li class=" " ng-if="main.isAuthenticated">
+                            <a class="" role="button" href="#/archive" aria-haspopup="true" aria-expanded="false"><span translate>.MENU_ARCHIVED</span></a>
+                        </li>
+                        <li class=" " ng-if="main.isAuthenticated">
+                            <a class="" role="button" href="#/given" aria-haspopup="true" aria-expanded="false"><span translate>.MENU_GIVEN</span></a>
+                        </li>
                         <li>
                             <a ng-href="{{main.logoutPath()}}"><i class="fa fa-fw fa-power-off"></i><span translate=".LOG_OUT"></span></a>
                         </li>
