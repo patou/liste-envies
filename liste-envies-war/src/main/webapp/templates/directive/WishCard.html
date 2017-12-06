@@ -95,7 +95,7 @@
                             <i class="fa fa-euro"></i>&nbsp;&nbsp;<span class="">{{w.wish.price}}</span>
                 </div>
                 </div>
-                <div class="btn-group btn-group-sm edit-button hover-button" ng-if="!w.edit && (w.ownerList || w.wish.owner == w.user.email) && w.canEdit" ng-hide="w.edit">
+                <div class="btn-group btn-group-sm edit-button" ng-if="!w.edit && (w.ownerList || w.wish.owner == w.user.email) && w.canEdit" ng-hide="w.edit">
                     <button type="button" class="btn btn-warning" ng-click="w.editWish()" translate=".EDIT"></button>
                     <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" translate translate-attr-title=".EDIT_OTHER_OPTIONS">
                         <span class="caret"></span>
@@ -104,12 +104,11 @@
                     <ul class="dropdown-menu">
                         <li><a href="javascript:;" ng-click="w.receivedWish()" translate>.EDIT_OPTIONS_RECEIVED</a></li>
                         <li><a href="javascript:;" ng-click="w.deleteWish()" translate>.EDIT_OPTIONS_DELETE</a></li>
-                        <li><a href="javascript:;" ng-click="w.copyWish()" translate>.EDIT_OPTIONS_COPY</a></li>
                     </ul>
                 </div>
                 <button type="button" class="btn btn-warning btn-sm edit-button" ng-if="w.edit && !w.add" ng-click="w.cancelWish()" translate=".CANCEL"></button>
                 <!-- -->
-                <button type="button" class="btn btn-info btn-sm  edit-button hover-button"  ng-if="!w.edit && (w.wish.owner !== w.user.email) || !w.canEdit" ng-hide="w.edit || (w.ownerList && !w.canEdit)"
+                <button type="button" class="btn btn-info btn-sm  edit-button copy-button"  ng-if="!w.edit && !w.add"
                         ng-click="w.copyWish()" translate=".EDIT_OPTIONS_COPY"></button>
             </div>
             <div class="footer panel-footer bottom-envie" ng-if="!w.ownerList && !w.edit">

@@ -13,7 +13,6 @@ app.config(function ($routeProvider) {
             resolve: {
                 pageInfo: ['$http', '$location', '$q', 'UtilitiesServices', function ($http, $location, $q, UtilitiesServices) {
                     var searchObject = $location.search();
-                    console.log('resolve :', searchObject);
                     if (searchObject.url) {
                         return UtilitiesServices.findInfoFromurl(searchObject.url);
                     }
@@ -29,10 +28,15 @@ app.config(function ($routeProvider) {
         resolve: {
             wishes: ['appUserService', 'AuthService', function (appUserService, AuthService) {
 
-                    const user = AuthService.getUser();
+                const user = AuthService.getUser();
 
-                    const email = (user)? user.email : 'email';
-                    return appUserService.archived({email: email}).$promise;
+                if (user && user.email) {
+                    return appUserService.archived({email: user.email}).$promise;
+                } else {
+                    return AuthService.refresh().then(function (response) {
+                        return appUserService.archived({email: response.data.email}).$promise;
+                    })
+                }
             }], type: [function () {
                 return 'ARCHIVE';
             }]
@@ -47,8 +51,13 @@ app.config(function ($routeProvider) {
 
                 const user = AuthService.getUser();
 
-                const email = (user)? user.email : 'email';
-                return appUserService.given({email: email}).$promise;
+                if (user && user.email) {
+                    return appUserService.given({email: user.email}).$promise;
+                } else {
+                    return AuthService.refresh().then(function (data) {
+                        return appUserService.given({email: response.data.email}).$promise;
+                    })
+                }
             }], type: [function () {
                 return 'GIVEN';
             }]

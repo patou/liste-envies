@@ -9,12 +9,12 @@ AuthService.$inject = ['$http'];
         };
         
         obj.refresh = function() {
-	        $http.get('/user')
+	        return $http.get('/user')
 		        .success(function(data) {
-		            obj.user = eval(data);
+		            return obj.user = eval(data);
 		        })
 	        	.error(function(error) {
-	        		obj.user = null;
+	        		return obj.user = null;
 	        	});
     	};
         

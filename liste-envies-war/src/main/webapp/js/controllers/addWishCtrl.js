@@ -35,8 +35,7 @@ function AddWishCtrl(UtilitiesServices, appUserService, listEnviesService, $rout
 
 
     vm.newWish = {};
-    var savedWish = UtilitiesServices.getData();
-    console.log('Add wish :', pageInfo, savedWish);
+
     if (pageInfo) {
         //pageInfo = pageInfo.data;
         vm.newWish.external = true;
@@ -68,11 +67,11 @@ function AddWishCtrl(UtilitiesServices, appUserService, listEnviesService, $rout
         {
             vm.newWish.urls = [{url: $routeParams.url, name:null}];
         }
-    } else if (savedWish) {
+    } else if (window.wish) {
+        var savedWish = window.wish;
         savedWish.external = true;
 
         vm.newWish = savedWish;
-        UtilitiesServices.setData(null);
     }
 
     UtilitiesServices.getList().then(function (data) {

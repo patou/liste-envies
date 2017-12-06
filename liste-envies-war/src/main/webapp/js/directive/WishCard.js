@@ -205,8 +205,16 @@ var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
         delete wishCopy.id;
         wishCopy.usertake = [];
         wishCopy.ownerUser = w.owner;
-        UtilitiesServices.setData(wishCopy);
-        $location.url("/addWish");
+
+        var absUrl = $location.absUrl();
+        var url = $location.url();
+
+        function centeredPopupPosition(w, h) {var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left; var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top; var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width; var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height; var left = ((width / 2) - (w / 2)) + dualScreenLeft; var top = ((height / 2) - (h / 2)) + dualScreenTop; return [left, top]; } var width = 500, height = 700, position = centeredPopupPosition(width, height);
+
+        var popCopy = window.open(absUrl.replace(url, "/addWish"), "Copier", 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=' + width + ',height=' + height + ',top=' + position[1] + ',left=' + position[0]);
+
+        popCopy.wish = wishCopy;
+        popCopy.focus();
     };
 
 

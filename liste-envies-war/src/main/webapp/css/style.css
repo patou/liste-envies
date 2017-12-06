@@ -116,6 +116,11 @@ body {
     right: 9px;
 }
 
+button.copy-button {
+    right: inherit;
+    left: 9px;
+}
+
 
 .title .btn {
     display: none;

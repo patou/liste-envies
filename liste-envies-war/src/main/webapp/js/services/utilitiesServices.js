@@ -38,17 +38,6 @@ UtilitiesServices.$inject = ['listEnviesService', '$q', '$http'];
             });
         };
 
-        // Send data by url
 
-        var SavedData = null;
-        obj.setData = function (data) {
-            SavedData = data;
-        };
-
-        obj.getData = function () {
-            return SavedData;
-        };
-
-        
         return obj;    
     }
