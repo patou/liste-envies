@@ -54,7 +54,7 @@ app.config(function ($routeProvider) {
                 if (user && user.email) {
                     return appUserService.given({email: user.email}).$promise;
                 } else {
-                    return AuthService.refresh().then(function (data) {
+                    return AuthService.refresh().then(function (response) {
                         return appUserService.given({email: response.data.email}).$promise;
                     })
                 }

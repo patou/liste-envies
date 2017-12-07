@@ -6,7 +6,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     vm.listEnvies = loadListEnvies(vm.name);
     vm.hasFilter = false;
     vm.loading = true;
-    vm.masonry = null;
+    masonry = null;
     vm.newUser = {email: '', type:'SHARED'};
     vm.editorOptions = {
         disableDragAndDrop: true,
@@ -126,8 +126,8 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     resetForm();
     
     vm.update = function() {
-        if (vm.masonry) {
-            vm.masonry.update();
+        if (masonry) {
+            masonry.update();
         }    
     };
 
@@ -198,7 +198,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
 
         intervalUpdate = $interval(function () {
             // trigger layout
-            if (vm.masonry) vm.masonry.layout();
+            if (masonry) masonry.layout();
         }, delay, 50);
 
         if (!end) end = 500;
@@ -213,7 +213,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         if (timeoutUpdate) $timeout.cancel(timeoutUpdate);
 
         intervalUpdate = null;
-        if (vm.masonry) vm.masonry.layout();
+        if (masonry) masonry.layout();
     };
 
     vm.refreshLayout = function (delay) {
@@ -225,8 +225,8 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         if (!refresh) refresh = true;
         var $element = $("#envie"+id);
         // stamp or unstamp element to rest in place.
-        if (vm.masonry && !vm.masonry.stamps.indexOf($element) ) {
-            if (vm.masonry) vm.masonry.stamp( $element );
+        if (masonry && !masonry.stamps.indexOf($element) ) {
+            if (masonry) masonry.stamp( $element );
         }
         refresh && vm.refreshLayout(200);
 
@@ -236,8 +236,8 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         if (!refresh) refresh = true;
         var $element = $("#envie"+id);
         // stamp or unstamp element to rest in place.
-        if (vm.masonry && !vm.masonry.stamps.indexOf($element) ) {
-            if (vm.masonry) vm.masonry.unstamp($element);
+        if (masonry && !masonry.stamps.indexOf($element) ) {
+            if (masonry) masonry.unstamp($element);
         }
         refresh && vm.refreshLayout(200);
     };
@@ -409,7 +409,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
 
                 //vm.update();
             //vm.clearRefreshingLayoutAuto();
-            if (firstLoad) vm.masonry.update();
+            if (firstLoad) masonry.update();
 
             $.material.init();
         });

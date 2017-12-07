@@ -91,8 +91,10 @@ var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
         } else if (w.edit) {
             w.wish = lastWish;
             w.edit = false;
-            w.link.url = null;
-            w.link.name = null;
+            if (w.link) {
+                w.link.url = null;
+                w.link.name = null;
+            }
             w.parentController.unStampElement(w.wish.id);
         }
     };
@@ -165,6 +167,7 @@ var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
         if (w.wish.userTake.indexOf(w.user.email) < 0) {
             envieService.give({name:w.listName, id:id}, {}, function(updatedData) {
                 w.parentController.updatePropertiesWish(w.wish, updatedData);
+                w.parentController.update();
             });
         }
     };
@@ -173,31 +176,43 @@ var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
     w.cancel = function(id) {
         envieService.cancel({name:w.listName, id:id}, {}, function(updatedData) {
             w.parentController.updatePropertiesWish(w.wish, updatedData);
+            w.parentController.update();
         });
     };
 
     w.deleteWish = function() {
         w.remove = true;
+
+        w.parentController.update();
     };
 
     w.receivedWish = function() {
         w.archive = true;
         w.remove = false;
+
+        w.parentController.update();
     };
 
     w.cancelRemove = function() {
         w.remove = false;
+
+        w.parentController.update();
     };
 
     w.doRemove = function() {
         envieService.delete({name:w.listName, id: w.wish.id}, function() {
             w.onDelete({wish: w.wish});
             w.remove = false;
+
+            w.parentController.update();
         });
     };
 
     w.cancelArchive = function() {
         w.archive = false;
+
+
+        w.parentController.update();
     };
 
     w.copyWish = function() {
@@ -222,6 +237,8 @@ var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
         envieService.archive({name:w.listName, id: w.wish.id}, function() {
             w.onDelete({wish: w.wish});
             w.archive = false;
+
+            w.parentController.update();
         });
     };
 };

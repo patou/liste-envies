@@ -5,10 +5,10 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
     vm.name = $routeParams.name;
     vm.hasFilter = false;
     vm.loading = false;
-    vm.masonry = null;
     vm.type = type;
 
-    vm.envies = wishes || [];
+    vm.envies = [];
+    vm.wishes = wishes || [];
 
 
 
@@ -41,7 +41,7 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
 
     };
     vm.orderProperties = [{property:'label', label:'Titre', reverse: false, selected: false},
-        {property:'date', label:'Date', reverse: true, selected: true},
+        {property:'date', label:'Date', reverse: false, selected: true},
         {property: orderPrice, label:'Prix', reverse: false, selected: false},
         {property:function (value) {
             return (value.notes)? value.notes.length : -1;
@@ -116,7 +116,7 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
 
         intervalUpdate = $interval(function () {
             // trigger layout
-            if (vm.masonry) vm.masonry.layout();
+            if (masonry) masonry.layout();
         }, delay, 50);
 
         if (!end) end = 500;
@@ -131,7 +131,7 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
         if (timeoutUpdate) $timeout.cancel(timeoutUpdate);
 
         intervalUpdate = null;
-        if (vm.masonry) vm.masonry.layout();
+        if (masonry) masonry.layout();
     };
 
     vm.refreshLayout = function (delay) {
@@ -143,8 +143,8 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
         if (!refresh) refresh = true;
         var $element = $("#envie"+id);
         // stamp or unstamp element to rest in place.
-        if (vm.masonry && !vm.masonry.stamps.indexOf($element) ) {
-            if (vm.masonry) vm.masonry.stamp( $element );
+        if (masonry && !masonry.stamps.indexOf($element) ) {
+            if (masonry) masonry.stamp( $element );
         }
         refresh && vm.refreshLayout(200);
 
@@ -154,8 +154,8 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
         if (!refresh) refresh = true;
         var $element = $("#envie"+id);
         // stamp or unstamp element to rest in place.
-        if (vm.masonry && !vm.masonry.stamps.indexOf($element) ) {
-            if (vm.masonry) vm.masonry.unstamp($element);
+        if (masonry && !masonry.stamps.indexOf($element) ) {
+            if (masonry) masonry.unstamp($element);
         }
         refresh && vm.refreshLayout(200);
     };
@@ -238,20 +238,18 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
 
 
     function loadUser(email) {
-        var foundUser = {email: email, name: ''};
-        angular.forEach(vm.listEnvies.users, function(user) {
+        var name = email.split('@');
+        var foundUser = {email: email, name: name[0]};
+        /*angular.forEach(vm.listEnvies.users, function(user) {
             if (user.email == email) {
                 foundUser.name = user.name;
             }
-        });
+        });*/
         return foundUser;
     }
     vm.userName = function(email) {
         return loadUser(email).name;
     };
-    function loadListEnvies(name) {
-        return listEnviesService.get({name:name});
-    }
 
     var updateWishUser = function (item) {
         if (item.owner) {
@@ -261,9 +259,9 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
             var userTakeNames = [];
             angular.forEach(item.userTake, function (user) {
                 this.push(loadUser(user).name || user);
-                if (vm.main.user && user == vm.main.user.email) {
+                /*if (vm.main.user && user == vm.main.user.email) {
                     item.userGiven = true;
-                }
+                }*/
             }, userTakeNames);
             item.userTakeUsers = userTakeNames.join(", ");
         } else {
@@ -291,7 +289,7 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
 
                 //vm.update();
             vm.clearRefreshingLayoutAuto();
-             // vm.masonry.update();
+             // masonry.update();
 
             $.material.init();
     };
@@ -300,15 +298,13 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
 
     vm.loadEnvies();
 
+    $.material.init();
+
+    vm.refreshLayout(5000);
+
+    $('[data-toggle="tooltip"]').tooltip();
 
 
-    vm.$onInit = function () {
-        $.material.init();
-
-        vm.refreshLayout(5000);
-
-        $('[data-toggle="tooltip"]').tooltip();
-    };
 
 
 }
