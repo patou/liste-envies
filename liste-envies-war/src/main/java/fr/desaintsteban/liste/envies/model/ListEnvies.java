@@ -10,6 +10,7 @@ import fr.desaintsteban.liste.envies.dto.UserShareDto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -41,10 +42,7 @@ public class ListEnvies {
         setName(dto.getName());
         setTitle(dto.getTitle());
         setDescription(dto.getDescription());
-        List<UserShare> users = new ArrayList<>();
-        for (UserShareDto userShareDto : dto.getUsers()) {
-            users.add(new UserShare(userShareDto.getEmail(), userShareDto.getType()));
-        }
+        List<UserShare> users = dto.getUsers().stream().map(userShareDto -> new UserShare(userShareDto.getEmail(), userShareDto.getType())).collect(Collectors.toList());
         setUsers(users);
     }
 
@@ -56,7 +54,7 @@ public class ListEnvies {
         List<UserShare> users = getUsers();
         List<UserShareDto> usersDto = new ArrayList<>();
         List<UserShareDto> ownersDto = new ArrayList<>();
-        for (UserShare user : users) {
+        users.forEach(user -> {
             UserShareDto userShareDto = new UserShareDto(user.getEmail(), user.getType(), userName);
             if (user.getType() == UserShareType.OWNER) {
                 ownersDto.add(userShareDto);
@@ -64,7 +62,7 @@ public class ListEnvies {
             if (convertUsers) {
                 usersDto.add(userShareDto);
             }
-        }
+        });
         if (convertUsers) {
             dto.setUsers(usersDto);
         }
@@ -108,23 +106,11 @@ public class ListEnvies {
     }
 
     public boolean containsOwner(String email) {
-        if (users != null) {
-            for (UserShare user : users) {
-                if (user.getType() == UserShareType.OWNER && user.getEmail().equals(email))
-                    return true;
-            }
-        }
-        return false;
+        return (users != null) && users.stream().anyMatch(user -> user.getType() == UserShareType.OWNER && user.getEmail().equals(email));
     }
 
     public boolean containsUser(String email) {
-        if (users != null) {
-            for (UserShare user : users) {
-                if (user.getEmail().equals(email))
-                    return true;
-            }
-        }
-        return false;
+        return (users != null) && users.stream().anyMatch(user -> user.getEmail().equals(email));
     }
 
     public Key<ListEnvies> getKey() {

@@ -10,34 +10,64 @@ app.config(function ($routeProvider) {
             templateUrl: "templates/addWish.html",
             name: 'addWish',
             controller: "AddWishCtrl",
-            resolve: { pageInfo: ['$http', '$location', '$q', function ($http, $location, $q) {
-                var searchObject = $location.search();
-                console.log('resolve :', searchObject);
-                var req = {
-                    method: 'GET',
-                    url: 'https://mercury.postlight.com/parser?url='+searchObject.url,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-api-key': '0LYlvHDUtTj7ZNzPOm8FGKBmLEhTuASqNj1zwdxI'
+            resolve: {
+                pageInfo: ['$http', '$location', '$q', 'UtilitiesServices', function ($http, $location, $q, UtilitiesServices) {
+                    var searchObject = $location.search();
+                    if (searchObject.url) {
+                        return UtilitiesServices.findInfoFromurl(searchObject.url);
                     }
-                };
+                    return $q.resolve(null);
 
-                var deferred = $q.defer();
-
-                $http(req).then(function(data){
-                    deferred.resolve(data.data);
-                }, function(error){
-                    deferred.reject(error);
-                });
-
-                return deferred.promise;
-            }]},
+                }]
+            },
             controllerAs: "vm"
-        }).when("/:name", {
-            templateUrl: "templates/wishList.html",
-            name: 'Envie',
-            controller: "EnvieCtrl",
-            controllerAs: "vm"
-        })
-        .otherwise({ redirectTo: '/'});
+        }).when("/archive", {
+        templateUrl: "templates/wishesList.html",
+        name: 'archive',
+        controller: "WichesCtrl",
+        resolve: {
+            wishes: ['appUserService', 'AuthService', function (appUserService, AuthService) {
+
+                const user = AuthService.getUser();
+
+                if (user && user.email) {
+                    return appUserService.archived({email: user.email}).$promise;
+                } else {
+                    return AuthService.refresh().then(function (response) {
+                        return appUserService.archived({email: response.data.email}).$promise;
+                    })
+                }
+            }], type: [function () {
+                return 'ARCHIVE';
+            }]
+        },
+        controllerAs: "vm"
+    }).when("/given", {
+        templateUrl: "templates/wishesList.html",
+        name: 'given',
+        controller: "WichesCtrl",
+        resolve: {
+            wishes: ['appUserService', 'AuthService', function (appUserService, AuthService) {
+
+                const user = AuthService.getUser();
+
+                if (user && user.email) {
+                    return appUserService.given({email: user.email}).$promise;
+                } else {
+                    return AuthService.refresh().then(function (response) {
+                        return appUserService.given({email: response.data.email}).$promise;
+                    })
+                }
+            }], type: [function () {
+                return 'GIVEN';
+            }]
+        },
+        controllerAs: "vm"
+    }).when("/:name", {
+        templateUrl: "templates/wishList.html",
+        name: 'Envie',
+        controller: "EnvieCtrl",
+        controllerAs: "vm"
+    })
+        .otherwise({redirectTo: '/'});
 });

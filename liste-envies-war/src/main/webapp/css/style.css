@@ -2,9 +2,7 @@ body {
 
 }
 
-@media(min-width:768px) {
 
-}
 
 #wrapper {
 
@@ -114,6 +112,11 @@ body {
     position: absolute;
     top: 2px;
     right: 9px;
+}
+
+button.copy-button {
+    right: inherit;
+    left: 9px;
 }
 
 
@@ -699,19 +702,36 @@ div.material-icons.form-control-feedback {
 }
 
 .title-notification {
-    color: black !important;
+    color: white !important;
     size: 16px;
 }
 
 li.notif {
-    color: #333;
+    color: white;
     border-bottom: 1px solid #e2e2e2;
     cursor: pointer;
 }
 
 li.notif .fa {
-    color: #666;
+    color: white;
     margin: 0 5px;
+}
+
+
+
+@media(min-width:768px) {
+    .title-notification {
+        color: black !important;
+    }
+
+    li.notif {
+        color: #333;
+        border-bottom: 1px solid #e2e2e2;
+    }
+
+    li.notif .fa {
+        color: #666;
+    }
 }
 
 .dropdown-menu {

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public final class ListEnviesService {
 	private static final Logger LOGGER = Logger.getLogger(ListEnviesService.class.getName());
@@ -58,33 +59,24 @@ public final class ListEnviesService {
 			item.setName(name);
 		}
 
-		final List<String> userToEmail = new ArrayList<>();
-		for (UserShare userShare : item.getUsers()) {
-			userToEmail.add(userShare.getEmail());
-		}
+		final List<String> userToEmail = item.getUsers().stream().map(UserShare::getEmail).collect(Collectors.toList());
 		ListEnvies updateElement = OfyService.ofy().load().key(Key.create(ListEnvies.class, item.getName())).now();
 		if (updateElement != null) { // Update
-			for (UserShare oldUsers : updateElement.getUsers()) {
-				userToEmail.remove(oldUsers.getEmail());
-			}
+			updateElement.getUsers().stream()
+					.map(UserShare::getEmail)
+					.filter(email -> email.equals(user.getEmail()))
+					.forEach(userToEmail::remove);
 		}
-		return OfyService.ofy().transact(new Work<ListEnvies>() {
-			@Override
-			public ListEnvies run() {
-				final Saver saver = OfyService.ofy().save();
-				saver.entities(item).now();
-				NotificationsService.notifyUserAddedToList(item, userToEmail, user);
-				return item;
-			}
-		});
+		return OfyService.ofy().transact(() -> {
+            final Saver saver = OfyService.ofy().save();
+            saver.entities(item).now();
+            NotificationsService.notifyUserAddedToList(item, userToEmail, user);
+            return item;
+        });
 	}
 
 	public static List<Key<ListEnvies>> userListKeys(String email) {
 		QueryKeys<ListEnvies> keys = OfyService.ofy().load().type(ListEnvies.class)/*.filter("users.type =", UserShareType.SHARED)*/.filter("users.email =", email).keys()/*.list()*/;
-		List<Key<ListEnvies>> list = new ArrayList<>();
-		for (Key<ListEnvies> key : keys) {
-			list.add(key);
-		}
-		return list;
+		return keys.list();
 	}
 }

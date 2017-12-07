@@ -1,6 +1,7 @@
 app.controller('AddWishCtrl', AddWishCtrl);
 AddWishCtrl.$inject = ['UtilitiesServices', 'appUserService', 'listEnviesService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse', '$interval', '$timeout', 'pageInfo'];
-function AddWishCtrl(UtilitiesServices, appUserService, listEnviesService, $routeParams, $location, $anchorScroll, $scope, $parse, $interval, $timeout, pageInfo) {
+function AddWishCtrl(UtilitiesServices, appUserService, listEnviesService, $routeParams, $location,
+                     $anchorScroll, $scope, $parse, $interval, $timeout, pageInfo) {
     var vm = this;
     //vm.name = $routeParams.name;
 
@@ -34,6 +35,7 @@ function AddWishCtrl(UtilitiesServices, appUserService, listEnviesService, $rout
 
 
     vm.newWish = {};
+
     if (pageInfo) {
         //pageInfo = pageInfo.data;
         vm.newWish.external = true;
@@ -65,6 +67,11 @@ function AddWishCtrl(UtilitiesServices, appUserService, listEnviesService, $rout
         {
             vm.newWish.urls = [{url: $routeParams.url, name:null}];
         }
+    } else if (window.wish) {
+        var savedWish = window.wish;
+        savedWish.external = true;
+
+        vm.newWish = savedWish;
     }
 
     UtilitiesServices.getList().then(function (data) {

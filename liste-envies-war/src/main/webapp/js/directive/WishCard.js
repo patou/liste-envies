@@ -8,7 +8,7 @@
  * @restrict E
  * */
 
-var WishCard = function ($scope, envieService) {
+var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
     var w = this;
 
     w.add = false;
@@ -91,8 +91,10 @@ var WishCard = function ($scope, envieService) {
         } else if (w.edit) {
             w.wish = lastWish;
             w.edit = false;
-            w.link.url = null;
-            w.link.name = null;
+            if (w.link) {
+                w.link.url = null;
+                w.link.name = null;
+            }
             w.parentController.unStampElement(w.wish.id);
         }
     };
@@ -165,6 +167,7 @@ var WishCard = function ($scope, envieService) {
         if (w.wish.userTake.indexOf(w.user.email) < 0) {
             envieService.give({name:w.listName, id:id}, {}, function(updatedData) {
                 w.parentController.updatePropertiesWish(w.wish, updatedData);
+                w.parentController.update();
             });
         }
     };
@@ -173,37 +176,69 @@ var WishCard = function ($scope, envieService) {
     w.cancel = function(id) {
         envieService.cancel({name:w.listName, id:id}, {}, function(updatedData) {
             w.parentController.updatePropertiesWish(w.wish, updatedData);
+            w.parentController.update();
         });
     };
 
     w.deleteWish = function() {
         w.remove = true;
+
+        w.parentController.update();
     };
 
     w.receivedWish = function() {
         w.archive = true;
         w.remove = false;
+
+        w.parentController.update();
     };
 
     w.cancelRemove = function() {
         w.remove = false;
+
+        w.parentController.update();
     };
 
     w.doRemove = function() {
         envieService.delete({name:w.listName, id: w.wish.id}, function() {
             w.onDelete({wish: w.wish});
             w.remove = false;
+
+            w.parentController.update();
         });
     };
 
     w.cancelArchive = function() {
         w.archive = false;
+
+
+        w.parentController.update();
     };
+
+    w.copyWish = function() {
+        var wishCopy = angular.copy(w.wish);
+        delete wishCopy.id;
+        wishCopy.usertake = [];
+        wishCopy.ownerUser = w.owner;
+
+        var absUrl = $location.absUrl();
+        var url = $location.url();
+
+        function centeredPopupPosition(w, h) {var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left; var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top; var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width; var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height; var left = ((width / 2) - (w / 2)) + dualScreenLeft; var top = ((height / 2) - (h / 2)) + dualScreenTop; return [left, top]; } var width = 500, height = 700, position = centeredPopupPosition(width, height);
+
+        var popCopy = window.open(absUrl.replace(url, "/addWish"), "Copier", 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=' + width + ',height=' + height + ',top=' + position[1] + ',left=' + position[0]);
+
+        popCopy.wish = wishCopy;
+        popCopy.focus();
+    };
+
 
     w.doArchive = function() {
         envieService.archive({name:w.listName, id: w.wish.id}, function() {
             w.onDelete({wish: w.wish});
             w.archive = false;
+
+            w.parentController.update();
         });
     };
 };
@@ -215,13 +250,14 @@ angular.module('ListeEnviesDirectives')
             templateUrl: 'templates/directive/WishCard.html',
             bindToController: true,
             controllerAs: 'w',
-            controller: ['$scope', 'envieService', WishCard],
+            controller: ['$scope', 'envieService', '$location', 'UtilitiesServices', WishCard],
             scope: {
                 'wish': '=',
                 'ownerList': '=',
                 'user': '=',
                 'parentController': '=',
                 'listName': '=',
+                'canEdit': '=',
                 'onDelete': '&'
             }
         };

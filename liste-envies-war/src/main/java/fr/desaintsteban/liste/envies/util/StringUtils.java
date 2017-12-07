@@ -4,9 +4,6 @@ public class StringUtils {
     private StringUtils() {
     }
 
-    private static String accents = "àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ";
-    private static String withoutAccent = "aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY";
-
     public static String withoutAccent(String txt) {
         if (txt == null) {
             return "";
@@ -15,9 +12,9 @@ public class StringUtils {
         int n = txt.length();
         for (int i = 0; i < n; i++) {
             char c = txt.charAt(i);
-            int pos = accents.indexOf(c);
+            int pos = "àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ".indexOf(c);
             if (pos > -1) {
-                sb.append(withoutAccent.charAt(pos));
+                sb.append("aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY".charAt(pos));
             } else if (c == 'œ' || c == 'Œ') {
                 sb.append("oe");
             } else if (c == 'æ' || c == 'Æ') {

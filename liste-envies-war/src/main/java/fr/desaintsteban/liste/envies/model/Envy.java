@@ -2,6 +2,7 @@ package fr.desaintsteban.liste.envies.model;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.*;
+import com.googlecode.objectify.condition.IfNotNull;
 import fr.desaintsteban.liste.envies.dto.EnvyDto;
 import fr.desaintsteban.liste.envies.dto.NoteDto;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
@@ -10,8 +11,10 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.jdo.annotations.Embedded;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 01/10/2014.
@@ -55,6 +58,8 @@ public class Envy {
     private List<Link> urls;
     @Index
     private List<String> userTake;
+    @Index(IfNotNull.class)
+    private List<String> userReceived;
 
     @Embedded
     private List<Note> notes;
@@ -86,10 +91,7 @@ public class Envy {
         setUrls(envie.getUrls());
         setRating(envie.getRating());
         if (envie.getUserTake() != null) {
-            List<String> userTake = new ArrayList<>();
-            for (String email : envie.getUserTake()) {
-                userTake.add(EncodeUtils.encode(email));
-            }
+            List<String> userTake = envie.getUserTake().stream().map(EncodeUtils::encode).collect(Collectors.toList());
             setUserTake(userTake);
         }
         this.notes = new ArrayList<>();
@@ -113,19 +115,15 @@ public class Envy {
         envie.setRating(getRating());
         envie.setUrls(getUrls());
 
-        if (!filter) { // Do not add this, if you dosent want to have this information. For filter it.
-            List<String> userTake = new ArrayList<>();
+        if (!filter) { // Do not add this, if you doesn't want to have this information. For filter it.
             if (getUserTake() != null) {
-                for (String email : getUserTake()) {
-                    userTake.add(EncodeUtils.decode(email));
-                }
+                envie.setUserTake(getUserTake().stream().map(EncodeUtils::decode).collect(Collectors.toList()));
             }
-            envie.setUserTake(userTake);
+            else {
+                envie.setUserTake(Collections.emptyList());
+            }
             if (this.notes != null && !this.notes.isEmpty()) {
-                List<NoteDto> listNoteDto = new ArrayList<>();
-                for (Note note : this.notes) {
-                    listNoteDto.add(note.toDto());
-                }
+                List<NoteDto> listNoteDto = this.notes.stream().map(Note::toDto).collect(Collectors.toList());
                 envie.setNotes(listNoteDto);
             }
         }
@@ -271,6 +269,14 @@ public class Envy {
         if (userTake != null) {
             this.userTake.remove(userTake);
         }
+    }
+
+    public List<String> getUserReceived() {
+        return userReceived;
+    }
+
+    public void setUserReceived(List<String> userReceived) {
+        this.userReceived = userReceived;
     }
 
     public void addNote(String owner, String email, String text) {

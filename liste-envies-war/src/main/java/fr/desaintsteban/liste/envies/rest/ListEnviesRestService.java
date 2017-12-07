@@ -19,6 +19,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 @Path("/liste")
 @Produces(MediaType.APPLICATION_JSON)
@@ -49,13 +53,7 @@ public class ListEnviesRestService {
         if(user != null){
             LOGGER.info("List authorized liste for user: "+email);
             List<ListEnvies> list = ListEnviesService.list(email);
-            ArrayList<ListEnviesDto> convertList = new ArrayList<>();
-            for (ListEnvies listeEnvy : list) {
-                if (listeEnvy.containsOwner(email) && (listeEnvy.containsUser(user.getEmail()) || user.isAdmin())) {
-                    convertList.add(listeEnvy.toDto(false, user.getEmail(), null));
-                }
-            }
-            return convertList;
+            return list.stream().filter(listeEnvy -> listeEnvy.containsOwner(email) && (listeEnvy.containsUser(user.getEmail()) || user.isAdmin())).map(listeEnvy -> listeEnvy.toDto(false, user.getEmail(), null)).collect(toList());
         }
         return null;
     }
@@ -71,11 +69,7 @@ public class ListEnviesRestService {
         if(user != null && user.isAdmin()){
             LOGGER.info("List all ListEnvies");
             List<ListEnvies> list = ListEnviesService.list();
-            ArrayList<ListEnviesDto> convertList = new ArrayList<>();
-            for (ListEnvies listeEnvy : list) {
-                convertList.add(listeEnvy.toDto(false, user.getEmail(), null));
-            }
-            return convertList;
+            return list.stream().map(listeEnvy -> listeEnvy.toDto(false, user.getEmail(), null)).collect(toList());
         }
         return null;
     }
@@ -129,30 +123,15 @@ public class ListEnviesRestService {
     private ListEnviesDto getListEnviesDto(AppUser user, ListEnvies listEnvie) {
         Map<String,AppUser> map = null;
         if (listEnvie.getUsers() != null) {
-            List<String> emails = new ArrayList<>();
-            for (UserShare userShare : listEnvie.getUsers()) {
-                emails.add(userShare.getEmail());
-            }
+            List<String> emails = listEnvie.getUsers().stream().map(UserShare::getEmail).collect(toList());
             map = AppUserService.loadAll(emails);
         }
         return listEnvie.toDto(true, user.getEmail(), map);
     }
 
     private List<ListEnviesDto> getListEnviesDtos(AppUser user, List<ListEnvies> list) {
-        ArrayList<ListEnviesDto> convertList = new ArrayList<>();
-        Set<String> emails = new HashSet<>();
-        Map<String,AppUser> map = null;
-        for (ListEnvies listeEnvy : list) {
-            for (UserShare userShare : listeEnvy.getUsers()) {
-                if (userShare.getType() == UserShareType.OWNER) {
-                    emails.add(userShare.getEmail());
-                }
-            }
-        }
-        map = AppUserService.loadAll(emails);
-        for (ListEnvies listeEnvy : list) {
-            convertList.add(listeEnvy.toDto(false, user.getEmail(), map));
-        }
-        return convertList;
+        Set<String> emails = list.stream().flatMap(listEnvies -> listEnvies.getUsers().stream()).filter(userShare -> userShare.getType() == UserShareType.OWNER).map(UserShare::getEmail).collect(toSet());
+        final Map<String,AppUser> map = AppUserService.loadAll(emails);
+        return list.stream().map(listeEnvy -> listeEnvy.toDto(false, user.getEmail(), map)).collect(toList());
     }
 }

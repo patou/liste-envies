@@ -9,7 +9,6 @@ import fr.desaintsteban.liste.envies.model.*;
 public final class OfyService {
     static {
     	factory().register(AppUser.class);
-    	factory().register(Envie.class);
         factory().register(Envy.class);
         factory().register(ListEnvies.class);
         factory().register(Notification.class);

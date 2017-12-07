@@ -2,11 +2,14 @@ package fr.desaintsteban.liste.envies.rest;
 
 import com.googlecode.objectify.Key;
 import fr.desaintsteban.liste.envies.dto.AppUserDto;
+import fr.desaintsteban.liste.envies.dto.EnvyDto;
 import fr.desaintsteban.liste.envies.dto.NotificationDto;
 import fr.desaintsteban.liste.envies.model.AppUser;
+import fr.desaintsteban.liste.envies.model.Envy;
 import fr.desaintsteban.liste.envies.model.ListEnvies;
 import fr.desaintsteban.liste.envies.model.Notification;
 import fr.desaintsteban.liste.envies.service.AppUserService;
+import fr.desaintsteban.liste.envies.service.EnviesService;
 import fr.desaintsteban.liste.envies.service.ListEnviesService;
 import fr.desaintsteban.liste.envies.service.NotificationsService;
 import fr.desaintsteban.liste.envies.util.ServletUtils;
@@ -16,6 +19,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Path("/utilisateur")
 @Produces(MediaType.APPLICATION_JSON)
@@ -29,10 +33,7 @@ public class AppUserRestService {
         if(user != null){
             LOGGER.info("List appuser");
             List<AppUser> list = AppUserService.list();
-            ArrayList<AppUserDto> convertList = new ArrayList<>();
-            for (AppUser appUser : list) {
-                convertList.add(new AppUserDto(appUser.getEmail(), appUser.getName()));
-            }
+            List<AppUserDto> convertList = list.stream().map(appUser -> new AppUserDto(appUser.getEmail(), appUser.getName())).collect(Collectors.toList());
             return convertList;
         }
         return null;
@@ -71,9 +72,7 @@ public class AppUserRestService {
         List<Notification> notifs = NotificationsService.list(user);
         if (notifs.isEmpty()) return listNotification;
 
-        for (Notification notif : notifs) {
-            listNotification.add(notif.toDto());
-        }
+        listNotification = notifs.stream().map(Notification::toDto).collect(Collectors.toList());
         return listNotification;
     }
 
@@ -86,5 +85,32 @@ public class AppUserRestService {
             LOGGER.info("Delete " + email);
             AppUserService.delete(email);
         }
+    }
+
+    @GET
+    @Path("/{email}/archived")
+    public List<EnvyDto> getArchivedWished(@PathParam("email") String email) {
+        final AppUser user = ServletUtils.getUserAuthenticated();
+        if(user != null){
+            LOGGER.info("List archive from " +  email);
+            List<Envy> list = EnviesService.archived(user);
+            List<EnvyDto> result = list.stream().map(Envy::toDto).collect(Collectors.toList());
+            return result;
+        }
+        return null;
+    }
+
+
+    @GET
+    @Path("/{email}/given")
+    public List<EnvyDto> getGivenWished(@PathParam("email") String email) {
+        final AppUser user = ServletUtils.getUserAuthenticated();
+        if(user != null){
+            LOGGER.info("List given of " + email);
+            List<Envy> list = EnviesService.gived(user);
+            List<EnvyDto> result = list.stream().map(Envy::toDto).collect(Collectors.toList());
+            return result;
+        }
+        return null;
     }
 }

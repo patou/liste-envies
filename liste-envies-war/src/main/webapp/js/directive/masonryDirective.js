@@ -1,3 +1,4 @@
+var masonry;
 (function() {
     "use strict";
 
@@ -13,7 +14,7 @@
                     itemSelector: '.item'
                 }, angular.fromJson(attrs.masonry));
 
-                var masonry = scope.masonry = new Masonry(container, options);
+                masonry = scope.masonry = new Masonry(container, options);
 
                 var debounceTimeout = 0;
                 masonry.update = scope.update = function() {
@@ -45,8 +46,6 @@
                     masonry.layout();
                 });
 
-
-
                 scope.update();
             }
         };
@@ -56,11 +55,15 @@
             link: function(scope, elem) {
                 elem.css('visibility', 'hidden');
                 var master = elem.parent('*[masonry]:first').scope(),
-                    update = master.update,
+                    update = masonry.update,
                     removeBrick = master.removeBrick,
                     appendBricks = master.appendBricks;
+
                 if (update) {
-                    imagesLoaded( elem.get(0), update);
+                    imagesLoaded( elem.get(0)).on( 'always', function( instance ) {
+
+                        masonry.update();
+                    });
                     elem.ready(update);
                 }
                 if (appendBricks) {
