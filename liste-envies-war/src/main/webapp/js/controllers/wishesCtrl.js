@@ -270,6 +270,24 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
         }
     };
 
+    /**
+     * Function to update a wish, whithout changing the js link.
+     * @param target
+     * @param source
+     */
+    vm.updatePropertiesWish = function (target, source) {
+        if (!target && !source && target !== undefined) return;
+        /*for(var propertyName in source) {
+            // propertyName is what you want
+            // you can get the value like this: myObject[propertyName]
+            target[propertyName] = source[propertyName];
+        }*/
+        target = angular.merge(target, source);
+        target.userTake = source.userTake;
+        updateWishUser(target);
+        return target;
+    };
+
     vm.loadEnvies = function () {
 
             vm.refreshingLayoutAuto(100, 800);
