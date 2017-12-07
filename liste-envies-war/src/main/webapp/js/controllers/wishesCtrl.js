@@ -318,7 +318,7 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
 
     $.material.init();
 
-    vm.refreshLayout(5000);
+    vm.refreshLayout(10000);
 
     $('[data-toggle="tooltip"]').tooltip();
 
