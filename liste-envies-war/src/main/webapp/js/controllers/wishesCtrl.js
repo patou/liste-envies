@@ -88,6 +88,11 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
         ];
 
 
+    vm.update = function() {
+        if (masonry) {
+            masonry.update();
+        }
+    };
 
 
 
@@ -303,6 +308,8 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
                     vm.envies.push(item);
                 }
             });
+
+        vm.sortList(vm.orderProperties.find(function (value) { return value.selected }));
 
 
                 //vm.update();

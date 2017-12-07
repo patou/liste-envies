@@ -406,6 +406,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
                 }
             });
 
+            vm.sortList(vm.orderProperties.find(function (value) { return value.selected }));
 
                 //vm.update();
             //vm.clearRefreshingLayoutAuto();
