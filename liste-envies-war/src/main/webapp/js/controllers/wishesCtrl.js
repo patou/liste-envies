@@ -298,7 +298,7 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
             vm.refreshingLayoutAuto(100, 800);
             angular.forEach(vm.wishes, function(item) {
                 // add to vm.envies
-                var foundwish = $filter('filter')(vm.envies, {id: item.id});
+                var foundwish = $filter('filter')(vm.envies, {id: item.id, owner: item.owner, date: item.date});
                 updateWishUser(item);
 
                 if (foundwish.length) {
