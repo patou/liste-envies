@@ -62,7 +62,7 @@
                         <span class="badge">{{main.Notifications.length}}</span>
                     </a>
                     <ul class="dropdown-menu notif-menu" ng-if="main.Notifications.length > 0">
-                        <li class="title-notification" translate>.NOTIFICATIONS</li>
+                        <li class="title-notification" translate>NOTIFICATIONS.NOTIFICATION_TITLE</li>
                         <li role="separator" class="divider"></li>
                         <li class="notif" ng-repeat="notif in main.Notifications " ng-click="main.goList(notif.listId)">
                             <i class="fa fa-2x pull-left" ng-class="main.notifClass(notif.type)"></i>
@@ -76,9 +76,9 @@
                         <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><div>{{main.user.email}}</div></li>
-                       <!-- <li>
-                            <a href="javascript:;"><i class="fa fa-fw fa-user"></i> <span translate=".MY_PROFIL"></span> </a>
-                        </li>-->
+                        <li>
+                            <a href="#/profil"><i class="fa fa-fw fa-user"></i> <span translate=".MY_PROFIL"></span> </a>
+                        </li>
                         <li class=" " ng-if="main.isAuthenticated">
                             <a class="" role="button" href="#/archive" aria-haspopup="true" aria-expanded="false"><span translate>.MENU_ARCHIVED</span></a>
                         </li>

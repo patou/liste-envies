@@ -39,6 +39,10 @@ body {
     padding: 2px;
 }
 
+div.profil-page.main-raised {
+    margin: 0 33.33333333%;
+}
+
 .home-header {
     margin-bottom: 10px;
     padding: 0 20px;

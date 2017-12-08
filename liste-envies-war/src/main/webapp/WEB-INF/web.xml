@@ -74,16 +74,7 @@
         <servlet-name>MigrateServlet</servlet-name>
         <url-pattern>/admin/migrate</url-pattern>
     </servlet-mapping>
-
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>App</web-resource-name>
-            <url-pattern>/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>*</role-name>
-        </auth-constraint>
-    </security-constraint>
+    
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Admin</web-resource-name>

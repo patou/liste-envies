@@ -6,6 +6,12 @@ app.config(function ($routeProvider) {
             controller: "HomeCtrl",
             controllerAs: "vm"
         })
+        .when("/profil", {
+            templateUrl: "templates/profil.html",
+            name: 'Profil',
+            controller: "ProfilCtrl",
+            controllerAs: "vm"
+        })
         .when("/addWish", {
             templateUrl: "templates/addWish.html",
             name: 'addWish',

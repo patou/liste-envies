@@ -98,7 +98,7 @@
     "CANCEL": "@:COMMONS.CANCEL"
   },
   "NOTIFICATIONS": {
-    "NOTIFICATION_TILTE" : "Notifications",
+    "NOTIFICATION_TITLE" : "Mes Notifications",
     "TYPE": {
       "ADD_WISH" : "<b>{{actionUserName}}</b> a ajouté une nouvelle envie  <b>{{message}}</b> à la liste \"<u>{{listName}}</u>\"",
       "UPDATE_WISH": "L'envie <b>{{message}}</b> de la liste \"<u>{{listName}}</u>\" a été mise à jour",
@@ -109,6 +109,14 @@
       "ARCHIVE_WISH": "<b>{{actionUserName}}</b> a archivé une envie <i>{{message}}</i> de la liste \"<u>{{listName}}</u>\"",
       "ADD_NOTE": "<b>{{actionUserName}}</b> a commenté <i>{{message}}</i> sur une envie de la liste \"<u>{{listName}}</u>\""
     }
+  },
+  "PROFIL_PAGE": {
+    "TITLE": "Mon profil",
+    "NAME": "Mon nom",
+    "EMAIL": "Mon email",
+    "BIRTHDAY": "Ma date de naissance",
+    "BIRTHDAY_INFO": "Pour rappeler à vos contacts, de penser à votre anniversaire",
+    "SAVE": "Mettre à jour"
   }
 
 }
