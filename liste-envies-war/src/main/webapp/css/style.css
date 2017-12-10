@@ -512,6 +512,9 @@ div.material-icons.form-control-feedback {
     bottom: -10px;
 }
 
+.envie-item h5 {
+    margin-left: 16px;
+}
 
 .spin {
     -webkit-animation: spin .4s infinite linear;

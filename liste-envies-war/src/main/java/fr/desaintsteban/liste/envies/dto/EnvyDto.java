@@ -12,6 +12,8 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EnvyDto {
     private Long id;
+    private String listId;
+    private String listTitle;
 
     private String owner;
     private Boolean suggest = false;
@@ -40,6 +42,22 @@ public class EnvyDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getListId() {
+        return listId;
+    }
+
+    public void setListId(String listId) {
+        this.listId = listId;
+    }
+
+    public String getListTitle() {
+        return listTitle;
+    }
+
+    public void setListTitle(String listTitle) {
+        this.listTitle = listTitle;
     }
 
     public String getOwner() {

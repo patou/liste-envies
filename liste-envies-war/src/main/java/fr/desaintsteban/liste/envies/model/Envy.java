@@ -101,9 +101,14 @@ public class Envy {
         return this.toDto(false);
     }
 
+    public EnvyDto toDtoNoFiltered() {
+        return this.toDto(true);
+    }
+
     public EnvyDto toDto(boolean filter) {
         EnvyDto envie = new EnvyDto();
         envie.setId(getId());
+        envie.setListId(getList().getName());
         envie.setOwner(getOwner());
         envie.setSuggest(getSuggest());
         envie.setDeleted(getDeleted());

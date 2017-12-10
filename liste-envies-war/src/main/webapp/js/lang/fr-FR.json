@@ -14,8 +14,8 @@
     "TOGGLE_NAVIGATION": "Afficher la navigation",
     "NOTIFICATIONS": "Notifications",
     "CHANGE_LIST": "Changer de liste",
-    "MENU_ARCHIVED": "Archive",
-    "MENU_GIVEN": "A donner",
+    "MENU_ARCHIVED": "Mes cadeaux reçus",
+    "MENU_GIVEN": "Mes cadeaux à donner",
     "MY_PROFIL": "Mon profil",
     "LOG_OUT": "Déconnexion",
     "LOG_IN": "Connexion",
@@ -38,8 +38,8 @@
     "BUTTON_EDIT_LIST": "Editer le titre de la liste",
     "CLEAR_FILTER": "Réinitialiser les filtres",
     "REFRESH_LIST": "Rafraichir la liste",
-    "TITLE_GIVEN": "Envies à donner",
-    "TITLE_ARCHIVE": "Envies archivées"
+    "TITLE_GIVEN": "Mes cadeaux à donner",
+    "TITLE_ARCHIVE": "Mes cadeaux reçus"
   },
   "HOME_PAGE": {
     "HOME_TITLE": "Liste de mes envies <small>Accueil</small>",
