@@ -102,7 +102,7 @@ public class Envy {
     }
 
     public EnvyDto toDtoNoFiltered() {
-        return this.toDto(true);
+        return this.toDto(false);
     }
 
     public EnvyDto toDto(boolean filter) {
