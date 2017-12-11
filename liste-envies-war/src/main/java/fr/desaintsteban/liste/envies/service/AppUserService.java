@@ -5,7 +5,6 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.Work;
 import com.googlecode.objectify.cmd.Saver;
 import fr.desaintsteban.liste.envies.model.AppUser;
 
@@ -29,8 +28,9 @@ public final class AppUserService {
             if (nickname.indexOf('@') > 0) {
                 nickname = nickname.substring(0, nickname.indexOf('@')).replace('.', ' ').replace('-', ' ');
             }
-            appUser = new AppUser(user.getEmail(), nickname);
+            appUser = new AppUser(user.getEmail(), nickname, null);
             appUser.setIsAdmin(userService.isUserAdmin());
+            appUser.setNewUser(true);
             ofy.save().entity(appUser).now();
         } else { // appUser is already in the datastore
             // update properties if they've changed

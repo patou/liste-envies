@@ -2,8 +2,8 @@ angular
 	.module('service', [])
     .service('AuthService', AuthService);
 
-AuthService.$inject = ['$http'];
-    function AuthService($http){
+AuthService.$inject = ['$http', '$q'];
+    function AuthService($http, $q){
         var obj = {
         	user: null
         };

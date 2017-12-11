@@ -42,6 +42,10 @@ function PagesDirectivesController ($scope, $http, $location, AuthService, Utili
         main.user = AuthService.getUser();
 
         if (main.isAuthenticated) {
+
+            if (main.user.newUser) {
+                $location.url("/profil");
+            }
             UtilitiesServices.getList().then(function (data) {
                 main.wishLists = data;
             });

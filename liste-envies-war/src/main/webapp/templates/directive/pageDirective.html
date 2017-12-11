@@ -24,16 +24,15 @@
                             {{aWishList.title}}
                             <p class="list-group-item-text"> de <span class="owners" ng-repeat="owner in aWishList.owners" title="{{owner.name}}({{owner.email}})"><i class="fa fa-user"></i> {{owner.name}}<span ng-if="!$last" >, </span></span>  </p>
                         </a></li>
+                        <hr style="clear:both"/>
+                        <li  class="list-group-item">
+                            <a role="button" href="#/archive"><i class="fa fa-fw fa-archive"></i> <span translate>.MENU_ARCHIVED</span></a>
+                        </li>
+                        <li  class="list-group-item">
+                            <a role="button" href="#/given"><i class="fa fa-fw fa-gift"></i> <span translate>.MENU_GIVEN</span></a>
+                        </li>
 
                     </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav hidden-sm hidden-xs hidden-md">
-                <li class=" " ng-if="main.isAuthenticated">
-                    <a class="" role="button" href="#/archive" aria-haspopup="true" aria-expanded="false"><span translate>.MENU_ARCHIVED</span></a>
-                </li>
-                <li class=" " ng-if="main.isAuthenticated">
-                    <a class="" role="button" href="#/given" aria-haspopup="true" aria-expanded="false"><span translate>.MENU_GIVEN</span></a>
                 </li>
             </ul>
 
@@ -62,7 +61,7 @@
                         <span class="badge">{{main.Notifications.length}}</span>
                     </a>
                     <ul class="dropdown-menu notif-menu" ng-if="main.Notifications.length > 0">
-                        <li class="title-notification" translate>.NOTIFICATIONS</li>
+                        <li class="title-notification" translate>NOTIFICATIONS.NOTIFICATION_TITLE</li>
                         <li role="separator" class="divider"></li>
                         <li class="notif" ng-repeat="notif in main.Notifications " ng-click="main.goList(notif.listId)">
                             <i class="fa fa-2x pull-left" ng-class="main.notifClass(notif.type)"></i>
@@ -76,14 +75,14 @@
                         <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><div>{{main.user.email}}</div></li>
-                       <!-- <li>
-                            <a href="javascript:;"><i class="fa fa-fw fa-user"></i> <span translate=".MY_PROFIL"></span> </a>
-                        </li>-->
-                        <li class=" " ng-if="main.isAuthenticated">
-                            <a class="" role="button" href="#/archive" aria-haspopup="true" aria-expanded="false"><span translate>.MENU_ARCHIVED</span></a>
+                        <li>
+                            <a href="#/profil"><i class="fa fa-fw fa-user"></i> <span translate=".MY_PROFIL"></span> </a>
                         </li>
-                        <li class=" " ng-if="main.isAuthenticated">
-                            <a class="" role="button" href="#/given" aria-haspopup="true" aria-expanded="false"><span translate>.MENU_GIVEN</span></a>
+                        <li>
+                            <a role="button" href="#/archive"><i class="fa fa-fw fa-archive"></i> <span translate>.MENU_ARCHIVED</span></a>
+                        </li>
+                        <li>
+                            <a role="button" href="#/given"><i class="fa fa-fw fa-gift"></i> <span translate>.MENU_GIVEN</span></a>
                         </li>
                         <li>
                             <a ng-href="{{main.logoutPath()}}"><i class="fa fa-fw fa-power-off"></i><span translate=".LOG_OUT"></span></a>

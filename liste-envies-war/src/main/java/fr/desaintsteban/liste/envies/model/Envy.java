@@ -37,6 +37,7 @@ public class Envy {
     /**
      * L'envie est archivé
      */
+    @Index
     private Boolean archived = false;
     /**
      * L'envie a été supprimé, mais elle a été noté comme donné.
@@ -101,12 +102,18 @@ public class Envy {
         return this.toDto(false);
     }
 
+    public EnvyDto toDtoNoFiltered() {
+        return this.toDto(false);
+    }
+
     public EnvyDto toDto(boolean filter) {
         EnvyDto envie = new EnvyDto();
         envie.setId(getId());
+        envie.setListId(getList().getName());
         envie.setOwner(getOwner());
         envie.setSuggest(getSuggest());
         envie.setDeleted(getDeleted());
+        envie.setArchived(getArchived());
         envie.setLabel(getLabel());
         envie.setDescription(getDescription());
         envie.setPrice(getPrice());

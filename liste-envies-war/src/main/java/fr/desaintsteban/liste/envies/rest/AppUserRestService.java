@@ -1,6 +1,5 @@
 package fr.desaintsteban.liste.envies.rest;
 
-import com.googlecode.objectify.Key;
 import fr.desaintsteban.liste.envies.dto.AppUserDto;
 import fr.desaintsteban.liste.envies.dto.EnvyDto;
 import fr.desaintsteban.liste.envies.dto.NotificationDto;
@@ -18,8 +17,10 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Path("/utilisateur")
 @Produces(MediaType.APPLICATION_JSON)
@@ -33,20 +34,29 @@ public class AppUserRestService {
         if(user != null){
             LOGGER.info("List appuser");
             List<AppUser> list = AppUserService.list();
-            List<AppUserDto> convertList = list.stream().map(appUser -> new AppUserDto(appUser.getEmail(), appUser.getName())).collect(Collectors.toList());
+            List<AppUserDto> convertList = list.stream().map(appUser -> new AppUserDto(appUser.getEmail(), appUser.getName(), appUser.getBirthday(), appUser.isNewUser())).collect(toList());
             return convertList;
         }
         return null;
     }
 
+    @GET
+    @Path("/my")
+    public AppUserDto getMyAccount() {
+        AppUser appUser = ServletUtils.getUserAuthenticated();
+        return new AppUserDto(appUser.getEmail(), appUser.getName(), appUser.getBirthday(), appUser.isNewUser());
+    }
+
     @POST
     @Path("/{email}")
-    public void addUser(@PathParam("email") String email, AppUserDto appUser) {
+    public AppUserDto addUser(@PathParam("email") String email, AppUserDto appUser) {
         final AppUser user = ServletUtils.getUserAuthenticated();
-        if (user != null && user.isAdmin()) {
+        if (user != null) {
             LOGGER.info("Put " + appUser.getEmail());
-            AppUser orUpdate = AppUserService.createOrUpdate(new AppUser(appUser.getEmail(), appUser.getName()));
+            AppUser orUpdate = AppUserService.createOrUpdate(new AppUser(appUser.getEmail(), appUser.getName(), appUser.getBirthday()));
+            return new AppUserDto(orUpdate.getEmail(), orUpdate.getName(), orUpdate.getBirthday(), orUpdate.isNewUser());
         }
+        return null;
     }
 
     @GET
@@ -56,7 +66,7 @@ public class AppUserRestService {
         if (user != null) {
             LOGGER.info("Get " + email);
             AppUser appUser = AppUserService.get(email);
-            return new AppUserDto(appUser.getEmail(), appUser.getName());
+            return new AppUserDto(appUser.getEmail(), appUser.getName(), appUser.getBirthday(), appUser.isNewUser());
         }
         return null;
     }
@@ -72,7 +82,7 @@ public class AppUserRestService {
         List<Notification> notifs = NotificationsService.list(user);
         if (notifs.isEmpty()) return listNotification;
 
-        listNotification = notifs.stream().map(Notification::toDto).collect(Collectors.toList());
+        listNotification = notifs.stream().map(Notification::toDto).collect(toList());
         return listNotification;
     }
 
@@ -94,7 +104,8 @@ public class AppUserRestService {
         if(user != null){
             LOGGER.info("List archive from " +  email);
             List<Envy> list = EnviesService.archived(user);
-            List<EnvyDto> result = list.stream().map(Envy::toDto).collect(Collectors.toList());
+            List<EnvyDto> result = list.stream().map(Envy::toDtoNoFiltered).collect(toList());
+            fillListTitle(result);
             return result;
         }
         return null;
@@ -107,10 +118,22 @@ public class AppUserRestService {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null){
             LOGGER.info("List given of " + email);
-            List<Envy> list = EnviesService.gived(user);
-            List<EnvyDto> result = list.stream().map(Envy::toDto).collect(Collectors.toList());
+            List<Envy> list = EnviesService.given(user);
+            List<EnvyDto> result = list.stream().map(Envy::toDtoNoFiltered).collect(toList());
+            fillListTitle(result);
             return result;
         }
         return null;
+    }
+
+    private void fillListTitle(List<EnvyDto> result) {
+        List<String> listNames = result.stream().map(EnvyDto::getListId).distinct().collect(toList());
+        Map<String, ListEnvies> listTitles = ListEnviesService.loadAll(listNames);
+        result.forEach(envy -> {
+            ListEnvies listEnvies = listTitles.get(envy.getListId());
+            if (listEnvies != null) {
+                envy.setListTitle(listEnvies.getTitle());
+            }
+        });
     }
 }

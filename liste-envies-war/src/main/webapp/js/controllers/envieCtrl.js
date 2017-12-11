@@ -63,6 +63,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     vm.orderProperties = [{property:'label', label:'Titre', reverse: false, selected: false},
         {property:'date', label:'Date', reverse: true, selected: true},
         {property: orderPrice, label:'Prix', reverse: false, selected: false},
+        {property: 'rating', label:'Note', reverse: true, selected: false},
         {property:'userTakeUsers', label:'Offert', reverse: true, selected: false},
         {property:function (value) {
             return (value.notes)? value.notes.length : -1;
@@ -417,11 +418,11 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     }
 
 
+    $scope.$on('$viewContentLoaded', function() {
         $.material.init();
 
-    vm.refreshLayout(10000);
+        vm.refreshLayout(10000);
 
         $('[data-toggle="tooltip"]').tooltip();
-
-
+    });
 }

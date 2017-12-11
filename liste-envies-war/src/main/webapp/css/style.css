@@ -39,6 +39,13 @@ body {
     padding: 2px;
 }
 
+@media(min-width:1024px) {
+    div.profil-page.main-raised {
+        margin: 0 33.33333333%;
+    }
+}
+
+
 .home-header {
     margin-bottom: 10px;
     padding: 0 20px;
@@ -293,6 +300,10 @@ div.material-icons.form-control-feedback {
     background: white;
 }
 
+.card .header-mutted {
+    background: #eeeeee;
+    border-top: #8c8c8c 6px solid; }
+
 .envie-container {
     padding-top: 20px;
 }
@@ -505,6 +516,9 @@ div.material-icons.form-control-feedback {
     bottom: -10px;
 }
 
+.envie-item h5 {
+    margin-left: 16px;
+}
 
 .spin {
     -webkit-animation: spin .4s infinite linear;
