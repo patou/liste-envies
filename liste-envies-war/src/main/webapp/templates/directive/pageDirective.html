@@ -40,7 +40,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown  hidden-sm hidden-xs" ng-show="main.isAuthenticated">
                     <a type="button"
-                        href="javascript:!function(e,t,n){var o=e.screenLeft||screen.left,i=e.screenTop||screen.top,c=(t=e.innerWidth||document.documentElement.clientWidth||screen.width,n=e.innerHeight||document.documentElement.clientHeight||screen.height,t/2-w/2+o),r=n/2-h/2+i;e.open('http://{{main.host}}/#/addWish/?url='+encodeURIComponent(document.location.href)+'&title='+encodeURIComponent(document.title),'Ajouter sur votre liste d\'envie','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width='+t+',height='+n+',top='+r+',left='+c).focus()}(window,500,700);"
+                        href="javascript:!function(e,t,n,o){var i=e.screenLeft||screen.left,r=e.screenTop||screen.top,c=(e.innerWidth||t.documentElement.clientWidth||screen.width)/2-250+i,s=(e.innerHeight||t.documentElement.clientHeight||screen.height)/2-350+r;e.open('http://{{main.host}}/#/addWish/?url='+encodeURIComponent(t.location.href)+'&title='+encodeURIComponent(t.title),'Ajouter sur votre liste d\'envie','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=500,height=700,top='+s+',left='+c).focus()}(window,document);"
 
                        class="btn btn-default"
                        data-container="body" data-toggle="popover" data-placement="bottom" data-trigger="hover click focus"
