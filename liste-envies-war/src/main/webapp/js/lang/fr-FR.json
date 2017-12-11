@@ -62,7 +62,8 @@
     "CHOOSE_OTHER_LIST_PLACEHOLDER": "Suggestion dans les autres listes :",
     "MESSAGE_SUCESS_CREATE_WISH": "{{wishName}} a bien été ajouté à la liste {{name}}",
     "BUTTON_OPEN_WISH_LIST": "Ouvrir la listes {{name}}",
-    "BUTTON_CLOSE_POP_UP": "Fermer la popup"
+    "BUTTON_CLOSE_POP_UP": "Fermer la popup",
+    "LOG_IN": "Connexion"
   },
   "WISH_CARD_COMPONENT": {
     "DELETE_TITLE":"Supprimé",

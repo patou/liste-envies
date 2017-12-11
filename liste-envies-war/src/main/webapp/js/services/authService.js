@@ -9,13 +9,17 @@ AuthService.$inject = ['$http', '$q'];
         };
         
         obj.refresh = function() {
-	        return $http.get('/user')
-		        .success(function(data) {
-		            return obj.user = eval(data);
-		        })
-	        	.error(function(error) {
-	        		return obj.user = null;
-	        	});
+            return new Promise(function(resolve, error) {
+                $http.get('/user')
+                    .success(function (data) {
+                        obj.user = eval(data);
+                        resolve(obj.user);
+                    })
+                    .error(function (err) {
+                        obj.user = null;
+                        error(err);
+                    });
+            });
     	};
         
         obj.isAuthenticated = function() {
