@@ -730,6 +730,12 @@ div.material-icons.form-control-feedback {
     min-width: 250px;
 }
 
+.notification .badge {
+    margin-top: -22px;
+    margin-left: -15px;
+    margin-right: 15px;
+}
+
 .title-notification {
     color: white !important;
     size: 16px;
