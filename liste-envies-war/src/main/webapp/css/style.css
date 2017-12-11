@@ -65,7 +65,7 @@ body {
 .owner {
     z-index: 2;
     border-color: #337ab7;
-    border-style: dashed;
+    border-style: solid;
     border-width: 1px;
 }
 
@@ -200,7 +200,7 @@ button.copy-button {
     padding: 0;
 }
 
-.btn-magic span {
+.btn-magic i {
     display: none;
 }
 
