@@ -40,7 +40,7 @@ function AddWishCtrl(UtilitiesServices, AuthService, listEnviesService, $routePa
         vm.user = user;
     });
 
-    if (pageInfo && pageInfo.data) {
+    if (pageInfo && pageInfo.domain) {
         //pageInfo = pageInfo.data;
         vm.newWish.external = true;
         vm.newWish.label = $routeParams.title? $routeParams.title : pageInfo.title;
