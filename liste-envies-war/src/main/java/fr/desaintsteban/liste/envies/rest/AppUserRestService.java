@@ -18,12 +18,9 @@ import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
 
 @Path("/utilisateur")
 @Produces(MediaType.APPLICATION_JSON)
@@ -121,7 +118,7 @@ public class AppUserRestService {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null){
             LOGGER.info("List given of " + email);
-            List<Envy> list = EnviesService.gived(user);
+            List<Envy> list = EnviesService.given(user);
             List<EnvyDto> result = list.stream().map(Envy::toDtoNoFiltered).collect(toList());
             fillListTitle(result);
             return result;
