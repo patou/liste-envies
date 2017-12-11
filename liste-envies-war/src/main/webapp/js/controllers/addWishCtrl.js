@@ -100,7 +100,7 @@ function AddWishCtrl(UtilitiesServices, AuthService, listEnviesService, $routePa
 
 
     vm.loginPath = function() {
-        return "/login?path=" + $location.url();
+        return "/login?path=" + encodeURIComponent($location.url());
     };
 
 

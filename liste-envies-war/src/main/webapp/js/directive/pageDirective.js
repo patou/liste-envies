@@ -18,7 +18,7 @@ angular.module('ListeEnviesDirectives')
     });
 PagesDirectivesController.$inject = ['$scope', '$http', '$location', 'AuthService', 'UtilitiesServices', 'appUserService'];
 function PagesDirectivesController ($scope, $http, $location, AuthService, UtilitiesServices, appUserService) {
-    AuthService.refresh();
+
     var main = this;
     if (this.scope) {
         this.scope.main = this;
@@ -35,11 +35,10 @@ function PagesDirectivesController ($scope, $http, $location, AuthService, Utili
 
     main.host = window.location.host;
 
-    main.user = AuthService.getUser();
-    $scope.$watch(function () { return AuthService.getUser(); }, function () {
+    AuthService.refresh().then(function (user) {
         main.isAuthenticated = AuthService.isAuthenticated();
         main.isAdmin = AuthService.isAdmin();
-        main.user = AuthService.getUser();
+        main.user = user;
 
         if (main.isAuthenticated) {
 
@@ -64,10 +63,10 @@ function PagesDirectivesController ($scope, $http, $location, AuthService, Utili
     };
 
     main.loginPath = function() {
-        return "/login?path=" + $location.path();
+        return "/login?path=" + encodeURIComponent($location.path());
     };
     main.logoutPath = function() {
-        return "/logout?path=" + $location.path();
+        return "/logout?path=" + encodeURIComponent($location.path());
     };
 
     main.notifClass = function(type) {
