@@ -33,7 +33,7 @@ public final class EnviesService {
 
     public static List<Envy> gived(AppUser user) {
         Objectify ofy = OfyService.ofy();
-        List<Envy> list = ofy.load().type(Envy.class).filter("userTake =", EncodeUtils.encode(user.getEmail())).list();
+        List<Envy> list = ofy.load().type(Envy.class).filter("userTake =", EncodeUtils.encode(user.getEmail())).filter("archived =", false).list();
         return list;
     }
 

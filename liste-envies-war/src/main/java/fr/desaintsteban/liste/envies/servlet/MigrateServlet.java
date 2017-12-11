@@ -28,16 +28,11 @@ public class MigrateServlet extends HttpServlet {
         List<Envy> list = ofy.load().type(Envy.class).list();
         List<Envy> listConverted = new ArrayList<>();
         for (Envy envie : list) {
-           if (envie.getArchived()) {
-               ListEnvies listEnvies = ofy.load().key(envie.getList()).now();
-               if (listEnvies != null) {
-                   envie.setUserReceived(listEnvies.getUsers()
-                           .stream()
-                           .filter(UserShare::isOwner)
-                           .map(UserShare::getEmail)
-                           .collect(Collectors.toList()));
-                   listConverted.add(envie);
+           if (envie.getUserTake() != null) {
+               if (envie.getArchived() == null) {
+                   envie.setArchived(false);
                }
+               listConverted.add(envie);
            }
         }
         ofy.save().entities(listConverted);

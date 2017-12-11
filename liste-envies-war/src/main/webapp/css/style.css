@@ -300,6 +300,10 @@ div.material-icons.form-control-feedback {
     background: white;
 }
 
+.card .header-mutted {
+    background: #eeeeee;
+    border-top: #8c8c8c 6px solid; }
+
 .envie-container {
     padding-top: 20px;
 }

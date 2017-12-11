@@ -18,6 +18,7 @@ public class EnvyDto {
     private String owner;
     private Boolean suggest = false;
     private Boolean deleted = false;
+    private Boolean archived = false;
     private String label;
 
     private String description;
@@ -82,6 +83,14 @@ public class EnvyDto {
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public Boolean getArchived() {
+        return archived;
+    }
+
+    public void setArchived(Boolean archived) {
+        this.archived = archived;
     }
 
     public String getLabel() {
