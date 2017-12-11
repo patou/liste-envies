@@ -36,7 +36,7 @@ function AddWishCtrl(UtilitiesServices, appUserService, listEnviesService, $rout
 
     vm.newWish = {};
 
-    if (pageInfo) {
+    if (pageInfo && pageInfo.data) {
         //pageInfo = pageInfo.data;
         vm.newWish.external = true;
         vm.newWish.label = $routeParams.title? $routeParams.title : pageInfo.title;
