@@ -20,11 +20,11 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span translate>.CHANGE_LIST</span> <span class="caret"></span></a>
                     <ul class="dropdown-menu mega-dropdown-menu row">
 
-                        <li class="list-group-item" ng-class="{active:aWishList.owner}" ng-repeat="aWishList in main.wishLists"><a ng-click="main.goList(aWishList.name)">
+                        <li class="list-group-item" ng-class="{owner:aWishList.owner}" ng-repeat="aWishList in main.wishLists"><a ng-click="main.goList(aWishList.name)">
                             {{aWishList.title}}
                             <p class="list-group-item-text"> de <span class="owners" ng-repeat="owner in aWishList.owners" title="{{owner.name}}({{owner.email}})"><i class="fa fa-user"></i> {{owner.name}}<span ng-if="!$last" >, </span></span>  </p>
                         </a></li>
-                        <hr style="clear:both"/>
+                        <hr/>
                         <li  class="list-group-item">
                             <a role="button" href="#/archive"><i class="fa fa-fw fa-archive"></i> <span translate>.MENU_ARCHIVED</span></a>
                         </li>
@@ -42,7 +42,7 @@
                     <a type="button"
                         href="javascript:!function(e,t,n,o){var i=e.screenLeft||screen.left,r=e.screenTop||screen.top,c=(e.innerWidth||t.documentElement.clientWidth||screen.width)/2-250+i,s=(e.innerHeight||t.documentElement.clientHeight||screen.height)/2-350+r;e.open('http://{{main.host}}/#/addWish/?url='+encodeURIComponent(t.location.href)+'&title='+encodeURIComponent(t.title),'Ajouter sur votre liste d\'envie','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=500,height=700,top='+s+',left='+c).focus()}(window,document);"
 
-                       class="btn btn-default"
+                       class="btn btn-default btn-magic"
                        data-container="body" data-toggle="popover" data-placement="bottom" data-trigger="hover click focus"
                        ng-mouseover="main.displayPopover($event)"
                        data-delay = '{ "show": 100, "hide": 900 }'
@@ -51,7 +51,7 @@
 
                        translate-attr-title=".MAGIC_BUTTON_POPOVER_TITLE"
                        translate-attr-data-content=".MAGIC_BUTTON_POPOVER_CONTENT"
-                        translate>
+                        translate><span>🎁</span>
                         .MAGIC_BUTTON
                     </a>
 

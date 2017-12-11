@@ -62,11 +62,19 @@ body {
     cursor: pointer;
 }
 
-.list-envies .list-envie-group .list-envies-item.owner {
+.owner {
     z-index: 2;
-    color: #fff;
-    background-color: #337ab7;
-    border-color: #337ab7;;
+    border-color: #337ab7;
+    border-style: dashed;
+    border-width: 1px;
+}
+
+.owner p {
+    color: #337ab7;
+}
+
+.owner a:hover p {
+    color: inherit;
 }
 
 .mega-dropdown {
@@ -85,8 +93,8 @@ body {
     border-right: 17px solid transparent;
     border-left: 17px solid transparent;
     position: absolute;
-    top: -15px;
-    left: 205px;
+    top: -14px;
+    left: 272px;
     z-index: 10;
 }
 .mega-dropdown-menu:after {
@@ -95,14 +103,14 @@ body {
     border-right: 19px solid transparent;
     border-left: 19px solid transparent;
     position: absolute;
-    top: -17px;
-    left: 203px;
+    top: -16px;
+    left: 272px;
     z-index: 8;
 }
 
 .mega-dropdown-menu .list-group-item {
-    float: left;
-    width: 15%;
+    display: inline-block;
+    width: 220px;
     margin: 0.2%;
     padding: 0;
     border-radius: 5px;
@@ -111,8 +119,12 @@ body {
 .mega-dropdown-menu .list-group-item a {
     margin: 0;
     cursor: pointer;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
+.mega-dropdown-menu hr {
 
+}
 
 .edit-button {
     display: none;
@@ -188,6 +200,9 @@ button.copy-button {
     padding: 0;
 }
 
+.btn-magic span {
+    display: none;
+}
 
 
 .list-envie .envie-item:hover .edit-button {

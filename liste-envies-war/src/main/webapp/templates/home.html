@@ -61,7 +61,7 @@
             <div class="list-envie-group col-md-4 col-xs-12" ng-repeat="listenvies in vm.envies">
                 <a class="list-group-item list-envies-item" ng-class="{owner:listenvies.owner}" ng-click="vm.goList(listenvies.name)">
                     <h2 class="list-group-item-heading">{{listenvies.title}}</h2>
-                    <p class="list-group-item-text"> <span translate>.SEPARATOR_USER</span> <span class="owners" ng-repeat="owner in listenvies.owners"><i class="fa fa-user"></i> {{owner.name}}({{owner.email}})<span ng-if="!$last" >, </span></span>  </p>
+                    <p class="list-group-item-text"> <span translate>.SEPARATOR_USER</span> <span class="owners" ng-repeat="owner in listenvies.owners"><i class="fa fa-user"></i> {{owner.name}} ({{owner.email}})<span ng-if="!$last" >, </span></span>  </p>
                 </a>
             </div>
 
