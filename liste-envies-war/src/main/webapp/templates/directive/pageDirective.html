@@ -46,13 +46,10 @@
                        data-container="body" data-toggle="popover" data-placement="bottom" data-trigger="hover click focus"
                        ng-mouseover="main.displayPopover($event)"
                        data-delay = '{ "show": 100, "hide": 900 }'
-
-                       title="Bouton magique pour ajouter une envie depuis n'importe quel site"
-
-                       translate-attr-title=".MAGIC_BUTTON_POPOVER_TITLE"
-                       translate-attr-data-content=".MAGIC_BUTTON_POPOVER_CONTENT"
+                       data-html="true"
+                       data-content="{{'NAVBAR.MAGIC_BUTTON_POPOVER_CONTENT'|translate}}"
                         ><i>🎁</i>
-                        <span translate>.MAGIC_BUTTON</span>
+                        <span translate="NAVBAR.MAGIC_BUTTON"></span>
                     </a>
 
                 </li>

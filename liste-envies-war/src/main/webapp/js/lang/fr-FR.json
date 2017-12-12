@@ -19,8 +19,8 @@
     "MY_PROFIL": "Mon profil",
     "LOG_OUT": "Déconnexion",
     "LOG_IN": "Connexion",
-    "MAGIC_BUTTON_POPOVER_TITLE": "Bouton magique pour ajouter une envie depuis n'importe quel site",
-    "MAGIC_BUTTON_POPOVER_CONTENT": "Déplacer le lien sur votre barre des favoris, puis sur un site où vous souhaitez ajouter une envies, appuyer simplement sur ce favori pour l'ajouter.",
+    "MAGIC_BUTTON_POPOVER_TITLE": "",
+    "MAGIC_BUTTON_POPOVER_CONTENT": "<b>Bouton magique pour ajouter une envie depuis n'importe quel site</b><p>Déplacer le lien sur votre barre des favoris, puis sur un site où vous souhaitez ajouter une envies, appuyer simplement sur ce favori pour l'ajouter.</p>",
     "MAGIC_BUTTON": "Ajouter à une liste d'envie"
   },
   "PAGE": {

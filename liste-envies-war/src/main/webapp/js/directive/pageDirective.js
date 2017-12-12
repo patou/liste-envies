@@ -69,6 +69,10 @@ function PagesDirectivesController ($scope, $http, $location, AuthService, Utili
         return "/logout?path=" + encodeURIComponent($location.path());
     };
 
+    main.getPopoverTitle = function() {
+        return $translate.instant('NAVBAR.MAGIC_BUTTON_POPOVER_TITLE');
+    };
+
     main.notifClass = function(type) {
         switch (type) {
             //ADD_WISH, UPDATE_WISH, DELETE_WISH, GIVEN_WISH, NEW_LIST, ADD_USER, ARCHIVE_WISH, ADD_NOTE
