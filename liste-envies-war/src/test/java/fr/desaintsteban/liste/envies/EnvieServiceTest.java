@@ -16,7 +16,7 @@ import fr.desaintsteban.liste.envies.model.WishList;
 import fr.desaintsteban.liste.envies.model.Notification;
 import fr.desaintsteban.liste.envies.service.AppUserService;
 import fr.desaintsteban.liste.envies.service.EnviesService;
-import fr.desaintsteban.liste.envies.service.ListEnviesService;
+import fr.desaintsteban.liste.envies.service.WishListService;
 import fr.desaintsteban.liste.envies.service.OfyService;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
 import org.junit.After;
@@ -71,8 +71,8 @@ public class EnvieServiceTest {
         emmanuel = new AppUser("emmanuel@desaintsteban.fr", "Emmanuel");
         AppUserService.createOrUpdate(emmanuel);
         clemence = AppUserService.createOrUpdate(new AppUser("clemence@desaintsteban.fr", "Clemence"));
-        listePatrice = ListEnviesService.createOrUpdate(patrice, new WishList("liste-patrice", "Liste de Patrice", patrice.getEmail(), emmanuel.getEmail()));
-        listeEmmanuel = ListEnviesService.createOrUpdate(emmanuel, new WishList("liste-emmanuel", "Liste d'Emmanuel", emmanuel.getEmail(), patrice.getEmail(), clemence.getEmail()));
+        listePatrice = WishListService.createOrUpdate(patrice, new WishList("liste-patrice", "Liste de Patrice", patrice.getEmail(), emmanuel.getEmail()));
+        listeEmmanuel = WishListService.createOrUpdate(emmanuel, new WishList("liste-emmanuel", "Liste d'Emmanuel", emmanuel.getEmail(), patrice.getEmail(), clemence.getEmail()));
 
         EnvyDto itemLivre = EnviesService.createOrUpdate(patrice, "liste-patrice", new Envy(listePatrice, "Livre"));
         livreId = itemLivre.getId();

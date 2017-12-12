@@ -88,7 +88,7 @@ public final class EnviesService {
                 Saver saver = ofy.save();
                 saved.setArchived(true);
                 saved.setDeleted(false);
-                saved.setUserReceived(listEnvies.getUsers()
+                saved.setUserReceived(wishList.getUsers()
                         .stream()
                         .filter(UserShare::isOwner)
                         .map(UserShare::getEmail)

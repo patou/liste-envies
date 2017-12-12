@@ -11,7 +11,7 @@ import com.googlecode.objectify.cache.AsyncCacheFilter;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.WishList;
 import fr.desaintsteban.liste.envies.model.Notification;
-import fr.desaintsteban.liste.envies.service.ListEnviesService;
+import fr.desaintsteban.liste.envies.service.WishListService;
 import fr.desaintsteban.liste.envies.service.OfyService;
 import org.junit.After;
 import org.junit.Before;
@@ -56,8 +56,8 @@ public class WishListServiceTest {
         helper.setUp();
         closable = OfyService.begin();
         patrice = new AppUser("patrice@desaintsteban.fr", "Patrice");
-        ListEnviesService.createOrUpdate(patrice, new WishList("liste-patrice", "Liste de Patrice", "patrice@desaintsteban.fr", "emmanuel@desaintsteban.fr"));
-        ListEnviesService.createOrUpdate(patrice, new WishList("liste-emmanuel", "Liste de Emmanuel", "emmanuel@desaintsteban.fr"));
+        WishListService.createOrUpdate(patrice, new WishList("liste-patrice", "Liste de Patrice", "patrice@desaintsteban.fr", "emmanuel@desaintsteban.fr"));
+        WishListService.createOrUpdate(patrice, new WishList("liste-emmanuel", "Liste de Emmanuel", "emmanuel@desaintsteban.fr"));
     }
 
     @After
@@ -72,7 +72,7 @@ public class WishListServiceTest {
     }
     @Test
     public void testGet() throws Exception {
-        WishList wishList = ListEnviesService.get("liste-patrice");
+        WishList wishList = WishListService.get("liste-patrice");
 
         assertThat(wishList.getName()).isEqualTo("liste-patrice");
         assertThat(wishList.getTitle()).isEqualTo("Liste de Patrice");
@@ -80,26 +80,26 @@ public class WishListServiceTest {
 
     @Test
     public void testList() throws Exception {
-        List<WishList> list = ListEnviesService.list();
+        List<WishList> list = WishListService.list();
         assertThat(list).hasSize(2).onProperty("name").contains("liste-patrice", "liste-emmanuel");
     }
 
     @Test
     public void testListEmails() throws Exception {
-        List<WishList> list = ListEnviesService.list("patrice@desaintsteban.fr");
+        List<WishList> list = WishListService.list("patrice@desaintsteban.fr");
         assertThat(list).hasSize(1).onProperty("name").contains("liste-patrice");
     }
 
     @Test
     public void testCreate() throws Exception {
-        ListEnviesService.createOrUpdate(patrice, new WishList("liste-clemence", "Clemence", "clemence@desaintsteban.fr", "patrice@desaintsteban.fr", "emmanuel@desaintsteban.fr"));
+        WishListService.createOrUpdate(patrice, new WishList("liste-clemence", "Clemence", "clemence@desaintsteban.fr", "patrice@desaintsteban.fr", "emmanuel@desaintsteban.fr"));
     }
 
     @Test
     public void testDelete() throws Exception {
-        ListEnviesService.delete("liste-patrice");
+        WishListService.delete("liste-patrice");
 
-        WishList wishList = ListEnviesService.get("liste-patrice");
+        WishList wishList = WishListService.get("liste-patrice");
         assertThat(wishList).isNull();
     }
 }

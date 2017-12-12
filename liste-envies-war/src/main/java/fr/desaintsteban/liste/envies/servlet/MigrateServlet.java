@@ -2,7 +2,7 @@ package fr.desaintsteban.liste.envies.servlet;
 
 import com.googlecode.objectify.Objectify;
 import fr.desaintsteban.liste.envies.model.Envy;
-import fr.desaintsteban.liste.envies.model.ListEnvies;
+import fr.desaintsteban.liste.envies.model.WishList;
 import fr.desaintsteban.liste.envies.model.UserShare;
 import fr.desaintsteban.liste.envies.service.OfyService;
 
@@ -29,7 +29,7 @@ public class MigrateServlet extends HttpServlet {
         List<Envy> listConverted = new ArrayList<>();
         for (Envy envie : list) {
            if (envie.getArchived()) {
-               ListEnvies listEnvies = ofy.load().key(envie.getList()).now();
+               WishList listEnvies = ofy.load().key(envie.getList()).now();
                if (listEnvies != null) {
                    envie.setUserReceived(listEnvies.getUsers()
                            .stream()

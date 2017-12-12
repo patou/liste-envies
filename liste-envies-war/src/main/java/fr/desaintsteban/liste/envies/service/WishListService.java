@@ -13,10 +13,10 @@ import java.util.Map;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public final class ListEnviesService {
-	private static final Logger LOGGER = Logger.getLogger(ListEnviesService.class.getName());
+public final class WishListService {
+	private static final Logger LOGGER = Logger.getLogger(WishListService.class.getName());
 
-    private ListEnviesService() {}
+    private WishListService() {}
 
 	public static List<WishList> list() {
 		List<WishList> list = OfyService.ofy().load().type(WishList.class).list();

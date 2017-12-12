@@ -1,12 +1,12 @@
 package fr.desaintsteban.liste.envies.rest;
 
-import fr.desaintsteban.liste.envies.dto.ListEnviesDto;
+import fr.desaintsteban.liste.envies.dto.WishListDto;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.WishList;
 import fr.desaintsteban.liste.envies.model.UserShare;
 import fr.desaintsteban.liste.envies.model.UserShareType;
 import fr.desaintsteban.liste.envies.service.AppUserService;
-import fr.desaintsteban.liste.envies.service.ListEnviesService;
+import fr.desaintsteban.liste.envies.service.WishListService;
 import fr.desaintsteban.liste.envies.util.ServletUtils;
 
 import javax.ws.rs.Consumes;
@@ -26,15 +26,15 @@ import static java.util.stream.Collectors.toSet;
 @Path("/liste")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class ListEnviesRestService {
-    private static final Logger LOGGER = Logger.getLogger(ListEnviesRestService.class.getName());
+public class WishListRestService {
+    private static final Logger LOGGER = Logger.getLogger(WishListRestService.class.getName());
 
     @GET
-    public List<ListEnviesDto> getListEnvies() {
+    public List<WishListDto> getListEnvies() {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null){
             LOGGER.info("List users");
-            List<WishList> list = ListEnviesService.list(user.getEmail());
+            List<WishList> list = WishListService.list(user.getEmail());
             return getListEnviesDtos(user, list);
         }
         return null;
@@ -47,11 +47,11 @@ public class ListEnviesRestService {
      */
     @GET
     @Path("/of/{email}")
-    public List<ListEnviesDto> getListEnvies(@PathParam("email") String email) {
+    public List<WishListDto> getListEnvies(@PathParam("email") String email) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null){
             LOGGER.info("List authorized liste for user: "+email);
-            List<WishList> list = ListEnviesService.list(email);
+            List<WishList> list = WishListService.list(email);
             return list.stream().filter(listeEnvy -> listeEnvy.containsOwner(email) && (listeEnvy.containsUser(user.getEmail()) || user.isAdmin())).map(listeEnvy -> listeEnvy.toDto(false, user.getEmail(), null)).collect(toList());
         }
         return null;
@@ -63,11 +63,11 @@ public class ListEnviesRestService {
      */
     @GET
     @Path("/all")
-    public List<ListEnviesDto> getAllList() {
+    public List<WishListDto> getAllList() {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null && user.isAdmin()){
             LOGGER.info("List all WishList");
-            List<WishList> list = ListEnviesService.list();
+            List<WishList> list = WishListService.list();
             return list.stream().map(listeEnvy -> listeEnvy.toDto(false, user.getEmail(), null)).collect(toList());
         }
         return null;
@@ -75,11 +75,11 @@ public class ListEnviesRestService {
 
     @POST
     @Path("/{name}")
-    public ListEnviesDto updateListeEnvie(@PathParam("name") String name, ListEnviesDto listEnvies) {
+    public WishListDto updateListeEnvie(@PathParam("name") String name, WishListDto listEnvies) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null) {
             LOGGER.info("Save WishList " + listEnvies.getName());
-            WishList orUpdate = ListEnviesService.createOrUpdate(user, new WishList(listEnvies));
+            WishList orUpdate = WishListService.createOrUpdate(user, new WishList(listEnvies));
             return orUpdate.toDto(true, user.getEmail(), null);
         }
         return null;
@@ -87,11 +87,11 @@ public class ListEnviesRestService {
 
     @POST
     @Path("/")
-    public ListEnviesDto addListeEnvie(ListEnviesDto listEnvies) {
+    public WishListDto addListeEnvie(WishListDto listEnvies) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null) {
             LOGGER.info("Add WishList " + listEnvies.getName());
-            WishList listEnvie = ListEnviesService.createOrUpdate(user, new WishList(listEnvies));
+            WishList listEnvie = WishListService.createOrUpdate(user, new WishList(listEnvies));
             return getListEnviesDto(user, listEnvie);
         }
         return null;
@@ -99,11 +99,11 @@ public class ListEnviesRestService {
 
     @GET
     @Path("/{name}")
-    public ListEnviesDto getUser(@PathParam("name") String email) {
+    public WishListDto getUser(@PathParam("name") String email) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null) {
             LOGGER.info("Get " + email);
-            WishList wishList = ListEnviesService.get(email);
+            WishList wishList = WishListService.get(email);
             return getListEnviesDto(user, wishList);
         }
         return null;
@@ -115,11 +115,11 @@ public class ListEnviesRestService {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null){
             LOGGER.info("name " + name);
-            ListEnviesService.delete(name);
+            WishListService.delete(name);
         }
     }
 
-    private ListEnviesDto getListEnviesDto(AppUser user, WishList listEnvie) {
+    private WishListDto getListEnviesDto(AppUser user, WishList listEnvie) {
         Map<String,AppUser> map = null;
         if (listEnvie.getUsers() != null) {
             List<String> emails = listEnvie.getUsers().stream().map(UserShare::getEmail).collect(toList());
@@ -128,7 +128,7 @@ public class ListEnviesRestService {
         return listEnvie.toDto(true, user.getEmail(), map);
     }
 
-    private List<ListEnviesDto> getListEnviesDtos(AppUser user, List<WishList> list) {
+    private List<WishListDto> getListEnviesDtos(AppUser user, List<WishList> list) {
         Set<String> emails = list.stream().flatMap(listEnvies -> listEnvies.getUsers().stream()).filter(userShare -> userShare.getType() == UserShareType.OWNER).map(UserShare::getEmail).collect(toSet());
         final Map<String,AppUser> map = AppUserService.loadAll(emails);
         return list.stream().map(listeEnvy -> listeEnvy.toDto(false, user.getEmail(), map)).collect(toList());

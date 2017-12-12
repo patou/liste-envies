@@ -4,7 +4,7 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
-import fr.desaintsteban.liste.envies.dto.ListEnviesDto;
+import fr.desaintsteban.liste.envies.dto.WishListDto;
 import fr.desaintsteban.liste.envies.dto.UserShareDto;
 
 import java.util.ArrayList;
@@ -47,16 +47,42 @@ public class WishList {
         }
     }
 
-    public WishList(ListEnviesDto dto) {
+    public WishList(String name, String title, String description, String picture, WishListType type,
+                    Date date, WishOptionType option, SharingPrivacyType privacy, String owner, String... shared) {
+        this.name = name;
+        this.title = title;
+        this.description = description;
+        this.users = users;
+        this.picture = picture;
+        this.type = type;
+        this.date = date;
+        this.option = option;
+        this.privacy = privacy;
+
+        users = new ArrayList<>();
+        users.add(new UserShare(owner, UserShareType.OWNER));
+        for (String shareUser : shared) {
+            users.add(new UserShare(shareUser, UserShareType.SHARED));
+        }
+    }
+
+
+    public WishList(WishListDto dto) {
         setName(dto.getName());
         setTitle(dto.getTitle());
         setDescription(dto.getDescription());
         List<UserShare> users = dto.getUsers().stream().map(userShareDto -> new UserShare(userShareDto.getEmail(), userShareDto.getType())).collect(Collectors.toList());
         setUsers(users);
+
+        setPicture( dto.getPicture());
+        setType( dto.getType());
+        setDate( dto.getDate());
+        setOption( dto.getOption());
+        setPrivacy( dto.getPrivacy());
     }
 
-    public ListEnviesDto toDto(boolean convertUsers, String userEmail, Map<String, AppUser> userName) {
-        ListEnviesDto dto = new ListEnviesDto();
+    public WishListDto toDto(boolean convertUsers, String userEmail, Map<String, AppUser> userName) {
+        WishListDto dto = new WishListDto();
         dto.setName(getName());
         dto.setTitle(getTitle());
         dto.setDescription(getDescription());
@@ -79,6 +105,13 @@ public class WishList {
         if (userEmail != null) {
             dto.setOwner(containsOwner(userEmail));
         }
+
+        dto.setPicture( getPicture());
+        dto.setType( getType());
+        dto.setDate( getDate());
+        dto.setOption( getOption());
+        dto.setPrivacy( getPrivacy());
+
         return dto;
     }
 
@@ -112,6 +145,47 @@ public class WishList {
 
     public void setUsers(List<UserShare> users) {
         this.users = users;
+    }
+
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public WishListType getType() {
+        return type;
+    }
+
+    public void setType(WishListType type) {
+        this.type = type;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public WishOptionType getOption() {
+        return option;
+    }
+
+    public void setOption(WishOptionType option) {
+        this.option = option;
+    }
+
+    public SharingPrivacyType getPrivacy() {
+        return privacy;
+    }
+
+    public void setPrivacy(SharingPrivacyType privacy) {
+        this.privacy = privacy;
     }
 
     public boolean containsOwner(String email) {
