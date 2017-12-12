@@ -2,6 +2,7 @@ package fr.desaintsteban.liste.envies.servlet;
 
 import com.googlecode.objectify.Objectify;
 import fr.desaintsteban.liste.envies.model.Envy;
+import fr.desaintsteban.liste.envies.model.ListEnvies;
 import fr.desaintsteban.liste.envies.model.WishList;
 import fr.desaintsteban.liste.envies.model.UserShare;
 import fr.desaintsteban.liste.envies.service.OfyService;
@@ -25,20 +26,17 @@ public class MigrateServlet extends HttpServlet {
         resp.setContentType("text/plain;charset=UTF-8");
         PrintWriter out = resp.getWriter();
         Objectify ofy = OfyService.ofy();
-        List<Envy> list = ofy.load().type(Envy.class).list();
-        List<Envy> listConverted = new ArrayList<>();
-        for (Envy envie : list) {
-           if (envie.getArchived()) {
-               WishList listEnvies = ofy.load().key(envie.getList()).now();
-               if (listEnvies != null) {
-                   envie.setUserReceived(listEnvies.getUsers()
-                           .stream()
-                           .filter(UserShare::isOwner)
-                           .map(UserShare::getEmail)
-                           .collect(Collectors.toList()));
-                   listConverted.add(envie);
-               }
-           }
+        List<ListEnvies> list = ofy.load().type(ListEnvies.class).list();
+        List<WishList> listConverted = new ArrayList<>();
+        for (ListEnvies listEnvy : list) {
+            WishList newWishList = new WishList();
+
+            newWishList.setName(listEnvy.getName());
+            newWishList.setTitle(listEnvy.getTitle());
+            newWishList.setDescription(listEnvy.getDescription());
+            newWishList.setUsers(listEnvy.getUsers());
+
+            listConverted.add(newWishList);
         }
         ofy.save().entities(listConverted);
 
