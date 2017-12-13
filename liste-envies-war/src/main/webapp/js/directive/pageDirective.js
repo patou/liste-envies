@@ -63,10 +63,10 @@ function PagesDirectivesController ($scope, $http, $location, AuthService, Utili
     };
 
     main.loginPath = function() {
-        return "/login?path=" + encodeURIComponent($location.path());
+        return "/user/login?path=" + encodeURIComponent($location.path());
     };
     main.logoutPath = function() {
-        return "/logout?path=" + encodeURIComponent($location.path());
+        return "/user/logout?path=" + encodeURIComponent($location.path());
     };
 
     main.getPopoverTitle = function() {

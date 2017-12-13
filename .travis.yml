@@ -23,7 +23,7 @@ after_success:
     else
       echo ${GOOGLE_CLIENT_SECRET_TEST} > client-secret.json;
       export APP_ID=${CLOUDSDK_TEST_PROJECT};
-      export APP_VERSION=${TRAVIS_BRANCH/_/-/g};
+      export APP_VERSION=${TRAVIS_BRANCH//_/-};
     fi
   - echo "Deploy application ${APP_ID} version ${APP_VERSION}"
   - gcloud auth activate-service-account --key-file client-secret.json

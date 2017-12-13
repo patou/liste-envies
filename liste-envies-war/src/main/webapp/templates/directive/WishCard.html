@@ -164,6 +164,6 @@
                 <button type="submit" class="btn btn-success" ng-click="w.updateWish()" ng-disabled="!w.listName" translate="{{!w.add ? '.EDIT' : '.ADD'}}"></button>
                 <button type="submit" class="btn btn-danger btn-simple" ng-click="w.cancelWish()" translate=".CANCEL"></button>
             </div>
-            <h5 ng-show="w.wish.listTitle"><i class="fa fa-gift"></i><a href="#/{{w.wish.listId}}">{{w.wish.listTitle}}</a></h5>
+            <h5 ng-show="w.wish.listTitle"><i class="fa fa-gift"></i><a href="/{{w.wish.listId}}">{{w.wish.listTitle}}</a></h5>
         </div>
     </div>

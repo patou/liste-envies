@@ -10,7 +10,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#/"><i class="fa fa-gift"></i> <span translate=".TITLE"></span></a>
+            <a class="navbar-brand" href="/"><i class="fa fa-gift"></i> <span translate=".TITLE"></span></a>
         </div>
 
         <div class="collapse navbar-collapse ng-cloak " id="bs-example-navbar-collapse-1">
@@ -26,10 +26,10 @@
                         </a></li>
                         <hr/>
                         <li  class="list-group-item">
-                            <a role="button" href="#/archive"><i class="fa fa-fw fa-archive"></i> <span translate>.MENU_ARCHIVED</span></a>
+                            <a role="button" href="/archive"><i class="fa fa-fw fa-archive"></i> <span translate>.MENU_ARCHIVED</span></a>
                         </li>
                         <li  class="list-group-item">
-                            <a role="button" href="#/given"><i class="fa fa-fw fa-gift"></i> <span translate>.MENU_GIVEN</span></a>
+                            <a role="button" href="/given"><i class="fa fa-fw fa-gift"></i> <span translate>.MENU_GIVEN</span></a>
                         </li>
 
                     </ul>
@@ -40,7 +40,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown  hidden-sm hidden-xs" ng-show="main.isAuthenticated">
                     <a type="button"
-                        href="javascript:!function(e,t,n,o){var i=e.screenLeft||screen.left,r=e.screenTop||screen.top,c=(e.innerWidth||t.documentElement.clientWidth||screen.width)/2-250+i,s=(e.innerHeight||t.documentElement.clientHeight||screen.height)/2-350+r;e.open('http://{{main.host}}/#/addWish/?url='+encodeURIComponent(t.location.href)+'&title='+encodeURIComponent(t.title),'Ajouter sur votre liste d\'envie','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=500,height=700,top='+s+',left='+c).focus()}(window,document);"
+                        href="javascript:!function(e,t,n,o){var i=e.screenLeft||screen.left,r=e.screenTop||screen.top,c=(e.innerWidth||t.documentElement.clientWidth||screen.width)/2-250+i,s=(e.innerHeight||t.documentElement.clientHeight||screen.height)/2-350+r;e.open('http://{{main.host}}/addWish/?url='+encodeURIComponent(t.location.href)+'&title='+encodeURIComponent(t.title),'Ajouter sur votre liste d\'envie','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=500,height=700,top='+s+',left='+c).focus()}(window,document);"
 
                        class="btn btn-default btn-magic"
                        data-container="body" data-toggle="popover" data-placement="bottom" data-trigger="hover click focus"
@@ -73,21 +73,21 @@
                     <ul class="dropdown-menu">
                         <li><div>{{main.user.email}}</div></li>
                         <li>
-                            <a href="#/profil"><i class="fa fa-fw fa-user"></i> <span translate=".MY_PROFIL"></span> </a>
+                            <a href="/profil"><i class="fa fa-fw fa-user"></i> <span translate=".MY_PROFIL"></span> </a>
                         </li>
                         <li>
-                            <a role="button" href="#/archive"><i class="fa fa-fw fa-archive"></i> <span translate>.MENU_ARCHIVED</span></a>
+                            <a role="button" href="/archive"><i class="fa fa-fw fa-archive"></i> <span translate>.MENU_ARCHIVED</span></a>
                         </li>
                         <li>
-                            <a role="button" href="#/given"><i class="fa fa-fw fa-gift"></i> <span translate>.MENU_GIVEN</span></a>
+                            <a role="button" href="/given"><i class="fa fa-fw fa-gift"></i> <span translate>.MENU_GIVEN</span></a>
                         </li>
                         <li>
-                            <a ng-href="{{main.logoutPath()}}"><i class="fa fa-fw fa-power-off"></i><span translate=".LOG_OUT"></span></a>
+                            <a ng-href="{{main.logoutPath()}}" target="_top"><i class="fa fa-fw fa-power-off"></i><span translate=".LOG_OUT"></span></a>
                         </li>
                     </ul>
                 </li>
                 <li ng-hide="main.isAuthenticated">
-                    <a ng-href="{{main.loginPath()}}" translate>.LOG_IN</a>
+                    <a ng-href="{{main.loginPath()}}" translate target="_top">.LOG_IN</a>
                 </li>
             </ul>
         </div><!-- /.navbar-collapse -->
