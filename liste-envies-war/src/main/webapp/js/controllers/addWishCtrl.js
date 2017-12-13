@@ -1,6 +1,6 @@
 app.controller('AddWishCtrl', AddWishCtrl);
-AddWishCtrl.$inject = ['UtilitiesServices', 'appUserService', 'listEnviesService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse', '$interval', '$timeout', 'pageInfo'];
-function AddWishCtrl(UtilitiesServices, appUserService, listEnviesService, $routeParams, $location,
+AddWishCtrl.$inject = ['UtilitiesServices', 'AuthService', 'listEnviesService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse', '$interval', '$timeout', 'pageInfo'];
+function AddWishCtrl(UtilitiesServices, AuthService, listEnviesService, $routeParams, $location,
                      $anchorScroll, $scope, $parse, $interval, $timeout, pageInfo) {
     var vm = this;
     //vm.name = $routeParams.name;
@@ -36,7 +36,11 @@ function AddWishCtrl(UtilitiesServices, appUserService, listEnviesService, $rout
 
     vm.newWish = {};
 
-    if (pageInfo && pageInfo.data) {
+    AuthService.refresh().then(function(user) {
+        vm.user = user;
+    });
+
+    if (pageInfo && pageInfo.domain) {
         //pageInfo = pageInfo.data;
         vm.newWish.external = true;
         vm.newWish.label = $routeParams.title? $routeParams.title : pageInfo.title;
@@ -92,10 +96,12 @@ function AddWishCtrl(UtilitiesServices, appUserService, listEnviesService, $rout
         setTimeout(function () {
             window.close();
         }, 200);
-    }
+    };
 
 
-
+    vm.loginPath = function() {
+        return "/login?path=" + encodeURIComponent($location.url());
+    };
 
 
 

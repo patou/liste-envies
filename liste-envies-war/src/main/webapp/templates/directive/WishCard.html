@@ -161,7 +161,7 @@
                 <p><span class="label label-success">Tecnologia</span><span class="label label-warning">Programação</span><span class="label label-danger">Python</span><span class="label label-info">Dinâmica</span></p>-->
             </div>
             <div class="footer panel-footer bottom-envie" ng-if="w.edit">
-                <button type="submit" class="btn btn-success" ng-click="w.updateWish()" translate="{{!w.add ? '.EDIT' : '.ADD'}}"></button>
+                <button type="submit" class="btn btn-success" ng-click="w.updateWish()" ng-disabled="!w.listName" translate="{{!w.add ? '.EDIT' : '.ADD'}}"></button>
                 <button type="submit" class="btn btn-danger btn-simple" ng-click="w.cancelWish()" translate=".CANCEL"></button>
             </div>
             <h5 ng-show="w.wish.listTitle"><i class="fa fa-gift"></i><a href="#/{{w.wish.listId}}">{{w.wish.listTitle}}</a></h5>
