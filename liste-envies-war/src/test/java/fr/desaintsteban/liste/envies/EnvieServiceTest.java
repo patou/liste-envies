@@ -8,14 +8,14 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cache.AsyncCacheFilter;
-import fr.desaintsteban.liste.envies.dto.EnvyDto;
+import fr.desaintsteban.liste.envies.dto.WishDto;
 import fr.desaintsteban.liste.envies.dto.NoteDto;
 import fr.desaintsteban.liste.envies.model.AppUser;
-import fr.desaintsteban.liste.envies.model.Envy;
+import fr.desaintsteban.liste.envies.model.Wish;
 import fr.desaintsteban.liste.envies.model.WishList;
 import fr.desaintsteban.liste.envies.model.Notification;
 import fr.desaintsteban.liste.envies.service.AppUserService;
-import fr.desaintsteban.liste.envies.service.EnviesService;
+import fr.desaintsteban.liste.envies.service.WishesService;
 import fr.desaintsteban.liste.envies.service.WishListService;
 import fr.desaintsteban.liste.envies.service.OfyService;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
@@ -57,7 +57,7 @@ public class EnvieServiceTest {
             }
         });
         ObjectifyService.factory().register(AppUser.class);
-        ObjectifyService.factory().register(Envy.class);
+        ObjectifyService.factory().register(Wish.class);
         ObjectifyService.factory().register(WishList.class);
         ObjectifyService.factory().register(Notification.class);
     }
@@ -74,11 +74,11 @@ public class EnvieServiceTest {
         listePatrice = WishListService.createOrUpdate(patrice, new WishList("liste-patrice", "Liste de Patrice", patrice.getEmail(), emmanuel.getEmail()));
         listeEmmanuel = WishListService.createOrUpdate(emmanuel, new WishList("liste-emmanuel", "Liste d'Emmanuel", emmanuel.getEmail(), patrice.getEmail(), clemence.getEmail()));
 
-        EnvyDto itemLivre = EnviesService.createOrUpdate(patrice, "liste-patrice", new Envy(listePatrice, "Livre"));
+        WishDto itemLivre = WishesService.createOrUpdate(patrice, "liste-patrice", new Wish(listePatrice, "Livre"));
         livreId = itemLivre.getId();
-        EnvyDto itemDvd = EnviesService.createOrUpdate(patrice, "liste-patrice", new Envy(listePatrice, "DVD"));
+        WishDto itemDvd = WishesService.createOrUpdate(patrice, "liste-patrice", new Wish(listePatrice, "DVD"));
         dvdId = itemDvd.getId();
-        EnviesService.given(emmanuel, "liste-patrice", livreId);
+        WishesService.given(emmanuel, "liste-patrice", livreId);
     }
 
     @After
@@ -94,45 +94,45 @@ public class EnvieServiceTest {
 
     @Test
     public void testGetSameUser() throws Exception {
-        Envy envie = EnviesService.get(patrice, "liste-patrice", livreId);
+        Wish envie = WishesService.get(patrice, "liste-patrice", livreId);
         assertThat(envie.getLabel()).isEqualTo("Livre");
         assertThat(envie.getUserTake()).isNull();
     }
 
     @Test
     public void testGetNotSameUser() throws Exception {
-        Envy envie = EnviesService.get(emmanuel, "liste-patrice", livreId);
+        Wish envie = WishesService.get(emmanuel, "liste-patrice", livreId);
         assertThat(envie.getLabel()).isEqualTo("Livre");
         assertThat(envie.getUserTake()).contains(EncodeUtils.encode("emmanuel@desaintsteban.fr"));
     }
 
     @Test
     public void testList() throws Exception {
-        List<Envy> list = EnviesService.list(patrice, "liste-patrice");
+        List<Wish> list = WishesService.list(patrice, "liste-patrice");
         assertThat(list).hasSize(2).onProperty("label").contains("Livre", "DVD");
         assertThat(list).hasSize(2).onProperty("userTake").excludes(EncodeUtils.encode("emmanuel@desaintsteban.fr"));
     }
 
     @Test
     public void testListOther() throws Exception {
-        List<Envy> list = EnviesService.list(emmanuel, "liste-patrice");
+        List<Wish> list = WishesService.list(emmanuel, "liste-patrice");
         assertThat(list).hasSize(2).onProperty("label").contains("Livre", "DVD");
         //assertThat(list).hasSize(2).onProperty("userTake"). contains(EncodeUtils.encode("emmanuel@desaintsteban.fr"));
     }
 
     @Test
     public void testCreate() throws Exception {
-        EnvyDto itemDvd = EnviesService.createOrUpdate(emmanuel, "liste-emmanuel", new Envy(listeEmmanuel, "DVD"));
+        WishDto itemDvd = WishesService.createOrUpdate(emmanuel, "liste-emmanuel", new Wish(listeEmmanuel, "DVD"));
     }
 
     @Test
     public void testDelete() throws Exception {
-        EnviesService.delete(patrice, "liste-patrice", livreId);
+        WishesService.delete(patrice, "liste-patrice", livreId);
     }
 
     @Test
     public void testSaveNote() throws Exception {
-        EnvyDto initdto = new EnvyDto();
+        WishDto initdto = new WishDto();
         initdto.setLabel("Test");
         NoteDto c1 = new NoteDto();
         c1.setOwner("Emmanuel");
@@ -142,15 +142,15 @@ public class EnvieServiceTest {
         c2.setEmail("clemence@desaintsteban.fr");
         c2.setOwner("Patrice");
         c2.setText("Commentaire2");
-        Envy envie = new Envy(initdto);
+        Wish envie = new Wish(initdto);
 
-        EnvyDto saved = EnviesService.createOrUpdate(emmanuel, "liste-emmanuel", envie);
+        WishDto saved = WishesService.createOrUpdate(emmanuel, "liste-emmanuel", envie);
 
-        EnviesService.addNote(patrice, saved.getId(), "liste-emmanuel", c1);
-        EnviesService.addNote(clemence, saved.getId(), "liste-emmanuel", c2);
-        Envy get = EnviesService.get(patrice, "liste-emmanuel", saved.getId());
+        WishesService.addNote(patrice, saved.getId(), "liste-emmanuel", c1);
+        WishesService.addNote(clemence, saved.getId(), "liste-emmanuel", c2);
+        Wish get = WishesService.get(patrice, "liste-emmanuel", saved.getId());
 
-        EnvyDto dto = get.toDto();
+        WishDto dto = get.toDto();
 
         assertThat(dto.getLabel()).isEqualTo(initdto.getLabel());
         assertThat(dto.getNotes()).onProperty("email").contains("clemence@desaintsteban.fr", "patrice@desaintsteban.fr");

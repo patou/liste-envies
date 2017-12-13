@@ -10,7 +10,7 @@ import java.util.List;
  * 01/10/2014.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class EnvyDto {
+public class WishDto {
     private Long id;
 
     private String owner;
@@ -31,7 +31,7 @@ public class EnvyDto {
 
     private int rating;
 
-    public EnvyDto() {
+    public WishDto() {
     }
 
     public Long getId() {

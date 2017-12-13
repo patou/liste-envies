@@ -3,7 +3,7 @@ package fr.desaintsteban.liste.envies.model;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.*;
 import com.googlecode.objectify.condition.IfNotNull;
-import fr.desaintsteban.liste.envies.dto.EnvyDto;
+import fr.desaintsteban.liste.envies.dto.WishDto;
 import fr.desaintsteban.liste.envies.dto.NoteDto;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
 import fr.desaintsteban.liste.envies.util.StringUtils;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  */
 @Cache
 @Entity
-public class Envy {
+public class Wish {
 
     @Parent
     @JsonIgnore
@@ -65,12 +65,12 @@ public class Envy {
     private List<Note> notes;
 
 
-    public Envy() {
+    public Wish() {
         this.notes = new ArrayList<>();
         this.rating = 0;
     }
 
-    public Envy(WishList list, String label) {
+    public Wish(WishList list, String label) {
         this.list = Key.create(list);
         this.label = label;
         this.notes = new ArrayList<>();
@@ -78,57 +78,57 @@ public class Envy {
     }
 
 
-    public Envy(EnvyDto envie) {
-        setId(envie.getId());
-        setOwner(envie.getOwner());
-        setSuggest(envie.getSuggest());
-        setDeleted(envie.getDeleted());
-        setLabel(envie.getLabel());
-        setDescription(envie.getDescription());
-        setPrice(envie.getPrice());
-        setPicture(envie.getPicture());
-        setDate(envie.getDate());
-        setUrls(envie.getUrls());
-        setRating(envie.getRating());
-        if (envie.getUserTake() != null) {
-            List<String> userTake = envie.getUserTake().stream().map(EncodeUtils::encode).collect(Collectors.toList());
+    public Wish(WishDto wish) {
+        setId(wish.getId());
+        setOwner(wish.getOwner());
+        setSuggest(wish.getSuggest());
+        setDeleted(wish.getDeleted());
+        setLabel(wish.getLabel());
+        setDescription(wish.getDescription());
+        setPrice(wish.getPrice());
+        setPicture(wish.getPicture());
+        setDate(wish.getDate());
+        setUrls(wish.getUrls());
+        setRating(wish.getRating());
+        if (wish.getUserTake() != null) {
+            List<String> userTake = wish.getUserTake().stream().map(EncodeUtils::encode).collect(Collectors.toList());
             setUserTake(userTake);
         }
         this.notes = new ArrayList<>();
     }
 
-    public EnvyDto toDto() {
+    public WishDto toDto() {
         return this.toDto(false);
     }
 
-    public EnvyDto toDto(boolean filter) {
-        EnvyDto envie = new EnvyDto();
-        envie.setId(getId());
-        envie.setOwner(getOwner());
-        envie.setSuggest(getSuggest());
-        envie.setDeleted(getDeleted());
-        envie.setLabel(getLabel());
-        envie.setDescription(getDescription());
-        envie.setPrice(getPrice());
-        envie.setPicture(getPicture());
-        envie.setDate(getDate());
-        envie.setRating(getRating());
-        envie.setUrls(getUrls());
+    public WishDto toDto(boolean filter) {
+        WishDto wish = new WishDto();
+        wish.setId(getId());
+        wish.setOwner(getOwner());
+        wish.setSuggest(getSuggest());
+        wish.setDeleted(getDeleted());
+        wish.setLabel(getLabel());
+        wish.setDescription(getDescription());
+        wish.setPrice(getPrice());
+        wish.setPicture(getPicture());
+        wish.setDate(getDate());
+        wish.setRating(getRating());
+        wish.setUrls(getUrls());
 
         if (!filter) { // Do not add this, if you doesn't want to have this information. For filter it.
             if (getUserTake() != null) {
-                envie.setUserTake(getUserTake().stream().map(EncodeUtils::decode).collect(Collectors.toList()));
+                wish.setUserTake(getUserTake().stream().map(EncodeUtils::decode).collect(Collectors.toList()));
             }
             else {
-                envie.setUserTake(Collections.emptyList());
+                wish.setUserTake(Collections.emptyList());
             }
             if (this.notes != null && !this.notes.isEmpty()) {
                 List<NoteDto> listNoteDto = this.notes.stream().map(Note::toDto).collect(Collectors.toList());
-                envie.setNotes(listNoteDto);
+                wish.setNotes(listNoteDto);
             }
         }
 
-        return envie;
+        return wish;
     }
 
     public Key<WishList> getList() {

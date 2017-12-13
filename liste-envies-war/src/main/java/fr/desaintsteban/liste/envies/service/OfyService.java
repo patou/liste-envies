@@ -5,12 +5,18 @@ import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.util.Closeable;
 import fr.desaintsteban.liste.envies.model.*;
+import fr.desaintsteban.liste.envies.model.deprecated.Envy;
+import fr.desaintsteban.liste.envies.model.deprecated.ListEnvies;
 
 public final class OfyService {
     static {
     	factory().register(AppUser.class);
-        factory().register(Envy.class);
+        factory().register(Wish.class);
         factory().register(WishList.class);
+        // todo delete when migrated
+        factory().register(Envy.class);
+        factory().register(ListEnvies.class);
+
         factory().register(Notification.class);
     }
 

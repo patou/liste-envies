@@ -1,13 +1,13 @@
 package fr.desaintsteban.liste.envies.rest;
 
 import fr.desaintsteban.liste.envies.dto.AppUserDto;
-import fr.desaintsteban.liste.envies.dto.EnvyDto;
+import fr.desaintsteban.liste.envies.dto.WishDto;
 import fr.desaintsteban.liste.envies.dto.NotificationDto;
 import fr.desaintsteban.liste.envies.model.AppUser;
-import fr.desaintsteban.liste.envies.model.Envy;
+import fr.desaintsteban.liste.envies.model.Wish;
 import fr.desaintsteban.liste.envies.model.Notification;
 import fr.desaintsteban.liste.envies.service.AppUserService;
-import fr.desaintsteban.liste.envies.service.EnviesService;
+import fr.desaintsteban.liste.envies.service.WishesService;
 import fr.desaintsteban.liste.envies.service.NotificationsService;
 import fr.desaintsteban.liste.envies.util.ServletUtils;
 
@@ -76,7 +76,7 @@ public class AppUserRestService {
 
     @DELETE
     @Path("/{email}")
-    public void deleteEnvie(@PathParam("email") String email){
+    public void deleteUser(@PathParam("email") String email){
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null && user.isAdmin()){
             LOGGER.info("Delete " + email);
@@ -86,12 +86,12 @@ public class AppUserRestService {
 
     @GET
     @Path("/{email}/archived")
-    public List<EnvyDto> getArchivedWished(@PathParam("email") String email) {
+    public List<WishDto> getArchivedWished(@PathParam("email") String email) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null){
             LOGGER.info("List archive from " +  email);
-            List<Envy> list = EnviesService.archived(user);
-            List<EnvyDto> result = list.stream().map(Envy::toDto).collect(Collectors.toList());
+            List<Wish> list = WishesService.archived(user);
+            List<WishDto> result = list.stream().map(Wish::toDto).collect(Collectors.toList());
             return result;
         }
         return null;
@@ -100,12 +100,12 @@ public class AppUserRestService {
 
     @GET
     @Path("/{email}/given")
-    public List<EnvyDto> getGivenWished(@PathParam("email") String email) {
+    public List<WishDto> getGivenWished(@PathParam("email") String email) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null){
             LOGGER.info("List given of " + email);
-            List<Envy> list = EnviesService.gived(user);
-            List<EnvyDto> result = list.stream().map(Envy::toDto).collect(Collectors.toList());
+            List<Wish> list = WishesService.gived(user);
+            List<WishDto> result = list.stream().map(Wish::toDto).collect(Collectors.toList());
             return result;
         }
         return null;

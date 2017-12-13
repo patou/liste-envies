@@ -30,29 +30,29 @@ public class WishListRestService {
     private static final Logger LOGGER = Logger.getLogger(WishListRestService.class.getName());
 
     @GET
-    public List<WishListDto> getListEnvies() {
+    public List<WishListDto> getWishListForUser() {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null){
             LOGGER.info("List users");
             List<WishList> list = WishListService.list(user.getEmail());
-            return getListEnviesDtos(user, list);
+            return getAllWhishListDtosForUser(user, list);
         }
         return null;
     }
 
     /**
-     * Récuppère les listes d'un utilisateur filtré par l'utilisateur courant
+     * Récupère les listes d'un utilisateur filtré par l'utilisateur courant
      * @param email
      * @return
      */
     @GET
     @Path("/of/{email}")
-    public List<WishListDto> getListEnvies(@PathParam("email") String email) {
+    public List<WishListDto> getWishListForUser(@PathParam("email") String email) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null){
             LOGGER.info("List authorized liste for user: "+email);
             List<WishList> list = WishListService.list(email);
-            return list.stream().filter(listeEnvy -> listeEnvy.containsOwner(email) && (listeEnvy.containsUser(user.getEmail()) || user.isAdmin())).map(listeEnvy -> listeEnvy.toDto(false, user.getEmail(), null)).collect(toList());
+            return list.stream().filter(wishList -> wishList.containsOwner(email) && (wishList.containsUser(user.getEmail()) || user.isAdmin())).map(listeEnvy -> listeEnvy.toDto(false, user.getEmail(), null)).collect(toList());
         }
         return null;
     }
@@ -68,18 +68,18 @@ public class WishListRestService {
         if(user != null && user.isAdmin()){
             LOGGER.info("List all WishList");
             List<WishList> list = WishListService.list();
-            return list.stream().map(listeEnvy -> listeEnvy.toDto(false, user.getEmail(), null)).collect(toList());
+            return list.stream().map(wishList -> wishList.toDto(false, user.getEmail(), null)).collect(toList());
         }
         return null;
     }
 
     @POST
     @Path("/{name}")
-    public WishListDto updateListeEnvie(@PathParam("name") String name, WishListDto listEnvies) {
+    public WishListDto updateWishList(@PathParam("name") String name, WishListDto wishListDto) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null) {
-            LOGGER.info("Save WishList " + listEnvies.getName());
-            WishList orUpdate = WishListService.createOrUpdate(user, new WishList(listEnvies));
+            LOGGER.info("Save WishList " + wishListDto.getName());
+            WishList orUpdate = WishListService.createOrUpdate(user, new WishList(wishListDto));
             return orUpdate.toDto(true, user.getEmail(), null);
         }
         return null;
@@ -87,31 +87,31 @@ public class WishListRestService {
 
     @POST
     @Path("/")
-    public WishListDto addListeEnvie(WishListDto listEnvies) {
+    public WishListDto addWishList(WishListDto wishListDto) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null) {
-            LOGGER.info("Add WishList " + listEnvies.getName());
-            WishList listEnvie = WishListService.createOrUpdate(user, new WishList(listEnvies));
-            return getListEnviesDto(user, listEnvie);
+            LOGGER.info("Add WishList " + wishListDto.getName());
+            WishList wishList = WishListService.createOrUpdate(user, new WishList(wishListDto));
+            return getOneWishListDtoForUser(user, wishList);
         }
         return null;
     }
 
     @GET
     @Path("/{name}")
-    public WishListDto getUser(@PathParam("name") String email) {
+    public WishListDto getOneWishListForUser(@PathParam("name") String email) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null) {
             LOGGER.info("Get " + email);
             WishList wishList = WishListService.get(email);
-            return getListEnviesDto(user, wishList);
+            return getOneWishListDtoForUser(user, wishList);
         }
         return null;
     }
 
     @DELETE
     @Path("/{name}")
-    public void deleteEnvie(@PathParam("name") String name){
+    public void deleteWishList(@PathParam("name") String name){
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null){
             LOGGER.info("name " + name);
@@ -119,18 +119,18 @@ public class WishListRestService {
         }
     }
 
-    private WishListDto getListEnviesDto(AppUser user, WishList listEnvie) {
+    private WishListDto getOneWishListDtoForUser(AppUser user, WishList wishList) {
         Map<String,AppUser> map = null;
-        if (listEnvie.getUsers() != null) {
-            List<String> emails = listEnvie.getUsers().stream().map(UserShare::getEmail).collect(toList());
+        if (wishList.getUsers() != null) {
+            List<String> emails = wishList.getUsers().stream().map(UserShare::getEmail).collect(toList());
             map = AppUserService.loadAll(emails);
         }
-        return listEnvie.toDto(true, user.getEmail(), map);
+        return wishList.toDto(true, user.getEmail(), map);
     }
 
-    private List<WishListDto> getListEnviesDtos(AppUser user, List<WishList> list) {
-        Set<String> emails = list.stream().flatMap(listEnvies -> listEnvies.getUsers().stream()).filter(userShare -> userShare.getType() == UserShareType.OWNER).map(UserShare::getEmail).collect(toSet());
+    private List<WishListDto> getAllWhishListDtosForUser(AppUser user, List<WishList> list) {
+        Set<String> emails = list.stream().flatMap(wishList -> wishList.getUsers().stream()).filter(userShare -> userShare.getType() == UserShareType.OWNER).map(UserShare::getEmail).collect(toSet());
         final Map<String,AppUser> map = AppUserService.loadAll(emails);
-        return list.stream().map(listeEnvy -> listeEnvy.toDto(false, user.getEmail(), map)).collect(toList());
+        return list.stream().map(wishList -> wishList.toDto(false, user.getEmail(), map)).collect(toList());
     }
 }
