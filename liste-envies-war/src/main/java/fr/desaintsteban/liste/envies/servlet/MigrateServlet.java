@@ -1,7 +1,6 @@
 package fr.desaintsteban.liste.envies.servlet;
 
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.LoadResult;
 import com.googlecode.objectify.Objectify;
 import fr.desaintsteban.liste.envies.model.Person;
 import fr.desaintsteban.liste.envies.model.PersonParticipant;
@@ -9,6 +8,7 @@ import fr.desaintsteban.liste.envies.model.Wish;
 import fr.desaintsteban.liste.envies.model.deprecated.Envy;
 import fr.desaintsteban.liste.envies.model.deprecated.ListEnvies;
 import fr.desaintsteban.liste.envies.model.WishList;
+import fr.desaintsteban.liste.envies.model.deprecated.Note;
 import fr.desaintsteban.liste.envies.service.OfyService;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
 import fr.desaintsteban.liste.envies.util.NicknameUtils;
@@ -39,12 +39,7 @@ public class MigrateServlet extends HttpServlet {
         List<Wish> ConvertedWish = new ArrayList<>();
 
         for (ListEnvies listEnvy : list) {
-            WishList newWishList = new WishList();
-
-            newWishList.setName(listEnvy.getName());
-            newWishList.setTitle(listEnvy.getTitle());
-            newWishList.setDescription(listEnvy.getDescription());
-            newWishList.setUsers(listEnvy.getUsers());
+            WishList newWishList = convertListeEnvyToWishList(listEnvy);
 
             // convert Envies
             Key<ListEnvies> key = Key.create(ListEnvies.class, listEnvy.getName());
@@ -52,20 +47,7 @@ public class MigrateServlet extends HttpServlet {
             List<Envy> Envies = ofy.load().type(Envy.class).ancestor(key).list();
 
             for(Envy envy : Envies) {
-                Wish newWish = new Wish(newWishList, envy.getLabel());
-                newWish.setOwner(toPerson(envy.getOwner(), false));
-                newWish.setSuggest(envy.getSuggest());
-                newWish.setArchived(envy.getArchived());
-                newWish.setDeleted(envy.getDeleted());
-                newWish.setDescription(envy.getDescription());
-                newWish.setPrice(envy.getPrice());
-                newWish.setPictures(toList(envy.getPicture()));
-                newWish.setDate(envy.getDate());
-                newWish.setUrls(envy.getUrls());
-                newWish.setRating(envy.getRating());
-                newWish.setUserTake(toParticipant(envy.getUserTake()));
-                newWish.setUserReceived(envy.getUserReceived());
-                newWish.setNotes(envy.getNotes());
+                Wish newWish = convertEnvyToWish(newWishList, envy);
                 ConvertedWish.add(newWish);
             }
 
@@ -75,6 +57,34 @@ public class MigrateServlet extends HttpServlet {
         ofy.save().entities(ConvertedWish);
 
         out.println("OK");
+    }
+
+    WishList convertListeEnvyToWishList(ListEnvies listEnvy) {
+        WishList newWishList = new WishList();
+
+        newWishList.setName(listEnvy.getName());
+        newWishList.setTitle(listEnvy.getTitle());
+        newWishList.setDescription(listEnvy.getDescription());
+        newWishList.setUsers(listEnvy.getUsers());
+        return newWishList;
+    }
+
+    Wish convertEnvyToWish(WishList newWishList, Envy envy) {
+        Wish newWish = new Wish(newWishList, envy.getLabel());
+        newWish.setOwner(toPerson(envy.getOwner(), false));
+        newWish.setSuggest(envy.getSuggest());
+        newWish.setArchived(envy.getArchived());
+        newWish.setDeleted(envy.getDeleted());
+        newWish.setDescription(envy.getDescription());
+        newWish.setPrice(envy.getPrice());
+        newWish.setPictures(toList(envy.getPicture()));
+        newWish.setDate(envy.getDate());
+        newWish.setUrls(envy.getUrls());
+        newWish.setRating(envy.getRating());
+        newWish.setUserTake(toParticipant(envy.getUserTake()));
+        newWish.setUserReceived(envy.getUserReceived());
+        newWish.setComments(envy.getNotes().stream().map(Note::toComment).collect(Collectors.toList()));
+        return newWish;
     }
 
     private List<PersonParticipant> toParticipant(List<String> userTake) {

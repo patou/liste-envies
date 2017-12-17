@@ -29,7 +29,7 @@ public class WishDto {
     private List<Link> urls;
     private List<PersonParticipantDto> userTake;
 
-    private List<NoteDto> notes;
+    private List<CommentDto> comments;
 
 
     private int rating;
@@ -148,12 +148,12 @@ public class WishDto {
         this.price = price;
     }
 
-    public List<NoteDto> getNotes() {
-        return notes;
+    public List<CommentDto> getComments() {
+        return comments;
     }
 
-    public void setNotes(List<NoteDto> notes) {
-        this.notes = notes;
+    public void setComments(List<CommentDto> comments) {
+        this.comments = comments;
     }
 
     public int getRating() {

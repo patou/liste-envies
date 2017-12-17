@@ -3,7 +3,7 @@ package fr.desaintsteban.liste.envies.service;
 import com.googlecode.objectify.*;
 import com.googlecode.objectify.cmd.Saver;
 import fr.desaintsteban.liste.envies.dto.WishDto;
-import fr.desaintsteban.liste.envies.dto.NoteDto;
+import fr.desaintsteban.liste.envies.dto.CommentDto;
 import fr.desaintsteban.liste.envies.enums.NotificationType;
 import fr.desaintsteban.liste.envies.model.*;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
@@ -110,7 +110,7 @@ public final class WishesService {
         WishList wishList = loadResult.now();
         if (wishList != null && wishList.containsOwner(user.getEmail())) {
             wish.setUserTake(null);
-            wish.setNotes(null);
+            wish.setComments(null);
         }
         return wish;
     }
@@ -145,10 +145,10 @@ public final class WishesService {
      * @param user user qui ajoute le commentaire
      * @param itemId id de l'envy
      * @param name nom de la liste
-     * @param note le commentaire
+     * @param comment le commentaire
      * @return
      */
-    public static WishDto addNote(final AppUser user, final Long itemId, final String name, final NoteDto note) {
+    public static WishDto addComment(final AppUser user, final Long itemId, final String name, final CommentDto comment) {
         Objectify ofy = OfyService.ofy();
         final Key<WishList> parent = Key.create(WishList.class, name);
         final WishList wishList = ofy.load().key(parent).now();
@@ -160,10 +160,10 @@ public final class WishesService {
                     Wish saved = ofy.load().key(Key.create(parent, Wish.class, itemId)).now();
                     Saver saver = ofy.save();
 
-                    saved.addNote(Note.fromDto(note, true));
+                    saved.addComment(Comment.fromDto(comment, true));
                     saver.entity(saved);
 
-                    NotificationsService.notify(NotificationType.ADD_NOTE, user, wishList, true, note.getText());
+                    NotificationsService.notify(NotificationType.ADD_NOTE, user, wishList, true, comment.getText());
 
                     return saved.toDto();
                 }
@@ -217,7 +217,7 @@ public final class WishesService {
             if (item.getId() != null) {
                 Wish saved = ofy1.load().key(Key.create(parent, Wish.class, item.getId())).now();
                 item.setUserTake(saved.getUserTake());
-                item.setNotes(saved.getNotes());
+                item.setComments(saved.getComments());
                 item.setOwner(saved.getOwner());
                 add = false;
             }
@@ -253,11 +253,11 @@ public final class WishesService {
                 toRemove.add(envy);
             } else if (wishList == null || user == null) { //Liste globale
                 envy.setUserTake(null);
-                envy.setNotes(null);
+                envy.setComments(null);
             } else {
                 if (wishList.containsOwner(user.getEmail())) { //Si l'utilisateur courant est le propriétaire des envies, on efface le nom de qui lui a offert un cadeau.
                     envy.setUserTake(null);
-                    envy.setNotes(null);
+                    envy.setComments(null);
                     if (envy.getSuggest() || envy.getDeleted()) { // On supprime les envies ajoutés par d'autres personnes
                         toRemove.add(envy);
                     }

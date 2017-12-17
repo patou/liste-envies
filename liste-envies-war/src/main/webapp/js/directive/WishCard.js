@@ -173,14 +173,14 @@ var WishCard = function ($scope, wishService, $location, UtilitiesServices) {
 
     };
 
-    w.addNote = function (wish, notetext) {
-        var note = {text: notetext.text};
+    w.addComment = function (wish, commenttext) {
+        var comment = {text: commenttext.text};
         w.parentController.stampElement(w.wish.id, false);
-        wishService.addNote({name:w.listName, id: wish.id}, notetext, function(data) {
+        wishService.addComment({name:w.listName, id: wish.id}, commenttext, function(data) {
             w.parentController.refreshingLayoutAuto(30, 200);
             w.parentController.updatePropertiesWish(wish, data);
             w.parentController.unStampElement(w.wish.id, false);
-            w.note.text = '';
+            w.comment.text = '';
         });
     };
 

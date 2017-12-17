@@ -134,18 +134,18 @@
 
                 <div class="comments" >
                     <a class="btn btn-link" role="button" aria-expanded="false" aria-controls="collapseExample" ng-click="w.openComment()">
-                        <i class="fa fa-comments"></i> <span translate=".COMMENTS" translate-values="{comment_number : w.wish.notes.length}"></span>
+                        <i class="fa fa-comments"></i> <span translate=".COMMENTS" translate-values="{comment_number : w.wish.comments.length}"></span>
                     </a>
                     <div class="collapse" id="comment-{{w.wish.id}}">
                         <div class="chat">
                             <div class="chat-history">
                                 <ul class="chat-ul">
-                                    <li ng-repeat="note in w.wish.notes" ng-class="{'clearfix':$odd}">
+                                    <li ng-repeat="comment in w.wish.comments" ng-class="{'clearfix':$odd}">
                                         <div class="message-data" ng-class="{'align-right':$odd}">
-                                            <span class="message-data-name"><i class="fa fa-circle you"></i>&nbsp; <strong> {{note.from.name}}</strong> <span class="text-muted" ng-class="{'pull-left':$odd}" am-time-ago="note.date" title="{{note.date | date: 'fullDate'}} à {{note.date | date: 'shortTime'}}">commented 5 days ago</span></span>
+                                            <span class="message-data-name"><i class="fa fa-circle you"></i>&nbsp; <strong> {{comment.from.name}}</strong> <span class="text-muted" ng-class="{'pull-left':$odd}" am-time-ago="comment.date" title="{{comment.date | date: 'fullDate'}} à {{comment.date | date: 'shortTime'}}">commented 5 days ago</span></span>
                                         </div>
                                         <div class="message" ng-class="{'float-right':$odd, 'me-message':$odd, 'you-message':$even}">
-                                            {{note.text}}
+                                            {{comment.text}}
                                         </div>
                                     </li>
                                 </ul>
@@ -154,12 +154,12 @@
                         <form class="form form-add-comment" ng-if="w.canEdit">
                             <div class="row">
                                 <div class="form-group col-xs-9 comment-form">
-                                <label for="note-{{$index}}" class="control-label" translate=".ADD_COMMENTS_LABEL"></label>
-                                <textarea class="form-control comment-textarea" id="note-{{$index}}" ng-model="w.note.text" >
+                                <label for="comment-{{$index}}" class="control-label" translate=".ADD_COMMENTS_LABEL"></label>
+                                <textarea class="form-control comment-textarea" id="comment-{{$index}}" ng-model="w.comment.text" >
                                         </textarea>
                             </div>
                                 <div class="col-xs-3">
-                                    <button type="submit" class="btn btn-default btn-lg btn-bordered-gray btn-just-icon" ng-click="w.addNote(w.wish, w.note)" translate translate-attr-title=".ADD_COMMENTS_BUTTON"><i class="fa fa-comment"></i></button>
+                                    <button type="submit" class="btn btn-default btn-lg btn-bordered-gray btn-just-icon" ng-click="w.addComment(w.wish, w.comment)" translate translate-attr-title=".ADD_COMMENTS_BUTTON"><i class="fa fa-comment"></i></button>
                                 </div>
 
                             </div>

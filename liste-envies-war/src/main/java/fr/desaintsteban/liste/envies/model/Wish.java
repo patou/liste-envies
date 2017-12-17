@@ -4,8 +4,7 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.*;
 import com.googlecode.objectify.condition.IfNotNull;
 import fr.desaintsteban.liste.envies.dto.WishDto;
-import fr.desaintsteban.liste.envies.dto.NoteDto;
-import fr.desaintsteban.liste.envies.util.EncodeUtils;
+import fr.desaintsteban.liste.envies.dto.CommentDto;
 import fr.desaintsteban.liste.envies.util.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -61,18 +60,18 @@ public class Wish {
     private List<String> userReceived;
 
     @Embedded
-    private List<Note> notes;
+    private List<Comment> comments;
 
 
     public Wish() {
-        this.notes = new ArrayList<>();
+        this.comments = new ArrayList<>();
         this.rating = 0;
     }
 
     public Wish(WishList list, String label) {
         this.list = Key.create(list);
         this.label = label;
-        this.notes = new ArrayList<>();
+        this.comments = new ArrayList<>();
         this.rating = 0;
     }
 
@@ -93,7 +92,7 @@ public class Wish {
             List<PersonParticipant> userTake = wish.getUserTake().stream().map(PersonParticipant::fromDto).collect(Collectors.toList());
             setUserTake(userTake);
         }
-        this.notes = new ArrayList<>();
+        this.comments = new ArrayList<>();
     }
 
     public WishDto toDto() {
@@ -125,9 +124,9 @@ public class Wish {
             else {
                 wish.setUserTake(Collections.emptyList());
             }
-            if (this.notes != null && !this.notes.isEmpty()) {
-                List<NoteDto> listNoteDto = this.notes.stream().map(Note::toDto).collect(Collectors.toList());
-                wish.setNotes(listNoteDto);
+            if (this.comments != null && !this.comments.isEmpty()) {
+                List<CommentDto> listCommentDto = this.comments.stream().map(Comment::toDto).collect(Collectors.toList());
+                wish.setComments(listCommentDto);
             }
         }
 
@@ -282,15 +281,15 @@ public class Wish {
         this.userReceived = userReceived;
     }
 
-    public void addNote(Note note) {
-        this.notes.add(note);
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
     }
 
-    public List<Note> getNotes () {
-        return this.notes;
+    public List<Comment> getComments() {
+        return this.comments;
     }
 
-    public void setNotes(List<Note> notes) {
-        this.notes = notes;
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

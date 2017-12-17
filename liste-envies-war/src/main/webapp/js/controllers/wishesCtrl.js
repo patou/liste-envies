@@ -44,7 +44,7 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
         {property:'date', label:'Date', reverse: true, selected: true},
         {property: orderPrice, label:'Prix', reverse: false, selected: false},
         {property:function (value) {
-            return (value.notes)? value.notes.length : -1;
+            return (value.comments)? value.comments.length : -1;
         }, label:'Commentaires', reverse: true, selected: false}];
 
     vm.orderPropertiesOwners = [{property:'label', label:'Titre', reverse: false, selected: false},
@@ -82,7 +82,7 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
     ];
 
     vm.filterProperties = [{owner: true, shared: true, expression:'true', label:'Toutes', class:'btn-white btn-bordered-primary'},
-        {owner: false, shared: true, expression:'notes.length > 0', label:'Commentaires', class:'btn-white btn-bordered-danger'},
+        {owner: false, shared: true, expression:'comments.length > 0', label:'Commentaires', class:'btn-white btn-bordered-danger'},
         {owner: true, shared: true, expression:'rating > 0', label:'Note', class:'btn-white btn-bordered-upgrade', child: vm.filtersRatingList},
         {owner: true, shared: true, expression:'price != null', label:'Prix', class:'btn-white btn-bordered-gray', child: vm.filtersPriceList}
         ];

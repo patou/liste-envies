@@ -66,7 +66,7 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
         {property: 'rating', label:'Note', reverse: true, selected: false},
         {property:'userTakeUsers', label:'Offert', reverse: true, selected: false},
         {property:function (value) {
-            return (value.notes)? value.notes.length : -1;
+            return (value.comments)? value.comments.length : -1;
         }, label:'Commentaires', reverse: true, selected: false}];
 
     vm.orderPropertiesOwners = [{property:'label', label:'Titre', reverse: false, selected: false},
@@ -109,7 +109,7 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
             {role: "filter", expression:'userTake.length == 0 && suggest == true', label:'Suggestion', class:'btn-white btn-bordered-info'},
             {role: "filter", expression:'userTake.length == 0 && suggest == false ', label:'Envie', class:'btn-white btn-bordered-success'}
         ]},
-        {owner: false, shared: true, expression:'notes.length > 0', label:'Commentaires', class:'btn-white btn-bordered-danger'},
+        {owner: false, shared: true, expression:'comments.length > 0', label:'Commentaires', class:'btn-white btn-bordered-danger'},
         {owner: true, shared: false, expression:'description == null || price == null || picture == null || urls == null', label:'A compléter', class:'btn-white btn-bordered-danger', child: [
             {role: "filter", expression:'description == null', label:'Sans texte', class:'btn-white btn-bordered-danger'},
             {role: "filter", expression:'price == null', label:'Sans prix', class:'btn-white btn-bordered-danger'},

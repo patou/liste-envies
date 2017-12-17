@@ -1,7 +1,7 @@
 package fr.desaintsteban.liste.envies.rest;
 
 import fr.desaintsteban.liste.envies.dto.WishDto;
-import fr.desaintsteban.liste.envies.dto.NoteDto;
+import fr.desaintsteban.liste.envies.dto.CommentDto;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.Wish;
 import fr.desaintsteban.liste.envies.service.WishesService;
@@ -16,7 +16,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -88,13 +87,13 @@ public class WishRestService {
     }
 
     @POST
-    @Path("/{id}/addNote")
-    public WishDto addNote(@PathParam("name") String name, @PathParam("id") Long wishId, NoteDto note) {
+    @Path("/{id}/addComment")
+    public WishDto addComment(@PathParam("name") String name, @PathParam("id") Long wishId, CommentDto comment) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null) {
-            LOGGER.info("add note from " + user.getName()+"wish id : "+wishId+" Note : "+note.getText());
-            WishDto wishDto = WishesService.addNote(user, wishId, name, note);
-            LOGGER.info("Updated wish with notes " + wishDto.getLabel());
+            LOGGER.info("add comment from " + user.getName()+"wish id : "+wishId+" Comment : "+comment.getText());
+            WishDto wishDto = WishesService.addComment(user, wishId, name, comment);
+            LOGGER.info("Updated wish with comments " + wishDto.getLabel());
             return wishDto;
         }
         return null;

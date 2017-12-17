@@ -1,20 +1,20 @@
 package fr.desaintsteban.liste.envies.dto;
 
-import fr.desaintsteban.liste.envies.enums.NoteType;
+import fr.desaintsteban.liste.envies.enums.CommentType;
 
 import java.util.Date;
 
 /**
  *
  */
-public class NoteDto {
+public class CommentDto {
     private Date date;
 
     private String text;
 
     private PersonDto from;
 
-    private NoteType type;
+    private CommentType type;
 
     public Date getDate() {
         return date;
@@ -40,25 +40,25 @@ public class NoteDto {
         this.from = from;
     }
 
-    public NoteType getType() {
+    public CommentType getType() {
         return type;
     }
 
-    public void setType(NoteType type) {
+    public void setType(CommentType type) {
         this.type = type;
     }
 
-    public NoteDto() {
+    public CommentDto() {
 
     }
     /**
-     * Add a new Note
+     * Add a new Comment
      * @param from
      * @param text
      * @param date
      * @param type
      */
-    public NoteDto(PersonDto from, String text, Date date, NoteType type) {
+    public CommentDto(PersonDto from, String text, Date date, CommentType type) {
         this.from = from;
         this.text = text;
         this.date = date;

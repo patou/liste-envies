@@ -4,7 +4,7 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.*;
 import com.googlecode.objectify.condition.IfNotNull;
 import fr.desaintsteban.liste.envies.model.Link;
-import fr.desaintsteban.liste.envies.model.Note;
+import fr.desaintsteban.liste.envies.model.Comment;
 import fr.desaintsteban.liste.envies.util.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -223,7 +223,7 @@ public class Envy {
         this.userReceived = userReceived;
     }
 
-    public List<Note> getNotes () {
+    public List<Note> getNotes() {
         return this.notes;
     }
 
