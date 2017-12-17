@@ -32,7 +32,7 @@ import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class EnvieServiceTest {
+public class WishServiceTest {
     private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
             new LocalDatastoreServiceTestConfig().setApplyAllHighRepJobPolicy(),
             new LocalMemcacheServiceTestConfig(),

@@ -66,7 +66,7 @@ app.config(function ($routeProvider) {
     }).when("/:name", {
         templateUrl: "templates/wishList.html",
         name: 'Envie',
-        controller: "EnvieCtrl",
+        controller: "ListCtrl",
         controllerAs: "vm"
     })
         .otherwise({redirectTo: '/'});

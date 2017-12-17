@@ -38,8 +38,8 @@
                 </div>
 
                     <!--<i class="fa fa-a fa-3x pull-right logo-envie" ng-class="{'fa-gift': !w.add, 'fa-plus': w.add, 'wish-edit': w.edit}"></i></p>-->
-                <a ng-if="w.wish.picture && !w.edit" ng-href="{{w.wish.picture}}" target="_blank" class="thumbnail">
-                    <img ng-src="{{w.wish.picture}}" alt="Image Envie">
+                <a ng-if="w.wish.pictures && !w.edit" ng-repeat="picture in w.wish.pictures" ng-href="{{picture}}" target="_blank" class="thumbnail">
+                    <img ng-src="{{picture}}" alt="Image Envie">
                 </a>
 
 
@@ -58,6 +58,7 @@
                     <div ng-repeat="link in w.wish.urls" class="links-editor">
                         <input type="url" class="form-control" id="url-{{$index}}" ng-model="link.url" translate translate-attr-placeholder=".INPUT_LINKS_URL_PLACEHOLDER">
                         <input type="text" class="form-control" id="name-{{$index}}" ng-model="link.name" translate translate-attr-placeholder=".INPUT_LINKS_NAME_PLACEHOLDER">
+                        <button type="submit" class="btn btn-warning  btn-just-icon" ng-click="w.removeLink(link);" translate translate-attr-title=".INPUT_REMOVE_LINK"><span class="fa fa-minus" aria-hidden="true"></span><span class="sr-only" translate=".INPUT_REMOVE_LINK"></span></button>
                     </div>
                     <div class="links-editor">
                         <input type="url" class="form-control" id="link-url" ng-model="w.link.url" translate translate-attr-placeholder=".INPUT_LINKS_URL_PLACEHOLDER">
@@ -65,14 +66,22 @@
                         <button type="submit" class="btn btn-success  btn-just-icon" ng-click="w.addLink(w.link);" translate translate-attr-title=".INPUT_ADD_LINK"><span class="fa fa-plus" aria-hidden="true"></span><span class="sr-only" translate=".INPUT_ADD_LINK"></span></button>
                     </div>
                 </div>
-                <div class="row" ng-if="w.edit">
-
-                    <div class="form-group col-xs-8">
+                <div  ng-if="w.edit">
+                    <div class="form-group">
                             <label for="picture" class="control-label floating-image_label" translate=".INPUT_IMAGE_URL"></label>
-                            <input type="url" class="form-control" id="picture" ng-model="w.wish.picture">
+                        <div class="picture-editor">
+                            <input type="url" class="form-control" id="picture" ng-model="w.picture">
+                            <button type="submit" class="btn btn-success  btn-just-icon" ng-click="w.addPicture(w.picture);" translate translate-attr-title=".INPUT_ADD_PICTURE"><span class="fa fa-plus" aria-hidden="true"></span><span class="sr-only" translate=".INPUT_ADD_PICTURE"></span></button>
+                        </div>
                     </div>
-                    <div class="col-xs-4">
-                        <img ng-src="{{w.wish.picture && w.wish.picture || ('WISH_CARD_COMPONENT.INPUT_IMAGE_PLACEHOLDER' | translate)}}"  class="pull-right img-thumbnail preview-image">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <img ng-src="{{w.picture || ('WISH_CARD_COMPONENT.INPUT_IMAGE_PLACEHOLDER' | translate)}}"  class="pull-right img-thumbnail preview-image">
+                        </div>
+                        <div class="col-xs-4"  ng-repeat="picture in w.wish.pictures">
+                            <img ng-src="{{picture}}"  class="pull-right img-thumbnail preview-image">
+                            <button type="button" class="close delete-picture" aria-label="Close" ng-click="w.removePicture(picture)"><span aria-hidden="true">&times;</span></button>
+                        </div>
                     </div>
 
                 </div>
@@ -132,7 +141,7 @@
                                 <ul class="chat-ul">
                                     <li ng-repeat="note in w.wish.notes" ng-class="{'clearfix':$odd}">
                                         <div class="message-data" ng-class="{'align-right':$odd}">
-                                            <span class="message-data-name"><i class="fa fa-circle you"></i>&nbsp; <strong> {{note.owner}}</strong> <span class="text-muted" ng-class="{'pull-left':$odd}" am-time-ago="note.date" title="{{note.date | date: 'fullDate'}} à {{note.date | date: 'shortTime'}}">commented 5 days ago</span></span>
+                                            <span class="message-data-name"><i class="fa fa-circle you"></i>&nbsp; <strong> {{note.from.name}}</strong> <span class="text-muted" ng-class="{'pull-left':$odd}" am-time-ago="note.date" title="{{note.date | date: 'fullDate'}} à {{note.date | date: 'shortTime'}}">commented 5 days ago</span></span>
                                         </div>
                                         <div class="message" ng-class="{'float-right':$odd, 'me-message':$odd, 'you-message':$even}">
                                             {{note.text}}

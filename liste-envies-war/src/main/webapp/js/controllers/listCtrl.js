@@ -1,9 +1,9 @@
-app.controller('EnvieCtrl', EnvieCtrl);
-EnvieCtrl.$inject = ['envieService', 'appUserService', 'listEnviesService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse', '$interval', '$timeout', '$filter'];
-function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams, $location, $anchorScroll, $scope, $parse, $interval, $timeout, $filter) {
+app.controller('ListCtrl', ListCtrl);
+ListCtrl.$inject = ['wishService', 'appUserService', 'wishListService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse', '$interval', '$timeout', '$filter'];
+function ListCtrl(wishService, appUserService, wishListService, $routeParams, $location, $anchorScroll, $scope, $parse, $interval, $timeout, $filter) {
     var vm = this;
     vm.name = $routeParams.name;
-    vm.listEnvies = loadListEnvies(vm.name);
+    vm.wishList = loadWishList(vm.name);
     vm.hasFilter = false;
     vm.loading = true;
     masonry = null;
@@ -122,7 +122,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
 
 
 
-    loadEnvies();
+    loadWishes();
     resetForm();
     
     vm.update = function() {
@@ -131,8 +131,8 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         }    
     };
 
-    vm.addEnvie = function (envie) {
-            vm.envies.push(envie);
+    vm.addWish = function (wish) {
+            vm.wishes.push(wish);
             vm.update();
     };
 
@@ -142,9 +142,9 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     };
     
     vm.removeUser = function(user) {
-        var index = vm.listEnvies.users.indexOf(user);
+        var index = vm.wishList.users.indexOf(user);
         if (index >= 0)
-            vm.listEnvies.users.splice(index, 1);
+            vm.wishList.users.splice(index, 1);
     };
 
     vm.shareUser = function(newUser) {
@@ -155,18 +155,18 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
             var pushUser = {};
             pushUser.email = newUser.email.trim();
             pushUser.type = newUser.type;
-            vm.listEnvies.users.push(pushUser);
+            vm.wishList.users.push(pushUser);
         }
         newUser = {email: '', type:'SHARED'};
         vm.newUser = newUser;
     };
 
-    vm.saveListEnvies = function(listEnvies) {
+    vm.saveWishList = function(wishList) {
         if (vm.newUser.email) {
             vm.shareUser(vm.newUser);
         }
-        listEnviesService.save(listEnvies, function(listEnvies) {
-            vm.listEnvies = listEnvies;
+        wishListService.save(wishList, function(wishList) {
+            vm.wishList = wishList;
             $("#share-list").modal("hide");
             vm.editTitle = false;
         });
@@ -263,7 +263,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     };
 
     vm.refresh = function() {
-        loadEnvies();
+        loadWishes();
     };
 
     /**
@@ -324,9 +324,9 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     };
 
     vm.deleteWish = function(wish) {
-        var index = vm.envies.indexOf(wish);
+        var index = vm.wishes.indexOf(wish);
         if (index > -1)
-            vm.envies.splice(index, 1);
+            vm.wishes.splice(index, 1);
         vm.update();
     };
 
@@ -335,7 +335,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         $anchorScroll('formEdit');
     }
 
-    function gotoEnvie(id) {
+    function gotoWish(id) {
         // set the location.hash to the id of
         // the element you wish to scroll to.
         $location.hash('envie'+id);
@@ -350,7 +350,7 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
 
     function loadUser(email) {
         var foundUser = {email: email, name: ''};
-        angular.forEach(vm.listEnvies.users, function(user) {
+        angular.forEach(vm.wishList.users, function(user) {
             if (user.email == email) {
                 foundUser.name = user.name;
             }
@@ -360,8 +360,8 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
     vm.userName = function(email) {
         return loadUser(email).name;
     };
-    function loadListEnvies(name) {
-        return listEnviesService.get({name:name});
+    function loadWishList(name) {
+        return wishListService.get({name:name});
     }
 
     var updateWishUser = function (item) {
@@ -383,26 +383,26 @@ function EnvieCtrl(envieService, appUserService, listEnviesService, $routeParams
         }
     };
 
-    function loadEnvies() {
+    function loadWishes() {
         var firstLoad = false;
-        if (!vm.envies) {
-            vm.envies = [];
+        if (!vm.wishes) {
+            vm.wishes = [];
             firstLoad = true;
         }
-        var newEnvies = envieService.query({name: $routeParams.name});
-        newEnvies.$promise.then(function(list) {
+        var newWishes = wishService.query({name: $routeParams.name});
+        newWishes.$promise.then(function(list) {
             vm.loading = false;
             vm.refreshingLayoutAuto(100, 800);
             angular.forEach(list, function(item) {
-                // add to vm.envies
-                var foundwish = $filter('filter')(vm.envies, {id: item.id});
+                // add to vm.wishes
+                var foundwish = $filter('filter')(vm.wishes, {id: item.id});
                 updateWishUser(item);
 
                 if (foundwish.length) {
                     vm.updatePropertiesWish(foundwish[0], item);
                 } else {
 
-                    vm.envies.push(item);
+                    vm.wishes.push(item);
                 }
             });
 

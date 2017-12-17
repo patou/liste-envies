@@ -1,12 +1,12 @@
 app.controller('HomeCtrl', HomeCtrl);
-HomeCtrl.$inject = ['appUserService', 'listEnviesService', '$location', 'UtilitiesServices', 'AuthService'];
-function HomeCtrl(appUserService, listEnviesService, $location, UtilitiesServices, AuthService) {
+HomeCtrl.$inject = ['appUserService', 'wishListService', '$location', 'UtilitiesServices', 'AuthService'];
+function HomeCtrl(appUserService, wishListService, $location, UtilitiesServices, AuthService) {
     var vm = this;
     vm.loading = true;
 
     UtilitiesServices.getList().then(function (data) {
         vm.loading = false;
-        vm.envies = data;
+        vm.wishes = data;
     });
     /** Deprecated */
     vm.addUser = function (newuser) {
@@ -33,9 +33,9 @@ function HomeCtrl(appUserService, listEnviesService, $location, UtilitiesService
                 user.push({'email': email.trim(), 'type': "SHARED"});
             });
         }
-        listEnviesService.save({title: newlist.title, users:user}, function(listEnvies) {
+        wishListService.save({title: newlist.title, users:user}, function(wishList) {
             vm.loading = false;
-            $location.url("/"+listEnvies.name);
+            $location.url("/"+wishList.name);
         });
     };
 

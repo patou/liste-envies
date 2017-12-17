@@ -1,9 +1,9 @@
 angular
     .module('service')
-    .service('envieService', envieService);
-envieService.$inject = ['$resource'];
-function envieService($resource) {
-    var base_url = '/api/envies/:name/';
+    .service('wishService', wishService);
+wishService.$inject = ['$resource'];
+function wishService($resource) {
+    var base_url = '/api/wishes/:name/';
     return $resource(base_url + ':id', {id: '@id', name: '@name'},
         {give: {method:'PUT', url: base_url + 'give/:id'},
             cancel: {method:'DELETE', url: base_url + 'give/:id'},

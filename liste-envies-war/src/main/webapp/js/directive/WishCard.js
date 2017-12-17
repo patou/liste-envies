@@ -33,6 +33,7 @@ var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
         if (!w.link) {w.link = {};}
         w.link.url = null;
         w.link.name = null;
+        w.picture = undefined;
 
         if (!w.ownerList) {w.wish.suggest = true;}
         w.edit = true;
@@ -52,6 +53,7 @@ var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
 
 
     w.link = undefined;
+    w.picture = undefined;
 
     w.editorOptions = {
         disableDragAndDrop: true,
@@ -100,14 +102,17 @@ var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
     };
 
     w.updateWish = function () {
-        //w.parentController.addEnvie(w.wish);
+        //w.parentController.addWish(w.wish);
         if (w.link) {
             w.addLink(w.link);
+        }
+        if (w.picture) {
+            w.addPicture(w.picture);
         }
         w.edit = false;
         envieService.save({name:w.listName}, w.wish, function(updatedData) {
             if (w.add) {
-                w.parentController.addEnvie(updatedData);
+                w.parentController.addWish(updatedData);
                 resetAddForm();
             } else {
                 w.edit = false;
@@ -126,6 +131,22 @@ var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
         w.wish.urls.push(link);
         w.link = undefined;
         w.parentController.stampElement(w.wish.id);
+    };
+
+    w.addPicture = function(picture) {
+        if (!w.wish.pictures) {
+            w.wish.pictures = [];
+        }
+        w.wish.pictures.push(picture);
+        w.picture = undefined;
+        w.parentController.stampElement(w.wish.id);
+    };
+
+    w.removePicture = function(picture) {
+        var index = w.wish.pictures.indexOf(picture);
+        if (index >= 0) {
+            w.wish.pictures.splice(index, 1);
+        }
     };
 
     w.openComment = function() {

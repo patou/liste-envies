@@ -11,7 +11,7 @@
                                    placeholder="@">
                         </div>
                         <button type="submit" class="btn btn-success btn-just-icon"
-                                ng-click="vm.saveListEnvies(vm.wishList);"
+                                ng-click="vm.saveWishList(vm.wishList);"
                                 data-toggle="tooltip" data-placement="bottom"
                                 translate-attr-title=".BUTTON_EDIT_END"
                         >
@@ -88,7 +88,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-gray btn-bordered-danger" data-dismiss="modal">Fermer
                         </button>
-                        <button type="submit" class="btn btn-primary" ng-click="vm.saveListEnvies(vm.wishList)">
+                        <button type="submit" class="btn btn-primary" ng-click="vm.saveWishList(vm.wishList)">
                             Enregistrer
                         </button>
                     </div>
@@ -97,7 +97,7 @@
         </div><!-- /.modal --><!--row row-fluid-->
         <p ng-bind-html="vm.wishList.description" ng-if="!vm.wishList.owner"></p>
         <summernote airMode ng-model="vm.wishList.description" ng-if="vm.wishList.owner" config="vm.editorOptions"
-                    ng-change="vm.saveListEnvies(vm.wishList);"
+                    ng-change="vm.saveWishList(vm.wishList);"
                     ng-model-options="{ updateOn: 'default', debounce: 5000 }" lang="fr-FR"></summernote>
 
         <div class="order-filter row row-fluid well-sm">
@@ -137,8 +137,8 @@
                 <div class="row ">
                     <div class="col-xs-11">
                         <div class="form-group label-floating has-feedback">
-                            <label class="control-label" for="searchEnvieFilter">Rechercher</label>
-                            <input type="text" class="form-control" id="searchEnvieFilter" ng-change="vm.searchList();"
+                            <label class="control-label" for="searchWishFilter">Rechercher</label>
+                            <input type="text" class="form-control" id="searchWishFilter" ng-change="vm.searchList();"
                                    ng-model="vm.search">
                             <span class="fa fa-search form-control-feedback" aria-hidden="true"></span>
                         </div>
@@ -200,7 +200,7 @@
         </div>
         <wish-card id="envie{{envie.id}}" masonry-tile
                    class="envie-card col-xs-12 col-sm-6 col-md-4 col-lg-4"
-                   ng-repeat="envie in vm.envies | filter:vm.filter | filter:vm.search | orderBy:vm.order:vm.reverse"
+                   ng-repeat="envie in vm.wishes | filter:vm.filter | filter:vm.search | orderBy:vm.order:vm.reverse"
                    wish="envie"
                    owner-list="vm.wishList.owner"
                    user="vm.main.user"

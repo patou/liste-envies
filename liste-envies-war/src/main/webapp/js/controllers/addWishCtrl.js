@@ -1,6 +1,6 @@
 app.controller('AddWishCtrl', AddWishCtrl);
-AddWishCtrl.$inject = ['UtilitiesServices', 'appUserService', 'listEnviesService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse', '$interval', '$timeout', 'pageInfo'];
-function AddWishCtrl(UtilitiesServices, appUserService, listEnviesService, $routeParams, $location,
+AddWishCtrl.$inject = ['UtilitiesServices', 'appUserService', 'wishListService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse', '$interval', '$timeout', 'pageInfo'];
+function AddWishCtrl(UtilitiesServices, appUserService, wishListService, $routeParams, $location,
                      $anchorScroll, $scope, $parse, $interval, $timeout, pageInfo) {
     var vm = this;
     //vm.name = $routeParams.name;
@@ -79,7 +79,7 @@ function AddWishCtrl(UtilitiesServices, appUserService, listEnviesService, $rout
     });
 
 
-    vm.addEnvie = function (envie) {
+    vm.addWish = function (envie) {
         vm.newWish = envie;
         vm.added = true;
         $anchorScroll();
@@ -187,7 +187,7 @@ function AddWishCtrl(UtilitiesServices, appUserService, listEnviesService, $rout
 
     function loadUser(email) {
         var foundUser = {email: email, name: ''};
-        angular.forEach(vm.listEnvies.users, function(user) {
+        angular.forEach(vm.wishList.users, function(user) {
             if (user.email == email) {
                 foundUser.name = user.name;
             }
