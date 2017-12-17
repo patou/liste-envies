@@ -2,12 +2,9 @@ package fr.desaintsteban.liste.envies.servlet;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
-import fr.desaintsteban.liste.envies.model.Person;
-import fr.desaintsteban.liste.envies.model.PersonParticipant;
-import fr.desaintsteban.liste.envies.model.Wish;
+import fr.desaintsteban.liste.envies.model.*;
 import fr.desaintsteban.liste.envies.model.deprecated.Envy;
 import fr.desaintsteban.liste.envies.model.deprecated.ListEnvies;
-import fr.desaintsteban.liste.envies.model.WishList;
 import fr.desaintsteban.liste.envies.model.deprecated.Note;
 import fr.desaintsteban.liste.envies.service.OfyService;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
@@ -20,20 +17,31 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static fr.desaintsteban.liste.envies.util.StringUtils.isNullOrEmpty;
+import static java.util.stream.Collectors.toMap;
 
 /**
  *
  */
 public class MigrateServlet extends HttpServlet {
+
+    private Map<String, AppUser> users;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/plain;charset=UTF-8");
         PrintWriter out = resp.getWriter();
         Objectify ofy = OfyService.ofy();
+
+        loadUsers(ofy);
+
+
         List<ListEnvies> list = ofy.load().type(ListEnvies.class).list();
         List<WishList> listConverted = new ArrayList<>();
         List<Wish> ConvertedWish = new ArrayList<>();
@@ -57,6 +65,12 @@ public class MigrateServlet extends HttpServlet {
         ofy.save().entities(ConvertedWish);
 
         out.println("OK");
+    }
+
+    private void loadUsers(Objectify ofy) {
+        List<AppUser> ListUsers = ofy.load().type(AppUser.class).list();
+
+        users = ListUsers.stream().collect(toMap(AppUser::getEmail, Function.identity()));
     }
 
     WishList convertListeEnvyToWishList(ListEnvies listEnvy) {
@@ -94,21 +108,29 @@ public class MigrateServlet extends HttpServlet {
         return null;
     }
 
-    static Person toPerson(String email, boolean encode) {
+    Person toPerson(String email, boolean encode) {
         if (!isNullOrEmpty(email)) {
             Person person = new Person();
             person.setEmail(EncodeUtils.encode(email, encode));
-            person.setName(EncodeUtils.encode(NicknameUtils.getNickname(email), encode));
+            AppUser appUser = this.users.get(email);
+            if (appUser != null)
+                person.setName(EncodeUtils.encode(appUser.getEmail(), encode));
+            else
+                person.setName(EncodeUtils.encode(NicknameUtils.getNickname(email), encode));
             return person;
         }
         return null;
     }
 
-    static PersonParticipant toParticipant(String email) {
+    PersonParticipant toParticipant(String email) {
         if (!isNullOrEmpty(email)) {
             PersonParticipant person = new PersonParticipant();
             person.setEmail(EncodeUtils.encode(email));
-            person.setName(EncodeUtils.encode(NicknameUtils.getNickname(email)));
+            AppUser appUser = this.users.get(email);
+            if (appUser != null)
+                person.setName(EncodeUtils.encode(appUser.getEmail()));
+            else
+                person.setName(EncodeUtils.encode(NicknameUtils.getNickname(email)));
             return person;
         }
         return null;

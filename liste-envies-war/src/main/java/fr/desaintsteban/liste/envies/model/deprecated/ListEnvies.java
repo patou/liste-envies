@@ -46,17 +46,12 @@ public class ListEnvies {
         }
     }
 
-
-
-
     public ListEnvies(WishListDto dto) {
         setName(dto.getName());
         setTitle(dto.getTitle());
         setDescription(dto.getDescription());
         List<UserShare> users = dto.getUsers().stream().map(userShareDto -> new UserShare(userShareDto.getEmail(), userShareDto.getType())).collect(Collectors.toList());
         setUsers(users);
-
-
     }
 
     public WishListDto toDto(boolean convertUsers, String userEmail, Map<String, AppUser> userName) {
