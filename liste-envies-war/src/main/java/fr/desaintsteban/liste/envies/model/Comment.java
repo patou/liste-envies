@@ -65,8 +65,12 @@ public class Comment {
      * @param type
      */
     public Comment(PersonDto from, String text, CommentType type) {
+        this(new Person(from.getEmail(), from.getName(), true), text, type);
+    }
+
+    public Comment(Person from, String text, CommentType type) {
         this.text = EncodeUtils.encode(text);
-        this.from = new Person(from.getEmail(), from.getName(), true);
+        this.from = from;
         this.type = type != null ? type : CommentType.PRIVATE;
         this.date = new Date();
     }

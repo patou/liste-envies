@@ -10,6 +10,10 @@ public class PersonParticipant extends Person {
     public PersonParticipant() {
     }
 
+    public PersonParticipant(String email) {
+        super(email, true);
+    }
+
     public PersonParticipant(String email, String name, String amount, String message) {
         super(email, name, true);
         this.amount = amount;
