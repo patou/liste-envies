@@ -11,13 +11,13 @@ public class PersonParticipant extends Person {
     }
 
     public PersonParticipant(String email, String name, String amount, String message) {
-        super(email, name);
+        super(email, name, true);
         this.amount = amount;
         this.message = message;
     }
 
     public PersonParticipant(AppUser user, String amount, String message) {
-        super(user);
+        super(user, true);
         this.amount = amount;
         this.message = message;
     }

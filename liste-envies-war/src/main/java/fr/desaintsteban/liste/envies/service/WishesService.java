@@ -160,7 +160,9 @@ public final class WishesService {
                     Wish saved = ofy.load().key(Key.create(parent, Wish.class, itemId)).now();
                     Saver saver = ofy.save();
 
-                    saved.addComment(Comment.fromDto(comment, true));
+                    Comment commentToAdd = Comment.fromDto(comment, true);
+                    commentToAdd.setFrom(new Person(user, true));
+                    saved.addComment(commentToAdd);
                     saver.entity(saved);
 
                     NotificationsService.notify(NotificationType.ADD_NOTE, user, wishList, true, comment.getText());
@@ -222,7 +224,7 @@ public final class WishesService {
                 add = false;
             }
             if (item.getOwner() == null) {
-                item.setOwner(new Person(user.getEmail(), user.getName()));
+                item.setOwner(new Person(user, false));
             }
             boolean containsOwner = wishList.containsOwner(item.getOwner().getEmail());
             item.setSuggest(!containsOwner);

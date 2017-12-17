@@ -103,20 +103,20 @@ public class MigrateServlet extends HttpServlet {
 
     private List<PersonParticipant> toParticipant(List<String> userTake) {
         if (userTake != null) {
-            return userTake.stream().map(EncodeUtils::decode).map(MigrateServlet::toParticipant).collect(Collectors.toList());
+            return userTake.stream().map(EncodeUtils::decode).map(this::toParticipant).collect(Collectors.toList());
         }
         return null;
     }
 
     Person toPerson(String email, boolean encode) {
         if (!isNullOrEmpty(email)) {
-            Person person = new Person();
-            person.setEmail(EncodeUtils.encode(email, encode));
+            Person person = new Person(encode);
+            person.setEmail(email);
             AppUser appUser = this.users.get(email);
             if (appUser != null)
-                person.setName(EncodeUtils.encode(appUser.getEmail(), encode));
+                person.setName(appUser.getEmail());
             else
-                person.setName(EncodeUtils.encode(NicknameUtils.getNickname(email), encode));
+                person.setName(NicknameUtils.getNickname(email));
             return person;
         }
         return null;
@@ -125,12 +125,12 @@ public class MigrateServlet extends HttpServlet {
     PersonParticipant toParticipant(String email) {
         if (!isNullOrEmpty(email)) {
             PersonParticipant person = new PersonParticipant();
-            person.setEmail(EncodeUtils.encode(email));
+            person.setEmail(email);
             AppUser appUser = this.users.get(email);
             if (appUser != null)
-                person.setName(EncodeUtils.encode(appUser.getEmail()));
+                person.setName(appUser.getEmail());
             else
-                person.setName(EncodeUtils.encode(NicknameUtils.getNickname(email)));
+                person.setName(email);
             return person;
         }
         return null;

@@ -269,7 +269,7 @@ public class Wish {
 
     public void removeUserTake(String userTake) {
         if (userTake != null) {
-            this.userTake.remove(userTake);
+            this.userTake.removeIf(user -> user.getEmail().equals(userTake));
         }
     }
 
