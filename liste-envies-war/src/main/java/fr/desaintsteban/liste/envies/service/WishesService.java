@@ -32,7 +32,7 @@ public final class WishesService {
         return list;
     }
 
-    public static List<Wish> gived(AppUser user) {
+    public static List<Wish> given(AppUser user) {
         Objectify ofy = OfyService.ofy();
         List<Wish> list = ofy.load().type(Wish.class).filter("userTake.email =", EncodeUtils.encode(user.getEmail())).filter("archived =", false).list();
         return list;
@@ -116,7 +116,7 @@ public final class WishesService {
     }
 
 
-    public static WishDto given(final AppUser user, final String name, final Long itemId) {
+    public static WishDto give(final AppUser user, final String name, final Long itemId) {
         Objectify ofy = OfyService.ofy();
         final Key<WishList> parent = Key.create(WishList.class, name);
         final WishList wishList = ofy.load().key(parent).now();

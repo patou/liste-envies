@@ -19,7 +19,6 @@ import fr.desaintsteban.liste.envies.service.AppUserService;
 import fr.desaintsteban.liste.envies.service.WishesService;
 import fr.desaintsteban.liste.envies.service.WishListService;
 import fr.desaintsteban.liste.envies.service.OfyService;
-import fr.desaintsteban.liste.envies.util.EncodeUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -79,7 +78,7 @@ public class WishServiceTest {
         livreId = itemLivre.getId();
         WishDto itemDvd = WishesService.createOrUpdate(patrice, "liste-patrice", new Wish(listePatrice, "DVD"));
         dvdId = itemDvd.getId();
-        WishesService.given(emmanuel, "liste-patrice", livreId);
+        WishesService.give(emmanuel, "liste-patrice", livreId);
     }
 
     @After
@@ -113,6 +112,14 @@ public class WishServiceTest {
         assertThat(list).hasSize(2).onProperty("label").contains("Livre", "DVD");
         assertThat(list).hasSize(2).onProperty("userTake").excludes("emmanuel@desaintsteban.fr");
     }
+
+
+    @Test
+    public void testListGived() throws Exception {
+        List<Wish> list = WishesService.given(emmanuel);
+        assertThat(list).hasSize(1).onProperty("label").contains("Livre");
+    }
+
 
     @Test
     public void testListOther() throws Exception {

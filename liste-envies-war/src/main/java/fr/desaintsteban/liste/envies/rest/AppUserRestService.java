@@ -119,7 +119,7 @@ public class AppUserRestService {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null){
             LOGGER.info("List given of " + email);
-            List<Wish> list = WishesService.gived(user);
+            List<Wish> list = WishesService.given(user);
             List<WishDto> result = list.stream().map(Wish::toDto).collect(Collectors.toList());
             fillListTitle(result);
             return result;

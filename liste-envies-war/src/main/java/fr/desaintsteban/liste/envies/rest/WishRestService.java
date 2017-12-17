@@ -45,7 +45,7 @@ public class WishRestService {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null){
             LOGGER.info("Give " + id);
-            return WishesService.given(user, name, id);
+            return WishesService.give(user, name, id);
         }
         return null;
     }
