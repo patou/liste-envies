@@ -1,17 +1,14 @@
 package fr.desaintsteban.liste.envies.util;
 
-import fr.desaintsteban.liste.envies.enums.CommentType;
-import fr.desaintsteban.liste.envies.enums.WishOptionType;
-import fr.desaintsteban.liste.envies.model.Comment;
-import fr.desaintsteban.liste.envies.model.Person;
-import fr.desaintsteban.liste.envies.model.PersonParticipant;
-import fr.desaintsteban.liste.envies.model.Wish;
+import fr.desaintsteban.liste.envies.enums.*;
+import fr.desaintsteban.liste.envies.model.*;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 
 public class WishRulesTest {
@@ -49,7 +46,7 @@ public class WishRulesTest {
 
     @Test
     public void filterWishAll() {
-        List<Wish> wishList = createDefaultWishList();
+        List<Wish> wishList = createDefaultListOfWish();
 
         List<Wish> cleaned = WishRules.filterWishList(wishList, WishOptionType.ALL);
 
@@ -59,11 +56,71 @@ public class WishRulesTest {
 
     @Test
     public void filterWishAllSuggest() {
-        List<Wish> wishList = createDefaultWishList();
+        List<Wish> wishList = createDefaultListOfWish();
 
         List<Wish> cleaned = WishRules.filterWishList(wishList, WishOptionType.ALL_SUGGEST);
 
         assertThat(cleaned).isNotNull().hasSize(2);
+    }
+
+    @Test
+    public void filterWishNone() {
+        List<Wish> wishList = createDefaultListOfWish();
+
+        List<Wish> cleaned = WishRules.filterWishList(wishList, WishOptionType.NONE);
+
+        assertThat(cleaned).isNotNull().hasSize(0);
+    }
+
+    @Test
+    public void testComputeWishListState() {
+        WishList wishlist = createDefaultWishList();
+
+        assertEquals(WishListState.OWNER, WishRules.computeWishListState(new AppUser("patrice@desaintsteban.fr"), wishlist));
+        assertEquals(WishListState.SHARED, WishRules.computeWishListState(new AppUser("emmanuel@desaintsteban.fr"), wishlist));
+        assertEquals(WishListState.LOGGED, WishRules.computeWishListState(new AppUser("emeline@desaintsteban.fr"), wishlist));
+        assertEquals(WishListState.ANONYMOUS, WishRules.computeWishListState(new AppUser(null, "Anonyme"), wishlist));
+        assertEquals(WishListState.ANONYMOUS, WishRules.computeWishListState(null, wishlist));
+
+    }
+
+    @Test
+    public void testComputeWishOptionType() {
+        WishList wishlist = createDefaultWishList();
+
+        assertEquals(WishOptionType.HIDDEN, WishRules.computeWishOptionsType(new AppUser("patrice@desaintsteban.fr"), wishlist));
+        assertEquals(WishOptionType.ALL_SUGGEST, WishRules.computeWishOptionsType(new AppUser("emmanuel@desaintsteban.fr"), wishlist));
+        assertEquals(WishOptionType.NONE, WishRules.computeWishOptionsType(new AppUser("emeline@desaintsteban.fr"), wishlist));
+        assertEquals(WishOptionType.NONE, WishRules.computeWishOptionsType(new AppUser(null, "Anonyme"), wishlist));
+        assertEquals(WishOptionType.NONE, WishRules.computeWishOptionsType(null, wishlist));
+
+        wishlist.setOption(WishOptionType.ANONYMOUS);
+
+        assertEquals(WishOptionType.ANONYMOUS, WishRules.computeWishOptionsType(new AppUser("patrice@desaintsteban.fr"), wishlist));
+
+        wishlist.setPrivacy(SharingPrivacyType.PRIVATE);
+        assertEquals(WishOptionType.NONE, WishRules.computeWishOptionsType(new AppUser("emeline@desaintsteban.fr"), wishlist));
+        assertEquals(WishOptionType.NONE, WishRules.computeWishOptionsType(new AppUser(null, "Anonyme"), wishlist));
+        assertEquals(WishOptionType.NONE, WishRules.computeWishOptionsType(null, wishlist));
+
+        wishlist.setPrivacy(SharingPrivacyType.OPEN);
+        assertEquals(WishOptionType.ANONYMOUS, WishRules.computeWishOptionsType(new AppUser("emeline@desaintsteban.fr"), wishlist));
+        assertEquals(WishOptionType.NONE, WishRules.computeWishOptionsType(new AppUser(null, "Anonyme"), wishlist));
+        assertEquals(WishOptionType.NONE, WishRules.computeWishOptionsType(null, wishlist));
+
+        wishlist.setPrivacy(SharingPrivacyType.PUBLIC);
+        assertEquals(WishOptionType.ALL_SUGGEST, WishRules.computeWishOptionsType(new AppUser("emeline@desaintsteban.fr"), wishlist));
+        assertEquals(WishOptionType.ANONYMOUS, WishRules.computeWishOptionsType(new AppUser(null, "Anonyme"), wishlist));
+        assertEquals(WishOptionType.ANONYMOUS, WishRules.computeWishOptionsType(null, wishlist));
+    }
+
+    private WishList createDefaultWishList() {
+        WishList list = new WishList();
+        List<UserShare> users = new ArrayList<>();
+        users.add(new UserShare("patrice@desaintsteban.fr", UserShareType.OWNER));
+        users.add(new UserShare("emmanuel@desaintsteban.fr", UserShareType.SHARED));
+        list.setUsers(users);
+        return list;
     }
 
     private Wish createDefaultWish() {
@@ -75,7 +132,7 @@ public class WishRulesTest {
         return wish;
     }
 
-    private List<Wish> createDefaultWishList() {
+    private List<Wish> createDefaultListOfWish() {
 
         List<Wish> wishList = new ArrayList<>();
         wishList.add(createDefaultWish());
