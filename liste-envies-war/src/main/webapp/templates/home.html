@@ -12,7 +12,7 @@
             <div class="jumbotron">
                 <p translate translate-values="{userName: vm.main.user.name}">.WELCOME_MESSAGE</p>
                 <button class="btn btn-primary btn-lg" role="button" data-toggle="modal" data-target="#new-list" ng-if="vm.main.isAuthenticated" translate>.BUTTON_CREATE_LIST</button>
-                <a ng-href="{{vm.main.loginPath()}}" class="btn btn-primary btn-lg" role="button" ng-if="!vm.main.isAuthenticated" translate>.BUTTON_CONNEXION</a>
+                <a ng-href="{{vm.main.loginPath()}}" class="btn btn-primary btn-lg" target="_top" role="button" ng-if="!vm.main.isAuthenticated" translate>.BUTTON_CONNEXION</a>
             </div>
         </div>
     </div></div>

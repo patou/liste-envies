@@ -14,13 +14,13 @@
     "TOGGLE_NAVIGATION": "Afficher la navigation",
     "NOTIFICATIONS": "Notifications",
     "CHANGE_LIST": "Changer de liste",
-    "MENU_ARCHIVED": "Archive",
-    "MENU_GIVEN": "A donner",
+    "MENU_ARCHIVED": "Mes cadeaux reçus",
+    "MENU_GIVEN": "Mes cadeaux à donner",
     "MY_PROFIL": "Mon profil",
     "LOG_OUT": "Déconnexion",
     "LOG_IN": "Connexion",
-    "MAGIC_BUTTON_POPOVER_TITLE": "Bouton magique pour ajouter une envie depuis n'importe quel site",
-    "MAGIC_BUTTON_POPOVER_CONTENT": "Déplacer le lien sur votre barre des favoris, puis sur un site où vous souhaitez ajouter une envies, appuyer simplement sur ce favori pour l'ajouter.",
+    "MAGIC_BUTTON_POPOVER_TITLE": "",
+    "MAGIC_BUTTON_POPOVER_CONTENT": "<b>Bouton magique pour ajouter une envie depuis n'importe quel site</b><p>Déplacer le lien sur votre barre des favoris, puis sur un site où vous souhaitez ajouter une envies, appuyer simplement sur ce favori pour l'ajouter.</p>",
     "MAGIC_BUTTON": "Ajouter à une liste d'envie"
   },
   "PAGE": {
@@ -38,8 +38,8 @@
     "BUTTON_EDIT_LIST": "Editer le titre de la liste",
     "CLEAR_FILTER": "Réinitialiser les filtres",
     "REFRESH_LIST": "Rafraichir la liste",
-    "TITLE_GIVEN": "Envies à donner",
-    "TITLE_ARCHIVE": "Envies archivées"
+    "TITLE_GIVEN": "Mes cadeaux à donner",
+    "TITLE_ARCHIVE": "Mes cadeaux reçus"
   },
   "HOME_PAGE": {
     "HOME_TITLE": "Liste de mes envies <small>Accueil</small>",
@@ -62,7 +62,8 @@
     "CHOOSE_OTHER_LIST_PLACEHOLDER": "Suggestion dans les autres listes :",
     "MESSAGE_SUCESS_CREATE_WISH": "{{wishName}} a bien été ajouté à la liste {{name}}",
     "BUTTON_OPEN_WISH_LIST": "Ouvrir la listes {{name}}",
-    "BUTTON_CLOSE_POP_UP": "Fermer la popup"
+    "BUTTON_CLOSE_POP_UP": "Fermer la popup",
+    "LOG_IN": "Connexion"
   },
   "WISH_CARD_COMPONENT": {
     "DELETE_TITLE":"Supprimé",
@@ -101,7 +102,7 @@
     "CANCEL": "@:COMMONS.CANCEL"
   },
   "NOTIFICATIONS": {
-    "NOTIFICATION_TILTE" : "Notifications",
+    "NOTIFICATION_TITLE" : "Mes Notifications",
     "TYPE": {
       "ADD_WISH" : "<b>{{actionUserName}}</b> a ajouté une nouvelle envie  <b>{{message}}</b> à la liste \"<u>{{listName}}</u>\"",
       "UPDATE_WISH": "L'envie <b>{{message}}</b> de la liste \"<u>{{listName}}</u>\" a été mise à jour",
@@ -112,6 +113,14 @@
       "ARCHIVE_WISH": "<b>{{actionUserName}}</b> a archivé une envie <i>{{message}}</i> de la liste \"<u>{{listName}}</u>\"",
       "ADD_NOTE": "<b>{{actionUserName}}</b> a commenté <i>{{message}}</i> sur une envie de la liste \"<u>{{listName}}</u>\""
     }
+  },
+  "PROFIL_PAGE": {
+    "TITLE": "Mon profil",
+    "NAME": "Mon nom",
+    "EMAIL": "Mon email",
+    "BIRTHDAY": "Ma date de naissance",
+    "BIRTHDAY_INFO": "Pour rappeler à vos contacts, de penser à votre anniversaire",
+    "SAVE": "Mettre à jour"
   }
 
 }

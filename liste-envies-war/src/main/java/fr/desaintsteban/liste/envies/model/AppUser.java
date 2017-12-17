@@ -4,7 +4,13 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 import fr.desaintsteban.liste.envies.dto.AppUserDto;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @Cache
 @Entity
@@ -14,13 +20,24 @@ public class AppUser {
 
 	private String name;
 
+	private Date birthday;
+	@Index
+	private String anniversary;
+
     private boolean isAdmin = false;
+
+    private boolean newUser = false;
 	
 	public AppUser() { }
-	
+
 	public AppUser(String email, String name) {
 		this.name = name;
 		this.email = email;
+	}
+
+	public AppUser(String email, String name, Date birthday) {
+		this(email, name);
+		setBirthday(birthday);
 	}
 	
 	public Key<AppUser> getKey() {
@@ -55,8 +72,27 @@ public class AppUser {
         this.isAdmin = isAdmin;
     }
 
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+		if (birthday != null) {
+			this.anniversary = birthday.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().format(DateTimeFormatter.ofPattern("MM-dd"));
+		}
+	}
+
+	public boolean isNewUser() {
+		return newUser;
+	}
+
+	public void setNewUser(boolean newUser) {
+		this.newUser = newUser;
+	}
+
 	public AppUserDto toDto() {
-		return new AppUserDto(this.getEmail(), this.getName());
+		return new AppUserDto(this.getEmail(), this.getName(), this.getBirthday(), this.newUser);
 	}
 
 }

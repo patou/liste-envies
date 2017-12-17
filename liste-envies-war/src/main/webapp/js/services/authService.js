@@ -2,20 +2,24 @@ angular
 	.module('service', [])
     .service('AuthService', AuthService);
 
-AuthService.$inject = ['$http'];
-    function AuthService($http){
+AuthService.$inject = ['$http', '$q'];
+    function AuthService($http, $q){
         var obj = {
         	user: null
         };
         
         obj.refresh = function() {
-	        return $http.get('/user')
-		        .success(function(data) {
-		            return obj.user = eval(data);
-		        })
-	        	.error(function(error) {
-	        		return obj.user = null;
-	        	});
+            return new Promise(function(resolve, error) {
+                $http.get('/api/user')
+                    .success(function (data) {
+                        obj.user = eval(data);
+                        resolve(obj.user);
+                    })
+                    .error(function (err) {
+                        obj.user = null;
+                        error(err);
+                    });
+            });
     	};
         
         obj.isAuthenticated = function() {

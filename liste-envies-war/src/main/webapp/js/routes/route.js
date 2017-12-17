@@ -1,9 +1,16 @@
-app.config(function ($routeProvider) {
+app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+    $locationProvider.html5Mode(true);
     $routeProvider
         .when("/", {
             templateUrl: "templates/home.html",
             name: 'Home',
             controller: "HomeCtrl",
+            controllerAs: "vm"
+        })
+        .when("/profil", {
+            templateUrl: "templates/profil.html",
+            name: 'Profil',
+            controller: "ProfilCtrl",
             controllerAs: "vm"
         })
         .when("/addWish", {
@@ -70,4 +77,4 @@ app.config(function ($routeProvider) {
         controllerAs: "vm"
     })
         .otherwise({redirectTo: '/'});
-});
+}]);

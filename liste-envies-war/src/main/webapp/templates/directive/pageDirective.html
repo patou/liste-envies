@@ -10,7 +10,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#/"><i class="fa fa-gift"></i> <span translate=".TITLE"></span></a>
+            <a class="navbar-brand" href="/"><i class="fa fa-gift"></i> <span translate=".TITLE"></span></a>
         </div>
 
         <div class="collapse navbar-collapse ng-cloak " id="bs-example-navbar-collapse-1">
@@ -20,20 +20,19 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span translate>.CHANGE_LIST</span> <span class="caret"></span></a>
                     <ul class="dropdown-menu mega-dropdown-menu row">
 
-                        <li class="list-group-item" ng-class="{active:aWishList.owner}" ng-repeat="aWishList in main.wishLists"><a ng-click="main.goList(aWishList.name)">
+                        <li class="list-group-item" ng-class="{owner:aWishList.owner}" ng-repeat="aWishList in main.wishLists"><a ng-click="main.goList(aWishList.name)">
                             {{aWishList.title}}
                             <p class="list-group-item-text"> de <span class="owners" ng-repeat="owner in aWishList.owners" title="{{owner.name}}({{owner.email}})"><i class="fa fa-user"></i> {{owner.name}}<span ng-if="!$last" >, </span></span>  </p>
                         </a></li>
+                        <hr/>
+                        <li  class="list-group-item">
+                            <a role="button" href="/archive"><i class="fa fa-fw fa-archive"></i> <span translate>.MENU_ARCHIVED</span></a>
+                        </li>
+                        <li  class="list-group-item">
+                            <a role="button" href="/given"><i class="fa fa-fw fa-gift"></i> <span translate>.MENU_GIVEN</span></a>
+                        </li>
 
                     </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav hidden-sm hidden-xs hidden-md">
-                <li class=" " ng-if="main.isAuthenticated">
-                    <a class="" role="button" href="#/archive" aria-haspopup="true" aria-expanded="false"><span translate>.MENU_ARCHIVED</span></a>
-                </li>
-                <li class=" " ng-if="main.isAuthenticated">
-                    <a class="" role="button" href="#/given" aria-haspopup="true" aria-expanded="false"><span translate>.MENU_GIVEN</span></a>
                 </li>
             </ul>
 
@@ -41,28 +40,25 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown  hidden-sm hidden-xs" ng-show="main.isAuthenticated">
                     <a type="button"
-                        href="javascript:(function(){ function centeredPopupPosition(w, h) {var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left; var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top; var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width; var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height; var left = ((width / 2) - (w / 2)) + dualScreenLeft; var top = ((height / 2) - (h / 2)) + dualScreenTop; return [left, top]; } var width = 500, height = 700, position = centeredPopupPosition(width, height); window.open('http://{{main.host}}/#/addWish/?url='+encodeURIComponent(document.location.href)+'&title='+encodeURIComponent(document.title),'Ajouter sur votre liste d\'envie','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=' + width + ',height=' + height + ',top=' + position[1] + ',left=' + position[0]).focus(); }());"
+                        href="javascript:!function(e,t,n,o){var i=e.screenLeft||screen.left,r=e.screenTop||screen.top,c=(e.innerWidth||t.documentElement.clientWidth||screen.width)/2-250+i,s=(e.innerHeight||t.documentElement.clientHeight||screen.height)/2-350+r;e.open('http://{{main.host}}/addWish/?url='+encodeURIComponent(t.location.href)+'&title='+encodeURIComponent(t.title),'Ajouter sur votre liste d\'envie','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=500,height=700,top='+s+',left='+c).focus()}(window,document);"
 
-                       class="btn btn-default"
+                       class="btn btn-default btn-magic"
                        data-container="body" data-toggle="popover" data-placement="bottom" data-trigger="hover click focus"
                        ng-mouseover="main.displayPopover($event)"
                        data-delay = '{ "show": 100, "hide": 900 }'
-
-                       title="Bouton magique pour ajouter une envie depuis n'importe quel site"
-
-                       translate-attr-title=".MAGIC_BUTTON_POPOVER_TITLE"
-                       translate-attr-data-content=".MAGIC_BUTTON_POPOVER_CONTENT"
-                        translate>
-                        .MAGIC_BUTTON
+                       data-html="true"
+                       data-content="{{'NAVBAR.MAGIC_BUTTON_POPOVER_CONTENT'|translate}}"
+                        ><i>🎁</i>
+                        <span translate="NAVBAR.MAGIC_BUTTON"></span>
                     </a>
 
                 </li>
                 <li class="dropdown " ng-show="main.isAuthenticated">
-                    <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i>
+                    <a class="dropdown-toggle notification" data-toggle="dropdown"><i class="fa fa-bell"></i>
                         <span class="badge">{{main.Notifications.length}}</span>
                     </a>
                     <ul class="dropdown-menu notif-menu" ng-if="main.Notifications.length > 0">
-                        <li class="title-notification" translate>.NOTIFICATIONS</li>
+                        <li class="title-notification" translate>NOTIFICATIONS.NOTIFICATION_TITLE</li>
                         <li role="separator" class="divider"></li>
                         <li class="notif" ng-repeat="notif in main.Notifications " ng-click="main.goList(notif.listId)">
                             <i class="fa fa-2x pull-left" ng-class="main.notifClass(notif.type)"></i>
@@ -76,22 +72,22 @@
                         <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><div>{{main.user.email}}</div></li>
-                       <!-- <li>
-                            <a href="javascript:;"><i class="fa fa-fw fa-user"></i> <span translate=".MY_PROFIL"></span> </a>
-                        </li>-->
-                        <li class=" " ng-if="main.isAuthenticated">
-                            <a class="" role="button" href="#/archive" aria-haspopup="true" aria-expanded="false"><span translate>.MENU_ARCHIVED</span></a>
-                        </li>
-                        <li class=" " ng-if="main.isAuthenticated">
-                            <a class="" role="button" href="#/given" aria-haspopup="true" aria-expanded="false"><span translate>.MENU_GIVEN</span></a>
+                        <li>
+                            <a href="/profil"><i class="fa fa-fw fa-user"></i> <span translate=".MY_PROFIL"></span> </a>
                         </li>
                         <li>
-                            <a ng-href="{{main.logoutPath()}}"><i class="fa fa-fw fa-power-off"></i><span translate=".LOG_OUT"></span></a>
+                            <a role="button" href="/archive"><i class="fa fa-fw fa-archive"></i> <span translate>.MENU_ARCHIVED</span></a>
+                        </li>
+                        <li>
+                            <a role="button" href="/given"><i class="fa fa-fw fa-gift"></i> <span translate>.MENU_GIVEN</span></a>
+                        </li>
+                        <li>
+                            <a ng-href="{{main.logoutPath()}}" target="_top"><i class="fa fa-fw fa-power-off"></i><span translate=".LOG_OUT"></span></a>
                         </li>
                     </ul>
                 </li>
                 <li ng-hide="main.isAuthenticated">
-                    <a ng-href="{{main.loginPath()}}" translate>.LOG_IN</a>
+                    <a ng-href="{{main.loginPath()}}" translate target="_top">.LOG_IN</a>
                 </li>
             </ul>
         </div><!-- /.navbar-collapse -->

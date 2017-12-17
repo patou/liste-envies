@@ -2,6 +2,8 @@ package fr.desaintsteban.liste.envies.dto;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import java.util.Date;
+
 /**
  *
  */
@@ -11,12 +13,18 @@ public class AppUserDto {
 
     private String name;
 
+    private Date birthday;
+
+    private boolean newUser;
+
     public AppUserDto() {
     }
 
-    public AppUserDto(String email, String name) {
+    public AppUserDto(String email, String name, Date birthday, boolean newUser) {
         this.email = email;
         this.name = name;
+        this.birthday = birthday;
+        this.newUser = newUser;
     }
 
     public String getEmail() {
@@ -33,5 +41,13 @@ public class AppUserDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 }

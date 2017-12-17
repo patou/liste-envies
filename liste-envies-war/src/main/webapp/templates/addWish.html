@@ -4,8 +4,8 @@
 
     <div class="navbar navbar-default navbar-form"  ng-if="!vm.added">
         <label class="navbar-brand" translate=".CHOOSE_LIST"></label>
-        <div class="form-group btn btn-white btn-xs">
-            <select name="" id="" ng-if="vm.wishLists != null" ng-model="vm.name"
+        <div class="form-group btn btn-white btn-xs" ng-if="vm.user && vm.wishLists != null" >
+            <select name="" id=""ng-model="vm.name"
                     class="form-control">
 
                     <option selected disabled value="" translate>.CHOOSE_LIST_PLACEHOLDER</option>
@@ -22,6 +22,8 @@
 
             </select>
         </div>
+        <a class="btn btn-white btn-lg" ng-if="!vm.user" ng-href="{{vm.loginPath()}}" translate target="_top">.LOG_IN</a>
+
 
     </div>
 
@@ -32,7 +34,7 @@
         <span translate translate-values="{name: vm.name, wishName: vm.newWish.label}">
             .MESSAGE_SUCESS_CREATE_WISH
         </span>
-        <a class="btn btn-primary" translate translate-values="{name: vm.name}" href="/#/{{vm.name}}" ng-click="vm.closeWithDelay()" target="_blank">.BUTTON_OPEN_WISH_LIST</a>
+        <a class="btn btn-primary" translate translate-values="{name: vm.name}" href="{{vm.name}}" ng-click="vm.closeWithDelay()" target="_blank">.BUTTON_OPEN_WISH_LIST</a>
         <a class="btn btn-warning" translate ng-click="vm.closeWithDelay()" >.BUTTON_CLOSE_POP_UP</a>
     </div>
 

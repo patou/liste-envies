@@ -34,7 +34,7 @@ public final class WishesService {
 
     public static List<Wish> gived(AppUser user) {
         Objectify ofy = OfyService.ofy();
-        List<Wish> list = ofy.load().type(Wish.class).filter("userTake.email =", EncodeUtils.encode(user.getEmail())).list();
+        List<Wish> list = ofy.load().type(Wish.class).filter("userTake.email =", EncodeUtils.encode(user.getEmail())).filter("archived =", false).list();
         return list;
     }
 

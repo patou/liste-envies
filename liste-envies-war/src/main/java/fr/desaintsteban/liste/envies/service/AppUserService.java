@@ -5,7 +5,6 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.Work;
 import com.googlecode.objectify.cmd.Saver;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.util.NicknameUtils;
@@ -28,6 +27,7 @@ public final class AppUserService {
         if (appUser == null) { // appUser wasn't in the datastore
             appUser = new AppUser(user.getEmail(), NicknameUtils.getNickname(user.getNickname()));
             appUser.setIsAdmin(userService.isUserAdmin());
+            appUser.setNewUser(true);
             ofy.save().entity(appUser).now();
         } else { // appUser is already in the datastore
             // update properties if they've changed

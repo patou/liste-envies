@@ -3,4 +3,8 @@
         <property name="user" direction="asc"/>
         <property name="date" direction="desc"/>
     </datastore-index>
+    <datastore-index kind="Envy" ancestor="false" source="auto">
+        <property name="userTake" direction="asc"/>
+        <property name="archived" direction="asc"/>
+    </datastore-index>
 </datastore-indexes>

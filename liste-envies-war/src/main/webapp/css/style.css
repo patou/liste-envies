@@ -39,6 +39,13 @@ body {
     padding: 2px;
 }
 
+@media(min-width:1024px) {
+    div.profil-page.main-raised {
+        margin: 0 33.33333333%;
+    }
+}
+
+
 .home-header {
     margin-bottom: 10px;
     padding: 0 20px;
@@ -55,11 +62,19 @@ body {
     cursor: pointer;
 }
 
-.list-envies .list-envie-group .list-envies-item.owner {
+.owner {
     z-index: 2;
-    color: #fff;
-    background-color: #337ab7;
-    border-color: #337ab7;;
+    border-color: #337ab7;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.owner p {
+    color: #337ab7;
+}
+
+.owner a:hover p {
+    color: inherit;
 }
 
 .mega-dropdown {
@@ -78,8 +93,8 @@ body {
     border-right: 17px solid transparent;
     border-left: 17px solid transparent;
     position: absolute;
-    top: -15px;
-    left: 205px;
+    top: -14px;
+    left: 272px;
     z-index: 10;
 }
 .mega-dropdown-menu:after {
@@ -88,14 +103,14 @@ body {
     border-right: 19px solid transparent;
     border-left: 19px solid transparent;
     position: absolute;
-    top: -17px;
-    left: 203px;
+    top: -16px;
+    left: 272px;
     z-index: 8;
 }
 
 .mega-dropdown-menu .list-group-item {
-    float: left;
-    width: 15%;
+    display: inline-block;
+    width: 220px;
     margin: 0.2%;
     padding: 0;
     border-radius: 5px;
@@ -104,8 +119,12 @@ body {
 .mega-dropdown-menu .list-group-item a {
     margin: 0;
     cursor: pointer;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
+.mega-dropdown-menu hr {
 
+}
 
 .edit-button {
     display: none;
@@ -167,6 +186,8 @@ button.copy-button {
     margin: 2px 5px 2px 0;
 }
 
+
+
 .order-filter {
     /*display: flex;
     justify-content: space-between;*/
@@ -181,6 +202,9 @@ button.copy-button {
     padding: 0;
 }
 
+.btn-magic i {
+    display: none;
+}
 
 
 .list-envie .envie-item:hover .edit-button {
@@ -228,6 +252,57 @@ button.copy-button {
 
 .list-envie .envie-item {
     box-shadow: 0 13px 18px 0 rgba(0, 0, 0, 0.58), 0 13px 22px 0 rgba(0, 0, 0, 0.12);
+}
+
+.list-envies .list-group-item.owner {
+     z-index: 2;
+     border-color: #337ab7;
+     border-style: solid;
+     border-width: 1px;
+     margin: 0px;
+     box-shadow: inset 0px 0px 0px 5px #337ab7, 0 16px 24px 2px rgba(0, 0, 0, 0.45), 0 6px 30px 5px rgba(0, 0, 0, 0.25), 0 8px 10px -5px rgba(0, 0, 0, 0.2) !important;
+ }
+
+ .mega-dropdown-menu .list-group-item.owner {
+     z-index: 2;
+     border-color: #337ab7;
+     border-style: solid;
+     border-width: 1px;
+     margin: 0px;
+}
+
+.list-group.list-envies h2.list-group-item-heading {
+    display: block; /* Fallback for non-webkit */
+  display: -webkit-box;
+  max-width: 100%;
+  
+  height: 2em;  /*Fallback for non-webkit */
+  margin: 0 auto;
+  font-size: 2.5em;
+  line-height: 1em;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-align: center;
+  vertical-align: middle;
+  text-align: center;
+   }
+
+
+.list-group.list-envies p.list-group-item-text {
+   display: block; /* Fallback for non-webkit */
+   display: -webkit-box;
+   width: 100%;
+   min-width: 100%;
+   height: 3em;  /*Fallback for non-webkit */
+  
+   font-size: 0.9em;
+   line-height: 0.8em;
+   -webkit-line-clamp: 3;
+   -webkit-box-orient: vertical;
+   overflow: hidden;
+   text-overflow: ellipsis;
 }
 
 .envie-card .panel-body {
@@ -292,6 +367,10 @@ div.material-icons.form-control-feedback {
     box-shadow: 0 4px 16px -3px rgba(0, 0, 0, 0.56);
     background: white;
 }
+
+.card .header-mutted {
+    background: #eeeeee;
+    border-top: #8c8c8c 6px solid; }
 
 .envie-container {
     padding-top: 20px;
@@ -505,6 +584,9 @@ div.material-icons.form-control-feedback {
     bottom: -10px;
 }
 
+.envie-item h5 {
+    margin-left: 16px;
+}
 
 .spin {
     -webkit-animation: spin .4s infinite linear;
@@ -699,6 +781,12 @@ div.material-icons.form-control-feedback {
 .notif-menu {
     padding: 5px;
     min-width: 250px;
+}
+
+.notification .badge {
+    margin-top: -22px;
+    margin-left: -15px;
+    margin-right: 15px;
 }
 
 .title-notification {

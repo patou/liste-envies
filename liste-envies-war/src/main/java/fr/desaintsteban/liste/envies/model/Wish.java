@@ -37,6 +37,7 @@ public class Wish {
     /**
      * L'envie est archivé
      */
+    @Index
     private Boolean archived = false;
     /**
      * L'envie a été supprimé, mais elle a été noté comme donné.
@@ -99,9 +100,13 @@ public class Wish {
         return this.toDto(false);
     }
 
+    public WishDto toDtoNoFiltered() {
+        return this.toDto(false);
+    }
     public WishDto toDto(boolean filter) {
         WishDto wish = new WishDto();
         wish.setId(getId());
+        wish.setListId(getList().getName());
         wish.setOwner(Person.toDto(getOwner(), false));
         wish.setSuggest(getSuggest());
         wish.setDeleted(getDeleted());

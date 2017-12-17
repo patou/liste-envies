@@ -8,6 +8,7 @@ function appUserService($resource) {
         {
             notification: {method:'GET', url: base_url + ':email/notifications', isArray:true},
             given: {method:'GET', url: base_url + ':email/given', isArray:true},
-            archived: {method:'GET', url: base_url + ':email/archived', isArray:true}
+            archived: {method:'GET', url: base_url + ':email/archived', isArray:true},
+            my: {method:'GET', url: base_url + 'my'}
         });
 }
