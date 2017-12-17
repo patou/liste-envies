@@ -16,6 +16,12 @@ public class PersonParticipant extends Person {
         this.message = message;
     }
 
+    public PersonParticipant(AppUser user, String amount, String message) {
+        super(user);
+        this.amount = amount;
+        this.message = message;
+    }
+
     public String getAmount() {
         return amount;
     }

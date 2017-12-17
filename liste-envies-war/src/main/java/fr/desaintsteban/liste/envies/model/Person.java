@@ -9,18 +9,33 @@ public class Person {
     @Index
     String email;
     String name;
+    boolean encoded = true; // auto encode or decode if set to true.
 
     public Person() {
     }
 
-    public Person(String email) {
-        this.email = email;
-        this.name = NicknameUtils.getNickname(email);
+    /**
+     * Main creator
+     * @param email
+     * @param name
+     * @param encoded
+     */
+    public Person(String email, String name, boolean encoded) {
+        this.setEmail(email);
+        this.setName(name);
+        this.encoded = encoded;
     }
 
-    public Person(String email, String name) {
-        this.email = email;
-        this.name = name;
+    public Person(String email, boolean encoded) {
+        this(email, NicknameUtils.getNickname(email), encoded);
+    }
+
+    public Person(String email) {
+        this(email, NicknameUtils.getNickname(email), true);
+    }
+
+    public Person(AppUser user, boolean encoded) {
+        this(user.getEmail(), user.getName(), encoded);
     }
 
     public String getEmail() {
