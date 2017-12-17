@@ -122,6 +122,14 @@ public class WishServiceTest {
 
 
     @Test
+    public void testListArchived() throws Exception {
+        WishesService.archive(patrice, "liste-patrice", livreId);
+        List<Wish> list = WishesService.archived(patrice);
+        assertThat(list).hasSize(1).onProperty("label").contains("Livre");
+        assertThat(WishesService.given(emmanuel)).isEmpty();
+    }
+
+    @Test
     public void testListOther() throws Exception {
         List<Wish> list = WishesService.list(emmanuel, "liste-patrice");
         assertThat(list).hasSize(2).onProperty("label").contains("Livre", "DVD");
