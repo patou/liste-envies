@@ -8,6 +8,7 @@ import fr.desaintsteban.liste.envies.util.EncodeUtils;
 import fr.desaintsteban.liste.envies.util.NicknameUtils;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -21,6 +22,8 @@ public class Comment {
     private String text;
 
     private CommentType type = CommentType.PRIVATE;
+
+    private List<Comment> answer;
 
     public Person getFrom() {
         return from;
@@ -52,6 +55,14 @@ public class Comment {
 
     public void setType(CommentType type) {
         this.type = type != null ? type : CommentType.PRIVATE;
+    }
+
+    public List<Comment> getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(List<Comment> answer) {
+        this.answer = answer;
     }
 
     public Comment() {
