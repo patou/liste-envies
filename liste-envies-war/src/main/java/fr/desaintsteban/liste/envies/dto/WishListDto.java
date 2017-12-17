@@ -1,8 +1,8 @@
 package fr.desaintsteban.liste.envies.dto;
 
-import fr.desaintsteban.liste.envies.model.SharingPrivacyType;
-import fr.desaintsteban.liste.envies.model.WishListType;
-import fr.desaintsteban.liste.envies.model.WishOptionType;
+import fr.desaintsteban.liste.envies.enums.SharingPrivacyType;
+import fr.desaintsteban.liste.envies.enums.WishListType;
+import fr.desaintsteban.liste.envies.enums.WishOptionType;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import java.util.Date;

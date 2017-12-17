@@ -8,8 +8,10 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cache.AsyncCacheFilter;
+import fr.desaintsteban.liste.envies.dto.PersonDto;
 import fr.desaintsteban.liste.envies.dto.WishDto;
 import fr.desaintsteban.liste.envies.dto.NoteDto;
+import fr.desaintsteban.liste.envies.enums.NoteType;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.Wish;
 import fr.desaintsteban.liste.envies.model.WishList;
@@ -103,7 +105,7 @@ public class EnvieServiceTest {
     public void testGetNotSameUser() throws Exception {
         Wish envie = WishesService.get(emmanuel, "liste-patrice", livreId);
         assertThat(envie.getLabel()).isEqualTo("Livre");
-        assertThat(envie.getUserTake()).contains(EncodeUtils.encode("emmanuel@desaintsteban.fr"));
+        assertThat(envie.getUserTake()).onProperty("email").contains(EncodeUtils.encode("emmanuel@desaintsteban.fr"));
     }
 
     @Test
@@ -135,12 +137,10 @@ public class EnvieServiceTest {
         WishDto initdto = new WishDto();
         initdto.setLabel("Test");
         NoteDto c1 = new NoteDto();
-        c1.setOwner("Emmanuel");
-        c1.setEmail("emmanuel@desaintsteban.fr");
+        c1.setFrom(new PersonDto("emmanuel@desaintsteban.fr","Emmanuel"));
         c1.setText("Commentaire");
         NoteDto c2 = new NoteDto();
-        c2.setEmail("clemence@desaintsteban.fr");
-        c2.setOwner("Patrice");
+        c2.setFrom(new PersonDto("clemence@desaintsteban.fr","Clémence"));
         c2.setText("Commentaire2");
         Wish envie = new Wish(initdto);
 
@@ -153,7 +153,7 @@ public class EnvieServiceTest {
         WishDto dto = get.toDto();
 
         assertThat(dto.getLabel()).isEqualTo(initdto.getLabel());
-        assertThat(dto.getNotes()).onProperty("email").contains("clemence@desaintsteban.fr", "patrice@desaintsteban.fr");
+        assertThat(dto.getNotes()).onProperty("from.email").contains("emmanuel@desaintsteban.fr", "clemence@desaintsteban.fr");
         assertThat(dto.getNotes()).onProperty("text").contains("Commentaire", "Commentaire2");
     }
 }

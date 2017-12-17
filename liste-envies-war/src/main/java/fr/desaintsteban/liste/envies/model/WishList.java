@@ -6,6 +6,10 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import fr.desaintsteban.liste.envies.dto.WishListDto;
 import fr.desaintsteban.liste.envies.dto.UserShareDto;
+import fr.desaintsteban.liste.envies.enums.SharingPrivacyType;
+import fr.desaintsteban.liste.envies.enums.UserShareType;
+import fr.desaintsteban.liste.envies.enums.WishListType;
+import fr.desaintsteban.liste.envies.enums.WishOptionType;
 
 import java.util.ArrayList;
 import java.util.Date;

@@ -1,7 +1,7 @@
 package fr.desaintsteban.liste.envies.dto;
 
 import fr.desaintsteban.liste.envies.model.AppUser;
-import fr.desaintsteban.liste.envies.model.UserShareType;
+import fr.desaintsteban.liste.envies.enums.UserShareType;
 
 import java.util.Map;
 

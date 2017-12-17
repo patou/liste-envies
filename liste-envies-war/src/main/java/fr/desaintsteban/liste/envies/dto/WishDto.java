@@ -13,7 +13,7 @@ import java.util.List;
 public class WishDto {
     private Long id;
 
-    private String owner;
+    private PersonDto owner;
     private Boolean suggest = false;
     private Boolean deleted = false;
     private String label;
@@ -21,10 +21,10 @@ public class WishDto {
     private String description;
 
     private String price;
-    private String picture;
+    private List<String> pictures;
     private Date date;
     private List<Link> urls;
-    private List<String> userTake;
+    private List<PersonParticipantDto> userTake;
 
     private List<NoteDto> notes;
 
@@ -42,11 +42,11 @@ public class WishDto {
         this.id = id;
     }
 
-    public String getOwner() {
+    public PersonDto getOwner() {
         return owner;
     }
 
-    public void setOwner(String owner) {
+    public void setOwner(PersonDto owner) {
         this.owner = owner;
     }
 
@@ -82,12 +82,12 @@ public class WishDto {
         this.description = description;
     }
 
-    public String getPicture() {
-        return picture;
+    public List<String> getPictures() {
+        return pictures;
     }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
+    public void setPictures(List<String> pictures) {
+        this.pictures = pictures;
     }
 
     public Date getDate() {
@@ -106,11 +106,11 @@ public class WishDto {
         this.urls = urls;
     }
 
-    public List<String> getUserTake() {
+    public List<PersonParticipantDto> getUserTake() {
         return userTake;
     }
 
-    public void setUserTake(List<String> userTake) {
+    public void setUserTake(List<PersonParticipantDto> userTake) {
         this.userTake = userTake;
     }
 

@@ -1,6 +1,6 @@
 package fr.desaintsteban.liste.envies.dto;
 
-import fr.desaintsteban.liste.envies.model.*;
+import fr.desaintsteban.liste.envies.enums.NotificationType;
 
 import java.util.Date;
 

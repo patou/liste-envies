@@ -3,12 +3,15 @@ package fr.desaintsteban.liste.envies.servlet;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.LoadResult;
 import com.googlecode.objectify.Objectify;
+import fr.desaintsteban.liste.envies.model.Person;
+import fr.desaintsteban.liste.envies.model.PersonParticipant;
 import fr.desaintsteban.liste.envies.model.Wish;
 import fr.desaintsteban.liste.envies.model.deprecated.Envy;
 import fr.desaintsteban.liste.envies.model.deprecated.ListEnvies;
 import fr.desaintsteban.liste.envies.model.WishList;
 import fr.desaintsteban.liste.envies.service.OfyService;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
+import fr.desaintsteban.liste.envies.util.NicknameUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,6 +22,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static fr.desaintsteban.liste.envies.util.StringUtils.isNullOrEmpty;
 
 /**
  *
@@ -48,22 +53,19 @@ public class MigrateServlet extends HttpServlet {
 
             for(Envy envy : Envies) {
                 Wish newWish = new Wish(newWishList, envy.getLabel());
-                newWish.setOwner(envy.getOwner());
+                newWish.setOwner(toPerson(envy.getOwner(), false));
                 newWish.setSuggest(envy.getSuggest());
                 newWish.setArchived(envy.getArchived());
                 newWish.setDeleted(envy.getDeleted());
                 newWish.setDescription(envy.getDescription());
                 newWish.setPrice(envy.getPrice());
-                newWish.setPicture(envy.getPicture());
+                newWish.setPictures(toList(envy.getPicture()));
                 newWish.setDate(envy.getDate());
                 newWish.setUrls(envy.getUrls());
                 newWish.setRating(envy.getRating());
-                newWish.setUserTake(envy.getUserTake());
+                newWish.setUserTake(toParticipant(envy.getUserTake()));
                 newWish.setUserReceived(envy.getUserReceived());
                 newWish.setNotes(envy.getNotes());
-
-
-
                 ConvertedWish.add(newWish);
             }
 
@@ -73,5 +75,41 @@ public class MigrateServlet extends HttpServlet {
         ofy.save().entities(ConvertedWish);
 
         out.println("OK");
+    }
+
+    private List<PersonParticipant> toParticipant(List<String> userTake) {
+        if (userTake != null) {
+            return userTake.stream().map(EncodeUtils::decode).map(MigrateServlet::toParticipant).collect(Collectors.toList());
+        }
+        return null;
+    }
+
+    static Person toPerson(String email, boolean encode) {
+        if (!isNullOrEmpty(email)) {
+            Person person = new Person();
+            person.setEmail(EncodeUtils.encode(email, encode));
+            person.setName(EncodeUtils.encode(NicknameUtils.getNickname(email), encode));
+            return person;
+        }
+        return null;
+    }
+
+    static PersonParticipant toParticipant(String email) {
+        if (!isNullOrEmpty(email)) {
+            PersonParticipant person = new PersonParticipant();
+            person.setEmail(EncodeUtils.encode(email));
+            person.setName(EncodeUtils.encode(NicknameUtils.getNickname(email)));
+            return person;
+        }
+        return null;
+    }
+
+    static List<String> toList(String picture) {
+        if (picture != null) {
+            ArrayList<String> list = new ArrayList<>();
+            list.add(picture);
+            return list;
+        }
+        return null;
     }
 }

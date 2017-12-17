@@ -1,5 +1,7 @@
 package fr.desaintsteban.liste.envies.dto;
 
+import fr.desaintsteban.liste.envies.enums.NoteType;
+
 import java.util.Date;
 
 /**
@@ -10,24 +12,16 @@ public class NoteDto {
 
     private String text;
 
-    private String owner;
+    private PersonDto from;
 
-    private String email;
-
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
+    private NoteType type;
 
     public Date getDate() {
         return date;
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.date = date != null ? date : new Date();
     }
 
     public String getText() {
@@ -38,12 +32,20 @@ public class NoteDto {
         this.text = text;
     }
 
-    public String getEmail() {
-        return email;
+    public PersonDto getFrom() {
+        return from;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setFrom(PersonDto from) {
+        this.from = from;
+    }
+
+    public NoteType getType() {
+        return type;
+    }
+
+    public void setType(NoteType type) {
+        this.type = type;
     }
 
     public NoteDto() {
@@ -51,14 +53,15 @@ public class NoteDto {
     }
     /**
      * Add a new Note
-     * @param owner
+     * @param from
      * @param text
      * @param date
+     * @param type
      */
-    public NoteDto(String owner, String email, String text, Date date) {
-        this.owner = owner;
-        this.email = email;
+    public NoteDto(PersonDto from, String text, Date date, NoteType type) {
+        this.from = from;
         this.text = text;
         this.date = date;
+        this.type = type;
     }
 }

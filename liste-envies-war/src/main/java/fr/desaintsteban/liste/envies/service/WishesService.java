@@ -4,6 +4,7 @@ import com.googlecode.objectify.*;
 import com.googlecode.objectify.cmd.Saver;
 import fr.desaintsteban.liste.envies.dto.WishDto;
 import fr.desaintsteban.liste.envies.dto.NoteDto;
+import fr.desaintsteban.liste.envies.enums.NotificationType;
 import fr.desaintsteban.liste.envies.model.*;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
 
@@ -63,7 +64,7 @@ public final class WishesService {
             public void vrun() {
                 Objectify ofy = OfyService.ofy();
                 Wish saved = ofy.load().key(Key.create(parent, Wish.class, itemid)).now();
-                if (saved.hasUserTaken() && wishList.containsOwner(saved.getOwner())) {
+                if (saved.hasUserTaken() && wishList.containsOwner(saved.getOwner().getEmail())) {
                     Saver saver = ofy.save();
                     saved.setDeleted(true);
                     saver.entity(saved);
@@ -126,7 +127,10 @@ public final class WishesService {
                     Objectify ofy = OfyService.ofy();
                     Wish saved = ofy.load().key(Key.create(parent, Wish.class, itemId)).now();
                     Saver saver = ofy.save();
-                    saved.addUserTake(EncodeUtils.encode(user.getEmail()));
+                    PersonParticipant personParticipant = new PersonParticipant();
+                    personParticipant.setEmail(EncodeUtils.encode(user.getEmail()));
+                    personParticipant.setName(EncodeUtils.encode(user.getName()));
+                    saved.addUserTake(personParticipant);
                     saver.entity(saved);
                     NotificationsService.notify(NotificationType.GIVEN_WISH, user, wishList, true, saved.getLabel());
                     return saved.toDto();
@@ -155,7 +159,8 @@ public final class WishesService {
                     Objectify ofy = OfyService.ofy();
                     Wish saved = ofy.load().key(Key.create(parent, Wish.class, itemId)).now();
                     Saver saver = ofy.save();
-                    saved.addNote(user.getName(), user.getEmail(), note.getText());
+
+                    saved.addNote(Note.fromDto(note, true));
                     saver.entity(saved);
 
                     NotificationsService.notify(NotificationType.ADD_NOTE, user, wishList, true, note.getText());
@@ -217,9 +222,9 @@ public final class WishesService {
                 add = false;
             }
             if (item.getOwner() == null) {
-                item.setOwner(user.getEmail());
+                item.setOwner(new Person(user.getEmail(), user.getName()));
             }
-            boolean containsOwner = wishList.containsOwner(item.getOwner());
+            boolean containsOwner = wishList.containsOwner(item.getOwner().getEmail());
             item.setSuggest(!containsOwner);
             item.setDate(new Date());
             Key<Wish> key = saver.entity(item).now();

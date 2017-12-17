@@ -1,4 +1,4 @@
-package fr.desaintsteban.liste.envies.model;
+package fr.desaintsteban.liste.envies.enums;
 
 /**
  * the type of list

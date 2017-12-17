@@ -1,6 +1,8 @@
 package fr.desaintsteban.liste.envies.service;
 
 import com.googlecode.objectify.cmd.Saver;
+import fr.desaintsteban.liste.envies.enums.NotificationType;
+import fr.desaintsteban.liste.envies.enums.UserShareType;
 import fr.desaintsteban.liste.envies.model.*;
 
 import java.util.Date;

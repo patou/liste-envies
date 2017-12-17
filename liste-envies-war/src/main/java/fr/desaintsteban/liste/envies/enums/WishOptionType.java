@@ -1,4 +1,4 @@
-package fr.desaintsteban.liste.envies.model;
+package fr.desaintsteban.liste.envies.enums;
 
 /**
  * How can we share the list, the privacy

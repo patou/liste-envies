@@ -8,6 +8,7 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.Work;
 import com.googlecode.objectify.cmd.Saver;
 import fr.desaintsteban.liste.envies.model.AppUser;
+import fr.desaintsteban.liste.envies.util.NicknameUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -25,11 +26,7 @@ public final class AppUserService {
         AppUser appUser = ofy.load().type(AppUser.class).id(user.getEmail()).now();
         UserService userService = UserServiceFactory.getUserService();
         if (appUser == null) { // appUser wasn't in the datastore
-            String nickname = user.getNickname();
-            if (nickname.indexOf('@') > 0) {
-                nickname = nickname.substring(0, nickname.indexOf('@')).replace('.', ' ').replace('-', ' ');
-            }
-            appUser = new AppUser(user.getEmail(), nickname);
+            appUser = new AppUser(user.getEmail(), NicknameUtils.getNickname(user.getNickname()));
             appUser.setIsAdmin(userService.isUserAdmin());
             ofy.save().entity(appUser).now();
         } else { // appUser is already in the datastore

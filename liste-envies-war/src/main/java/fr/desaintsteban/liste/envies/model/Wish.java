@@ -29,7 +29,7 @@ public class Wish {
     @Id
     private Long id;
 
-    private String owner;
+    private Person owner;
     /**
      * L'envie à été suggéré par une autre personne
      */
@@ -48,16 +48,14 @@ public class Wish {
     private String description;
 
     private String price;
-    private String picture;
+    private List<String> pictures;
     private Date date;
-
 
 
     private int rating;
     @Embedded
     private List<Link> urls;
-    @Index
-    private List<String> userTake;
+    private List<PersonParticipant> userTake;
     @Index(IfNotNull.class)
     private List<String> userReceived;
 
@@ -80,18 +78,18 @@ public class Wish {
 
     public Wish(WishDto wish) {
         setId(wish.getId());
-        setOwner(wish.getOwner());
+        setOwner(Person.fromDto(wish.getOwner(), false));
         setSuggest(wish.getSuggest());
         setDeleted(wish.getDeleted());
         setLabel(wish.getLabel());
         setDescription(wish.getDescription());
         setPrice(wish.getPrice());
-        setPicture(wish.getPicture());
+        setPictures(wish.getPictures());
         setDate(wish.getDate());
         setUrls(wish.getUrls());
         setRating(wish.getRating());
         if (wish.getUserTake() != null) {
-            List<String> userTake = wish.getUserTake().stream().map(EncodeUtils::encode).collect(Collectors.toList());
+            List<PersonParticipant> userTake = wish.getUserTake().stream().map(PersonParticipant::fromDto).collect(Collectors.toList());
             setUserTake(userTake);
         }
         this.notes = new ArrayList<>();
@@ -104,20 +102,20 @@ public class Wish {
     public WishDto toDto(boolean filter) {
         WishDto wish = new WishDto();
         wish.setId(getId());
-        wish.setOwner(getOwner());
+        wish.setOwner(Person.toDto(getOwner(), false));
         wish.setSuggest(getSuggest());
         wish.setDeleted(getDeleted());
         wish.setLabel(getLabel());
         wish.setDescription(getDescription());
         wish.setPrice(getPrice());
-        wish.setPicture(getPicture());
+        wish.setPictures(getPictures());
         wish.setDate(getDate());
         wish.setRating(getRating());
         wish.setUrls(getUrls());
 
         if (!filter) { // Do not add this, if you doesn't want to have this information. For filter it.
             if (getUserTake() != null) {
-                wish.setUserTake(getUserTake().stream().map(EncodeUtils::decode).collect(Collectors.toList()));
+                wish.setUserTake(getUserTake().stream().map(PersonParticipant::toDecodeDto).collect(Collectors.toList()));
             }
             else {
                 wish.setUserTake(Collections.emptyList());
@@ -147,11 +145,11 @@ public class Wish {
         this.id = id;
     }
 
-    public String getOwner() {
+    public Person getOwner() {
         return owner;
     }
 
-    public void setOwner(String owner) {
+    public void setOwner(Person owner) {
         this.owner = owner;
     }
 
@@ -203,12 +201,12 @@ public class Wish {
         this.price = price;
     }
 
-    public String getPicture() {
-        return picture;
+    public List<String> getPictures() {
+        return pictures;
     }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
+    public void setPictures(List<String> pictures) {
+        this.pictures = pictures;
     }
 
     public Date getDate() {
@@ -244,23 +242,23 @@ public class Wish {
         }
     }
 
-    public void setUserTake(List<String> userTake) {
-        this.userTake = userTake;
+    public List<PersonParticipant> getUserTake() {
+        return userTake;
     }
 
-    public List<String> getUserTake() {
-        return userTake;
+    public void setUserTake(List<PersonParticipant> userTake) {
+        this.userTake = userTake;
     }
 
     public boolean hasUserTaken() {
         return userTake != null && !userTake.isEmpty();
     }
 
-    public void addUserTake(String userTake) {
+    public void addUserTake(PersonParticipant userTake) {
         if (this.userTake == null) {
             this.userTake = new ArrayList<>();
         }
-        if (!StringUtils.isNullOrEmpty(userTake)) {
+        if (userTake != null) {
             this.userTake.add(userTake);
         }
     }
@@ -279,8 +277,8 @@ public class Wish {
         this.userReceived = userReceived;
     }
 
-    public void addNote(String owner, String email, String text) {
-        this.notes.add(new Note(owner, email, text));
+    public void addNote(Note note) {
+        this.notes.add(note);
     }
 
     public List<Note> getNotes () {

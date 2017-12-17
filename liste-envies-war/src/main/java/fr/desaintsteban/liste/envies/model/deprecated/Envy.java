@@ -3,20 +3,15 @@ package fr.desaintsteban.liste.envies.model.deprecated;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.*;
 import com.googlecode.objectify.condition.IfNotNull;
-import fr.desaintsteban.liste.envies.dto.WishDto;
-import fr.desaintsteban.liste.envies.dto.NoteDto;
 import fr.desaintsteban.liste.envies.model.Link;
 import fr.desaintsteban.liste.envies.model.Note;
-import fr.desaintsteban.liste.envies.util.EncodeUtils;
 import fr.desaintsteban.liste.envies.util.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.jdo.annotations.Embedded;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 01/10/2014.
@@ -78,60 +73,6 @@ public class Envy {
         this.label = label;
         this.notes = new ArrayList<>();
         this.rating = 0;
-    }
-
-
-    public Envy(WishDto envie) {
-        setId(envie.getId());
-        setOwner(envie.getOwner());
-        setSuggest(envie.getSuggest());
-        setDeleted(envie.getDeleted());
-        setLabel(envie.getLabel());
-        setDescription(envie.getDescription());
-        setPrice(envie.getPrice());
-        setPicture(envie.getPicture());
-        setDate(envie.getDate());
-        setUrls(envie.getUrls());
-        setRating(envie.getRating());
-        if (envie.getUserTake() != null) {
-            List<String> userTake = envie.getUserTake().stream().map(EncodeUtils::encode).collect(Collectors.toList());
-            setUserTake(userTake);
-        }
-        this.notes = new ArrayList<>();
-    }
-
-    public WishDto toDto() {
-        return this.toDto(false);
-    }
-
-    public WishDto toDto(boolean filter) {
-        WishDto envie = new WishDto();
-        envie.setId(getId());
-        envie.setOwner(getOwner());
-        envie.setSuggest(getSuggest());
-        envie.setDeleted(getDeleted());
-        envie.setLabel(getLabel());
-        envie.setDescription(getDescription());
-        envie.setPrice(getPrice());
-        envie.setPicture(getPicture());
-        envie.setDate(getDate());
-        envie.setRating(getRating());
-        envie.setUrls(getUrls());
-
-        if (!filter) { // Do not add this, if you doesn't want to have this information. For filter it.
-            if (getUserTake() != null) {
-                envie.setUserTake(getUserTake().stream().map(EncodeUtils::decode).collect(Collectors.toList()));
-            }
-            else {
-                envie.setUserTake(Collections.emptyList());
-            }
-            if (this.notes != null && !this.notes.isEmpty()) {
-                List<NoteDto> listNoteDto = this.notes.stream().map(Note::toDto).collect(Collectors.toList());
-                envie.setNotes(listNoteDto);
-            }
-        }
-
-        return envie;
     }
 
     public Key<ListEnvies> getList() {
@@ -280,10 +221,6 @@ public class Envy {
 
     public void setUserReceived(List<String> userReceived) {
         this.userReceived = userReceived;
-    }
-
-    public void addNote(String owner, String email, String text) {
-        this.notes.add(new Note(owner, email, text));
     }
 
     public List<Note> getNotes () {
