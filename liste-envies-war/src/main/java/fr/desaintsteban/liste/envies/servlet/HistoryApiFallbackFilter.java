@@ -80,10 +80,12 @@ public class HistoryApiFallbackFilter implements Filter {
 			pathIncludesDot(requestURI) ||
 			pathStart(requestURI, "api")
 				|| pathStart(requestURI, "user")
-				|| pathStart(requestURI, "_ah")) {
+				|| pathStart(requestURI, "_ah")
+				|| pathStart(requestURI, "admin")) {
 
 			doFilter = true;
 		}
+		LOGGER.info("doFilter: " + doFilter + ", requestURI: " + requestURI);
 
 		if (doFilter) {
 			filterChain.doFilter(servletRequest, servletResponse);

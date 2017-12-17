@@ -8,7 +8,7 @@
  * @restrict E
  * */
 
-var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
+var WishCard = function ($scope, wishService, $location, UtilitiesServices) {
     var w = this;
 
     w.add = false;
@@ -110,7 +110,7 @@ var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
             w.addPicture(w.picture);
         }
         w.edit = false;
-        envieService.save({name:w.listName}, w.wish, function(updatedData) {
+        wishService.save({name:w.listName}, w.wish, function(updatedData) {
             if (w.add) {
                 w.parentController.addWish(updatedData);
                 resetAddForm();
@@ -125,12 +125,21 @@ var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
     };
 
     w.addLink = function(link) {
+        if (!link.url)
+            return;
         if (!w.wish.urls) {
             w.wish.urls = [];
         }
         w.wish.urls.push(link);
         w.link = undefined;
         w.parentController.stampElement(w.wish.id);
+    };
+
+    w.removeLink = function(link) {
+        var index = w.wish.urls.indexOf(link);
+        if (index >= 0) {
+            w.wish.urls.splice(index, 1);
+        }
     };
 
     w.addPicture = function(picture) {
@@ -167,7 +176,7 @@ var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
     w.addNote = function (wish, notetext) {
         var note = {text: notetext.text};
         w.parentController.stampElement(w.wish.id, false);
-        envieService.addNote({name:w.listName, id: wish.id}, notetext, function(data) {
+        wishService.addNote({name:w.listName, id: wish.id}, notetext, function(data) {
             w.parentController.refreshingLayoutAuto(30, 200);
             w.parentController.updatePropertiesWish(wish, data);
             w.parentController.unStampElement(w.wish.id, false);
@@ -186,7 +195,7 @@ var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
 
     w.given = function(id) {
         if (w.wish.userTake.indexOf(w.user.email) < 0) {
-            envieService.give({name:w.listName, id:id}, {}, function(updatedData) {
+            wishService.give({name:w.listName, id:id}, {}, function(updatedData) {
                 w.parentController.updatePropertiesWish(w.wish, updatedData);
                 w.parentController.update();
             });
@@ -195,7 +204,7 @@ var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
 
 
     w.cancel = function(id) {
-        envieService.cancel({name:w.listName, id:id}, {}, function(updatedData) {
+        wishService.cancel({name:w.listName, id:id}, {}, function(updatedData) {
             w.parentController.updatePropertiesWish(w.wish, updatedData);
             w.parentController.update();
         });
@@ -221,7 +230,7 @@ var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
     };
 
     w.doRemove = function() {
-        envieService.delete({name:w.listName, id: w.wish.id}, function() {
+        wishService.delete({name:w.listName, id: w.wish.id}, function() {
             w.onDelete({wish: w.wish});
             w.remove = false;
 
@@ -255,7 +264,7 @@ var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
 
 
     w.doArchive = function() {
-        envieService.archive({name:w.listName, id: w.wish.id}, function() {
+        wishService.archive({name:w.listName, id: w.wish.id}, function() {
             w.onDelete({wish: w.wish});
             w.archive = false;
 
@@ -271,7 +280,7 @@ angular.module('ListeEnviesDirectives')
             templateUrl: 'templates/directive/WishCard.html',
             bindToController: true,
             controllerAs: 'w',
-            controller: ['$scope', 'envieService', '$location', 'UtilitiesServices', WishCard],
+            controller: ['$scope', 'wishService', '$location', 'UtilitiesServices', WishCard],
             scope: {
                 'wish': '=',
                 'ownerList': '=',

@@ -72,16 +72,16 @@
                             <label for="picture" class="control-label floating-image_label" translate=".INPUT_IMAGE_URL"></label>
                         <div class="picture-editor">
                             <input type="url" class="form-control" id="picture" ng-model="w.picture">
-                            <button type="submit" class="btn btn-success  btn-just-icon" ng-click="w.addPicture(w.picture);" translate translate-attr-title=".INPUT_ADD_PICTURE"><span class="fa fa-plus" aria-hidden="true"></span><span class="sr-only" translate=".INPUT_ADD_PICTURE"></span></button>
+                            <button type="submit" class="btn btn-success  btn-just-icon" ng-click="w.addPicture(w.picture);" translate translate-attr-title=".INPUT_ADD_IMAGE"><span class="fa fa-plus" aria-hidden="true"></span><span class="sr-only" translate=".INPUT_ADD_IMAGE"></span></button>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-4">
                             <img ng-src="{{w.picture || ('WISH_CARD_COMPONENT.INPUT_IMAGE_PLACEHOLDER' | translate)}}"  class="pull-right img-thumbnail preview-image">
                         </div>
-                        <div class="col-xs-4"  ng-repeat="picture in w.wish.pictures">
+                        <div class="col-xs-4 picture-list-edit"  ng-repeat="picture in w.wish.pictures">
                             <img ng-src="{{picture}}"  class="pull-right img-thumbnail preview-image">
-                            <button type="button" class="close delete-picture" aria-label="Close" ng-click="w.removePicture(picture)"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close delete-picture" aria-label="Close" ng-click="w.removePicture(picture)"  translate translate-attr-title=".INPUT_REMOVE_IMAGE"><span aria-hidden="true">&times;</span></button>
                         </div>
                     </div>
 

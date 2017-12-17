@@ -560,6 +560,32 @@ div.material-icons.form-control-feedback {
     display: inline-block;
 }
 
+.picture-editor {
+    display: flex;
+}
+
+.picture-editor input {
+    flex: 1 1;
+}
+.picture-editor button {
+    margin-top: 0;
+}
+
+.picture-list-edit {
+    position: relative;
+}
+.picture-list-edit button.delete-picture {
+    z-index: 999;
+    font-size: 1.5em;
+    position: absolute;
+    top: 5px;
+    right: 23px;
+    color: white;
+    background-color: rgba(1,1,1, 0.5);
+    border-radius: 50%;
+    padding: 5px 8px;
+}
+
 .envie-item .comment-form {
     background: white;
     padding: 1px 2px;
