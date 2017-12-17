@@ -128,8 +128,8 @@ public final class WishesService {
                     Wish saved = ofy.load().key(Key.create(parent, Wish.class, itemId)).now();
                     Saver saver = ofy.save();
                     PersonParticipant personParticipant = new PersonParticipant();
-                    personParticipant.setEmail(EncodeUtils.encode(user.getEmail()));
-                    personParticipant.setName(EncodeUtils.encode(user.getName()));
+                    personParticipant.setEmail(user.getEmail());
+                    personParticipant.setName(user.getName());
                     saved.addUserTake(personParticipant);
                     saver.entity(saved);
                     NotificationsService.notify(NotificationType.GIVEN_WISH, user, wishList, true, saved.getLabel());

@@ -39,11 +39,11 @@ public class Comment {
     }
 
     public String getText() {
-        return text;
+        return EncodeUtils.decode(text);
     }
 
     public void setText(String text) {
-        this.text = text;
+        this.text = EncodeUtils.encode(text);
     }
 
     public CommentType getType() {
@@ -73,12 +73,12 @@ public class Comment {
 
     public CommentDto toDto() {
         CommentDto commentDto = new CommentDto();
-        commentDto.setText(EncodeUtils.decode(getText()));
+        commentDto.setText(getText());
         Person person = getFrom();
         if (person != null) {
             PersonDto personDto = new PersonDto();
-            personDto.setEmail(EncodeUtils.decode(person.getEmail()));
-            personDto.setName(EncodeUtils.decode(person.getName()));
+            personDto.setEmail(person.getEmail());
+            personDto.setName(person.getName());
             commentDto.setFrom(personDto);
         }
         commentDto.setType(getType());
@@ -89,7 +89,7 @@ public class Comment {
     public static Comment fromDto(CommentDto dto, boolean encode) {
         if (dto != null) {
             Comment comment = new Comment();
-            comment.setText(EncodeUtils.encode(dto.getText(), encode));
+            comment.setText(dto.getText());
             comment.setDate(dto.getDate());
             comment.setFrom(Person.fromDto(dto.getFrom(), encode));
             comment.setType(dto.getType());

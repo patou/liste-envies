@@ -72,7 +72,7 @@ public class Note {
     public Comment toComment() {
         Comment comment = new Comment();
         comment.setDate(getDate());
-        comment.setText(getText());
+        comment.setText(EncodeUtils.decode(getText()));
         comment.setFrom(new Person( EncodeUtils.decode(getEmail()), EncodeUtils.decode(getOwner()), true));
         comment.setType(CommentType.PRIVATE);
         return comment;

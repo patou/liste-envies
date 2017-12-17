@@ -43,7 +43,7 @@ public class Person {
     }
 
     public String getEmail() {
-        return EncodeUtils.decode(name, encoded);
+        return EncodeUtils.decode(email, encoded);
     }
 
     public void setEmail(String email) {
