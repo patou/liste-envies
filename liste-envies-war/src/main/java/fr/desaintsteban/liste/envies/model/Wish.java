@@ -122,9 +122,11 @@ public class Wish {
         if (!filter) { // Do not add this, if you doesn't want to have this information. For filter it.
             if (getUserTake() != null) {
                 wish.setUserTake(getUserTake().stream().map(PersonParticipant::toDecodeDto).collect(Collectors.toList()));
+                wish.setGiven(true);
             }
             else {
                 wish.setUserTake(Collections.emptyList());
+                wish.setGiven(false);
             }
             if (this.comments != null && !this.comments.isEmpty()) {
                 List<CommentDto> listCommentDto = this.comments.stream().map(Comment::toDto).collect(Collectors.toList());

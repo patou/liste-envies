@@ -136,19 +136,17 @@ public class WishRules {
     }
 
     static WishDto cleanWish(WishDto wish, WishOptionType type) {
-        if (wish.getUserTake() != null  && wish.getUserTake().size() > 0) {
-            wish.setGiven(true);
-        }
+
         switch (type) {
             case HIDDEN:
                 wish.setUserTake(null);
+                wish.setGiven(false);
                 if (!ListUtils.isNullOrEmpty(wish.getComments())) {
                     wish.setComments(wish.getComments().stream().filter(comment -> comment.getType() != CommentType.PRIVATE).collect(toList()));
                 }
                 break;
             case ANONYMOUS:
                 wish.setUserTake(null);
-                wish.setGiven(false);
                 if (!ListUtils.isNullOrEmpty(wish.getComments())) {
                     wish.setComments(wish.getComments().stream().filter(comment -> comment.getType() == CommentType.PUBLIC).collect(toList()));
                 }
