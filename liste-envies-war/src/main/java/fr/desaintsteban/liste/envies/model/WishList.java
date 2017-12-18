@@ -39,10 +39,6 @@ public class WishList {
 
 
     public WishList() {
-        this.picture = "img/christmas1.jpg";
-        this.type = type;
-        this.date = new Date(117, 11, 25);
-        this.option = WishOptionType.HIDDEN;
         this.privacy = SharingPrivacyType.PRIVATE;
     }
 

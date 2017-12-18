@@ -2,6 +2,8 @@ package fr.desaintsteban.liste.envies.servlet;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
+import fr.desaintsteban.liste.envies.enums.SharingPrivacyType;
+import fr.desaintsteban.liste.envies.enums.WishListType;
 import fr.desaintsteban.liste.envies.model.*;
 import fr.desaintsteban.liste.envies.model.deprecated.Envy;
 import fr.desaintsteban.liste.envies.model.deprecated.ListEnvies;
@@ -80,6 +82,9 @@ public class MigrateServlet extends HttpServlet {
         newWishList.setTitle(listEnvy.getTitle());
         newWishList.setDescription(listEnvy.getDescription());
         newWishList.setUsers(listEnvy.getUsers());
+        newWishList.setPrivacy(SharingPrivacyType.PRIVATE);
+        newWishList.setPicture("img/christmas1.jpg"); //use a default image ? 
+        newWishList.setType(WishListType.OTHER);
         return newWishList;
     }
 
