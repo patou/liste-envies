@@ -7,6 +7,7 @@ import fr.desaintsteban.liste.envies.dto.CommentDto;
 import fr.desaintsteban.liste.envies.enums.NotificationType;
 import fr.desaintsteban.liste.envies.model.*;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
+import fr.desaintsteban.liste.envies.util.WishRules;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,43 +17,40 @@ import java.util.stream.Collectors;
 public final class WishesService {
     private WishesService() {}
     
-    public static List<Wish> list(AppUser user, String name) {
+    public static List<WishDto> list(AppUser user, String name) {
         Objectify ofy = OfyService.ofy();
         Key<WishList> key = Key.create(WishList.class, name);
         LoadResult<WishList> loadResult = ofy.load().key(key); //Chargement asynchrone
         List<Wish> list = ofy.load().type(Wish.class).ancestor(key).list();
         WishList wishList = loadResult.now();
-        removeUserTake(user, wishList, list);
-        return list;
+        return WishRules.applyRules(user, wishList, list);
     }
 
-    public static List<Wish> archived(AppUser user) {
+    public static List<WishDto> archived(AppUser user) {
         Objectify ofy = OfyService.ofy();
         List<Wish> list = ofy.load().type(Wish.class).filter("userReceived =", user.getEmail()).list();
-        return list;
+        return WishRules.applyRules(user, null, list);
     }
 
-    public static List<Wish> given(AppUser user) {
+    public static List<WishDto> given(AppUser user) {
         Objectify ofy = OfyService.ofy();
         List<Wish> list = ofy.load().type(Wish.class).filter("userTake.email =", EncodeUtils.encode(user.getEmail())).filter("archived =", false).list();
-        return list;
+        return WishRules.applyRules(user, null, list);
     }
 
-    public static List<Wish> listAll() {
+    public static List<WishDto> listAll() {
         List<Wish> list = OfyService.ofy().load().type(Wish.class).list();
         //On supprime toujours celui qui a donner le cadeaux
-        removeUserTake(null, null, list);
-        return list;
+        return WishRules.applyRules(null, null, list);
     }
 
-    public static List<Wish> list(AppUser user, String name, String libelle) {
+    public static List<WishDto> list(AppUser user, String name, String libelle) {
         Objectify ofy = OfyService.ofy();
         Key<WishList> parent = Key.create(WishList.class, name);
         LoadResult<WishList> loadResult = ofy.load().key(parent); //Chargement asynchrone
         List<Wish> list = ofy.load().type(Wish.class).ancestor(parent).filter("label >=", libelle).filter("label <", libelle + "\uFFFD").list();
         WishList wishList = loadResult.now();
-        removeUserTake(user, wishList, list);
-        return list;
+        return WishRules.applyRules(user, wishList, list);
     }
     
     public static void delete(final AppUser user, final String name, final Long itemid) {
@@ -102,7 +100,7 @@ public final class WishesService {
         });
     }
 
-    public static Wish get(AppUser user, String name, Long itemid) {
+    public static WishDto get(AppUser user, String name, Long itemid) {
         Objectify ofy = OfyService.ofy();
         Key<WishList> parent = Key.create(WishList.class, name);
         LoadResult<WishList> loadResult = ofy.load().key(parent); //Chargement asynchrone
@@ -112,7 +110,7 @@ public final class WishesService {
             wish.setUserTake(null);
             wish.setComments(null);
         }
-        return wish;
+        return WishRules.applyRules(user, wishList, wish);
     }
 
 
@@ -167,7 +165,7 @@ public final class WishesService {
 
                     NotificationsService.notify(NotificationType.ADD_NOTE, user, wishList, true, comment.getText());
 
-                    return saved.toDto();
+                    return WishRules.applyRules(user, wishList, saved);
                 }
             });
         }
@@ -193,7 +191,7 @@ public final class WishesService {
             Saver saver = ofy1.save();
             saved.removeUserTake(EncodeUtils.encode(user.getEmail()));
             saver.entity(saved);
-                return saved.toDto();
+                return WishRules.applyRules(user, wishList, saved);
             });
         }
         return null;
@@ -233,39 +231,10 @@ public final class WishesService {
 
             NotificationsService.notify((add)? NotificationType.ADD_WISH : NotificationType.UPDATE_WISH, user, wishList, !containsOwner, item.getLabel());
 
-            return item.toDto(containsOwner);
+                //return item.toDto(containsOwner);
+                return WishRules.applyRules(user, wishList, item);
             });
         }
         return null;
-    }
-
-    /**
-     * Permerttre de supprimer les infos sensibles à cacher au propriétaire par exemple.
-     * @param user utilisateur courant
-     * @param wishList La liste entière
-     * @param list liste des envies.
-     */
-    private static void removeUserTake(AppUser user, WishList wishList, List<Wish> list) {
-        List<Wish> toRemove = new ArrayList<>();
-        //Liste globale
-//Si l'utilisateur courant est le propriétaire des envies, on efface le nom de qui lui a offert un cadeau.
-// On supprime les envies ajoutés par d'autres personnes
-        list.forEach(envy -> {
-            if (envy.getArchived()) {
-                toRemove.add(envy);
-            } else if (wishList == null || user == null) { //Liste globale
-                envy.setUserTake(null);
-                envy.setComments(null);
-            } else {
-                if (wishList.containsOwner(user.getEmail())) { //Si l'utilisateur courant est le propriétaire des envies, on efface le nom de qui lui a offert un cadeau.
-                    envy.setUserTake(null);
-                    envy.setComments(null);
-                    if (envy.getSuggest() || envy.getDeleted()) { // On supprime les envies ajoutés par d'autres personnes
-                        toRemove.add(envy);
-                    }
-                }
-            }
-        });
-        list.removeAll(toRemove);
     }
 }

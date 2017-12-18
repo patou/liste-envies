@@ -94,21 +94,21 @@ public class WishServiceTest {
 
     @Test
     public void testGetSameUser() throws Exception {
-        Wish envie = WishesService.get(patrice, "liste-patrice", livreId);
+        WishDto envie = WishesService.get(patrice, "liste-patrice", livreId);
         assertThat(envie.getLabel()).isEqualTo("Livre");
         assertThat(envie.getUserTake()).isNull();
     }
 
     @Test
     public void testGetNotSameUser() throws Exception {
-        Wish envie = WishesService.get(emmanuel, "liste-patrice", livreId);
+        WishDto envie = WishesService.get(emmanuel, "liste-patrice", livreId);
         assertThat(envie.getLabel()).isEqualTo("Livre");
         assertThat(envie.getUserTake()).onProperty("email").contains("emmanuel@desaintsteban.fr");
     }
 
     @Test
     public void testList() throws Exception {
-        List<Wish> list = WishesService.list(patrice, "liste-patrice");
+        List<WishDto> list = WishesService.list(patrice, "liste-patrice");
         assertThat(list).hasSize(2).onProperty("label").contains("Livre", "DVD");
         assertThat(list).hasSize(2).onProperty("userTake").excludes("emmanuel@desaintsteban.fr");
     }
@@ -116,7 +116,7 @@ public class WishServiceTest {
 
     @Test
     public void testListGived() throws Exception {
-        List<Wish> list = WishesService.given(emmanuel);
+        List<WishDto> list = WishesService.given(emmanuel);
         assertThat(list).hasSize(1).onProperty("label").contains("Livre");
     }
 
@@ -124,14 +124,14 @@ public class WishServiceTest {
     @Test
     public void testListArchived() throws Exception {
         WishesService.archive(patrice, "liste-patrice", livreId);
-        List<Wish> list = WishesService.archived(patrice);
+        List<WishDto> list = WishesService.archived(patrice);
         assertThat(list).hasSize(1).onProperty("label").contains("Livre");
         assertThat(WishesService.given(emmanuel)).isEmpty();
     }
 
     @Test
     public void testListOther() throws Exception {
-        List<Wish> list = WishesService.list(emmanuel, "liste-patrice");
+        List<WishDto> list = WishesService.list(emmanuel, "liste-patrice");
         assertThat(list).hasSize(2).onProperty("label").contains("Livre", "DVD");
         //assertThat(list).hasSize(2).onProperty("userTake"). contains(EncodeUtils.encode("emmanuel@desaintsteban.fr"));
     }
@@ -162,9 +162,7 @@ public class WishServiceTest {
 
         WishesService.addComment(patrice, saved.getId(), "liste-emmanuel", c1);
         WishesService.addComment(clemence, saved.getId(), "liste-emmanuel", c2);
-        Wish get = WishesService.get(patrice, "liste-emmanuel", saved.getId());
-
-        WishDto dto = get.toDto();
+        WishDto dto = WishesService.get(patrice, "liste-emmanuel", saved.getId());
 
         assertThat(dto.getLabel()).isEqualTo(initdto.getLabel());
         assertThat(dto.getComments()).onProperty("from.email").contains("patrice@desaintsteban.fr", "clemence@desaintsteban.fr");

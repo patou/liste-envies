@@ -32,9 +32,7 @@ public class WishRestService {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null){
             LOGGER.info("Get " + id);
-            Wish wish = WishesService.get(user, name, id);
-            if (wish != null)
-                return wish.toDto();
+            return WishesService.get(user, name, id);
         }
         return null;
     }
@@ -67,9 +65,7 @@ public class WishRestService {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null){
             LOGGER.info("List");
-            List<Wish> list = WishesService.list(user, name);
-            List<WishDto> result = list.stream().map(Wish::toDto).collect(Collectors.toList());
-            return result;
+            return WishesService.list(user, name);
         }
         return null;
     }

@@ -104,10 +104,7 @@ public class AppUserRestService {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null){
             LOGGER.info("List archive from " +  email);
-            List<Wish> list = WishesService.archived(user);
-            List<WishDto> result = list.stream().map(Wish::toDto).collect(Collectors.toList());
-            fillListTitle(result);
-            return result;
+            return WishesService.archived(user);
         }
         return null;
     }
@@ -119,22 +116,8 @@ public class AppUserRestService {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null){
             LOGGER.info("List given of " + email);
-            List<Wish> list = WishesService.given(user);
-            List<WishDto> result = list.stream().map(Wish::toDto).collect(Collectors.toList());
-            fillListTitle(result);
-            return result;
+            return WishesService.given(user);
         }
         return null;
-    }
-
-    private void fillListTitle(List<WishDto> result) {
-        List<String> listNames = result.stream().map(WishDto::getListId).distinct().collect(toList());
-        Map<String, WishList> listTitles = WishListService.loadAll(listNames);
-        result.forEach(envy -> {
-            WishList wishList = listTitles.get(envy.getListId());
-            if (wishList != null) {
-                envy.setListTitle(wishList.getTitle());
-            }
-        });
     }
 }
