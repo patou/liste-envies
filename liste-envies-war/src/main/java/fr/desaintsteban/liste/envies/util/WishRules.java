@@ -1,5 +1,6 @@
 package fr.desaintsteban.liste.envies.util;
 
+import fr.desaintsteban.liste.envies.dto.WishDto;
 import fr.desaintsteban.liste.envies.enums.CommentType;
 import fr.desaintsteban.liste.envies.enums.WishListState;
 import fr.desaintsteban.liste.envies.enums.WishOptionType;
@@ -75,21 +76,24 @@ public class WishRules {
         return WishOptionType.ALL_SUGGEST;
     }
 
-    public static List<Wish> filterWishList(List<Wish> list, WishOptionType type) {
+    public static List<WishDto> filterWishList(List<WishDto> list, WishOptionType type) {
         if (type == WishOptionType.NONE)
             return new ArrayList<>();
-        Stream<Wish> stream = list.stream();
+        Stream<WishDto> stream = list.stream();
         if (type != WishOptionType.ALL_SUGGEST) {
             stream = stream.filter(WishRules::isNotSuggest);
         }
         return stream.map(wish -> cleanWish(wish, type)).collect(Collectors.toList());
     }
 
-    private static Boolean isNotSuggest(Wish wish) {
+    private static Boolean isNotSuggest(WishDto wish) {
         return !wish.getSuggest();
     }
 
-    public static Wish cleanWish(Wish wish, WishOptionType type) {
+    public static WishDto cleanWish(WishDto wish, WishOptionType type) {
+        if (wish.getUserTake() != null  && wish.getUserTake().size() > 0) {
+            wish.setGiven(true);
+        }
         switch (type) {
             case HIDDEN:
                 wish.setUserTake(null);
@@ -97,6 +101,7 @@ public class WishRules {
                 break;
             case ANONYMOUS:
                 wish.setUserTake(null);
+                wish.setGiven(false);
                 wish.setComments(wish.getComments().stream().filter(comment -> comment.getType() == CommentType.PUBLIC).collect(Collectors.toList()));
                 break;
             case ALL:

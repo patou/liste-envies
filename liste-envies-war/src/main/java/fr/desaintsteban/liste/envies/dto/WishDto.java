@@ -28,6 +28,7 @@ public class WishDto {
     private Date date;
     private List<Link> urls;
     private List<PersonParticipantDto> userTake;
+    private Boolean isGiven;
 
     private List<CommentDto> comments;
 
@@ -162,5 +163,13 @@ public class WishDto {
 
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    public Boolean getGiven() {
+        return isGiven;
+    }
+
+    public void setGiven(Boolean given) {
+        isGiven = given;
     }
 }

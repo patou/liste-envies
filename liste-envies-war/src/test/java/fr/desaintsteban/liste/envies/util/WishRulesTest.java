@@ -1,5 +1,6 @@
 package fr.desaintsteban.liste.envies.util;
 
+import fr.desaintsteban.liste.envies.dto.WishDto;
 import fr.desaintsteban.liste.envies.enums.*;
 import fr.desaintsteban.liste.envies.model.*;
 import org.junit.Test;
@@ -15,9 +16,9 @@ public class WishRulesTest {
 
     @Test
     public void cleanWishAnonyme() {
-        Wish wish = createDefaultWish();
+        WishDto wish = createDefaultWish();
 
-        Wish cleaned = WishRules.cleanWish(wish, WishOptionType.ANONYMOUS);
+        WishDto cleaned = WishRules.cleanWish(wish, WishOptionType.ANONYMOUS);
 
         assertThat(cleaned.getUserTake()).isNull();
         assertThat(cleaned.getComments()).hasSize(1).onProperty("text").contains("Public");
@@ -25,9 +26,9 @@ public class WishRulesTest {
 
     @Test
     public void cleanWishHidden() {
-        Wish wish = createDefaultWish();
+        WishDto wish = createDefaultWish();
 
-        Wish cleaned = WishRules.cleanWish(wish, WishOptionType.HIDDEN);
+        WishDto cleaned = WishRules.cleanWish(wish, WishOptionType.HIDDEN);
 
         assertThat(cleaned.getUserTake()).isNull();
         assertThat(cleaned.getComments()).hasSize(2).onProperty("text").contains("Public", "Owner");
@@ -36,9 +37,9 @@ public class WishRulesTest {
 
     @Test
     public void cleanWishAll() {
-        Wish wish = createDefaultWish();
+        WishDto wish = createDefaultWish();
 
-        Wish cleaned = WishRules.cleanWish(wish, WishOptionType.ALL);
+        WishDto cleaned = WishRules.cleanWish(wish, WishOptionType.ALL);
 
         assertThat(cleaned.getUserTake()).isNotNull().hasSize(1).onProperty("email").contains("patrice@desaintsteban.fr");
         assertThat(cleaned.getComments()).hasSize(3).onProperty("text").contains("Public", "Owner", "Private");
@@ -46,9 +47,9 @@ public class WishRulesTest {
 
     @Test
     public void filterWishAll() {
-        List<Wish> wishList = createDefaultListOfWish();
+        List<WishDto> wishList = createDefaultListOfWish();
 
-        List<Wish> cleaned = WishRules.filterWishList(wishList, WishOptionType.ALL);
+        List<WishDto> cleaned = WishRules.filterWishList(wishList, WishOptionType.ALL);
 
         assertThat(cleaned).isNotNull().hasSize(1);
     }
@@ -56,18 +57,18 @@ public class WishRulesTest {
 
     @Test
     public void filterWishAllSuggest() {
-        List<Wish> wishList = createDefaultListOfWish();
+        List<WishDto> wishList = createDefaultListOfWish();
 
-        List<Wish> cleaned = WishRules.filterWishList(wishList, WishOptionType.ALL_SUGGEST);
+        List<WishDto> cleaned = WishRules.filterWishList(wishList, WishOptionType.ALL_SUGGEST);
 
         assertThat(cleaned).isNotNull().hasSize(2);
     }
 
     @Test
     public void filterWishNone() {
-        List<Wish> wishList = createDefaultListOfWish();
+        List<WishDto> wishList = createDefaultListOfWish();
 
-        List<Wish> cleaned = WishRules.filterWishList(wishList, WishOptionType.NONE);
+        List<WishDto> cleaned = WishRules.filterWishList(wishList, WishOptionType.NONE);
 
         assertThat(cleaned).isNotNull().hasSize(0);
     }
@@ -123,20 +124,20 @@ public class WishRulesTest {
         return list;
     }
 
-    private Wish createDefaultWish() {
+    private WishDto createDefaultWish() {
         Wish wish = new Wish();
         wish.addUserTake(new PersonParticipant("patrice@desaintsteban.fr"));
         wish.addComment(new Comment(new Person("emmanuel@desaintsteban.fr"), "Public", CommentType.PUBLIC));
         wish.addComment(new Comment(new Person("emmanuel@desaintsteban.fr"), "Private", CommentType.PRIVATE));
         wish.addComment(new Comment(new Person("emmanuel@desaintsteban.fr"), "Owner", CommentType.OWNER));
-        return wish;
+        return wish.toDto();
     }
 
-    private List<Wish> createDefaultListOfWish() {
+    private List<WishDto> createDefaultListOfWish() {
 
-        List<Wish> wishList = new ArrayList<>();
+        List<WishDto> wishList = new ArrayList<>();
         wishList.add(createDefaultWish());
-        Wish wish = createDefaultWish();
+        WishDto wish = createDefaultWish();
         wish.setSuggest(true);
         wishList.add(wish);
         return wishList;

@@ -105,7 +105,9 @@ public class Wish {
     public WishDto toDto(boolean filter) {
         WishDto wish = new WishDto();
         wish.setId(getId());
-        wish.setListId(getList().getName());
+        if (getList() != null) {
+            wish.setListId(getList().getName());
+        }
         wish.setOwner(Person.toDto(getOwner()));
         wish.setSuggest(getSuggest());
         wish.setDeleted(getDeleted());
