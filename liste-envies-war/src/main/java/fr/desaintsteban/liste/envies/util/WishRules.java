@@ -83,9 +83,6 @@ public class WishRules {
         switch (state) {
             case OWNER:
                 //Si une options est définie dans la liste, alors c'est l'option par défaut
-                if (list.getOption() != null) {
-                    return list.getOption();
-                }
                 return WishOptionType.HIDDEN;
             case SHARED:
                 return WishOptionType.ALL_SUGGEST;

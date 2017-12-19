@@ -9,7 +9,6 @@ import fr.desaintsteban.liste.envies.dto.UserShareDto;
 import fr.desaintsteban.liste.envies.enums.SharingPrivacyType;
 import fr.desaintsteban.liste.envies.enums.UserShareType;
 import fr.desaintsteban.liste.envies.enums.WishListType;
-import fr.desaintsteban.liste.envies.enums.WishOptionType;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,7 +33,6 @@ public class WishList {
     private String picture; // Picture used for background, or for the list info
     private WishListType type; // Purpose of the event for this list
     private Date date; // date of the event
-    private WishOptionType option; // Option for display wish given, or not
     private SharingPrivacyType privacy; // Option for sharing privacy of the all list.
 
 
@@ -54,12 +52,11 @@ public class WishList {
         this.picture = "img/christmas1.jpg";
         this.type = type;
         this.date = new Date(2017, 12, 25);
-        this.option = WishOptionType.HIDDEN;
         this.privacy = SharingPrivacyType.PRIVATE;
     }
 
     public WishList(String name, String title, String description, String picture, WishListType type,
-                    Date date, WishOptionType option, SharingPrivacyType privacy, String owner, String... shared) {
+                    Date date, SharingPrivacyType privacy, String owner, String... shared) {
         this.name = name;
         this.title = title;
         this.description = description;
@@ -67,7 +64,6 @@ public class WishList {
         this.picture = picture;
         this.type = type;
         this.date = date;
-        this.option = option;
         this.privacy = privacy;
 
         users = new ArrayList<>();
@@ -88,7 +84,6 @@ public class WishList {
         setPicture( dto.getPicture());
         setType( dto.getType());
         setDate( dto.getDate());
-        setOption( dto.getOption());
         setPrivacy( dto.getPrivacy());
     }
 
@@ -120,7 +115,6 @@ public class WishList {
         dto.setPicture( getPicture());
         dto.setType( getType());
         dto.setDate( getDate());
-        dto.setOption( getOption());
         dto.setPrivacy( getPrivacy());
 
         return dto;
@@ -181,14 +175,6 @@ public class WishList {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public WishOptionType getOption() {
-        return option;
-    }
-
-    public void setOption(WishOptionType option) {
-        this.option = option;
     }
 
     public SharingPrivacyType getPrivacy() {

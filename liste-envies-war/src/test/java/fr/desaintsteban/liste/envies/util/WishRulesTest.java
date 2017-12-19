@@ -95,10 +95,6 @@ public class WishRulesTest {
         assertEquals(WishOptionType.NONE, WishRules.computeWishOptionsType(new AppUser(null, "Anonyme"), wishlist));
         assertEquals(WishOptionType.NONE, WishRules.computeWishOptionsType(null, wishlist));
 
-        wishlist.setOption(WishOptionType.ANONYMOUS);
-
-        assertEquals(WishOptionType.ANONYMOUS, WishRules.computeWishOptionsType(new AppUser("patrice@desaintsteban.fr"), wishlist));
-
         wishlist.setPrivacy(SharingPrivacyType.PRIVATE);
         assertEquals(WishOptionType.NONE, WishRules.computeWishOptionsType(new AppUser("emeline@desaintsteban.fr"), wishlist));
         assertEquals(WishOptionType.NONE, WishRules.computeWishOptionsType(new AppUser(null, "Anonyme"), wishlist));

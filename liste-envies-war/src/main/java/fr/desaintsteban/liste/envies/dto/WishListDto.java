@@ -27,7 +27,6 @@ public class WishListDto {
     private String picture; // Picture used for background, or for the list info
     private WishListType type; // Purpose of the event for this list
     private Date date; // date of the event
-    private WishOptionType option; // Option for display wish given, or not
     private SharingPrivacyType privacy; // Option for sharing privacy of the all list.
 
 
@@ -101,14 +100,6 @@ public class WishListDto {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public WishOptionType getOption() {
-        return option;
-    }
-
-    public void setOption(WishOptionType option) {
-        this.option = option;
     }
 
     public SharingPrivacyType getPrivacy() {
