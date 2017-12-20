@@ -8,6 +8,7 @@ import fr.desaintsteban.liste.envies.enums.UserShareType;
 import fr.desaintsteban.liste.envies.service.AppUserService;
 import fr.desaintsteban.liste.envies.service.WishListService;
 import fr.desaintsteban.liste.envies.util.ServletUtils;
+import fr.desaintsteban.liste.envies.util.WishRules;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -52,7 +53,7 @@ public class WishListRestService {
         if(user != null){
             LOGGER.info("List authorized liste for user: "+email);
             List<WishList> list = WishListService.list(email);
-            return list.stream().filter(wishList -> wishList.containsOwner(email) && (wishList.containsUser(user.getEmail()) || user.isAdmin())).map(listeEnvy -> listeEnvy.toDto(false, user.getEmail(), null)).collect(toList());
+            return list.stream().filter(wishList -> wishList.containsOwner(email) && (wishList.containsUser(user.getEmail()) || user.isAdmin())).map(listeEnvy -> listeEnvy.toDto(false, user, null)).collect(toList());
         }
         return null;
     }
@@ -68,7 +69,7 @@ public class WishListRestService {
         if(user != null && user.isAdmin()){
             LOGGER.info("List all WishList");
             List<WishList> list = WishListService.list();
-            return list.stream().map(wishList -> wishList.toDto(false, user.getEmail(), null)).collect(toList());
+            return list.stream().map(wishList -> wishList.toDto(false, user, null)).collect(toList());
         }
         return null;
     }
@@ -80,7 +81,7 @@ public class WishListRestService {
         if (user != null) {
             LOGGER.info("Save WishList " + wishListDto.getName());
             WishList orUpdate = WishListService.createOrUpdate(user, new WishList(wishListDto));
-            return orUpdate.toDto(true, user.getEmail(), null);
+            return orUpdate.toDto(true, user, null);
         }
         return null;
     }
@@ -101,12 +102,9 @@ public class WishListRestService {
     @Path("/{name}")
     public WishListDto getOneWishListForUser(@PathParam("name") String email) {
         final AppUser user = ServletUtils.getUserAuthenticated();
-        if (user != null) {
-            LOGGER.info("Get " + email);
-            WishList wishList = WishListService.get(email);
-            return getOneWishListDtoForUser(user, wishList);
-        }
-        return null;
+        LOGGER.info("Get " + email);
+        WishList wishList = WishListService.get(email);
+        return getOneWishListDtoForUser(user, wishList);
     }
 
     @DELETE
@@ -125,12 +123,12 @@ public class WishListRestService {
             List<String> emails = wishList.getUsers().stream().map(UserShare::getEmail).collect(toList());
             map = AppUserService.loadAll(emails);
         }
-        return wishList.toDto(true, user.getEmail(), map);
+        return wishList.toDto(true, user, map);
     }
 
     private List<WishListDto> getAllWhishListDtosForUser(AppUser user, List<WishList> list) {
         Set<String> emails = list.stream().flatMap(wishList -> wishList.getUsers().stream()).filter(userShare -> userShare.getType() == UserShareType.OWNER).map(UserShare::getEmail).collect(toSet());
         final Map<String,AppUser> map = AppUserService.loadAll(emails);
-        return list.stream().map(wishList -> wishList.toDto(false, user.getEmail(), map)).collect(toList());
+        return list.stream().map(wishList -> wishList.toDto(false, user, map)).collect(toList());
     }
 }

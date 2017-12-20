@@ -45,7 +45,10 @@ public class AppUserRestService {
     @Path("/my")
     public AppUserDto getMyAccount() {
         AppUser appUser = ServletUtils.getUserAuthenticated();
-        return new AppUserDto(appUser.getEmail(), appUser.getName(), appUser.getBirthday(), appUser.isNewUser());
+        if (appUser != null) {
+            return new AppUserDto(appUser.getEmail(), appUser.getName(), appUser.getBirthday(), appUser.isNewUser());
+        }
+        return null;
     }
 
     @POST
@@ -63,13 +66,9 @@ public class AppUserRestService {
     @GET
     @Path("/{email}")
     public AppUserDto getUser(@PathParam("email") String email) {
-        final AppUser user = ServletUtils.getUserAuthenticated();
-        if (user != null) {
-            LOGGER.info("Get " + email);
-            AppUser appUser = AppUserService.get(email);
-            return new AppUserDto(appUser.getEmail(), appUser.getName(), appUser.getBirthday(), appUser.isNewUser());
-        }
-        return null;
+        LOGGER.info("Get " + email);
+        AppUser appUser = AppUserService.get(email);
+        return new AppUserDto(appUser.getEmail(), appUser.getName(), appUser.getBirthday(), appUser.isNewUser());
     }
 
 

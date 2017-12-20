@@ -30,11 +30,8 @@ public class WishRestService {
     @Path("/{id}")
     public WishDto getWish(@PathParam("name") String name, @PathParam("id") Long id) {
         final AppUser user = ServletUtils.getUserAuthenticated();
-        if(user != null){
-            LOGGER.info("Get " + id);
-            return WishesService.get(user, name, id);
-        }
-        return null;
+        LOGGER.info("Get " + id);
+        return WishesService.get(user, name, id);
     }
 
     @PUT
@@ -63,14 +60,9 @@ public class WishRestService {
     @GET
     public List<WishDto> getWish(@PathParam("name") String name) {
         final AppUser user = ServletUtils.getUserAuthenticated();
-        if(user != null){
-            LOGGER.info("List");
-            return WishesService.list(user, name);
-        }
-        return null;
+        LOGGER.info("List");
+        return WishesService.list(user, name);
     }
-
-
 
     @POST
     public WishDto addwish(@PathParam("name") String name, WishDto wishDto) {

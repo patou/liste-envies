@@ -87,7 +87,7 @@ public class WishRules {
             case SHARED:
                 return WishOptionType.ALL_SUGGEST;
             case LOGGED:
-                if (list != null) {
+                if (list != null && list.getPrivacy() != null) {
                     switch (list.getPrivacy()) {
                         case PRIVATE:
                             return WishOptionType.NONE;
@@ -98,10 +98,10 @@ public class WishRules {
                     }
                 }
                 else {
-                    return WishOptionType.ANONYMOUS;
+                    return WishOptionType.NONE;
                 }
             case ANONYMOUS:
-                if (list != null) {
+                if (list != null && list.getPrivacy() != null) {
                     switch (list.getPrivacy()) {
                         case PRIVATE:
                             return WishOptionType.NONE;
@@ -112,7 +112,7 @@ public class WishRules {
                     }
                 }
                 else {
-                    return WishOptionType.HIDDEN;
+                    return WishOptionType.NONE;
                 }
         }
         return WishOptionType.ALL_SUGGEST;

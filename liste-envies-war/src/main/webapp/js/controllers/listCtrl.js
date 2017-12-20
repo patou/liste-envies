@@ -1,5 +1,6 @@
 app.controller('ListCtrl', ListCtrl);
 ListCtrl.$inject = ['wishService', 'appUserService', 'wishListService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse', '$interval', '$timeout', '$filter'];
+
 function ListCtrl(wishService, appUserService, wishListService, $routeParams, $location, $anchorScroll, $scope, $parse, $interval, $timeout, $filter) {
     var vm = this;
     vm.name = $routeParams.name;
@@ -7,7 +8,7 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
     vm.hasFilter = false;
     vm.loading = true;
     masonry = null;
-    vm.newUser = {email: '', type:'SHARED'};
+    vm.newUser = {email: '', type: 'SHARED'};
     vm.editorOptions = {
         disableDragAndDrop: true,
         placeholder: "Ajouter une description",
@@ -35,10 +36,10 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
 
     var orderPrice = function (value) {
         var price = value.price;
-        if (!price) return (vm.reverse)? -1 : 99999999;
+        if (!price) return (vm.reverse) ? -1 : 99999999;
 
         var matches = price.replace(',', '.').replace(' ', '').match(/(\d+\.?\d+|\.\d+)/g);
-        if (!matches) return (vm.reverse)? -1 : 99999999;
+        if (!matches) return (vm.reverse) ? -1 : 99999999;
 
         var valTri = matches.reduce(function (returnValue, currentValue) {
             if (typeof returnValue == 'string') returnValue = parseFloat(returnValue);
@@ -54,101 +55,172 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
         if (valTri >= 0) {
             return valTri;
         } else {
-            return (vm.reverse)? -1 : 99999999;
+            return (vm.reverse) ? -1 : 99999999;
         }
 
 
-
     };
-    vm.orderProperties = [{property:'label', label:'Titre', reverse: false, selected: false},
-        {property:'date', label:'Date', reverse: true, selected: true},
-        {property: orderPrice, label:'Prix', reverse: false, selected: false},
-        {property: 'rating', label:'Note', reverse: true, selected: false},
-        {property:'userTakeUsers', label:'Offert', reverse: true, selected: false},
-        {property:function (value) {
-            return (value.comments)? value.comments.length : -1;
-        }, label:'Commentaires', reverse: true, selected: false}];
+    vm.orderProperties = [{property: 'label', label: 'Titre', reverse: false, selected: false},
+        {property: 'date', label: 'Date', reverse: true, selected: true},
+        {property: orderPrice, label: 'Prix', reverse: false, selected: false},
+        {property: 'rating', label: 'Note', reverse: true, selected: false},
+        {property: 'userTakeUsers', label: 'Offert', reverse: true, selected: false},
+        {
+            property: function (value) {
+                return (value.comments) ? value.comments.length : -1;
+            }, label: 'Commentaires', reverse: true, selected: false
+        }];
 
-    vm.orderPropertiesOwners = [{property:'label', label:'Titre', reverse: false, selected: false},
-        {property:'date', label:'Date', reverse: true, selected: false},
-        {property:orderPrice, label:'Prix', reverse: false, selected: false}];
+    vm.orderPropertiesOwners = [{property: 'label', label: 'Titre', reverse: false, selected: false},
+        {property: 'date', label: 'Date', reverse: true, selected: false},
+        {property: orderPrice, label: 'Prix', reverse: false, selected: false}];
 
     vm.filtersPriceList = [
-        {role: "filter", type: 'price', min:0, max: 30, label:'Moins de 30 €', class:''},
-        {role: "filter", type: 'price', min:0, max: 50, label:'Moins de 50 €', class:''},
-        {role: "filter", type: 'price', min:0, max: 100, label:'Moins de 100 €', class:''},
-        {role: "filter", type: 'price', min:0, max: 200, label:'Moins de 200 €', class:''},
-        {role: "separator", class:"divider"},
-        {role: "filter", type: 'price', min:30, max: 50, label:'entre 30 et 50 €', class:''},
-        {role: "filter", type: 'price', min:50, max: 100, label:'entre 50 et 100 €', class:''},
-        {role: "filter", type: 'price', min:100, max: 200, label:'entre 100 et 200 €', class:''},
-        {role: "separator", class:"divider"},
-        {role: "filter", type: 'price', min:30, max: null, label:'Plus de 30 €', class:''},
-        {role: "filter", type: 'price', min:50, max: null, label:'Plus de 50 €', class:''},
-        {role: "filter", type: 'price', min:100, max: null, label:'Plus de 100 €', class:''},
-        {role: "filter", type: 'price', min:200, max: null, label:'Plus de 200 €', class:''}
+        {role: "filter", type: 'price', min: 0, max: 30, label: 'Moins de 30 €', class: ''},
+        {role: "filter", type: 'price', min: 0, max: 50, label: 'Moins de 50 €', class: ''},
+        {role: "filter", type: 'price', min: 0, max: 100, label: 'Moins de 100 €', class: ''},
+        {role: "filter", type: 'price', min: 0, max: 200, label: 'Moins de 200 €', class: ''},
+        {role: "separator", class: "divider"},
+        {role: "filter", type: 'price', min: 30, max: 50, label: 'entre 30 et 50 €', class: ''},
+        {role: "filter", type: 'price', min: 50, max: 100, label: 'entre 50 et 100 €', class: ''},
+        {role: "filter", type: 'price', min: 100, max: 200, label: 'entre 100 et 200 €', class: ''},
+        {role: "separator", class: "divider"},
+        {role: "filter", type: 'price', min: 30, max: null, label: 'Plus de 30 €', class: ''},
+        {role: "filter", type: 'price', min: 50, max: null, label: 'Plus de 50 €', class: ''},
+        {role: "filter", type: 'price', min: 100, max: null, label: 'Plus de 100 €', class: ''},
+        {role: "filter", type: 'price', min: 200, max: null, label: 'Plus de 200 €', class: ''}
     ];
 
     vm.filtersRatingList = [
-        {role: "filter", type: 'rating', expression:'rating == 1', label:'1 coeur', class:''},
-        {role: "filter", type: 'rating', expression:'rating == 2', label:'2 coeurs', class:''},
-        {role: "filter", type: 'rating', expression:'rating == 3', label:'3 coeurs', class:''},
-        {role: "filter", type: 'rating', expression:'rating == 4', label:'4 coeurs', class:''},
-        {role: "filter", type: 'rating', expression:'rating == 5', label:'5 coeurs', class:''},
-        {role: "separator", class:"divider"},
-        {role: "filter", type: 'rating', expression:'rating >= 1', label:'plus de 1 coeurs', class:''},
-        {role: "filter", type: 'rating', expression:'rating >= 2', label:'plus de 2 coeurs', class:''},
-        {role: "filter", type: 'rating', expression:'rating >= 3', label:'plus de 3 coeurs', class:''},
-        {role: "filter", type: 'rating', expression:'rating >= 4', label:'plus de 4 coeurs', class:''},
-        {role: "filter", type: 'rating', expression:'rating >= 5', label:'plus de 5 coeurs', class:''}
+        {role: "filter", type: 'rating', expression: 'rating == 1', label: '1 coeur', class: ''},
+        {role: "filter", type: 'rating', expression: 'rating == 2', label: '2 coeurs', class: ''},
+        {role: "filter", type: 'rating', expression: 'rating == 3', label: '3 coeurs', class: ''},
+        {role: "filter", type: 'rating', expression: 'rating == 4', label: '4 coeurs', class: ''},
+        {role: "filter", type: 'rating', expression: 'rating == 5', label: '5 coeurs', class: ''},
+        {role: "separator", class: "divider"},
+        {role: "filter", type: 'rating', expression: 'rating >= 1', label: 'plus de 1 coeurs', class: ''},
+        {role: "filter", type: 'rating', expression: 'rating >= 2', label: 'plus de 2 coeurs', class: ''},
+        {role: "filter", type: 'rating', expression: 'rating >= 3', label: 'plus de 3 coeurs', class: ''},
+        {role: "filter", type: 'rating', expression: 'rating >= 4', label: 'plus de 4 coeurs', class: ''},
+        {role: "filter", type: 'rating', expression: 'rating >= 5', label: 'plus de 5 coeurs', class: ''}
     ];
 
-    vm.filterProperties = [{owner: true, shared: true, expression:'true', label:'Toutes', class:'btn-white btn-bordered-primary'},
-        {owner: false, shared: true, expression:'userTake.length > 0', label:'Offerts', class:'btn-white btn-bordered-warning'},
-        {owner: false, shared: true, expression:'userTake.length == 0', label:'A offrir', class:'btn-white btn-bordered-success', child: [
-            {role: "filter", expression:'userTake.length == 0 && suggest == true', label:'Suggestion', class:'btn-white btn-bordered-info'},
-            {role: "filter", expression:'userTake.length == 0 && suggest == false ', label:'Envie', class:'btn-white btn-bordered-success'}
-        ]},
-        {owner: false, shared: true, expression:'comments.length > 0', label:'Commentaires', class:'btn-white btn-bordered-danger'},
-        {owner: true, shared: false, expression:'description == null || price == null || picture == null || urls == null', label:'A compléter', class:'btn-white btn-bordered-danger', child: [
-            {role: "filter", expression:'description == null', label:'Sans texte', class:'btn-white btn-bordered-danger'},
-            {role: "filter", expression:'price == null', label:'Sans prix', class:'btn-white btn-bordered-danger'},
-            {role: "filter", expression:'picture == null', label:'Sans image', class:'btn-white btn-bordered-danger'},
-            {role: "filter", expression:'urls == null', label:'Sans lien', class:'btn-white btn-bordered-danger'}
-        ]},
+    vm.filterProperties = [{
+        owner: true,
+        shared: true,
+        expression: 'true',
+        label: 'Toutes',
+        class: 'btn-white btn-bordered-primary'
+    },
+        {
+            owner: false,
+            shared: true,
+            expression: 'userTake.length > 0',
+            label: 'Offerts',
+            class: 'btn-white btn-bordered-warning'
+        },
+        {
+            owner: false,
+            shared: true,
+            expression: 'userTake.length == 0',
+            label: 'A offrir',
+            class: 'btn-white btn-bordered-success',
+            child: [
+                {
+                    role: "filter",
+                    expression: 'userTake.length == 0 && suggest == true',
+                    label: 'Suggestion',
+                    class: 'btn-white btn-bordered-info'
+                },
+                {
+                    role: "filter",
+                    expression: 'userTake.length == 0 && suggest == false ',
+                    label: 'Envie',
+                    class: 'btn-white btn-bordered-success'
+                }
+            ]
+        },
+        {
+            owner: false,
+            shared: true,
+            expression: 'comments.length > 0',
+            label: 'Commentaires',
+            class: 'btn-white btn-bordered-danger'
+        },
+        {
+            owner: true,
+            shared: false,
+            expression: 'description == null || price == null || picture == null || urls == null',
+            label: 'A compléter',
+            class: 'btn-white btn-bordered-danger',
+            child: [
+                {
+                    role: "filter",
+                    expression: 'description == null',
+                    label: 'Sans texte',
+                    class: 'btn-white btn-bordered-danger'
+                },
+                {
+                    role: "filter",
+                    expression: 'price == null',
+                    label: 'Sans prix',
+                    class: 'btn-white btn-bordered-danger'
+                },
+                {
+                    role: "filter",
+                    expression: 'picture == null',
+                    label: 'Sans image',
+                    class: 'btn-white btn-bordered-danger'
+                },
+                {role: "filter", expression: 'urls == null', label: 'Sans lien', class: 'btn-white btn-bordered-danger'}
+            ]
+        },
 
-        {owner: true, shared: true, expression:'rating > 0', label:'Note', class:'btn-white btn-bordered-upgrade', child: vm.filtersRatingList},
-        {owner: true, shared: true, expression:'price != null', label:'Prix', class:'btn-white btn-bordered-gray', child: vm.filtersPriceList}
-        ];
-
+        {
+            owner: true,
+            shared: true,
+            expression: 'rating > 0',
+            label: 'Note',
+            class: 'btn-white btn-bordered-upgrade',
+            child: vm.filtersRatingList
+        },
+        {
+            owner: true,
+            shared: true,
+            expression: 'price != null',
+            label: 'Prix',
+            class: 'btn-white btn-bordered-gray',
+            child: vm.filtersPriceList
+        }
+    ];
 
 
     loadWishes();
     resetForm();
-    
-    vm.update = function() {
+
+    vm.update = function () {
         if (masonry) {
             masonry.update();
-        }    
+        }
     };
 
     vm.addWish = function (wish) {
-            vm.wishes.push(wish);
-            vm.update();
+        vm.wishes.push(wish);
+        vm.update();
     };
 
-    vm.resetFilter = function() {
+    vm.resetFilter = function () {
         vm.filterList("true");
         vm.search = '';
     };
-    
-    vm.removeUser = function(user) {
+
+    vm.removeUser = function (user) {
         var index = vm.wishList.users.indexOf(user);
         if (index >= 0)
             vm.wishList.users.splice(index, 1);
     };
 
-    vm.shareUser = function(newUser) {
+    vm.shareUser = function (newUser) {
         if (!newUser.type) {
             newUser.type = 'SHARED';
         }
@@ -158,15 +230,15 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
             pushUser.type = newUser.type;
             vm.wishList.users.push(pushUser);
         }
-        newUser = {email: '', type:'SHARED'};
+        newUser = {email: '', type: 'SHARED'};
         vm.newUser = newUser;
     };
 
-    vm.saveWishList = function(wishList) {
+    vm.saveWishList = function (wishList) {
         if (vm.newUser.email) {
             vm.shareUser(vm.newUser);
         }
-        wishListService.save(wishList, function(wishList) {
+        wishListService.save(wishList, function (wishList) {
             vm.wishList = wishList;
             $("#share-list").modal("hide");
             vm.editTitle = false;
@@ -174,10 +246,9 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
     };
 
 
-
     vm.selectedItems = null;
 
-    vm.sortList = function(order) {
+    vm.sortList = function (order) {
 
         vm.order = order.property;
         vm.reverse = order.reverse;
@@ -185,7 +256,7 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
         order.reverse = !order.reverse;
         order.selected = true;
 
-        if (vm.selectedItems)  vm.selectedItems.selected = false;
+        if (vm.selectedItems) vm.selectedItems.selected = false;
 
         vm.selectedItems = order;
 
@@ -224,10 +295,10 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
 
     vm.stampElement = function (id, refresh) {
         if (!refresh) refresh = true;
-        var $element = $("#envie"+id);
+        var $element = $("#envie" + id);
         // stamp or unstamp element to rest in place.
-        if (masonry && !masonry.stamps.indexOf($element) ) {
-            if (masonry) masonry.stamp( $element );
+        if (masonry && !masonry.stamps.indexOf($element)) {
+            if (masonry) masonry.stamp($element);
         }
         refresh && vm.refreshLayout(200);
 
@@ -235,35 +306,33 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
 
     vm.unStampElement = function (id, refresh) {
         if (!refresh) refresh = true;
-        var $element = $("#envie"+id);
+        var $element = $("#envie" + id);
         // stamp or unstamp element to rest in place.
-        if (masonry && !masonry.stamps.indexOf($element) ) {
+        if (masonry && !masonry.stamps.indexOf($element)) {
             if (masonry) masonry.unstamp($element);
         }
         refresh && vm.refreshLayout(200);
     };
 
 
-
-
-    vm.filterList = function(expr) {
+    vm.filterList = function (expr) {
         vm.hasFilter = (expr !== "true");
 
         var expression = $parse(expr);
-        vm.filter = function(value) {
+        vm.filter = function (value) {
             return expression(value);
         };
         vm.update();
     };
 
-    vm.searchList = function(reset) {
+    vm.searchList = function (reset) {
         if (reset) {
             vm.search = '';
         }
         vm.update();
     };
 
-    vm.refresh = function() {
+    vm.refresh = function () {
         loadWishes();
     };
 
@@ -285,22 +354,22 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
         return target;
     };
 
-    function parseSentenceForNumber(sentence){
+    function parseSentenceForNumber(sentence) {
         var matches = sentence.replace(/,/g, '').match(/(\+|-)?((\d+(\.\d+)?)|(\.\d+))/);
         return matches && matches[0] || null;
     }
 
     vm.filterChild = function (filterChild) {
-      if (filterChild.type == 'price') {
-          vm.filterPrice(filterChild.min, filterChild.max);
-      } else {
-          vm.filterList(filterChild.expression);
-      }
+        if (filterChild.type == 'price') {
+            vm.filterPrice(filterChild.min, filterChild.max);
+        } else {
+            vm.filterList(filterChild.expression);
+        }
     };
 
-    vm.filterPrice = function(min, max) {
+    vm.filterPrice = function (min, max) {
 
-        vm.filter = function(value) {
+        vm.filter = function (value) {
             var price = value.price;
             if (!price) return false;
 
@@ -324,7 +393,7 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
         vm.update();
     };
 
-    vm.deleteWish = function(wish) {
+    vm.deleteWish = function (wish) {
         var index = vm.wishes.indexOf(wish);
         if (index > -1)
             vm.wishes.splice(index, 1);
@@ -339,7 +408,7 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
     function gotoWish(id) {
         // set the location.hash to the id of
         // the element you wish to scroll to.
-        $location.hash('envie'+id);
+        $location.hash('envie' + id);
 
         // call $anchorScroll()
         $anchorScroll();
@@ -351,29 +420,31 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
 
     function loadUser(email) {
         var foundUser = {email: email, name: ''};
-        angular.forEach(vm.wishList.users, function(user) {
+        angular.forEach(vm.wishList.users, function (user) {
             if (user.email == email) {
                 foundUser.name = user.name;
             }
         });
         return foundUser;
     }
-    vm.userName = function(email) {
+
+    vm.userName = function (email) {
         return loadUser(email).name;
     };
+
     function loadWishList(name) {
-        return wishListService.get({name:name});
+        return wishListService.get({name: name});
     }
 
     var updateWishUser = function (item) {
         if (item.owner) {
-            item.ownerUser = loadUser(item.owner);
+            item.ownerUser = loadUser(item.owner.email) || item.owner.name;
         }
         if (item.userTake && item.userTake.length > 0) {
             var userTakeNames = [];
             angular.forEach(item.userTake, function (user) {
-                this.push(loadUser(user).name || user);
-                if (vm.main.user && user == vm.main.user.email) {
+                this.push(loadUser(user).name || user.name);
+                if (vm.main.user && user.email == vm.main.user.email) {
                     item.userGiven = true;
                 }
             }, userTakeNames);
@@ -391,10 +462,10 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
             firstLoad = true;
         }
         var newWishes = wishService.query({name: $routeParams.name});
-        newWishes.$promise.then(function(list) {
+        newWishes.$promise.then(function (list) {
             vm.loading = false;
             vm.refreshingLayoutAuto(100, 800);
-            angular.forEach(list, function(item) {
+            angular.forEach(list, function (item) {
                 // add to vm.wishes
                 var foundwish = $filter('filter')(vm.wishes, {id: item.id});
                 updateWishUser(item);
@@ -407,9 +478,11 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
                 }
             });
 
-            vm.sortList(vm.orderProperties.find(function (value) { return value.selected }));
+            vm.sortList(vm.orderProperties.find(function (value) {
+                return value.selected
+            }));
 
-                //vm.update();
+            //vm.update();
             //vm.clearRefreshingLayoutAuto();
             if (firstLoad) masonry.update();
 
@@ -418,7 +491,7 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
     }
 
 
-    $scope.$on('$viewContentLoaded', function() {
+    $scope.$on('$viewContentLoaded', function () {
         $.material.init();
 
         vm.refreshLayout(10000);

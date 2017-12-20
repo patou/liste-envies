@@ -87,7 +87,7 @@ public class WishList {
         setPrivacy( dto.getPrivacy());
     }
 
-    public WishListDto toDto(boolean convertUsers, String userEmail, Map<String, AppUser> userName) {
+    public WishListDto toDto(boolean convertUsers, AppUser userEmail, Map<String, AppUser> userName) {
         WishListDto dto = new WishListDto();
         dto.setName(getName());
         dto.setTitle(getTitle());
@@ -108,8 +108,8 @@ public class WishList {
             dto.setUsers(usersDto);
         }
         dto.setOwners(ownersDto);
-        if (userEmail != null) {
-            dto.setOwner(containsOwner(userEmail));
+        if (userEmail != null && userEmail.getEmail() != null) {
+            dto.setOwner(containsOwner(userEmail.getEmail()));
         }
 
         dto.setPicture( getPicture());

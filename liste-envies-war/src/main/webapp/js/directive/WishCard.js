@@ -194,7 +194,11 @@ var WishCard = function ($scope, wishService, $location, UtilitiesServices) {
 
 
     w.given = function(id) {
-        if (w.wish.userTake.indexOf(w.user.email) < 0) {
+        if (!w.user) {
+            //TODO
+            alert('Connectez-vous pour pouvoir participer à cette liste');
+        }
+        else if (!w.wish.userTake.find(function(user){ return user.email == this; }, w.user.email)) {
             wishService.give({name:w.listName, id:id}, {}, function(updatedData) {
                 w.parentController.updatePropertiesWish(w.wish, updatedData);
                 w.parentController.update();

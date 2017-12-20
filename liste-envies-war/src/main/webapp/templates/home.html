@@ -30,6 +30,14 @@
                             <label for="title">Titre</label>
                             <input type="text" class="form-control" id="title" ng-model="vm.newlist.title" required placeholder="Liste de {{main.user.name}}">
                         </div>
+                        <div class="form-group">
+                            <label for="privacy">Partage</label>
+                            <select class="form-control" id="privacy" ng-model="vm.newlist.privacy">
+                                <option value="PRIVATE">Privée</option>
+                                <option value="OPEN">Ouverte</option>
+                                <option value="PUBLIC">Public</option>
+                            </select>
+                        </div>
                         <div class="form-group" ng-if="main.isAdmin">
                             <label for="email">Bénéficiaire (ou vide si vous)</label>
                             <input type="email" class="form-control" id="email" ng-model="vm.newlist.owner" placeholder="Email">

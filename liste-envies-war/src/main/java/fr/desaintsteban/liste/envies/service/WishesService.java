@@ -106,10 +106,6 @@ public final class WishesService {
         LoadResult<WishList> loadResult = ofy.load().key(parent); //Chargement asynchrone
         Wish wish = OfyService.ofy().load().key(Key.create(parent, Wish.class, itemid)).now();
         WishList wishList = loadResult.now();
-        if (wishList != null && wishList.containsOwner(user.getEmail())) {
-            wish.setUserTake(null);
-            wish.setComments(null);
-        }
         return WishRules.applyRules(user, wishList, wish);
     }
 
