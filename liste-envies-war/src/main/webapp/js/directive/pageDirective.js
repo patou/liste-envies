@@ -13,7 +13,8 @@ angular.module('ListeEnviesDirectives')
         controllerAs: 'main',
         transclude: true,
         bindings: {
-            scope: "="
+            scope: "=",
+            background: "<"
         }
     });
 PagesDirectivesController.$inject = ['$scope', '$http', '$location', 'AuthService', 'UtilitiesServices', 'appUserService'];

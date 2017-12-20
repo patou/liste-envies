@@ -1,8 +1,13 @@
 app.controller('HomeCtrl', HomeCtrl);
-HomeCtrl.$inject = ['appUserService', 'wishListService', '$location', 'UtilitiesServices', 'AuthService'];
-function HomeCtrl(appUserService, wishListService, $location, UtilitiesServices, AuthService) {
+HomeCtrl.$inject = ['appUserService', 'wishListService', '$location', 'UtilitiesServices', 'AuthService', 'WishListTypePicture'];
+function HomeCtrl(appUserService, wishListService, $location, UtilitiesServices, AuthService, WishListTypePicture) {
     var vm = this;
     vm.loading = true;
+    vm.WishListTypePicture = WishListTypePicture;
+
+
+
+    resetBackground();
 
     UtilitiesServices.getList().then(function (data) {
         vm.loading = false;
@@ -33,11 +38,22 @@ function HomeCtrl(appUserService, wishListService, $location, UtilitiesServices,
                 user.push({'email': email.trim(), 'type': "SHARED"});
             });
         }
-        wishListService.save({title: newlist.title, users:user}, function(wishList) {
+        var newWishList = {title: newlist.title, users:user, privacy: newlist.privacy};
+        if (newlist.type) {
+            newWishList.type = newlist.type.type;
+            newWishList.picture = newlist.type.picture;
+            resetBackground();
+        }
+        wishListService.save(newWishList, function(wishList) {
             vm.loading = false;
             $location.url("/"+wishList.name);
         });
     };
 
     $.material.init();
+
+
+    function resetBackground() {
+        vm.background = 'img/default.jpeg';
+    }
 }

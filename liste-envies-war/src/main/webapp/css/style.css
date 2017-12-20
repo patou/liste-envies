@@ -23,7 +23,8 @@ body {
 }
 
 .page-background {
-    background-image: url('https://images.unsplash.com/photo-1477728275068-39b7f46df4d2?dpr=1&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=');
+   /* background-image: url('https://images.unsplash.com/photo-1477728275068-39b7f46df4d2?dpr=1&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=');
+    */
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;

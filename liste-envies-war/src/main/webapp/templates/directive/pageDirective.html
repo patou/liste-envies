@@ -96,7 +96,7 @@
     </div>
 </nav >
 
-<div id="wrapper"  class="wrapper page-background" translate-namespace="PAGE">
+<div id="wrapper"  class="wrapper page-background" ng-style="{'background-image':'url('+(main.background || 'img/default.jpeg')+')'}" translate-namespace="PAGE">
 
     <div class="header">
         <div class="container">
@@ -112,7 +112,7 @@
     </div>
 
 
-    <div id="page-wrapper" class="page-background">
+    <div id="page-wrapper">
 
         <div ng-transclude></div>
 
