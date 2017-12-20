@@ -87,18 +87,23 @@ public class WishRules {
             case SHARED:
                 return WishOptionType.ALL_SUGGEST;
             case LOGGED:
-                if (list != null && list.getPrivacy() != null) {
-                    switch (list.getPrivacy()) {
-                        case PRIVATE:
-                            return WishOptionType.NONE;
-                        case OPEN:
-                            return WishOptionType.ANONYMOUS;
-                        case PUBLIC:
-                            return WishOptionType.ALL_SUGGEST;
+                if (list != null) {
+                    if (list.getPrivacy() != null) {
+                        switch (list.getPrivacy()) {
+                            case PRIVATE:
+                                return WishOptionType.NONE;
+                            case OPEN:
+                                return WishOptionType.ANONYMOUS;
+                            case PUBLIC:
+                                return WishOptionType.ALL_SUGGEST;
+                        }
+                    }
+                    else {
+                        return WishOptionType.NONE;
                     }
                 }
                 else {
-                    return WishOptionType.NONE;
+                    return WishOptionType.ALL_SUGGEST; //All display for the given and archived page.
                 }
             case ANONYMOUS:
                 if (list != null && list.getPrivacy() != null) {
