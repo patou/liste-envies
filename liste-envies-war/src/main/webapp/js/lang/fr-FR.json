@@ -46,7 +46,16 @@
     "WELCOME_MESSAGE": "Bonjour, <strong>{{userName}}</strong>! Bienvenue sur votre liste des envies",
     "SEPARATOR_USER": "de",
     "BUTTON_CREATE_LIST": "Créer une liste",
-    "BUTTON_CONNEXION": "@:NAVBAR.LOG_IN"
+    "BUTTON_CONNEXION": "@:NAVBAR.LOG_IN",
+    "PRIVATE": "Privée",
+    "OPEN": "Ouverte",
+    "PUBLIC": "Publique",
+    "DESCRIPTION": {
+      "PRIVATE": "Liste accessible seulement à ceux à qui vous partagerais la liste",
+      "OPEN": "Il faut être connecté pour voir les envies de la liste",
+      "PUBLIC": "La liste peut être affiché sans être connecté. Il est nécessaire de ce connecter, pour intéragire avec",
+      "DEFAULT": "Selectionnez la visibilité de la liste"
+    }
   },
   "CANCEL_COMPONENT": {
 

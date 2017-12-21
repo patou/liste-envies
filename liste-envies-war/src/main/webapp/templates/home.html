@@ -40,11 +40,20 @@
                         <div class="form-group">
                             <label for="privacy">Partage</label>
                             <select class="form-control" id="privacy" ng-model="vm.newlist.privacy">
-                                <option value="PRIVATE">Privée</option>
-                                <option value="OPEN">Ouverte</option>
-                                <option value="PUBLIC">Public</option>
+                                <option value="PRIVATE" translate=".PRIVATE"></option>
+                                <option value="OPEN" translate=".OPEN"></option>
+                                <option value="PUBLIC" translate=".PUBLIC"></option>
                             </select>
+
                         </div>
+                    <div class="row" ng-switch="vm.newlist.privacy">
+
+                        <span ng-switch-when="PRIVATE" translate=".DESCRIPTION.PRIVATE">...</span>
+                        <span ng-switch-when="OPEN"  translate=".DESCRIPTION.OPEN">...</span>
+                        <span ng-switch-when="PUBLIC"  translate=".DESCRIPTION.PUBLIC">...</span>
+                        <span ng-switch-default  translate=".DESCRIPTION.DEFAULT">...</span>
+                    </div>
+
                         <div class="form-group" ng-if="main.isAdmin">
                             <label for="email">Bénéficiaire (ou vide si vous)</label>
                             <input type="email" class="form-control" id="email" ng-model="vm.newlist.owner" placeholder="Email">
@@ -84,18 +93,7 @@
 
     </div>
 
-    <form ng-if="main.isAdmin">
-        <h2>Ajouter un utilisateur</h2>
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" ng-model="vm.newuser.email" placeholder="Email">
-        </div>
-        <div class="form-group">
-            <label for="name">Nom</label>
-            <input type="text" class="form-control" id="name" ng-model="vm.newuser.name" placeholder="Nom">
-        </div>
-        <button type="submit" class="btn btn-default" ng-click="vm.addUser(vm.newuser)">Ajouter</button>
-    </form>
+
 
 </div>
 </page>
