@@ -39,7 +39,38 @@
     "CLEAR_FILTER": "Réinitialiser les filtres",
     "REFRESH_LIST": "Rafraichir la liste",
     "TITLE_GIVEN": "Mes cadeaux à donner",
-    "TITLE_ARCHIVE": "Mes cadeaux reçus"
+    "TITLE_ARCHIVE": "Mes cadeaux reçus",
+    "UPDATE_LIST": {
+      "TITLE": "Modifier votre liste",
+      "FORM_TITRE": "Titre",
+      "FORM_TYPE": "Pour quel événement ?",
+      "FORM_CUSTOM_PICTURE": "Image arrière plan : ",
+      "PLACEHOLDER_PICTURE": "Ou entrez l'url d'une image ",
+      "TYPE": {
+        "CHRISTMAS": "Noël",
+        "BIRTHDAY": "Anniversaire",
+        "BIRTH": "liste de naissance",
+        "WEDDING": "liste de mariage",
+        "LEAVING": "liste pour un départ",
+        "SPECIAL_OCCASION": "Occasion spéciale",
+        "HOUSE_WARNING": "Pendaison de crémaillère",
+        "RETIREMENT": "Retraite",
+        "OTHER": "Autre"
+      },
+      "PRIVACY": "Partage de la liste",
+      "PRIVATE": "Limité / privée",
+      "OPEN": "Ouvert / connecté",
+      "PUBLIC": "Ouvert / publique",
+      "DESCRIPTION": {
+        "PRIVATE": "Liste accessible seulement à ceux à qui vous partagerais la liste",
+        "OPEN": "Il faut être connecté pour voir les envies de la liste",
+        "PUBLIC": "La liste peut être affiché sans être connecté. Il est nécessaire de ce connecter, pour intéragire avec",
+        "DEFAULT": "Selectionnez la visibilité de la liste"
+      },
+      "DATE": "Date de l'événement",
+      "DATE_INFO": "Pour afficher un countdown jusqu'à l'événement"
+
+    }
   },
   "HOME_PAGE": {
     "HOME_TITLE": "Liste de mes envies <small>Accueil</small>",
@@ -47,14 +78,36 @@
     "SEPARATOR_USER": "de",
     "BUTTON_CREATE_LIST": "Créer une liste",
     "BUTTON_CONNEXION": "@:NAVBAR.LOG_IN",
-    "PRIVATE": "Privée",
-    "OPEN": "Ouverte",
-    "PUBLIC": "Publique",
-    "DESCRIPTION": {
-      "PRIVATE": "Liste accessible seulement à ceux à qui vous partagerais la liste",
-      "OPEN": "Il faut être connecté pour voir les envies de la liste",
-      "PUBLIC": "La liste peut être affiché sans être connecté. Il est nécessaire de ce connecter, pour intéragire avec",
-      "DEFAULT": "Selectionnez la visibilité de la liste"
+    "NEW_LIST": {
+      "TITLE": "Créer une liste d'envie",
+      "FORM_TITRE": "Titre",
+      "FORM_TYPE": "Pour quel événement ?",
+      "FORM_CUSTOM_PICTURE": "Image arrière plan : ",
+      "PLACEHOLDER_PICTURE": "Ou entrez l'url d'une image ",
+      "TYPE": {
+        "CHRISTMAS": "Noël",
+        "BIRTHDAY": "Anniversaire",
+        "BIRTH": "liste de naissance",
+        "WEDDING": "liste de mariage",
+        "LEAVING": "liste pour un départ",
+        "SPECIAL_OCCASION": "Occasion spéciale",
+        "HOUSE_WARNING": "Pendaison de crémaillère",
+        "RETIREMENT": "Retraite",
+        "OTHER": "Autre"
+      },
+      "PRIVACY": "Partage de la liste",
+      "PRIVATE": "Limité / privée",
+      "OPEN": "Ouvert / connecté",
+      "PUBLIC": "Ouvert / publique",
+      "DESCRIPTION": {
+        "PRIVATE": "Liste accessible seulement à ceux à qui vous partagerais la liste",
+        "OPEN": "Il faut être connecté pour voir les envies de la liste",
+        "PUBLIC": "La liste peut être affiché sans être connecté. Il est nécessaire de ce connecter, pour intéragire avec",
+        "DEFAULT": "Selectionnez la visibilité de la liste"
+      },
+      "DATE": "Date de l'événement",
+      "DATE_INFO": "Pour afficher un countdown jusqu'à l'événement"
+
     }
   },
   "CANCEL_COMPONENT": {

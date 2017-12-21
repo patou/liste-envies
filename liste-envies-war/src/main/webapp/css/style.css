@@ -853,4 +853,11 @@ li.notif .fa {
     z-index: 2000 !important;
 }
 
+a.thumbnail.background-config img {
+    max-height: 38px;
+}
 
+span.owners {
+    word-break: break-all;
+    overflow-wrap: break-word;
+}

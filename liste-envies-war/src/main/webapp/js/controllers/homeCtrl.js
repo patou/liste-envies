@@ -38,10 +38,9 @@ function HomeCtrl(appUserService, wishListService, $location, UtilitiesServices,
                 user.push({'email': email.trim(), 'type': "SHARED"});
             });
         }
-        var newWishList = {title: newlist.title, users:user, privacy: newlist.privacy};
-        if (newlist.type) {
-            newWishList.type = newlist.type.type;
-            newWishList.picture = newlist.type.picture;
+        var newWishList = {title: newlist.title, users:user, privacy: newlist.privacy, date: newlist.date, type: newlist.type};
+        if (newlist.picture) {
+           newWishList.picture = newlist.picture;
             resetBackground();
         }
         wishListService.save(newWishList, function(wishList) {
@@ -54,6 +53,15 @@ function HomeCtrl(appUserService, wishListService, $location, UtilitiesServices,
 
 
     function resetBackground() {
-        vm.background = 'img/default.jpeg';
+        vm.background = 'img/default.jpg';
+    }
+
+    vm.changeBackground = function(picture) {
+        vm.newlist.picture = picture;
+        if (!picture) {
+            resetBackground();
+            return;
+        }
+        vm.background = picture;
     }
 }

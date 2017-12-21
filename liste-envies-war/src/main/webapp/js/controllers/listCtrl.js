@@ -1,7 +1,7 @@
 app.controller('ListCtrl', ListCtrl);
-ListCtrl.$inject = ['wishService', 'appUserService', 'wishListService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse', '$interval', '$timeout', '$filter'];
+ListCtrl.$inject = ['wishService', 'appUserService', 'wishListService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse', '$interval', '$timeout', '$filter', 'WishListTypePicture'];
 
-function ListCtrl(wishService, appUserService, wishListService, $routeParams, $location, $anchorScroll, $scope, $parse, $interval, $timeout, $filter) {
+function ListCtrl(wishService, appUserService, wishListService, $routeParams, $location, $anchorScroll, $scope, $parse, $interval, $timeout, $filter, WishListTypePicture) {
     var vm = this;
     vm.name = $routeParams.name;
     vm.wishList = loadWishList(vm.name);
@@ -9,6 +9,8 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
     vm.loading = true;
     masonry = null;
     vm.newUser = {email: '', type: 'SHARED'};
+    vm.WishListTypePicture = WishListTypePicture;
+
     vm.editorOptions = {
         disableDragAndDrop: true,
         placeholder: "Ajouter une description",
@@ -241,9 +243,19 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
         wishListService.save(wishList, function (wishList) {
             vm.wishList = wishList;
             $("#share-list").modal("hide");
+            $("#settings-list").modal("hide");
             vm.editTitle = false;
+            updateDate();
         });
     };
+
+
+    function updateDate() {
+        vm.wishList.dateTimeStamp = vm.wishList.date;
+        vm.wishList.date = new Date(vm.wishList.date);
+    }
+
+
 
 
     vm.selectedItems = null;
@@ -433,7 +445,15 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
     };
 
     function loadWishList(name) {
-        return wishListService.get({name: name});
+        return wishListService.get({name: name}).$promise.then(function (value) {
+            console.log(value);
+            if (value.date) {
+                value.date = new Date(value.date);
+            }
+            // updateDate();
+            vm.wishList = value;
+            return value;
+        });
     }
 
     var updateWishUser = function (item) {

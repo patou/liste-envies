@@ -30,15 +30,100 @@
                     <small> de <span class="owners" ng-repeat="owner in vm.wishList.owners"> <i
                             class="fa fa-user"></i> {{owner.name}} ({{owner.email}})<span
                             ng-if="!$last">, </span> </span></small>
+
+                        <small><span class="" title="{{vm.wishList.date | date: 'fullDate'}}">{{vm.wishList.date | amDifference : null : 'minutes' | amDurationFormat : 'minutes'  }}</span></small>
+
                 </span>
+
+
                     <button type="button" class="btn pull-right btn-just-icon btn-warning" data-toggle="modal"
                             data-target="#share-list" tooltip="Partager votre liste" ng-if="vm.wishList.owner">
                         <span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Partager</span>
                     </button>
+                    <button type="button" class="btn pull-right btn-just-icon btn-warning" data-toggle="modal"
+                            data-target="#settings-list" tooltip="Options de votre liste" ng-if="vm.wishList.owner">
+                        <span class="fa fa-cog" aria-hidden="true"></span><span class="sr-only">Settings</span>
+                    </button>
+
                 </h1>
             </div>
         </div>
-        <div class="modal fade" tabindex="-1" role="dialog" id="share-list">
+        <div class="modal fade" tabindex="-1" role="dialog" id="settings-list" translate-namespace=".UPDATE_LIST">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" translate=".TITLE"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="title" translate=".FORM_TITRE"></label>
+                            <input type="text" class="form-control" id="title" ng-model="vm.wishList.title" required placeholder="Liste de {{main.user.name}}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="privacy" translate=".FORM_TYPE"></label>
+                            <select class="form-control" id="type" ng-model="vm.wishList.type">
+                                <option value="OTHER" translate=".TYPE.OTHER" selected></option>
+                                <option value="CHRISTMAS" translate=".TYPE.CHRISTMAS"></option>
+                                <option value="BIRTHDAY" translate=".TYPE.BIRTHDAY"></option>
+                                <option value="BIRTH" translate=".TYPE.BIRTH"></option>
+                                <option value="WEDDING" translate=".TYPE.WEDDING"></option>
+                                <option value="LEAVING" translate=".TYPE.LEAVING"></option>
+                                <option value="SPECIAL_OCCASION" translate=".TYPE.SPECIAL_OCCASION"></option>
+                                <!-- <option value="HOUSE_WARNING" translate=".TYPE.HOUSE_WARNING"></option>
+                                 <option value="RETIREMENT" translate=".TYPE.RETIREMENT"></option>-->
+                            </select>
+                        </div>.
+
+                        <div class="form-group">
+                            <label for="date" translate>.DATE</label>
+                            {{vm.wishList.date}}
+                            <div class="input-group"><input type="date" class="datepicker form-control" ng-model="vm.wishList.date" name="date" id="date"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            </div>
+                            <p translate>.DATE_INFO</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="title" translate=".FORM_CUSTOM_PICTURE"></label>
+                            <div class="row" ng-if="vm.wishList.type">
+                                <div class="col-xs-3 col-md-2" ng-repeat="picture in vm.WishListTypePicture | filter: {type: vm.wishList.type}" ng-click="vm.wishList.picture = picture.picture">
+                                    <a href="#" class="thumbnail background-config">
+                                        <img ng-src="{{picture.picture}}" title="{{picture.credit}}"/>
+                                    </a>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" id="picture" ng-model="vm.wishList.picture" translate translate-attr-placeholder=".PLACEHOLDER_PICTURE" ng-change="vm.changeBackground(vm.wishList.picture)">
+                        </div>
+                        <div class="form-group">
+                            <label for="privacy" translate=".PRIVACY"></label>
+                            <select class="form-control" id="privacy" ng-model="vm.wishList.privacy">
+                                <option value="PRIVATE" translate=".PRIVATE"></option>
+                                <option value="OPEN" translate=".OPEN"></option>
+                                <option value="PUBLIC" translate=".PUBLIC"></option>
+                            </select>
+                        </div>
+                        <div class="row" ng-switch="vm.wishList.privacy">
+
+                            <span ng-switch-when="PRIVATE" translate=".DESCRIPTION.PRIVATE">...</span>
+                            <span ng-switch-when="OPEN"  translate=".DESCRIPTION.OPEN">...</span>
+                            <span ng-switch-when="PUBLIC"  translate=".DESCRIPTION.PUBLIC">...</span>
+                            <span ng-switch-default  translate=".DESCRIPTION.DEFAULT">...</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-gray btn-bordered-danger" data-dismiss="modal">Fermer
+                        </button>
+                        <button type="submit" class="btn btn-primary" ng-click="vm.saveWishList(vm.wishList)">
+                            Enregistrer
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal --><!--row row-fluid-->
+
+           <div class="modal fade" tabindex="-1" role="dialog" id="share-list">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
