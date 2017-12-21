@@ -24,10 +24,10 @@ function IconWishList() {
                 return "fa-birthday-cake";
 
                 case "BIRTH":
-                return "fa-meh-o";
+                return "fa-child";
 
                 case "WEDDING":
-                return "fa-circle-o";
+                return "fa-circle-thin";
 
                 case "LEAVING":
                 return "fa-plane";
