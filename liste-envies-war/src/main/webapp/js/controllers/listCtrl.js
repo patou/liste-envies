@@ -446,7 +446,7 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
 
     function loadWishList(name) {
         return wishListService.get({name: name}).$promise.then(function (value) {
-            console.log(value);
+
             if (value.date) {
                 value.date = new Date(value.date);
             }

@@ -5,6 +5,7 @@
            <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
+                    <icon-wish-list type="{{vm.wishList.type}}"></icon-wish-list>
                     <form class="form-inline" ng-if="vm.editTitle">
                         <div class="form-group">
                             <input type="text" class="form-control title-edit" ng-model="vm.wishList.title"
@@ -64,6 +65,7 @@
 
                         <div class="form-group">
                             <label for="privacy" translate=".FORM_TYPE"></label>
+                            <icon-wish-list type="{{vm.wishList.type}}"></icon-wish-list>
                             <select class="form-control" id="type" ng-model="vm.wishList.type">
                                 <option value="OTHER" translate=".TYPE.OTHER" selected></option>
                                 <option value="CHRISTMAS" translate=".TYPE.CHRISTMAS"></option>
