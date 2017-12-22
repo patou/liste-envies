@@ -60,9 +60,9 @@
       "PRIVACY": "Partage de la liste",
       "PRIVATE": "Limité / privée",
       "OPEN": "Ouvert / connecté",
-      "PUBLIC": "Ouvert / publique",
+      "PUBLIC": "Libre / publique",
       "DESCRIPTION": {
-        "PRIVATE": "Liste accessible seulement à ceux à qui vous partagerais la liste",
+        "PRIVATE": "Liste accessible seulement à ceux à qui vous partagerez la liste",
         "OPEN": "Il faut être connecté pour voir les envies de la liste",
         "PUBLIC": "La liste peut être affiché sans être connecté. Il est nécessaire de ce connecter, pour intéragire avec",
         "DEFAULT": "Selectionnez la visibilité de la liste"
@@ -98,9 +98,9 @@
       "PRIVACY": "Partage de la liste",
       "PRIVATE": "Limité / privée",
       "OPEN": "Ouvert / connecté",
-      "PUBLIC": "Ouvert / publique",
+      "PUBLIC": "Libre / publique",
       "DESCRIPTION": {
-        "PRIVATE": "Liste accessible seulement à ceux à qui vous partagerais la liste",
+        "PRIVATE": "Liste accessible seulement à ceux à qui vous partagerez la liste",
         "OPEN": "Il faut être connecté pour voir les envies de la liste",
         "PUBLIC": "La liste peut être affiché sans être connecté. Il est nécessaire de ce connecter, pour intéragire avec",
         "DEFAULT": "Selectionnez la visibilité de la liste"
