@@ -32,7 +32,7 @@
                             class="fa fa-user"></i> {{owner.name}} ({{owner.email}})<span
                             ng-if="!$last">, </span> </span></small>
 
-                        <small><span class="" title="{{vm.wishList.date | date: 'fullDate'}}">{{vm.wishList.date | amDifference : null : 'minutes' | amDurationFormat : 'minutes'  }}</span></small>
+                        <small ng-if="vm.wishList.date"><i class="fa fa-calendar"></i> <span class="" title="{{vm.wishList.date | date: 'fullDate'}}" am-time-ago="vm.wishList.date"></span></small>
 
                 </span>
 
@@ -81,7 +81,7 @@
 
                         <div class="form-group">
                             <label for="date" translate>.DATE</label>
-                            {{vm.wishList.date}}
+                            <span am-time-ago="vm.wishList.date"></span>
                             <div class="input-group"><input type="date" class="datepicker form-control" ng-model="vm.wishList.date" name="date" id="date"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                             </div>
                             <p translate>.DATE_INFO</p>
