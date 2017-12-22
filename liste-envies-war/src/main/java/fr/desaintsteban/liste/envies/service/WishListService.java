@@ -72,6 +72,11 @@ public final class WishListService {
         });
 	}
 
+	public static void addUser(AppUser user, WishList wishList) {
+		wishList.addUser(user);
+		OfyService.ofy().save().entity(wishList);
+	}
+
 	public static List<Key<WishList>> userListKeys(String email) {
 		QueryKeys<WishList> keys = OfyService.ofy().load().type(WishList.class)/*.filter("users.type =", UserShareType.SHARED)*/.filter("users.email =", email).keys()/*.list()*/;
 		return keys.list();

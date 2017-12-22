@@ -1,5 +1,6 @@
 package fr.desaintsteban.liste.envies.util;
 
+import fr.desaintsteban.liste.envies.dto.PersonParticipantDto;
 import fr.desaintsteban.liste.envies.dto.WishDto;
 import fr.desaintsteban.liste.envies.enums.CommentType;
 import fr.desaintsteban.liste.envies.enums.WishListState;
@@ -24,6 +25,24 @@ import static java.util.stream.Collectors.toList;
  */
 public class WishRules {
 
+    public static boolean canGive(WishList wishList, AppUser user) {
+        if (wishList != null && user != null && wishList.getPrivacy() != null && !wishList.containsOwner(user.getEmail())) {
+            switch (wishList.getPrivacy()) {
+                case PRIVATE:
+                    // En mode privé, on ne peut participer que si l'on fait partis de la liste
+                    return wishList.containsUser(user.getEmail());
+                case OPEN:
+                    //Si on est pas dans la liste des utilisateurs on est automatiquement ajouté
+                    if (!wishList.containsUser(user.getEmail())) {
+                        WishListService.addUser(user, wishList);
+                    }
+                case PUBLIC:
+                    //En mode ouvert ou public on peut participer à un cadeau.
+                    return true;
+            }
+        }
+        return false;
+    }
 
     public static List<WishDto> applyRules(AppUser user, WishList wishList, List<Wish> wishes) {
         WishOptionType type = computeWishOptionsType(user, wishList);
@@ -37,7 +56,7 @@ public class WishRules {
     public static WishDto applyRules(AppUser user, WishList wishList, Wish wish) {
         WishOptionType type = computeWishOptionsType(user, wishList);
         WishDto wishDto = cleanWish(wish.toDto(), type);
-        computePermissions(wishDto, user, wishList);
+        computePermissions(wishDto, user, wishList, computeWishListState(user, wishList));
         return wishDto;
     }
 
@@ -53,14 +72,39 @@ public class WishRules {
     }
 
     private static List<WishDto> computePermissions(List<WishDto> wishDtos, AppUser user, WishList wishList) {
+        WishListState state = computeWishListState(user, wishList);
         wishDtos.forEach(wish -> {
-            computePermissions(wish, user, wishList);
+            computePermissions(wish, user, wishList, state);
         });
         return wishDtos;
     }
 
-    private static void computePermissions(WishDto wishDto, AppUser user, WishList wishList) {
-            //TODO compute canEdit, canRemove, canComment, etc ...
+    private static void computePermissions(WishDto wishDto, AppUser user, WishList wishList, WishListState state) {
+        switch (state) {
+            case OWNER:
+                wishDto.setCanEdit(true);
+                wishDto.setCanParticipate(false);
+                break;
+            case SHARED:
+                wishDto.setCanEdit(wishDto.getOwner().getEmail().equals(user.getEmail()));
+                wishDto.setCanParticipate(true);
+                break;
+            case LOGGED:
+            case ANONYMOUS:
+                wishDto.setCanEdit(false);
+                wishDto.setCanParticipate(true);
+                break;
+        }
+        if (wishDto.getAllreadyGiven())
+            wishDto.setCanParticipate(false);
+        wishDto.setUserGiven(false);
+        if (wishDto.getUserTake() != null && user != null) {
+            for (PersonParticipantDto person : wishDto.getUserTake()) {
+                if (person.getEmail().equals(user.getEmail())) {
+                    wishDto.setUserGiven(true);
+                }
+            }
+        }
     }
 
     static WishListState computeWishListState(AppUser user, WishList list) {
@@ -142,13 +186,14 @@ public class WishRules {
         switch (type) {
             case HIDDEN:
                 wish.setUserTake(null);
-                wish.setGiven(false);
+                wish.setGiven(wish.getAllreadyGiven());
                 if (!ListUtils.isNullOrEmpty(wish.getComments())) {
                     wish.setComments(wish.getComments().stream().filter(comment -> comment.getType() != CommentType.PRIVATE).collect(toList()));
                 }
                 break;
             case ANONYMOUS:
                 wish.setUserTake(null);
+                wish.setGiven(wish.getAllreadyGiven());
                 if (!ListUtils.isNullOrEmpty(wish.getComments())) {
                     wish.setComments(wish.getComments().stream().filter(comment -> comment.getType() == CommentType.PUBLIC).collect(toList()));
                 }

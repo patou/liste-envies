@@ -27,8 +27,8 @@
                    <div class="pull-left" translate translate-attr-title=".TITLE_LAST_CHANGE" ng-show="w.wish.date">
                        <p class="text-center"><i class="fa fa-calendar fa-pull-left fa-border"></i><span class="text-muted" am-time-ago="w.wish.date" title="{{w.wish.date | date: 'fullDate'}} à {{w.wish.date | date: 'shortTime'}}"></span></p>
                    </div>
-                   <div class="pull-right" translate translate-attr-title=".TITLE_CREATED_BY"  ng-show="w.add || w.wish.ownerUser.name">
-                       <p class="text-center"><i class="fa fa-smile-o fa-pull-left fa-border"></i><span class="text-muted">{{(w.add)? w.user.name : w.wish.ownerUser.name}}</span></p>
+                   <div class="pull-right" translate translate-attr-title=".TITLE_CREATED_BY"  ng-show="w.add || w.wish.ownerUser">
+                       <p class="text-center"><i class="fa fa-smile-o fa-pull-left fa-border"></i><span class="text-muted">{{(w.add)? w.user.name : w.wish.ownerUser}}</span></p>
                    </div>
 
                </div>
@@ -93,6 +93,14 @@
                     <input type="text" class="form-control" id="price" ng-model="w.wish.price">
                 </div>
 
+                <div class="form-group" ng-if="w.edit && w.ownerList">
+
+                    <label>
+                        <input type="checkbox" ng-model="w.wish.allreadyGiven"> <span translate=".OFFERED"></span>
+                    </label>
+                    
+                </div>
+
 
                 <div class="">
                     <div title="Rating" class="text-warning col-xs-5 rating pull-left">
@@ -105,7 +113,7 @@
                             <i class="fa fa-euro"></i>&nbsp;&nbsp;<span class="">{{w.wish.price}}</span>
                 </div>
                 </div>
-                <div class="btn-group btn-group-sm edit-button" ng-if="!w.edit && (w.ownerList || w.wish.owner == w.user.email) && w.canEdit" ng-hide="w.edit">
+                <div class="btn-group btn-group-sm edit-button" ng-if="!w.edit && (w.wish.canEdit) && w.canEdit" ng-hide="w.edit">
                     <button type="button" class="btn btn-warning" ng-click="w.editWish()" translate=".EDIT"></button>
                     <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" translate translate-attr-title=".EDIT_OTHER_OPTIONS">
                         <span class="caret"></span>
@@ -121,15 +129,17 @@
                 <button type="button" class="btn btn-info btn-sm  edit-button copy-button"  ng-if="!w.edit && !w.add"
                         ng-click="w.copyWish()" translate=".EDIT_OPTIONS_COPY"></button>
             </div>
-            <div class="footer panel-footer bottom-envie" ng-if="!w.ownerList && !w.edit">
+            <div class="footer panel-footer bottom-envie" ng-if="!w.edit">
 
                 <div title="Cadeau" class="gift pull-right text-warning">
-                    <h6 ng-if="!w.ownerList && w.wish.userTakeUsers"><i class="fa fa-gift"></i><span translate translate-values="{name: w.wish.userTakeUsers}">.OFFERED_BY</span>
-                        <button type="button" class="btn btn-danger" ng-if="w.wish.userTake.indexOf(w.user.email) >= 0" ng-click="w.cancel(w.wish.id)" translate>.CANCEL</button>
-                        <button type="button" class="btn btn-success" ng-if="w.wish.userTake.indexOf(w.user.email) >= 0" ng-click="w.receivedWish()" translate>.GIVEN</button>
-                        <button type="button" class="btn btn-success btn3d" ng-if="w.wish.userTake.indexOf(w.user.email) < 0 && !w.wish.archived" ng-click="w.given(w.wish.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b translate>.PARTICIPATE</b></button>
+                    <h6 ng-if="w.wish.given"><i class="fa fa-gift"></i>
+                        <span translate translate-values="{name: w.wish.userTakeUsers}" ng-if="w.wish.userTakeUsers">.OFFERED_BY</span>
+                        <span translate ng-if="w.wish.allreadyGiven">.OFFERED</span>
+                        <button type="button" class="btn btn-danger" ng-if="w.wish.userGiven" ng-click="w.cancel(w.wish.id)" translate>.CANCEL</button>
+                        <button type="button" class="btn btn-success" ng-if="w.wish.userGiven" ng-click="w.receivedWish()" translate>.GIVEN</button>
+                        <button type="button" class="btn btn-success btn3d" ng-if="!w.wish.userGiven && !w.wish.archived && w.wish.canParticipate" ng-click="w.given(w.wish.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b translate>.PARTICIPATE</b></button>
                     </h6>
-                    <button type="button" class="btn btn-success btn3d" ng-if="!w.ownerList && !w.wish.userTakeUsers" ng-click="w.given(w.wish.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b translate >.TO_OFFER</b></button>
+                    <button type="button" class="btn btn-success btn3d" ng-if="w.wish.canParticipate && !w.wish.given" ng-click="w.given(w.wish.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b translate >.TO_OFFER</b></button>
                 </div>
 
                 <div class="comments" >

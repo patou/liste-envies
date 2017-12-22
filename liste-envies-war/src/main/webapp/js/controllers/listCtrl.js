@@ -458,15 +458,12 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
 
     var updateWishUser = function (item) {
         if (item.owner) {
-            item.ownerUser = loadUser(item.owner.email) || item.owner.name;
+            item.ownerUser = (item.owner || loadUser(item.owner.email)).name;
         }
         if (item.userTake && item.userTake.length > 0) {
             var userTakeNames = [];
             angular.forEach(item.userTake, function (user) {
-                this.push(loadUser(user).name || user.name);
-                if (vm.main.user && user.email == vm.main.user.email) {
-                    item.userGiven = true;
-                }
+                this.push((user || loadUser(user)).name);
             }, userTakeNames);
             item.userTakeUsers = userTakeNames.join(", ");
         } else {

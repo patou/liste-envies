@@ -1,6 +1,7 @@
 package fr.desaintsteban.liste.envies.rest;
 
 import fr.desaintsteban.liste.envies.dto.WishListDto;
+import fr.desaintsteban.liste.envies.enums.SharingPrivacyType;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.WishList;
 import fr.desaintsteban.liste.envies.model.UserShare;
@@ -100,11 +101,23 @@ public class WishListRestService {
 
     @GET
     @Path("/{name}")
-    public WishListDto getOneWishListForUser(@PathParam("name") String email) {
+    public WishListDto getOneWishListForUser(@PathParam("name") String wishName) {
         final AppUser user = ServletUtils.getUserAuthenticated();
-        LOGGER.info("Get " + email);
-        WishList wishList = WishListService.get(email);
+        LOGGER.info("Get " + wishName);
+        WishList wishList = WishListService.get(wishName);
         return getOneWishListDtoForUser(user, wishList);
+    }
+
+    @GET
+    @Path("/{name}/join")
+    public WishListDto join(@PathParam("name") String wishName) {
+        final AppUser user = ServletUtils.getUserAuthenticated();
+        WishList list = WishListService.get(wishName);
+        if (user != null && list.getPrivacy() == SharingPrivacyType.OPEN) {
+            WishListService.addUser(user, list);
+            return getOneWishListDtoForUser(user, list);
+        }
+        throw new RuntimeException("not allowed");
     }
 
     @DELETE

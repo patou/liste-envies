@@ -42,6 +42,10 @@ public class Wish {
      * L'envie a été supprimé, mais elle a été noté comme donné.
      */
     private Boolean deleted = false;
+    /**
+     * L'envie a été noté comme donné.
+     */
+    private boolean allreadyGiven = false;
 
     private String label;
 
@@ -88,6 +92,7 @@ public class Wish {
         setDate(wish.getDate());
         setUrls(wish.getUrls());
         setRating(wish.getRating());
+        setAllreadyGiven(wish.getAllreadyGiven());
         if (wish.getUserTake() != null) {
             List<PersonParticipant> userTake = wish.getUserTake().stream().map(PersonParticipant::fromDto).collect(Collectors.toList());
             setUserTake(userTake);
@@ -118,6 +123,7 @@ public class Wish {
         wish.setDate(getDate());
         wish.setRating(getRating());
         wish.setUrls(getUrls());
+        wish.setAllreadyGiven(getAllreadyGiven());
 
         if (!filter) { // Do not add this, if you doesn't want to have this information. For filter it.
             if (getUserTake() != null) {
@@ -283,6 +289,14 @@ public class Wish {
 
     public void setUserReceived(List<String> userReceived) {
         this.userReceived = userReceived;
+    }
+
+    public boolean getAllreadyGiven() {
+        return allreadyGiven;
+    }
+
+    public void setAllreadyGiven(boolean allreadyGiven) {
+        this.allreadyGiven = allreadyGiven;
     }
 
     public void addComment(Comment comment) {

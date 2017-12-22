@@ -196,4 +196,9 @@ public class WishList {
     public Key<WishList> getKey() {
         return Key.create(WishList.class, getName());
     }
+
+    public void addUser(AppUser user) {
+        if (users == null) users = new ArrayList<>();
+        users.add(new UserShare(user.getEmail(), UserShareType.SHARED));
+    }
 }

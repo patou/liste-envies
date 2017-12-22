@@ -28,7 +28,11 @@ public class WishDto {
     private Date date;
     private List<Link> urls;
     private List<PersonParticipantDto> userTake;
-    private Boolean isGiven;
+    private Boolean given;
+    private Boolean userGiven;
+    private boolean allreadyGiven;
+    private Boolean canEdit;
+    private Boolean canParticipate;
 
     private List<CommentDto> comments;
 
@@ -166,10 +170,42 @@ public class WishDto {
     }
 
     public Boolean getGiven() {
-        return isGiven;
+        return given;
     }
 
     public void setGiven(Boolean given) {
-        isGiven = given;
+        this.given = given;
+    }
+
+    public boolean getAllreadyGiven() {
+        return allreadyGiven;
+    }
+
+    public void setAllreadyGiven(boolean allreadyGiven) {
+        this.allreadyGiven = allreadyGiven;
+    }
+
+    public Boolean getCanEdit() {
+        return canEdit;
+    }
+
+    public void setCanEdit(Boolean canEdit) {
+        this.canEdit = canEdit;
+    }
+
+    public Boolean getUserGiven() {
+        return userGiven;
+    }
+
+    public void setUserGiven(Boolean userGiven) {
+        this.userGiven = userGiven;
+    }
+
+    public Boolean getCanParticipate() {
+        return canParticipate;
+    }
+
+    public void setCanParticipate(Boolean canParticipate) {
+        this.canParticipate = canParticipate;
     }
 }

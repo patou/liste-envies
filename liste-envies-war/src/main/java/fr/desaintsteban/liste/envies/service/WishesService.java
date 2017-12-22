@@ -114,7 +114,7 @@ public final class WishesService {
         Objectify ofy = OfyService.ofy();
         final Key<WishList> parent = Key.create(WishList.class, name);
         final WishList wishList = ofy.load().key(parent).now();
-        if (!wishList.containsOwner(user.getEmail()) && wishList.containsUser(user.getEmail())) {
+        if (WishRules.canGive(wishList, user)) {
             return OfyService.ofy().transact(new Work<WishDto>() {
                 @Override
                 public WishDto run() {
@@ -180,7 +180,7 @@ public final class WishesService {
         Objectify ofy = OfyService.ofy();
         final Key<WishList> parent = Key.create(WishList.class, name);
         WishList wishList = ofy.load().key(parent).now();
-        if (wishList != null && !wishList.containsOwner(user.getEmail()) && wishList.containsUser(user.getEmail())) {
+        if (WishRules.canGive(wishList, user)) {
             return OfyService.ofy().transact(() -> {
             Objectify ofy1 = OfyService.ofy();
             Wish saved = ofy1.load().key(Key.create(parent, Wish.class, itemId)).now();
