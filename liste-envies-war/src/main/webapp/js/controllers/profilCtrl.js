@@ -27,5 +27,8 @@ function ProfilCtrl(appUserService, $scope, AuthService, $location) {
         console.log('on init');
         $.material.init();
     });
-
+    $("#settings-list").on("hidden.bs.modal", function(e) {
+        $('body').removeClass('modal-open'); // bug this css class is not removed and the modal will block the pages
+        vm.$scope.$digest();
+    });
 }

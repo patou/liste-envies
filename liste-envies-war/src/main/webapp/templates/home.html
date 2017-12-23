@@ -16,7 +16,7 @@
             </div>
         </div>
     </div></div>
-    <div class="modal fade" tabindex="-1" role="dialog" id="new-list" translate-namespace=".NEW_LIST">
+    <div class="modal fade" tabindex="-1" role="dialog" id="new-list" translate-namespace=".NEW_LIST" data-backdrop="'static'">
         <div class="modal-dialog" role="document">
             <form>
             <div class="modal-content">
@@ -25,63 +25,7 @@
                     <h4 class="modal-title" translate=".TITLE"></h4>
                 </div>
                 <div class="modal-body">
-
-                        <div class="form-group">
-                            <label for="title" translate=".FORM_TITRE"></label>
-                            <input type="text" class="form-control" id="title" ng-model="vm.newlist.title" required placeholder="Liste de {{main.user.name}}">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="privacy" translate=".FORM_TYPE"></label>
-                            <icon-wish-list type="{{vm.newlist.type}}"></icon-wish-list>
-                            <select class="form-control" id="type" ng-model="vm.newlist.type">
-                                <option value="OTHER" translate=".TYPE.OTHER" selected></option>
-                                <option value="CHRISTMAS" translate=".TYPE.CHRISTMAS"></option>
-                                <option value="BIRTHDAY" translate=".TYPE.BIRTHDAY"></option>
-                                <option value="BIRTH" translate=".TYPE.BIRTH"></option>
-                                <option value="WEDDING" translate=".TYPE.WEDDING"></option>
-                                <option value="LEAVING" translate=".TYPE.LEAVING"></option>
-                                <option value="SPECIAL_OCCASION" translate=".TYPE.SPECIAL_OCCASION"></option>
-                               <!-- <option value="HOUSE_WARNING" translate=".TYPE.HOUSE_WARNING"></option>
-                                <option value="RETIREMENT" translate=".TYPE.RETIREMENT"></option>-->
-                            </select>
-                        </div>.
-
-                    <div class="form-group">
-                        <label for="date" translate>.DATE</label>
-                        <span am-time-ago="vm.newlist.date"></span>
-                        <div class="input-group"><input type="date" class="datepicker form-control" ng-model="vm.newlist.date" name="date" id="date"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        </div>
-                        <p translate>.DATE_INFO</p>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="title" translate=".FORM_CUSTOM_PICTURE"></label>
-                        <div class="row" ng-if="vm.newlist.type">
-                            <div class="col-xs-3 col-md-2" ng-repeat="picture in vm.WishListTypePicture | filter: {type: vm.newlist.type}" ng-click="vm.changeBackground(picture.picture);">
-                                <a href="#" class="thumbnail background-config">
-                                    <img ng-src="{{picture.picture}}" title="{{picture.credit}}"/>
-                                </a>
-                            </div>
-                        </div>
-                        <input type="text" class="form-control" id="picture" ng-model="vm.newlist.picture" translate translate-attr-placeholder=".PLACEHOLDER_PICTURE" ng-change="vm.changeBackground(vm.newlist.picture)">
-                    </div>
-                    <div class="form-group">
-                        <label for="privacy" translate=".PRIVACY"></label>
-                        <select class="form-control" id="privacy" ng-model="vm.newlist.privacy">
-                            <option value="PRIVATE" translate=".PRIVATE"></option>
-                            <option value="OPEN" translate=".OPEN"></option>
-                            <option value="PUBLIC" translate=".PUBLIC"></option>
-                        </select>
-                    </div>
-                    <div class="row" ng-switch="vm.newlist.privacy">
-
-                        <span ng-switch-when="PRIVATE" translate=".DESCRIPTION.PRIVATE">...</span>
-                        <span ng-switch-when="OPEN"  translate=".DESCRIPTION.OPEN">...</span>
-                        <span ng-switch-when="PUBLIC"  translate=".DESCRIPTION.PUBLIC">...</span>
-                        <span ng-switch-default  translate=".DESCRIPTION.DEFAULT">...</span>
-                    </div>
-
+                        <wish-list-settings wish-list="vm.newlist" background-change="vm.background = picture"></wish-list-settings>
                         <div class="form-group" ng-if="main.isAdmin">
                             <label for="email">Bénéficiaire (ou vide si vous)</label>
                             <input type="email" class="form-control" id="email" ng-model="vm.newlist.owner" placeholder="Email">
@@ -116,12 +60,7 @@
                     <p class="list-group-item-text"> <span translate>.SEPARATOR_USER</span> <span class="owners" ng-repeat="owner in wishlist.owners"><i class="fa fa-user"></i> {{owner.name}}({{owner.email}})<span ng-if="!$last" >, </span></span>  </p>
                 </a>
             </div>
-
         </div>
-
     </div>
-
-
-
 </div>
 </page>

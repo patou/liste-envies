@@ -3,10 +3,6 @@ HomeCtrl.$inject = ['appUserService', 'wishListService', '$location', 'Utilities
 function HomeCtrl(appUserService, wishListService, $location, UtilitiesServices, AuthService, WishListTypePicture) {
     var vm = this;
     vm.loading = true;
-    vm.WishListTypePicture = WishListTypePicture;
-
-
-
     resetBackground();
 
     UtilitiesServices.getList().then(function (data) {
@@ -25,7 +21,6 @@ function HomeCtrl(appUserService, wishListService, $location, UtilitiesServices,
 
     vm.addNewList = function (newlist, userEmail) {
         $('#new-list').modal('hide');
-        $('body').removeClass('modal-open'); // bug this css class is not removed and the modal will block the pages
         vm.loading = true;
         if (userEmail == null) {
             const currentUser = AuthService.getUser();
@@ -41,7 +36,7 @@ function HomeCtrl(appUserService, wishListService, $location, UtilitiesServices,
         var newWishList = {title: newlist.title, users:user, privacy: newlist.privacy, date: newlist.date, type: newlist.type};
         if (newlist.picture) {
            newWishList.picture = newlist.picture;
-            resetBackground();
+           resetBackground();
         }
         wishListService.save(newWishList, function(wishList) {
             vm.loading = false;
@@ -55,7 +50,11 @@ function HomeCtrl(appUserService, wishListService, $location, UtilitiesServices,
     function resetBackground() {
         vm.background = 'img/default.jpg';
     }
-
+    $("#new-list").on("hidden.bs.modal", function(e) {
+       resetBackground();
+       $('body').removeClass('modal-open'); // bug this css class is not removed and the modal will block the pages
+        vm.$scope.$digest();
+    });
     vm.changeBackground = function(picture) {
         vm.newlist.picture = picture;
         if (!picture) {
