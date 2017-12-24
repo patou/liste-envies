@@ -1,7 +1,7 @@
 app.controller('ListCtrl', ListCtrl);
-ListCtrl.$inject = ['wishService', 'appUserService', 'wishListService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse', '$interval', '$timeout', '$filter', 'WishListTypePicture'];
+ListCtrl.$inject = ['wishService', 'appUserService', 'wishListService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse', '$interval', '$timeout', '$filter'];
 
-function ListCtrl(wishService, appUserService, wishListService, $routeParams, $location, $anchorScroll, $scope, $parse, $interval, $timeout, $filter, WishListTypePicture) {
+function ListCtrl(wishService, appUserService, wishListService, $routeParams, $location, $anchorScroll, $scope, $parse, $interval, $timeout, $filter) {
     var vm = this;
     vm.name = $routeParams.name;
     vm.wishList = loadWishList(vm.name);
@@ -9,7 +9,6 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
     vm.loading = true;
     masonry = null;
     vm.newUser = {email: '', type: 'SHARED'};
-    vm.WishListTypePicture = WishListTypePicture;
 
     vm.editorOptions = {
         disableDragAndDrop: true,

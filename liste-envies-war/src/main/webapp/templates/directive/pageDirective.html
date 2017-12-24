@@ -87,7 +87,7 @@
                     </ul>
                 </li>
                 <li ng-hide="main.isAuthenticated">
-                    <a ng-href="{{main.loginPath()}}" translate target="_top">.LOG_IN</a>
+                    <a data-toggle="modal" data-target="#login-form" translate target="_top">.LOG_IN</a>
                 </li>
             </ul>
         </div><!-- /.navbar-collapse -->
@@ -141,6 +141,7 @@
     </footer>
 
     <!-- /#page-wrapper -->
+    <login-form></login-form>
 
 </div>
 <!-- /#wrapper -->

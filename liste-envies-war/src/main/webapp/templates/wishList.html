@@ -231,6 +231,7 @@
                 <div class='loader--text'></div>
             </div>
         </div>
+        <privacy-form masonry-tile class="envie-card envie-card-add col-xs-12 col-sm-6 col-md-4 col-lg-4" ng-if="!vm.main.user"></privacy-form>
         <wish-card id="envie{{envie.id}}" masonry-tile
                    class="envie-card col-xs-12 col-sm-6 col-md-4 col-lg-4"
                    ng-repeat="envie in vm.wishes | filter:vm.filter | filter:vm.search | orderBy:vm.order:vm.reverse"

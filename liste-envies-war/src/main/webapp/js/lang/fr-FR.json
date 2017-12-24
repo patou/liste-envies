@@ -159,5 +159,16 @@
     },
     "DATE": "Date de l'événement",
     "DATE_INFO": "Pour afficher un countdown jusqu'à l'événement"
+  },
+  "LOGIN_FORM" : {
+    "TITLE": "Se connecter",
+    "DESCRIPTION":"Connectez vous pour pouvoir utiliser le site liste-envies avec un compte google",
+
+    "LOGIN":"Se connecter",
+    "CREATE_ACOUNT":"Je n'ai pas de compte !"
+  },
+  "PRIVACY_FORM": {
+    "BUTTON_CONNEXION":"Se connecter",
+    "DESCRIPTION": "Connectez-vous pour voir ou participer à une liste d'envies"
   }
 }

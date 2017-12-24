@@ -1,6 +1,6 @@
 app.controller('HomeCtrl', HomeCtrl);
-HomeCtrl.$inject = ['appUserService', 'wishListService', '$location', 'UtilitiesServices', 'AuthService', 'WishListTypePicture'];
-function HomeCtrl(appUserService, wishListService, $location, UtilitiesServices, AuthService, WishListTypePicture) {
+HomeCtrl.$inject = ['appUserService', 'wishListService', '$location', 'UtilitiesServices', 'AuthService'];
+function HomeCtrl(appUserService, wishListService, $location, UtilitiesServices, AuthService) {
     var vm = this;
     vm.loading = true;
     resetBackground();
