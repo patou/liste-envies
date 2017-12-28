@@ -28,7 +28,7 @@
                         >
                         <span class="fa fa-edit" aria-hidden="true"></span><span class="sr-only" translate="">.BUTTON_EDIT_LIST</span>
                     </button>
-                    <small> de <span class="owners" ng-repeat="owner in vm.wishList.owners"> <i
+                    <small ng-if="vm.wishList.owners"> de <span class="owners" ng-repeat="owner in vm.wishList.owners"> <i
                             class="fa fa-user"></i> {{owner.name}} ({{owner.email}})<span
                             ng-if="!$last">, </span> </span></small>
 
@@ -133,7 +133,7 @@
                     ng-change="vm.saveWishList(vm.wishList);"
                     ng-model-options="{ updateOn: 'default', debounce: 5000 }" lang="fr-FR"></summernote>
 
-        <div class="order-filter row row-fluid well-sm">
+        <div class="order-filter row row-fluid well-sm" ng-if="vm.wishes.length > 0">
             <div class="filter col-xs-12 col-md-5">
                 <div class="form-group">
                     <label class="control-label">Filtrer</label><br/>
@@ -231,7 +231,14 @@
                 <div class='loader--text'></div>
             </div>
         </div>
-        <privacy-form masonry-tile class="envie-card envie-card-add col-xs-12 col-sm-6 col-md-4 col-lg-4" ng-if="!vm.main.user"></privacy-form>
+        <privacy-form masonry-tile class="envie-card envie-card-add col-xs-12 col-sm-6 col-md-4 col-lg-4"
+                      ng-if="vm.wishList.state == 'ANONYMOUS'">
+        </privacy-form>
+        <join-form masonry-tile class="envie-card envie-card-add col-xs-12 col-sm-6 col-md-4 col-lg-4"
+                   ng-if="vm.wishList.privacy == 'OPEN' && vm.wishList.state == 'LOGGED'"
+                   name="{{vm.wishList.name}}"
+                   update="vm.reloadWishList()">
+        </join-form>
         <wish-card id="envie{{envie.id}}" masonry-tile
                    class="envie-card col-xs-12 col-sm-6 col-md-4 col-lg-4"
                    ng-repeat="envie in vm.wishes | filter:vm.filter | filter:vm.search | orderBy:vm.order:vm.reverse"

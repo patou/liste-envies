@@ -87,36 +87,16 @@ public class WishList {
         setPrivacy( dto.getPrivacy());
     }
 
-    public WishListDto toDto(boolean convertUsers, AppUser userEmail, Map<String, AppUser> userName) {
+    public WishListDto toDto() {
         WishListDto dto = new WishListDto();
         dto.setName(getName());
         dto.setTitle(getTitle());
         dto.setDescription(getDescription());
-        List<UserShare> users = getUsers();
-        List<UserShareDto> usersDto = new ArrayList<>();
-        List<UserShareDto> ownersDto = new ArrayList<>();
-        users.forEach(user -> {
-            UserShareDto userShareDto = new UserShareDto(user.getEmail(), user.getType(), userName);
-            if (user.getType() == UserShareType.OWNER) {
-                ownersDto.add(userShareDto);
-            }
-            if (convertUsers) {
-                usersDto.add(userShareDto);
-            }
-        });
-        if (convertUsers) {
-            dto.setUsers(usersDto);
-        }
-        dto.setOwners(ownersDto);
-        if (userEmail != null && userEmail.getEmail() != null) {
-            dto.setOwner(containsOwner(userEmail.getEmail()));
-        }
-
         dto.setPicture( getPicture());
         dto.setType( getType());
         dto.setDate( getDate());
         dto.setPrivacy( getPrivacy());
-
+        dto.setOwner(false);
         return dto;
     }
 

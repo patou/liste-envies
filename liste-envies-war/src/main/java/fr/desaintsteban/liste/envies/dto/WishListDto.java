@@ -1,6 +1,7 @@
 package fr.desaintsteban.liste.envies.dto;
 
 import fr.desaintsteban.liste.envies.enums.SharingPrivacyType;
+import fr.desaintsteban.liste.envies.enums.WishListState;
 import fr.desaintsteban.liste.envies.enums.WishListType;
 import fr.desaintsteban.liste.envies.enums.WishOptionType;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
@@ -29,6 +30,7 @@ public class WishListDto {
     private Date date; // date of the event
     private SharingPrivacyType privacy; // Option for sharing privacy of the all list.
 
+    private WishListState state;
 
     public List<UserShareDto> getOwners() {
         return owners;
@@ -108,5 +110,13 @@ public class WishListDto {
 
     public void setPrivacy(SharingPrivacyType privacy) {
         this.privacy = privacy;
+    }
+
+    public WishListState getState() {
+        return state;
+    }
+
+    public void setState(WishListState state) {
+        this.state = state;
     }
 }

@@ -47,6 +47,8 @@
   "HOME_PAGE": {
     "HOME_TITLE": "Liste de mes envies <small>Accueil</small>",
     "WELCOME_MESSAGE": "Bonjour, <strong>{{userName}}</strong>! Bienvenue sur votre liste des envies",
+    "WELCOME_ANONYMOUS_MESSAGE": "Bonjour! Bienvenue sur votre liste des envies",
+    "CREATE_ACOUNT":"Je n'ai pas de compte !",
     "SEPARATOR_USER": "de",
     "BUTTON_CREATE_LIST": "Créer une liste",
     "BUTTON_CONNEXION": "@:NAVBAR.LOG_IN",
@@ -169,6 +171,11 @@
   },
   "PRIVACY_FORM": {
     "BUTTON_CONNEXION":"Se connecter",
+    "CREATE_ACOUNT":"Je n'ai pas de compte !",
     "DESCRIPTION": "Connectez-vous pour voir ou participer à une liste d'envies"
+  },
+  "JOIN_FORM": {
+    "BUTTON":"Rejoindre",
+    "DESCRIPTION": "Rejoingnez cette liste, pour pouvoir y participer"
   }
 }

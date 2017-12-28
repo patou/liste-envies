@@ -37,7 +37,7 @@ public class WishListRestService {
         if(user != null){
             LOGGER.info("List users");
             List<WishList> list = WishListService.list(user.getEmail());
-            return getAllWhishListDtosForUser(user, list);
+            return WishRules.applyRules(user, list);
         }
         return null;
     }
@@ -54,7 +54,7 @@ public class WishListRestService {
         if(user != null){
             LOGGER.info("List authorized liste for user: "+email);
             List<WishList> list = WishListService.list(email);
-            return list.stream().filter(wishList -> wishList.containsOwner(email) && (wishList.containsUser(user.getEmail()) || user.isAdmin())).map(listeEnvy -> listeEnvy.toDto(false, user, null)).collect(toList());
+            return WishRules.applyRules(user, list);
         }
         return null;
     }
@@ -70,7 +70,7 @@ public class WishListRestService {
         if(user != null && user.isAdmin()){
             LOGGER.info("List all WishList");
             List<WishList> list = WishListService.list();
-            return list.stream().map(wishList -> wishList.toDto(false, user, null)).collect(toList());
+            return WishRules.applyRules(user, list);
         }
         return null;
     }
@@ -82,7 +82,7 @@ public class WishListRestService {
         if (user != null) {
             LOGGER.info("Save WishList " + wishListDto.getName());
             WishList orUpdate = WishListService.createOrUpdate(user, new WishList(wishListDto));
-            return orUpdate.toDto(true, user, null);
+            return WishRules.applyRules(user, orUpdate);
         }
         return null;
     }
@@ -94,7 +94,7 @@ public class WishListRestService {
         if (user != null) {
             LOGGER.info("Add WishList " + wishListDto.getName());
             WishList wishList = WishListService.createOrUpdate(user, new WishList(wishListDto));
-            return getOneWishListDtoForUser(user, wishList);
+            return WishRules.applyRules(user, wishList);
         }
         return null;
     }
@@ -105,7 +105,7 @@ public class WishListRestService {
         final AppUser user = ServletUtils.getUserAuthenticated();
         LOGGER.info("Get " + wishName);
         WishList wishList = WishListService.get(wishName);
-        return getOneWishListDtoForUser(user, wishList);
+        return WishRules.applyRules(user, wishList);
     }
 
     @GET
@@ -115,7 +115,7 @@ public class WishListRestService {
         WishList list = WishListService.get(wishName);
         if (user != null && list.getPrivacy() == SharingPrivacyType.OPEN) {
             WishListService.addUser(user, list);
-            return getOneWishListDtoForUser(user, list);
+            return WishRules.applyRules(user, list);
         }
         throw new RuntimeException("not allowed");
     }
@@ -130,18 +130,4 @@ public class WishListRestService {
         }
     }
 
-    private WishListDto getOneWishListDtoForUser(AppUser user, WishList wishList) {
-        Map<String,AppUser> map = null;
-        if (wishList.getUsers() != null) {
-            List<String> emails = wishList.getUsers().stream().map(UserShare::getEmail).collect(toList());
-            map = AppUserService.loadAll(emails);
-        }
-        return wishList.toDto(true, user, map);
-    }
-
-    private List<WishListDto> getAllWhishListDtosForUser(AppUser user, List<WishList> list) {
-        Set<String> emails = list.stream().flatMap(wishList -> wishList.getUsers().stream()).filter(userShare -> userShare.getType() == UserShareType.OWNER).map(UserShare::getEmail).collect(toSet());
-        final Map<String,AppUser> map = AppUserService.loadAll(emails);
-        return list.stream().map(wishList -> wishList.toDto(false, user, map)).collect(toList());
-    }
 }

@@ -862,10 +862,8 @@ span.owners {
     overflow-wrap: break-word;
 }
 
-.privacy-form {
-    height: 300px;
-    background: #0288d1;
-    color: white;
+.list-envie .alert {
+    height: 200px;
     padding: 25px;
     border-radius: 5px;
     margin: 20px 0;

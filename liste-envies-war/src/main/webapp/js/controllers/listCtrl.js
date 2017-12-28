@@ -411,6 +411,11 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
         vm.update();
     };
 
+    vm.reloadWishList = function() {
+        vm.wishList = loadWishList(vm.name);
+        loadWishes();
+    };
+
     function gotoForm() {
         // call $anchorScroll()
         $anchorScroll('formEdit');

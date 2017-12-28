@@ -1,24 +1,28 @@
 package fr.desaintsteban.liste.envies.util;
 
 import fr.desaintsteban.liste.envies.dto.PersonParticipantDto;
+import fr.desaintsteban.liste.envies.dto.UserShareDto;
 import fr.desaintsteban.liste.envies.dto.WishDto;
-import fr.desaintsteban.liste.envies.enums.CommentType;
-import fr.desaintsteban.liste.envies.enums.WishListState;
-import fr.desaintsteban.liste.envies.enums.WishOptionType;
+import fr.desaintsteban.liste.envies.dto.WishListDto;
+import fr.desaintsteban.liste.envies.enums.*;
 import fr.desaintsteban.liste.envies.model.AppUser;
+import fr.desaintsteban.liste.envies.model.UserShare;
 import fr.desaintsteban.liste.envies.model.Wish;
 import fr.desaintsteban.liste.envies.model.WishList;
+import fr.desaintsteban.liste.envies.service.AppUserService;
 import fr.desaintsteban.liste.envies.service.WishListService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static fr.desaintsteban.liste.envies.util.StringUtils.isNullOrEmpty;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 /**
  * This class is for save all list
@@ -60,6 +64,34 @@ public class WishRules {
         return wishDto;
     }
 
+    public static WishListDto applyRules(AppUser user, WishList wishList) {
+        Map<String,AppUser> map = null;
+        if (wishList.getUsers() != null) {
+            List<String> emails = wishList.getUsers().stream().map(UserShare::getEmail).collect(toList());
+            map = AppUserService.loadAll(emails);
+        }
+        WishListDto dto = wishList.toDto();
+        fillUsersInWishList(dto, wishList, user, map, true);
+        cleanWishList(wishList, dto, user);
+        return dto;
+    }
+
+    public static List<WishListDto> applyRules(AppUser user, List<WishList> wishList) {
+        Set<String> emails = wishList.stream()
+                .flatMap(list -> list.getUsers().stream())
+                .filter(userShare -> userShare.getType() == UserShareType.OWNER)
+                .map(UserShare::getEmail).collect(toSet());
+        final Map<String,AppUser> map = AppUserService.loadAll(emails);
+        return wishList.stream()
+                .map(list -> {
+                    WishListDto dto = list.toDto();
+                    fillUsersInWishList(dto, list, user, map, false);
+                    cleanWishList(list, dto, user);
+                    return dto;
+                })
+                .collect(toList());
+    }
+
     static void fillListTitle(List<WishDto> result) {
         List<String> listNames = result.stream().map(WishDto::getListId).distinct().collect(toList());
         Map<String, WishList> listTitles = WishListService.loadAll(listNames);
@@ -69,6 +101,56 @@ public class WishRules {
                 envy.setListTitle(wishList.getTitle());
             }
         });
+    }
+
+    static void cleanWishList(WishList list, WishListDto dto, AppUser user) {
+        WishListState state = computeWishListState(user, list);
+        dto.setState(state);
+        switch (state) {
+            case OWNER:
+                dto.setOwner(true);
+                break;
+            case SHARED:
+                break;
+            case LOGGED:
+                //Seul les informations des listes privés ne sont pas gardés.
+                if (list.getPrivacy() != SharingPrivacyType.PRIVATE) {
+                    break;
+                }
+            case ANONYMOUS:
+                dto.setUsers(null);
+                if (list.getPrivacy() == SharingPrivacyType.PUBLIC) {
+                   // Si liste publique, toutes les informations sont publiques
+                    break;
+                }
+            default: //Par défaut toutes les informations personnels sont nettoyés;
+                dto.setOwners(null);
+                dto.setUsers(null);
+                dto.setDescription(null);
+                dto.setDate(null);
+        }
+    }
+
+    private static void fillUsersInWishList(WishListDto dto, WishList list, AppUser userEmail, Map<String, AppUser> map, boolean convertUsers) {
+        List<UserShare> users = list.getUsers();
+        List<UserShareDto> usersDto = new ArrayList<>();
+        List<UserShareDto> ownersDto = new ArrayList<>();
+        users.forEach(user -> {
+            UserShareDto userShareDto = new UserShareDto(user.getEmail(), user.getType(), map);
+            if (user.getType() == UserShareType.OWNER) {
+                ownersDto.add(userShareDto);
+            }
+            if (convertUsers) {
+                usersDto.add(userShareDto);
+            }
+        });
+        if (convertUsers) {
+            dto.setUsers(usersDto);
+        }
+        dto.setOwners(ownersDto);
+        if (userEmail != null && userEmail.getEmail() != null) {
+            dto.setOwner(list.containsOwner(userEmail.getEmail()));
+        }
     }
 
     private static List<WishDto> computePermissions(List<WishDto> wishDtos, AppUser user, WishList wishList) {
