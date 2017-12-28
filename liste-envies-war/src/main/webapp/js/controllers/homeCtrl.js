@@ -33,13 +33,13 @@ function HomeCtrl(appUserService, wishListService, $location, UtilitiesServices,
                 user.push({'email': email.trim(), 'type': "SHARED"});
             });
         }
-        var newWishList = {title: newlist.title, users:user, privacy: newlist.privacy, date: newlist.date, type: newlist.type};
+        var newWishList = {title: newlist.title, users:user, privacy: newlist.privacy, description: newlist.description, date: newlist.date, type: newlist.type};
         if (newlist.picture) {
            newWishList.picture = newlist.picture;
-           resetBackground();
         }
         wishListService.save(newWishList, function(wishList) {
             vm.loading = false;
+            resetBackground();
             $location.url("/"+wishList.name);
         });
     };

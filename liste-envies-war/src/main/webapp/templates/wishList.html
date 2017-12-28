@@ -80,6 +80,10 @@
                         <h4 class="modal-title">Partager votre liste</h4>
                     </div>
                     <div class="modal-body">
+                        <div class="form-group">
+                            <label for="link" translate=".LINK"></label>
+                            <input type="text" class="form-control" id="link" value="http://liste-envies.appspot.com/{{vm.wishList.name}}" readonly>
+                        </div>
                         <ul class="list-group">
                             <li class="list-group-item" ng-repeat="user in vm.wishList.users"
                                 ng-class="{active:user.type == 'OWNER'}">

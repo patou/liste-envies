@@ -40,6 +40,7 @@
     "REFRESH_LIST": "Rafraichir la liste",
     "TITLE_GIVEN": "Mes cadeaux à donner",
     "TITLE_ARCHIVE": "Mes cadeaux reçus",
+    "LINK":"Lien de partage",
     "UPDATE_LIST": {
       "TITLE": "Mettre à jour votre liste d'envie"
     }
@@ -135,6 +136,7 @@
   "WISH_LIST_SETTINGS": {
     "FORM_TITRE": "Titre",
     "FORM_TYPE": "Pour quel événement ?",
+    "INPUT_DESCRIPTION": "Description",
     "TITLE_PLACEHOLDER": "Liste de ...",
     "FORM_CUSTOM_PICTURE": "Image arrière plan : ",
     "PLACEHOLDER_PICTURE": "Ou entrez l'url d'une image ",

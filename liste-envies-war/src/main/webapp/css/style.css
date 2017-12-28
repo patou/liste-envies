@@ -854,7 +854,7 @@ li.notif .fa {
 }
 
 a.thumbnail.background-config img {
-    max-height: 38px;
+    max-height: 100px;
 }
 
 span.owners {

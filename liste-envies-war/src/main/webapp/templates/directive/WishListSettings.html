@@ -3,35 +3,40 @@
         <label for="title" translate=".FORM_TITRE"></label>
         <input type="text" class="form-control" id="title" ng-model="w.wishList.title" required placeholder="" translate-attr-placeholder="TITLE_PLACEHOLDER">
     </div>
-
-    <div class="form-group">
-        <label for="privacy" translate=".FORM_TYPE"></label>
-        <icon-wish-list type="{{w.wishList.type}}"></icon-wish-list>
-        <select class="form-control" id="type" ng-model="w.wishList.type">
-            <option value="OTHER" translate=".TYPE.OTHER" selected></option>
-            <option value="CHRISTMAS" translate=".TYPE.CHRISTMAS"></option>
-            <option value="BIRTHDAY" translate=".TYPE.BIRTHDAY"></option>
-            <option value="BIRTH" translate=".TYPE.BIRTH"></option>
-            <option value="WEDDING" translate=".TYPE.WEDDING"></option>
-            <option value="LEAVING" translate=".TYPE.LEAVING"></option>
-            <option value="SPECIAL_OCCASION" translate=".TYPE.SPECIAL_OCCASION"></option>
-            <!-- <option value="HOUSE_WARNING" translate=".TYPE.HOUSE_WARNING"></option>
-             <option value="RETIREMENT" translate=".TYPE.RETIREMENT"></option>-->
-        </select>
-    </div>.
-
-    <div class="form-group">
-        <label for="date" translate>.DATE</label>
-        <span am-time-ago="w.wishList.date"></span>
-        <div class="input-group"><input type="date" class="datepicker form-control" ng-model="w.wishList.date" name="date" id="date"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-        </div>
-        <p translate>.DATE_INFO</p>
+    <div class="form-group label-floating ">
+        <label for="description" class="control-label" translate=".INPUT_DESCRIPTION"></label>
+        <summernote id="description" ng-model="w.wishList.description" ng-model-options="{ updateOn: 'default' }" heigth="500" config="w.editorOptions" lang="fr-FR"></summernote>
     </div>
+    <div class="row">
+        <div class="form-group col-lg-6">
+            <label for="privacy" translate=".FORM_TYPE"></label>
+            <icon-wish-list type="{{w.wishList.type}}"></icon-wish-list>
+            <select class="form-control" id="type" ng-model="w.wishList.type"  ng-model-options="{ updateOn: 'default' }">
+                <option value="OTHER" translate=".TYPE.OTHER" selected></option>
+                <option value="CHRISTMAS" translate=".TYPE.CHRISTMAS"></option>
+                <option value="BIRTHDAY" translate=".TYPE.BIRTHDAY"></option>
+                <option value="BIRTH" translate=".TYPE.BIRTH"></option>
+                <option value="WEDDING" translate=".TYPE.WEDDING"></option>
+                <option value="LEAVING" translate=".TYPE.LEAVING"></option>
+                <option value="SPECIAL_OCCASION" translate=".TYPE.SPECIAL_OCCASION"></option>
+                <!-- <option value="HOUSE_WARNING" translate=".TYPE.HOUSE_WARNING"></option>
+                 <option value="RETIREMENT" translate=".TYPE.RETIREMENT"></option>-->
+            </select>
+        </div>
+        <div class="form-group col-lg-6">
+            <label for="date" translate>.DATE</label>
+            <span am-time-ago="w.wishList.date"></span>
+            <div class="input-group"><input type="date" class="datepicker form-control" ng-model="w.wishList.date" name="date" id="date"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+            <p translate>.DATE_INFO</p>
+        </div>
+    </div>
+
 
     <div class="form-group">
         <label for="title" translate=".FORM_CUSTOM_PICTURE"></label>
         <div class="row" ng-if="w.wishList.type">
-            <div class="col-xs-4 col-md-3" ng-repeat="picture in w.WishListTypePicture | filter: {type: w.wishList.type}" ng-click="w.changeBackground(picture.picture);">
+            <div class="col-xs-4 col-md-4" ng-repeat="picture in w.WishListTypePicture | filter: {type: w.wishList.type}" ng-click="w.changeBackground(picture.picture);">
                 <a href="#" class="thumbnail background-config">
                     <img ng-src="{{picture.picture}}" title="{{picture.credit}}"/>
                 </a>
@@ -41,17 +46,16 @@
     </div>
     <div class="form-group">
         <label for="privacy" translate=".PRIVACY"></label>
-        <select class="form-control" id="privacy" ng-model="w.wishList.privacy">
+        <select class="form-control" id="privacy" ng-model="w.wishList.privacy" ng-model-options="{ updateOn: 'default' }">
             <option value="PRIVATE" translate=".PRIVATE"></option>
             <option value="OPEN" translate=".OPEN"></option>
             <option value="PUBLIC" translate=".PUBLIC"></option>
         </select>
-    </div>
-    <div class="row" ng-switch="w.wishList.privacy">
-
-        <span ng-switch-when="PRIVATE" translate=".DESCRIPTION.PRIVATE">...</span>
-        <span ng-switch-when="OPEN"  translate=".DESCRIPTION.OPEN">...</span>
-        <span ng-switch-when="PUBLIC"  translate=".DESCRIPTION.PUBLIC">...</span>
-        <span ng-switch-default  translate=".DESCRIPTION.DEFAULT">...</span>
+        <div ng-switch="w.wishList.privacy">
+            <span ng-switch-when="PRIVATE" translate=".DESCRIPTION.PRIVATE">...</span>
+            <span ng-switch-when="OPEN"  translate=".DESCRIPTION.OPEN">...</span>
+            <span ng-switch-when="PUBLIC"  translate=".DESCRIPTION.PUBLIC">...</span>
+            <span ng-switch-default  translate=".DESCRIPTION.DEFAULT">...</span>
+        </div>
     </div>
 </div>
