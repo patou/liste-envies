@@ -4,26 +4,14 @@ import fr.desaintsteban.liste.envies.dto.WishListDto;
 import fr.desaintsteban.liste.envies.enums.SharingPrivacyType;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.WishList;
-import fr.desaintsteban.liste.envies.model.UserShare;
-import fr.desaintsteban.liste.envies.enums.UserShareType;
-import fr.desaintsteban.liste.envies.service.AppUserService;
 import fr.desaintsteban.liste.envies.service.WishListService;
 import fr.desaintsteban.liste.envies.util.ServletUtils;
 import fr.desaintsteban.liste.envies.util.WishRules;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.*;
+import java.util.List;
 import java.util.logging.Logger;
-
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
 
 @Path("/list")
 @Produces(MediaType.APPLICATION_JSON)
@@ -85,6 +73,19 @@ public class WishListRestService {
             return WishRules.applyRules(user, orUpdate);
         }
         return null;
+    }
+
+    @PUT
+    @Path("/{name}/{new}")
+    public void renameWishList(@PathParam("name") String name, @PathParam("new") String newName) throws Exception {
+        final AppUser user = ServletUtils.getUserAuthenticated();
+        if (user != null) {
+            LOGGER.info("rename WishList " + name + " to " + newName);
+            WishListService.rename(name, newName);
+        }
+        else {
+            throw new Exception("Use not logged");
+        }
     }
 
     @POST

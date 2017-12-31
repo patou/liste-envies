@@ -9,6 +9,8 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
     vm.loading = true;
     masonry = null;
     vm.newUser = {email: '', type: 'SHARED'};
+    vm.url = $location.protocol() + "://" + $location.host();
+    vm.newUrl = vm.name;
 
     vm.editorOptions = {
         disableDragAndDrop: true,
@@ -243,6 +245,7 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
             vm.wishList = wishList;
             $("#share-list").modal("hide");
             $("#settings-list").modal("hide");
+            hideModal();
             vm.editTitle = false;
             updateDate();
         });
@@ -448,6 +451,16 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
         return loadUser(email).name;
     };
 
+    vm.renameWishList = function(oldName, newName) {
+        vm.renameWishListExist = false;
+        vm.doingRenameWishList = true;
+        wishListService.rename({name:oldName, new:newName},{}).$promise.then(function() {
+            $("#change-url").modal("hide");
+            hideModal();
+            $location.url("/" + newName);
+        }).catch(function (reason) { console.log(reason); vm.renameWishListExist = true; vm.doingRenameWishList = false;})
+    };
+
     function loadWishList(name) {
         return wishListService.get({name: name}).$promise.then(function (value) {
 
@@ -519,4 +532,11 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
 
         $('[data-toggle="tooltip"]').tooltip();
     });
+
+    //Bug in modal
+    function hideModal() {
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+    }
+    hideModal();
 }

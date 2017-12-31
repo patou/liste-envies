@@ -168,4 +168,12 @@ public class WishServiceTest {
         assertThat(dto.getComments()).onProperty("from.email").contains("patrice@desaintsteban.fr", "clemence@desaintsteban.fr");
         assertThat(dto.getComments()).onProperty("text").contains("Commentaire", "Commentaire2");
     }
+
+    @Test
+    public void renameWishList() throws Exception {
+        WishListService.rename("liste-patrice", "patrice");
+
+        assertThat(WishesService.list(patrice, "patrice")).onProperty("id").contains(livreId, dvdId);
+        assertThat(WishesService.list(patrice, "liste-patrice")).isEmpty();
+    }
 }

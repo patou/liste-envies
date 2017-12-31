@@ -83,7 +83,7 @@ public class MigrateServlet extends HttpServlet {
         newWishList.setDescription(listEnvy.getDescription());
         newWishList.setUsers(listEnvy.getUsers());
         newWishList.setPrivacy(SharingPrivacyType.PRIVATE);
-        newWishList.setPicture("img/default.jpeg"); //use a default image, for type other
+        newWishList.setPicture("img/default.jpg"); //use a default image, for type other
         newWishList.setType(WishListType.OTHER);
         return newWishList;
     }

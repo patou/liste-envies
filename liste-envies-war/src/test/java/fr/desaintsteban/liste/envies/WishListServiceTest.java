@@ -103,4 +103,17 @@ public class WishListServiceTest {
         WishList wishList = WishListService.get("liste-patrice");
         assertThat(wishList).isNull();
     }
+
+    @Test
+    public void testRename() throws Exception {
+        WishListService.rename("liste-patrice", "patrice");
+
+        assertThat(WishListService.get("liste-patrice")).isNull();
+        assertThat(WishListService.get("patrice")).isNotNull();
+    }
+
+    @Test(expected = Exception.class)
+    public void testRenameExist() throws Exception {
+        WishListService.rename("liste-patrice", "liste-emmanuel");
+    }
 }

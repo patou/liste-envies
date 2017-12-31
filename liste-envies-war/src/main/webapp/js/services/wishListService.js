@@ -8,6 +8,7 @@ function wishListService($resource, $q) {
     return $resource(base_url + ':name', {name: '@name'},
         {all: {method:'GET', url: base_url + 'all'},
             of: {method:'GET', url: base_url + 'of/:email'},
-            join: {method:'GET', url: base_url + ':name/join'}
+            join: {method:'GET', url: base_url + ':name/join'},
+            rename: {method:'PUT', url: base_url + ':name/:new'}
         });
 }

@@ -61,28 +61,61 @@
                         <wish-list-settings wish-list="vm.wishList"></wish-list-settings>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-gray btn-bordered-danger" data-dismiss="modal">Fermer
+                        <button type="button" class="btn btn-gray btn-bordered-danger" data-dismiss="modal"  translate=".CLOSE">
                         </button>
-                        <button type="submit" class="btn btn-primary" ng-click="vm.saveWishList(vm.wishList)">
-                            Enregistrer
+                        <button type="submit" class="btn btn-primary" ng-click="vm.saveWishList(vm.wishList)" translate=".BUTTON">
+
                         </button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal --><!--row row-fluid-->
 
-           <div class="modal fade" tabindex="-1" role="dialog" id="share-list">
+           <div class="modal fade" tabindex="-1" role="dialog" id="change-url" translate-namespace=".CHANGE_URL" data-backdrop="'static'">
+               <div class="modal-dialog" role="document">
+                   <div class="modal-content">
+                       <div class="modal-header">
+                           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                   aria-hidden="true">&times;</span></button>
+                           <h4 class="modal-title" translate=".TITLE"></h4>
+                       </div>
+                       <div class="modal-body">
+                           <span class="alert alert-info" translate=".WARNING"></span>
+                           <div class="input-group">
+                               <span class="input-group-addon" id="basic-addon3">{{vm.url}}/</span>
+                               <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" ng-model="vm.newUrl">
+                           </div>
+                           <span class="alert alert-danger" translate=".EXIST" ng-if="vm.renameWishListExist"></span>
+                       </div>
+                       <div class="modal-footer">
+                           <button type="button" class="btn btn-gray btn-bordered-danger" data-dismiss="modal"  translate=".CLOSE">
+                           </button>
+                           <button type="submit" class="btn btn-primary" ng-click="vm.renameWishList(vm.wishList.name, vm.newUrl)"  ng-disabled="vm.doingRenameWishList" translate=".BUTTON">
+
+                           </button>
+                       </div>
+                   </div><!-- /.modal-content -->
+               </div><!-- /.modal-dialog -->
+           </div><!-- /.modal --><!--row row-fluid-->
+
+           <div class="modal fade" tabindex="-1" role="dialog" id="share-list" translate-namespace=".SHARE_LIST">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Partager votre liste</h4>
+                        <h4 class="modal-title" translate=".TITLE"></h4>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="link" translate=".LINK"></label>
-                            <input type="text" class="form-control" id="link" value="http://liste-envies.appspot.com/{{vm.wishList.name}}" readonly>
+                        <div class="input-group">
+                            <label for="link" translate="LINK"></label>
+                           <input type="text" class="form-control" id="link" value="{{vm.url}}/{{vm.wishList.name}}" readonly>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-warning" data-toggle="modal" data-dismiss="modal"
+                                        data-target="#change-url" tooltip="Modifier l'url" ng-if="vm.wishList.owner">
+                                    <span class="fa fa-pencil" aria-hidden="true"></span><span class="sr-only">Modifier</span>
+                                </button>
+                            </span>
                         </div>
                         <ul class="list-group">
                             <li class="list-group-item" ng-repeat="user in vm.wishList.users"
@@ -100,7 +133,7 @@
                         <div class="row form-share-to-user">
                             <div class="col-xs-6">
                                 <div class="form-group label-floating ">
-                                    <label class="control-label" for="new-email">Email</label>
+                                    <label class="control-label" for="new-email" translate=".EMAIL"></label>
                                     <input type="email" class="form-control col-xs-5" id="new-email"
                                            ng-model="vm.newUser.email" placeholder="">
                                 </div>
@@ -110,7 +143,7 @@
                                     <label>
                                         <input type="checkbox" value="" ng-true-value="'OWNER'"
                                                ng-false-value="'SHARED'" ng-model="vm.newUser.type">
-                                        Co-Bénéficiaire
+                                        <span translate=".OWNER"></span>
                                     </label>
                                 </div>
                             </div>
@@ -123,10 +156,10 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-gray btn-bordered-danger" data-dismiss="modal">Fermer
+                        <button type="button" class="btn btn-gray btn-bordered-danger" data-dismiss="modal"  translate=".CLOSE">
                         </button>
-                        <button type="submit" class="btn btn-primary" ng-click="vm.saveWishList(vm.wishList)">
-                            Enregistrer
+                        <button type="submit" class="btn btn-primary" ng-click="vm.saveWishList(vm.wishList)"  translate=".BUTTON">
+
                         </button>
                     </div>
                 </div><!-- /.modal-content -->

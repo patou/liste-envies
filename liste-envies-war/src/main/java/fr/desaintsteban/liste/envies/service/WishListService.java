@@ -1,13 +1,16 @@
 package fr.desaintsteban.liste.envies.service;
 
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.cmd.Deleter;
 import com.googlecode.objectify.cmd.QueryKeys;
 import com.googlecode.objectify.cmd.Saver;
 import fr.desaintsteban.liste.envies.model.AppUser;
+import fr.desaintsteban.liste.envies.model.Wish;
 import fr.desaintsteban.liste.envies.model.WishList;
 import fr.desaintsteban.liste.envies.model.UserShare;
 import fr.desaintsteban.liste.envies.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -80,5 +83,29 @@ public final class WishListService {
 	public static List<Key<WishList>> userListKeys(String email) {
 		QueryKeys<WishList> keys = OfyService.ofy().load().type(WishList.class)/*.filter("users.type =", UserShareType.SHARED)*/.filter("users.email =", email).keys()/*.list()*/;
 		return keys.list();
+	}
+
+	public static void rename(String name, String newName) throws Exception {
+		Key<WishList> newKey = Key.create(WishList.class, newName);
+		WishList newList = OfyService.ofy().load().key(newKey).now();
+		if (newList != null)
+			throw new Exception("Already exist");
+    	Key<WishList> key = Key.create(WishList.class, name);
+		WishList list = OfyService.ofy().load().key(key).now();
+		List<Wish> wishes = OfyService.ofy().load().type(Wish.class).ancestor(key).list();
+		List<Key<Wish>> oldWishesKey = new ArrayList<>();
+		list.setName(newName);
+		wishes.forEach(wish ->  {
+			oldWishesKey.add(Key.create(key, Wish.class, wish.getId()));
+			wish.setList(newKey);
+		});
+		OfyService.ofy().transact(() -> {
+			final Saver saver = OfyService.ofy().save();
+			saver.entity(list);
+			saver.entities(wishes);
+			Deleter deleter = OfyService.ofy().delete();
+			deleter.key(key);
+			deleter.keys(oldWishesKey);
+		});
 	}
 }

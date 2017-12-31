@@ -42,7 +42,24 @@
     "TITLE_ARCHIVE": "Mes cadeaux reçus",
     "LINK":"Lien de partage",
     "UPDATE_LIST": {
-      "TITLE": "Mettre à jour votre liste d'envie"
+      "TITLE": "Mettre à jour votre liste d'envie",
+      "BUTTON": "Enregistrer",
+      "CLOSE": "Fermer"
+    },
+    "SHARE_LIST": {
+      "TITLE": "Partager votre liste",
+      "LINK": "Lien de partage",
+      "EMAIL": "Email",
+      "OWNER": "Co-Bénéficiaire",
+      "BUTTON": "Enregistrer",
+      "CLOSE": "Fermer"
+    },
+    "CHANGE_URL": {
+      "TITLE": "Modifier l'url",
+      "WARNING" : "<strong>Attention : </strong> le changement est définitif, l'ancienne url ne sera plus disponible.",
+      "EXIST" : "<strong>Déjà pris : </strong> cette url est déjà prise, choississez une autre url",
+      "BUTTON": "Renommer",
+      "CLOSE": "Fermer"
     }
   },
   "HOME_PAGE": {
