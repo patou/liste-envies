@@ -60,6 +60,7 @@
         <div class="row">
             <div class="list-envie-group col-md-4 col-xs-12" ng-repeat="wishlist in vm.wishes">
                 <a class="list-group-item list-envies-item" ng-class="{owner:wishlist.owner}" ng-click="vm.goList(wishlist.name)">
+                    <div ng-src="{{wishList.picture}}" class="backgroundimg" ng-style="{'background-image':wishlist.picture ? 'url('+wishlist.picture+ ')': ''}"></div>
                     <h2 class="list-group-item-heading"><icon-wish-list type="{{wishlist.type}}"></icon-wish-list> {{wishlist.title}}</h2>
                     <p class="list-group-item-text"> <span translate>.SEPARATOR_USER</span> <span class="owners" ng-repeat="owner in wishlist.owners"><i class="fa fa-user"></i> {{owner.name}}({{owner.email}})<span ng-if="!$last" >, </span></span>  </p>
                 </a>
