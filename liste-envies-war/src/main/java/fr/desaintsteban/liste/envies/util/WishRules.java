@@ -166,15 +166,18 @@ public class WishRules {
             case OWNER:
                 wishDto.setCanEdit(true);
                 wishDto.setCanParticipate(false);
+                wishDto.setCanSuggest(false);
                 break;
             case SHARED:
                 wishDto.setCanEdit(wishDto.getOwner().getEmail().equals(user.getEmail()));
                 wishDto.setCanParticipate(true);
+                wishDto.setCanSuggest(true);
                 break;
             case LOGGED:
             case ANONYMOUS:
                 wishDto.setCanEdit(false);
                 wishDto.setCanParticipate(true);
+                wishDto.setCanSuggest(false);
                 break;
         }
         if (wishDto.getAllreadyGiven())

@@ -171,7 +171,7 @@ public class WishServiceTest {
 
     @Test
     public void renameWishList() throws Exception {
-        WishListService.rename("liste-patrice", "patrice");
+        WishListService.rename(patrice, "liste-patrice", "patrice");
 
         assertThat(WishesService.list(patrice, "patrice")).onProperty("id").contains(livreId, dvdId);
         assertThat(WishesService.list(patrice, "liste-patrice")).isEmpty();

@@ -20,7 +20,6 @@ import org.junit.Test;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -106,7 +105,7 @@ public class WishListServiceTest {
 
     @Test
     public void testRename() throws Exception {
-        WishListService.rename("liste-patrice", "patrice");
+        WishListService.rename(patrice, "liste-patrice", "patrice");
 
         assertThat(WishListService.get("liste-patrice")).isNull();
         assertThat(WishListService.get("patrice")).isNotNull();
@@ -114,6 +113,6 @@ public class WishListServiceTest {
 
     @Test(expected = Exception.class)
     public void testRenameExist() throws Exception {
-        WishListService.rename("liste-patrice", "liste-emmanuel");
+        WishListService.rename(patrice, "liste-patrice", "liste-emmanuel");
     }
 }

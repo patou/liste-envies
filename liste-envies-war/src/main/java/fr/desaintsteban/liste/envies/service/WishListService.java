@@ -85,13 +85,15 @@ public final class WishListService {
 		return keys.list();
 	}
 
-	public static void rename(String name, String newName) throws Exception {
+	public static void rename(AppUser user, String name, String newName) throws Exception {
 		Key<WishList> newKey = Key.create(WishList.class, newName);
 		WishList newList = OfyService.ofy().load().key(newKey).now();
 		if (newList != null)
 			throw new Exception("Already exist");
     	Key<WishList> key = Key.create(WishList.class, name);
 		WishList list = OfyService.ofy().load().key(key).now();
+		if (!list.containsOwner(user.getEmail()))
+			throw new Exception("Not allowed");
 		List<Wish> wishes = OfyService.ofy().load().type(Wish.class).ancestor(key).list();
 		List<Key<Wish>> oldWishesKey = new ArrayList<>();
 		list.setName(newName);

@@ -507,7 +507,6 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
                 if (foundwish.length) {
                     vm.updatePropertiesWish(foundwish[0], item);
                 } else {
-
                     vm.wishes.push(item);
                 }
             });
@@ -518,7 +517,7 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
 
             //vm.update();
             //vm.clearRefreshingLayoutAuto();
-            if (firstLoad) masonry.update();
+            if (firstLoad) vm.update();
 
             $.material.init();
         });

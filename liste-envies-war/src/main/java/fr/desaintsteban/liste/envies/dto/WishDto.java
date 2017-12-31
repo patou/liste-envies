@@ -33,6 +33,7 @@ public class WishDto {
     private boolean allreadyGiven;
     private Boolean canEdit;
     private Boolean canParticipate;
+    private Boolean canSuggest;
 
     private List<CommentDto> comments;
 
@@ -207,5 +208,13 @@ public class WishDto {
 
     public void setCanParticipate(Boolean canParticipate) {
         this.canParticipate = canParticipate;
+    }
+
+    public Boolean getCanSuggest() {
+        return canSuggest;
+    }
+
+    public void setCanSuggest(Boolean canSuggest) {
+        this.canSuggest = canSuggest;
     }
 }

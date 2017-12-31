@@ -81,7 +81,7 @@ public class WishListRestService {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null) {
             LOGGER.info("rename WishList " + name + " to " + newName);
-            WishListService.rename(name, newName);
+            WishListService.rename(user, name, newName);
         }
         else {
             throw new Exception("Use not logged");
