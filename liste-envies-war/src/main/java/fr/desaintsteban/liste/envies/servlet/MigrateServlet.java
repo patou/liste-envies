@@ -119,7 +119,7 @@ public class MigrateServlet extends HttpServlet {
             person.setEmail(email);
             AppUser appUser = this.users.get(email);
             if (appUser != null)
-                person.setName(appUser.getEmail());
+                person.setName(appUser.getName());
             else
                 person.setName(NicknameUtils.getNickname(email));
             return person;
@@ -133,7 +133,7 @@ public class MigrateServlet extends HttpServlet {
             person.setEmail(email);
             AppUser appUser = this.users.get(email);
             if (appUser != null)
-                person.setName(appUser.getEmail());
+                person.setName(appUser.getName());
             else
                 person.setName(email);
             return person;
