@@ -128,7 +128,7 @@ body {
 .mega-dropdown-menu .list-group-item {
     display: inline-block;
     width: 220px;
-    margin: 0.2%;
+    margin: 5px;
     padding: 0;
     border-radius: 5px;
 }
@@ -290,7 +290,6 @@ button.copy-button {
      border-color: #337ab7;
      border-style: solid;
      border-width: 1px;
-     margin: 0px;
 }
 
 .list-group.list-envies h2.list-group-item-heading {
