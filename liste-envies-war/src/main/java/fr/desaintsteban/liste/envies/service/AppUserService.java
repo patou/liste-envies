@@ -10,6 +10,7 @@ import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.util.NicknameUtils;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,7 @@ public final class AppUserService {
             appUser = new AppUser(user.getEmail(), NicknameUtils.getNickname(user.getNickname()));
             appUser.setIsAdmin(userService.isUserAdmin());
             appUser.setNewUser(true);
+            appUser.setLastNotification(new Date());
             ofy.save().entity(appUser).now();
         } else { // appUser is already in the datastore
             // update properties if they've changed

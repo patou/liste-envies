@@ -28,6 +28,9 @@ public class AppUser {
     private boolean isAdmin = false;
 
     private boolean newUser = false;
+
+	private Date lastVisit;
+	private Date lastNotification;
 	
 	public AppUser() { }
 
@@ -94,6 +97,22 @@ public class AppUser {
 
 	public void setNewUser(boolean newUser) {
 		this.newUser = newUser;
+	}
+
+	public Date getLastVisit() {
+		return lastVisit;
+	}
+
+	public void setLastVisit(Date lastVisit) {
+		this.lastVisit = lastVisit;
+	}
+
+	public Date getLastNotification() {
+		return lastNotification;
+	}
+
+	public void setLastNotification(Date lastNotification) {
+		this.lastNotification = lastNotification;
 	}
 
 	public AppUserDto toDto() {

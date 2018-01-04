@@ -19,7 +19,7 @@ public final class NotificationsService {
 	}
 
 	public static List<Notification> list(AppUser user) {
-		List<Notification> list = OfyService.ofy().load().type(Notification.class).filter("user =",user.getEmail()).order("-date").limit(10).list();
+		List<Notification> list = OfyService.ofy().load().type(Notification.class).filter("user =",user.getEmail()).filter("date >=",user.getLastNotification()).order("-date").limit(35).list();
 		return list;
 	}
 
