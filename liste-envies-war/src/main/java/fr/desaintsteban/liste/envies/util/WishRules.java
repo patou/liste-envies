@@ -180,8 +180,10 @@ public class WishRules {
                 wishDto.setCanSuggest(false);
                 break;
         }
-        if (wishDto.getAllreadyGiven())
+        if (wishDto.getAllreadyGiven()) {
             wishDto.setCanParticipate(false);
+            wishDto.setGiven(true);
+        }
         wishDto.setUserGiven(false);
         if (wishDto.getUserTake() != null && user != null) {
             for (PersonParticipantDto person : wishDto.getUserTake()) {
@@ -212,7 +214,19 @@ public class WishRules {
         switch (state) {
             case OWNER:
                 //Si une options est définie dans la liste, alors c'est l'option par défaut
-                return WishOptionType.HIDDEN;
+                if (list.getPrivacy() != null) {
+                    switch (list.getPrivacy()) {
+                        case PRIVATE:
+                            return WishOptionType.HIDDEN;
+                        case OPEN:
+                            return WishOptionType.ANONYMOUS;
+                        case PUBLIC:
+                            return WishOptionType.ALL_SUGGEST;
+                    }
+                }
+                else {
+                    return WishOptionType.HIDDEN;
+                }
             case SHARED:
                 return WishOptionType.ALL_SUGGEST;
             case LOGGED:

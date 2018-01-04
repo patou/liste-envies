@@ -261,6 +261,11 @@ button.copy-button {
     color: gray;
 }
 
+.envie-item .bottom-envie .comments a.btn.btn-link {
+    margin-top: 0;
+    padding-top: 5px;
+}
+
 .list-envie .envie-item .logo-envie {
     margin-top: -34px;
 }
@@ -399,6 +404,10 @@ div.material-icons.form-control-feedback {
 
 .envie-card .panel .footer {
     padding: 5px;
+}
+
+.envie-card .panel .footer button.btn {
+    margin: 0;
 }
 
 .envie-card h1 {
@@ -624,7 +633,9 @@ div.material-icons.form-control-feedback {
 
 .envie-item form.form.form-add-comment button.btn {
     position: relative;
-    bottom: -10px;
+    bottom: -4px;
+    margin: 0;
+    padding: 18px;
 }
 
 .envie-item h5 {

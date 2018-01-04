@@ -191,10 +191,10 @@
   "PRIVACY_FORM": {
     "BUTTON_CONNEXION":"Se connecter",
     "CREATE_ACOUNT":"Je n'ai pas de compte !",
-    "DESCRIPTION": "Connectez-vous pour voir ou participer à une liste d'envies"
+    "DESCRIPTION": "Connectez-vous pour voir ou participer à cette liste d'envies"
   },
   "JOIN_FORM": {
     "BUTTON":"Rejoindre",
-    "DESCRIPTION": "Rejoingnez cette liste, pour pouvoir y participer"
+    "DESCRIPTION": "Rejoignez cette liste, pour pouvoir y participer"
   }
 }

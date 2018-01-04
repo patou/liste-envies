@@ -185,7 +185,7 @@ public final class WishesService {
             Objectify ofy1 = OfyService.ofy();
             Wish saved = ofy1.load().key(Key.create(parent, Wish.class, itemId)).now();
             Saver saver = ofy1.save();
-            saved.removeUserTake(EncodeUtils.encode(user.getEmail()));
+            saved.removeUserTake(user.getEmail());
             saver.entity(saved);
                 return WishRules.applyRules(user, wishList, saved);
             });
