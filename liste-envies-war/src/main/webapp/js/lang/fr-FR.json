@@ -174,7 +174,7 @@
     "PUBLIC": "Libre / publique",
     "DESCRIPTION": {
       "PRIVATE": "Liste accessible seulement à ceux à qui vous partagerez la liste. <br/>Vous ne verrez pas qui vous donne une envie, seules les personnes a qui vous la partagerez le verra.",
-      "OPEN": "Il faut être connecté pour voir les envies de la liste (et intéragir avec), la liste est ouverte à tous les membres qui connaisse le liens. <br/> Toutes les personnes connectés (bénéficiaires compris) voient qui donne une envie.",
+      "OPEN": "Il faut être connecté pour voir les envies de la liste (et intéragir avec), la liste est ouverte à tous les membres qui connaisse le liens. <br/> Vous ne verrez pas qui vous donne une envie, par contre toutes les personnes connectés (sauf les bénéficiaires) voient qui donne une envie.",
       "PUBLIC": "La liste peut être affiché sans être connecté par toute personne connaissant le lien. Il est nécessaire de se connecter pour interagir avec, et voir si une envie est prise. <br/> Toutes les personnes connectés (bénéficiaires compris) voient qui donne une envie.",
       "DEFAULT": "Selectionnez la visibilité de la liste"
     },
