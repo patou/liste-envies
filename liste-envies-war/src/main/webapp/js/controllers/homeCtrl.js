@@ -62,5 +62,9 @@ function HomeCtrl(appUserService, wishListService, $location, UtilitiesServices,
             return;
         }
         vm.background = picture;
+    };
+
+    vm.getPictureUrl = function(picture) {
+        return (picture.startsWith('img/'))? 'thumb/' + picture : picture;
     }
 }

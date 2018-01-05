@@ -25,6 +25,15 @@ public class WishListRestService {
         if(user != null){
             LOGGER.info("List users");
             List<WishList> list = WishListService.list(user.getEmail());
+            if (!list.isEmpty()) {
+                return WishRules.applyRules(user, list);
+            }
+        }
+
+        LOGGER.info("Get demo list for demo");
+        List<WishList> list = WishListService.list("demo-liste-envie@desaintsteban.fr");
+
+        if (!list.isEmpty()) {
             return WishRules.applyRules(user, list);
         }
         return null;
@@ -58,6 +67,7 @@ public class WishListRestService {
         if(user != null && user.isAdmin()){
             LOGGER.info("List all WishList");
             List<WishList> list = WishListService.list();
+
             return WishRules.applyRules(user, list);
         }
         return null;

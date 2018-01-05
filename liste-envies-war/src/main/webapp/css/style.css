@@ -94,6 +94,22 @@ body {
     opacity: 0.2;
 }
 
+.list-envies-menu-item {
+    position: relative;
+}
+
+.list-envies-menu-item .backgroundimg {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    opacity: 0.2;
+}
+
 .mega-dropdown {
     position: static !important;
     width:100%;

@@ -98,6 +98,10 @@ function PagesDirectivesController ($scope, $http, $location, AuthService, Utili
         }
     };
 
+    main.getPictureUrl = function(picture) {
+        return (picture.startsWith('img/'))? 'thumb/' + picture : picture;
+    };
+
     loadMaterialsKits();
 
 
