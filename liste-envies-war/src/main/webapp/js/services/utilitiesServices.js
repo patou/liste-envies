@@ -7,9 +7,9 @@ UtilitiesServices.$inject = ['wishListService', '$q', '$http'];
         var obj = {};
         var promise = false;
         var list = false;
-        obj.getList = function() {
+        obj.getList = function(force) {
             if (promise) return promise.promise;
-            else if (list) return $q.resolve(list);
+            else if (!force && list) return $q.resolve(list);
             else {
                 promise = $q.defer();
                 wishListService.query().$promise.then(function (data) {

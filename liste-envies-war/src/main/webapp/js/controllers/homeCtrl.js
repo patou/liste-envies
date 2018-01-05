@@ -40,6 +40,10 @@ function HomeCtrl(appUserService, wishListService, $location, UtilitiesServices,
         wishListService.save(newWishList, function(wishList) {
             vm.loading = false;
             resetBackground();
+            UtilitiesServices.getList(true).then(function (data) {
+                vm.loading = false;
+                vm.wishes = data;
+            });
             $location.url("/"+wishList.name);
         });
     };

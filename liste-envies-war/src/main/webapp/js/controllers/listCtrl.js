@@ -1,7 +1,7 @@
 app.controller('ListCtrl', ListCtrl);
-ListCtrl.$inject = ['wishService', 'appUserService', 'wishListService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse', '$interval', '$timeout', '$filter'];
+ListCtrl.$inject = ['wishService', 'appUserService', 'wishListService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse', '$interval', '$timeout', '$filter', 'UtilitiesServices'];
 
-function ListCtrl(wishService, appUserService, wishListService, $routeParams, $location, $anchorScroll, $scope, $parse, $interval, $timeout, $filter) {
+function ListCtrl(wishService, appUserService, wishListService, $routeParams, $location, $anchorScroll, $scope, $parse, $interval, $timeout, $filter, UtilitiesServices) {
     var vm = this;
     vm.name = $routeParams.name;
     vm.wishList = loadWishList(vm.name);
@@ -248,6 +248,8 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
             hideModal();
             vm.editTitle = false;
             updateDate();
+
+            UtilitiesServices.getList(true);
         });
     };
 
