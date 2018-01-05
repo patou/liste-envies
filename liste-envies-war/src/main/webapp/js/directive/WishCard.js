@@ -200,6 +200,7 @@ var WishCard = function ($scope, wishService, $location, UtilitiesServices) {
         }
         else if (!w.wish.userTake.find(function(user){ return user.email == this; }, w.user.email)) {
             wishService.give({name:w.listName, id:id}, {}, function(updatedData) {
+                updatedData.userGiven = true; // todo correct into server. 
                 w.parentController.updatePropertiesWish(w.wish, updatedData);
                 w.parentController.update();
             });
@@ -209,6 +210,7 @@ var WishCard = function ($scope, wishService, $location, UtilitiesServices) {
 
     w.cancel = function(id) {
         wishService.cancel({name:w.listName, id:id}, {}, function(updatedData) {
+            updatedData.given = false; // todo correct into server.
             w.parentController.updatePropertiesWish(w.wish, updatedData);
             w.parentController.update();
         });
