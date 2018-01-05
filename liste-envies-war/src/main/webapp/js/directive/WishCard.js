@@ -194,16 +194,22 @@ var WishCard = function ($scope, wishService, $location, UtilitiesServices) {
 
 
     w.given = function(id) {
+        if (!w.wish.userTake) {
+            w.wish.userTake = [];
+        }
         if (!w.user) {
+            w.wish.userTake = null;
             //TODO
             alert('Connectez-vous pour pouvoir participer à cette liste');
         }
-        else if (!w.wish.userTake || (w.wish.userTake && !w.wish.userTake.find(function(user){ return user.email == this; }, w.user.email))) {
+        else if (!w.wish.userTake.find(function(user){ return user.email == this; }, w.user.email)) {
             wishService.give({name:w.listName, id:id}, {}, function(updatedData) {
                 updatedData.userGiven = true; // todo correct into server. 
                 w.parentController.updatePropertiesWish(w.wish, updatedData);
                 w.parentController.update();
             });
+        } else {
+            w.wish.userTake = null;
         }
     };
 
