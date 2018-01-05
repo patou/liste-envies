@@ -144,7 +144,7 @@
   },
   "PROFIL_PAGE": {
     "TITLE": "Mon profil",
-    "NAME": "Mon nom",
+    "NAME": "Mon nom (celui qui sera utilisé pour vous identifier)",
     "EMAIL": "Mon email",
     "BIRTHDAY": "Ma date de naissance",
     "BIRTHDAY_INFO": "Pour rappeler à vos contacts, de penser à votre anniversaire",
@@ -169,32 +169,32 @@
       "OTHER": "Autre"
     },
     "PRIVACY": "Partage de la liste",
-    "PRIVATE": "Limité / privée",
+    "PRIVATE": "Limité / privé",
     "OPEN": "Ouvert / connecté",
     "PUBLIC": "Libre / publique",
     "DESCRIPTION": {
-      "PRIVATE": "Liste accessible seulement à ceux à qui vous partagerez la liste",
-      "OPEN": "Il faut être connecté pour voir les envies de la liste",
-      "PUBLIC": "La liste peut être affiché sans être connecté. Il est nécessaire de ce connecter, pour intéragire avec",
+      "PRIVATE": "Liste accessible seulement à ceux à qui vous partagerez la liste. <br/>Vous ne verrez pas qui vous donne une envie, seules les personnes a qui vous la partagerez le verra.",
+      "OPEN": "Il faut être connecté pour voir les envies de la liste (et intéragir avec), la liste est ouverte à tous les membres qui connaisse le liens. <br/> Toutes les personnes connectés (bénéficiaires compris) voient qui donne une envie.",
+      "PUBLIC": "La liste peut être affiché sans être connecté par toute personne connaissant le lien. Il est nécessaire de se connecter pour interagir avec, et voir si une envie est prise. <br/> Toutes les personnes connectés (bénéficiaires compris) voient qui donne une envie.",
       "DEFAULT": "Selectionnez la visibilité de la liste"
     },
     "DATE": "Date de l'événement",
-    "DATE_INFO": "Pour afficher un countdown jusqu'à l'événement"
+    "DATE_INFO": "Pour afficher un compte à rebours jusqu'à l'événement"
   },
   "LOGIN_FORM" : {
     "TITLE": "Se connecter",
-    "DESCRIPTION":"Connectez vous pour pouvoir utiliser le site liste-envies avec un compte google",
+    "DESCRIPTION":"Connectez-vous pour pouvoir utiliser le site liste-envies avec un compte google",
 
     "LOGIN":"Se connecter",
-    "CREATE_ACOUNT":"Je n'ai pas de compte !"
+    "CREATE_ACOUNT":"Je n'ai pas de compte ! (creer un compte)"
   },
   "PRIVACY_FORM": {
     "BUTTON_CONNEXION":"Se connecter",
-    "CREATE_ACOUNT":"Je n'ai pas de compte !",
-    "DESCRIPTION": "Connectez-vous pour voir ou participer à cette liste d'envies"
+    "CREATE_ACOUNT":"Je n'ai pas de compte ! (creer un compte)",
+    "DESCRIPTION": "Connectez-vous (ou inscrivez-vous) pour voir et/ou participer à cette liste d'envies"
   },
   "JOIN_FORM": {
     "BUTTON":"Rejoindre",
-    "DESCRIPTION": "Rejoignez cette liste, pour pouvoir y participer"
+    "DESCRIPTION": "Rejoignez cette liste, pour l'ajouter à ses listes, et recevoir les notifications"
   }
 }
