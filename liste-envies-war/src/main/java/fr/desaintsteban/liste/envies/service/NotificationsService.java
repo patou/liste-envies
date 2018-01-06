@@ -1,5 +1,6 @@
 package fr.desaintsteban.liste.envies.service;
 
+import com.googlecode.objectify.cmd.Query;
 import com.googlecode.objectify.cmd.Saver;
 import fr.desaintsteban.liste.envies.enums.NotificationType;
 import fr.desaintsteban.liste.envies.enums.UserShareType;
@@ -19,7 +20,10 @@ public final class NotificationsService {
 	}
 
 	public static List<Notification> list(AppUser user) {
-		List<Notification> list = OfyService.ofy().load().type(Notification.class).filter("user =",user.getEmail()).filter("date >=",user.getLastNotification()).order("-date").limit(35).list();
+		Query<Notification> filter = OfyService.ofy().load().type(Notification.class).filter("user =", user.getEmail());
+		if (user.getLastNotification() != null)
+			filter = filter.filter("date >=",user.getLastNotification());
+		List<Notification> list = filter.order("-date").limit(35).list();
 		return list;
 	}
 

@@ -15,7 +15,7 @@ public class GetUserServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.setContentType("application/json");
 		AppUser userAuthenticated = ServletUtils.getUserAuthenticated();
-		if (getDifferenceHours(userAuthenticated.getLastNotification(), userAuthenticated.getLastVisit()) > 2) {
+		if (lastVisitDays(userAuthenticated.getLastVisit()) > 2) {
 			userAuthenticated.setLastNotification(userAuthenticated.getLastVisit());
 		}
 		userAuthenticated.setLastVisit(new Date());
@@ -23,11 +23,10 @@ public class GetUserServlet extends HttpServlet {
 		resp.getWriter().println(ServletUtils.toJson(userAuthenticated));
 	}
 
-	private static long getDifferenceHours(Date d1, Date d2) {
+	private static long lastVisitDays(Date d1) {
 		if (d1 == null)
 			d1 = new Date();
-		if (d2 == null)
-			d2 = new Date();
+		Date d2 = new Date();
 		long diff = d2.getTime() - d1.getTime();
 		return TimeUnit.HOURS.convert(diff, TimeUnit.MILLISECONDS);
 	}
