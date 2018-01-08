@@ -19,7 +19,7 @@ after_success:
   - if [ a${TRAVIS_BRANCH} = "amaster" -a ${TRAVIS_EVENT_TYPE} = "push" ]; then
       echo ${GOOGLE_CLIENT_SECRET} > client-secret.json;
       export APP_ID=${CLOUDSDK_CORE_PROJECT};
-      export APP_VERSION=master;
+      export APP_VERSION=${VERSION_CORE_NAME};
     else
       echo ${GOOGLE_CLIENT_SECRET_TEST} > client-secret.json;
       export APP_ID=${CLOUDSDK_TEST_PROJECT};
