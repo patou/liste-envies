@@ -27,8 +27,8 @@
                    <div class="pull-left" translate translate-attr-title=".TITLE_LAST_CHANGE" ng-show="w.wish.date">
                        <p class="text-center"><i class="fa fa-calendar fa-pull-left fa-border"></i><span class="text-muted" am-time-ago="w.wish.date" title="{{w.wish.date | date: 'fullDate'}} à {{w.wish.date | date: 'shortTime'}}"></span></p>
                    </div>
-                   <div class="pull-right" translate translate-attr-title=".TITLE_CREATED_BY"  ng-show="w.add || w.wish.ownerUser.name">
-                       <p class="text-center"><i class="fa fa-smile-o fa-pull-left fa-border"></i><span class="text-muted">{{(w.add)? w.user.name : w.wish.ownerUser.name}}</span></p>
+                   <div class="pull-right" translate translate-attr-title=".TITLE_CREATED_BY"  ng-show="w.add || w.wish.ownerUser">
+                       <p class="text-center"><i class="fa fa-smile-o fa-pull-left fa-border"></i><span class="text-muted">{{(w.add)? w.user.name : w.wish.ownerUser}}</span></p>
                    </div>
 
                </div>
@@ -39,8 +39,8 @@
                 </div>
 
                     <!--<i class="fa fa-a fa-3x pull-right logo-envie" ng-class="{'fa-gift': !w.add, 'fa-plus': w.add, 'wish-edit': w.edit}"></i></p>-->
-                <a ng-if="w.wish.picture && !w.edit" ng-href="{{w.wish.picture}}" target="_blank" class="thumbnail">
-                    <img ng-src="{{w.wish.picture}}" alt="Image Envie">
+                <a ng-if="w.wish.pictures && !w.edit" ng-repeat="picture in w.wish.pictures" ng-href="{{picture}}" target="_blank" class="thumbnail">
+                    <img ng-src="{{picture}}" alt="Image Envie">
                 </a>
 
 
@@ -59,6 +59,7 @@
                     <div ng-repeat="link in w.wish.urls" class="links-editor">
                         <input type="url" class="form-control" id="url-{{$index}}" ng-model="link.url" translate translate-attr-placeholder=".INPUT_LINKS_URL_PLACEHOLDER">
                         <input type="text" class="form-control" id="name-{{$index}}" ng-model="link.name" translate translate-attr-placeholder=".INPUT_LINKS_NAME_PLACEHOLDER">
+                        <button type="submit" class="btn btn-warning  btn-just-icon" ng-click="w.removeLink(link);" translate translate-attr-title=".INPUT_REMOVE_LINK"><span class="fa fa-minus" aria-hidden="true"></span><span class="sr-only" translate=".INPUT_REMOVE_LINK"></span></button>
                     </div>
                     <div class="links-editor">
                         <input type="url" class="form-control" id="link-url" ng-model="w.link.url" translate translate-attr-placeholder=".INPUT_LINKS_URL_PLACEHOLDER">
@@ -66,14 +67,22 @@
                         <button type="submit" class="btn btn-success  btn-just-icon" ng-click="w.addLink(w.link);" translate translate-attr-title=".INPUT_ADD_LINK"><span class="fa fa-plus" aria-hidden="true"></span><span class="sr-only" translate=".INPUT_ADD_LINK"></span></button>
                     </div>
                 </div>
-                <div class="row" ng-if="w.edit">
-
-                    <div class="form-group col-xs-8">
+                <div  ng-if="w.edit">
+                    <div class="form-group">
                             <label for="picture" class="control-label floating-image_label" translate=".INPUT_IMAGE_URL"></label>
-                            <input type="url" class="form-control" id="picture" ng-model="w.wish.picture">
+                        <div class="picture-editor">
+                            <input type="url" class="form-control" id="picture" ng-model="w.picture">
+                            <button type="submit" class="btn btn-success  btn-just-icon" ng-click="w.addPicture(w.picture);" translate translate-attr-title=".INPUT_ADD_IMAGE"><span class="fa fa-plus" aria-hidden="true"></span><span class="sr-only" translate=".INPUT_ADD_IMAGE"></span></button>
+                        </div>
                     </div>
-                    <div class="col-xs-4">
-                        <img ng-src="{{w.wish.picture && w.wish.picture || ('WISH_CARD_COMPONENT.INPUT_IMAGE_PLACEHOLDER' | translate)}}"  class="pull-right img-thumbnail preview-image">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <img ng-src="{{w.picture || ('WISH_CARD_COMPONENT.INPUT_IMAGE_PLACEHOLDER' | translate)}}"  class="pull-right img-thumbnail preview-image">
+                        </div>
+                        <div class="col-xs-4 picture-list-edit"  ng-repeat="picture in w.wish.pictures">
+                            <img ng-src="{{picture}}"  class="pull-right img-thumbnail preview-image">
+                            <button type="button" class="close delete-picture" aria-label="Close" ng-click="w.removePicture(picture)"  translate translate-attr-title=".INPUT_REMOVE_IMAGE"><span aria-hidden="true">&times;</span></button>
+                        </div>
                     </div>
 
                 </div>
@@ -82,6 +91,14 @@
                 <div class="form-group" ng-if="w.edit">
                     <label for="price" class="control-label" translate=".INPUT_PRICE"></label>
                     <input type="text" class="form-control" id="price" ng-model="w.wish.price">
+                </div>
+
+                <div class="form-group" ng-if="w.edit && w.ownerList">
+
+                    <label>
+                        <input type="checkbox" ng-model="w.wish.allreadyGiven"> <span translate=".OFFERED"></span>
+                    </label>
+                    
                 </div>
 
 
@@ -96,7 +113,7 @@
                             <i class="fa fa-euro"></i>&nbsp;&nbsp;<span class="">{{w.wish.price}}</span>
                 </div>
                 </div>
-                <div class="btn-group btn-group-sm edit-button" ng-if="!w.edit && (w.ownerList || w.wish.owner == w.user.email) && w.canEdit" ng-hide="w.edit">
+                <div class="btn-group btn-group-sm edit-button" ng-if="!w.edit && (w.wish.canEdit) && w.canEdit" ng-hide="w.edit">
                     <button type="button" class="btn btn-warning" ng-click="w.editWish()" translate=".EDIT"></button>
                     <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" translate translate-attr-title=".EDIT_OTHER_OPTIONS">
                         <span class="caret"></span>
@@ -112,31 +129,34 @@
                 <button type="button" class="btn btn-info btn-sm  edit-button copy-button"  ng-if="!w.edit && !w.add"
                         ng-click="w.copyWish()" translate=".EDIT_OPTIONS_COPY"></button>
             </div>
-            <div class="footer panel-footer bottom-envie" ng-if="!w.ownerList && !w.edit">
+            <div class="footer panel-footer bottom-envie" ng-if="!w.edit">
 
                 <div title="Cadeau" class="gift pull-right text-warning">
-                    <h6 ng-if="!w.ownerList && w.wish.userTakeUsers"><i class="fa fa-gift"></i><span translate translate-values="{name: w.wish.userTakeUsers}">.OFFERED_BY</span>
-                        <button type="button" class="btn btn-danger" ng-if="w.wish.userTake.indexOf(w.user.email) >= 0" ng-click="w.cancel(w.wish.id)" translate>.CANCEL</button>
-                        <button type="button" class="btn btn-success" ng-if="w.wish.userTake.indexOf(w.user.email) >= 0" ng-click="w.receivedWish()" translate>.GIVEN</button>
-                        <button type="button" class="btn btn-success btn3d" ng-if="w.wish.userTake.indexOf(w.user.email) < 0 && !w.wish.archived" ng-click="w.given(w.wish.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b translate>.PARTICIPATE</b></button>
+                    <h6 ng-if="w.wish.given"><i class="fa fa-gift"></i>
+                        <span translate translate-values="{name: w.wish.userTakeUsers}" ng-if="w.wish.userTakeUsers">.OFFERED_BY</span>
+                        <span translate ng-if="w.wish.allreadyGiven">.OFFERED</span>
+                        <button type="button" class="btn btn-danger" ng-if="w.wish.userGiven" ng-click="w.cancel(w.wish.id)" translate>.CANCEL</button>
+                        <button type="button" class="btn btn-success" ng-if="w.wish.userGiven" ng-click="w.receivedWish()" translate>.GIVEN</button>
+                        <button type="button" class="btn btn-success btn3d" ng-if="!w.wish.userGiven && !w.wish.archived && w.wish.canParticipate" ng-click="w.given(w.wish.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b translate>.PARTICIPATE</b></button>
                     </h6>
-                    <button type="button" class="btn btn-success btn3d" ng-if="!w.ownerList && !w.wish.userTakeUsers" ng-click="w.given(w.wish.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b translate >.TO_OFFER</b></button>
+                    <button type="button" class="btn btn-success btn3d" ng-if="w.wish.canParticipate && !w.wish.given && w.user" ng-click="w.given(w.wish.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b translate >.TO_OFFER</b></button>
+                    <button type="button" data-toggle="modal" data-target="#login-form" class="btn btn-success btn3d" ng-if="!w.user && !w.wish.given"><i class="fa fa-gift fa-lg fa-fw"></i><b translate >.TO_OFFER</b></button>
                 </div>
 
                 <div class="comments" >
                     <a class="btn btn-link" role="button" aria-expanded="false" aria-controls="collapseExample" ng-click="w.openComment()">
-                        <i class="fa fa-comments"></i> <span translate=".COMMENTS" translate-values="{comment_number : w.wish.notes.length}"></span>
+                        <i class="fa fa-comments"></i> <span translate=".COMMENTS" translate-values="{comment_number : w.wish.comments.length}"></span>
                     </a>
                     <div class="collapse" id="comment-{{w.wish.id}}">
                         <div class="chat">
                             <div class="chat-history">
                                 <ul class="chat-ul">
-                                    <li ng-repeat="note in w.wish.notes" ng-class="{'clearfix':$odd}">
+                                    <li ng-repeat="comment in w.wish.comments" ng-class="{'clearfix':$odd}">
                                         <div class="message-data" ng-class="{'align-right':$odd}">
-                                            <span class="message-data-name"><i class="fa fa-circle you"></i>&nbsp; <strong> {{note.owner}}</strong> <span class="text-muted" ng-class="{'pull-left':$odd}" am-time-ago="note.date" title="{{note.date | date: 'fullDate'}} à {{note.date | date: 'shortTime'}}">commented 5 days ago</span></span>
+                                            <span class="message-data-name"><i class="fa fa-circle you"></i>&nbsp; <strong> {{comment.from.name}}</strong> <span class="text-muted" ng-class="{'pull-left':$odd}" am-time-ago="comment.date" title="{{comment.date | date: 'fullDate'}} à {{comment.date | date: 'shortTime'}}">commented 5 days ago</span></span>
                                         </div>
                                         <div class="message" ng-class="{'float-right':$odd, 'me-message':$odd, 'you-message':$even}">
-                                            {{note.text}}
+                                            {{comment.text}}
                                         </div>
                                     </li>
                                 </ul>
@@ -145,12 +165,12 @@
                         <form class="form form-add-comment" ng-if="w.canEdit">
                             <div class="row">
                                 <div class="form-group col-xs-9 comment-form">
-                                <label for="note-{{$index}}" class="control-label" translate=".ADD_COMMENTS_LABEL"></label>
-                                <textarea class="form-control comment-textarea" id="note-{{$index}}" ng-model="w.note.text" >
+                                <label for="comment-{{$index}}" class="control-label" translate=".ADD_COMMENTS_LABEL"></label>
+                                <textarea class="form-control comment-textarea" id="comment-{{$index}}" ng-model="w.comment.text" >
                                         </textarea>
                             </div>
                                 <div class="col-xs-3">
-                                    <button type="submit" class="btn btn-default btn-lg btn-bordered-gray btn-just-icon" ng-click="w.addNote(w.wish, w.note)" translate translate-attr-title=".ADD_COMMENTS_BUTTON"><i class="fa fa-comment"></i></button>
+                                    <button type="submit" class="btn btn-default btn-lg btn-bordered-gray btn-just-icon" ng-click="w.addComment(w.wish, w.comment)" translate translate-attr-title=".ADD_COMMENTS_BUTTON"><i class="fa fa-comment"></i></button>
                                 </div>
 
                             </div>
@@ -164,6 +184,6 @@
                 <button type="submit" class="btn btn-success" ng-click="w.updateWish()" ng-disabled="!w.listName" translate="{{!w.add ? '.EDIT' : '.ADD'}}"></button>
                 <button type="submit" class="btn btn-danger btn-simple" ng-click="w.cancelWish()" translate=".CANCEL"></button>
             </div>
-            <h5 ng-show="w.wish.listTitle"><i class="fa fa-gift"></i><a href="#/{{w.wish.listId}}">{{w.wish.listTitle}}</a></h5>
+            <h5 ng-show="w.wish.listTitle"><i class="fa fa-gift"></i><a href="/{{w.wish.listId}}">{{w.wish.listTitle}}</a></h5>
         </div>
     </div>

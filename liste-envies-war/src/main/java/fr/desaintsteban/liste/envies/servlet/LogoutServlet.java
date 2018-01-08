@@ -10,6 +10,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 @SuppressWarnings("serial")
 public class LogoutServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-	    resp.sendRedirect(UserServiceFactory.getUserService().createLogoutURL("/"));
+		String path = req.getParameter("path");
+		resp.sendRedirect(UserServiceFactory.getUserService().createLogoutURL(path != null ? path : "/"));
 	}
 }

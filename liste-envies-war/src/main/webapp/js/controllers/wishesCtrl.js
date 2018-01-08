@@ -7,7 +7,7 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
     vm.loading = false;
     vm.type = type;
 
-    vm.envies = [];
+    vm.wishes = [];
     vm.wishes = wishes || [];
 
 
@@ -44,7 +44,7 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
         {property:'date', label:'Date', reverse: true, selected: true},
         {property: orderPrice, label:'Prix', reverse: false, selected: false},
         {property:function (value) {
-            return (value.notes)? value.notes.length : -1;
+            return (value.comments)? value.comments.length : -1;
         }, label:'Commentaires', reverse: true, selected: false}];
 
     vm.orderPropertiesOwners = [{property:'label', label:'Titre', reverse: false, selected: false},
@@ -82,7 +82,7 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
     ];
 
     vm.filterProperties = [{owner: true, shared: true, expression:'true', label:'Toutes', class:'btn-white btn-bordered-primary'},
-        {owner: false, shared: true, expression:'notes.length > 0', label:'Commentaires', class:'btn-white btn-bordered-danger'},
+        {owner: false, shared: true, expression:'comments.length > 0', label:'Commentaires', class:'btn-white btn-bordered-danger'},
         {owner: true, shared: true, expression:'rating > 0', label:'Note', class:'btn-white btn-bordered-upgrade', child: vm.filtersRatingList},
         {owner: true, shared: true, expression:'price != null', label:'Prix', class:'btn-white btn-bordered-gray', child: vm.filtersPriceList}
         ];
@@ -186,7 +186,7 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
     };
 
     vm.refresh = function() {
-        vm.loadEnvies();
+        vm.loadWishes();
     };
 
 
@@ -232,7 +232,7 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
 
 
 
-    function gotoEnvie(id) {
+    function gotoWish(id) {
         // set the location.hash to the id of
         // the element you wish to scroll to.
         $location.hash('envie'+id);
@@ -245,11 +245,6 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
     function loadUser(email) {
         var name = email.split('@');
         var foundUser = {email: email, name: name[0]};
-        /*angular.forEach(vm.listEnvies.users, function(user) {
-            if (user.email == email) {
-                foundUser.name = user.name;
-            }
-        });*/
         return foundUser;
     }
     vm.userName = function(email) {
@@ -258,12 +253,12 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
 
     var updateWishUser = function (item) {
         if (item.owner) {
-            item.ownerUser = loadUser(item.owner);
+            item.ownerUser = (item.owner || loadUser(item.owner.email)).name;
         }
         if (item.userTake && item.userTake.length > 0) {
             var userTakeNames = [];
             angular.forEach(item.userTake, function (user) {
-                this.push(loadUser(user).name || user);
+                this.push((user || loadUser(user)).name);
                 /*if (vm.main.user && user == vm.main.user.email) {
                     item.userGiven = true;
                 }*/
@@ -293,19 +288,19 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
         return target;
     };
 
-    vm.loadEnvies = function () {
+    vm.loadWishes = function () {
 
             vm.refreshingLayoutAuto(100, 800);
             angular.forEach(vm.wishes, function(item) {
-                // add to vm.envies
-                var foundwish = $filter('filter')(vm.envies, {id: item.id, owner: item.owner, date: item.date});
+                // add to vm.wishes
+                var foundwish = $filter('filter')(vm.wishes, {id: item.id, owner: item.owner, date: item.date});
                 updateWishUser(item);
 
                 if (foundwish.length) {
                     vm.updatePropertiesWish(foundwish[0], item);
                 } else {
 
-                    vm.envies.push(item);
+                    vm.wishes.push(item);
                 }
             });
 
@@ -321,7 +316,7 @@ function WichesCtrl(wishes, appUserService, type, $routeParams, $location, $anch
 
 
 
-    vm.loadEnvies();
+    vm.loadWishes();
 
     $.material.init();
 

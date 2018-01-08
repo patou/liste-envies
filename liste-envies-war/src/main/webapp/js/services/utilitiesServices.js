@@ -2,17 +2,17 @@ angular
 	.module('service')
     .service('UtilitiesServices', UtilitiesServices);
 
-UtilitiesServices.$inject = ['listEnviesService', '$q', '$http'];
-    function UtilitiesServices(listEnviesService, $q, $http){
+UtilitiesServices.$inject = ['wishListService', '$q', '$http'];
+    function UtilitiesServices(wishListService, $q, $http){
         var obj = {};
         var promise = false;
         var list = false;
-        obj.getList = function() {
+        obj.getList = function(force) {
             if (promise) return promise.promise;
-            else if (list) return $q.resolve(list);
+            else if (!force && list) return $q.resolve(list);
             else {
                 promise = $q.defer();
-                listEnviesService.query().$promise.then(function (data) {
+                wishListService.query().$promise.then(function (data) {
                     list = data;
                     promise.resolve(list);
                     promise = false;

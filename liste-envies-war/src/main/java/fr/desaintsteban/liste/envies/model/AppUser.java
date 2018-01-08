@@ -6,6 +6,7 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 import fr.desaintsteban.liste.envies.dto.AppUserDto;
+import fr.desaintsteban.liste.envies.util.NicknameUtils;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -27,8 +28,15 @@ public class AppUser {
     private boolean isAdmin = false;
 
     private boolean newUser = false;
+
+	private Date lastVisit;
+	private Date lastNotification;
 	
 	public AppUser() { }
+
+	public AppUser(String email) {
+		this(email, NicknameUtils.getNickname(email));
+	}
 
 	public AppUser(String email, String name) {
 		this.name = name;
@@ -89,6 +97,22 @@ public class AppUser {
 
 	public void setNewUser(boolean newUser) {
 		this.newUser = newUser;
+	}
+
+	public Date getLastVisit() {
+		return lastVisit;
+	}
+
+	public void setLastVisit(Date lastVisit) {
+		this.lastVisit = lastVisit;
+	}
+
+	public Date getLastNotification() {
+		return lastNotification;
+	}
+
+	public void setLastNotification(Date lastNotification) {
+		this.lastNotification = lastNotification;
 	}
 
 	public AppUserDto toDto() {

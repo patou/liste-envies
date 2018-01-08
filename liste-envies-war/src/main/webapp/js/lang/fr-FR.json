@@ -39,14 +39,41 @@
     "CLEAR_FILTER": "Réinitialiser les filtres",
     "REFRESH_LIST": "Rafraichir la liste",
     "TITLE_GIVEN": "Mes cadeaux à donner",
-    "TITLE_ARCHIVE": "Mes cadeaux reçus"
+    "TITLE_ARCHIVE": "Mes cadeaux reçus",
+    "LINK":"Lien de partage",
+    "UPDATE_LIST": {
+      "TITLE": "Mettre à jour votre liste d'envie",
+      "BUTTON": "Enregistrer",
+      "CLOSE": "Fermer"
+    },
+    "SHARE_LIST": {
+      "TITLE": "Partager votre liste",
+      "LINK": "Lien de partage",
+      "EMAIL": "Email",
+      "OWNER": "Co-Bénéficiaire",
+      "BUTTON": "Enregistrer",
+      "CLOSE": "Fermer"
+    },
+    "CHANGE_URL": {
+      "TITLE": "Modifier l'url",
+      "WARNING" : "<strong>Attention : </strong> le changement est définitif, l'ancienne url ne sera plus disponible.",
+      "EXIST" : "<strong>Déjà pris : </strong> cette url est déjà prise, choississez une autre url",
+      "BUTTON": "Renommer",
+      "CLOSE": "Fermer"
+    }
   },
   "HOME_PAGE": {
     "HOME_TITLE": "Liste de mes envies <small>Accueil</small>",
     "WELCOME_MESSAGE": "Bonjour, <strong>{{userName}}</strong>! Bienvenue sur votre liste des envies",
+    "WELCOME_ANONYMOUS_MESSAGE": "Bonjour! Bienvenue sur votre liste des envies",
+    "CREATE_ACOUNT":"Je n'ai pas de compte !",
     "SEPARATOR_USER": "de",
     "BUTTON_CREATE_LIST": "Créer une liste",
-    "BUTTON_CONNEXION": "@:NAVBAR.LOG_IN"
+    "BUTTON_CONNEXION": "@:NAVBAR.LOG_IN",
+    "NEW_LIST": {
+      "TITLE": "Créer une liste d'envie"
+
+    }
   },
   "CANCEL_COMPONENT": {
 
@@ -76,7 +103,10 @@
     "INPUT_LINKS_URL_PLACEHOLDER": "Url : http://",
     "INPUT_LINKS_NAME_PLACEHOLDER": "Nom du lien",
     "INPUT_ADD_LINK": "Ajouter le lien",
+    "INPUT_REMOVE_LINK": "Supprimer le lien",
     "INPUT_IMAGE_URL": "Image (url)",
+    "INPUT_ADD_IMAGE": "Ajouter l'image",
+    "INPUT_REMOVE_IMAGE": "Supprimer cette image",
     "INPUT_IMAGE_PLACEHOLDER": "https://placeholdit.imgix.net/~text?txtsize=20&txt=Choisir+une+image&w=100&h=100&txttrack=0",
     "INPUT_PRICE": "Prix",
     "EDIT": "@:COMMONS.EDIT",
@@ -85,6 +115,7 @@
     "EDIT_OPTIONS_DELETE": "Supprimer",
     "EDIT_OPTIONS_COPY": "Copier",
     "OFFERED_BY": "Offert par {{name}} &nbsp;&nbsp;&nbsp;",
+    "OFFERED": "Déjà offert",
     "PARTICIPATE": "Participer",
     "GIVEN": "Offert",
     "TO_OFFER": "Offrir",
@@ -113,11 +144,57 @@
   },
   "PROFIL_PAGE": {
     "TITLE": "Mon profil",
-    "NAME": "Mon nom",
+    "NAME": "Mon nom (celui qui sera utilisé pour vous identifier)",
     "EMAIL": "Mon email",
     "BIRTHDAY": "Ma date de naissance",
     "BIRTHDAY_INFO": "Pour rappeler à vos contacts, de penser à votre anniversaire",
     "SAVE": "Mettre à jour"
-  }
+  },
+  "WISH_LIST_SETTINGS": {
+    "FORM_TITRE": "Titre",
+    "FORM_TYPE": "Pour quel événement ?",
+    "INPUT_DESCRIPTION": "Description",
+    "TITLE_PLACEHOLDER": "Liste de ...",
+    "FORM_CUSTOM_PICTURE": "Image arrière plan : ",
+    "PLACEHOLDER_PICTURE": "Ou entrez l'url d'une image ",
+    "TYPE": {
+      "CHRISTMAS": "Noël",
+      "BIRTHDAY": "Anniversaire",
+      "BIRTH": "liste de naissance",
+      "WEDDING": "liste de mariage",
+      "LEAVING": "liste pour un départ",
+      "SPECIAL_OCCASION": "Occasion spéciale",
+      "HOUSE_WARNING": "Pendaison de crémaillère",
+      "RETIREMENT": "Retraite",
+      "OTHER": "Autre"
+    },
+    "PRIVACY": "Partage de la liste",
+    "PRIVATE": "Limité / privé",
+    "OPEN": "Ouvert / connecté",
+    "PUBLIC": "Libre / publique",
+    "DESCRIPTION": {
+      "PRIVATE": "Liste accessible seulement à ceux à qui vous partagerez la liste. <br/>Vous ne verrez pas qui vous donne une envie, seules les personnes a qui vous la partagerez le verra.",
+      "OPEN": "Il faut être connecté pour voir les envies de la liste (et intéragir avec), la liste est ouverte à tous les membres qui connaisse le liens. <br/> Vous ne verrez pas qui vous donne une envie, par contre toutes les personnes connectés (sauf les bénéficiaires) voient qui donne une envie.",
+      "PUBLIC": "La liste peut être affiché sans être connecté par toute personne connaissant le lien. Il est nécessaire de se connecter pour interagir avec, et voir si une envie est prise. <br/> Toutes les personnes connectés (bénéficiaires compris) voient qui donne une envie.",
+      "DEFAULT": "Selectionnez la visibilité de la liste"
+    },
+    "DATE": "Date de l'événement",
+    "DATE_INFO": "Pour afficher un compte à rebours jusqu'à l'événement"
+  },
+  "LOGIN_FORM" : {
+    "TITLE": "Se connecter",
+    "DESCRIPTION":"Connectez-vous pour pouvoir utiliser le site liste-envies avec un compte google",
 
+    "LOGIN":"Se connecter",
+    "CREATE_ACOUNT":"Je n'ai pas de compte ! (creer un compte)"
+  },
+  "PRIVACY_FORM": {
+    "BUTTON_CONNEXION":"Se connecter",
+    "CREATE_ACOUNT":"Je n'ai pas de compte ! (creer un compte)",
+    "DESCRIPTION": "Connectez-vous (ou inscrivez-vous) pour voir et/ou participer à cette liste d'envies"
+  },
+  "JOIN_FORM": {
+    "BUTTON":"Rejoindre",
+    "DESCRIPTION": "Rejoignez cette liste, pour l'ajouter à ses listes, et recevoir les notifications"
+  }
 }

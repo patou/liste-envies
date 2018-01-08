@@ -1,6 +1,6 @@
 app.controller('AddWishCtrl', AddWishCtrl);
-AddWishCtrl.$inject = ['UtilitiesServices', 'AuthService', 'listEnviesService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse', '$interval', '$timeout', 'pageInfo'];
-function AddWishCtrl(UtilitiesServices, AuthService, listEnviesService, $routeParams, $location,
+AddWishCtrl.$inject = ['UtilitiesServices', 'appUserService', 'wishListService', 'AuthService', '$routeParams', '$location', '$anchorScroll', '$scope', '$parse', '$interval', '$timeout', 'pageInfo'];
+function AddWishCtrl(UtilitiesServices, appUserService, wishListService, AuthService, $routeParams, $location,
                      $anchorScroll, $scope, $parse, $interval, $timeout, pageInfo) {
     var vm = this;
     //vm.name = $routeParams.name;
@@ -83,7 +83,7 @@ function AddWishCtrl(UtilitiesServices, AuthService, listEnviesService, $routePa
     });
 
 
-    vm.addEnvie = function (envie) {
+    vm.addWish = function (envie) {
         vm.newWish = envie;
         vm.added = true;
         $anchorScroll();
@@ -100,7 +100,7 @@ function AddWishCtrl(UtilitiesServices, AuthService, listEnviesService, $routePa
 
 
     vm.loginPath = function() {
-        return "/login?path=" + encodeURIComponent($location.url());
+        return "/user/login?path=" + encodeURIComponent($location.url());
     };
 
 
@@ -193,7 +193,7 @@ function AddWishCtrl(UtilitiesServices, AuthService, listEnviesService, $routePa
 
     function loadUser(email) {
         var foundUser = {email: email, name: ''};
-        angular.forEach(vm.listEnvies.users, function(user) {
+        angular.forEach(vm.wishList.users, function(user) {
             if (user.email == email) {
                 foundUser.name = user.name;
             }
@@ -206,12 +206,12 @@ function AddWishCtrl(UtilitiesServices, AuthService, listEnviesService, $routePa
 
     var updateWishUser = function (item) {
         if (item.owner) {
-            item.ownerUser = loadUser(item.owner);
+            item.ownerUser = loadUser(item.owner.email) || item.owner.name;
         }
         if (item.userTake && item.userTake.length > 0) {
             var userTakeNames = [];
             angular.forEach(item.userTake, function (user) {
-                this.push(loadUser(user).name || user);
+                this.push(loadUser(user).name || user.name);
             }, userTakeNames);
             item.userTakeUsers = userTakeNames.join(", ");
         } else {

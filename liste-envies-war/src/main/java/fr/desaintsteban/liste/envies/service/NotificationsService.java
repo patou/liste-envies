@@ -1,55 +1,48 @@
 package fr.desaintsteban.liste.envies.service;
 
-import com.google.common.collect.Lists;
-import com.googlecode.objectify.Work;
+import com.googlecode.objectify.cmd.Query;
 import com.googlecode.objectify.cmd.Saver;
+import fr.desaintsteban.liste.envies.enums.NotificationType;
+import fr.desaintsteban.liste.envies.enums.UserShareType;
 import fr.desaintsteban.liste.envies.model.*;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
 public final class NotificationsService {
     private NotificationsService() {}
 
-	public static List<ListEnvies> list() {
-		List<ListEnvies> list = OfyService.ofy().load().type(ListEnvies.class).list();
+	public static List<WishList> list() {
+		List<WishList> list = OfyService.ofy().load().type(WishList.class).list();
 		return list;
 	}
 
 	public static List<Notification> list(AppUser user) {
-		List<Notification> list = OfyService.ofy().load().type(Notification.class).filter("user =",user.getEmail()).order("-date").limit(10).list();
+		Query<Notification> filter = OfyService.ofy().load().type(Notification.class).filter("user =", user.getEmail());
+		if (user.getLastNotification() != null)
+			filter = filter.filter("date >=",user.getLastNotification());
+		List<Notification> list = filter.order("-date").limit(35).list();
 		return list;
 	}
 
-	public static Notification notify(NotificationType type, final AppUser currentUser, ListEnvies listEnvies, boolean noOwners) {
-		return notify(type, currentUser, listEnvies, noOwners, "");
+	public static Notification notify(NotificationType type, final AppUser currentUser, WishList wishList, boolean noOwners) {
+		return notify(type, currentUser, wishList, noOwners, "");
 	}
 
-	public static Notification notify(NotificationType type, final AppUser currentUser, final ListEnvies listEnvies, boolean noOwners, final String message) {
+	public static Notification notify(NotificationType type, final AppUser currentUser, final WishList wishList, boolean noOwners, final String message) {
 		final Notification newNotif = new Notification();
 
 		newNotif.setType(type);
-		newNotif.setListId(listEnvies.getName());
-		newNotif.setListName(listEnvies.getTitle());
+		newNotif.setListId(wishList.getName());
+		newNotif.setListName(wishList.getTitle());
 		newNotif.setDate(new Date());
 		newNotif.setMessage(message);
 		newNotif.setActionUser(currentUser.getEmail());
 		newNotif.setActionUserName(currentUser.getName());
 
-		newNotif.setUser(listEnvies.getUsers().stream()
+		newNotif.setUser(wishList.getUsers().stream()
 				.filter(userShare ->
 						(userShare.getType() != UserShareType.OWNER || !noOwners)
 								&& !userShare.getEmail().equals(currentUser.getEmail()))
@@ -63,7 +56,7 @@ public final class NotificationsService {
 	}
 
 
-	public static Notification notifyUserAddedToList(final ListEnvies list, List<String> users, final AppUser currentUser) {
+	public static Notification notifyUserAddedToList(final WishList list, List<String> users, final AppUser currentUser) {
 		final Notification newNotif = new Notification();
 		newNotif.setType(NotificationType.ADD_USER);
 		newNotif.setListId(list.getName());

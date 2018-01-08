@@ -2,6 +2,7 @@ package fr.desaintsteban.liste.envies.model;
 
 import com.googlecode.objectify.annotation.*;
 import fr.desaintsteban.liste.envies.dto.NotificationDto;
+import fr.desaintsteban.liste.envies.enums.NotificationType;
 
 import java.util.Date;
 import java.util.List;

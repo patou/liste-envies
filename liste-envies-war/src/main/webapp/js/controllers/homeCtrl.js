@@ -1,12 +1,13 @@
 app.controller('HomeCtrl', HomeCtrl);
-HomeCtrl.$inject = ['appUserService', 'listEnviesService', '$location', 'UtilitiesServices', 'AuthService'];
-function HomeCtrl(appUserService, listEnviesService, $location, UtilitiesServices, AuthService) {
+HomeCtrl.$inject = ['appUserService', 'wishListService', '$location', 'UtilitiesServices', 'AuthService'];
+function HomeCtrl(appUserService, wishListService, $location, UtilitiesServices, AuthService) {
     var vm = this;
     vm.loading = true;
+    resetBackground();
 
     UtilitiesServices.getList().then(function (data) {
         vm.loading = false;
-        vm.envies = data;
+        vm.wishes = data;
     });
     /** Deprecated */
     vm.addUser = function (newuser) {
@@ -20,7 +21,6 @@ function HomeCtrl(appUserService, listEnviesService, $location, UtilitiesService
 
     vm.addNewList = function (newlist, userEmail) {
         $('#new-list').modal('hide');
-        $('body').removeClass('modal-open'); // bug this css class is not removed and the modal will block the pages
         vm.loading = true;
         if (userEmail == null) {
             const currentUser = AuthService.getUser();
@@ -33,11 +33,42 @@ function HomeCtrl(appUserService, listEnviesService, $location, UtilitiesService
                 user.push({'email': email.trim(), 'type': "SHARED"});
             });
         }
-        listEnviesService.save({title: newlist.title, users:user}, function(listEnvies) {
+        var newWishList = {title: newlist.title, users:user, privacy: newlist.privacy, description: newlist.description, date: newlist.date, type: newlist.type};
+        if (newlist.picture) {
+           newWishList.picture = newlist.picture;
+        }
+        wishListService.save(newWishList, function(wishList) {
             vm.loading = false;
-            $location.url("/"+listEnvies.name);
+            resetBackground();
+            UtilitiesServices.getList(true).then(function (data) {
+                vm.loading = false;
+                vm.wishes = data;
+            });
+            $location.url("/"+wishList.name);
         });
     };
 
     $.material.init();
+
+
+    function resetBackground() {
+        vm.background = 'img/default.jpg';
+    }
+    $("#new-list").on("hidden.bs.modal", function(e) {
+       resetBackground();
+       $('body').removeClass('modal-open'); // bug this css class is not removed and the modal will block the pages
+        vm.$scope.$digest();
+    });
+    vm.changeBackground = function(picture) {
+        vm.newlist.picture = picture;
+        if (!picture) {
+            resetBackground();
+            return;
+        }
+        vm.background = picture;
+    };
+
+    vm.getPictureUrl = function(picture) {
+        return (picture.startsWith('img/'))? 'thumb/' + picture : picture;
+    }
 }

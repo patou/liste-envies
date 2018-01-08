@@ -10,7 +10,7 @@ AuthService.$inject = ['$http', '$q'];
         
         obj.refresh = function() {
             return new Promise(function(resolve, error) {
-                $http.get('/user')
+                $http.get('/api/user')
                     .success(function (data) {
                         obj.user = eval(data);
                         resolve(obj.user);

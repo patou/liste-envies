@@ -13,7 +13,8 @@ angular.module('ListeEnviesDirectives')
         controllerAs: 'main',
         transclude: true,
         bindings: {
-            scope: "="
+            scope: "=",
+            background: "<"
         }
     });
 PagesDirectivesController.$inject = ['$scope', '$http', '$location', 'AuthService', 'UtilitiesServices', 'appUserService'];
@@ -63,10 +64,10 @@ function PagesDirectivesController ($scope, $http, $location, AuthService, Utili
     };
 
     main.loginPath = function() {
-        return "/login?path=" + encodeURIComponent($location.path());
+        return "/user/login?path=" + encodeURIComponent($location.path());
     };
     main.logoutPath = function() {
-        return "/logout?path=" + encodeURIComponent($location.path());
+        return "/user/logout?path=" + encodeURIComponent($location.path());
     };
 
     main.getPopoverTitle = function() {
@@ -95,6 +96,10 @@ function PagesDirectivesController ($scope, $http, $location, AuthService, Utili
             default:
                 return 'fa-bell';
         }
+    };
+
+    main.getPictureUrl = function(picture) {
+        return (picture.startsWith('img/'))? 'thumb/' + picture : picture;
     };
 
     loadMaterialsKits();

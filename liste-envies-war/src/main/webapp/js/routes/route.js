@@ -1,4 +1,5 @@
-app.config(function ($routeProvider) {
+app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+    $locationProvider.html5Mode(true);
     $routeProvider
         .when("/", {
             templateUrl: "templates/home.html",
@@ -72,8 +73,8 @@ app.config(function ($routeProvider) {
     }).when("/:name", {
         templateUrl: "templates/wishList.html",
         name: 'Envie',
-        controller: "EnvieCtrl",
+        controller: "ListCtrl",
         controllerAs: "vm"
     })
         .otherwise({redirectTo: '/'});
-});
+}]);

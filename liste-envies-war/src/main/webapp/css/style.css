@@ -23,7 +23,8 @@ body {
 }
 
 .page-background {
-    background-image: url('https://images.unsplash.com/photo-1477728275068-39b7f46df4d2?dpr=1&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=');
+   /* background-image: url('https://images.unsplash.com/photo-1477728275068-39b7f46df4d2?dpr=1&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=');
+    */
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
@@ -77,6 +78,38 @@ body {
     color: inherit;
 }
 
+.list-envies-item {
+    position: relative;
+}
+
+.list-envies-item .backgroundimg {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    opacity: 0.2;
+}
+
+.list-envies-menu-item {
+    position: relative;
+}
+
+.list-envies-menu-item .backgroundimg {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    opacity: 0.2;
+}
+
 .mega-dropdown {
     position: static !important;
     width:100%;
@@ -111,7 +144,7 @@ body {
 .mega-dropdown-menu .list-group-item {
     display: inline-block;
     width: 220px;
-    margin: 0.2%;
+    margin: 5px;
     padding: 0;
     border-radius: 5px;
 }
@@ -219,7 +252,7 @@ button.copy-button {
     margin-top: -4px !important;
 }
 
-.list-envie .note-statusbar {
+.list-envie .comment-statusbar {
     display: none !important;
 }
 
@@ -242,6 +275,11 @@ button.copy-button {
 
 .list-envie .envie-item .bottom-envie .comments  a:hover {
     color: gray;
+}
+
+.envie-item .bottom-envie .comments a.btn.btn-link {
+    margin-top: 0;
+    padding-top: 5px;
 }
 
 .list-envie .envie-item .logo-envie {
@@ -268,7 +306,6 @@ button.copy-button {
      border-color: #337ab7;
      border-style: solid;
      border-width: 1px;
-     margin: 0px;
 }
 
 .list-group.list-envies h2.list-group-item-heading {
@@ -382,6 +419,10 @@ div.material-icons.form-control-feedback {
 
 .envie-card .panel .footer {
     padding: 5px;
+}
+
+.envie-card .panel .footer button.btn {
+    margin: 0;
 }
 
 .envie-card h1 {
@@ -560,6 +601,32 @@ div.material-icons.form-control-feedback {
     display: inline-block;
 }
 
+.picture-editor {
+    display: flex;
+}
+
+.picture-editor input {
+    flex: 1 1;
+}
+.picture-editor button {
+    margin-top: 0;
+}
+
+.picture-list-edit {
+    position: relative;
+}
+.picture-list-edit button.delete-picture {
+    z-index: 999;
+    font-size: 1.5em;
+    position: absolute;
+    top: 5px;
+    right: 23px;
+    color: white;
+    background-color: rgba(1,1,1, 0.5);
+    border-radius: 50%;
+    padding: 5px 8px;
+}
+
 .envie-item .comment-form {
     background: white;
     padding: 1px 2px;
@@ -581,7 +648,9 @@ div.material-icons.form-control-feedback {
 
 .envie-item form.form.form-add-comment button.btn {
     position: relative;
-    bottom: -10px;
+    bottom: -4px;
+    margin: 0;
+    padding: 18px;
 }
 
 .envie-item h5 {
@@ -826,4 +895,19 @@ li.notif .fa {
     z-index: 2000 !important;
 }
 
+a.thumbnail.background-config img {
+    max-height: 98px;
+}
 
+span.owners {
+    word-break: break-all;
+    overflow-wrap: break-word;
+}
+
+.list-envie .alert {
+    height: 200px;
+    padding: 25px;
+    border-radius: 5px;
+    margin: 20px 0;
+    text-align: center;
+}

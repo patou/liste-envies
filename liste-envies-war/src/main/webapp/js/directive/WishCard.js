@@ -8,7 +8,7 @@
  * @restrict E
  * */
 
-var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
+var WishCard = function ($scope, wishService, $location, UtilitiesServices) {
     var w = this;
 
     w.add = false;
@@ -33,6 +33,7 @@ var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
         if (!w.link) {w.link = {};}
         w.link.url = null;
         w.link.name = null;
+        w.picture = undefined;
 
         if (!w.ownerList) {w.wish.suggest = true;}
         w.edit = true;
@@ -52,6 +53,7 @@ var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
 
 
     w.link = undefined;
+    w.picture = undefined;
 
     w.editorOptions = {
         disableDragAndDrop: true,
@@ -100,14 +102,17 @@ var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
     };
 
     w.updateWish = function () {
-        //w.parentController.addEnvie(w.wish);
+        //w.parentController.addWish(w.wish);
         if (w.link) {
             w.addLink(w.link);
         }
+        if (w.picture) {
+            w.addPicture(w.picture);
+        }
         w.edit = false;
-        envieService.save({name:w.listName}, w.wish, function(updatedData) {
+        wishService.save({name:w.listName}, w.wish, function(updatedData) {
             if (w.add) {
-                w.parentController.addEnvie(updatedData);
+                w.parentController.addWish(updatedData);
                 resetAddForm();
             } else {
                 w.edit = false;
@@ -120,12 +125,37 @@ var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
     };
 
     w.addLink = function(link) {
+        if (!link.url)
+            return;
         if (!w.wish.urls) {
             w.wish.urls = [];
         }
         w.wish.urls.push(link);
         w.link = undefined;
         w.parentController.stampElement(w.wish.id);
+    };
+
+    w.removeLink = function(link) {
+        var index = w.wish.urls.indexOf(link);
+        if (index >= 0) {
+            w.wish.urls.splice(index, 1);
+        }
+    };
+
+    w.addPicture = function(picture) {
+        if (!w.wish.pictures) {
+            w.wish.pictures = [];
+        }
+        w.wish.pictures.push(picture);
+        w.picture = undefined;
+        w.parentController.stampElement(w.wish.id);
+    };
+
+    w.removePicture = function(picture) {
+        var index = w.wish.pictures.indexOf(picture);
+        if (index >= 0) {
+            w.wish.pictures.splice(index, 1);
+        }
     };
 
     w.openComment = function() {
@@ -143,14 +173,14 @@ var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
 
     };
 
-    w.addNote = function (wish, notetext) {
-        var note = {text: notetext.text};
+    w.addComment = function (wish, commenttext) {
+        var comment = {text: commenttext.text};
         w.parentController.stampElement(w.wish.id, false);
-        envieService.addNote({name:w.listName, id: wish.id}, notetext, function(data) {
+        wishService.addComment({name:w.listName, id: wish.id}, commenttext, function(data) {
             w.parentController.refreshingLayoutAuto(30, 200);
             w.parentController.updatePropertiesWish(wish, data);
             w.parentController.unStampElement(w.wish.id, false);
-            w.note.text = '';
+            w.comment.text = '';
         });
     };
 
@@ -164,17 +194,29 @@ var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
 
 
     w.given = function(id) {
-        if (w.wish.userTake.indexOf(w.user.email) < 0) {
-            envieService.give({name:w.listName, id:id}, {}, function(updatedData) {
+        if (!w.wish.userTake) {
+            w.wish.userTake = [];
+        }
+        if (!w.user) {
+            w.wish.userTake = null;
+            //TODO
+            alert('Connectez-vous pour pouvoir participer à cette liste');
+        }
+        else if (!w.wish.userTake.find(function(user){ return user.email == this; }, w.user.email)) {
+            wishService.give({name:w.listName, id:id}, {}, function(updatedData) {
+                updatedData.userGiven = true; // todo correct into server. 
                 w.parentController.updatePropertiesWish(w.wish, updatedData);
                 w.parentController.update();
             });
+        } else {
+            w.wish.userTake = null;
         }
     };
 
 
     w.cancel = function(id) {
-        envieService.cancel({name:w.listName, id:id}, {}, function(updatedData) {
+        wishService.cancel({name:w.listName, id:id}, {}, function(updatedData) {
+            updatedData.given = false; // todo correct into server.
             w.parentController.updatePropertiesWish(w.wish, updatedData);
             w.parentController.update();
         });
@@ -200,7 +242,7 @@ var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
     };
 
     w.doRemove = function() {
-        envieService.delete({name:w.listName, id: w.wish.id}, function() {
+        wishService.delete({name:w.listName, id: w.wish.id}, function() {
             w.onDelete({wish: w.wish});
             w.remove = false;
 
@@ -234,7 +276,7 @@ var WishCard = function ($scope, envieService, $location, UtilitiesServices) {
 
 
     w.doArchive = function() {
-        envieService.archive({name:w.listName, id: w.wish.id}, function() {
+        wishService.archive({name:w.listName, id: w.wish.id}, function() {
             w.onDelete({wish: w.wish});
             w.archive = false;
 
@@ -250,7 +292,7 @@ angular.module('ListeEnviesDirectives')
             templateUrl: 'templates/directive/WishCard.html',
             bindToController: true,
             controllerAs: 'w',
-            controller: ['$scope', 'envieService', '$location', 'UtilitiesServices', WishCard],
+            controller: ['$scope', 'wishService', '$location', 'UtilitiesServices', WishCard],
             scope: {
                 'wish': '=',
                 'ownerList': '=',

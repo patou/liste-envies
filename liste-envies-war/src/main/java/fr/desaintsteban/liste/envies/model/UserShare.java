@@ -2,6 +2,7 @@ package fr.desaintsteban.liste.envies.model;
 
 import com.googlecode.objectify.annotation.Index;
 import fr.desaintsteban.liste.envies.dto.UserShareDto;
+import fr.desaintsteban.liste.envies.enums.UserShareType;
 
 /**
  *
