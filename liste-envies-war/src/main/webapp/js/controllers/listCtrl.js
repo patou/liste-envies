@@ -256,7 +256,8 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
 
     function updateDate() {
         vm.wishList.dateTimeStamp = vm.wishList.date;
-        vm.wishList.date = new Date(vm.wishList.date);
+        if (vm.wishList.date)
+            vm.wishList.date = new Date(vm.wishList.date);
     }
 
 
