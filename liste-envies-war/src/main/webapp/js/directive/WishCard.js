@@ -125,7 +125,7 @@ var WishCard = function ($scope, wishService, $location, UtilitiesServices) {
     };
 
     w.addLink = function(link) {
-        if (!link.url)
+        if (!link || !link.url)
             return;
         if (!w.wish.urls) {
             w.wish.urls = [];
@@ -143,6 +143,8 @@ var WishCard = function ($scope, wishService, $location, UtilitiesServices) {
     };
 
     w.addPicture = function(picture) {
+        if (!picture)
+            return;
         if (!w.wish.pictures) {
             w.wish.pictures = [];
         }
