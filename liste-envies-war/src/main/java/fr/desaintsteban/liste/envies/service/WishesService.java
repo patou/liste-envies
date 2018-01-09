@@ -21,7 +21,7 @@ public final class WishesService {
         Objectify ofy = OfyService.ofy();
         Key<WishList> key = Key.create(WishList.class, name);
         LoadResult<WishList> loadResult = ofy.load().key(key); //Chargement asynchrone
-        List<Wish> list = ofy.load().type(Wish.class).ancestor(key).list();
+        List<Wish> list = ofy.load().type(Wish.class).ancestor(key).filter("archived =",false).list();
         WishList wishList = loadResult.now();
         return WishRules.applyRules(user, wishList, list);
     }
