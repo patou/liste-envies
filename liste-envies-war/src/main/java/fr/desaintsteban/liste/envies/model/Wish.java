@@ -90,7 +90,7 @@ public class Wish {
         setPrice(wish.getPrice());
         setPictures(wish.getPictures());
         setDate(wish.getDate());
-        setUrls(wish.getUrls());
+        setUrls(cleanUrl(wish.getUrls()));
         setRating(wish.getRating());
         setAllreadyGiven(wish.getAllreadyGiven());
         if (wish.getUserTake() != null) {
@@ -122,7 +122,7 @@ public class Wish {
         wish.setPictures(getPictures());
         wish.setDate(getDate());
         wish.setRating(getRating());
-        wish.setUrls(getUrls());
+        wish.setUrls(cleanUrl(getUrls()));
         wish.setAllreadyGiven(getAllreadyGiven());
 
         if (!filter) { // Do not add this, if you doesn't want to have this information. For filter it.
@@ -141,6 +141,17 @@ public class Wish {
         }
 
         return wish;
+    }
+
+    /**
+     * Clean all links with url null
+     * @param links
+     * @return
+     */
+    private List<Link> cleanUrl(List<Link> links) {
+        if (links == null || links.isEmpty())
+            return links;
+        return links.stream().filter(link -> link.getUrl() != null).collect(Collectors.toList());
     }
 
     public Key<WishList> getList() {
