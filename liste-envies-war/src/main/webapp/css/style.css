@@ -850,6 +850,8 @@ div.material-icons.form-control-feedback {
 .notif-menu {
     padding: 5px;
     min-width: 250px;
+    overflow: auto;
+    max-height: 36em;
 }
 
 .notification .badge {
