@@ -3,19 +3,25 @@ cache:
   directories:
     - $HOME/.m2
     - $HOME/google-cloud-sdk
+    - $TRAVIS_BUILD_DIR/liste-envies-front/node_modules
 install:
   - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
   - source $HOME/google-cloud-sdk/path.bash.inc
   - gcloud version
   - gcloud --quiet components update app-engine-java
+  - cd $TRAVIS_BUILD_DIR/liste-envies-front
+  - npm install
 
 #command to install dependencies
 script:
-  - cd liste-envies-war
-  - "mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=error clean install"
+  - cd $TRAVIS_BUILD_DIR/liste-envies-war
+  - "mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=error clean test"
+  - cd $TRAVIS_BUILD_DIR/liste-envies-front
+  - npm run build
 
 #command to deploy
 after_success:
+  - cd $TRAVIS_BUILD_DIR/liste-envies-war
   - if [ a${TRAVIS_BRANCH} = "amaster" -a ${TRAVIS_EVENT_TYPE} = "push" ]; then
       echo ${GOOGLE_CLIENT_SECRET} > client-secret.json;
       export APP_ID=${CLOUDSDK_CORE_PROJECT};
@@ -27,7 +33,7 @@ after_success:
     fi
   - echo "Deploy application ${APP_ID} version ${APP_VERSION}"
   - gcloud auth activate-service-account --key-file client-secret.json
-  - mvn -B -DskipTests=true -Dapp.deploy.project=${APP_ID} -Dapp.deploy.version=${APP_VERSION} appengine:deploy
+  - mvn -B -DskipTests=true -Dapp.deploy.project=${APP_ID} -Dapp.deploy.version=${APP_VERSION} -Dapp.deploy.promote=false appengine:deploy
   
 notifications:
   slack: desaintsteban:OBrvC8hmnZXdW1HTa0QOE5tM

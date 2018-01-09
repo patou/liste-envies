@@ -1,0 +1,12 @@
+{
+  "/api": {
+    "target": "http://test-liste-envies.appspot.com",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/user": {
+    "target": "http://test-liste-envies.appspot.com",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

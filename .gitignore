@@ -19,3 +19,19 @@ liste-envies-war/.classpath
 .project
 .classpath
 .settings
+pubspec.lock
+.c9
+.idea/
+.settings/
+*.swo
+modules/.settings
+.vscode
+modules/.vscode
+
+# Ignore npm/yarn debug log
+npm-debug.log
+yarn-error.log
+
+# Front files
+liste-envies-front/dist/
+liste-envies-front/node_modules/
