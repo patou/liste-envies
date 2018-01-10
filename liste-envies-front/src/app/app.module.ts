@@ -1,28 +1,27 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { MaterialModule } from "./material.module";
-import {FormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { PageComponent } from './page/page.component';
+import { HomeComponent } from './home/home.component';
+import { SharedModule} from "./shared/shared.module";
+import { ListComponent } from './list/list.component';
+import { WishListService } from "./service/wish-list-service";
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PageComponent,
+    HomeComponent,
+    ListComponent
   ],
   imports: [
-    BrowserModule,
-    HttpClientModule,
-    FormsModule,
-    BrowserAnimationsModule,
     AppRoutingModule,
-    MaterialModule
+    SharedModule
   ],
-  providers: [],
+  providers: [WishListService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

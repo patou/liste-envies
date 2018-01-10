@@ -1,0 +1,17 @@
+<div>
+  <mat-toolbar color="primary">
+    <span><mat-icon fontSet="fa" fontIcon="fa-gift"></mat-icon></span>
+
+    <span class="title" i18n>Listes de mes envies</span>
+
+    <button mat-icon-button [mat-menu-trigger-for]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+  </mat-toolbar>
+  <mat-menu x-position="before" #menu="matMenu">
+    <button mat-menu-item>Option 1</button>
+    <button mat-menu-item>Option 2</button>
+  </mat-menu>
+
+  <router-outlet></router-outlet>
+</div>
