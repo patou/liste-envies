@@ -5,5 +5,6 @@ Application pour créer la liste de ces envies, et la partager avec notre famill
 
 The application use :
 - Google App Engine
-- Angular JS
-- [Start Bootstrap Admin](https://github.com/IronSummitMedia/startbootstrap-sb-admin)
+- Angular
+- Angular Material
+- Sass
