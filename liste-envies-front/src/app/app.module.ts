@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { SharedModule} from "./shared/shared.module";
 import { ListComponent } from './list/list.component';
 import { WishListService } from "./service/wish-list-service";
+import { WishCardComponent } from './wish-card/wish-card.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { WishListService } from "./service/wish-list-service";
     AppComponent,
     PageComponent,
     HomeComponent,
-    ListComponent
+    ListComponent,
+    WishCardComponent
   ],
   imports: [
     AppRoutingModule,
