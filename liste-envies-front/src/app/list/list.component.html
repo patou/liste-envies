@@ -13,8 +13,8 @@
     </ngx-masonry-item>
   </ngx-masonry>-->
 
-<mat-grid-list [gutterSize]="10" [cols]="4">
-  <mat-grid-tile class="masonry-item" *ngFor="let wishItem of (list | async)" [rowspan]="2"><app-wish-card  [wishItem]="wishItem" class="wish-card"></app-wish-card></mat-grid-tile>
-</mat-grid-list>
+<div class="masonry-item" *ngFor="let wishItem of (list | async)">
+ <app-wish-card  [wishItem]="wishItem" class="wish-card"></app-wish-card>
+</div>
 
 
