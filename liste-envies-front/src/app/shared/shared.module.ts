@@ -5,7 +5,6 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {MaterialModule} from '../../shared/material.module';
-import { NgxMasonryModule } from 'ngx-masonry';
 
 import {AppRoutingModule} from '../app-routing.module';
 
@@ -16,8 +15,7 @@ import {AppRoutingModule} from '../app-routing.module';
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
-    MaterialModule,
-    NgxMasonryModule
+    MaterialModule
   ],
   declarations: [],
   exports: [
@@ -26,8 +24,7 @@ import {AppRoutingModule} from '../app-routing.module';
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
-    MaterialModule,
-    NgxMasonryModule
+    MaterialModule
   ]
 })
 export class SharedModule { }

@@ -6,11 +6,12 @@
     "ng": "ng",
     "start": "ng serve --proxy-config proxy-config.local.json",
     "serve": "ng serve --proxy-config proxy-config.dist.json",
-     "ce": "ng serve --proxy-config proxy-config.dist.json --host 0.0.0.0 --port 8003 --disable-host-check",
+    "ce": "ng serve --proxy-config proxy-config.dist.json --host 0.0.0.0 --port 8003 --disable-host-check",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "compodoc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json"
   },
   "private": true,
   "dependencies": {
@@ -36,6 +37,7 @@
     "@angular/cli": "1.6.4",
     "@angular/compiler-cli": "^5.0.0",
     "@angular/language-service": "^5.0.0",
+    "@compodoc/compodoc": "^1.0.5",
     "@types/jasmine": "~2.8.4",
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
