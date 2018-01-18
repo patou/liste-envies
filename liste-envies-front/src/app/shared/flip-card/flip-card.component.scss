@@ -1,11 +1,11 @@
-@import "../../mixins";
+@import "../../../mixins";
 
 // Flip cards
 $rotate: 180deg;
-$cardWidth: 90%;
+$cardWidth: 360px;
 $cardHeight: 300px;
 $speed: .6s;
-$scale: 2;
+$scale: 1;
 
 .card-container {
   width: $cardWidth;

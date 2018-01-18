@@ -6,7 +6,8 @@ import {FormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {MaterialModule} from '../../shared/material.module';
 
-import {AppRoutingModule} from '../app-routing.module';
+import { RatingComponent } from "./rating/rating.component";
+import { FlipCardComponent } from "./flip-card/flip-card.component";
 
 @NgModule({
   imports: [
@@ -17,14 +18,16 @@ import {AppRoutingModule} from '../app-routing.module';
     BrowserAnimationsModule,
     MaterialModule
   ],
-  declarations: [],
+  declarations: [RatingComponent, FlipCardComponent],
   exports: [
     CommonModule,
     BrowserModule,
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    RatingComponent,
+    FlipCardComponent
   ]
 })
 export class SharedModule { }

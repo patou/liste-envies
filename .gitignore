@@ -35,3 +35,4 @@ yarn-error.log
 # Front files
 liste-envies-front/dist/
 liste-envies-front/node_modules/
+liste-envies-front/documentation/

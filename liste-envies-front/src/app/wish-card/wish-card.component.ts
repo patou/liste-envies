@@ -9,10 +9,19 @@ import {WishItem} from '../models/WishItem';
 export class WishCardComponent implements OnInit {
 
   @Input() public wishItem: WishItem;
+  edit: boolean = false;
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  editWish() {
+    this.edit = true;
+  }
+
+  cancelEditWish() {
+    this.edit = false;
   }
 
 }

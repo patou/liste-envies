@@ -9,7 +9,6 @@ import { SharedModule} from "./shared/shared.module";
 import { ListComponent } from './list/list.component';
 import { WishListService } from "./service/wish-list-service";
 import { WishCardComponent } from './wish-card/wish-card.component';
-import { FlipCardComponent } from './flip-card/flip-card.component';
 
 
 @NgModule({
@@ -18,8 +17,7 @@ import { FlipCardComponent } from './flip-card/flip-card.component';
     PageComponent,
     HomeComponent,
     ListComponent,
-    WishCardComponent,
-    FlipCardComponent
+    WishCardComponent
   ],
   imports: [
     AppRoutingModule,
