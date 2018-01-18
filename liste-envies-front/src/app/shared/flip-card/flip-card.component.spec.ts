@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FlipCardComponent } from './flip-card.component';
+import {TestingModule} from "../testing/testing.module";
 
 describe('FlipCardComponent', () => {
   let component: FlipCardComponent;
@@ -8,7 +9,8 @@ describe('FlipCardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FlipCardComponent ]
+      declarations: [ FlipCardComponent ],
+      imports: [TestingModule]
     })
     .compileComponents();
   }));
