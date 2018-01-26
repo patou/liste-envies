@@ -29,7 +29,7 @@
                         <span class="fa fa-edit" aria-hidden="true"></span><span class="sr-only" translate="">.BUTTON_EDIT_LIST</span>
                     </button>
                     <small ng-if="vm.wishList.owners"> de <span class="owners" ng-repeat="owner in vm.wishList.owners"> <i
-                            class="fa fa-user"></i> {{owner.name}} ({{owner.email}})<span
+                            class="fa fa-user"></i> <span title="{{owner.email}}">{{owner.name}}</span><span
                             ng-if="!$last">, </span> </span></small>
 
                         <small ng-if="vm.wishList.date"><i class="fa fa-calendar"></i> <span class="" title="{{vm.wishList.date | date: 'fullDate'}}" am-time-ago="vm.wishList.date"></span></small>
