@@ -1,9 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { MasonryOptions } from 'ngx-masonry';
-import {WishListService} from '../service/wish-list-service';
+import {WishListService} from '../../service/wish-list-service';
 import {Observable} from 'rxjs/Observable';
-import {WishList} from '../models/wish-list';
-import {WishItem} from '../models/WishItem';
+import {WishList} from '../../models/wish-list';
+import {WishItem} from '../../models/WishItem';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({
@@ -25,16 +25,7 @@ export class ListComponent implements OnInit, OnDestroy {
     columnWidth: 200
   };
 
-  tiles = [
-    {text: 'One', rows: 1, color: 'lightblue'},
-    {text: 'Two', rows: 2, color: 'lightgreen'},
-    {text: 'Three', rows: 3, color: 'lightpink'},
-    {text: 'Four', rows: 2, color: '#DDBDF1'},
-    {text: 'Three', rows: 3, color: 'lightpink'},
-    {text: 'Two', rows: 2, color: 'lightgreen'},
-    {text: 'One', rows: 1, color: 'lightblue'},
-    {text: 'Four', rows: 2, color: '#DDBDF1'},
-  ];
+  
   public listId: string;
 
   constructor(private wishListService: WishListService, private route: ActivatedRoute) {

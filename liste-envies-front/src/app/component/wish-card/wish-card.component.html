@@ -1,0 +1,55 @@
+<app-flip-card [flip]="edit">
+
+
+  <mat-card class="wish-card flip-front">
+
+    <mat-card-header>
+      <mat-card-title>{{wishItem.label}}</mat-card-title>
+      <mat-card-subtitle>{{wishItem.owner.name}}</mat-card-subtitle>
+      <div mat-card-avatar class="example-header-image"></div>
+    </mat-card-header>
+    <img mat-card-image *ngFor="let picture of wishItem.pictures" [src]="picture" alt="{{wishItem.label}}">
+    <mat-card-content>
+      <p [innerHTML]="wishItem.description">
+      </p>
+      <mat-chip-list *ngIf="wishItem.price">
+        <mat-chip color="primary">{{wishItem.price}}</mat-chip>
+      </mat-chip-list>
+      <app-rating *ngIf="wishItem.rating" [value]="wishItem.rating" [readonly]="true"></app-rating>
+
+
+      <mat-expansion-panel *ngIf="wishItem.canSuggest">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Commentaires
+          </mat-panel-title>
+          <mat-panel-description>
+            {{wishItem.comments.length}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <mat-list>
+          <mat-list-item *ngFor="let comment of wishItem.comments"> {{comment.text}}</mat-list-item>
+        </mat-list>
+
+      </mat-expansion-panel>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button>Offrir</button>
+      <button mat-button (click)="editWish()">Modifier</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card class="wish-card flip-back">
+
+    <app-wish-edit [wishItem]="wishItem"></app-wish-edit>
+
+
+    <mat-card-actions>
+      <button mat-button (click)="cancelEditWish()">Cancel</button>
+      <button mat-button>Modifier</button>
+    </mat-card-actions>
+  </mat-card>
+
+</app-flip-card>
+

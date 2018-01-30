@@ -1,23 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PageComponent } from './page.component';
-import {TestingModule} from "../testing/testing.module";
+import { WishEditComponent } from './wish-edit.component';
 
-
-describe('PageComponent', () => {
-  let component: PageComponent;
-  let fixture: ComponentFixture<PageComponent>;
+describe('WishEditComponent', () => {
+  let component: WishEditComponent;
+  let fixture: ComponentFixture<WishEditComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PageComponent ],
-      imports: [TestingModule]
+      declarations: [ WishEditComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PageComponent);
+    fixture = TestBed.createComponent(WishEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

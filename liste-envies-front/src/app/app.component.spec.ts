@@ -3,9 +3,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import {TestingModule} from "./testing/testing.module";
 import {AppModule} from "./app.module";
-import {HomeComponent} from "./home/home.component";
-import {PageComponent} from "./page/page.component";
-import {ListComponent} from "./list/list.component";
+import {HomeComponent} from "./page/home/home.component";
+import {PageComponent} from "./component/page/page.component";
+import {ListComponent} from "./page/list/list.component";
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({

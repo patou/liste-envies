@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomeComponent } from './home.component';
-import {TestingModule} from "../testing/testing.module";
-import {WishListService} from "../service/wish-list-service";
-import {WishListServiceTest} from "../service/wish-list-service-test";
+import {TestingModule} from "../../testing/testing.module";
+import {WishListService} from "../../service/wish-list-service";
+import {WishListServiceTest} from "../../service/wish-list-service-test";
 
 describe('HomeComponent', () => {
   let component: HomeComponent;

@@ -13,8 +13,6 @@
     </ngx-masonry-item>
   </ngx-masonry>-->
 
-<div class="masonry-item" *ngFor="let wishItem of (list | async)">
- <app-wish-card  [wishItem]="wishItem" class="wish-card"></app-wish-card>
-</div>
+<app-list-of-wish [list]="(list | async)"></app-list-of-wish>
 
 

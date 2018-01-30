@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {WishListService} from "../service/wish-list-service";
+import {WishListService} from "../../service/wish-list-service";
 import {Observable} from "rxjs/Observable";
-import {WishList} from "../models/wish-list";
+import {WishList} from "../../models/wish-list";
 
 @Component({
   selector: 'app-home',

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {WishItem} from '../models/WishItem';
+import {WishItem} from '../../models/WishItem';
 
 @Component({
   selector: 'app-wish-card',
