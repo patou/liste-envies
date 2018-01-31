@@ -8,16 +8,15 @@
     <mat-card-subtitle>{{wishItem.owner.name}}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <mat-form-field class="example-full-width">
-      <textarea matInput placeholder="Description" [(ngModel)]="wishItem.description" name="description"></textarea>
-    </mat-form-field>
+
+      <app-html-editor [content]="wishItem.description" placeholder="Description de l'envie"></app-html-editor>
+      <!--<textarea matInput placeholder="Description" [(ngModel)]="wishItem.description" name="description"></textarea>-->
     <mat-form-field class="example-full-width">
       <input matInput placeholder="Prix" [(ngModel)]="wishItem.price" name="price">
     </mat-form-field>
 
-    <mat-form-field>
+
       <app-rating placeholder="Note" [(value)]="wishItem.rating" [readonly]="false"></app-rating>
-    </mat-form-field>
 
   </mat-card-content>
 </form>

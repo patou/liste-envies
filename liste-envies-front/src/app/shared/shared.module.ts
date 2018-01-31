@@ -8,6 +8,9 @@ import {MaterialModule} from '../../shared/material.module';
 
 import { RatingComponent } from "./rating/rating.component";
 import { FlipCardComponent } from "./flip-card/flip-card.component";
+import { HtmlEditorComponent } from './html-editor/html-editor.component';
+import { QuillModule } from 'ngx-quill';
+
 
 @NgModule({
   imports: [
@@ -16,9 +19,10 @@ import { FlipCardComponent } from "./flip-card/flip-card.component";
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    QuillModule
   ],
-  declarations: [RatingComponent, FlipCardComponent],
+  declarations: [RatingComponent, FlipCardComponent, HtmlEditorComponent],
   exports: [
     CommonModule,
     BrowserModule,
@@ -26,8 +30,10 @@ import { FlipCardComponent } from "./flip-card/flip-card.component";
     FormsModule,
     BrowserAnimationsModule,
     MaterialModule,
+    QuillModule,
     RatingComponent,
-    FlipCardComponent
+    FlipCardComponent,
+    HtmlEditorComponent
   ]
 })
 export class SharedModule { }
