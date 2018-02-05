@@ -8,8 +8,8 @@ $speed: .6s;
 $scale: 1;
 
 .card-container {
-  width: $cardWidth;
-  height: $cardHeight;
+  /*width: $cardWidth;
+  height: $cardHeight;*/
   position: relative;
   @include transition( z-index $speed );
   @include perspective( 1000 );
@@ -28,7 +28,7 @@ $scale: 1;
     @include transition( all $speed ease-in-out );
     @include transform-style( preserve-3d );
     .front, .back {
-      width: $cardWidth;
+      /*width: $cardWidth;*/
       position: absolute;
       top: 0;
       left: 0;

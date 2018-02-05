@@ -10,6 +10,7 @@ import { RatingComponent } from "./rating/rating.component";
 import { FlipCardComponent } from "./flip-card/flip-card.component";
 import { HtmlEditorComponent } from './html-editor/html-editor.component';
 import { QuillModule } from 'ngx-quill';
+import { LinksFormComponent } from './links-form/links-form.component';
 
 
 @NgModule({
@@ -22,7 +23,7 @@ import { QuillModule } from 'ngx-quill';
     MaterialModule,
     QuillModule
   ],
-  declarations: [RatingComponent, FlipCardComponent, HtmlEditorComponent],
+  declarations: [RatingComponent, FlipCardComponent, HtmlEditorComponent, LinksFormComponent],
   exports: [
     CommonModule,
     BrowserModule,
@@ -33,7 +34,8 @@ import { QuillModule } from 'ngx-quill';
     QuillModule,
     RatingComponent,
     FlipCardComponent,
-    HtmlEditorComponent
+    HtmlEditorComponent,
+    LinksFormComponent
   ]
 })
 export class SharedModule { }

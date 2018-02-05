@@ -1,3 +1,6 @@
-<div class="masonry-item" *ngFor="let wishItem of (list)">
-  <app-wish-card  [wishItem]="wishItem" class="wish-card"></app-wish-card>
+<div data-grid="wrap va-stretch">
+  <div class="col-3" *ngFor="let wishItem of (list)">
+    <app-wish-card  [wishItem]="wishItem" class="col-4"></app-wish-card>
+  </div>
 </div>
+

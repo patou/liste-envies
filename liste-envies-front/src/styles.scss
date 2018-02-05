@@ -2,6 +2,11 @@
 @import '_variables';
 @import '~@angular/material/theming';
 @include mat-core();
+
+
+@import '~wire.css';
+
+
 // define 3 theme color
 
 $my-theme-primary: mat-palette($mat-blue, 700, 300, 900);

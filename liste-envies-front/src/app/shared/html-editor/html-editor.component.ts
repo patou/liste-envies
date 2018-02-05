@@ -9,6 +9,12 @@ export class HtmlEditorComponent implements OnInit {
   
   @Input()  public content = '';
   @Input()  public placeholder = 'description';
+  
+  public modulesToolbar = {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike', 'blockquote', { 'list': 'ordered'}, { 'list': 'bullet' }, { 'color': [] }, 'clean']
+    ]
+  };
 
   constructor() { }
 

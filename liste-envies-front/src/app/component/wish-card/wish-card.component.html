@@ -12,6 +12,13 @@
     <mat-card-content>
       <p [innerHTML]="wishItem.description">
       </p>
+
+      <div data-grid="column">
+        <div *ngFor="let url of wishItem.urls" class="col-12">
+          <a [href]="url.url" target="_blank"  mat-raised-button [matTooltip]="url.url">{{url.name? url.name : 'lien'}}</a>
+        </div>
+      </div>
+
       <mat-chip-list *ngIf="wishItem.price">
         <mat-chip color="primary">{{wishItem.price}}</mat-chip>
       </mat-chip-list>
