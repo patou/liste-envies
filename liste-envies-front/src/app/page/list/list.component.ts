@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import { MasonryOptions } from 'ngx-masonry';
 import {WishListService} from '../../service/wish-list-service';
 import {Observable} from 'rxjs/Observable';
-import {WishList} from '../../models/wish-list';
+import {WishList} from '../../models/WishList';
 import {WishItem} from '../../models/WishItem';
 import {ActivatedRoute} from '@angular/router';
 
@@ -25,7 +25,7 @@ export class ListComponent implements OnInit, OnDestroy {
     columnWidth: 200
   };
 
-  
+
   public listId: string;
 
   constructor(private wishListService: WishListService, private route: ActivatedRoute) {

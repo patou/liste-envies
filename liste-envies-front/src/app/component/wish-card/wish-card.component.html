@@ -3,15 +3,28 @@
 
   <mat-card class="wish-card flip-front">
 
-    <mat-card-header>
-      <mat-card-title>{{wishItem.label}}</mat-card-title>
-      <mat-card-subtitle>{{wishItem.owner.name}}</mat-card-subtitle>
-      <div mat-card-avatar class="example-header-image"></div>
+    <mat-toolbar  data-grid="space-around" >
+      <span class="col-9">{{wishItem.label}}</span>
+      <mat-icon class="col-1 push-right">favorite</mat-icon>
+      <mat-icon class="col-1 push-right">delete</mat-icon>
+    </mat-toolbar>
+
+    <mat-card-header data-grid="space-around">
+      <mat-card-subtitle data-col="5">{{wishItem.owner.name}}</mat-card-subtitle>
+      <mat-card-subtitle data-col="5">{{wishItem.date | date: 'short'}}</mat-card-subtitle>
     </mat-card-header>
-    <img mat-card-image *ngFor="let picture of wishItem.pictures" [src]="picture" alt="{{wishItem.label}}">
+
+    <swiper [(index)]="index"  class="swiper-container" [useSwiperClass] [config]="SWIPER_CONFIG" data-grid="column" data-col="12">
+      <div class="swiper-slide"  *ngFor="let picture of wishItem.pictures"  data-col="12">
+        <img data-src="{{picture}}" alt="{{wishItem.label}}" class="swiper-lazy"  data-col="12">
+        <div class="swiper-lazy-preloader"></div>
+      </div>
+    </swiper>
+
     <mat-card-content>
       <p [innerHTML]="wishItem.description">
       </p>
+
 
       <div data-grid="column">
         <div *ngFor="let url of wishItem.urls" class="col-12">

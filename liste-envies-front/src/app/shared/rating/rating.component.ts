@@ -1,9 +1,9 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { MatFormFieldControl } from "@angular/material";
-import { Subject } from "rxjs/Subject";
-import { FormBuilder } from "@angular/forms";
+import { MatFormFieldControl } from '@angular/material';
+import { Subject } from 'rxjs/Subject';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-rating',
@@ -13,7 +13,7 @@ import { FormBuilder } from "@angular/forms";
     display: flex;
   }
   .light {
-    color: #eee;  
+    color: #eee;
   }
   .pointer {
     cursor: pointer;
@@ -22,11 +22,13 @@ import { FormBuilder } from "@angular/forms";
   providers: [{provide: MatFormFieldControl, useExisting: RatingComponent}]
 })
 export class RatingComponent implements MatFormFieldControl<number>, OnInit {
+
+  static nextId = 0;
+
   @Input()
   value: number;
   @Output() valueChange = new EventEmitter();
 
-  static nextId = 0;
 
   stateChanges = new Subject<void>();
 

@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {WishItem} from '../../models/WishItem';
+import {SwiperConfigInterface} from 'ngx-swiper-wrapper';
 
 @Component({
   selector: 'app-wish-card',
@@ -9,7 +10,21 @@ import {WishItem} from '../../models/WishItem';
 export class WishCardComponent implements OnInit {
 
   @Input() public wishItem: WishItem;
-  edit: boolean = false;
+  edit = false;
+
+  public SWIPER_CONFIG: SwiperConfigInterface = {
+    direction: 'horizontal',
+    slidesPerView: 1,
+    navigation: true,
+    effect: 'cube',
+    lazy: true,
+    parallax: true,
+    pagination: { el: '.swiper-pagination', type: 'bullets',
+    clickable: true},
+    cubeEffect: {
+      slideShadows: false,
+    }
+  };
 
   constructor() { }
 

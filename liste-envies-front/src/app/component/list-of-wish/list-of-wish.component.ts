@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {WishItem} from "../../models/WishItem";
-import {Observable} from "rxjs/Observable";
+import {WishItem} from '../../models/WishItem';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-list-of-wish',
@@ -8,7 +8,7 @@ import {Observable} from "rxjs/Observable";
   styleUrls: ['./list-of-wish.component.scss']
 })
 export class ListOfWishComponent implements OnInit {
-  
+
   @Input() public list: Observable<WishItem[]>;
 
   constructor() { }
