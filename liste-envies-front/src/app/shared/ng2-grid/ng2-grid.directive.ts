@@ -1,3 +1,4 @@
+/*
 import { element } from 'protractor';
 import { Observable } from 'rxjs/Observable';
 import {Directive, ElementRef, Input, OnInit, Renderer2} from '@angular/core';
@@ -11,6 +12,7 @@ declare var console: any;
 })
 export class Ng2GridDirective extends Renderer2 {
   constructor(private el: ElementRef) {
+    super(el);
     console.log('ng2Grid Directive');
   }
   element = this.el.nativeElement;
@@ -84,11 +86,11 @@ export class Ng2GridDirective extends Renderer2 {
     if (node.length) {
       return Array.from(node).map((item:any) => {
         return item.cloneNode(true);
-      })
+      });
     }
     return node.cloneNode(true);
   }
-  private appendChild(elem:any, nodes:any) {
+  public appendChild(elem:any, nodes:any) {
     if(!nodes.length) nodes = [nodes];
     nodes = Array.from(nodes);
     const fragment = document.createDocumentFragment();
@@ -216,7 +218,7 @@ export class Ng2GridDirective extends Renderer2 {
   private reEnableInfiniteScroll = () => {
     clearTimeout(this.scrollNs.infiniteScrollTimeout);
     this.scrollNs.isLoading = false;
-  }
+  };
   private applyInfiniteScroll(scrollTop:number=undefined) {
     if (this.scrollNs.isLoading) return;
     var scrollHeight = this.scrollNs.scrollContInfo.scrollHeight,
@@ -269,7 +271,7 @@ export class Ng2GridDirective extends Renderer2 {
       isLoaded = options.isLoaded || this.noop,
       onFullLoad = options.onFullLoad || this.noop,
       ignoreCheck = options.ignoreCheck || this.noop,
-      allImg = /*container.getElementsByTagName('img'),*/this.findElements(container,'img'),
+      allImg = /!*container.getElementsByTagName('img'),*!/this.findElements(container,'img'),
       loadedImgPromises:Array<any> = [];
 
     this.domToAry(allImg).forEach((img:any)=> {
@@ -299,15 +301,15 @@ export class Ng2GridDirective extends Renderer2 {
             onFullLoad();
           }
         });
-      })
-      /*Observable.forkJoin(loadedImgPromises)
+      });
+      /!*Observable.forkJoin(loadedImgPromises)
       .subscribe((response) => {
           //console.log(response[0], response[1]);
           onFullLoad();
-      });*/
-      /*Promise.all(loadedImgPromises).then(()=> {
+      });*!/
+      /!*Promise.all(loadedImgPromises).then(()=> {
           onFullLoad();
-      })*/
+      })*!/
     } else {
       setTimeout(()=> {
         onFullLoad();
@@ -369,13 +371,13 @@ export class Ng2GridDirective extends Renderer2 {
     //var clonesCssObj = angular.extend({}, cloneCss);
     //clonesCssObj.width = colWidth + 'px';
 
-    /*clones.css(clonesCssObj);
-    element.append(clones);*/
+    /!*clones.css(clonesCssObj);
+    element.append(clones);*!/
 
     //For cloned element again we have to check if image loaded (IOS only)
 
     ((reflowIndx)=> {
-      /*clones.forEach((clone)=> {*/
+      /!*clones.forEach((clone)=> {*!/
       this.afterImageLoad(clones, {
         ignoreCheck: (img:any)=> {
           return (img.className.indexOf('img-loaded') > -1);
@@ -436,7 +438,7 @@ export class Ng2GridDirective extends Renderer2 {
               item.style[key] = cssObj[key];
             }
             //item.className += ' angular-grid-item';
-            this.addClass(item, 'angular-grid-item')
+            this.addClass(item, 'angular-grid-item');
           }
 
           //set the height of container
@@ -464,7 +466,7 @@ export class Ng2GridDirective extends Renderer2 {
           this.reEnableInfiniteScroll();
         }
       });
-      /*})*/
+      /!*})*!/
     })(this.reflowCount);
   }
   private handleImage() {
@@ -495,7 +497,7 @@ export class Ng2GridDirective extends Renderer2 {
             setTimeout(()=> {
               this.reflowGrids();
               reflowPending = false;
-            },100)
+            },100);
           }
           this.removeClass(img, 'img-loading');
           //img.className += ' img-loaded';
@@ -512,7 +514,7 @@ export class Ng2GridDirective extends Renderer2 {
   private getListElms() {
     return this.domToAry(this.element.childNodes).filter((elm:any)=> {
       return (elm.className && !(elm.className.indexOf('ag-clone') > -1));
-    })
+    });
   }
   watch() {
     console.log(this.ng2Grid);
@@ -525,14 +527,14 @@ export class Ng2GridDirective extends Renderer2 {
       setTimeout(()=> {
         this.reflowGrids();
       }, 0);
-      /*ngCheckAnim().then(function() {
+      /!*ngCheckAnim().then(function() {
           //handle images
           handleImage();
           $timeout(function() {
           //to handle scroll appearance
           reflowGrids();
           });
-      });*/
+      });*!/
     });
   }
   windowResizeCallback() {
@@ -558,7 +560,7 @@ export class Ng2GridDirective extends Renderer2 {
   startRendering() {
     let self = this;
     //this.element.className += ' angular-grid'
-    this.addClass(this.element, 'angular-grid')
+    this.addClass(this.element, 'angular-grid');
     this.getOptions();
 
     //reset removed elements
@@ -581,4 +583,9 @@ export class Ng2GridDirective extends Renderer2 {
     this.startRendering();
     window.onresize = self.windowResizeCallback.bind(self);
   }
+
+  createComment(value: string): any {
+    return null;
+  }
 }
+*/

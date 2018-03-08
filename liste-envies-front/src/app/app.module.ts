@@ -11,6 +11,7 @@ import { WishListService } from "./service/wish-list-service";
 import { WishCardComponent } from './component/wish-card/wish-card.component';
 import { ListOfWishComponent } from './component/list-of-wish/list-of-wish.component';
 import { WishEditComponent } from './component/wish-edit/wish-edit.component';
+import { AddListComponent } from './page/add-list/add-list.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { WishEditComponent } from './component/wish-edit/wish-edit.component';
     ListComponent,
     WishCardComponent,
     ListOfWishComponent,
-    WishEditComponent
+    WishEditComponent,
+    AddListComponent
   ],
   imports: [
     AppRoutingModule,

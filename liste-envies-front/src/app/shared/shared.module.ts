@@ -15,7 +15,7 @@ import { LinksFormComponent } from './links-form/links-form.component';
 import { SwiperModule } from 'ngx-swiper-wrapper';
 import { SWIPER_CONFIG } from 'ngx-swiper-wrapper';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
-import { Ng2GridDirective } from './ng2-grid/ng2-grid.directive';
+/*import { Ng2GridDirective } from './ng2-grid/ng2-grid.directive';*/
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
@@ -35,7 +35,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     QuillModule,
     SwiperModule
   ],
-  declarations: [RatingComponent, FlipCardComponent, HtmlEditorComponent, LinksFormComponent, Ng2GridDirective],
+  declarations: [RatingComponent, FlipCardComponent, HtmlEditorComponent, LinksFormComponent/*, Ng2GridDirective*/],
   exports: [
     CommonModule,
     BrowserModule,
@@ -48,8 +48,8 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     FlipCardComponent,
     HtmlEditorComponent,
     LinksFormComponent,
-    SwiperModule,
-    Ng2GridDirective
+    SwiperModule/*,
+    Ng2GridDirective*/
   ],
   providers: [
     {

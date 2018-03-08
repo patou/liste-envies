@@ -21,7 +21,10 @@
       "styles": [
         "styles.scss"
       ],
-      "scripts": ["../node_modules/hammerjs/hammer.min.js", "../node_modules/masonry-layout/dist/masonry.pkgd.js"],
+      "scripts": ["../node_modules/hammerjs/hammer.min.js",
+        "../node_modules/masonry-layout/dist/masonry.pkgd.js",
+        "../node_modules/macy/dist/macy.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

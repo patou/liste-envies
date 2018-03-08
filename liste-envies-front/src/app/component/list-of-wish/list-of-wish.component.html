@@ -1,12 +1,12 @@
-<!--<div class="col-12" [ng2Grid]>
-  <div class="col-3" *ngFor="let wishItem of (list)">
-    <app-wish-card  [wishItem]="wishItem" class="col-4" ></app-wish-card>
-  </div>
-</div>-->
+<div class="col-12 " #bricksList id="bricks-list">
 
-<div class="dynamic-grid" appNg2Grid="list" gridWidth="300" gutterSize="10" agId="'gallery'" refreshOnImageLoad="false" >
+    <app-wish-card class="col-4" [wishItem]="wishItem" *ngFor="let wishItem of (list)"  ></app-wish-card>
+
+</div>
+
+<!--<div class="dynamic-grid" appNg2Grid="list" gridWidth="300" gutterSize="10" agId="'gallery'" refreshOnImageLoad="false" >
   <div *ngFor="let wishItem of (list)" class="grid">
     <app-wish-card  [wishItem]="wishItem" ></app-wish-card>
   </div>
-</div>
+</div>-->
 

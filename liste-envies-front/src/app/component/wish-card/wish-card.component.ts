@@ -16,14 +16,14 @@ export class WishCardComponent implements OnInit {
     direction: 'horizontal',
     slidesPerView: 1,
     navigation: true,
-    effect: 'cube',
+    // effect: 'cube',
     lazy: true,
-    parallax: true,
+    // parallax: true,
     pagination: { el: '.swiper-pagination', type: 'bullets',
     clickable: true},
-    cubeEffect: {
-      slideShadows: false,
-    }
+    // cubeEffect: {
+    //   slideShadows: false,
+    // }
   };
 
   constructor() { }
