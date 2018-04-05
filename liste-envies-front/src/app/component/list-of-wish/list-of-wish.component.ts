@@ -67,7 +67,7 @@ export class ListOfWishComponent implements OnInit, AfterViewInit, OnChanges {
 
         this.bricks =  Macy({
           container: '#bricks-list',
-          trueOrder: false,
+          trueOrder: true,
           waitForImages: false,
           margin: 24,
           columns: 4,

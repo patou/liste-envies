@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {WishItem} from '../../models/WishItem';
 import {SwiperConfigInterface} from 'ngx-swiper-wrapper';
+import {WishEditComponent} from '../wish-edit/wish-edit.component';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-wish-card',
@@ -26,13 +28,24 @@ export class WishCardComponent implements OnInit {
     // }
   };
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
   }
 
   editWish() {
-    this.edit = true;
+    const dialogRef = this.dialog.open(WishEditComponent, {
+      width: 'auto',
+      height: 'auto',
+      data: this.wishItem
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      if (result) {
+        this.wishItem = Object.assign({}, result);
+      }
+    });
   }
 
   cancelEditWish() {

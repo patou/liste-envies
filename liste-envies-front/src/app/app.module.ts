@@ -30,6 +30,7 @@ import { AddListComponent } from './page/add-list/add-list.component';
     SharedModule
   ],
   providers: [WishListService],
+  entryComponents: [WishEditComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

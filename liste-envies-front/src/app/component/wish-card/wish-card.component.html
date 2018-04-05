@@ -55,7 +55,7 @@
     </mat-expansion-panel>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button>Offrir</button>
+    <button mat-button *ngIf="!wishItem.allreadyGiven && wishItem.canParticipate">Offrir</button>
     <button mat-button (click)="editWish()">Modifier</button>
   </mat-card-actions>
 </mat-card>
