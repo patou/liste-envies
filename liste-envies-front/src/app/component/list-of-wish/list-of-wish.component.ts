@@ -4,7 +4,6 @@ import {Observable} from 'rxjs/Observable';
 
 declare var Macy;
 import {AfterViewInit} from '@angular/core/src/metadata/lifecycle_hooks';
-import {setTimeout} from 'timers';
 
 @Component({
   selector: 'app-list-of-wish',
