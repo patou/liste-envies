@@ -14,7 +14,7 @@
     <mat-card-subtitle data-col="5">{{wishItem.date | date: 'short'}}</mat-card-subtitle>
   </mat-card-header>
 
-  <swiper [(index)]="index"  class="swiper-container" [useSwiperClass] [config]="SWIPER_CONFIG">
+  <swiper class="swiper-container" [useSwiperClass] [config]="SWIPER_CONFIG">
     <div class="swiper-slide"  *ngFor="let picture of wishItem.pictures">
       <img data-src="{{picture}}" alt="{{wishItem.label}}" class="swiper-lazy" width="300" height="300">
       <div class="swiper-lazy-preloader"></div>
