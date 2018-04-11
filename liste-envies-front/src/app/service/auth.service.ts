@@ -96,6 +96,18 @@ export class AuthService implements HttpInterceptor {
       });
   }
 
+  loginWithTwitter() {
+    this.firebaseAuth
+      .auth
+      .signInWithPopup(new firebase.auth.TwitterAuthProvider())
+      .then(value => {
+        console.log('Nice, it worked!');
+      })
+      .catch(err => {
+        console.log('Something went wrong:', err.message);
+      });
+  }
+
   loginWithMail() {
     this.firebaseAuth
       .auth

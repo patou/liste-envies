@@ -26,6 +26,10 @@ export class PageComponent implements OnInit {
     this.auth.loginWithFacebook();
   }
 
+  loginTwitter() {
+    this.auth.loginWithTwitter();
+  }
+
   loginEmail() {
     this.auth.loginWithMail();
   }
