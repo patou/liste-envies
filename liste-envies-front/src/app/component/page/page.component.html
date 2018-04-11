@@ -6,7 +6,7 @@
 
 
 
-    <div *ngIf="auth.user | async as user; else showLogin">
+    <div *ngIf="userAuth | async as user; else showLogin">
       <span> {{ user.displayName }}!</span>
       <button (click)="logout()">Logout</button>
     </div>
