@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import * as firebase from 'firebase';
+import {AuthService} from '../../service/auth.service';
 
 @Component({
   selector: 'app-page',
@@ -7,9 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private auth: AuthService) { }
 
   ngOnInit() {
+  }
+
+  loginGoogle() {
+    this.auth.loginWithGoogle();
+  }
+
+  loginFacebook() {
+    this.auth.loginWithFacebook();
+  }
+
+  loginEmail() {
+    this.auth.loginWithMail();
+  }
+  logout() {
+    this.auth.logout();
   }
 
 }

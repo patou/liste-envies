@@ -4,6 +4,18 @@
 
     <a routerLink="/" class="title" i18n="app title"><span><mat-icon fontSet="fa" fontIcon="fa-gift"></mat-icon></span> Listes de mes envies</a>
 
+
+
+    <div *ngIf="auth.user | async as user; else showLogin">
+      <span> {{ user.displayName }}!</span>
+      <button (click)="logout()">Logout</button>
+    </div>
+    <ng-template #showLogin>
+      <p>Please login.</p>
+      <button (click)="loginEmail()">Email</button>
+      <button (click)="loginGoogle()">Google</button>
+      <button (click)="loginFacebook()">Facebook</button>
+    </ng-template>
     <button mat-icon-button [mat-menu-trigger-for]="menu">
       <mat-icon>more_vert</mat-icon>
     </button>
