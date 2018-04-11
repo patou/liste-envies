@@ -1,6 +1,7 @@
 package fr.desaintsteban.liste.envies.util;
 
 import fr.desaintsteban.liste.envies.dto.WishDto;
+import fr.desaintsteban.liste.envies.dto.WishListDto;
 import fr.desaintsteban.liste.envies.enums.*;
 import fr.desaintsteban.liste.envies.model.*;
 import org.junit.Test;
@@ -10,6 +11,8 @@ import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 
 public class WishRulesTest {
@@ -109,6 +112,28 @@ public class WishRulesTest {
         assertEquals(WishOptionType.ALL_SUGGEST, WishRules.computeWishOptionsType(new AppUser("emeline@desaintsteban.fr"), wishlist));
         assertEquals(WishOptionType.ANONYMOUS, WishRules.computeWishOptionsType(new AppUser(null, "Anonyme"), wishlist));
         assertEquals(WishOptionType.ANONYMOUS, WishRules.computeWishOptionsType(null, wishlist));
+    }
+
+    @Test
+    public void testComputePermissionWishList() {
+        WishList wishlist = createDefaultWishList();
+        WishListDto dto = new WishListDto();
+
+        WishRules.computePermissions(dto, wishlist, new AppUser("patrice@desaintsteban.fr"));
+        assertTrue(dto.getOwner());
+        assertFalse(dto.getCanSuggest());
+
+        WishRules.computePermissions(dto, wishlist, new AppUser("emmanuel@desaintsteban.fr"));
+        assertFalse(dto.getOwner());
+        assertTrue(dto.getCanSuggest());
+
+        WishRules.computePermissions(dto, wishlist, new AppUser("emeline@desaintsteban.fr"));
+        assertFalse(dto.getOwner());
+        assertTrue(dto.getCanSuggest());
+
+        WishRules.computePermissions(dto, wishlist, new AppUser(null, "Anonyme"));
+        assertFalse(dto.getOwner());
+        assertFalse(dto.getCanSuggest());
     }
 
     private WishList createDefaultWishList() {
