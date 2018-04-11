@@ -1,13 +1,13 @@
 package fr.desaintsteban.liste.envies.dto;
 
+import java.util.Date;
+import java.util.List;
+
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import fr.desaintsteban.liste.envies.enums.SharingPrivacyType;
 import fr.desaintsteban.liste.envies.enums.WishListState;
 import fr.desaintsteban.liste.envies.enums.WishListType;
-import fr.desaintsteban.liste.envies.enums.WishOptionType;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  *
@@ -31,6 +31,8 @@ public class WishListDto {
     private SharingPrivacyType privacy; // Option for sharing privacy of the all list.
 
     private WishListState state;
+
+    private Boolean canSuggest;
 
     public List<UserShareDto> getOwners() {
         return owners;
@@ -119,4 +121,12 @@ public class WishListDto {
     public void setState(WishListState state) {
         this.state = state;
     }
+
+    public Boolean getCanSuggest() {
+        return canSuggest;
+    }
+
+    public void setCanSuggest(Boolean canSuggest) {
+        this.canSuggest = canSuggest;
+    }  
 }

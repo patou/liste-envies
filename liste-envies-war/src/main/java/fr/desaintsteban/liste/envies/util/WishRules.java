@@ -73,10 +73,11 @@ public class WishRules {
         WishListDto dto = wishList.toDto();
         fillUsersInWishList(dto, wishList, user, map, true);
         cleanWishList(wishList, dto, user);
+        computePermissions(dto, wishList, user);
         return dto;
     }
 
-    public static List<WishListDto> applyRules(AppUser user, List<WishList> wishList) {
+	public static List<WishListDto> applyRules(AppUser user, List<WishList> wishList) {
         Set<String> emails = wishList.stream()
                 .flatMap(list -> list.getUsers().stream())
                 .filter(userShare -> userShare.getType() == UserShareType.OWNER)
@@ -198,6 +199,25 @@ public class WishRules {
             }
         }
     }
+
+    static void computePermissions(WishListDto dto, WishList wishList, AppUser user) {
+        WishListState state = computeWishListState(user, wishList);
+        switch (state) {
+            case OWNER:
+                dto.setCanSuggest(false);
+                dto.setOwner(true);
+                break;
+            case SHARED:
+            case LOGGED:
+                dto.setCanSuggest(true);
+                dto.setOwner(false);
+                break;
+            default:
+                dto.setCanSuggest(false);
+                dto.setOwner(false);
+                break;
+        }
+	}
 
     static WishListState computeWishListState(AppUser user, WishList list) {
         if (user != null && !isNullOrEmpty(user.getEmail())) {
