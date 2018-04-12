@@ -8,7 +8,6 @@ import com.googlecode.objectify.annotation.Index;
 import fr.desaintsteban.liste.envies.dto.AppUserDto;
 import fr.desaintsteban.liste.envies.util.NicknameUtils;
 
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -24,6 +23,7 @@ public class AppUser {
 	private Date birthday;
 	@Index
 	private String anniversary;
+	private String picture;
 
     private boolean isAdmin = false;
 
@@ -113,6 +113,14 @@ public class AppUser {
 
 	public void setLastNotification(Date lastNotification) {
 		this.lastNotification = lastNotification;
+	}
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
 	}
 
 	public AppUserDto toDto() {

@@ -82,6 +82,13 @@
             <version>1.17.0-rc</version>
         </dependency>
 
+        <!-- Firebase Dependencies -->
+        <dependency>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-admin</artifactId>
+            <version>5.9.0</version>
+        </dependency>
+
         <!-- Test Dependencies -->
         <dependency>
             <groupId>com.google.appengine</groupId>

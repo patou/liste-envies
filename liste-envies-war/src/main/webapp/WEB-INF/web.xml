@@ -11,6 +11,11 @@
     </filter>
 
     <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>fr.desaintsteban.liste.envies.servlet.AuthFilter</filter-class>
+    </filter>
+
+    <filter>
         <filter-name>HistoryApiFallbackFilter</filter-name>
         <filter-class>fr.desaintsteban.liste.envies.servlet.HistoryApiFallbackFilter</filter-class>
         <init-param>

@@ -58,9 +58,13 @@ public final class ServletUtils {
 	}
 	
 	public static AppUser getUserAuthenticated() {
-	    final UserService userService = UserServiceFactory.getUserService();
-	    final User user = userService.getCurrentUser();
-	    
-	    return AppUserService.getAppUser(user);
+		AppUser appUser = AppUserService.getAppUser();
+		if (appUser == null) {
+			final UserService userService = UserServiceFactory.getUserService();
+			final User user = userService.getCurrentUser();
+			
+			return AppUserService.getAppUser(user);
+		}
+		return appUser;
 	}
 }

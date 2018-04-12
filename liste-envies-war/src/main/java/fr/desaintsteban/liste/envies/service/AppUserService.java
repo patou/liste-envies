@@ -3,6 +3,8 @@ package fr.desaintsteban.liste.envies.service;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.appengine.repackaged.com.google.common.base.Predicate;
+import com.google.firebase.auth.FirebaseToken;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.cmd.Saver;
@@ -13,34 +15,63 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public final class AppUserService {
     private AppUserService() {
     }
 
+    static ThreadLocal<AppUser> appUserThreadLocal = new ThreadLocal<>();
+
     public static AppUser getAppUser(User user) {
+        UserService userService = UserServiceFactory.getUserService();
+        return getAppUser(user.getEmail(), newAppUser -> {         
+            newAppUser.setEmail(user.getEmail());
+            newAppUser.setName(NicknameUtils.getNickname(user.getNickname()));
+            newAppUser.setIsAdmin(userService.isUserAdmin());
+        }, appUser -> {
+            return (!appUser.getEmail().equalsIgnoreCase(user.getEmail()) || userService.isUserAdmin() != appUser.getIsAdmin());
+        });
+    }
+
+    public static AppUser getAppUser(FirebaseToken user) {
+        return getAppUser(user.getEmail(), newAppUser -> {         
+            newAppUser.setEmail(user.getEmail());
+            newAppUser.setName(user.getName());
+            newAppUser.setPicture(user.getPicture());
+            newAppUser.setIsAdmin(false);
+        }, appUser -> {
+            return (!appUser.isAdmin());
+        });
+    }
+
+    public static AppUser getAppUser(String email, Consumer<AppUser> fillAppUser, Predicate<AppUser> checkAppUser) {
         Objectify ofy = OfyService.ofy();
-        if (user == null) { //Not Logged
+        if (email == null) { //Not Logged
             return null;
         }
-        AppUser appUser = ofy.load().type(AppUser.class).id(user.getEmail()).now();
+        AppUser appUser = ofy.load().type(AppUser.class).id(email).now();
         UserService userService = UserServiceFactory.getUserService();
         if (appUser == null) { // appUser wasn't in the datastore
-            appUser = new AppUser(user.getEmail(), NicknameUtils.getNickname(user.getNickname()));
-            appUser.setIsAdmin(userService.isUserAdmin());
+            appUser = new AppUser(email);
+            fillAppUser.accept(appUser);
             appUser.setNewUser(true);
             appUser.setLastNotification(new Date());
             ofy.save().entity(appUser).now();
         } else { // appUser is already in the datastore
             // update properties if they've changed
-            if (!appUser.getEmail().equalsIgnoreCase(user.getEmail()) || userService.isUserAdmin() != appUser.getIsAdmin()) {
-                appUser.setEmail(user.getEmail());
-                appUser.setIsAdmin(userService.isUserAdmin());
+            if (!checkAppUser.apply(appUser)) {
+                fillAppUser.accept(appUser);
                 ofy.save().entity(appUser).now();
             }
         }
         appUser.setIsAdmin(userService.isUserAdmin()); //Allways override isAdmin
+        appUserThreadLocal.set(appUser);
         return appUser;
+    }
+
+    public static AppUser getAppUser() {
+        return appUserThreadLocal.get();
     }
 
     public static List<AppUser> list() {
