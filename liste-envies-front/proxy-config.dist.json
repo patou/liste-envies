@@ -1,11 +1,11 @@
 {
   "/api": {
-    "target": "http://liste-envies.appspot.com",
+    "target": "http://ng5-dot-test-liste-envies.appspot.com",
     "secure": false,
     "changeOrigin": true
   },
   "/user": {
-    "target": "http://liste-envies.appspot.com",
+    "target": "http://ng5-dot-test-liste-envies.appspot.com",
     "secure": false,
     "changeOrigin": true
   }
