@@ -5,4 +5,9 @@ mat-toolbar {
     color: #fff;
     text-decoration: none;
   }
+
+  ngx-avatar {
+    float: left;
+    margin-right: 10px;
+  }
 }

@@ -14,6 +14,7 @@ import { WishEditComponent } from './component/wish-edit/wish-edit.component';
 import { AddListComponent } from './page/add-list/add-list.component';
 import {HTTP_INTERCEPTORS, HttpInterceptor} from '@angular/common/http';
 import {AuthService} from './service/auth.service';
+import { LoginDialogComponent } from './component/login-dialog/login-dialog.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import {AuthService} from './service/auth.service';
     WishCardComponent,
     ListOfWishComponent,
     WishEditComponent,
-    AddListComponent
+    AddListComponent,
+    LoginDialogComponent
   ],
   imports: [
     AppRoutingModule,
@@ -36,7 +38,7 @@ import {AuthService} from './service/auth.service';
     useClass: AuthService,
     multi: true
   }],
-  entryComponents: [WishEditComponent],
+  entryComponents: [WishEditComponent, LoginDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

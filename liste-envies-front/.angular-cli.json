@@ -19,7 +19,8 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.scss"
+        "styles.scss",
+        "../node_modules/firebaseui/dist/firebaseui.css"
       ],
       "scripts": ["../node_modules/hammerjs/hammer.min.js",
         "../node_modules/masonry-layout/dist/masonry.pkgd.js",

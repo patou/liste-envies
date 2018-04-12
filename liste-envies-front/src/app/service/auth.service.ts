@@ -4,6 +4,8 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase';
 import {HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {HttpEvent} from '@angular/common/http/src/response';
+import {LoginDialogComponent} from '../component/login-dialog/login-dialog.component';
+import {MatDialog} from '@angular/material';
 
 @Injectable()
 export class AuthService implements HttpInterceptor {
@@ -11,7 +13,7 @@ export class AuthService implements HttpInterceptor {
   currentUser: firebase.User;
   currentToken: string;
 
-  constructor(private firebaseAuth: AngularFireAuth) {
+  constructor(private firebaseAuth: AngularFireAuth, public dialog: MatDialog) {
     this.user = firebaseAuth.authState;
 
     this.user.subscribe((user: firebase.User) => {
@@ -84,6 +86,18 @@ export class AuthService implements HttpInterceptor {
       });
   }
 
+  loginWithGithub() {
+    this.firebaseAuth
+      .auth
+      .signInWithPopup(new firebase.auth.GithubAuthProvider())
+      .then(value => {
+        console.log('Nice, it worked!');
+      })
+      .catch(err => {
+        console.log('Something went wrong:', err.message);
+      });
+  }
+
   loginWithFacebook() {
     this.firebaseAuth
       .auth
@@ -109,15 +123,14 @@ export class AuthService implements HttpInterceptor {
   }
 
   loginWithMail() {
-    this.firebaseAuth
-      .auth
-      .signInWithPopup(new firebase.auth.EmailAuthProvider())
-      .then(value => {
-        console.log('Nice, it worked!');
-      })
-      .catch(err => {
-        console.log('Something went wrong:', err.message);
-      });
+    const dialogRef = this.dialog.open(LoginDialogComponent, {
+      width: '300px',
+      data: {  }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
   logout() {

@@ -22,6 +22,10 @@ export class PageComponent implements OnInit {
     this.auth.loginWithGoogle();
   }
 
+  loginGithub() {
+    this.auth.loginWithGithub();
+  }
+
   loginFacebook() {
     this.auth.loginWithFacebook();
   }

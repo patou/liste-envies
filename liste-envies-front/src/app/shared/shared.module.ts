@@ -18,6 +18,10 @@ import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireAuthModule} from 'angularfire2/auth';
 import {AuthService} from '../service/auth.service';
+import * as firebase from 'firebase';
+import AuthProvider = firebase.auth.AuthProvider;
+import {AuthProvider as AuthProviderUi, FirebaseUIAuthConfig, AuthMethods, CredentialHelper, FirebaseUIModule} from 'firebaseui-angular';
+import {AvatarModule} from 'ngx-avatar';
 /*import { Ng2GridDirective } from './ng2-grid/ng2-grid.directive';*/
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
@@ -37,6 +41,18 @@ const firebaseConfig = {
   messagingSenderId: '783555297093'
 };
 
+const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
+  providers: [
+    AuthProviderUi.Google,
+    AuthProviderUi.Facebook,
+    AuthProviderUi.Twitter,
+    AuthProviderUi.Github,
+    AuthProviderUi.Password
+  ],
+  method: AuthMethods.Popup,
+  credentialHelper: CredentialHelper.OneTap
+};
+
 @NgModule({
   imports: [
     CommonModule,
@@ -47,8 +63,10 @@ const firebaseConfig = {
     MaterialModule,
     QuillModule,
     SwiperModule,
+    AvatarModule,
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    FirebaseUIModule.forRoot(firebaseUiAuthConfig)
   ],
   declarations: [RatingComponent, FlipCardComponent, HtmlEditorComponent, LinksFormComponent/*, Ng2GridDirective*/],
   exports: [
@@ -63,6 +81,8 @@ const firebaseConfig = {
     FlipCardComponent,
     HtmlEditorComponent,
     LinksFormComponent,
+    FirebaseUIModule,
+    AvatarModule,
     SwiperModule/*,
     Ng2GridDirective*/
   ],

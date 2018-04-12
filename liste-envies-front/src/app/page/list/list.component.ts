@@ -1,5 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+/*
 import { MasonryOptions } from 'ngx-masonry';
+*/
 import {WishListService} from '../../service/wish-list-service';
 import {Observable} from 'rxjs/Observable';
 import {WishList} from '../../models/WishList';
@@ -19,11 +21,11 @@ export class ListComponent implements OnInit, OnDestroy {
   private sub: any;
 
 
-  public masonryOptions: MasonryOptions = {
+/*  public masonryOptions: MasonryOptions = {
     transitionDuration: '0.8s',
     gutter: 10,
     columnWidth: 200
-  };
+  };*/
 
 
   public listId: string;

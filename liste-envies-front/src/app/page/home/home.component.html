@@ -3,8 +3,14 @@
 
   <mat-card>
     <section class="mat-typography">
-      <h1>Bonjour, Patrice! Bienvenue sur votre liste des envies</h1>
-      <a mat-raised-button color="primary" href="/user/login">Connexion</a>
+      <div *ngIf="userAuth | async as user; else showLogin">
+        <h1>Bonjour, {{ user.displayName }}! Bienvenue sur votre liste des envies</h1>
+      </div>
+      <ng-template #showLogin>
+        <h1>Bonjour, Bienvenue sur la liste des envies</h1>
+        <a mat-raised-button color="primary" (click)="connect()" >Connexion</a>
+      </ng-template>
+
     </section>
   </mat-card>
 

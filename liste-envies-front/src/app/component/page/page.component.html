@@ -7,22 +7,36 @@
 
 
     <div *ngIf="userAuth | async as user; else showLogin">
-      <span> {{ user.displayName }}!</span>
-      <button (click)="logout()">Logout</button>
+      <button mat-button [mat-menu-trigger-for]="connected">
+        <span >
+          <ngx-avatar [name]="user.displayName" [src]="user.photoURL"
+                      [gravatarId]="user.email"
+                      size="30" [round]="true">
+</ngx-avatar>
+           {{ user.displayName }}</span>
+        <mat-icon>more_vert</mat-icon>
+      </button>
     </div>
     <ng-template #showLogin>
-      <p>Please login.</p>
-      <button (click)="loginGoogle()">Google</button>
-      <button (click)="loginFacebook()">Facebook</button>
-      <button (click)="loginTwitter()">Twitter</button>
+      <button mat-button [mat-menu-trigger-for]="login">
+        <i class="fas fa-sign-in-alt"></i> Connexion
+        <mat-icon>more_vert</mat-icon>
+      </button>
     </ng-template>
-    <button mat-icon-button [mat-menu-trigger-for]="menu">
-      <mat-icon>more_vert</mat-icon>
-    </button>
+
   </mat-toolbar>
-  <mat-menu x-position="before" #menu="matMenu">
-    <button mat-menu-item>Option 1</button>
-    <button mat-menu-item>Option 2</button>
+  <mat-menu yPosition="above" xPosition="before" #login="matMenu">
+    <button mat-menu-item (click)="loginGoogle()"><i class="fab fa-google"></i> Google </button>
+    <button mat-menu-item (click)="loginFacebook()"><i class="fab fa-facebook"></i> Facebook</button>
+    <button mat-menu-item (click)="loginTwitter()"><i class="fab fa-twitter"></i> Twitter</button>
+    <button mat-menu-item (click)="loginGithub()"><i class="fab fa-github"></i> GitHub</button>
+    <button mat-menu-item (click)="loginEmail()"><i class="fab fa-mail-reply"></i> Email</button>
+    <button mat-menu-item (click)="loginEmail()"><i class="fab fa-connectdevelop"></i> Nouveau compte</button>
+  </mat-menu>
+
+  <mat-menu yPosition="above" xPosition="before" #connected="matMenu">
+    <button mat-menu-item (click)="logout()"><i class="fab sign-in-alt"></i> Deconnection </button>
+    <button mat-menu-item ><i class="fas fa-user"></i> Profil</button>
   </mat-menu>
 
   <router-outlet></router-outlet>
