@@ -3,7 +3,6 @@ package fr.desaintsteban.liste.envies.service;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.google.appengine.repackaged.com.google.common.base.Predicate;
 import com.google.firebase.auth.FirebaseToken;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
@@ -16,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public final class AppUserService {
     private AppUserService() {
