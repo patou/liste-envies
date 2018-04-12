@@ -3,6 +3,8 @@ package fr.desaintsteban.liste.envies.servlet;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -25,7 +27,7 @@ import fr.desaintsteban.liste.envies.service.AppUserService;
  * AuthFilter, this filter validate the firebase auth token, create or load the AppUser.
  */
 public class AuthFilter implements Filter {
-
+	private static final Logger LOGGER = Logger.getLogger(AuthFilter.class.getName());
 	/**
 	 * @throws IOException */
 	@Override
@@ -43,6 +45,7 @@ public class AuthFilter implements Filter {
             FirebaseToken decodedToken;
             try {
                 //TODO: Valider le token seulement sur l'url pour récupérer les infos d'un utilisateur.
+                LOGGER.info("Validate token");
                 decodedToken = FirebaseAuth.getInstance().verifyIdTokenAsync(token, false).get();
                 AppUserService.getAppUser(decodedToken);
             } catch (InterruptedException | ExecutionException e) {
@@ -66,8 +69,9 @@ public class AuthFilter implements Filter {
             .setDatabaseUrl("https://liste-envies.firebaseio.com/")
             .build();
             FirebaseApp.initializeApp(options);
+            LOGGER.info("Initialize firebase app");
 		} catch (IOException e) {
-			e.printStackTrace();
+            LOGGER.log(Level.FINEST, "can't Initialize firebase app", e);
 		}
 	}
 
