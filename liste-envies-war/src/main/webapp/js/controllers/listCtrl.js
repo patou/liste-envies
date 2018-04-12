@@ -17,7 +17,8 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
         placeholder: "Ajouter une description",
         toolbar: [
             ['style', ['bold', 'italic', 'underline', 'clear', 'color', 'fontsize']],
-            ['para', ['ul', 'ol', 'paragraph']]
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['insert', ['link', 'picture']]
         ],
         popover: {
             image: [
@@ -30,7 +31,8 @@ function ListCtrl(wishService, appUserService, wishListService, $routeParams, $l
             ],
             air: [
                 ['style', ['bold', 'italic', 'underline', 'clear', 'color', 'fontsize']],
-                ['para', ['ul', 'ol', 'paragraph']]
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link', 'picture']]
             ]
         },
         height: 200
