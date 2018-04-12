@@ -60,7 +60,7 @@ public final class AppUserService {
             ofy.save().entity(appUser).now();
         } else { // appUser is already in the datastore
             // update properties if they've changed
-            if (!checkAppUser.apply(appUser)) {
+            if (!checkAppUser.test(appUser)) {
                 fillAppUser.accept(appUser);
                 ofy.save().entity(appUser).now();
             }
