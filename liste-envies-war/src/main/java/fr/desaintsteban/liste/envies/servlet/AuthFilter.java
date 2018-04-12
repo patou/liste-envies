@@ -60,10 +60,11 @@ public class AuthFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-        
+        LOGGER.info("AuthFilter init");
         FirebaseOptions options;
 		try {
             FileInputStream serviceAccount = new FileInputStream("liste-envies-firebase.json");
+            LOGGER.info("AuthFilter init after read json");
 			options = new FirebaseOptions.Builder()
             .setCredentials(GoogleCredentials.fromStream(serviceAccount))
             .setDatabaseUrl("https://liste-envies.firebaseio.com/")
