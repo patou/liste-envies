@@ -1,5 +1,6 @@
 package fr.desaintsteban.liste.envies.servlet;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
@@ -42,7 +43,7 @@ public class AuthFilter implements Filter {
             FirebaseToken decodedToken;
             try {
                 //TODO: Valider le token seulement sur l'url pour récupérer les infos d'un utilisateur.
-                decodedToken = FirebaseAuth.getInstance().verifyIdTokenAsync(token, true).get();
+                decodedToken = FirebaseAuth.getInstance().verifyIdTokenAsync(token, false).get();
                 AppUserService.getAppUser(decodedToken);
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
@@ -56,11 +57,12 @@ public class AuthFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-
+        
         FirebaseOptions options;
 		try {
+            FileInputStream serviceAccount = new FileInputStream("liste-envies-firebase.json");
 			options = new FirebaseOptions.Builder()
-            .setCredentials(GoogleCredentials.getApplicationDefault())
+            .setCredentials(GoogleCredentials.fromStream(serviceAccount))
             .setDatabaseUrl("https://liste-envies.firebaseio.com/")
             .build();
             FirebaseApp.initializeApp(options);
