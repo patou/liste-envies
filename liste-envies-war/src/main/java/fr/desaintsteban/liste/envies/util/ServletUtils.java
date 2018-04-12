@@ -62,8 +62,8 @@ public final class ServletUtils {
 		if (appUser == null) {
 			final UserService userService = UserServiceFactory.getUserService();
 			final User user = userService.getCurrentUser();
-			
-			return AppUserService.getAppUser(user);
+			if (user != null)
+				return AppUserService.getAppUser(user);
 		}
 		return appUser;
 	}
