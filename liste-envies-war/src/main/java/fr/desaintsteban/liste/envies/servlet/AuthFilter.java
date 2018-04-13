@@ -2,6 +2,7 @@ package fr.desaintsteban.liste.envies.servlet;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,7 +66,7 @@ public class AuthFilter implements Filter {
         LOGGER.info("AuthFilter init");
         FirebaseOptions options;
 		try {
-            FileInputStream serviceAccount = new FileInputStream("liste-envies-firebase.json");
+            InputStream serviceAccount = this.getClass().getResourceAsStream("liste-envies-firebase.json");
             LOGGER.info("AuthFilter init after read json");
 			options = new FirebaseOptions.Builder()
             .setCredentials(GoogleCredentials.fromStream(serviceAccount))
