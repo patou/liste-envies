@@ -51,6 +51,7 @@ public class AuthFilter implements Filter {
                 AppUserService.getAppUser(decodedToken);
             } catch (InterruptedException | ExecutionException e) {
                 LOGGER.log(Level.FINE, "Forbidden access data", e);
+                e.printStackTrace();
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, "Forbidden");
                 return;
             }
@@ -64,10 +65,10 @@ public class AuthFilter implements Filter {
         LOGGER.info("AuthFilter init");
         FirebaseOptions options;
 		try {
-            //FileInputStream serviceAccount = new FileInputStream("liste-envies-firebase.json");
+            FileInputStream serviceAccount = new FileInputStream("liste-envies-firebase.json");
             LOGGER.info("AuthFilter init after read json");
 			options = new FirebaseOptions.Builder()
-            .setCredentials(GoogleCredentials.getApplicationDefault())
+            .setCredentials(GoogleCredentials.fromStream(serviceAccount))
             .setDatabaseUrl("https://"+filterConfig.getInitParameter("firebaseId")+".firebaseio.com/")
             .build();
             FirebaseApp.initializeApp(options);
@@ -75,6 +76,7 @@ public class AuthFilter implements Filter {
             initFirebase = true;
 		} catch (IOException e) {
             LOGGER.log(Level.FINEST, "can't Initialize firebase app", e);
+            e.printStackTrace();
 		}
     }
 
