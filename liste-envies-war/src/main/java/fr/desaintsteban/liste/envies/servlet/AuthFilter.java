@@ -27,7 +27,8 @@ import fr.desaintsteban.liste.envies.service.AppUserService;
  * AuthFilter, this filter validate the firebase auth token, create or load the AppUser.
  */
 public class AuthFilter implements Filter {
-	private static final Logger LOGGER = Logger.getLogger(AuthFilter.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(AuthFilter.class.getName());
+    private static boolean initFirebase = false;
 	/**
 	 * @throws IOException */
 	@Override
@@ -46,10 +47,11 @@ public class AuthFilter implements Filter {
             try {
                 //TODO: Valider le token seulement sur l'url pour récupérer les infos d'un utilisateur.
                 LOGGER.info("Validate token");
+                initFirebase();
                 decodedToken = FirebaseAuth.getInstance().verifyIdTokenAsync(token, false).get();
                 AppUserService.getAppUser(decodedToken);
             } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.FINE, "Forbidden access data", e);
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, "Forbidden");
                 return;
             }
@@ -61,6 +63,11 @@ public class AuthFilter implements Filter {
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
         LOGGER.info("AuthFilter init");
+        initFirebase();
+    }
+    
+    void initFirebase() {
+        if (initFirebase) return;
         FirebaseOptions options;
 		try {
             FileInputStream serviceAccount = new FileInputStream("liste-envies-firebase.json");
@@ -71,10 +78,11 @@ public class AuthFilter implements Filter {
             .build();
             FirebaseApp.initializeApp(options);
             LOGGER.info("Initialize firebase app");
+            initFirebase = true;
 		} catch (IOException e) {
             LOGGER.log(Level.FINEST, "can't Initialize firebase app", e);
 		}
-	}
+    }
 
 	@Override
 	public void destroy() {
