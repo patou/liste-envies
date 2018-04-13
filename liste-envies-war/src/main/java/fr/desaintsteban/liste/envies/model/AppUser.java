@@ -31,6 +31,7 @@ public class AppUser {
 
 	private Date lastVisit;
 	private Date lastNotification;
+	private String loginProvider;
 	
 	public AppUser() { }
 
@@ -127,4 +128,11 @@ public class AppUser {
 		return new AppUserDto(this.getEmail(), this.getName(), this.getBirthday(), this.newUser);
 	}
 
+	public String getLoginProvider() {
+		return loginProvider;
+	}
+
+	public void setLoginProvider(String loginProvider) {
+		this.loginProvider = loginProvider;
+	}
 }

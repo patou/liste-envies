@@ -29,6 +29,7 @@ public final class AppUserService {
             newAppUser.setEmail(user.getEmail());
             newAppUser.setName(NicknameUtils.getNickname(user.getNickname()));
             newAppUser.setIsAdmin(userService.isUserAdmin());
+            newAppUser.setLoginProvider("appengine");
         }, appUser -> {
             return (!appUser.getEmail().equalsIgnoreCase(user.getEmail()) || userService.isUserAdmin() != appUser.getIsAdmin());
         });
@@ -40,8 +41,9 @@ public final class AppUserService {
             newAppUser.setName(user.getName());
             newAppUser.setPicture(user.getPicture());
             newAppUser.setIsAdmin(false);
+            newAppUser.setLoginProvider(user.getIssuer());
         }, appUser -> {
-            return (!appUser.isAdmin());
+            return (!appUser.isAdmin() || !appUser.getEmail().equalsIgnoreCase(user.getEmail()) || !appUser.getPicture().equals(user.getPicture()));
         });
     }
 

@@ -47,7 +47,6 @@ public class AuthFilter implements Filter {
             try {
                 //TODO: Valider le token seulement sur l'url pour récupérer les infos d'un utilisateur.
                 LOGGER.info("Validate token");
-                initFirebase();
                 decodedToken = FirebaseAuth.getInstance().verifyIdTokenAsync(token, false).get();
                 AppUserService.getAppUser(decodedToken);
             } catch (InterruptedException | ExecutionException e) {
@@ -63,18 +62,13 @@ public class AuthFilter implements Filter {
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
         LOGGER.info("AuthFilter init");
-        initFirebase();
-    }
-    
-    void initFirebase() {
-        if (initFirebase) return;
         FirebaseOptions options;
 		try {
             FileInputStream serviceAccount = new FileInputStream("liste-envies-firebase.json");
             LOGGER.info("AuthFilter init after read json");
 			options = new FirebaseOptions.Builder()
             .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-            .setDatabaseUrl("https://liste-envies.firebaseio.com/")
+            .setDatabaseUrl("https://"+filterConfig.getInitParameter("firebaseId")+".firebaseio.com/")
             .build();
             FirebaseApp.initializeApp(options);
             LOGGER.info("Initialize firebase app");
