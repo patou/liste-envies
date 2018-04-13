@@ -66,7 +66,7 @@ public class AuthFilter implements Filter {
         LOGGER.info("AuthFilter init");
         FirebaseOptions options;
 		try {
-            InputStream serviceAccount = this.getClass().getResourceAsStream("liste-envies-firebase.json");
+            InputStream serviceAccount = this.getClass().getResourceAsStream("/liste-envies-firebase.json");
             LOGGER.info("AuthFilter init after read json");
 			options = new FirebaseOptions.Builder()
             .setCredentials(GoogleCredentials.fromStream(serviceAccount))
