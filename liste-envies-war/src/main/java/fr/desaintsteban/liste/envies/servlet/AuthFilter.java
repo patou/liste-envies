@@ -64,10 +64,10 @@ public class AuthFilter implements Filter {
         LOGGER.info("AuthFilter init");
         FirebaseOptions options;
 		try {
-            FileInputStream serviceAccount = new FileInputStream("liste-envies-firebase.json");
+            //FileInputStream serviceAccount = new FileInputStream("liste-envies-firebase.json");
             LOGGER.info("AuthFilter init after read json");
 			options = new FirebaseOptions.Builder()
-            .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+            .setCredentials(GoogleCredentials.getApplicationDefault())
             .setDatabaseUrl("https://"+filterConfig.getInitParameter("firebaseId")+".firebaseio.com/")
             .build();
             FirebaseApp.initializeApp(options);

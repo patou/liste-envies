@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -22,6 +23,7 @@ import * as firebase from 'firebase';
 import AuthProvider = firebase.auth.AuthProvider;
 import {AuthProvider as AuthProviderUi, FirebaseUIAuthConfig, AuthMethods, CredentialHelper, FirebaseUIModule} from 'firebaseui-angular';
 import {AvatarModule} from 'ngx-avatar';
+
 /*import { Ng2GridDirective } from './ng2-grid/ng2-grid.directive';*/
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
@@ -29,16 +31,6 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   slidesPerView: 1,
   navigation: true,
   pagination: false
-};
-
-// Initialize Firebase
-const firebaseConfig = {
-  apiKey: 'AIzaSyAF9dNJPzt0cu8azSICko5XnyiosM1YQL8',
-  authDomain: 'liste-envies.firebaseapp.com',
-  databaseURL: 'https://liste-envies.firebaseio.com',
-  projectId: 'liste-envies',
-  storageBucket: 'liste-envies.appspot.com',
-  messagingSenderId: '783555297093'
 };
 
 const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
@@ -64,7 +56,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     QuillModule,
     SwiperModule,
     AvatarModule,
-    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     FirebaseUIModule.forRoot(firebaseUiAuthConfig)
   ],
