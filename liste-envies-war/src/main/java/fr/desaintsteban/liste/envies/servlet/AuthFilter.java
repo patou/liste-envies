@@ -50,7 +50,12 @@ public class AuthFilter implements Filter {
                 LOGGER.info("Validate token");
                 decodedToken = FirebaseAuth.getInstance().verifyIdTokenAsync(token, false).get();
                 AppUserService.getAppUser(decodedToken);
-            } catch (InterruptedException | ExecutionException e) {
+            } catch (InterruptedException e) {
+                LOGGER.log(Level.FINER, "Interrupted verify id token", e);
+                e.printStackTrace();
+                response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, "Timeout");
+                return;
+            } catch (ExecutionException e) {
                 LOGGER.log(Level.FINE, "Forbidden access data", e);
                 e.printStackTrace();
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, "Forbidden");
@@ -66,7 +71,7 @@ public class AuthFilter implements Filter {
         LOGGER.info("AuthFilter init");
         FirebaseOptions options;
 		try {
-            InputStream serviceAccount = this.getClass().getResourceAsStream("/liste-envies-firebase.json");
+            InputStream serviceAccount = this.getClass().getResourceAsStream("/firebase.json");
             LOGGER.info("AuthFilter init after read json");
 			options = new FirebaseOptions.Builder()
             .setCredentials(GoogleCredentials.fromStream(serviceAccount))
