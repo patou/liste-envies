@@ -77,7 +77,7 @@ public final class AppUserService {
             newAppUser.setIsAdmin(false);
             newAppUser.setLoginProvider(user.get("iss").asString());
         }, appUser -> {
-            return (!appUser.isAdmin() || !appUser.getEmail().equalsIgnoreCase(user.get("email").asString()) || !appUser.getPicture().equals(user.get("picture").asString()));
+            return (!appUser.isAdmin() || !appUser.getEmail().equalsIgnoreCase(user.get("email").asString()) /*|| !appUser.getPicture().equals(user.get("picture").asString())*/);
         });
     }
 
