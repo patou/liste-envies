@@ -66,6 +66,21 @@ public final class AppUserService {
         });
     }
 
+    public static AppUser getAppUserFromJwt(DecodedJWT jwt) {
+        Map<String, Claim> user = jwt.getClaims();
+
+
+        return getAppUser(user.get("email").asString(), newAppUser -> {
+            newAppUser.setEmail(user.get("email").asString());
+            newAppUser.setName(user.get("name").asString());
+            newAppUser.setPicture(user.get("picture").asString());
+            newAppUser.setIsAdmin(false);
+            newAppUser.setLoginProvider(user.get("iss").asString());
+        }, appUser -> {
+            return (!appUser.isAdmin() || !appUser.getEmail().equalsIgnoreCase(user.get("email").asString()) || !appUser.getPicture().equals(user.get("picture").asString()));
+        });
+    }
+
     public static AppUser getAppUser(String email, Consumer<AppUser> fillAppUser, Predicate<AppUser> checkAppUser) {
         Objectify ofy = OfyService.ofy();
         if (email == null) { //Not Logged
