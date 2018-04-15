@@ -23,7 +23,7 @@ public class AppUser {
 	private Date birthday;
 	@Index
 	private String anniversary;
-	private String picture;
+	private String picture = "";
 
     private boolean isAdmin = false;
 

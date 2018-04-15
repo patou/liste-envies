@@ -15,6 +15,9 @@ public class GetUserServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.setContentType("application/json");
 		AppUser userAuthenticated = ServletUtils.getUserAuthenticated();
+		if (userAuthenticated == null) {
+			return;
+		}
 		if (lastVisitDays(userAuthenticated.getLastVisit()) > 2) {
 			userAuthenticated.setLastNotification(userAuthenticated.getLastVisit());
 		}

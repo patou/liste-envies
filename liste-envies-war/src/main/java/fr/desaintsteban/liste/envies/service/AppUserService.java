@@ -1,5 +1,8 @@
 package fr.desaintsteban.liste.envies.service;
 
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.google.api.client.json.Json;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -9,6 +12,7 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.cmd.Saver;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.util.NicknameUtils;
+import org.json.JSONObject;
 
 import java.util.Collection;
 import java.util.Date;
@@ -43,7 +47,22 @@ public final class AppUserService {
             newAppUser.setIsAdmin(false);
             newAppUser.setLoginProvider(user.getIssuer());
         }, appUser -> {
-            return (!appUser.isAdmin() || !appUser.getEmail().equalsIgnoreCase(user.getEmail()) || !appUser.getPicture().equals(user.getPicture()));
+            return (!appUser.isAdmin() || !appUser.getEmail().equalsIgnoreCase(user.getEmail()) /*|| !appUser.getPicture() || !appUser.getPicture().equals(user.getPicture())*/);
+        });
+    }
+
+    public static AppUser getAppUserFromJwt(DecodedJWT jwt) {
+        Map<String, Claim> user = jwt.getClaims();
+
+
+        return getAppUser(user.get("email").asString(), newAppUser -> {
+            newAppUser.setEmail(user.get("email").asString());
+            newAppUser.setName(user.get("name").asString());
+            newAppUser.setPicture(user.get("picture").asString());
+            newAppUser.setIsAdmin(false);
+            newAppUser.setLoginProvider(user.get("iss").asString());
+        }, appUser -> {
+            return (!appUser.isAdmin() || !appUser.getEmail().equalsIgnoreCase(user.get("email").asString()) || appUser.getPicture() == null || (appUser.getPicture() != null && !appUser.getPicture().equals(user.get("picture").asString()) ) );
         });
     }
 
@@ -67,7 +86,7 @@ public final class AppUserService {
                 ofy.save().entity(appUser).now();
             }
         }
-        appUser.setIsAdmin(userService.isUserAdmin()); //Allways override isAdmin
+        // Todo no userSService appUser.setIsAdmin(userService.isUserAdmin()); //Allways override isAdmin
         appUserThreadLocal.set(appUser);
         return appUser;
     }

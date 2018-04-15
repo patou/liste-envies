@@ -19,8 +19,16 @@ export class HomeComponent implements OnInit {
     private auth: AuthService) { }
 
   ngOnInit() {
-    this.list = this.wishListService.list();
+    // this.list = this.wishListService.list();
     this.userAuth = this.auth.user;
+
+    this.userAuth.subscribe(value => {
+      setTimeout(() => {
+        this.list = this.wishListService.list();
+        console.log('user AUTH NEXT / ', value);
+      }, 1000);
+
+    });
   }
 
   newList() {

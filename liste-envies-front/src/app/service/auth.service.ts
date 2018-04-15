@@ -9,23 +9,24 @@ import {MatDialog} from '@angular/material';
 
 @Injectable()
 export class AuthService implements HttpInterceptor {
+  public static currentUser: firebase.User;
+  public static currentToken: string;
+
   user: Observable<firebase.User>;
-  currentUser: firebase.User;
-  currentToken: string;
 
   constructor(private firebaseAuth: AngularFireAuth, public dialog: MatDialog) {
     this.user = firebaseAuth.authState;
 
     this.user.subscribe((user: firebase.User) => {
       if (user) {
-        this.currentUser = user;
+        AuthService.currentUser = user;
         user.getIdToken().then((token: string) => {
-          console.log('Token :', token, this.currentUser);
-          this.currentToken = token;
+          console.log('Token :', token, AuthService.currentUser);
+          AuthService.currentToken = token;
         });
       } else {
-        this.currentUser = null;
-        this.currentToken = null;
+        AuthService.currentUser = null;
+        AuthService.currentToken = null;
       }
 
     });
@@ -33,12 +34,14 @@ export class AuthService implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
+    console.log('interceptor : ', AuthService.currentToken, AuthService.currentUser, req);
+
     let httpHeaders;
-    if (this.currentToken) {
-      console.log('intercept current token : ', this.currentToken, this.currentUser, req);
+    if (AuthService.currentToken) {
+      console.log('intercept current token : ', AuthService.currentToken, AuthService.currentUser, req);
       httpHeaders = req.headers.set(
         'Authorization',
-        'Bearer ' + this.currentToken
+        'Bearer ' + AuthService.currentToken
       );
     } else {
       httpHeaders = req.headers;

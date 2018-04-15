@@ -3,7 +3,7 @@ package fr.desaintsteban.liste.envies.servlet;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.concurrent.ExecutionException;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,12 +16,13 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.auth0.jwt.JWT;
+
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseToken;
-
 import fr.desaintsteban.liste.envies.service.AppUserService;
 
 /**
@@ -42,9 +43,31 @@ public class AuthFilter implements Filter {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authorization Header must be valid");
                 return;
             }
-            // Extract the token
+            // todo validate the token
             String token = authorizationHeader.substring("Bearer".length()).trim();
-            FirebaseToken decodedToken;
+            try {
+                DecodedJWT jwt = JWT.decode(token);
+                AppUserService.getAppUserFromJwt(jwt);
+            } catch (JWTDecodeException exception){
+                //Invalid token
+            }
+
+
+            // Extract the token
+            /*String token = authorizationHeader.substring("Bearer".length()).trim();
+
+            RSAPublicKey publicKey = //Get the key instance
+            RSAPrivateKey privateKey = //Get the key instance
+            try {
+                JCEMapper.Algorithm algorithm = Algorithm.RSA256(publicKey, privateKey);
+                JWTVerifier verifier = JWT.require(algorithm)
+                        .withIssuer("auth0")
+                        .build(); //Reusable verifier instance
+                DecodedJWT jwt = verifier.verify(token);
+            } catch (JWTVerificationException exception){
+                //Invalid signature/claims
+            }*/
+            /*FirebaseToken decodedToken;
             try {
                 //TODO: Valider le token seulement sur l'url pour récupérer les infos d'un utilisateur.
                 LOGGER.info("Validate token");
@@ -60,7 +83,7 @@ public class AuthFilter implements Filter {
                 e.printStackTrace();
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, "Forbidden");
                 return;
-            }
+            }*/
         }
         
         filterChain.doFilter(servletRequest, servletResponse);

@@ -7,6 +7,8 @@ import {Observable} from 'rxjs/Observable';
 import {WishList} from '../../models/WishList';
 import {WishItem} from '../../models/WishItem';
 import {ActivatedRoute} from '@angular/router';
+import {AuthService} from '../../service/auth.service';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-list',
@@ -27,10 +29,11 @@ export class ListComponent implements OnInit, OnDestroy {
     columnWidth: 200
   };*/
 
+  public userAuth: Observable<firebase.User>;
 
   public listId: string;
 
-  constructor(private wishListService: WishListService, private route: ActivatedRoute) {
+  constructor(private wishListService: WishListService, private route: ActivatedRoute, private auth: AuthService) {
 
   }
 
@@ -39,6 +42,15 @@ export class ListComponent implements OnInit, OnDestroy {
     this.sub = this.route.params.subscribe(params => {
       this.listId = params['listId'];
       this.list = this.wishListService.wishes(params['listId']);
+    });
+    this.userAuth = this.auth.user;
+
+    this.userAuth.subscribe(value => {
+      setTimeout(() => {
+        this.list = this.wishListService.wishes(this.route.snapshot.params['listId']);
+        console.log('user AUTH NEXT / ', value);
+      }, 1000);
+
     });
 
 
