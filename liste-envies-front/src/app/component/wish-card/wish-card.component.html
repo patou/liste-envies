@@ -14,12 +14,15 @@
     <mat-card-subtitle data-col="5">{{wishItem.date | date: 'short'}}</mat-card-subtitle>
   </mat-card-header>
 
-  <swiper class="swiper-container" [useSwiperClass] [config]="SWIPER_CONFIG">
+  <swiper class="swiper-container" [useSwiperClass] [config]="SWIPER_CONFIG" *ngIf="wishItem.pictures && wishItem.pictures.length > 1">
     <div class="swiper-slide"  *ngFor="let picture of wishItem.pictures">
       <img data-src="{{picture}}" alt="{{wishItem.label}}" class="swiper-lazy" width="300" height="300">
       <div class="swiper-lazy-preloader"></div>
     </div>
   </swiper>
+  <div class="swiper-slide"  *ngIf="wishItem.pictures && wishItem.pictures.length == 1">
+    <img data-src="{{picture[0]}}" alt="{{wishItem.label}}" class="swiper-lazy" width="300" height="300">
+  </div>
 
   <mat-card-content>
     <p [innerHTML]="wishItem.description">
@@ -38,19 +41,32 @@
     <app-rating *ngIf="wishItem.rating" [value]="wishItem.rating" [readonly]="true"></app-rating>
 
 
-    <mat-expansion-panel *ngIf="wishItem.canSuggest">
+    <mat-expansion-panel *ngIf="wishItem.canParticipate">
       <mat-expansion-panel-header>
         <mat-panel-title>
           Commentaires
         </mat-panel-title>
         <mat-panel-description>
-          {{wishItem.comments.length}}
+          {{wishItem.comments? wishItem.comments.length : 0}}
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <mat-list>
+      <mat-list *ngIf="wishItem.comments && wishItem.comments.length > 0">
         <mat-list-item *ngFor="let comment of wishItem.comments"> {{comment.text}}</mat-list-item>
       </mat-list>
+
+
+      <mat-action-row *ngIf="wishItem.canParticipate">
+        <span>
+           <mat-form-field class="example-full-width">
+          <textarea matInput placeholder="ajouter un commentaire"></textarea>
+        </mat-form-field>
+        </span>
+        <span>
+          <button mat-button>Comment</button>
+        </span>
+
+      </mat-action-row>
 
     </mat-expansion-panel>
   </mat-card-content>
