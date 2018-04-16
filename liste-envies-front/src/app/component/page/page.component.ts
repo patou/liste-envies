@@ -18,25 +18,10 @@ export class PageComponent implements OnInit {
     this.userAuth = this.auth.user;
   }
 
-  loginGoogle() {
-    this.auth.loginWithGoogle();
-  }
-
-  loginGithub() {
-    this.auth.loginWithGithub();
-  }
-
-  loginFacebook() {
-    this.auth.loginWithFacebook();
-  }
-
-  loginTwitter() {
-    this.auth.loginWithTwitter();
-  }
-
-  loginEmail() {
+  connect() {
     this.auth.loginWithMail();
-  }
+  }  
+  
   logout() {
     this.auth.logout();
   }

@@ -38,13 +38,13 @@
     <app-rating *ngIf="wishItem.rating" [value]="wishItem.rating" [readonly]="true"></app-rating>
 
 
-    <mat-expansion-panel *ngIf="wishItem.canSuggest">
+    <mat-expansion-panel *ngIf="wishItem.canSuggest && wishItem.comments">
       <mat-expansion-panel-header>
         <mat-panel-title>
           Commentaires
         </mat-panel-title>
         <mat-panel-description>
-          {{wishItem.comments.length}}
+          {{wishItem.comments.length||0}}
         </mat-panel-description>
       </mat-expansion-panel-header>
 
