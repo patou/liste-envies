@@ -1,17 +1,23 @@
 <!--<app-flip-card [flip]="edit">-->
 
 
-<mat-card class="wish-card flip-front">
+<mat-card class="wish-card flip-front" fxLayout="column" fxLayoutAlign="space-between stretch">
 
-  <mat-toolbar  data-grid="space-around" >
-    <span class="col-9">{{wishItem.label}}</span>
+  <mat-toolbar   fxLayout="row" fxLayoutAlign="space-between center">
+    <span class="col-9" >{{wishItem.label}}</span>
     <mat-icon class="col-1 push-right">favorite</mat-icon>
     <mat-icon class="col-1 push-right">delete</mat-icon>
   </mat-toolbar>
 
-  <mat-card-header data-grid="space-around">
-    <mat-card-subtitle data-col="5">{{wishItem.owner.name}}</mat-card-subtitle>
-    <mat-card-subtitle data-col="5">{{wishItem.date | date: 'short'}}</mat-card-subtitle>
+  <mat-card-header  fxLayout="column" fxLayoutAlign="space-between stretch">
+    <div fxLayout="row" fxLayoutAlign="space-between stretch">
+     <ngx-avatar  fxFlex="2" [name]="wishItem.owner.name"
+                                    [gravatarId]="wishItem.owner.email"
+                                    size="15" [round]="true">
+    </ngx-avatar>
+      <span >{{wishItem.owner.name}}</span>
+      <span  >{{wishItem.date | date: 'short'}}</span>
+    </div>
   </mat-card-header>
 
   <swiper class="swiper-container" [useSwiperClass] [config]="SWIPER_CONFIG" *ngIf="wishItem.pictures && wishItem.pictures.length > 1">
@@ -21,24 +27,25 @@
     </div>
   </swiper>
   <div class="swiper-slide"  *ngIf="wishItem.pictures && wishItem.pictures.length == 1">
-    <img data-src="{{picture[0]}}" alt="{{wishItem.label}}" class="swiper-lazy" width="300" height="300">
+    <img data-src="{{wishItem.pictures[0]}}" alt="{{wishItem.label}}" class="swiper-lazy" width="300" height="300">
   </div>
 
-  <mat-card-content>
+  <mat-card-content  fxLayout="column" fxLayoutAlign="space-between stretch">
     <p [innerHTML]="wishItem.description">
     </p>
 
 
-    <div data-grid="column">
-      <div *ngFor="let url of wishItem.urls" class="col-12">
-        <a [href]="url.url" target="_blank"  mat-raised-button [matTooltip]="url.url">{{url.name? url.name : 'lien'}}</a>
-      </div>
-    </div>
 
     <mat-chip-list *ngIf="wishItem.price">
       <mat-chip color="primary">{{wishItem.price}}</mat-chip>
     </mat-chip-list>
+
     <app-rating *ngIf="wishItem.rating" [value]="wishItem.rating" [readonly]="true"></app-rating>
+
+
+    <div fxLayout="column" fxLayoutAlign="space-around stretch" >
+      <a [href]="url.url" *ngFor="let url of wishItem.urls" target="_blank"  mat-raised-button [matTooltip]="url.url">{{url.name? url.name : 'lien'}}</a>
+    </div>
 
 
     <mat-expansion-panel *ngIf="wishItem.canParticipate">

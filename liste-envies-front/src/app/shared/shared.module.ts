@@ -23,6 +23,8 @@ import * as firebase from 'firebase';
 import AuthProvider = firebase.auth.AuthProvider;
 import {AuthProvider as AuthProviderUi, FirebaseUIAuthConfig, AuthMethods, CredentialHelper, FirebaseUIModule} from 'firebaseui-angular';
 import {AvatarModule} from 'ngx-avatar';
+import {NgxMasonryModule} from 'ngx-masonry';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 /*import { Ng2GridDirective } from './ng2-grid/ng2-grid.directive';*/
 
@@ -58,6 +60,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     AvatarModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
+    FlexLayoutModule,
     FirebaseUIModule.forRoot(firebaseUiAuthConfig)
   ],
   declarations: [RatingComponent, FlipCardComponent, HtmlEditorComponent, LinksFormComponent/*, Ng2GridDirective*/],
@@ -75,6 +78,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     LinksFormComponent,
     FirebaseUIModule,
     AvatarModule,
+    FlexLayoutModule,
     SwiperModule/*,
     Ng2GridDirective*/
   ],

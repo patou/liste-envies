@@ -1,3 +1,10 @@
+<!--<ngx-masonry [options]="masonryOptions">
+  <ngx-masonry-item class="masonry-item" *ngFor="let wishItem of (list | async)" >
+    <app-wish-card class="col-4" [wishItem]="wishItem" ></app-wish-card>
+  </ngx-masonry-item>
+</ngx-masonry>-->
+
+
 <div class="col-12 " #bricksList id="bricks-list">
 
     <app-wish-card class="col-4" [wishItem]="wishItem" *ngFor="let wishItem of (list)"  ></app-wish-card>

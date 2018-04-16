@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 
 declare var Macy;
 import {AfterViewInit} from '@angular/core/src/metadata/lifecycle_hooks';
+import { NgxMasonryOptions } from 'ngx-masonry';
 
 @Component({
   selector: 'app-list-of-wish',
@@ -12,6 +13,9 @@ import {AfterViewInit} from '@angular/core/src/metadata/lifecycle_hooks';
 })
 export class ListOfWishComponent implements OnInit, AfterViewInit, OnChanges {
 
+  public masonryOptions: NgxMasonryOptions = {
+    transitionDuration: '0.8s'
+  };
 
 
   @Input() public list: Observable<WishItem[]>;
@@ -59,7 +63,6 @@ export class ListOfWishComponent implements OnInit, AfterViewInit, OnChanges {
     console.log('On changes', changes, this.bricks);
 
     if (!changes.firstChange)  {
-
 
       setTimeout(() => {
 
