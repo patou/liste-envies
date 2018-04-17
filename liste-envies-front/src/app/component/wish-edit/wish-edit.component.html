@@ -11,7 +11,7 @@
     <mat-card-content>
 
       <div>
-        <app-html-editor #description [content]="wishItem.description"
+        <app-html-editor #description [(content)]="wishItem.description"
                          placeholder="Description de l'envie"></app-html-editor>
         <mat-hint>Vous pouvez donner plus de details sur votre envie.</mat-hint>
       </div>

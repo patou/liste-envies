@@ -15,8 +15,8 @@
                                     [gravatarId]="wishItem.owner.email"
                                     size="15" [round]="true">
     </ngx-avatar>
-      <span >{{wishItem.owner.name}}</span>
-      <span  >{{wishItem.date | date: 'short'}}</span>
+      <span>{{wishItem.owner.name}}</span>
+      <span>{{wishItem.date | date: 'short'}}</span>
     </div>
   </mat-card-header>
 
@@ -48,7 +48,7 @@
     </div>
 
 
-    <mat-expansion-panel *ngIf="wishItem.canParticipate">
+    <mat-expansion-panel *ngIf="wishItem.canParticipate" class="mat-elevation-z">
       <mat-expansion-panel-header>
         <mat-panel-title>
           Commentaires
