@@ -21,7 +21,7 @@ import {AngularFireAuthModule} from 'angularfire2/auth';
 import {AuthService} from '../service/auth.service';
 import * as firebase from 'firebase';
 import AuthProvider = firebase.auth.AuthProvider;
-import {AuthProvider as AuthProviderUi, FirebaseUIAuthConfig, AuthMethods, CredentialHelper, FirebaseUIModule} from 'firebaseui-angular';
+import {AuthProvider as AuthProviderUi, FirebaseUIAuthConfig, AuthMethods, CredentialHelper, FirebaseUIModule} from './firebaseui';
 import {AvatarModule} from 'ngx-avatar';
 import {NgxMasonryModule} from 'ngx-masonry';
 import {FlexLayoutModule} from '@angular/flex-layout';
