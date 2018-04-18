@@ -47,8 +47,8 @@
 
     <mat-expansion-panel *ngIf="wishItem.canParticipate" class="mat-elevation-z">
       <mat-expansion-panel-header>
-        Commentaires
         <mat-chip>{{wishItem.comments? wishItem.comments.length : 0}}</mat-chip>
+        {{wishItem.comments && wishItem.comments.length > 1 ? 'Commentaires' : 'Commentaire'}} 
       </mat-expansion-panel-header>
 
       <mat-list *ngIf="wishItem.comments && wishItem.comments.length > 0">
