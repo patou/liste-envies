@@ -62,6 +62,17 @@
       padding: 1px;
     }
   }
+  .owner {
+    display: flex;
+    align-items: center;
+    .ownerName {
+      flex: 4;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-left: 3px;
+    }
+  }
+  
   .wish-price {
     margin: 0 !important;
   }
@@ -213,6 +224,14 @@
     padding: 5px;
     margin-bottom: 5px;
     box-shadow: 0 4px 16px -3px $black_56;
+  }
+
+  .mat-expansion-panel-header /deep/ .mat-content {
+    align-items: center;
+  
+    .mat-chip {
+      margin-left: 3px;
+    }
   }
 }
 

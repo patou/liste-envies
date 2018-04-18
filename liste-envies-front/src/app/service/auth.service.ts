@@ -67,7 +67,7 @@ export class AuthService implements HttpInterceptor {
 
   openLoginPopUp() {
     const dialogRef = this.dialog.open(LoginDialogComponent, {
-      width: '300px',
+      width: '400px',
       data: {  }
     });
 

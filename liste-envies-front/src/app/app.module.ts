@@ -1,4 +1,6 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -16,6 +18,9 @@ import {HTTP_INTERCEPTORS, HttpInterceptor} from '@angular/common/http';
 import {AuthService} from './service/auth.service';
 import { LoginDialogComponent } from './component/login-dialog/login-dialog.component';
 
+
+// the second parameter 'fr' is optional
+registerLocaleData(localeFr, 'fr');
 
 @NgModule({
   declarations: [
@@ -37,7 +42,8 @@ import { LoginDialogComponent } from './component/login-dialog/login-dialog.comp
     provide: HTTP_INTERCEPTORS,
     useClass: AuthService,
     multi: true
-  }],
+  },
+  { provide: LOCALE_ID, useValue: 'fr' }],
   entryComponents: [WishEditComponent, LoginDialogComponent],
   bootstrap: [AppComponent]
 })

@@ -2,36 +2,33 @@
 
 
 <mat-card class="wish-card flip-front " fxLayout="column" fxLayoutAlign="space-between stretch">
-
-
-
-  <mat-card-header   fxLayout="column" fxLayoutAlign="space-between stretch">
+  <mat-card-header fxLayout="column" fxLayoutAlign="space-between stretch">
     <div class="header-success" fxLayout="row" fxLayoutAlign="space-between center">
-      <span class="col-9" >{{wishItem.label}}</span>
+      <span class="col-9">{{wishItem.label}}</span>
       <mat-icon class="col-1 push-right">favorite</mat-icon>
       <mat-icon class="col-1 push-right">delete</mat-icon>
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between stretch">
-     <ngx-avatar  fxFlex="2" [name]="wishItem.owner.name"
-                                    [gravatarId]="wishItem.owner.email"
-                                    size="15" [round]="true">
-    </ngx-avatar>
-      <span>{{wishItem.owner.name}}</span>
+      <div class="owner">
+        <ngx-avatar [name]="wishItem.owner.name" [gravatarId]="wishItem.owner.email" size="20" [round]="true">
+        </ngx-avatar>
+        <span class="ownerName">{{wishItem.owner.name}}</span>
+      </div>
       <span>{{wishItem.date | date: 'short'}}</span>
     </div>
   </mat-card-header>
 
   <swiper class="swiper-container card-image" [useSwiperClass] [config]="SWIPER_CONFIG" *ngIf="wishItem.pictures && wishItem.pictures.length > 1">
-    <div class="swiper-slide"  *ngFor="let picture of wishItem.pictures">
+    <div class="swiper-slide" *ngFor="let picture of wishItem.pictures">
       <img data-src="{{picture}}" alt="{{wishItem.label}}" class="swiper-lazy" width="300" height="300">
       <div class="swiper-lazy-preloader"></div>
     </div>
   </swiper>
-  <div class="swiper-slide"  *ngIf="wishItem.pictures && wishItem.pictures.length == 1">
+  <div class="swiper-slide" *ngIf="wishItem.pictures && wishItem.pictures.length == 1">
     <img data-src="{{wishItem.pictures[0]}}" alt="{{wishItem.label}}" class="swiper-lazy" width="300" height="300">
   </div>
 
-  <mat-card-content  fxLayout="column" fxLayoutAlign="space-between stretch">
+  <mat-card-content fxLayout="column" fxLayoutAlign="space-between stretch">
     <p [innerHTML]="wishItem.description">
     </p>
 
@@ -44,13 +41,14 @@
     <app-rating *ngIf="wishItem.rating" [value]="wishItem.rating" [readonly]="true"></app-rating>
 
 
-    <div fxLayout="column" fxLayoutAlign="space-around stretch" >
-      <a [href]="url.url" *ngFor="let url of wishItem.urls" target="_blank"  mat-raised-button [matTooltip]="url.url">{{url.name? url.name : 'lien'}}</a>
+    <div fxLayout="column" fxLayoutAlign="space-around stretch">
+      <a [href]="url.url" *ngFor="let url of wishItem.urls" target="_blank" mat-raised-button [matTooltip]="url.url">{{url.name? url.name : 'lien'}}</a>
     </div>
 
-    <mat-expansion-panel *ngIf="wishItem.canParticipate">
+    <mat-expansion-panel *ngIf="wishItem.canParticipate" class="mat-elevation-z">
       <mat-expansion-panel-header>
-        Commentaires <mat-basic-chip>{{wishItem.comments? wishItem.comments.length : 0}}</mat-basic-chip>
+        Commentaires
+        <mat-chip>{{wishItem.comments? wishItem.comments.length : 0}}</mat-chip>
       </mat-expansion-panel-header>
 
       <mat-list *ngIf="wishItem.comments && wishItem.comments.length > 0">
@@ -60,9 +58,9 @@
 
       <mat-action-row *ngIf="wishItem.canParticipate">
         <span>
-           <mat-form-field class="example-full-width">
-          <textarea matInput placeholder="ajouter un commentaire"></textarea>
-        </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="ajouter un commentaire"></textarea>
+          </mat-form-field>
         </span>
         <span>
           <button mat-button>Comment</button>
@@ -73,7 +71,7 @@
     </mat-expansion-panel>
   </mat-card-content>
 
-  <mat-card-actions >
+  <mat-card-actions>
     <button mat-raised-button color="accent" *ngIf="!wishItem.allreadyGiven && wishItem.canParticipate">Offrir</button>
     <button mat-raised-button color="primary" *ngIf="wishItem.canEdit" (click)="editWish()">Modifier</button>
   </mat-card-actions>
@@ -94,4 +92,3 @@
 
 </app-flip-card>
 -->
-

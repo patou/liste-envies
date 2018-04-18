@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {WishItem} from '../../models/WishItem';
 import {SwiperConfigInterface} from 'ngx-swiper-wrapper';
 import {WishEditComponent} from '../wish-edit/wish-edit.component';
@@ -7,7 +7,7 @@ import {MatDialog} from '@angular/material';
 @Component({
   selector: 'app-wish-card',
   templateUrl: './wish-card.component.html',
-  styleUrls: ['./wish-card.component.scss']
+  styleUrls: ['./wish-card.component.scss'],
 })
 export class WishCardComponent implements OnInit {
 
