@@ -226,7 +226,7 @@
     box-shadow: 0 4px 16px -3px $black_56;
   }
 
-  .mat-expansion-panel-header /deep/ .mat-content {
+  .mat-expansion-panel-header ::ng-deep .mat-content {
     align-items: center;
   
     .mat-chip {
