@@ -23,11 +23,8 @@ export class HomeComponent implements OnInit {
     this.userAuth = this.auth.user;
 
     this.userAuth.subscribe(value => {
-      setTimeout(() => {
         this.list = this.wishListService.list();
         console.log('user AUTH NEXT / ', value);
-      }, 1000);
-
     });
   }
 
@@ -36,6 +33,6 @@ export class HomeComponent implements OnInit {
   }
 
   connect() {
-    this.auth.loginWithMail();
+    this.auth.openLoginPopUp();
   }
 }

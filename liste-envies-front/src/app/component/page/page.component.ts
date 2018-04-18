@@ -19,9 +19,9 @@ export class PageComponent implements OnInit {
   }
 
   connect() {
-    this.auth.loginWithMail();
-  }  
-  
+    this.auth.openLoginPopUp();
+  }
+
   logout() {
     this.auth.logout();
   }

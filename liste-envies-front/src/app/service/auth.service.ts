@@ -6,6 +6,8 @@ import {HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {HttpEvent} from '@angular/common/http/src/response';
 import {LoginDialogComponent} from '../component/login-dialog/login-dialog.component';
 import {MatDialog} from '@angular/material';
+import {catchError, tap} from 'rxjs/operators';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class AuthService implements HttpInterceptor {
@@ -13,32 +15,42 @@ export class AuthService implements HttpInterceptor {
   public static currentToken: string;
 
   user: Observable<firebase.User>;
+  private _userState: BehaviorSubject<firebase.User>;
 
   constructor(private firebaseAuth: AngularFireAuth, public dialog: MatDialog) {
-    this.user = firebaseAuth.authState;
 
-    this.user.subscribe((user: firebase.User) => {
-      if (user) {
-        AuthService.currentUser = user;
-        user.getIdToken().then((token: string) => {
-          console.log('Token :', token, AuthService.currentUser);
-          AuthService.currentToken = token;
-        });
-      } else {
-        AuthService.currentUser = null;
-        AuthService.currentToken = null;
-      }
+    this._userState = new BehaviorSubject(null);
 
-    });
+    this.user = this._userState.asObservable();
+
+      firebaseAuth.authState.subscribe((user: firebase.User) => {
+        if (user) {
+          AuthService.currentUser = user;
+          user.getIdToken().then((token: string) => {
+            AuthService.currentToken = token;
+            // emit change user only when the token id was getting.
+            this._userState.next(AuthService.currentUser);
+          });
+        } else {
+          this.resetCurrentUser();
+        }
+  }, (error) => {
+        console.error('error with loggin :', error);
+        this.resetCurrentUser();
+      }, () => this._userState.complete());
   }
+
+  private resetCurrentUser() {
+    AuthService.currentUser = null;
+    AuthService.currentToken = null;
+    this._userState.next(AuthService.currentUser);
+  }
+
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    console.log('interceptor : ', AuthService.currentToken, AuthService.currentUser, req);
-
     let httpHeaders;
     if (AuthService.currentToken) {
-      console.log('intercept current token : ', AuthService.currentToken, AuthService.currentUser, req);
       httpHeaders = req.headers.set(
         'Authorization',
         'Bearer ' + AuthService.currentToken
@@ -53,79 +65,7 @@ export class AuthService implements HttpInterceptor {
     return next.handle(newReq);
   }
 
-  signup(email: string, password: string) {
-    this.firebaseAuth
-      .auth
-      .createUserWithEmailAndPassword(email, password)
-      .then(value => {
-        console.log('Success!', value);
-      })
-      .catch(err => {
-        console.log('Something went wrong:', err.message);
-      });
-  }
-
-  login(email: string, password: string) {
-    this.firebaseAuth
-      .auth
-      .signInWithEmailAndPassword(email, password)
-      .then(value => {
-        console.log('Nice, it worked!');
-      })
-      .catch(err => {
-        console.log('Something went wrong:', err.message);
-      });
-  }
-
-  loginWithGoogle() {
-    this.firebaseAuth
-      .auth
-      .signInWithPopup(new firebase.auth.GoogleAuthProvider())
-      .then(value => {
-        console.log('Nice, it worked!');
-      })
-      .catch(err => {
-        console.log('Something went wrong:', err.message);
-      });
-  }
-
-  loginWithGithub() {
-    this.firebaseAuth
-      .auth
-      .signInWithPopup(new firebase.auth.GithubAuthProvider())
-      .then(value => {
-        console.log('Nice, it worked!');
-      })
-      .catch(err => {
-        console.log('Something went wrong:', err.message);
-      });
-  }
-
-  loginWithFacebook() {
-    this.firebaseAuth
-      .auth
-      .signInWithPopup(new firebase.auth.FacebookAuthProvider())
-      .then(value => {
-        console.log('Nice, it worked!');
-      })
-      .catch(err => {
-        console.log('Something went wrong:', err.message);
-      });
-  }
-
-  loginWithTwitter() {
-    this.firebaseAuth
-      .auth
-      .signInWithPopup(new firebase.auth.TwitterAuthProvider())
-      .then(value => {
-        console.log('Nice, it worked!');
-      })
-      .catch(err => {
-        console.log('Something went wrong:', err.message);
-      });
-  }
-
-  loginWithMail() {
+  openLoginPopUp() {
     const dialogRef = this.dialog.open(LoginDialogComponent, {
       width: '300px',
       data: {  }

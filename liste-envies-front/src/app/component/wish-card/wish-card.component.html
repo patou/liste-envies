@@ -1,15 +1,16 @@
 <!--<app-flip-card [flip]="edit">-->
 
 
-<mat-card class="wish-card flip-front" fxLayout="column" fxLayoutAlign="space-between stretch">
+<mat-card class="wish-card flip-front " fxLayout="column" fxLayoutAlign="space-between stretch">
 
-  <mat-toolbar   fxLayout="row" fxLayoutAlign="space-between center">
-    <span class="col-9" >{{wishItem.label}}</span>
-    <mat-icon class="col-1 push-right">favorite</mat-icon>
-    <mat-icon class="col-1 push-right">delete</mat-icon>
-  </mat-toolbar>
 
-  <mat-card-header  fxLayout="column" fxLayoutAlign="space-between stretch">
+
+  <mat-card-header   fxLayout="column" fxLayoutAlign="space-between stretch">
+    <div class="header-success" fxLayout="row" fxLayoutAlign="space-between center">
+      <span class="col-9" >{{wishItem.label}}</span>
+      <mat-icon class="col-1 push-right">favorite</mat-icon>
+      <mat-icon class="col-1 push-right">delete</mat-icon>
+    </div>
     <div fxLayout="row" fxLayoutAlign="space-between stretch">
      <ngx-avatar  fxFlex="2" [name]="wishItem.owner.name"
                                     [gravatarId]="wishItem.owner.email"
@@ -20,7 +21,7 @@
     </div>
   </mat-card-header>
 
-  <swiper class="swiper-container" [useSwiperClass] [config]="SWIPER_CONFIG" *ngIf="wishItem.pictures && wishItem.pictures.length > 1">
+  <swiper class="swiper-container card-image" [useSwiperClass] [config]="SWIPER_CONFIG" *ngIf="wishItem.pictures && wishItem.pictures.length > 1">
     <div class="swiper-slide"  *ngFor="let picture of wishItem.pictures">
       <img data-src="{{picture}}" alt="{{wishItem.label}}" class="swiper-lazy" width="300" height="300">
       <div class="swiper-lazy-preloader"></div>
@@ -47,15 +48,9 @@
       <a [href]="url.url" *ngFor="let url of wishItem.urls" target="_blank"  mat-raised-button [matTooltip]="url.url">{{url.name? url.name : 'lien'}}</a>
     </div>
 
-
-    <mat-expansion-panel *ngIf="wishItem.canParticipate" class="mat-elevation-z">
+    <mat-expansion-panel *ngIf="wishItem.canParticipate">
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Commentaires
-        </mat-panel-title>
-        <mat-panel-description>
-          {{wishItem.comments? wishItem.comments.length : 0}}
-        </mat-panel-description>
+        Commentaires <mat-basic-chip>{{wishItem.comments? wishItem.comments.length : 0}}</mat-basic-chip>
       </mat-expansion-panel-header>
 
       <mat-list *ngIf="wishItem.comments && wishItem.comments.length > 0">
@@ -77,10 +72,12 @@
 
     </mat-expansion-panel>
   </mat-card-content>
-  <mat-card-actions>
-    <button mat-button *ngIf="!wishItem.allreadyGiven && wishItem.canParticipate">Offrir</button>
-    <button mat-button (click)="editWish()">Modifier</button>
+
+  <mat-card-actions >
+    <button mat-raised-button color="accent" *ngIf="!wishItem.allreadyGiven && wishItem.canParticipate">Offrir</button>
+    <button mat-raised-button color="primary" *ngIf="wishItem.canEdit" (click)="editWish()">Modifier</button>
   </mat-card-actions>
+
 </mat-card>
 
 <!--

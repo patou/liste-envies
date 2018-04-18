@@ -46,11 +46,8 @@ export class ListComponent implements OnInit, OnDestroy {
     this.userAuth = this.auth.user;
 
     this.userAuth.subscribe(value => {
-      setTimeout(() => {
         this.list = this.wishListService.wishes(this.route.snapshot.params['listId']);
         console.log('user AUTH NEXT / ', value);
-      }, 1000);
-
     });
 
 

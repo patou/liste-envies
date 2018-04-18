@@ -40,7 +40,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     AuthProviderUi.Google,
     AuthProviderUi.Facebook,
     AuthProviderUi.Twitter,
-    AuthProviderUi.Github,
+    // AuthProviderUi.Github,
     AuthProviderUi.Password
   ],
   method: AuthMethods.Popup,
