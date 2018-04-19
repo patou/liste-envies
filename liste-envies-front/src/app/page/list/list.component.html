@@ -1,11 +1,13 @@
+<div class="page-background" [style.backgroundImage]="'url(/assets/' + whishList.picture + ')'">
+  <mat-card class="header-page-card">
+    <section class="mat-typography">
+      <h1>{{whishList.title}}</h1>
+      <p [innerHTML]="whishList.description"></p>
+    </section>
+  </mat-card>
 
-<mat-card>
-  <section class="mat-typography">
-    <h1>{{whishList.title}}</h1>
-    <p [innerHTML]="whishList.description"></p>
-  </section>
-</mat-card>
+  <app-list-of-wish [list]="(list$ | async)" class="col-12"></app-list-of-wish>
 
-<app-list-of-wish [list]="(list$ | async)" class="col-12"></app-list-of-wish>
+</div>
 
 

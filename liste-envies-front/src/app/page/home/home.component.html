@@ -1,7 +1,6 @@
+<div class="page-background">
 
-<div>
-
-  <mat-card>
+  <mat-card class="header-page-card">
     <section class="mat-typography">
       <div *ngIf="userAuth | async as user; else showLogin">
         <h1>Bonjour, {{ user.displayName }}! Bienvenue sur votre liste des envies</h1>

@@ -48,3 +48,18 @@ firebase-ui .firebaseui-container {
   box-shadow: none;
 }
 
+.page-background {
+  background-image: url(/assets/img/default.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+
+  padding-top: 20px;
+  min-height: 100vh;
+
+  .header-page-card {
+    margin-top: 0px;
+  }
+}
+

@@ -27,14 +27,14 @@ export class ListOfWishComponent implements OnInit, OnChanges {
     console.log('On init wishItems ', this.list);
   }
 
-    ngOnChanges(changes: SimpleChanges): void {
-      console.log(changes);
-      if (changes.list && changes.list.currentValue) {
-        this.items = changes.list.currentValue.reduce((acc, val, index) => {
-          acc[index % acc.length].push(val);
-          return acc;
-        }, Array(this.columns).fill(0).map(() => []));
-      }
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
+    if (changes.list && changes.list.currentValue) {
+      this.items = changes.list.currentValue.reduce((acc, val, index) => {
+        acc[index % acc.length].push(val);
+        return acc;
+      }, Array(this.columns).fill(0).map(() => []));
     }
+  }
 
 }
