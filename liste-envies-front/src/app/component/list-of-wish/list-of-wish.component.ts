@@ -19,6 +19,8 @@ export class ListOfWishComponent implements OnInit, AfterViewInit, OnChanges {
 
 
   @Input() public list: Observable<WishItem[]>;
+  public columns: number = 3;
+  public items: WishItem[][] = [];
 
   public bricks;
 
@@ -30,7 +32,8 @@ export class ListOfWishComponent implements OnInit, AfterViewInit, OnChanges {
 
   @ViewChild('bricksList') bricksList: ElementRef;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
 
@@ -58,7 +61,14 @@ export class ListOfWishComponent implements OnInit, AfterViewInit, OnChanges {
 
     }
 
-  ngOnChanges(changes: SimpleChanges): void {
+    ngOnChanges(changes: SimpleChanges): void {
+      console.log(changes);
+      if (changes.list) {
+        this.items = changes.list.currentValue.reduce((acc, val, index) => { acc[index % acc.length].push(val); return acc}, Array(this.columns).fill(0).map(()=>[]));
+      }
+    }
+
+  /*ngOnChanges(changes: SimpleChanges): void {
 
     console.log('On changes', changes, this.bricks);
 
@@ -87,7 +97,7 @@ export class ListOfWishComponent implements OnInit, AfterViewInit, OnChanges {
       }, 2000);
     }
 
-  }
+  }*/
 
 
 }
