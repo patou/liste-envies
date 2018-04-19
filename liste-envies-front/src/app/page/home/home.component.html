@@ -20,7 +20,7 @@
     </button>
   </span>
   <div class="whishList-Container">
-    <mat-card class="wishList" *ngFor="let wishList of (list | async)" [routerLink]="[wishList.name]">
+    <mat-card class="wishListCard" *ngFor="let wishList of (lists)" [routerLink]="[wishList.name]">
       {{wishList.title}}
     </mat-card>
   </div>

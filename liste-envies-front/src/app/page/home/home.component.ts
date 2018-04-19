@@ -13,14 +13,18 @@ import {AuthService} from '../../service/auth.service';
 export class HomeComponent implements OnInit {
   public userAuth: Observable<firebase.User>;
 
-  list: Observable<WishList[]>;
+  public lists: WishList[];
+  private list$: Observable<WishList[]>;
+
   constructor(
     private wishListService: WishListService,
     private auth: AuthService) { }
 
   ngOnInit() {
     this.userAuth = this.auth.user;
-    this.list = this.wishListService.list;
+    this.list$ = this.wishListService.list;
+
+    this.list$.subscribe(lists => this.lists = lists, error => this.lists = []);
   }
 
   newList() {
