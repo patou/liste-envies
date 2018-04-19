@@ -1,103 +1,40 @@
-import {Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {WishItem} from '../../models/WishItem';
-import {Observable} from 'rxjs/Observable';
+import {NgxMasonryOptions} from 'ngx-masonry';
 
 declare var Macy;
-import {AfterViewInit} from '@angular/core/src/metadata/lifecycle_hooks';
-import { NgxMasonryOptions } from 'ngx-masonry';
 
 @Component({
   selector: 'app-list-of-wish',
   templateUrl: './list-of-wish.component.html',
   styleUrls: ['./list-of-wish.component.scss']
 })
-export class ListOfWishComponent implements OnInit, AfterViewInit, OnChanges {
+export class ListOfWishComponent implements OnInit, OnChanges {
 
   public masonryOptions: NgxMasonryOptions = {
     transitionDuration: '0.8s'
   };
 
 
-  @Input() public list: Observable<WishItem[]>;
-  public columns: number = 3;
+  @Input() public list: WishItem[];
+  public columns = 3;
   public items: WishItem[][] = [];
-
-  public bricks;
-
-  public sizes = [
-    { columns: 2, gutter: 10 },                   // assumed to be mobile, because of the missing mq property
-    { mq: '768px', columns: 3, gutter: 50 },
-    { mq: '1024px', columns: 4, gutter: 80 }
-  ];
-
-  @ViewChild('bricksList') bricksList: ElementRef;
 
   constructor() {
   }
 
   ngOnInit() {
-
     console.log('On init wishItems ', this.list);
-
-    /*this.list.subscribe({
-      next: (wishItems: WishItem[]) => {
-        this.bricks
-          .resize(true)     // bind resize handler
-          .pack();
-
-        console.log('Subscripbe wishItems ', wishItems, this.bricks);
-      }
-    });*/
   }
-
-    ngAfterViewInit(): void {
-
-
-// create an instance
-
-
-
-
-
-    }
 
     ngOnChanges(changes: SimpleChanges): void {
       console.log(changes);
-      if (changes.list) {
-        this.items = changes.list.currentValue.reduce((acc, val, index) => { acc[index % acc.length].push(val); return acc}, Array(this.columns).fill(0).map(()=>[]));
+      if (changes.list && changes.list.currentValue) {
+        this.items = changes.list.currentValue.reduce((acc, val, index) => {
+          acc[index % acc.length].push(val);
+          return acc;
+        }, Array(this.columns).fill(0).map(() => []));
       }
     }
-
-  /*ngOnChanges(changes: SimpleChanges): void {
-
-    console.log('On changes', changes, this.bricks);
-
-    if (!changes.firstChange)  {
-
-      setTimeout(() => {
-
-
-        this.bricks =  Macy({
-          container: '#bricks-list',
-          trueOrder: true,
-          waitForImages: false,
-          margin: 24,
-          columns: 4,
-          breakAt: {
-            1200: 3,
-            940: 2,
-            520: 2,
-            400: 1
-          }
-        });
-
-
-
-        console.log('Timeout wishItems ', this.bricksList, this.bricks);
-      }, 2000);
-    }
-
-  }*/
-
 
 }

@@ -30,6 +30,7 @@
     "@angular/platform-browser-dynamic": "^5.2.9",
     "@angular/router": "^5.2.9",
     "angularfire2": "^5.0.0-rc.6.0",
+    "angular-xxl": "^1.0.1",
     "core-js": "^2.5.5",
     "firebase": "^4.12.1",
     "firebaseui": "2.7.0",

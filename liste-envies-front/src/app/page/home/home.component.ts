@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import {WishListService} from "../../service/wish-list-service";
-import {Observable} from "rxjs/Observable";
-import {WishList} from "../../models/WishList";
+import {Component, OnInit} from '@angular/core';
+import {WishListService} from '../../service/wish-list-service';
+import {Observable} from 'rxjs/Observable';
+import {WishList} from '../../models/WishList';
 import * as firebase from 'firebase';
 import {AuthService} from '../../service/auth.service';
 
@@ -19,13 +19,8 @@ export class HomeComponent implements OnInit {
     private auth: AuthService) { }
 
   ngOnInit() {
-    // this.list = this.wishListService.list();
     this.userAuth = this.auth.user;
-
-    this.userAuth.subscribe(value => {
-        this.list = this.wishListService.list();
-        console.log('user AUTH NEXT / ', value);
-    });
+    this.list = this.wishListService.list;
   }
 
   newList() {

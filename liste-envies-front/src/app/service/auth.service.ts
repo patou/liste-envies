@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase';
@@ -6,7 +6,6 @@ import {HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {HttpEvent} from '@angular/common/http/src/response';
 import {LoginDialogComponent} from '../component/login-dialog/login-dialog.component';
 import {MatDialog} from '@angular/material';
-import {catchError, tap} from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
@@ -14,7 +13,7 @@ export class AuthService implements HttpInterceptor {
   public static currentUser: firebase.User;
   public static currentToken: string;
 
-  user: Observable<firebase.User>;
+  public user: Observable<firebase.User>;
   private _userState: BehaviorSubject<firebase.User>;
 
   constructor(private firebaseAuth: AngularFireAuth, public dialog: MatDialog) {

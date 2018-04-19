@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 /*
 import { MasonryOptions } from 'ngx-masonry';
 */
@@ -9,54 +9,37 @@ import {WishItem} from '../../models/WishItem';
 import {ActivatedRoute} from '@angular/router';
 import {AuthService} from '../../service/auth.service';
 import * as firebase from 'firebase';
+import {RouteData, RouteParams} from 'angular-xxl';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit, OnDestroy {
+export class ListComponent implements OnInit {
 
-  list: Observable<WishItem[]>;
+  @RouteData('whishesItems') list$: Observable<WishItem[]>;
+  @RouteData('whishList', {observable: false}) whishList: WishList;
 
-  id: number;
-  private sub: any;
-
-
-/*  public masonryOptions: MasonryOptions = {
-    transitionDuration: '0.8s',
-    gutter: 10,
-    columnWidth: 200
-  };*/
 
   public userAuth: Observable<firebase.User>;
 
-  public listId: string;
+  @RouteParams('listId', {observable: false}) public listId: string;
 
   constructor(private wishListService: WishListService, private route: ActivatedRoute, private auth: AuthService) {
 
   }
 
   ngOnInit() {
-
-    this.sub = this.route.params.subscribe(params => {
-      this.listId = params['listId'];
-      this.list = this.wishListService.wishes(params['listId']);
-    });
     this.userAuth = this.auth.user;
 
     this.userAuth.subscribe(value => {
-        this.list = this.wishListService.wishes(this.route.snapshot.params['listId']);
-        console.log('user AUTH NEXT / ', value);
+      this.list$ = this.wishListService.wishes(this.route.snapshot.params['listId']);
+      console.log('user AUTH NEXT in list page / ', value);
     });
 
 
   }
 
-  ngOnDestroy() {
-    this.sub.unsubscribe();
-
-
-  }
 }
 

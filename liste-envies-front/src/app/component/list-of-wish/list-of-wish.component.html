@@ -1,24 +1,5 @@
-<!--<ngx-masonry [options]="masonryOptions">
-  <ngx-masonry-item class="masonry-item" *ngFor="let wishItem of (list | async)" >
-    <app-wish-card class="col-4" [wishItem]="wishItem" ></app-wish-card>
-  </ngx-masonry-item>
-</ngx-masonry>-->
-
-
-<!--<div class="col-12 " #bricksList id="bricks-list">
-
-    <app-wish-card class="col-4" [wishItem]="wishItem" *ngFor="let wishItem of (list)"  ></app-wish-card>
-
-</div>-->
 <div class="row">
     <div class="col-4 wishitems-columns" *ngFor="let colItems of (items)">
         <app-wish-card [wishItem]="wishItem" *ngFor="let wishItem of (colItems)"  ></app-wish-card>
     </div>
 </div>
-
-<!--<div class="dynamic-grid" appNg2Grid="list" gridWidth="300" gutterSize="10" agId="'gallery'" refreshOnImageLoad="false" >
-  <div *ngFor="let wishItem of (list)" class="grid">
-    <app-wish-card  [wishItem]="wishItem" ></app-wish-card>
-  </div>
-</div>-->
-
