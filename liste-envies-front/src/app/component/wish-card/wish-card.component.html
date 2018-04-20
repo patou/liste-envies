@@ -1,7 +1,8 @@
 <!--<app-flip-card [flip]="edit">-->
 
 
-<mat-card class="wish-card flip-front " fxLayout="column" fxLayoutAlign="space-between stretch">
+<mat-card class="wish-card flip-front " fxLayout="column" fxLayoutAlign="space-between stretch"
+          [@animateWishCard]="animateWishCard">
   <mat-card-header fxLayout="column" fxLayoutAlign="space-between stretch">
     <div class="header-success" fxLayout="row" fxLayoutAlign="space-between center">
       <span class="col-9">{{wishItem.label}}</span>
@@ -48,7 +49,7 @@
     <mat-expansion-panel *ngIf="wishItem.canParticipate" class="mat-elevation-z">
       <mat-expansion-panel-header>
         <mat-chip>{{wishItem.comments? wishItem.comments.length : 0}}</mat-chip>
-        {{wishItem.comments && wishItem.comments.length > 1 ? 'Commentaires' : 'Commentaire'}} 
+        {{wishItem.comments && wishItem.comments.length > 1 ? 'Commentaires' : 'Commentaire'}}
       </mat-expansion-panel-header>
 
       <mat-list *ngIf="wishItem.comments && wishItem.comments.length > 0">

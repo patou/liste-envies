@@ -1,15 +1,24 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {WishItem} from '../../models/WishItem';
 import {NgxMasonryOptions} from 'ngx-masonry';
+import {transition, trigger, useAnimation} from '@angular/animations';
+import {bounceInLeft, fadeInUp} from 'ng-animate/lib';
 
 declare var Macy;
 
 @Component({
   selector: 'app-list-of-wish',
   templateUrl: './list-of-wish.component.html',
-  styleUrls: ['./list-of-wish.component.scss']
+  styleUrls: ['./list-of-wish.component.scss'],
+  animations: [
+    trigger('animateColumn', [transition('* => *', useAnimation(fadeInUp))]),
+    trigger('animateItems', [transition('* => *', useAnimation(bounceInLeft))])
+  ]
 })
 export class ListOfWishComponent implements OnInit, OnChanges {
+
+  animateItems: any;
+  animateColumn: any;
 
   public masonryOptions: NgxMasonryOptions = {
     transitionDuration: '0.8s'

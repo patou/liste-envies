@@ -1,5 +1,6 @@
 <div class="row">
-    <div class="col-4 wishitems-columns" *ngFor="let colItems of (items)">
-        <app-wish-card [wishItem]="wishItem" *ngFor="let wishItem of (colItems)"  ></app-wish-card>
+  <div class="col-4 wishitems-columns" *ngFor="let colItems of (items)" [@animateColumn]="animateColumn">
+    <app-wish-card [wishItem]="wishItem" *ngFor="let wishItem of (colItems)"
+                   [@animateItems]="animateItems"></app-wish-card>
     </div>
 </div>
