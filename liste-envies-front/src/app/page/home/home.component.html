@@ -1,20 +1,25 @@
+<div class="page-background">
 
-<div>
-
-  <mat-card>
+  <mat-card class="header-page-card">
     <section class="mat-typography">
-      <h1>Bonjour, Patrice! Bienvenue sur votre liste des envies</h1>
-      <a mat-raised-button color="primary" href="/user/login">Connexion</a>
+      <div *ngIf="userAuth | async as user; else showLogin">
+        <h1>Bonjour, {{ user.displayName }}! Bienvenue sur votre liste des envies</h1>
+      </div>
+      <ng-template #showLogin>
+        <h1>Bonjour, Bienvenue sur la liste des envies</h1>
+        <a mat-raised-button color="primary" (click)="connect()" >Connexion</a>
+      </ng-template>
+
     </section>
   </mat-card>
 
   <span class="done">
-    <button mat-fab>
+    <button mat-fab routerLink="/addList">
       <mat-icon>add</mat-icon>
     </button>
   </span>
   <div class="whishList-Container">
-    <mat-card class="wishList" *ngFor="let wishList of (list | async)" [routerLink]="[wishList.name]">
+    <mat-card class="wishListCard" *ngFor="let wishList of (lists)" [routerLink]="[wishList.name]">
       {{wishList.title}}
     </mat-card>
   </div>

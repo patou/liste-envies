@@ -1,7 +1,4 @@
-.masonry-item {
-  float: left;
-  width: 25%;
-}
+.masonry-item { width: 200px; }
 
 .masonry-grid {
 }
@@ -38,4 +35,8 @@
 .grid-img.img-loaded{
   visibility: visible;
   opacity: 1;
+}
+
+.wishitems-columns {
+  padding: 10px;
 }

@@ -99,7 +99,6 @@ public class WishListRestService {
     }
 
     @POST
-    @Path("/")
     public WishListDto addWishList(WishListDto wishListDto) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null) {

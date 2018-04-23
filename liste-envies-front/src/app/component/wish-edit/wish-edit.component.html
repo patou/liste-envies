@@ -1,37 +1,49 @@
-<form class="example-form">
-  <mat-card-header class="grid">
-    <mat-form-field class="col-12" hintLabel="Préfèrez une titre court de Max 30 characters">
-      <input matInput #title placeholder="titre" [(ngModel)]="wishItem.label" name="label">
-      <mat-hint align="end">{{title.value?.length || 0}}/10</mat-hint>
-    </mat-form-field>
 
-    <mat-card-subtitle>{{wishItem.owner.name}}</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
+  <form class="example-form">
+    <mat-card-header class="grid">
+      <mat-form-field class="col-12" hintLabel="Préfèrez une titre court de Max 30 characters">
+        <input matInput #title placeholder="titre" [(ngModel)]="wishItem.label" name="label">
+        <mat-hint align="end">{{title.value?.length || 0}}/10</mat-hint>
+      </mat-form-field>
 
-    <div>
-      <app-html-editor #description [content]="wishItem.description" placeholder="Description de l'envie"></app-html-editor>
-      <mat-hint>Vous pouvez donner plus de details sur votre envie.</mat-hint>
-    </div>
+      <mat-card-subtitle>{{wishItem.owner.name}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+
+      <div>
+        <app-html-editor #description [(content)]="wishItem.description"
+                         placeholder="Description de l'envie"></app-html-editor>
+        <mat-hint>Vous pouvez donner plus de details sur votre envie.</mat-hint>
+      </div>
 
       <!--<textarea matInput placeholder="Description" [(ngModel)]="wishItem.description" name="description"></textarea>-->
-    <mat-form-field class="mat-full-width">
-      <input matInput #price placeholder="Prix" [(ngModel)]="wishItem.price" name="price">
-      <mat-hint align="end">Exemple: "14.99 €" ou "Entre 10 et 20 €" ou "Environ 100 €"  </mat-hint>
-    </mat-form-field>
+      <mat-form-field class="mat-full-width">
+        <input matInput #price placeholder="Prix" [(ngModel)]="wishItem.price" name="price">
+        <mat-hint align="end">Exemple: "14.99 €" ou "Entre 10 et 20 €" ou "Environ 100 €"</mat-hint>
+      </mat-form-field>
 
-    <div>
-      <app-links-form [urls]="wishItem.urls"></app-links-form>
-    </div>
+      <div>
+        <app-links-form [urls]="wishItem.urls"></app-links-form>
+      </div>
 
-    <div >
-      <mat-label><app-rating placeholder="Note" [(value)]="wishItem.rating" [readonly]="false"></app-rating></mat-label>
+      <div>
+        <mat-label>
+          <app-rating placeholder="Note" [(value)]="wishItem.rating" [readonly]="false"></app-rating>
+        </mat-label>
 
-    </div>
+      </div>
 
-    <div >
-      <mat-label><mat-slide-toggle name="already_given" >Déjà offert !</mat-slide-toggle></mat-label>
-    </div>
+      <div>
+        <mat-label>
+          <mat-slide-toggle name="already_given" [(ngModel)]="wishItem.allreadyGiven">Déjà offert !</mat-slide-toggle>
+        </mat-label>
+      </div>
 
-  </mat-card-content>
-</form>
+    </mat-card-content>
+  </form>
+
+
+  <mat-card-actions>
+    <button mat-button (click)="cancelEditWish()">Cancel</button>
+    <button mat-button (click)="updateEditWish()">Modifier</button>
+  </mat-card-actions>

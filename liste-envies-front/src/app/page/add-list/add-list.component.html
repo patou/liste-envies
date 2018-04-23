@@ -1,0 +1,38 @@
+<h1>
+    Créeer une nouvelle list
+</h1>
+<mat-horizontal-stepper [linear]="isLinear" #stepper="matHorizontalStepper">
+  <mat-step [stepControl]="firstFormGroup">
+    <ng-template matStepLabel>Entrer un nom pour votre liste</ng-template>
+    <form >
+
+      <mat-form-field>
+        <input matInput placeholder="Liste pour ..." required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext>Suivant</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <form >
+      <ng-template matStepLabel>Partager la liste à : </ng-template>
+      <mat-form-field>
+        <input matInput placeholder="Address" required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Options de la liste</ng-template>
+
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>
+

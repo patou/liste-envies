@@ -19,14 +19,24 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.scss"
+        "styles.scss",
+        "../node_modules/firebaseui/dist/firebaseui.css"
       ],
-      "scripts": ["../node_modules/hammerjs/hammer.min.js", "../node_modules/masonry-layout/dist/masonry.pkgd.js"],
+      "scripts": ["../node_modules/hammerjs/hammer.min.js",
+        "../node_modules/masonry-layout/dist/masonry.pkgd.js",
+        "../node_modules/macy/dist/macy.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts"
+      },
+      "stylePreprocessorOptions": {
+        "includePaths": [
+          "styles"
+        ]
       }
+
     }
   ],
   "e2e": {

@@ -1,6 +1,426 @@
+@import 'variables';
 .wish-card {
-  margin: 0;
+  margin-bottom: 20px;
   max-width: 100% !important;
+  padding: 10px;
 }
+
+
+
+//@extend-elements
+//original selectors
+//.chat .chat-message .fa-file-o, .chat .chat-message .fa-file-image-o
+%extend_1 {
+  font-size: 16px;
+  color: $gray;
+  cursor: pointer;
+}
+
+
+  :host {
+    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+    box-shadow: 0 13px 18px 0 $black_58, 0 13px 22px 0 $black_12;
+    .logo-envie {
+      margin-top: -34px;
+    }
+    &:hover .edit-button {
+      display: block !important;
+    }
+    .bottom-envie .comments a {
+      color: $black;
+      &:hover {
+        color: $gray;
+      }
+    }
+  }
+  .envie-separator {
+    clear: both;
+  }
+  .wish-edit {
+    margin-top: -4px !important;
+  }
+  .comment-statusbar {
+    display: none !important;
+  }
+  .preview-image {
+    height: 100px;
+    width: 100px;
+  }
+
+.wish-card {
+  .panel-body {
+    padding-top: 2px;
+  }
+  .envie-infos {
+    min-height: 29px;
+    border-bottom: $color_quill_gray_approx dashed 0.5px;
+    margin-bottom: 10px;
+    .fa {
+      margin-right: 3px;
+    }
+    .col {
+      padding: 1px;
+    }
+  }
+  .owner {
+    display: flex;
+    align-items: center;
+    .ownerName {
+      flex: 4;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-left: 3px;
+    }
+  }
+  
+  .wish-price {
+    margin: 0 !important;
+  }
+  .rating {
+    margin-top: 2px;
+  }
+  h1 {
+    font-size: 1.5em;
+  }
+  .gift {
+    margin: 0;
+    margin-top: 0;
+    padding: 0 13px 0 0;
+    h6 {
+      margin: 0;
+    }
+  }
+  a.btn-wish-link {
+    border-left: $seashell solid 1px;
+    border-right: $seashell solid 1px;
+    border-bottom: $seashell solid 1px;
+  }
+  mat-card-actions {
+    padding: 5px;
+    button.btn {
+      margin: 0;
+    }
+  }
+}
+.order-filter {
+  .search {
+    padding-top: 45px;
+  }
+  .reset-search-icon {
+    margin-top: -10px;
+  }
+  .has-feedback label ~ .form-control-feedback {
+    opacity: 1;
+    top: 14px;
+    display: block;
+  }
+  input#searchEnvieFilter {
+  }
+}
+.card {
+  .header {
+    padding: 2px !important;
+    margin: 6px;
+    margin-top: 4px;
+    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+    box-shadow: 0 4px 16px -3px $black_56;
+    background: $white;
+  }
+  .header-mutted {
+    background: $color_gallery_approx;
+    border-top: $color_stack_approx 6px solid;
+  }
+}
+
+.wish-card {
+
+  display: inline-block;
+  position: relative;
+  width: 100%;
+
+  .card-height-indicator {
+    margin-top: 100%;
+  }
+  .card-content {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+
+
+  .card-image {
+    height: 60%;
+    position: relative;
+    overflow: hidden;
+    img {
+      width: 100%;
+      height: 100%;
+      border-top-left-radius: 2px;
+      border-top-right-radius: 2px;
+      pointer-events: none;
+    }
+    .card-image-headline {
+      position: absolute;
+      bottom: 16px;
+      left: 18px;
+      //color: $mdb-card-image-headline;
+      font-size: 2em;
+    }
+  }
+
+  .content{
+    padding: 15px;
+  }
+
+  .card-body {
+    height: 30%;
+    padding: 18px;
+  }
+
+  mat-card-actions {
+    height: 10%;
+    padding: 18px;
+    button, a {
+      margin: 0 !important;
+      position: relative;
+      bottom: 25px;
+      width: auto;
+      &:first-child {
+        left: -15px;
+      }
+    }
+  }
+
+  mat-card-header{
+
+    background-color: $white;
+  }
+
+  .header-primary{
+    border-top: $light-blue-700 6px solid;
+  }
+  .header-info{
+    border-top: $cyan-700 6px solid;
+  }
+  .header-success{
+    border-top: $light-green-700 6px solid;
+  }
+  .header-warning{
+    border-top: $amber-700 6px solid;
+  }
+  .header-danger{
+    border-top: $orange-700 6px solid;
+  }
+
+
+
+  [class*="header-"]{
+    color: $black-color;
+    background-color: $gray-lighter;
+    border-radius: 4px 4px 0 0;
+    padding: 5px;
+    margin-bottom: 5px;
+    box-shadow: 0 4px 16px -3px $black_56;
+  }
+
+  .mat-expansion-panel-header ::ng-deep .mat-content {
+    align-items: center;
+  
+    .mat-chip {
+      margin-right: 3px;
+    }
+  }
+}
+
+
+
+.envie-container {
+  padding-top: 20px;
+}
+.chat {
+  padding: 0 10px;
+  .chat-history {
+    padding: 0;
+    border-bottom: 2px solid $white;
+    .message-data {
+      margin-bottom: 15px;
+    }
+    .message-data-time {
+      color: $color_aluminium_approx;
+      padding-left: 6px;
+    }
+    .message {
+      color: $white;
+      padding: 18px 20px;
+      line-height: 26px;
+      font-size: 16px;
+      //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+      border-radius: 5px;
+      margin-bottom: 5px;
+      width: 90%;
+      position: relative;
+      &:after {
+        content: "";
+        position: absolute;
+        top: -15px;
+        left: 20px;
+        border-width: 0 15px 15px;
+        border-style: solid;
+        border-color: $color_calypso_approx transparent;
+        display: block;
+        width: 0;
+      }
+    }
+    .you-message {
+      background: $color_calypso_approx;
+      color: $white;
+    }
+    .me-message {
+      background: $color_pesto_approx;
+      &:after {
+        right: 20px;
+        top: -15px;
+        left: auto;
+        bottom: auto;
+      }
+    }
+  }
+  .chat-message {
+    padding: 30px;
+    .fa-file-o {
+      @extend %extend_1;
+    }
+    .fa-file-image-o {
+      @extend %extend_1;
+    }
+  }
+  .chat-ul {
+    padding: 0;
+    li {
+      list-style-type: none;
+    }
+  }
+  .align-left {
+    text-align: left;
+  }
+  .align-right {
+    text-align: right;
+  }
+  .float-right {
+    float: right;
+  }
+  .you {
+    color: $color_nebula_approx;
+  }
+  .me {
+    color: $color_chicago_approx;
+  }
+  .clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+}
+.test {
+  color: $color_royal_purple_approx;
+}
+.envie-item .bottom-envie .comments a.btn.btn-link {
+  margin-top: 0;
+  padding-top: 5px;
+}
+.list-envies .list-group-item.owner {
+  z-index: 2;
+  border-color: $color_steel_blue_approx;
+  border-style: solid;
+  border-width: 1px;
+  margin: 0;
+  //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+  box-shadow: inset 0 0 0 5px $color_steel_blue_approx, 0 16px 24px 2px $black_45, 0 6px 30px 5px $black_25, 0 8px 10px -5px $black_20 !important;
+}
+.mega-dropdown-menu .list-group-item.owner {
+  z-index: 2;
+  border-color: $color_steel_blue_approx;
+  border-style: solid;
+  border-width: 1px;
+}
+.list-group.list-envies {
+  h2.list-group-item-heading {
+    display: block;
+    max-width: 100%;
+    height: 2em;
+    margin: 0 auto;
+    font-size: 2.5em;
+    line-height: 1em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-align: center;
+    vertical-align: middle;
+    text-align: center;
+  }
+  p.list-group-item-text {
+    display: block;
+    width: 100%;
+    min-width: 100%;
+    height: 3em;
+    font-size: 0.9em;
+    line-height: 0.8em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+div.material-icons.form-control-feedback {
+  cursor: pointer;
+  color: $gray;
+}
+.panel-success .chat .chat-history {
+  .you-message {
+    background: $color_killarney_approx;
+  }
+  .me-message {
+    background: $color_fern_approx;
+    &:after {
+      border-color: $color_fern_approx transparent;
+    }
+  }
+  .message:after {
+    border-color: $color_killarney_approx transparent;
+  }
+}
+.panel-warning .chat .chat-history {
+  .you-message {
+    background: $color_pesto_approx;
+  }
+  .me-message {
+    background: $color_casablanca_approx;
+    &:after {
+      border-color: $color_casablanca_approx transparent;
+    }
+  }
+  .message:after {
+    border-color: $color_pesto_approx transparent;
+  }
+}
+.panel-info .chat .chat-history {
+  .you-message {
+    background: $color_calypso_approx;
+  }
+  .me-message {
+    background: $color_viking_approx;
+    &:after {
+      border-color: $color_viking_approx transparent;
+    }
+  }
+  .message:after {
+    border-color: $color_calypso_approx transparent;
+  }
+}
+
+
 
 

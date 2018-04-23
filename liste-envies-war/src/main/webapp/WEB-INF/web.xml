@@ -11,6 +11,15 @@
     </filter>
 
     <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>fr.desaintsteban.liste.envies.servlet.AuthFilter</filter-class>
+        <init-param>
+            <param-name>firebaseId</param-name>
+            <param-value>liste-envies</param-value>
+        </init-param>
+    </filter>
+
+    <filter>
         <filter-name>HistoryApiFallbackFilter</filter-name>
         <filter-class>fr.desaintsteban.liste.envies.servlet.HistoryApiFallbackFilter</filter-class>
         <init-param>
@@ -22,6 +31,11 @@
     <filter-mapping>
         <filter-name>ObjectifyFilter</filter-name>
         <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/api/*</url-pattern>
     </filter-mapping>
 
     <filter-mapping>

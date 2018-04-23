@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import '_variables';
+@import 'styles/variables';
 @import '~@angular/material/theming';
 @include mat-core();
 
@@ -42,5 +42,29 @@ mat-toolbar-row {
   bottom: 20px;
   right: 20px;
   color: white;
+}
+
+firebase-ui .firebaseui-container {
+  box-shadow: none;
+}
+
+.page-background {
+  background-image: url(/assets/img/default.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+
+  padding-top: 20px;
+  min-height: 100vh;
+
+  .header-page-card {
+    margin-top: 0px;
+  }
+}
+
+.matDialogContent {
+  overflow: auto;
+  max-height: 95%;
 }
 
