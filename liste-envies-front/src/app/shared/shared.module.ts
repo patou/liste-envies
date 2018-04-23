@@ -1,4 +1,4 @@
-import { environment } from './../../environments/environment';
+import { environment } from '../../environments/environment';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -25,6 +25,8 @@ import {AuthProvider as AuthProviderUi, FirebaseUIAuthConfig, AuthMethods, Crede
 import {AvatarModule} from 'ngx-avatar';
 import {NgxMasonryModule} from 'ngx-masonry';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {ReactiveFormsModule} from "@angular/forms";
+import {LatinizePipe, NgPipesModule} from 'ng-pipes';
 
 /*import { Ng2GridDirective } from './ng2-grid/ng2-grid.directive';*/
 
@@ -53,6 +55,8 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
+    NgPipesModule,
     BrowserAnimationsModule,
     MaterialModule,
     QuillModule,
@@ -69,6 +73,8 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
+    NgPipesModule,
     BrowserAnimationsModule,
     MaterialModule,
     QuillModule,
@@ -87,7 +93,8 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
       provide: SWIPER_CONFIG,
       useValue: DEFAULT_SWIPER_CONFIG
     },
-    AuthService
+    AuthService,
+    LatinizePipe,
   ]
 })
 export class SharedModule { }

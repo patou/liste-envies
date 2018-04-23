@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {WishList} from "../../models/WishList";
+import {LatinizePipe} from "ng-pipes";
 
 @Component({
   selector: 'app-add-list',
@@ -9,10 +11,13 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 export class AddListComponent implements OnInit {
 
   isLinear = false;
-  firstFormGroup: FormGroup;
+  nameFormGroup: FormGroup;
   secondFormGroup: FormGroup;
+  wishList : WishList;
 
-  constructor(private _formBuilder: FormBuilder) { }
+  constructor(private _formBuilder: FormBuilder, private latinize: LatinizePipe) {
+    this.wishList = {};
+  }
 
   ngOnInit() {
     /*this.firstFormGroup = this._formBuilder.group({
@@ -21,6 +26,12 @@ export class AddListComponent implements OnInit {
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ['', Validators.required]
     });*/
+  }
+
+  changeName(name) {
+    if (name) {
+      this.wishList.name = this.latinize.transform(name.toLowerCase());
+    }
   }
 
 }

@@ -5,7 +5,11 @@
       <p [innerHTML]="whishList.description"></p>
     </section>
   </mat-card>
-
+  <span class="done">
+    <button mat-fab (click)="addWish()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </span>
   <app-list-of-wish [list]="(list$ | async)" class="col-12"></app-list-of-wish>
 
 </div>

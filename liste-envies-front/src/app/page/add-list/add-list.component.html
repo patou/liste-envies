@@ -1,14 +1,35 @@
 <h1>
-    Créeer une nouvelle list
+    Créer une nouvelle liste
 </h1>
 <mat-horizontal-stepper [linear]="isLinear" #stepper="matHorizontalStepper">
-  <mat-step [stepControl]="firstFormGroup">
+  <mat-step [stepControl]="nameFormGroup">
     <ng-template matStepLabel>Entrer un nom pour votre liste</ng-template>
     <form >
 
-      <mat-form-field>
-        <input matInput placeholder="Liste pour ..." required>
+      <mat-form-field class="col-5">
+        <input matInput [(ngModel)]="wishList.title" placeholder="Liste pour ..." name="title" required />
       </mat-form-field>
+      <mat-form-field class="col-5">
+        <mat-select placeholder="Pour quel évènement ?">
+          <mat-option value="OTHER" selected>Autre</mat-option>
+          <mat-option value="CHRISTMAS">Noël</mat-option>
+          <mat-option value="BIRTHDAY">Anniversaire</mat-option>
+          <mat-option value="BIRTH">Liste de naissance</mat-option>
+          <mat-option value="WEDDING">Liste de mariage</mat-option>
+          <mat-option value="LEAVING">Liste pour un départ</mat-option>
+          <mat-option value="SPECIAL_OCCASION">Occasion spéciale</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="col-6">
+        <input matInput type="text" name="id" [ngModel]="wishList.name || (wishList.title | latinize | lowercase)" (ngModelChange)="changeName($event)"/>
+        <span matPrefix>https://liste-envie.desaintsteban.fr/</span>
+      </mat-form-field>
+
+      <div>
+        <app-html-editor #description [(content)]="wishList.description"
+                         placeholder="Description de l'envie"></app-html-editor>
+        <mat-hint>Vous pouvez donner plus de details sur votre liste.</mat-hint>
+      </div>
       <div>
         <button mat-button matStepperNext>Suivant</button>
       </div>
@@ -17,8 +38,14 @@
   <mat-step [stepControl]="secondFormGroup">
     <form >
       <ng-template matStepLabel>Partager la liste à : </ng-template>
+
+      <mat-radio-group [(ngModel)]="wishList.privacy">
+        <mat-radio-button value="PRIVATE">Limité / Privé</mat-radio-button>
+        <mat-radio-button value="OPEN">Ouvert / connecté</mat-radio-button>
+        <mat-radio-button value="PUBLIC">Libre / Publique</mat-radio-button>
+      </mat-radio-group>
       <mat-form-field>
-        <input matInput placeholder="Address" required>
+        <input matInput placeholder="Email" required />
       </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Back</button>

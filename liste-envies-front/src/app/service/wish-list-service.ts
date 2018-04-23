@@ -7,7 +7,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {AuthService} from './auth.service';
 
 @Injectable()
-export class WishListService {
+export class WishListService {WishList
   private _list$: BehaviorSubject<WishList[]>;
 
   constructor(private http: HttpClient, private auth: AuthService) {
