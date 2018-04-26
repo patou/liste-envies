@@ -21,5 +21,5 @@ export const environment = {
     storageBucket: 'test-liste-envies.appspot.com',
     messagingSenderId: '424684618174'
   },
-  hmr: false
+  hmr: true
 };

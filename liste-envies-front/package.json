@@ -13,7 +13,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "compodoc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json"
+    "compodoc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json",
+    "hmr": "ng serve --hmr -e=hmr"
   },
   "private": true,
   "dependencies": {
@@ -36,6 +37,7 @@
     "firebaseui": "2.7.0",
     "font-awesome": "^4.7.0",
     "hammerjs": "^2.0.8",
+    "jwt-decode": "^2.2.0",
     "macy": "^2.3.0",
     "ng-animate": "^0.3.1",
     "ng-pipes": "^0.1.5",
@@ -52,6 +54,7 @@
     "@angular/cli": "1.7.4",
     "@angular/compiler-cli": "^5.2.9",
     "@angular/language-service": "^5.2.9",
+    "@angularclass/hmr": "^2.1.3",
     "@compodoc/compodoc": "^1.1.2",
     "@types/jasmine": "~2.8.4",
     "@types/jasminewd2": "~2.0.2",

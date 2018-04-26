@@ -7,5 +7,6 @@ export const environment = {
     projectId: 'liste-envies',
     storageBucket: 'liste-envies.appspot.com',
     messagingSenderId: '783555297093'
-  }
+  },
+  hmr: false
 };

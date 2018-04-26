@@ -6,7 +6,11 @@
         <h1>Bonjour, {{ user.displayName }}! Bienvenue sur votre liste des envies</h1>
       </div>
       <ng-template #showLogin>
-        <h1>Bonjour, Bienvenue sur la liste des envies</h1>
+        <h1>Bonjour, Bienvenue sur la liste de vos envies</h1>
+        <p>La liste d'envies qui vous permets de partager vos envies de cadeaux avec vos proches,
+          Ceux ci peuvent indiquer quels cadeaux ils souhaites vous offrir et ce mettre d'accord entre eux,
+          (pour ne pas offrir le même), mais sans que vous ne soyez informé, pour garder la surprise le jour J.</p>
+        <p>Vous pouvez vous connecter / ou créer un compte pour commencer à créer votre liste.</p>
         <a mat-raised-button color="primary" (click)="connect()" >Connexion</a>
       </ng-template>
 
