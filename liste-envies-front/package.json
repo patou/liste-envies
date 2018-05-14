@@ -14,7 +14,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "compodoc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json",
-    "hmr": "ng serve --hmr -e=hmr"
+    "hmr": "ng serve --hmr -e=hmr --proxy-config proxy-config.dist.json --host 0.0.0.0 --port 8004 --disable-host-check"
   },
   "private": true,
   "dependencies": {
@@ -42,7 +42,7 @@
     "ng-animate": "^0.3.1",
     "ng-pipes": "^0.1.5",
     "ngx-avatar": "^2.9.0",
-    "ngx-http-rest": "^0.4.0",
+    "ngx-http-annotations": "0.5.1",
     "ngx-masonry": "^1.0.7",
     "ngx-quill": "^2.2.0",
     "ngx-swiper-wrapper": "^5.3.8",
