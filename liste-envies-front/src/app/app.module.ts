@@ -19,7 +19,7 @@ import {AuthService} from './service/auth.service';
 import {LoginDialogComponent} from './component/login-dialog/login-dialog.component';
 import {WishListResolver} from './service/wishListResolve';
 import {WishListItemsResolver} from 'app/service/wishListItemsResolve';
-
+import { HttpRestModule } from 'ngx-http-annotations'
 
 // the second parameter 'fr' is optional
 registerLocaleData(localeFr, 'fr');
@@ -38,7 +38,8 @@ registerLocaleData(localeFr, 'fr');
   ],
   imports: [
     AppRoutingModule,
-    SharedModule
+    SharedModule,
+    HttpRestModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

@@ -5,9 +5,11 @@ import {WishItem} from '../models/WishItem';
 import {WishList} from '../models/WishList';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {AuthService} from './auth.service';
+import {Path, GET, PathParam} from 'ngx-http-annotations';
 
 @Injectable()
-export class WishListService {WishList
+@Path('/api/')
+export class WishListService {
   private _list$: BehaviorSubject<WishList[]>;
 
   constructor(private http: HttpClient, private auth: AuthService) {
@@ -29,16 +31,21 @@ export class WishListService {WishList
     return this._list$.asObservable();
   }
 
+  @GET
+  @Path('list/')
   listAll(): Observable<WishList[]> {
-    return this.http.get<WishList[]>('/api/list');
+    return null;
   }
 
-
-  wishList(name): Observable<WishList> {
-    return this.http.get<WishList>('/api/list/' + name);
+  @GET
+  @Path('list/;name')
+  wishList(@PathParam('name') name: string): Observable<WishList> {
+    return null;
   }
 
-  wishes(name: string): Observable<WishItem[]> {
-    return this.http.get<WishItem[]>('/api/wishes/' + name);
+  @GET
+  @Path('wishes/;name')
+  wishes(@PathParam('name') name: string): Observable<WishItem[]> {
+    return null;
   }
 }

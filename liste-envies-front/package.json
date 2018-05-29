@@ -42,7 +42,7 @@
     "ng-animate": "^0.3.1",
     "ng-pipes": "^0.1.5",
     "ngx-avatar": "^2.9.0",
-    "ngx-http-annotations": "0.5.1",
+    "ngx-http-annotations": "^0.5.2",
     "ngx-masonry": "^1.0.7",
     "ngx-quill": "^2.2.0",
     "ngx-swiper-wrapper": "^5.3.8",
