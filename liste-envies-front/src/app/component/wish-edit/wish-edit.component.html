@@ -1,8 +1,9 @@
 
   <form class="example-form">
     <mat-card-header class="grid">
-      <mat-form-field class="col-12" hintLabel="Préfèrez une titre court de Max 30 characters">
-        <input matInput #title placeholder="titre" [(ngModel)]="wishItem.label" name="label">
+      <mat-form-field class="col-12" appearance="outline" hintLabel="Préfèrez une titre court de Max 30 characters">
+        <mat-label>Titre</mat-label>
+        <input matInput #title [(ngModel)]="wishItem.label" name="titre">
         <mat-hint align="end">{{title.value?.length || 0}}/10</mat-hint>
       </mat-form-field>
 
@@ -17,8 +18,9 @@
       </div>
 
       <!--<textarea matInput placeholder="Description" [(ngModel)]="wishItem.description" name="description"></textarea>-->
-      <mat-form-field class="mat-full-width">
-        <input matInput #price placeholder="Prix" [(ngModel)]="wishItem.price" name="price">
+      <mat-form-field appearance="outline" class="mat-full-width">
+        <label>Prix</label>
+        <input matInput #price [(ngModel)]="wishItem.price" name="price">
         <mat-hint align="end">Exemple: "14.99 €" ou "Entre 10 et 20 €" ou "Environ 100 €"</mat-hint>
       </mat-form-field>
 

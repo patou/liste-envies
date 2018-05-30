@@ -1,0 +1,22 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+  box-shadow: 3px 0 6px rgba(0,0,0,.24);
+}
+
+mat-toolbar {
+  a.title, a:active.title, a:visited.title {
+    padding-left: 5px;
+    flex: 1;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  ngx-avatar {
+    float: left;
+    margin-right: 10px;
+  }
+}

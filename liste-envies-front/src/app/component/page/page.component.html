@@ -1,37 +1,15 @@
+<app-page-nav>
+
+
+
+
 <div>
-  <mat-toolbar color="primary">
 
-
-    <a routerLink="/" class="title" i18n="app title"><span><mat-icon fontSet="fa" fontIcon="fa-gift"></mat-icon></span> Listes de mes envies</a>
-
-
-
-    <div *ngIf="userAuth | async as user; else showLogin">
-      <button mat-button [mat-menu-trigger-for]="connected">
-        <span >
-          <ngx-avatar [name]="user.displayName" [src]="user.photoURL"
-                      [gravatarId]="user.email"
-                      size="30" [round]="true">
-          </ngx-avatar>
-           {{ user.displayName }}</span>
-        <mat-icon>more_vert</mat-icon>
-      </button>
-    </div>
-    <ng-template #showLogin>
-      <button mat-button (click)="connect()">
-        <i class="fas fa-sign-in-alt"></i> Connexion
-      </button>
-    </ng-template>
-
-  </mat-toolbar>
-
-  <mat-menu yPosition="above" xPosition="before" #connected="matMenu">
-    <button mat-menu-item (click)="logout()"><i class="fab sign-in-alt"></i> Deconnection </button>
-    <button mat-menu-item ><i class="fas fa-user"></i> Profil</button>
-  </mat-menu>
 
   <router-outlet></router-outlet>
   <footer>
     <div>made with love by Patrice et Emmanuel DE SAINT STEBAN</div>
   </footer>
 </div>
+
+</app-page-nav>

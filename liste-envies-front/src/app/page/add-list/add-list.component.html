@@ -6,10 +6,10 @@
     <ng-template matStepLabel>Entrer un nom pour votre liste</ng-template>
     <form >
 
-      <mat-form-field class="col-5">
+      <mat-form-field class="col-5" appearance="outline">
         <input matInput [(ngModel)]="wishList.title" placeholder="Liste pour ..." name="title" required />
       </mat-form-field>
-      <mat-form-field class="col-5">
+      <mat-form-field class="col-5" appearance="outline">
         <mat-select placeholder="Pour quel évènement ?">
           <mat-option value="OTHER" selected>Autre</mat-option>
           <mat-option value="CHRISTMAS">Noël</mat-option>
@@ -20,7 +20,7 @@
           <mat-option value="SPECIAL_OCCASION">Occasion spéciale</mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field class="col-6">
+      <mat-form-field class="col-6" appearance="outline">
         <input matInput type="text" name="id" [ngModel]="wishList.name || (wishList.title | latinize | lowercase)" (ngModelChange)="changeName($event)"/>
         <span matPrefix>https://liste-envie.desaintsteban.fr/</span>
       </mat-form-field>
@@ -44,7 +44,7 @@
         <mat-radio-button value="OPEN">Ouvert / connecté</mat-radio-button>
         <mat-radio-button value="PUBLIC">Libre / Publique</mat-radio-button>
       </mat-radio-group>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <input matInput placeholder="Email" required />
       </mat-form-field>
       <div>
