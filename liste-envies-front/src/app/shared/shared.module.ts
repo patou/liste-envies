@@ -1,26 +1,27 @@
-import {environment} from '../../environments/environment';
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {HttpClientModule} from '@angular/common/http';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {BrowserModule} from '@angular/platform-browser';
-import {MaterialModule} from '../../shared/material.module';
+import { environment } from '../../environments/environment';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { MaterialModule } from '../../shared/material.module';
 
-import {RatingComponent} from './rating/rating.component';
-import {FlipCardComponent} from './flip-card/flip-card.component';
-import {HtmlEditorComponent} from './html-editor/html-editor.component';
-import {QuillModule} from 'ngx-quill';
-import {LinksFormComponent} from './links-form/links-form.component';
+import { RatingComponent } from './rating/rating.component';
+import { FlipCardComponent } from './flip-card/flip-card.component';
+import { HtmlEditorComponent } from './html-editor/html-editor.component';
+import { QuillModule } from 'ngx-quill';
+import { LinksFormComponent } from './links-form/links-form.component';
+import { ListTypeIcon } from './list-type-icon/list-type-icon.component';
 
-import {SWIPER_CONFIG, SwiperConfigInterface, SwiperModule} from 'ngx-swiper-wrapper';
-import {AngularFireModule} from 'angularfire2';
-import {AngularFireAuthModule} from 'angularfire2/auth';
-import {AuthService} from '../service/auth.service';
-import {AuthMethods, AuthProvider as AuthProviderUi, CredentialHelper, FirebaseUIAuthConfig, FirebaseUIModule} from './firebaseui';
-import {AvatarModule} from 'ngx-avatar';
-import {FlexLayoutModule} from '@angular/flex-layout';
-import {LatinizePipe, NgPipesModule} from 'ng-pipes';
+import { SWIPER_CONFIG, SwiperConfigInterface, SwiperModule } from 'ngx-swiper-wrapper';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AuthService } from '../service/auth.service';
+import { AuthMethods, AuthProvider as AuthProviderUi, CredentialHelper, FirebaseUIAuthConfig, FirebaseUIModule } from './firebaseui';
+import { AvatarModule } from 'ngx-avatar';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { LatinizePipe, NgPipesModule } from 'ng-pipes';
 
 /*import { Ng2GridDirective } from './ng2-grid/ng2-grid.directive';*/
 
@@ -61,7 +62,14 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     FlexLayoutModule,
     FirebaseUIModule.forRoot(firebaseUiAuthConfig)
   ],
-  declarations: [RatingComponent, FlipCardComponent, HtmlEditorComponent, LinksFormComponent/*, Ng2GridDirective*/],
+  declarations: [
+    RatingComponent,
+    FlipCardComponent,
+    HtmlEditorComponent,
+    LinksFormComponent,
+    /*ListTypeIcon,
+    , Ng2GridDirective*/
+  ],
   exports: [
     CommonModule,
     BrowserModule,

@@ -8,8 +8,7 @@
     [opened]="!(isHandset$ | async)">
     <mat-toolbar color="primary">Listes </mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item *ngFor="let wishList of (lists)" [routerLink]="[wishList.name]">{{wishList.title}}</a>
-
+      <a mat-list-item *ngFor="let wishList of (lists)" [routerLink]="['/', wishList.name]"><list-type-icon [type]="wishList.type"></list-type-icon>{{wishList.title}}</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

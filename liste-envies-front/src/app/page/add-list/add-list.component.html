@@ -10,7 +10,7 @@
         <input matInput [(ngModel)]="wishList.title" placeholder="Liste pour ..." name="title" required />
       </mat-form-field>
       <mat-form-field class="col-5" appearance="outline">
-        <mat-select placeholder="Pour quel évènement ?">
+        <mat-select [(value)]="wishList.type" placeholder="Pour quel évènement ?" name="type">
           <mat-option value="OTHER" selected>Autre</mat-option>
           <mat-option value="CHRISTMAS">Noël</mat-option>
           <mat-option value="BIRTHDAY">Anniversaire</mat-option>
@@ -20,14 +20,15 @@
           <mat-option value="SPECIAL_OCCASION">Occasion spéciale</mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field class="col-6" appearance="outline">
-        <input matInput type="text" name="id" [ngModel]="wishList.name || (wishList.title | latinize | lowercase)" (ngModelChange)="changeName($event)"/>
+      <list-type-icon [type]="wishList.type"></list-type-icon>
+      <mat-form-field class="col-6">
+        <input matInput type="text" name="id" [ngModel]="wishList.name || ((wishList.title || '') | latinize | lowercase)" (ngModelChange)="changeName($event)"/>
         <span matPrefix>https://liste-envie.desaintsteban.fr/</span>
       </mat-form-field>
 
       <div>
         <app-html-editor #description [(content)]="wishList.description"
-                         placeholder="Description de l'envie"></app-html-editor>
+                         placeholder="Description de l'envie" name="description"></app-html-editor>
         <mat-hint>Vous pouvez donner plus de details sur votre liste.</mat-hint>
       </div>
       <div>
