@@ -1,0 +1,5 @@
+<a class="wish-list-item list-envies-item" [class.owner]="wishlist.owner" [routerLink]="['/', wishlist.name]">
+  <div class="backgroundimg" [style.backgroundImage]="'url(/assets/thumb/'+ wishlist.picture +')'" *ngIf="wishlist.picture"></div>
+  <h2 class="wish-list-item-heading"><list-type-icon [type]="wishlist.type"></list-type-icon> {{wishlist.title}}</h2>
+  <p class="wish-list-item-text"> <span>de</span> <span class="owners" *ngFor="let owner of wishlist.owners; let last = last"><mat-icon>user</mat-icon> <span [title]="owner.email">{{owner.name}}</span><span *ngIf="!last" >, </span></span>  </p>
+</a>

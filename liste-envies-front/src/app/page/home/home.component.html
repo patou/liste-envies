@@ -23,9 +23,8 @@
     </button>
   </span>
   <div class="whishList-Container">
-    <mat-card class="wishListCard" *ngFor="let wishList of (lists)" [routerLink]="[wishList.name]">
-      <list-type-icon [type]="wishList.type"></list-type-icon> {{wishList.title}}
-    </mat-card>
+    <wish-list-item class="wishListCard" *ngFor="let wishList of (lists)" [wishlist]="wishList">
+    </wish-list-item>
   </div>
 
 

@@ -8,10 +8,13 @@
 }
 
 .wishListCard {
-  width: 220px;
+  width: 420px;
   display: inline-block;
   margin: 1em;
   cursor: pointer;
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
 }
 
 img.mat-card-avatar {

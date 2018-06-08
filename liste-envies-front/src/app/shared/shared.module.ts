@@ -22,6 +22,8 @@ import { AuthMethods, AuthProvider as AuthProviderUi, CredentialHelper, Firebase
 import { AvatarModule } from 'ngx-avatar';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { LatinizePipe, NgPipesModule } from 'ng-pipes';
+import { WishListItemComponent } from './wish-list-item/wish-list-item.component';
+import { RouterModule } from '@angular/router';
 
 /*import { Ng2GridDirective } from './ng2-grid/ng2-grid.directive';*/
 
@@ -60,15 +62,16 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     FlexLayoutModule,
-    FirebaseUIModule.forRoot(firebaseUiAuthConfig)
+    FirebaseUIModule.forRoot(firebaseUiAuthConfig),
+    RouterModule,
   ],
   declarations: [
     RatingComponent,
     FlipCardComponent,
     HtmlEditorComponent,
     LinksFormComponent,
-    /*ListTypeIcon,
-    , Ng2GridDirective*/
+    WishListItemComponent,
+    ListTypeIcon,
   ],
   exports: [
     CommonModule,
@@ -87,8 +90,9 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     FirebaseUIModule,
     AvatarModule,
     FlexLayoutModule,
-    SwiperModule/*,
-    Ng2GridDirective*/
+    SwiperModule,
+    ListTypeIcon,
+    WishListItemComponent,
   ],
   providers: [
     {

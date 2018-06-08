@@ -40,7 +40,6 @@ registerLocaleData(localeFr, 'fr');
     AddListComponent,
     LoginDialogComponent,
     PageNavComponent,
-    ListTypeIcon,
   ],
   imports: [
     AppRoutingModule,
