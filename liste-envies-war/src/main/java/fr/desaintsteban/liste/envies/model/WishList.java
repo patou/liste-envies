@@ -88,6 +88,9 @@ public class WishList {
         setType( dto.getType());
         setDate( dto.getDate());
         setPrivacy( dto.getPrivacy());
+
+        setForceAnonymus(dto.isForceAnonymus());
+
     }
 
     public WishListDto toDto() {
@@ -100,6 +103,7 @@ public class WishList {
         dto.setDate( getDate());
         dto.setPrivacy( getPrivacy());
         dto.setOwner(false);
+        dto.setForceAnonymus(isForceAnonymus());
         return dto;
     }
 
