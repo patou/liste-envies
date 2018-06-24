@@ -30,6 +30,10 @@ public class WishListDto {
     private Date date; // date of the event
     private SharingPrivacyType privacy; // Option for sharing privacy of the all list.
 
+
+
+    private boolean forceAnonymus = false; // To force display list as anonymous. for owner it will show the list as anonyme.
+
     private WishListState state;
 
     private Boolean canSuggest;
@@ -128,5 +132,14 @@ public class WishListDto {
 
     public void setCanSuggest(Boolean canSuggest) {
         this.canSuggest = canSuggest;
-    }  
+    }
+
+    public boolean isForceAnonymus() {
+        return forceAnonymus;
+    }
+
+    public void setForceAnonymus(boolean forceAnonymus) {
+        this.forceAnonymus = forceAnonymus;
+    }
+
 }
