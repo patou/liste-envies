@@ -238,8 +238,11 @@ public class WishRules {
         WishListState state = computeWishListState(user, list);
         switch (state) {
             case OWNER:
+                if (list.isForceAnonymus()) {
+                    return WishOptionType.ANONYMOUS;
+                }
                 //Si une options est définie dans la liste, alors c'est l'option par défaut
-                if (list.getPrivacy() != null) {
+                else if (list.getPrivacy() != null) {
                     switch (list.getPrivacy()) {
                         case PRIVATE:
                             return WishOptionType.HIDDEN;
@@ -316,7 +319,15 @@ public class WishRules {
                 }
                 break;
             case ANONYMOUS:
-                wish.setUserTake(null);
+                if (wish.getUserTake() == null || wish.getUserTake().isEmpty()) {
+                    wish.setUserTake(null);
+                } else {
+                    PersonParticipantDto anymous = new PersonParticipantDto("", "", "", "");
+                    ArrayList<PersonParticipantDto> userTake = new ArrayList<>();
+                    userTake.add(anymous);
+                    wish.setUserTake(userTake);
+                }
+
                 wish.setGiven(wish.getAllreadyGiven());
                 if (!ListUtils.isNullOrEmpty(wish.getComments())) {
                     wish.setComments(wish.getComments().stream().filter(comment -> comment.getType() == CommentType.PUBLIC).collect(toList()));
