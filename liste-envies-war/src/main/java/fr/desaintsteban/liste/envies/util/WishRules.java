@@ -323,12 +323,11 @@ public class WishRules {
                     wish.setUserTake(null);
                     wish.setGiven(wish.getAllreadyGiven());
                 } else {
-                    PersonParticipantDto anymous = new PersonParticipantDto("", "", "", "");
+                    PersonParticipantDto anymous = new PersonParticipantDto("", "anonyme", "", "");
                     ArrayList<PersonParticipantDto> userTake = new ArrayList<>();
                     userTake.add(anymous);
                     wish.setUserTake(userTake);
                     wish.setGiven(true);
-                    wish.setUserGiven(true);
                 }
 
 
