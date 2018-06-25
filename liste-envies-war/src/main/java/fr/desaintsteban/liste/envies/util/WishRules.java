@@ -321,14 +321,17 @@ public class WishRules {
             case ANONYMOUS:
                 if (wish.getUserTake() == null || wish.getUserTake().isEmpty()) {
                     wish.setUserTake(null);
+                    wish.setGiven(wish.getAllreadyGiven());
                 } else {
                     PersonParticipantDto anymous = new PersonParticipantDto("", "", "", "");
                     ArrayList<PersonParticipantDto> userTake = new ArrayList<>();
                     userTake.add(anymous);
                     wish.setUserTake(userTake);
+                    wish.setGiven(true);
+                    wish.setUserGiven(true);
                 }
 
-                wish.setGiven(wish.getAllreadyGiven());
+
                 if (!ListUtils.isNullOrEmpty(wish.getComments())) {
                     wish.setComments(wish.getComments().stream().filter(comment -> comment.getType() == CommentType.PUBLIC).collect(toList()));
                 }
