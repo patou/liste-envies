@@ -23,7 +23,7 @@ public class WishRulesTest {
 
         WishDto cleaned = WishRules.cleanWish(wish, WishOptionType.ANONYMOUS);
 
-        assertThat(cleaned.getUserTake()).isNull();
+        assertThat(cleaned.getUserTake()).hasSize(1);
         assertThat(cleaned.getComments()).hasSize(1).onProperty("text").contains("Public");
     }
 
