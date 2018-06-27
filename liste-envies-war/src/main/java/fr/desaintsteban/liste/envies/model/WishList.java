@@ -36,6 +36,9 @@ public class WishList {
     private SharingPrivacyType privacy; // Option for sharing privacy of the all list.
 
 
+    private boolean forceAnonymus = false; // To force display list as anonymous. for owner it will show the list as anonyme.
+
+
     public WishList() {
         this.privacy = SharingPrivacyType.PRIVATE;
     }
@@ -85,6 +88,9 @@ public class WishList {
         setType( dto.getType());
         setDate( dto.getDate());
         setPrivacy( dto.getPrivacy());
+
+        setForceAnonymus(dto.isForceAnonymus());
+
     }
 
     public WishListDto toDto() {
@@ -97,6 +103,7 @@ public class WishList {
         dto.setDate( getDate());
         dto.setPrivacy( getPrivacy());
         dto.setOwner(false);
+        dto.setForceAnonymus(isForceAnonymus());
         return dto;
     }
 
@@ -180,5 +187,14 @@ public class WishList {
     public void addUser(AppUser user) {
         if (users == null) users = new ArrayList<>();
         users.add(new UserShare(user.getEmail(), UserShareType.SHARED));
+    }
+
+
+    public boolean isForceAnonymus() {
+        return forceAnonymus;
+    }
+
+    public void setForceAnonymus(boolean forceAnonymus) {
+        this.forceAnonymus = forceAnonymus;
     }
 }
