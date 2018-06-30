@@ -1,26 +1,26 @@
 ﻿export interface WishItem {
-  id: number;
-  listId: string;
+  id?: number;
+  listId?: string;
   listTitle?: null;
-  owner: Owner;
-  suggest: boolean;
-  deleted: boolean;
-  archived: boolean;
+  owner?: Owner;
+  suggest?: boolean;
+  deleted?: boolean;
+  archived?: boolean;
   label: string;
   description?: string | null;
   price?: string | null;
   pictures?: (string)[] | null;
-  date: number;
+  date?: number;
   urls?: (UrlsEntity)[] | null;
   userTake?: null;
-  given: boolean;
-  userGiven: boolean;
-  allreadyGiven: boolean;
-  canEdit: boolean;
-  canParticipate: boolean;
-  canSuggest: boolean;
+  given?: boolean;
+  userGiven?: boolean;
+  allreadyGiven?: boolean;
+  canEdit?: boolean;
+  canParticipate?: boolean;
+  canSuggest?: boolean;
   comments?: (null)[] | null;
-  rating: number;
+  rating?: number;
 }
 export interface Owner {
   email: string;

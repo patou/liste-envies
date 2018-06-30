@@ -48,18 +48,19 @@ export class ListComponent implements OnInit {
   }
 
   addWish() {
-    const dialogRef = this.dialog.open(WishEditComponent, {
+    this.dialog.open(WishEditComponent, {
       width: 'auto',
       height: 'auto',
       maxHeight: '90%',
       maxWidth: '100%',
-      panelClass: 'matDialogContent',
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
+      panelClass: 'matDialogContent'
+    }).afterClosed().subscribe((result: WishItem) => {
       console.log('The dialog was closed');
       if (result) {
-        this.loadList();
+        this.wishListService.createWish(this.listId, result).subscribe((Wish: WishItem) =>  {
+          // todo juste add to list rather than reload all.
+          this.loadList();
+        });
       }
     });
   }

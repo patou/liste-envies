@@ -42,6 +42,7 @@ mat-toolbar-row {
   bottom: 20px;
   right: 20px;
   color: white;
+  z-index: 9999;
 }
 
 firebase-ui .firebaseui-container {

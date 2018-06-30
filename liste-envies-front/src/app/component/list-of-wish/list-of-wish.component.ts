@@ -3,6 +3,9 @@ import {WishItem} from '../../models/WishItem';
 import {NgxMasonryOptions} from 'ngx-masonry';
 import {transition, trigger, useAnimation} from '@angular/animations';
 import {bounceInLeft, fadeInUp} from 'ng-animate/lib';
+import {WishEditComponent} from '../wish-edit/wish-edit.component';
+import {MatDialog} from '@angular/material';
+import {WishListService} from '../../service/wish-list-service';
 
 declare var Macy;
 
@@ -29,7 +32,7 @@ export class ListOfWishComponent implements OnInit, OnChanges {
   public columns = 3;
   public items: WishItem[][] = [];
 
-  constructor() {
+  constructor(public dialog: MatDialog, public wishApi: WishListService) {
   }
 
   ngOnInit() {
@@ -45,5 +48,7 @@ export class ListOfWishComponent implements OnInit, OnChanges {
       }, Array(this.columns).fill(0).map(() => []));
     }
   }
+
+
 
 }

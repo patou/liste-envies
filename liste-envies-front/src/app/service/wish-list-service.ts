@@ -5,7 +5,7 @@ import {WishItem} from '../models/WishItem';
 import {WishList} from '../models/WishList';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {AuthService} from './auth.service';
-import {Path, GET, PathParam} from 'ngx-http-annotations';
+import {Path, GET, POST, PUT, Body, PathParam} from 'ngx-http-annotations';
 
 @Injectable()
 @Path('/api/')
@@ -37,6 +37,12 @@ export class WishListService {
     return null;
   }
 
+  @POST
+  @Path('list/')
+  createList(@Body wishList: WishList): Observable<WishList> {
+    return null;
+  }
+
   @GET
   @Path('list/:name')
   wishList(@PathParam('name') name: string): Observable<WishList> {
@@ -46,6 +52,24 @@ export class WishListService {
   @GET
   @Path('wishes/:name')
   wishes(@PathParam('name') name: string): Observable<WishItem[]> {
+    return null;
+  }
+
+  @POST
+  @Path('wishes/:name')
+  createWish(@PathParam('name') name: string, @Body wish: WishItem): Observable<WishItem> {
+    return null;
+  }
+
+  @POST
+  @Path('wishes/:name/:id')
+  updateWish(@PathParam('name') name: string, @PathParam('id') id: number, @Body wish: WishItem): Observable<WishItem> {
+    return null;
+  }
+
+  @PUT
+  @Path('wishes/:name/give/:id')
+  give(@PathParam('name') name: string, @PathParam('id') id: number): Observable<WishList> {
     return null;
   }
 }

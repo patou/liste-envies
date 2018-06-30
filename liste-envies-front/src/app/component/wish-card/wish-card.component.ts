@@ -1,10 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {WishItem} from '../../models/WishItem';
+import {Owner, UrlsEntity, WishItem} from '../../models/WishItem';
 import {SwiperConfigInterface} from 'ngx-swiper-wrapper';
 import {WishEditComponent} from '../wish-edit/wish-edit.component';
 import {MatDialog} from '@angular/material';
 import {transition, trigger, useAnimation} from '@angular/animations';
 import {bounceInUp} from 'ng-animate/lib';
+import {WishListService} from '../../service/wish-list-service';
 
 @Component({
   selector: 'app-wish-card',
@@ -35,28 +36,33 @@ export class WishCardComponent implements OnInit {
     // }
   };
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog, public wishApi: WishListService) { }
 
   ngOnInit() {
   }
 
   editWish() {
-    const dialogRef = this.dialog.open(WishEditComponent, {
+    this.dialog.open(WishEditComponent, {
       width: 'auto',
       height: 'auto',
       maxHeight: '90%',
       maxWidth: '100%',
       panelClass: 'matDialogContent',
       data: this.wishItem
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
+    }).afterClosed().subscribe((result: WishItem) => {
       console.log('The dialog was closed');
       if (result) {
-        this.wishItem = Object.assign({}, result);
+        this.wishApi.updateWish(result.listId, result.id, result).subscribe((Wish: WishItem) =>  {
+          this.wishItem = Object.assign({}, Wish);
+        });
+      } else {
+        this.cancelEditWish();
       }
     });
   }
+
+
+
 
   cancelEditWish() {
     this.edit = false;

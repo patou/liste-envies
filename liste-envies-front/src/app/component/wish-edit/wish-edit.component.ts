@@ -15,7 +15,19 @@ export class WishEditComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
-    this.wishItem = this.data;
+    if (this.data) {
+      this.wishItem = this.data;
+    } else {
+      this.wishItem = {
+        label: '',
+          description: '',
+        price: '',
+        pictures: null,
+        allreadyGiven: false,
+        rating: 0
+      };
+    }
+
   }
 
   cancelEditWish() {
