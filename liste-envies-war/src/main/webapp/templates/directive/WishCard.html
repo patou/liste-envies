@@ -124,6 +124,16 @@
                         <li><a href="javascript:;" ng-click="w.deleteWish()" translate>.EDIT_OPTIONS_DELETE</a></li>
                     </ul>
                 </div>
+
+                <div class="btn-group btn-group-sm edit-button" ng-if="w.wish.given && w.wish.userGiven">
+                    <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" translate translate-attr-title=".EDIT_OTHER_OPTIONS">
+                        <span translate=".EDIT_OTHER_OPTIONS"></span>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="javascript:;" ng-click="w.receivedWish()" translate>.GIVEN</a></li>
+                    </ul>
+                </div>
                 <button type="button" class="btn btn-warning btn-sm edit-button" ng-if="w.edit && !w.add" ng-click="w.cancelWish()" translate=".CANCEL"></button>
                 <!-- -->
                 <button type="button" class="btn btn-info btn-sm  edit-button copy-button"  ng-if="!w.edit && !w.add"
@@ -136,7 +146,6 @@
                         <span translate translate-values="{name: w.wish.userTakeUsers}" ng-if="w.wish.userTakeUsers">.OFFERED_BY</span>
                         <span translate ng-if="w.wish.allreadyGiven">.OFFERED</span>
                         <button type="button" class="btn btn-danger" ng-if="w.wish.userGiven" ng-click="w.cancel(w.wish.id)" translate>.CANCEL</button>
-                        <button type="button" class="btn btn-success" ng-if="w.wish.userGiven" ng-click="w.receivedWish()" translate>.GIVEN</button>
                         <button type="button" class="btn btn-success btn3d" ng-if="!w.wish.userGiven && !w.wish.archived && w.wish.canParticipate" ng-click="w.given(w.wish.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b translate>.PARTICIPATE</b></button>
                     </h6>
                     <button type="button" class="btn btn-success btn3d" ng-if="w.wish.canParticipate && !w.wish.given && w.user" ng-click="w.given(w.wish.id)"><i class="fa fa-gift fa-lg fa-fw"></i><b translate >.TO_OFFER</b></button>
