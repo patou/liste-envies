@@ -125,10 +125,10 @@
                     </ul>
                 </div>
 
-                <div class="btn-group btn-group-sm edit-button" ng-if=""w.wish.given && w.wish.userGiven" ng-hide="w.edit">
-                    <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" translate=".EDIT_OTHER_OPTIONS" translate-attr-title=".EDIT_OTHER_OPTIONS">
+                <div class="btn-group btn-group-sm edit-button" ng-if="w.wish.given && w.wish.userGiven">
+                    <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" translate translate-attr-title=".EDIT_OTHER_OPTIONS">
+                        <span translate=".EDIT_OTHER_OPTIONS"></span>
                         <span class="caret"></span>
-                        <span class="sr-only" translate=".EDIT_OTHER_OPTIONS"></span>
                     </button>
                     <ul class="dropdown-menu">
                         <li><a href="javascript:;" ng-click="w.receivedWish()" translate>.GIVEN</a></li>
