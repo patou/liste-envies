@@ -23,7 +23,8 @@ import { HttpRestModule } from 'ngx-http-annotations';
 import { PageNavComponent } from './component/page-nav/page-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material'
-import { ListTypeIcon } from './shared/list-type-icon/list-type-icon.component';
+import { MomentModule } from "ngx-moment";
+import 'moment/locale/fr';
 
 // the second parameter 'fr' is optional
 registerLocaleData(localeFr, 'fr');
@@ -50,7 +51,8 @@ registerLocaleData(localeFr, 'fr');
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    MomentModule,
   ],
   providers: [
     {

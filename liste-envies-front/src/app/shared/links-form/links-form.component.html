@@ -1,15 +1,14 @@
 <div class="grid">
-  <mat-form-field appearance="outline" class="col-4">
+  <mat-form-field appearance="outline" class="col-5">
     <mat-label>Url du lien</mat-label>
     <input matInput placeholder="Url du liens" #url [(ngModel)]="addUrl.url">
   </mat-form-field>
 
-  <mat-form-field appearance="outline" class="col-4">
+  <mat-form-field appearance="outline" class="col-5">
     <mat-label>Nom du lien</mat-label>
     <input matInput placeholder="Nom du lien" #name [(ngModel)]="addUrl.name">
   </mat-form-field>
-
-  <button mat-button (click)="addLink(url.value, name.value)" class="col-3">Ajouter</button>
+  <button mat-button (click)="addLink(url.value, name.value)" class="col-1"><mat-icon>add</mat-icon></button>
 </div>
 
 <div *ngFor="let url of urls" >

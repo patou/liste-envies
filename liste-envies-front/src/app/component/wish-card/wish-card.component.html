@@ -15,7 +15,7 @@
         </ngx-avatar>
         <span class="ownerName">{{wishItem.owner.name}}</span>
       </div>
-      <span>{{wishItem.date | date: 'short'}}</span>
+      <span title="{{wishItem.date | date: 'short'}}"><mat-icon>date_range</mat-icon> {{wishItem.date | amLocal:'fr' | amTimeAgo }}</span>
     </div>
   </mat-card-header>
 
