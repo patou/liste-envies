@@ -6,11 +6,14 @@
     <ng-template matStepLabel>Entrer un nom pour votre liste</ng-template>
     <form >
 
-      <mat-form-field class="col-5" appearance="outline">
-        <input matInput [(ngModel)]="wishList.title" placeholder="Liste pour ..." name="title" required />
+      <mat-form-field class="col-6" appearance="outline">
+        <mat-label>Titre</mat-label>
+        <input matInput [(ngModel)]="wishList.title" placeholder="Liste pour ..." name="title" required (ngModelChange)="changeName($event)" />
       </mat-form-field>
-      <mat-form-field class="col-5" appearance="outline">
-        <mat-select [(value)]="wishList.type" placeholder="Pour quel évènement ?" name="type">
+      <mat-form-field class="col-5 col-offset-1" appearance="outline">
+        <mat-label>Type d'événements</mat-label>
+        <span matPrefix><list-type-icon [type]="wishList.type"></list-type-icon></span>
+        <mat-select [(value)]="wishList.type" placeholder="Pour quel évènement ?" name="type" (selectionChange)="onChanges($event)">
           <mat-option value="OTHER" selected>Autre</mat-option>
           <mat-option value="CHRISTMAS">Noël</mat-option>
           <mat-option value="BIRTHDAY">Anniversaire</mat-option>
@@ -20,15 +23,16 @@
           <mat-option value="SPECIAL_OCCASION">Occasion spéciale</mat-option>
         </mat-select>
       </mat-form-field>
-      <list-type-icon [type]="wishList.type"></list-type-icon>
-      <mat-form-field class="col-6">
-        <input matInput type="text" name="id" [ngModel]="wishList.name || ((wishList.title || '') | latinize | lowercase)" (ngModelChange)="changeName($event)"/>
+
+      <mat-form-field class="col-6"  appearance="outline">
+        <mat-label>Url de la liste</mat-label>
+        <input matInput type="text" name="id" [ngModel]="wishList.name"  (ngModelChange)="onChanges($event)" />
         <span matPrefix>https://liste-envie.desaintsteban.fr/</span>
       </mat-form-field>
 
       <div>
         <app-html-editor #description [(content)]="wishList.description"
-                         placeholder="Description de l'envie" name="description"></app-html-editor>
+                         placeholder="Description de l'envie" name="description" (contentChange)="onChanges($event)"></app-html-editor>
         <mat-hint>Vous pouvez donner plus de details sur votre liste.</mat-hint>
       </div>
       <div>
@@ -39,15 +43,20 @@
   <mat-step [stepControl]="secondFormGroup">
     <form >
       <ng-template matStepLabel>Partager la liste à : </ng-template>
-
-      <mat-radio-group [(ngModel)]="wishList.privacy">
+      <mat-label>Privacy</mat-label>
+      <mat-radio-group MatFormFieldControl [(ngModel)]="wishList.privacy" name="privacy">
         <mat-radio-button value="PRIVATE">Limité / Privé</mat-radio-button>
         <mat-radio-button value="OPEN">Ouvert / connecté</mat-radio-button>
         <mat-radio-button value="PUBLIC">Libre / Publique</mat-radio-button>
       </mat-radio-group>
       <mat-form-field appearance="outline">
-        <input matInput placeholder="Email" required />
+        <input matInput placeholder="Email" required name="email" />
       </mat-form-field>
+      <div>
+
+      </div>
+
+
       <div>
         <button mat-button matStepperPrevious>Back</button>
         <button mat-button matStepperNext>Next</button>
@@ -63,4 +72,6 @@
     </div>
   </mat-step>
 </mat-horizontal-stepper>
+
+<app-list [list]="demoList" ></app-list>
 

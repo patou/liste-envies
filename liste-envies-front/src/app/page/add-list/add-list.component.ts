@@ -13,10 +13,11 @@ export class AddListComponent implements OnInit {
   isLinear = false;
   nameFormGroup: FormGroup;
   secondFormGroup: FormGroup;
-  wishList : WishList;
+  wishList: WishList;
+  demoList: WishList;
 
   constructor(private _formBuilder: FormBuilder, private latinize: LatinizePipe) {
-    this.wishList = {};
+    this.wishList = {title : 'titre', picture: '', description: 'description '};
   }
 
   ngOnInit() {
@@ -29,9 +30,14 @@ export class AddListComponent implements OnInit {
   }
 
   changeName(name) {
+    this.onChanges(name);
     if (name) {
-      this.wishList.name = this.latinize.transform(name.toLowerCase());
+      this.wishList.name = this.latinize.transform(name.toLowerCase().replace(' ', '_'));
     }
   }
 
+  public onChanges($event) {
+    console.debug('OnChanges :', $event);
+    this.demoList = {...this.wishList};
+  }
 }

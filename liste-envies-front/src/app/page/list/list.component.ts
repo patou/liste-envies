@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 /*
 import { MasonryOptions } from 'ngx-masonry';
 */
@@ -10,18 +10,30 @@ import {ActivatedRoute} from '@angular/router';
 import {AuthService} from '../../service/auth.service';
 import * as firebase from 'firebase';
 import {RouteData, RouteParams} from 'angular-xxl';
-import {WishEditComponent} from "../../component/wish-edit/wish-edit.component";
+import {WishEditComponent} from '../../component/wish-edit/wish-edit.component';
 import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  styleUrls: ['./list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, OnChanges {
 
-  @RouteData('whishesItems') list$: Observable<WishItem[]>;
-  @RouteData('whishList', {observable: false}) whishList: WishList;
+
+  @RouteData('whishesItems')
+  list$: Observable<WishItem[]>;
+
+
+  @RouteData('whishList', {observable: false})
+  whishList: WishList;
+
+  @Input('list')
+  list: WishList;
+
+  @Input('items')
+  items: WishItem[];
 
 
   public userAuth: Observable<firebase.User>;
@@ -63,6 +75,11 @@ export class ListComponent implements OnInit {
         });
       }
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('On change :', changes);
+    this.whishList = changes.list.currentValue;
   }
 
 }
