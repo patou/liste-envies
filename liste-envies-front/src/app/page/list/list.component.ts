@@ -33,7 +33,10 @@ export class ListComponent implements OnInit, OnChanges {
   list: WishList;
 
   @Input('items')
-  items: WishItem[];
+  items: Observable<WishItem[]>;
+
+  @Input('demo')
+  demo = false;
 
 
   public userAuth: Observable<firebase.User>;
@@ -47,6 +50,14 @@ export class ListComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.userAuth = this.auth.user;
 
+    if (this.demo) {
+      
+      this.list$ = this.items;
+      return;
+    }
+
+    // if no demo, do the following
+
     this.userAuth.subscribe(value => {
       this.loadList();
       console.log('user AUTH NEXT in list page / ', value);
@@ -56,10 +67,14 @@ export class ListComponent implements OnInit, OnChanges {
   }
 
   private loadList() {
+    if (this.demo) return;
+    
     this.list$ = this.wishListService.wishes(this.route.snapshot.params['listId']);
   }
 
   addWish() {
+    if (this.demo) return;
+
     this.dialog.open(WishEditComponent, {
       width: 'auto',
       height: 'auto',

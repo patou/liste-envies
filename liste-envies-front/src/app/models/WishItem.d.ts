@@ -1,18 +1,18 @@
 ﻿export interface WishItem {
   id?: number;
   listId?: string;
-  listTitle?: null;
+  listTitle?: string;
   owner?: Owner;
   suggest?: boolean;
   deleted?: boolean;
   archived?: boolean;
-  label: string;
+  label?: string;
   description?: string | null;
   price?: string | null;
   pictures?: (string)[] | null;
   date?: number;
   urls?: (UrlsEntity)[] | null;
-  userTake?: null;
+  userTake?: string[];
   given?: boolean;
   userGiven?: boolean;
   allreadyGiven?: boolean;

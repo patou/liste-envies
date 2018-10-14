@@ -3,7 +3,6 @@
     <section class="mat-typography">
       <h1><list-type-icon [type]="whishList?.type"></list-type-icon>{{whishList?.title}}</h1>
       <p [innerHTML]="whishList?.description"></p>
-      {{whishList}}
     </section>
   </mat-card>
   <app-list-of-wish [list]="(list$ | async)" class="col-12"></app-list-of-wish>

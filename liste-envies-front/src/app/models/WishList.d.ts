@@ -5,14 +5,30 @@
   users?: null;
   owners?: (OwnersEntity)[] | null;
   picture?: string;
-  type?: string;
+  type?: WishListType;
   date?: number | null;
-  privacy?: string;
+  privacy?: 'PRIVATE' | 'OPEN' | 'PUBLIC';
+
   state?: string;
   owner?: boolean;
 }
+
 export interface OwnersEntity {
   email?: string;
   name?: string;
   type?: string;
+}
+
+export enum WishListPrivacy {
+  PRIVATE, OPEN, PUBLIC
+}
+
+export enum WishListType {
+  OTHER,
+  CHRISTMAS,
+  BIRTHDAY,
+  BIRTH,
+  WEDDING,
+  LEAVING,
+  SPECIAL_OCCASION
 }

@@ -22,9 +22,10 @@ import { WishListItemsResolver } from 'app/service/wishListItemsResolve';
 import { HttpRestModule } from 'ngx-http-annotations';
 import { PageNavComponent } from './component/page-nav/page-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material'
-import { MomentModule } from "ngx-moment";
+import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
+import { MomentModule } from 'ngx-moment';
 import 'moment/locale/fr';
+import {DemoWishListService} from './service/demo/demo-wish-list.service';
 
 // the second parameter 'fr' is optional
 registerLocaleData(localeFr, 'fr');
@@ -63,6 +64,7 @@ registerLocaleData(localeFr, 'fr');
     WishListService,
     WishListResolver,
     WishListItemsResolver,
+    DemoWishListService,
     { provide: LOCALE_ID, useValue: 'fr' }
   ],
   entryComponents: [
