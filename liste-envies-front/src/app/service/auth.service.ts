@@ -7,6 +7,8 @@ import {LoginDialogComponent} from '../component/login-dialog/login-dialog.compo
 import {MatDialog} from '@angular/material';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {AngularFireAuth} from '@angular/fire/auth';
+import {User} from 'firebase';
+import {shareReplay} from 'rxjs/operators';
 
 @Injectable()
 export class AuthService implements HttpInterceptor {
@@ -22,7 +24,9 @@ export class AuthService implements HttpInterceptor {
 
     this.user = this._userState.asObservable();
 
-      firebaseAuth.authState.subscribe((user: firebase.User) => {
+      firebaseAuth.authState.pipe(
+       shareReplay(1)
+      ).subscribe((user: User) => {
         if (user) {
           AuthService.currentUser = user;
           user.getIdToken().then((token: string) => {
