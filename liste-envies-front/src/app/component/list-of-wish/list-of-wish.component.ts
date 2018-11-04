@@ -1,8 +1,7 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {WishItem} from '../../models/WishItem';
-import {NgxMasonryOptions} from 'ngx-masonry';
 import {transition, trigger, useAnimation} from '@angular/animations';
-import {bounceInLeft, fadeInUp} from 'ng-animate/lib';
+import {bounceInLeft, fadeInUp} from 'ng-animate';
 import {WishEditComponent} from '../wish-edit/wish-edit.component';
 import {MatDialog} from '@angular/material';
 import {WishListService} from '../../service/wish-list-service';
@@ -23,9 +22,6 @@ export class ListOfWishComponent implements OnInit, OnChanges {
   animateItems: any;
   animateColumn: any;
 
-  public masonryOptions: NgxMasonryOptions = {
-    transitionDuration: '0.8s'
-  };
 
 
   @Input() public list: WishItem[];

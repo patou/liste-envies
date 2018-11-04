@@ -4,8 +4,8 @@ import {SwiperConfigInterface} from 'ngx-swiper-wrapper';
 import {WishEditComponent} from '../wish-edit/wish-edit.component';
 import {MatDialog} from '@angular/material';
 import {transition, trigger, useAnimation} from '@angular/animations';
-import {bounceInUp} from 'ng-animate/lib';
 import {WishListService} from '../../service/wish-list-service';
+import {bounceInUp} from 'ng-animate';
 
 @Component({
   selector: 'app-wish-card',

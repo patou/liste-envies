@@ -8,7 +8,7 @@
   type?: WishListType;
   date?: number | null;
   privacy?: 'PRIVATE' | 'OPEN' | 'PUBLIC';
-
+  forceAnonymus?: boolean;
   state?: string;
   owner?: boolean;
 }

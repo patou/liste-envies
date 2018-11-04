@@ -1,6 +1,5 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FirebaseUIService } from './firebaseui.service';
-import { AngularFireAuth } from 'angularfire2/auth';
 import { Subscription } from 'rxjs/Subscription';
 import {
     AuthMethods, AuthProvider, AuthProviderWithCustomConfig, CredentialHelper, FirebaseUIAuthConfig,
@@ -14,6 +13,7 @@ import GithubAuthProvider = firebase.auth.GithubAuthProvider;
 import EmailAuthProvider = firebase.auth.EmailAuthProvider;
 import PhoneAuthProvider = firebase.auth.PhoneAuthProvider;
 import * as firebaseui from './firebaseui-fr'
+import {AngularFireAuth} from '@angular/fire/auth';
 
 @Component({
     selector: 'firebase-ui',

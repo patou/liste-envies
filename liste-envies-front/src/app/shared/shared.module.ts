@@ -15,8 +15,6 @@ import { LinksFormComponent } from './links-form/links-form.component';
 import { ListTypeIcon } from './list-type-icon/list-type-icon.component';
 
 import { SWIPER_CONFIG, SwiperConfigInterface, SwiperModule } from 'ngx-swiper-wrapper';
-import { AngularFireModule } from 'angularfire2';
-import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AuthService } from '../service/auth.service';
 import { AuthMethods, AuthProvider as AuthProviderUi, CredentialHelper, FirebaseUIAuthConfig, FirebaseUIModule } from './firebaseui';
 import { AvatarModule } from 'ngx-avatar';
@@ -24,6 +22,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { LatinizePipe, NgPipesModule } from 'ng-pipes';
 import { WishListItemComponent } from './wish-list-item/wish-list-item.component';
 import { RouterModule } from '@angular/router';
+import {AngularFireModule} from '@angular/fire';
+import {AngularFireAuthModule} from '@angular/fire/auth';
 
 /*import { Ng2GridDirective } from './ng2-grid/ng2-grid.directive';*/
 

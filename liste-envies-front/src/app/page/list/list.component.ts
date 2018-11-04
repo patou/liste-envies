@@ -1,7 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-/*
-import { MasonryOptions } from 'ngx-masonry';
-*/
+
 import {WishListService} from '../../service/wish-list-service';
 import {Observable} from 'rxjs/Observable';
 import {WishList} from '../../models/WishList';

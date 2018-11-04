@@ -30,9 +30,7 @@
               "node_modules/firebaseui/dist/firebaseui.css"
             ],
             "scripts": [
-              "node_modules/hammerjs/hammer.min.js",
-              "node_modules/masonry-layout/dist/masonry.pkgd.js",
-              "node_modules/macy/dist/macy.js"
+              "node_modules/hammerjs/hammer.min.js"
             ]
           },
           "configurations": {
@@ -91,9 +89,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [
-              "node_modules/hammerjs/hammer.min.js",
-              "node_modules/masonry-layout/dist/masonry.pkgd.js",
-              "node_modules/macy/dist/macy.js"
+              "node_modules/hammerjs/hammer.min.js"
             ],
             "styles": [
               "src/styles.scss",
