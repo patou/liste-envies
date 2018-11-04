@@ -18,7 +18,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthService } from './service/auth.service';
 import { LoginDialogComponent } from './component/login-dialog/login-dialog.component';
 import { WishListResolver } from './service/wishListResolve';
-import { WishListItemsResolver } from 'app/service/wishListItemsResolve';
 import { HttpRestModule } from 'ngx-http-annotations';
 import { PageNavComponent } from './component/page-nav/page-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -26,6 +25,7 @@ import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, Mat
 import { MomentModule } from 'ngx-moment';
 import 'moment/locale/fr';
 import {DemoWishListService} from './service/demo/demo-wish-list.service';
+import {WishListItemsResolver} from './service/wishListItemsResolve';
 
 // the second parameter 'fr' is optional
 registerLocaleData(localeFr, 'fr');
