@@ -7,7 +7,7 @@ import { Input, Component } from "@angular/core";
 
   <span *ngSwitchCase="'CHRISTMAS'"><mat-icon fontSet="fa" fontIcon="fa-tree"></mat-icon></span>
   <span *ngSwitchCase="'BIRTHDAY'"><mat-icon fontSet="fa" fontIcon="fa-birthday-cake"></mat-icon></span>
-  <span *ngSwitchCase="'WEDDING'"><mat-icon fontSet="fa" fontIcon="fa-circle-thin"></mat-icon></span>
+  <span *ngSwitchCase="'WEDDING'"><mat-icon fontSet="fa" fontIcon="fa-heart"></mat-icon></span>
   <span *ngSwitchCase="'LEAVING'"><mat-icon fontSet="fa" fontIcon="fa-plane"></mat-icon></span>
   <span *ngSwitchCase="'SPECIAL_OCCASION'"><mat-icon fontSet="fa" fontIcon="fa-magic"></mat-icon></span>
   <span *ngSwitchCase="'BIRTH'"><mat-icon fontSet="fa" fontIcon="fa-child"></mat-icon></span>

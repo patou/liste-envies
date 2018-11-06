@@ -9,6 +9,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {User} from 'firebase';
 import {shareReplay} from 'rxjs/operators';
+import {WishesListService} from '../state/wishes/wishes-list.service';
 
 @Injectable()
 export class AuthService implements HttpInterceptor {
@@ -18,7 +19,7 @@ export class AuthService implements HttpInterceptor {
   public user: Observable<firebase.User>;
   private _userState: BehaviorSubject<firebase.User>;
 
-  constructor(private firebaseAuth: AngularFireAuth, public dialog: MatDialog) {
+  constructor(private firebaseAuth: AngularFireAuth, public dialog: MatDialog, private wishesList: WishesListService) {
 
     this._userState = new BehaviorSubject(null);
 
@@ -37,6 +38,7 @@ export class AuthService implements HttpInterceptor {
         } else {
           this.resetCurrentUser();
         }
+        this.wishesList.get();
   }, (error) => {
         console.error('error with loggin :', error);
         this.resetCurrentUser();

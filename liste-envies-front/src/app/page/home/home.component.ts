@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import {WishList} from '../../models/WishList';
 import * as firebase from 'firebase';
 import {AuthService} from '../../service/auth.service';
+import {WishesListQuery} from '../../state/wishes/wishes-list.query';
 
 @Component({
   selector: 'app-home',
@@ -13,18 +14,20 @@ import {AuthService} from '../../service/auth.service';
 export class HomeComponent implements OnInit {
   public userAuth: Observable<firebase.User>;
 
-  public lists: WishList[];
-  private list$: Observable<WishList[]>;
+ private list$: Observable<WishList[]>;
+ private loading$: Observable<boolean>;
 
   constructor(
-    private wishListService: WishListService,
-    private auth: AuthService) { }
+    private wishListService: WishesListQuery,
+    private auth: AuthService) {
+
+
+  }
 
   ngOnInit() {
     this.userAuth = this.auth.user;
-    this.list$ = this.wishListService.list;
-
-    this.list$.subscribe(lists => this.lists = lists, error => this.lists = []);
+    this.list$ = this.wishListService.selectAll();
+    this.loading$ = this.wishListService.selectLoading();
   }
 
   newList() {

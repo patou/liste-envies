@@ -22,10 +22,13 @@
       <mat-icon>add</mat-icon>
     </button>
   </span>
-  <div class="whishList-Container">
-    <wish-list-item class="wishListCard" *ngFor="let wishList of (lists)" [wishlist]="wishList">
+  <div class="whishList-Container" *ngIf="!(loading$ | async); else loading">
+    <wish-list-item class="wishListCard" *ngFor="let wishList of (list$ | async)" [wishlist]="wishList">
     </wish-list-item>
   </div>
+  <ng-template #loading>
+    <mat-spinner></mat-spinner>
+  </ng-template>
 
 
 </div>

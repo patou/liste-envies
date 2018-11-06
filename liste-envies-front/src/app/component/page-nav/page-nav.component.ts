@@ -4,8 +4,9 @@ import { map } from 'rxjs/operators';
 import { AuthService } from '../../service/auth.service';
 import * as firebase from 'firebase';
 import { Observable } from 'rxjs/Observable';
-import { WishListService } from '../../service/wish-list-service';
 import { WishList } from '../../models/WishList';
+import {WishesListQuery} from '../../state/wishes/wishes-list.query';
+import {WishesList} from '../../state/wishes/wishes-list.model';
 @Component({
   selector: 'app-page-nav',
   templateUrl: './page-nav.component.html',
@@ -20,20 +21,19 @@ export class PageNavComponent implements OnInit {
 
   public userAuth: Observable<firebase.User>;
 
-  public lists: WishList[];
-  private list$: Observable<WishList[]>;
+  private list$: Observable<WishesList[]>;
+  private loading$: Observable<boolean>;
 
   constructor(private breakpointObserver: BreakpointObserver,
-    private wishListService: WishListService,
+    private wishesListQuery: WishesListQuery,
     private auth: AuthService) { }
 
 
 
   ngOnInit() {
     this.userAuth = this.auth.user;
-    this.list$ = this.wishListService.list;
-
-    this.list$.subscribe(lists => this.lists = lists, error => this.lists = []);
+    this.list$ = this.wishesListQuery.selectAll();
+    this.loading$ = this.wishesListQuery.selectLoading();
   }
 
   connect() {
