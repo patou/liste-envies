@@ -33,8 +33,8 @@ export class PageNavComponent implements OnInit {
 
   ngOnInit() {
     this.userAuth = this.auth.user;
-    this.myList$ = this.wishesListQuery.selectAll({filterBy: list => list.owners});
-    this.otherList$ = this.wishesListQuery.selectAll({filterBy: list => !list.owners});
+    this.myList$ = this.wishesListQuery.selectAll({filterBy: list => list.owner});
+    this.otherList$ = this.wishesListQuery.selectAll({filterBy: list => !list.owner});
     this.loading$ = this.wishesListQuery.selectLoading();
   }
 
