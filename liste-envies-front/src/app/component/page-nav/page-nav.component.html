@@ -9,10 +9,35 @@
     <mat-toolbar color="primary">Listes </mat-toolbar>
 
     <div *ngIf="!(loading$ | async); else loading">
-      <mat-nav-list >
-        <wish-list-item mat-list-item class="wishListCard" *ngFor="let wishList of (list$ | async)" [wishlist]="wishList">
-        </wish-list-item>
-      </mat-nav-list>
+      <mat-accordion multi="true">
+        <mat-expansion-panel expanded="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Mes listes d'envies
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <mat-nav-list>
+            <wish-list-item *ngFor="let wishList of (myList$ | async)" [wishlist]="wishList" class="wishListCard"
+                            mat-list-item>
+            </wish-list-item>
+          </mat-nav-list>
+        </mat-expansion-panel>
+        <mat-expansion-panel expanded="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              listes d'envies partagés
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-nav-list>
+            <wish-list-item *ngFor="let wishList of (otherList$ | async)" [wishlist]="wishList" class="wishListCard"
+                            mat-list-item>
+            </wish-list-item>
+          </mat-nav-list>
+        </mat-expansion-panel>
+      </mat-accordion>
+
+
     </div>
     <ng-template #loading>
       <mat-spinner></mat-spinner>

@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
-import { map } from 'rxjs/operators';
-import { AuthService } from '../../service/auth.service';
+import {Component, OnInit} from '@angular/core';
+import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
+import {map} from 'rxjs/operators';
+import {AuthService} from '../../service/auth.service';
 import * as firebase from 'firebase';
-import { Observable } from 'rxjs/Observable';
-import { WishList } from '../../models/WishList';
+import {Observable} from 'rxjs/Observable';
 import {WishesListQuery} from '../../state/wishes/wishes-list.query';
 import {WishesList} from '../../state/wishes/wishes-list.model';
+
 @Component({
   selector: 'app-page-nav',
   templateUrl: './page-nav.component.html',
@@ -21,7 +21,8 @@ export class PageNavComponent implements OnInit {
 
   public userAuth: Observable<firebase.User>;
 
-  private list$: Observable<WishesList[]>;
+  private myList$: Observable<WishesList[]>;
+  private otherList$: Observable<WishesList[]>;
   private loading$: Observable<boolean>;
 
   constructor(private breakpointObserver: BreakpointObserver,
@@ -32,7 +33,8 @@ export class PageNavComponent implements OnInit {
 
   ngOnInit() {
     this.userAuth = this.auth.user;
-    this.list$ = this.wishesListQuery.selectAll();
+    this.myList$ = this.wishesListQuery.selectAll({filterBy: list => list.owners});
+    this.otherList$ = this.wishesListQuery.selectAll({filterBy: list => !list.owners});
     this.loading$ = this.wishesListQuery.selectLoading();
   }
 
