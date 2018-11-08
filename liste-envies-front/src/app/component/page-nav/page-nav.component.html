@@ -8,12 +8,12 @@
     [opened]="!(isHandset$ | async)">
     <mat-toolbar color="primary">Listes </mat-toolbar>
 
-    <div *ngIf="!(loading$ | async); else loading">
+    <div *ngIf="!(loading$ | async); else loading" class="content_sidenav">
       <mat-accordion multi="true">
         <mat-expansion-panel expanded="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              Mes listes d'envies
+              Mes listes ({{myListCount$ | async}})
             </mat-panel-title>
           </mat-expansion-panel-header>
 
@@ -26,7 +26,7 @@
         <mat-expansion-panel expanded="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              listes d'envies partagés
+              Autres listes partagées ({{otherListCount$ | async}})
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-nav-list>

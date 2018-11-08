@@ -1,23 +1,22 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import * as firebase from 'firebase';
+import {User} from 'firebase';
 import {HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {HttpEvent} from '@angular/common/http/src/response';
 import {LoginDialogComponent} from '../component/login-dialog/login-dialog.component';
 import {MatDialog} from '@angular/material';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {User} from 'firebase';
 import {shareReplay} from 'rxjs/operators';
 import {WishesListService} from '../state/wishes/wishes-list.service';
 
 @Injectable()
 export class AuthService implements HttpInterceptor {
-  public static currentUser: firebase.User;
+  public static currentUser: User;
   public static currentToken: string;
 
-  public user: Observable<firebase.User>;
-  private _userState: BehaviorSubject<firebase.User>;
+  public user: Observable<User>;
+  private _userState: BehaviorSubject<User>;
 
   constructor(private firebaseAuth: AngularFireAuth, public dialog: MatDialog, private wishesList: WishesListService) {
 
@@ -28,17 +27,18 @@ export class AuthService implements HttpInterceptor {
       firebaseAuth.authState.pipe(
        shareReplay(1)
       ).subscribe((user: User) => {
+        console.log('User :', user);
         if (user) {
           AuthService.currentUser = user;
           user.getIdToken().then((token: string) => {
             AuthService.currentToken = token;
             // emit change user only when the token id was getting.
             this._userState.next(AuthService.currentUser);
+            this.wishesList.get();
           });
         } else {
           this.resetCurrentUser();
         }
-        this.wishesList.get();
   }, (error) => {
         console.error('error with loggin :', error);
         this.resetCurrentUser();
@@ -49,6 +49,7 @@ export class AuthService implements HttpInterceptor {
     AuthService.currentUser = null;
     AuthService.currentToken = null;
     this._userState.next(AuthService.currentUser);
+    this.wishesList.get();
   }
 
 

@@ -1,4 +1,4 @@
-import { ID } from '@datorama/akita';
+import {ID} from '@datorama/akita';
 import {OwnersEntity, WishListType} from '../../models/WishList';
 
 export interface WishesList {
@@ -23,7 +23,6 @@ export interface WishesList {
  */
 export function createWishesList(params: Partial<WishesList>) {
   return {
-    test: 'test',
     ...params
   } as WishesList;
 }

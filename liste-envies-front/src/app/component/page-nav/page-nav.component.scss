@@ -5,6 +5,17 @@
 .sidenav {
   width: 200px;
   box-shadow: 3px 0 6px rgba(0,0,0,.24);
+
+  .mat-drawer-inner-container {
+    overflow: hidden;
+    height: 100%;
+  }
+
+  .content_sidenav {
+    flex: 1;
+    overflow-y: scroll;
+    height: calc(100% - 64px);
+  }
 }
 
 mat-toolbar {

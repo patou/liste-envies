@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {map} from 'rxjs/operators';
 import {AuthService} from '../../service/auth.service';
 import * as firebase from 'firebase';
@@ -23,6 +23,8 @@ export class PageNavComponent implements OnInit {
 
   private myList$: Observable<WishesList[]>;
   private otherList$: Observable<WishesList[]>;
+  private myListCount$: Observable<number>;
+  private otherListCount$: Observable<number>;
   private loading$: Observable<boolean>;
 
   constructor(private breakpointObserver: BreakpointObserver,
@@ -34,7 +36,9 @@ export class PageNavComponent implements OnInit {
   ngOnInit() {
     this.userAuth = this.auth.user;
     this.myList$ = this.wishesListQuery.selectAll({filterBy: list => list.owner});
+    this.myListCount$ = this.wishesListQuery.selectCount(list => list.owner);
     this.otherList$ = this.wishesListQuery.selectAll({filterBy: list => !list.owner});
+    this.otherListCount$ = this.wishesListQuery.selectCount(list => !list.owner);
     this.loading$ = this.wishesListQuery.selectLoading();
   }
 
