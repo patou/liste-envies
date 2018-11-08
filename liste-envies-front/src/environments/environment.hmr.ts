@@ -14,12 +14,12 @@ export const environment = {
     messagingSenderId: '783555297093'
   }*/
   firebaseConfig: {
-    apiKey: 'AIzaSyAnVr5QyMUxWmQ3Pu_EpKPuDRuT851MqzI',
-    authDomain: 'test-liste-envies.firebaseapp.com',
-    databaseURL: 'https://test-liste-envies.firebaseio.com',
-    projectId: 'test-liste-envies',
-    storageBucket: 'test-liste-envies.appspot.com',
-    messagingSenderId: '424684618174'
+    apiKey: "AIzaSyAnVr5QyMUxWmQ3Pu_EpKPuDRuT851MqzI",
+    authDomain: "test-liste-envies.firebaseapp.com",
+    databaseURL: "https://test-liste-envies.firebaseio.com",
+    projectId: "test-liste-envies",
+    storageBucket: "test-liste-envies.appspot.com",
+    messagingSenderId: "424684618174"
   },
   hmr: true
 };

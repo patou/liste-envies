@@ -1,5 +1,10 @@
-
-
-<!-- -->
-<quill-editor [ngModel]="content" (ngModelChange)="contentChange.emit($event)" theme="snow" placeholder="Remplir une description" [style]="{height: '250px'}" [modules]="modulesToolbar">
+<!---->
+<quill-editor
+  [ngModel]="content"
+  (ngModelChange)="contentChange.emit($event)"
+  theme="snow"
+  placeholder="Remplir une description"
+  [style]="{ height: '250px' }"
+  [modules]="modulesToolbar"
+>
 </quill-editor>

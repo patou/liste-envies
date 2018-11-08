@@ -1,5 +1,5 @@
-import {ID} from '@datorama/akita';
-import {OwnersEntity, WishListType} from '../../models/WishList';
+import { ID } from "@datorama/akita";
+import { OwnersEntity, WishListType } from "../../models/WishList";
 
 export interface WishesList {
   id: ID;
@@ -11,7 +11,7 @@ export interface WishesList {
   picture?: string;
   type?: WishListType;
   date?: number | null;
-  privacy?: 'PRIVATE' | 'OPEN' | 'PUBLIC';
+  privacy?: "PRIVATE" | "OPEN" | "PUBLIC";
   forceAnonymus?: boolean;
   state?: string;
   owner?: boolean;

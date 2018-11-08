@@ -5,7 +5,7 @@ import {TestingModule} from '../../testing/testing.module';
 import {WishListApiService} from '../../service/wish-list-api.service';
 import {WishListServiceTest} from '../../service/wish-list-service-test';
 
-describe('HomeComponent', () => {
+describe("HomeComponent", () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
 
@@ -14,8 +14,7 @@ describe('HomeComponent', () => {
       declarations: [ HomeComponent ],
       providers: [{provide: WishListApiService, useClass: WishListServiceTest}],
       imports: [TestingModule]
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -24,7 +23,7 @@ describe('HomeComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

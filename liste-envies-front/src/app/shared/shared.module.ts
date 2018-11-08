@@ -1,34 +1,44 @@
-import { environment } from '../../environments/environment';
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
-import { MaterialModule } from '../../shared/material.module';
+import { environment } from "../../environments/environment";
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { HttpClientModule } from "@angular/common/http";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { BrowserModule } from "@angular/platform-browser";
+import { MaterialModule } from "../../shared/material.module";
 
-import { RatingComponent } from './rating/rating.component';
-import { FlipCardComponent } from './flip-card/flip-card.component';
-import { HtmlEditorComponent } from './html-editor/html-editor.component';
-import { QuillModule } from 'ngx-quill';
-import { LinksFormComponent } from './links-form/links-form.component';
-import { ListTypeIcon } from './list-type-icon/list-type-icon.component';
+import { RatingComponent } from "./rating/rating.component";
+import { FlipCardComponent } from "./flip-card/flip-card.component";
+import { HtmlEditorComponent } from "./html-editor/html-editor.component";
+import { QuillModule } from "ngx-quill";
+import { LinksFormComponent } from "./links-form/links-form.component";
+import { ListTypeIcon } from "./list-type-icon/list-type-icon.component";
 
-import { SWIPER_CONFIG, SwiperConfigInterface, SwiperModule } from 'ngx-swiper-wrapper';
-import { AuthService } from '../service/auth.service';
-import { AuthMethods, AuthProvider as AuthProviderUi, CredentialHelper, FirebaseUIAuthConfig, FirebaseUIModule } from './firebaseui';
-import { AvatarModule } from 'ngx-avatar';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { LatinizePipe, NgPipesModule } from 'ng-pipes';
-import { WishListItemComponent } from './wish-list-item/wish-list-item.component';
-import { RouterModule } from '@angular/router';
-import {AngularFireModule} from '@angular/fire';
-import {AngularFireAuthModule} from '@angular/fire/auth';
+import {
+  SWIPER_CONFIG,
+  SwiperConfigInterface,
+  SwiperModule
+} from "ngx-swiper-wrapper";
+import { AuthService } from "../service/auth.service";
+import {
+  AuthMethods,
+  AuthProvider as AuthProviderUi,
+  CredentialHelper,
+  FirebaseUIAuthConfig,
+  FirebaseUIModule
+} from "./firebaseui";
+import { AvatarModule } from "ngx-avatar";
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { LatinizePipe, NgPipesModule } from "ng-pipes";
+import { WishListItemComponent } from "./wish-list-item/wish-list-item.component";
+import { RouterModule } from "@angular/router";
+import { AngularFireModule } from "@angular/fire";
+import { AngularFireAuthModule } from "@angular/fire/auth";
 
 /*import { Ng2GridDirective } from './ng2-grid/ng2-grid.directive';*/
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
-  direction: 'horizontal',
+  direction: "horizontal",
   slidesPerView: 1,
   navigation: true,
   pagination: false
@@ -63,7 +73,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     AngularFireAuthModule,
     FlexLayoutModule,
     FirebaseUIModule.forRoot(firebaseUiAuthConfig),
-    RouterModule,
+    RouterModule
   ],
   declarations: [
     RatingComponent,
@@ -71,7 +81,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     HtmlEditorComponent,
     LinksFormComponent,
     WishListItemComponent,
-    ListTypeIcon,
+    ListTypeIcon
   ],
   exports: [
     CommonModule,
@@ -92,7 +102,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     FlexLayoutModule,
     SwiperModule,
     ListTypeIcon,
-    WishListItemComponent,
+    WishListItemComponent
   ],
   providers: [
     {
@@ -100,7 +110,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
       useValue: DEFAULT_SWIPER_CONFIG
     },
     AuthService,
-    LatinizePipe,
+    LatinizePipe
   ]
 })
-export class SharedModule { }
+export class SharedModule {}

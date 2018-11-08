@@ -1,75 +1,105 @@
-<h1>
-    Créer une nouvelle liste
-</h1>
+<h1>Créer une nouvelle liste</h1>
 <mat-horizontal-stepper [linear]="isLinear" #stepper="matHorizontalStepper">
   <mat-step [stepControl]="nameFormGroup">
     <ng-template matStepLabel>Entrer un nom pour votre liste</ng-template>
     <form class="grid form">
       <div class="row">
         <div class="col-6 grid--between">
-          <mat-form-field class="col-12 field"  appearance="outline">
+          <mat-form-field class="col-12 field" appearance="outline">
             <mat-label>Titre</mat-label>
-            <input matInput [(ngModel)]="wishList.title" placeholder="Liste pour ..." name="title" required (ngModelChange)="changeName($event)" />
+            <input
+              matInput
+              [(ngModel)]="wishList.title"
+              placeholder="Liste pour ..."
+              name="title"
+              required
+              (ngModelChange)="changeName($event)"
+            />
           </mat-form-field>
-          <mat-form-field class="col-12 field"  appearance="outline">
+          <mat-form-field class="col-12 field" appearance="outline">
             <mat-label>Type d'événements</mat-label>
-            <span matPrefix><list-type-icon [type]="wishList.type"></list-type-icon></span>
-            <mat-select [(value)]="wishList.type" placeholder="Pour quel évènement ?" name="type" (selectionChange)="onChanges($event)">
+            <span matPrefix
+              ><list-type-icon [type]="wishList.type"></list-type-icon
+            ></span>
+            <mat-select
+              [(value)]="wishList.type"
+              placeholder="Pour quel évènement ?"
+              name="type"
+              (selectionChange)="onChanges($event)"
+            >
               <mat-option value="OTHER" selected>Autre</mat-option>
               <mat-option value="CHRISTMAS">Noël</mat-option>
               <mat-option value="BIRTHDAY">Anniversaire</mat-option>
               <mat-option value="BIRTH">Liste de naissance</mat-option>
               <mat-option value="WEDDING">Liste de mariage</mat-option>
               <mat-option value="LEAVING">Liste pour un départ</mat-option>
-              <mat-option value="SPECIAL_OCCASION">Occasion spéciale</mat-option>
+              <mat-option value="SPECIAL_OCCASION"
+                >Occasion spéciale</mat-option
+              >
             </mat-select>
           </mat-form-field>
 
-          <mat-form-field class="col-12 field"  appearance="outline">
+          <mat-form-field class="col-12 field" appearance="outline">
             <mat-label>Url de la liste</mat-label>
             <span matPrefix>https://liste-envie.desaintsteban.fr/</span>
-            <input matInput type="text" name="id" [ngModel]="wishList.name"  (ngModelChange)="onChanges($event)" />
+            <input
+              matInput
+              type="text"
+              name="id"
+              [ngModel]="wishList.name"
+              (ngModelChange)="onChanges($event)"
+            />
           </mat-form-field>
-
         </div>
         <div class="col-6">
-          <app-html-editor #description [(content)]="wishList.description"
-                           placeholder="Description de l'envie" name="description" (contentChange)="onChanges($event)"></app-html-editor>
-          <mat-hint>Vous pouvez donner plus de details sur votre liste.</mat-hint>
-
+          <app-html-editor
+            #description
+            [(content)]="wishList.description"
+            placeholder="Description de l'envie"
+            name="description"
+            (contentChange)="onChanges($event)"
+          ></app-html-editor>
+          <mat-hint
+            >Vous pouvez donner plus de details sur votre liste.</mat-hint
+          >
         </div>
       </div>
-
-
     </form>
-    <div>
-      <button mat-button matStepperNext>Suivant</button>
-    </div>
+    <div><button mat-button matStepperNext>Suivant</button></div>
   </mat-step>
   <mat-step [stepControl]="secondFormGroup">
-    <form >
+    <form>
       <ng-template matStepLabel>Partager la liste à : </ng-template>
       <form class="grid ">
         <div class="row">
           <div class="col6 grid--between">
-
             <div class="col-12">
               <mat-label>Privacy</mat-label>
-              <mat-radio-group  [(ngModel)]="wishList.privacy" name="privacy" (ngModelChange)="onChangesPrivacy($event)">
-                <mat-radio-button value="PRIVATE">Limité / Privé</mat-radio-button>
-                <mat-radio-button value="OPEN">Ouvert / connecté</mat-radio-button>
-                <mat-radio-button value="PUBLIC">Libre / Publique</mat-radio-button>
+              <mat-radio-group
+                [(ngModel)]="wishList.privacy"
+                name="privacy"
+                (ngModelChange)="onChangesPrivacy($event)"
+              >
+                <mat-radio-button value="PRIVATE"
+                  >Limité / Privé</mat-radio-button
+                >
+                <mat-radio-button value="OPEN"
+                  >Ouvert / connecté</mat-radio-button
+                >
+                <mat-radio-button value="PUBLIC"
+                  >Libre / Publique</mat-radio-button
+                >
               </mat-radio-group>
             </div>
 
             <div class="col-12">
               <mat-checkbox
                 [(ngModel)]="wishList.forceAnonymus"
-                [labelPosition]="left">
+                [labelPosition]="left"
+              >
                 Force anonyme
               </mat-checkbox>
             </div>
-
           </div>
           <div class="col6 grid--between">
             <mat-form-field appearance="outline">
@@ -77,12 +107,7 @@
             </mat-form-field>
           </div>
         </div>
-
-
-
-
       </form>
-
 
       <div>
         <button mat-button matStepperPrevious>Back</button>
@@ -95,21 +120,20 @@
 
     <form class="grid--between">
       <div class="col6 grid--between">
-
         <mat-form-field>
           <mat-label>Thème </mat-label>
-          <input matInput placeholder="Images personnalisé d'arrières plan" name="pictures" />
+          <input
+            matInput
+            placeholder="Images personnalisé d'arrières plan"
+            name="pictures"
+          />
         </mat-form-field>
-
       </div>
       <div class="col6 grid--between">
         <mat-form-field appearance="outline">
           <input matInput placeholder="Email" required name="email" />
         </mat-form-field>
       </div>
-
-
-
     </form>
 
     <div>
@@ -120,11 +144,14 @@
 </mat-horizontal-stepper>
 <mat-divider></mat-divider>
 <mat-toolbar color="primary">
-  <span>Aperçut de la liste</span>
-  <span class="toolbar-spacer"></span>
+  <span>Aperçut de la liste</span> <span class="toolbar-spacer"></span>
 
   <span>En tant que</span>
-  <mat-button-toggle-group #previewAs="matButtonToggleGroup" [value]="previewAs" (change)="onChangePreview($event)">
+  <mat-button-toggle-group
+    #previewAs="matButtonToggleGroup"
+    [value]="previewAs"
+    (change)="onChangePreview($event)"
+  >
     <mat-button-toggle value="OWNER">
       <mat-icon>format_align_left</mat-icon> Propriétaire
     </mat-button-toggle>
@@ -138,4 +165,3 @@
 </mat-toolbar>
 
 <app-list [list]="demoList" [items]="demoWhishs" [demo]="true"></app-list>
-

@@ -7,7 +7,7 @@
   picture?: string;
   type?: WishListType;
   date?: number | null;
-  privacy?: 'PRIVATE' | 'OPEN' | 'PUBLIC';
+  privacy?: "PRIVATE" | "OPEN" | "PUBLIC";
   forceAnonymus?: boolean;
   state?: string;
   owner?: boolean;
@@ -20,7 +20,9 @@ export interface OwnersEntity {
 }
 
 export enum WishListPrivacy {
-  PRIVATE, OPEN, PUBLIC
+  PRIVATE,
+  OPEN,
+  PUBLIC
 }
 
 export enum WishListType {

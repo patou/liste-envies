@@ -1,8 +1,8 @@
-import {LOCALE_ID, NgModule} from '@angular/core';
-import {registerLocaleData} from '@angular/common';
-import localeFr from '@angular/common/locales/fr';
+import { LOCALE_ID, NgModule } from "@angular/core";
+import { registerLocaleData } from "@angular/common";
+import localeFr from "@angular/common/locales/fr";
 
-import {AppRoutingModule} from './app-routing.module';
+import { AppRoutingModule } from "./app-routing.module";
 
 import {AppComponent} from './app.component';
 import {PageComponent} from './component/page/page.component';
@@ -31,7 +31,7 @@ import {environment} from '../environments/environment';
 import {enableAkitaProdMode} from '@datorama/akita';
 
 // the second parameter 'fr' is optional
-registerLocaleData(localeFr, 'fr');
+registerLocaleData(localeFr, "fr");
 
 if (environment.production) {
   enableAkitaProdMode();
@@ -48,7 +48,7 @@ if (environment.production) {
     WishEditComponent,
     AddListComponent,
     LoginDialogComponent,
-    PageNavComponent,
+    PageNavComponent
   ],
   imports: [
     AppRoutingModule,
@@ -73,12 +73,9 @@ if (environment.production) {
     WishListResolver,
     WishListItemsResolver,
     DemoWishListService,
-    { provide: LOCALE_ID, useValue: 'fr' }
+    { provide: LOCALE_ID, useValue: "fr" }
   ],
-  entryComponents: [
-    WishEditComponent,
-    LoginDialogComponent
-  ],
-  bootstrap: [ AppComponent ]
+  entryComponents: [WishEditComponent, LoginDialogComponent],
+  bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

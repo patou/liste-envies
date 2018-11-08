@@ -1,34 +1,51 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FocusMonitor } from '@angular/cdk/a11y';
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { MatFormFieldControl } from '@angular/material';
-import { Subject } from 'rxjs/Subject';
-import { FormBuilder } from '@angular/forms';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from "@angular/core";
+import { FocusMonitor } from "@angular/cdk/a11y";
+import { coerceBooleanProperty } from "@angular/cdk/coercion";
+import { MatFormFieldControl } from "@angular/material";
+import { Subject } from "rxjs/Subject";
+import { FormBuilder } from "@angular/forms";
 
 @Component({
-  selector: 'app-rating',
-  template: `<span class="rating" [ngClass]="{pointer:!readonly}"><mat-icon *ngFor="let rate of [1,2,3,4,5]" (click)="selectStar(rate)">{{rate <= value ? 'favorite' : 'favorite_border'}}</mat-icon><mat-icon *ngIf="!readonly" (click)="selectStar(undefined)" class="light">close</mat-icon></span>`,
-  styles: [`
-  .rating {
-    display: flex;
-  }
-  .light {
-    color: #eee;
-  }
-  .pointer {
-    cursor: pointer;
-  }
-  `],
-  providers: [{provide: MatFormFieldControl, useExisting: RatingComponent}]
+  selector: "app-rating",
+  template: `
+    <span class="rating" [ngClass]="{ pointer: !readonly }"
+      ><mat-icon
+        *ngFor="let rate of [1, 2, 3, 4, 5]"
+        (click)="selectStar(rate)"
+        >{{ rate <= value ? "favorite" : "favorite_border" }}</mat-icon
+      ><mat-icon *ngIf="!readonly" (click)="selectStar(undefined)" class="light"
+        >close</mat-icon
+      ></span
+    >
+  `,
+  styles: [
+    `
+      .rating {
+        display: flex;
+      }
+      .light {
+        color: #eee;
+      }
+      .pointer {
+        cursor: pointer;
+      }
+    `
+  ],
+  providers: [{ provide: MatFormFieldControl, useExisting: RatingComponent }]
 })
 export class RatingComponent implements MatFormFieldControl<number>, OnInit {
-
   static nextId = 0;
 
   @Input()
   value: number;
   @Output() valueChange = new EventEmitter();
-
 
   stateChanges = new Subject<void>();
 
@@ -38,9 +55,9 @@ export class RatingComponent implements MatFormFieldControl<number>, OnInit {
 
   errorState = false;
 
-  controlType = 'my-tel-input';
+  controlType = "my-tel-input";
 
-  id = 'rating';
+  id = "rating";
 
   get empty() {
     return !this.value;
@@ -50,7 +67,7 @@ export class RatingComponent implements MatFormFieldControl<number>, OnInit {
     return true;
   }
 
-  describedBy = '';
+  describedBy = "";
 
   @Input()
   get placeholder() {
@@ -93,7 +110,7 @@ export class RatingComponent implements MatFormFieldControl<number>, OnInit {
   private _readonly = false;
 
   constructor(private fm: FocusMonitor, private elRef: ElementRef) {
-    fm.monitor(elRef.nativeElement, true).subscribe((origin) => {
+    fm.monitor(elRef.nativeElement, true).subscribe(origin => {
       this.focused = !!origin;
       this.stateChanges.next();
     });
@@ -105,15 +122,12 @@ export class RatingComponent implements MatFormFieldControl<number>, OnInit {
   }
 
   setDescribedByIds(ids: string[]) {
-    this.describedBy = ids.join(' ');
+    this.describedBy = ids.join(" ");
   }
 
-  onContainerClick(event: MouseEvent) {
+  onContainerClick(event: MouseEvent) {}
 
-  }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   selectStar(rate: number) {
     if (!this._readonly) {
@@ -121,5 +135,4 @@ export class RatingComponent implements MatFormFieldControl<number>, OnInit {
       this.valueChange.emit(rate);
     }
   }
-
 }

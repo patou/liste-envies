@@ -1,26 +1,45 @@
 import { Input, Component } from "@angular/core";
 
 @Component({
-  selector: 'list-type-icon',
+  selector: "list-type-icon",
   template: `
-  <ng-container [ngSwitch]="type">
-
-  <span *ngSwitchCase="'CHRISTMAS'"><mat-icon fontSet="fa" fontIcon="fa-tree"></mat-icon></span>
-  <span *ngSwitchCase="'BIRTHDAY'"><mat-icon fontSet="fa" fontIcon="fa-birthday-cake"></mat-icon></span>
-  <span *ngSwitchCase="'WEDDING'"><mat-icon fontSet="fa" fontIcon="fa-heart"></mat-icon></span>
-  <span *ngSwitchCase="'LEAVING'"><mat-icon fontSet="fa" fontIcon="fa-plane"></mat-icon></span>
-  <span *ngSwitchCase="'SPECIAL_OCCASION'"><mat-icon fontSet="fa" fontIcon="fa-magic"></mat-icon></span>
-  <span *ngSwitchCase="'BIRTH'"><mat-icon fontSet="fa" fontIcon="fa-child"></mat-icon></span>
-  <span *ngSwitchCase="'HOUSE_WARNING'"><mat-icon fontSet="fa" fontIcon="fa-home"></mat-icon></span>
-  <span *ngSwitchCase="'RETIREMENT'"><mat-icon fontSet="fa" fontIcon="fa-globe"></mat-icon></span>
-  <span *ngSwitchDefault><mat-icon fontSet="fa" fontIcon="fa-gift"></mat-icon></span>
-  </ng-container>
+    <ng-container [ngSwitch]="type">
+      <span *ngSwitchCase="'CHRISTMAS'"
+        ><mat-icon fontSet="fa" fontIcon="fa-tree"></mat-icon
+      ></span>
+      <span *ngSwitchCase="'BIRTHDAY'"
+        ><mat-icon fontSet="fa" fontIcon="fa-birthday-cake"></mat-icon
+      ></span>
+      <span *ngSwitchCase="'WEDDING'"
+        ><mat-icon fontSet="fa" fontIcon="fa-heart"></mat-icon
+      ></span>
+      <span *ngSwitchCase="'LEAVING'"
+        ><mat-icon fontSet="fa" fontIcon="fa-plane"></mat-icon
+      ></span>
+      <span *ngSwitchCase="'SPECIAL_OCCASION'"
+        ><mat-icon fontSet="fa" fontIcon="fa-magic"></mat-icon
+      ></span>
+      <span *ngSwitchCase="'BIRTH'"
+        ><mat-icon fontSet="fa" fontIcon="fa-child"></mat-icon
+      ></span>
+      <span *ngSwitchCase="'HOUSE_WARNING'"
+        ><mat-icon fontSet="fa" fontIcon="fa-home"></mat-icon
+      ></span>
+      <span *ngSwitchCase="'RETIREMENT'"
+        ><mat-icon fontSet="fa" fontIcon="fa-globe"></mat-icon
+      ></span>
+      <span *ngSwitchDefault
+        ><mat-icon fontSet="fa" fontIcon="fa-gift"></mat-icon
+      ></span>
+    </ng-container>
   `,
-  styles: [`
-  :host {
-    margin: 5px;
-  }
-  `]
+  styles: [
+    `
+      :host {
+        margin: 5px;
+      }
+    `
+  ]
 })
 export class ListTypeIcon {
   @Input("type")

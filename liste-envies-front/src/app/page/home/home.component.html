@@ -1,19 +1,26 @@
 <div class="page-background">
-
   <mat-card class="header-page-card">
     <section class="mat-typography">
-      <div *ngIf="userAuth | async as user; else showLogin">
-        <h1>Bonjour, {{ user.displayName }}! Bienvenue sur votre liste des envies</h1>
+      <div *ngIf="(userAuth | async) as user; else: showLogin">
+        <h1>
+          Bonjour, {{ user.displayName }}! Bienvenue sur votre liste des envies
+        </h1>
       </div>
       <ng-template #showLogin>
         <h1>Bonjour, Bienvenue sur la liste de vos envies</h1>
-        <p>La liste d'envies qui vous permets de partager vos envies de cadeaux avec vos proches,
-          Ceux ci peuvent indiquer quels cadeaux ils souhaites vous offrir et ce mettre d'accord entre eux,
-          (pour ne pas offrir le même), mais sans que vous ne soyez informé, pour garder la surprise le jour J.</p>
-        <p>Vous pouvez vous connecter / ou créer un compte pour commencer à créer votre liste.</p>
-        <a mat-raised-button color="primary" (click)="connect()" >Connexion</a>
+        <p>
+          La liste d'envies qui vous permets de partager vos envies de cadeaux
+          avec vos proches, Ceux ci peuvent indiquer quels cadeaux ils souhaites
+          vous offrir et ce mettre d'accord entre eux, (pour ne pas offrir le
+          même), mais sans que vous ne soyez informé, pour garder la surprise le
+          jour J.
+        </p>
+        <p>
+          Vous pouvez vous connecter / ou créer un compte pour commencer à créer
+          votre liste.
+        </p>
+        <a mat-raised-button color="primary" (click)="connect()">Connexion</a>
       </ng-template>
-
     </section>
   </mat-card>
 
@@ -23,8 +30,12 @@
 
     </button>
   </span>
-  <div class="whishList-Container" *ngIf="!(loading$ | async); else loading">
-    <wish-list-item class="wishListCard" *ngFor="let wishList of (list$ | async)" [wishlist]="wishList">
+  <div class="whishList-Container" *ngIf="!(loading$ | async); else: loading">
+    <wish-list-item
+      class="wishListCard"
+      *ngFor="let wishList of (list$ | async)"
+      [wishlist]="wishList"
+    >
     </wish-list-item>
   </div>
   <ng-template #loading>
