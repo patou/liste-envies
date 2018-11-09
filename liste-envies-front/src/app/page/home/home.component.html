@@ -25,24 +25,30 @@
   </mat-card>
 
   <span class="done">
-    <button mat-fab matTooltip="Créer une nouvelle liste d'envies" matTooltipPosition="left" routerLink="/addList">
+    <button
+      mat-fab
+      matTooltip="Créer une nouvelle liste d'envies"
+      matTooltipPosition="left"
+      routerLink="/addList"
+    >
       <mat-icon>playlist_add</mat-icon>
-
     </button>
   </span>
-  <div class="whishList-Container" *ngIf="!(loading$ | async); else: loading">
-    <wish-list-item
-      class="wishListCard"
-      *ngFor="let wishList of (list$ | async)"
-      [wishlist]="wishList"
-    >
-    </wish-list-item>
-  </div>
+    <mat-grid-list  *ngIf="!(loading$ | async); else: loading"
+                    cols="3" rowHeight="80" gutterSize="4"
+                    class="whishList-Container">
+      <mat-grid-tile *ngFor="let wishList of (list$ | async)">
+        <wish-list-item
+          class="wishListCard"
+          [wishlist]="wishList"
+        >
+        </wish-list-item>
+      </mat-grid-tile>
+    </mat-grid-list>
+
   <ng-template #loading>
     <div fxLayout="column" fxLayoutAlign="center center">
       <mat-spinner></mat-spinner>
     </div>
   </ng-template>
-
-
 </div>

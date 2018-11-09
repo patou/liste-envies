@@ -30,7 +30,8 @@ import {
   MatTooltipModule,
   MatFormFieldModule,
   MatExpansionModule,
-  MatStepperModule
+  MatStepperModule,
+  MatBadgeModule
 } from "@angular/material";
 
 @NgModule({
@@ -65,7 +66,8 @@ import {
     MatTooltipModule,
     MatFormFieldModule,
     MatExpansionModule,
-    MatStepperModule
+    MatStepperModule,
+    MatBadgeModule
   ],
   declarations: [],
   exports: [
@@ -98,7 +100,8 @@ import {
     MatTooltipModule,
     MatFormFieldModule,
     MatExpansionModule,
-    MatStepperModule
+    MatStepperModule,
+    MatBadgeModule
   ]
 })
 export class MaterialModule {}

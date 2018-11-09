@@ -11,8 +11,10 @@ import { LoginDialogComponent } from "../component/login-dialog/login-dialog.com
 import { MatDialog } from "@angular/material";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { AngularFireAuth } from "@angular/fire/auth";
-import { shareReplay } from "rxjs/operators";
+import { pluck, shareReplay } from "rxjs/operators";
 import { WishesListService } from "../state/wishes/wishes-list.service";
+import { UserService } from "../state/app/user.service";
+import { UserQuery } from "../state/app/user.query";
 
 @Injectable()
 export class AuthService implements HttpInterceptor {
@@ -20,26 +22,34 @@ export class AuthService implements HttpInterceptor {
   public static currentToken: string;
 
   public user: Observable<User>;
-  private _userState: BehaviorSubject<User>;
 
   constructor(
     private firebaseAuth: AngularFireAuth,
     public dialog: MatDialog,
-    private wishesList: WishesListService
+    private wishesList: WishesListService,
+    private userService: UserService,
+    private userQuery: UserQuery
   ) {
-    this._userState = new BehaviorSubject(null);
+    this.user = this.userQuery.select().pipe(pluck("user"));
 
-    this.user = this._userState.asObservable();
-
-    firebaseAuth.authState.pipe(shareReplay(1)).subscribe(
+    firebaseAuth.authState.subscribe(
       (user: User) => {
-        console.log("User :", user);
+        console.log("User :", JSON.stringify(user));
         if (user) {
           AuthService.currentUser = user;
           user.getIdToken().then((token: string) => {
             AuthService.currentToken = token;
             // emit change user only when the token id was getting.
-            this._userState.next(AuthService.currentUser);
+            const user1: Partial<User> = {
+              displayName: AuthService.currentUser.displayName,
+              email: AuthService.currentUser.email,
+              phoneNumber: AuthService.currentUser.email,
+              photoURL: AuthService.currentUser.photoURL,
+              providerId: AuthService.currentUser.providerId,
+              uid: AuthService.currentUser.uid
+            };
+
+            this.userService.login(user1, token);
             this.wishesList.get();
           });
         } else {
@@ -49,15 +59,15 @@ export class AuthService implements HttpInterceptor {
       error => {
         console.error("error with loggin :", error);
         this.resetCurrentUser();
-      },
-      () => this._userState.complete()
+      }
     );
   }
 
   private resetCurrentUser() {
     AuthService.currentUser = null;
     AuthService.currentToken = null;
-    this._userState.next(AuthService.currentUser);
+    console.log('resetCurrentUser()');
+    this.userService.logout();
     this.wishesList.get();
   }
 

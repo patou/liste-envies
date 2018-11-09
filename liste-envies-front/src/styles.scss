@@ -69,3 +69,12 @@ firebase-ui .firebaseui-container {
   max-height: 95%;
 }
 
+.content_sidenav mat-expansion-panel {
+  .mat-badge-content.mat-badge-active {
+    top: 1px !important;
+  }
+  .mat-expansion-panel-body {
+    padding: 0 !important;
+  }
+}
+

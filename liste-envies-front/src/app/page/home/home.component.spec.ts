@@ -1,9 +1,9 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import {HomeComponent} from './home.component';
-import {TestingModule} from '../../testing/testing.module';
-import {WishListApiService} from '../../service/wish-list-api.service';
-import {WishListServiceTest} from '../../service/wish-list-service-test';
+import { HomeComponent } from "./home.component";
+import { TestingModule } from "../../testing/testing.module";
+import { WishListApiService } from "../../service/wish-list-api.service";
+import { WishListServiceTest } from "../../service/wish-list-service-test";
 
 describe("HomeComponent", () => {
   let component: HomeComponent;
@@ -11,8 +11,10 @@ describe("HomeComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomeComponent ],
-      providers: [{provide: WishListApiService, useClass: WishListServiceTest}],
+      declarations: [HomeComponent],
+      providers: [
+        { provide: WishListApiService, useClass: WishListServiceTest }
+      ],
       imports: [TestingModule]
     }).compileComponents();
   }));

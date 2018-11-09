@@ -5,73 +5,83 @@
     fixedInViewport="true"
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="!(isHandset$ | async)">
+    [opened]="!(isHandset$ | async)"
+  >
     <mat-toolbar color="primary">Listes </mat-toolbar>
 
-    <div *ngIf="!(loading$ | async); else loading" class="content_sidenav">
+    <div *ngIf="!(loading$ | async); else: loading" class="content_sidenav">
       <mat-accordion multi="true">
-        <mat-expansion-panel expanded="true">
+        <mat-expansion-panel expanded="true" *ngIf="(myListCount$ | async) as myListCount">
           <mat-expansion-panel-header>
-            <mat-panel-title>
-              Mes listes ({{myListCount$ | async}})
+
+            <mat-panel-title  [matBadge]="myListCount" matBadgeColor="accent"  matBadgeSize="medium">
+              Mes listes
             </mat-panel-title>
           </mat-expansion-panel-header>
 
           <mat-nav-list>
-            <wish-list-item *ngFor="let wishList of (myList$ | async)" [wishlist]="wishList" class="wishListCard"
-                            mat-list-item>
+            <wish-list-item
+              *ngFor="let wishList of (myList$ | async)"
+              [wishlist]="wishList"
+              class="wishListCard"
+              mat-list-item
+            >
             </wish-list-item>
           </mat-nav-list>
         </mat-expansion-panel>
-        <mat-expansion-panel expanded="true">
+        <mat-expansion-panel expanded="true" *ngIf="(otherListCount$ | async) as otherListCount" >
           <mat-expansion-panel-header>
-            <mat-panel-title>
-              Autres listes partagées ({{otherListCount$ | async}})
+            <mat-panel-title  [matBadge]="otherListCount" matBadgeColor="accent"  matBadgeSize="medium">
+              Autres listes partagées
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-nav-list>
-            <wish-list-item *ngFor="let wishList of (otherList$ | async)" [wishlist]="wishList" class="wishListCard"
-                            mat-list-item>
+            <wish-list-item
+              *ngFor="let wishList of (otherList$ | async)"
+              [wishlist]="wishList"
+              class="wishListCard"
+              mat-list-item
+            >
             </wish-list-item>
           </mat-nav-list>
         </mat-expansion-panel>
       </mat-accordion>
-
-
     </div>
     <ng-template #loading>
       <div fxLayout="column" fxLayoutAlign="center center">
         <mat-spinner></mat-spinner>
       </div>
     </ng-template>
-
-
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-
-
       <button
         type="button"
         aria-label="Toggle sidenav"
         mat-icon-button
         (click)="drawer.toggle()"
-       >
+      >
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
 
-      <a routerLink="/" class="title" i18n="app title"><span><mat-icon fontSet="fa" fontIcon="fa-gift"></mat-icon></span> Listes de mes envies</a>
+      <a routerLink="/" class="title" i18n="app title"
+        ><span><mat-icon fontSet="fa" fontIcon="fa-gift"></mat-icon></span>
+        Listes de mes envies</a
+      >
 
-
-
-      <div *ngIf="userAuth | async as user; else showLogin">
+      <div *ngIf="(userAuth | async) as user; else: showLogin">
         <button mat-button [mat-menu-trigger-for]="connected">
-        <span >
-          <ngx-avatar [name]="user.displayName" [src]="user.photoURL"
-                      [gravatarId]="user.email"
-                      size="30" [round]="true">
-          </ngx-avatar>
-           {{ user.displayName }}</span>
+          <span>
+            <ngx-avatar
+              [name]="user.displayName"
+              [src]="user.photoURL"
+              [gravatarId]="user.email"
+              size="30"
+              [round]="true"
+            >
+            </ngx-avatar>
+            {{ user.displayName }}</span
+          >
           <mat-icon>arrow_drop_down</mat-icon>
         </button>
       </div>
@@ -81,7 +91,6 @@
           Connexion
         </button>
       </ng-template>
-
     </mat-toolbar>
 
     <mat-menu yPosition="above" xPosition="before" #connected="matMenu">

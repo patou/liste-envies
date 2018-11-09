@@ -1,11 +1,20 @@
+@import '~@angular/material/theming';
+
 .wish-list-item {
   position: relative;
   display: inline-block;
-  box-shadow: 0 13px 18px 0 rgba(0, 0, 0, 0.58), 0 13px 22px 0 rgba(0, 0, 0, 0.12);
-  width: 100%;
+  @include mat-elevation-transition;
+  @include mat-elevation(2);
+
+  &:hover {
+    @include mat-elevation(8);
+  }
+  width: 90%;
+  height: 90%;
   padding: 0.5em;
   background-color: #fff;
   border-radius: 5px;
+  margin: 7px 10px;
 }
 
 .wish-list-item.owner {
@@ -13,8 +22,8 @@
   border-color: #337ab7;
   border-style: solid;
   border-width: 1px;
-  margin: 0px;
-  box-shadow: inset 0px 0px 0px 1px #337ab7, 0 16px 24px 2px rgba(0, 0, 0, 0.45), 0 6px 30px 5px rgba(0, 0, 0, 0.25), 0 8px 10px -5px rgba(0, 0, 0, 0.2) !important;
+  margin: 6px 9px;
+  //box-shadow: inset 0px 0px 0px 1px #337ab7, 0 16px 24px 2px rgba(0, 0, 0, 0.45), 0 6px 30px 5px rgba(0, 0, 0, 0.25), 0 8px 10px -5px rgba(0, 0, 0, 0.2) !important;
 }
 
 .wish-list-item-heading {
