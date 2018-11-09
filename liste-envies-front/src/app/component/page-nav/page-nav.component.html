@@ -40,7 +40,9 @@
 
     </div>
     <ng-template #loading>
-      <mat-spinner></mat-spinner>
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <mat-spinner></mat-spinner>
+      </div>
     </ng-template>
 
 
@@ -70,20 +72,27 @@
                       size="30" [round]="true">
           </ngx-avatar>
            {{ user.displayName }}</span>
-          <mat-icon>more_vert</mat-icon>
+          <mat-icon>arrow_drop_down</mat-icon>
         </button>
       </div>
       <ng-template #showLogin>
         <button mat-button (click)="connect()">
-          <i class="fas fa-sign-in-alt"></i> Connexion
+          <mat-icon>login</mat-icon>
+          Connexion
         </button>
       </ng-template>
 
     </mat-toolbar>
 
     <mat-menu yPosition="above" xPosition="before" #connected="matMenu">
-      <button mat-menu-item (click)="logout()"><i class="fab sign-in-alt"></i> Deconnection </button>
-      <button mat-menu-item ><i class="fas fa-user"></i> Profil</button>
+      <button (click)="logout()" mat-menu-item>
+        <mat-icon>logout</mat-icon>
+        Déconnection
+      </button>
+      <button mat-menu-item>
+        <mat-icon>person</mat-icon>
+        Profil
+      </button>
     </mat-menu>
     <ng-content></ng-content>
   </mat-sidenav-content>

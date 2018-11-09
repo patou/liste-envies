@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 
-import {WishListService} from '../../service/wish-list-service';
+import {WishListApiService} from '../../service/wish-list-api.service';
 import {Observable} from 'rxjs/Observable';
 import {WishList} from '../../models/WishList';
 import {WishItem} from '../../models/WishItem';
@@ -41,7 +41,7 @@ export class ListComponent implements OnInit, OnChanges {
 
   @RouteParams('listId', {observable: false}) public listId: string;
 
-  constructor(private wishListService: WishListService, private route: ActivatedRoute, private auth: AuthService, public dialog: MatDialog) {
+  constructor(private wishListService: WishListApiService, private route: ActivatedRoute, private auth: AuthService, public dialog: MatDialog) {
 
   }
 

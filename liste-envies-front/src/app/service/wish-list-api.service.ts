@@ -4,11 +4,11 @@ import {Observable} from 'rxjs/Observable';
 import {WishItem} from '../models/WishItem';
 import {WishList} from '../models/WishList';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Path, GET, POST, PUT, Body, PathParam} from 'ngx-http-annotations';
+import {Body, GET, Path, PathParam, POST, PUT} from 'ngx-http-annotations';
 
 @Injectable()
 @Path('/api/')
-export class WishListService {
+export class WishListApiService {
   private _list$: BehaviorSubject<WishList[]>;
 
   constructor(private http: HttpClient) {

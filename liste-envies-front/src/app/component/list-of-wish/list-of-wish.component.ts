@@ -2,9 +2,8 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {WishItem} from '../../models/WishItem';
 import {transition, trigger, useAnimation} from '@angular/animations';
 import {bounceInLeft, fadeInUp} from 'ng-animate';
-import {WishEditComponent} from '../wish-edit/wish-edit.component';
 import {MatDialog} from '@angular/material';
-import {WishListService} from '../../service/wish-list-service';
+import {WishListApiService} from '../../service/wish-list-api.service';
 
 declare var Macy;
 
@@ -28,7 +27,7 @@ export class ListOfWishComponent implements OnInit, OnChanges {
   public columns = 3;
   public items: WishItem[][] = [];
 
-  constructor(public dialog: MatDialog, public wishApi: WishListService) {
+  constructor(public dialog: MatDialog, public wishApi: WishListApiService) {
   }
 
   ngOnInit() {

@@ -40,23 +40,29 @@
 
 
 .wish-list-item-text {
-  display: block; /* Fallback for non-webkit */
-  display: -webkit-box;
+
   width: 100%;
   min-width: 100%;
-  height: 3em;  /*Fallback for non-webkit */
+
 
   font-size: 0.9em;
-  line-height: 0.8em;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  ngx-avatar {
+    display: inline-block;
+    margin: 0 2px;
+    vertical-align: center;
+  }
 }
 
 .owners {
   word-break: break-all;
   overflow-wrap: break-word;
+  max-width: 40%;
+  max-height: 19px;
 }
 
 .backgroundimg {

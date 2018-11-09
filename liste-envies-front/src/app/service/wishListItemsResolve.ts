@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
 
-import {WishListService} from './wish-list-service';
+import {WishListApiService} from './wish-list-api.service';
 import {Observable} from 'rxjs/Observable';
 import {WishItem} from '../models/WishItem';
 
@@ -9,7 +9,7 @@ import {WishItem} from '../models/WishItem';
 export class WishListItemsResolver implements Resolve<WishItem[]> {
 
 
-  constructor(private router: Router, private wishListService: WishListService) {
+  constructor(private router: Router, private wishListService: WishListApiService) {
   }
 
   resolve(

@@ -1,10 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Owner, UrlsEntity, WishItem} from '../../models/WishItem';
+import {WishItem} from '../../models/WishItem';
 import {SwiperConfigInterface} from 'ngx-swiper-wrapper';
 import {WishEditComponent} from '../wish-edit/wish-edit.component';
 import {MatDialog} from '@angular/material';
 import {transition, trigger, useAnimation} from '@angular/animations';
-import {WishListService} from '../../service/wish-list-service';
+import {WishListApiService} from '../../service/wish-list-api.service';
 import {bounceInUp} from 'ng-animate';
 
 @Component({
@@ -36,7 +36,8 @@ export class WishCardComponent implements OnInit {
     // }
   };
 
-  constructor(public dialog: MatDialog, public wishApi: WishListService) { }
+  constructor(public dialog: MatDialog, public wishApi: WishListApiService) {
+  }
 
   ngOnInit() {
   }

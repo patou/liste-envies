@@ -9,7 +9,7 @@ import {PageComponent} from './component/page/page.component';
 import {HomeComponent} from './page/home/home.component';
 import {SharedModule} from './shared/shared.module';
 import {ListComponent} from './page/list/list.component';
-import {WishListService} from './service/wish-list-service';
+import {WishListApiService} from './service/wish-list-api.service';
 import {WishCardComponent} from './component/wish-card/wish-card.component';
 import {ListOfWishComponent} from './component/list-of-wish/list-of-wish.component';
 import {WishEditComponent} from './component/wish-edit/wish-edit.component';
@@ -69,7 +69,7 @@ if (environment.production) {
       useClass: AuthService,
       multi: true
     },
-    WishListService,
+    WishListApiService,
     WishListResolver,
     WishListItemsResolver,
     DemoWishListService,
