@@ -5,6 +5,7 @@
   "scripts": {
     "ng": "ng",
     "prettier": "prettier --write \"**/*.{js,json,css,md,ts,html,component.html}\" !**/documentation/**",
+    "precommit": "lint-staged",
     "start": "ng serve --proxy-config proxy-config.local.json",
     "serve": "ng serve --proxy-config proxy-config.dist.json --port 4242",
     "serve-prod": "ng serve --proxy-config proxy-config.dist.json --port 4240 --prod",
@@ -81,15 +82,11 @@
     "lint-staged": "8.0.4",
     "node-sass": "^4.10.0",
     "prettier": "1.15.1",
+    "pretty-quick": "^1.8.0",
     "protractor": "~5.3.2",
     "ts-node": "~7.0.1",
     "tslint": "~5.11.0",
     "typescript": "~3.1.6"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "*.{js,json,css,md,ts,html,component.html}": [
