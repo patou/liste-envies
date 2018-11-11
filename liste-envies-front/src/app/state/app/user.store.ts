@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Store, StoreConfig } from "@datorama/akita";
-import {User, UserInfo} from 'firebase';
+import { User, UserInfo } from "firebase";
 
 export interface UserState {
   user: UserInfo;
@@ -16,7 +16,7 @@ export function createInitialState(): UserState {
 
 @Injectable({ providedIn: "root" })
 @StoreConfig({ name: "user" })
-export class UserStore extends Store<UserInfo> {
+export class UserStore extends Store<UserState> {
   constructor() {
     super(createInitialState());
   }

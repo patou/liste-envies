@@ -1,12 +1,8 @@
-import { ID } from "@datorama/akita";
-
-export interface Wish {
-  id: ID;
-}
+import { WishItem } from "../../models/WishItem";
 
 /**
  * A factory function that creates Wish
  */
-export function createWish(params: Partial<Wish>) {
-  return {} as Wish;
+export function createWish(params: Partial<WishItem>) {
+  return {} as WishItem;
 }

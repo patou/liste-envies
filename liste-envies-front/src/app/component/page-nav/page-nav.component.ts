@@ -5,7 +5,7 @@ import { AuthService } from "../../service/auth.service";
 import * as firebase from "firebase";
 import { Observable } from "rxjs/Observable";
 import { WishesListQuery } from "../../state/wishes/wishes-list.query";
-import { WishesList } from "../../state/wishes/wishes-list.model";
+import { WishList } from "../../models/WishList";
 
 @Component({
   selector: "app-page-nav",
@@ -19,8 +19,8 @@ export class PageNavComponent implements OnInit {
 
   public userAuth: Observable<firebase.User>;
 
-  private myList$: Observable<WishesList[]>;
-  private otherList$: Observable<WishesList[]>;
+  private myList$: Observable<WishList[]>;
+  private otherList$: Observable<WishList[]>;
   private myListCount$: Observable<number>;
   private otherListCount$: Observable<number>;
   private loading$: Observable<boolean>;

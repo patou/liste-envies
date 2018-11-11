@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { WishList } from "../../models/WishList";
-import { WishesList } from "../../state/wishes/wishes-list.model";
 
 @Component({
   selector: "wish-list-item",
@@ -9,7 +8,7 @@ import { WishesList } from "../../state/wishes/wishes-list.model";
 })
 export class WishListItemComponent implements OnInit {
   @Input()
-  wishlist: WishesList;
+  wishlist: WishList;
 
   constructor() {}
 

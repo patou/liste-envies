@@ -1,12 +1,12 @@
 import { Injectable } from "@angular/core";
 import { EntityState, EntityStore, StoreConfig } from "@datorama/akita";
-import { WishesList } from "./wishes-list.model";
+import { WishList } from "../../models/WishList";
 
-export interface WishesListState extends EntityState<WishesList> {}
+export interface WishesListState extends EntityState<WishList> {}
 
 @Injectable({ providedIn: "root" })
 @StoreConfig({ name: "wishesList", idKey: "name" })
-export class WishesListStore extends EntityStore<WishesListState, WishesList> {
+export class WishesListStore extends EntityStore<WishesListState, WishList> {
   constructor() {
     super();
   }

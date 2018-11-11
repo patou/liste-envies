@@ -17,6 +17,10 @@ import * as firebase from "firebase";
 import { RouteData, RouteParams } from "angular-xxl";
 import { WishEditComponent } from "../../component/wish-edit/wish-edit.component";
 import { MatDialog } from "@angular/material";
+import { WishQuery } from "../../state/wishes/wish.query";
+import { pluck } from "rxjs/operators";
+import { WishState } from "../../state/wishes/wish.store";
+import { WishService } from "../../state/wishes/wish.service";
 
 @Component({
   selector: "app-list",
@@ -25,11 +29,11 @@ import { MatDialog } from "@angular/material";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListComponent implements OnInit, OnChanges {
-  @RouteData("whishesItems")
-  list$: Observable<WishItem[]>;
+  listItems: WishItem[];
 
-  @RouteData("whishList", { observable: false })
-  whishList: WishList;
+  whishList$: Observable<WishList>;
+
+  loading$: Observable<boolean>;
 
   @Input("list")
   list: WishList;
@@ -45,19 +49,33 @@ export class ListComponent implements OnInit, OnChanges {
   @RouteParams("listId", { observable: false }) public listId: string;
 
   constructor(
-    private wishListService: WishListApiService,
+    private wishListService: WishService,
+    private wishListApiService: WishListApiService,
     private route: ActivatedRoute,
     private auth: AuthService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private wishQuery: WishQuery
   ) {}
 
   ngOnInit() {
     this.userAuth = this.auth.user;
 
     if (this.demo) {
-      this.list$ = this.items;
+      this.items.subscribe((items: WishItem[]) => {
+        console.log("items :", items);
+        this.listItems = items;
+      });
       return;
     }
+
+    this.whishList$ = this.wishQuery
+      .select()
+      .pipe(pluck<WishState, WishList>("wishList"));
+    this.wishQuery.selectAll().subscribe((items: WishItem[]) => {
+      console.log("items :", items);
+      this.listItems = items;
+    });
+    this.loading$ = this.wishQuery.selectLoading();
 
     // if no demo, do the following
 
@@ -70,9 +88,7 @@ export class ListComponent implements OnInit, OnChanges {
   private loadList() {
     if (this.demo) return;
 
-    this.list$ = this.wishListService.wishes(
-      this.route.snapshot.params["listId"]
-    );
+    this.wishListService.get(this.route.snapshot.params["listId"]);
   }
 
   addWish() {
@@ -90,7 +106,7 @@ export class ListComponent implements OnInit, OnChanges {
       .subscribe((result: WishItem) => {
         console.log("The dialog was closed");
         if (result) {
-          this.wishListService
+          this.wishListApiService
             .createWish(this.listId, result)
             .subscribe((Wish: WishItem) => {
               // todo juste add to list rather than reload all.
@@ -102,6 +118,6 @@ export class ListComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log("On change :", changes);
-    this.whishList = changes.list.currentValue;
+    this.whishList$ = changes.list.currentValue;
   }
 }
