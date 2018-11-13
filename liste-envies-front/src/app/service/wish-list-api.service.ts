@@ -1,10 +1,18 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
-import { WishItem } from "../models/WishItem";
+import { WishComment, WishItem } from "../models/WishItem";
 import { WishList } from "../models/WishList";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
-import { Body, GET, Path, PathParam, POST, PUT } from "ngx-http-annotations";
+import {
+  Body,
+  GET,
+  Path,
+  PathParam,
+  POST,
+  PUT,
+  DELETE
+} from "ngx-http-annotations";
 
 @Injectable()
 @Path("/api/")
@@ -77,7 +85,35 @@ export class WishListApiService {
   give(
     @PathParam("name") name: string,
     @PathParam("id") id: number
-  ): Observable<WishList> {
+  ): Observable<WishItem> {
+    return null;
+  }
+
+  @PUT
+  @Path("wishes/:name/archive/:id")
+  archive(
+    @PathParam("name") name: string,
+    @PathParam("id") id: number
+  ): Observable<WishItem> {
+    return null;
+  }
+
+  @DELETE
+  @Path("wishes/:name/:id")
+  delete(
+    @PathParam("name") name: string,
+    @PathParam("id") id: number
+  ): Observable<WishItem> {
+    return null;
+  }
+
+  @POST
+  @Path("wishes/:name/:id/addComment")
+  comment(
+    @PathParam("name") listId: string,
+    @PathParam("id") id: number,
+    @Body note: Partial<WishComment>
+  ): Observable<WishItem> {
     return null;
   }
 }

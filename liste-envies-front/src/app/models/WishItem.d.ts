@@ -19,7 +19,7 @@
   canEdit?: boolean;
   canParticipate?: boolean;
   canSuggest?: boolean;
-  comments?: (null)[] | null;
+  comments?: WishComment[] | null;
   rating?: number;
 }
 export interface Owner {
@@ -29,4 +29,14 @@ export interface Owner {
 export interface UrlsEntity {
   url: string;
   name: string;
+}
+
+export interface WishComment {
+  date?: string;
+  from?: {
+    email?: string;
+    name?: string;
+  };
+  text: string;
+  type?: "PRIVATE" | "PUBLIC";
 }

@@ -6,6 +6,7 @@ import { MatDialog } from "@angular/material";
 import { transition, trigger, useAnimation } from "@angular/animations";
 import { WishListApiService } from "../../service/wish-list-api.service";
 import { bounceInUp } from "ng-animate";
+import { WishService } from "../../state/wishes/wish.service";
 
 @Component({
   selector: "app-wish-card",
@@ -34,7 +35,11 @@ export class WishCardComponent implements OnInit {
     // }
   };
 
-  constructor(public dialog: MatDialog, public wishApi: WishListApiService) {}
+  constructor(
+    public dialog: MatDialog,
+    public wishApi: WishListApiService,
+    private wishService: WishService
+  ) {}
 
   ngOnInit() {}
 
@@ -52,11 +57,7 @@ export class WishCardComponent implements OnInit {
       .subscribe((result: WishItem) => {
         console.log("The dialog was closed");
         if (result) {
-          this.wishApi
-            .updateWish(result.listId, result.id, result)
-            .subscribe((Wish: WishItem) => {
-              this.wishItem = Object.assign({}, Wish);
-            });
+          this.wishService.update(result.id, result);
         } else {
           this.cancelEditWish();
         }
@@ -65,5 +66,28 @@ export class WishCardComponent implements OnInit {
 
   cancelEditWish() {
     this.edit = false;
+  }
+
+  headerClass() {
+    if (this.wishItem.given) {
+      return "header-danger";
+    }
+    if (this.wishItem.allreadyGiven) {
+      return "header-warning";
+    }
+    if (this.wishItem.suggest) {
+      return "header-info";
+    }
+    return "header-success";
+  }
+
+  give() {
+    this.wishService.give(this.wishItem.id, this.wishItem);
+  }
+
+  sendComment(value: string) {
+    this.wishService.comment(this.wishItem.listId, this.wishItem.id, {
+      text: value
+    });
   }
 }

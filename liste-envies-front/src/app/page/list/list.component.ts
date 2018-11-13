@@ -29,7 +29,7 @@ import { WishService } from "../../state/wishes/wish.service";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListComponent implements OnInit, OnChanges {
-  listItems: WishItem[];
+  listItems: Observable<WishItem[]>;
 
   whishList$: Observable<WishList>;
 
@@ -49,7 +49,7 @@ export class ListComponent implements OnInit, OnChanges {
   @RouteParams("listId", { observable: false }) public listId: string;
 
   constructor(
-    private wishListService: WishService,
+    private wishService: WishService,
     private wishListApiService: WishListApiService,
     private route: ActivatedRoute,
     private auth: AuthService,
@@ -61,20 +61,15 @@ export class ListComponent implements OnInit, OnChanges {
     this.userAuth = this.auth.user;
 
     if (this.demo) {
-      this.items.subscribe((items: WishItem[]) => {
-        console.log("items :", items);
-        this.listItems = items;
-      });
+      this.listItems = this.items;
       return;
     }
 
     this.whishList$ = this.wishQuery
       .select()
       .pipe(pluck<WishState, WishList>("wishList"));
-    this.wishQuery.selectAll().subscribe((items: WishItem[]) => {
-      console.log("items :", items);
-      this.listItems = items;
-    });
+
+    this.listItems = this.wishQuery.selectAll();
     this.loading$ = this.wishQuery.selectLoading();
 
     // if no demo, do the following
@@ -88,7 +83,7 @@ export class ListComponent implements OnInit, OnChanges {
   private loadList() {
     if (this.demo) return;
 
-    this.wishListService.get(this.route.snapshot.params["listId"]);
+    this.wishService.get(this.route.snapshot.params["listId"], false);
   }
 
   addWish() {
@@ -106,12 +101,7 @@ export class ListComponent implements OnInit, OnChanges {
       .subscribe((result: WishItem) => {
         console.log("The dialog was closed");
         if (result) {
-          this.wishListApiService
-            .createWish(this.listId, result)
-            .subscribe((Wish: WishItem) => {
-              // todo juste add to list rather than reload all.
-              this.loadList();
-            });
+          this.wishService.add(this.listId, result);
         }
       });
   }

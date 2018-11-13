@@ -1,11 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
-@import 'styles/variables';
-@import '~@angular/material/theming';
+@import "styles/variables";
+@import "~@angular/material/theming";
 @include mat-core();
 
-
-@import '~wire.css';
-
+@import "~wire.css";
 
 // define 3 theme color
 
@@ -14,11 +12,7 @@ $my-theme-accent: mat-palette($mat-light-blue);
 $my-theme-warn: mat-palette($mat-deep-orange, A200);
 
 // create theme (use mat-dark-theme for themes with dark backgrounds)
-$my-theme: mat-light-theme(
-    $my-theme-primary,
-    $my-theme-accent,
-    $my-theme-warn
-);
+$my-theme: mat-light-theme($my-theme-primary, $my-theme-accent, $my-theme-warn);
 
 // mat-palette accepts $palette-name, main, lighter and darker variants
 @include angular-material-theme($my-theme);
@@ -26,13 +20,11 @@ body {
   font-family: Roboto, Arial, sans-serif;
   margin: 0;
 }
-
 mat-card {
   max-width: 80%;
   margin: 2em auto;
   text-align: center;
 }
-
 mat-toolbar-row {
   justify-content: space-between;
 }
@@ -44,7 +36,6 @@ mat-toolbar-row {
   color: white;
   z-index: 9999;
 }
-
 firebase-ui .firebaseui-container {
   box-shadow: none;
 }
@@ -55,20 +46,16 @@ firebase-ui .firebaseui-container {
   background-attachment: fixed;
   background-position: center;
   background-size: cover;
-
   padding-top: 20px;
   min-height: 100vh;
-
   .header-page-card {
     margin-top: 0px;
   }
 }
-
 .matDialogContent {
   overflow: auto;
   max-height: 95%;
 }
-
 .content_sidenav mat-expansion-panel {
   .mat-badge-content.mat-badge-active {
     top: 1px !important;
@@ -77,4 +64,9 @@ firebase-ui .firebaseui-container {
     padding: 0 !important;
   }
 }
-
+mat-expansion-panel.badge-expansion-panel {
+  span.mat-content {
+    /* height: 48px; */
+    padding: 12px 0;
+  }
+}

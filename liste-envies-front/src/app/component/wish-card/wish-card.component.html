@@ -8,26 +8,39 @@
 >
   <mat-card-header fxLayout="column" fxLayoutAlign="space-between stretch">
     <div
-      class="header-success"
+      [class]="headerClass()"
       fxLayout="row"
       fxLayoutAlign="space-between center"
     >
       <span class="col-9">{{ wishItem.label }}</span>
-      <mat-icon class="col-1 push-right">favorite</mat-icon>
-      <mat-icon class="col-1 push-right">delete</mat-icon>
+      <span>
+        <mat-icon
+          class="col-1 push-right"
+          *ngIf="wishItem.suggest"
+          matTooltip="Suggestion : cette envie n'est pas visible par les responsables de la liste"
+        >
+          wb_incandescent</mat-icon
+        >
+        <mat-icon class="col-1 push-right">delete</mat-icon>
+      </span>
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between stretch">
-      <div class="owner">
+      <div
+        class="owner"
+        matTooltip="'{{wishItem?.owner?.name}} : {{wishItem?.owner?.email}}'"
+      >
         <ngx-avatar
-          [name]="wishItem.owner.name"
-          [gravatarId]="wishItem.owner.email"
+          [name]="wishItem?.owner?.name"
+          [gravatarId]="wishItem?.owner?.email"
           size="20"
           [round]="true"
         >
         </ngx-avatar>
-        <span class="ownerName">{{ wishItem.owner.name }}</span>
+        <span class="ownerName">{{ wishItem?.owner?.name }}</span>
       </div>
-      <span title="{{wishItem.date | date: 'short'}}"
+      <span
+        title="{{wishItem.date | date: 'long'}}"
+        matTooltip="'{{wishItem.date | date: 'short'}}'"
         ><mat-icon>date_range</mat-icon>
         {{ wishItem.date | amLocal: "fr" | amTimeAgo }}</span
       >
@@ -65,11 +78,11 @@
   </div>
 
   <mat-card-content fxLayout="column" fxLayoutAlign="space-between stretch">
-    <p [innerHTML]="wishItem.description"></p>
-
     <mat-chip-list *ngIf="wishItem.price">
-      <mat-chip color="primary">{{ wishItem.price }}</mat-chip>
+      <mat-chip color="accent">{{ wishItem.price }}</mat-chip>
     </mat-chip-list>
+
+    <p [innerHTML]="wishItem.description"></p>
 
     <app-rating
       *ngIf="wishItem.rating"
@@ -77,56 +90,146 @@
       [readonly]="true"
     ></app-rating>
 
-    <div fxLayout="column" fxLayoutAlign="space-around stretch">
+    <mat-chip-list>
       <a
         [href]="url.url"
         *ngFor="let url of wishItem.urls"
         target="_blank"
-        mat-raised-button
         [matTooltip]="url.url"
-        >{{ url.name ? url.name : "lien" }}</a
       >
-    </div>
+        <mat-chip>{{ url.name ? url.name : "lien" }}</mat-chip>
+      </a>
+    </mat-chip-list>
+
+    <br />
 
     <mat-expansion-panel
       *ngIf="wishItem.canParticipate"
-      class="mat-elevation-z"
+      class="comments badge-expansion-panel"
     >
       <mat-expansion-panel-header>
-        <mat-chip>{{
-          wishItem.comments ? wishItem.comments.length : 0
-        }}</mat-chip>
-        {{
-          wishItem.comments && wishItem.comments.length > 1
-            ? "Commentaires"
-            : "Commentaire"
-        }}
+        <mat-panel-title>
+          <mat-icon
+            class="comment_icon"
+            [matBadge]="wishItem.comments ? wishItem.comments.length : 0"
+            inline="true"
+            [matBadgeColor]="wishItem.comments ? 'warn' : ''"
+            matBadgeSize="medium"
+            >comment</mat-icon
+          >
+          {{
+            wishItem.comments && wishItem.comments.length > 1
+              ? "Commentaires"
+              : "Commentaire"
+          }}
+        </mat-panel-title>
       </mat-expansion-panel-header>
 
-      <mat-list *ngIf="wishItem.comments && wishItem.comments.length > 0">
-        <mat-list-item *ngFor="let comment of wishItem.comments">
-          {{ comment.text }}</mat-list-item
-        >
+      <mat-list>
+        <ng-container *ngIf="wishItem.comments && wishItem.comments.length > 0">
+          <mat-list-item
+            *ngFor="
+              let comment of wishItem.comments;
+              let even = even;
+              let odd = odd;
+              let last = last
+            "
+            class="comment_item"
+            [ngClass]="{ even: even, odd: odd }"
+          >
+            <ngx-avatar
+              matListAvatar
+              [name]="comment.from?.name"
+              [gravatarId]="comment.from?.email"
+              size="40"
+              [round]="true"
+              [matTooltip]="comment?.from?.name"
+            ></ngx-avatar>
+            <p matLine>
+              de
+              <span [matTooltip]="comment?.from?.email">
+                <mat-icon inline="true">person</mat-icon>
+                {{ comment?.from?.name }}</span
+              >
+              /
+              <span
+                title="{{comment?.date | date: 'long'}}"
+                [matTooltip]="comment?.date | date: 'short'"
+              >
+                <mat-icon inline="true">date_range</mat-icon>
+                {{ comment?.date | amLocal: "fr" | amTimeAgo }}
+              </span>
+            </p>
+            <h6 matLine>
+              <span> {{ comment?.text }} </span>
+            </h6>
+            <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+          </mat-list-item>
+
+          <mat-divider inset="true"></mat-divider>
+        </ng-container>
       </mat-list>
 
-      <mat-action-row *ngIf="wishItem.canParticipate">
-        <span>
-          <mat-form-field class="example-full-width">
-            <textarea matInput placeholder="ajouter un commentaire"></textarea>
-          </mat-form-field>
-        </span>
-        <span> <button mat-button>Comment</button> </span>
-      </mat-action-row>
+      <div *ngIf="wishItem.canParticipate" class="add_comment">
+        <mat-form-field appearance="fill">
+          <mat-label>Ajouter un commentaire</mat-label>
+          <textarea
+            matInput
+            placeholder="Entrez votre commentaire"
+            #addComment
+            (submit)="sendComment(addComment.value)"
+          ></textarea>
+          <button
+            mat-mini-fab
+            matSuffix
+            matTooltip="Envoyer le commentaires"
+            (click)="sendComment(addComment.value)"
+          >
+            <mat-icon aria-label="Envoyer le commentaire">add_comment</mat-icon>
+          </button>
+          <mat-hint
+            >le commentaire ne sera pas visible pour le owner de la
+            liste</mat-hint
+          >
+        </mat-form-field>
+      </div>
     </mat-expansion-panel>
   </mat-card-content>
 
   <mat-card-actions>
     <button
+      mat-button
+      color="warn"
+      *ngIf="wishItem.allreadyGiven"
+      disabled="true"
+    >
+      Déjà offert
+    </button>
+
+    <button mat-button color="warn" *ngIf="wishItem.userGiven" disabled="true">
+      Offert par
+      <span
+        *ngFor="let userGiven of wishItem.userTake; let last = last"
+        matTooltip="'{{userGiven?.name}} : {{userGiven?.email}}'"
+      >
+        <ngx-avatar
+          [name]="userGiven?.name"
+          [gravatarId]="userGiven?.email"
+          size="10"
+          [round]="true"
+        ></ngx-avatar
+        >{{ userGiven?.name }}{{ !last ? "," : "" }}
+      </span>
+    </button>
+    <button
       mat-raised-button
       color="accent"
-      *ngIf="!wishItem.allreadyGiven && wishItem.canParticipate"
+      *ngIf="
+        !wishItem.allreadyGiven && wishItem.userGiven && wishItem.canParticipate
+      "
+      (click)="give()"
     >
-      Offrir
+      Participer
     </button>
     <button
       mat-raised-button
@@ -140,16 +243,71 @@
 </mat-card>
 
 <!--
-    <mat-card class="wish-card flip-back">
-  
-      <app-wish-edit [wishItem]="wishItem"></app-wish-edit>
-  
-  
-      <mat-card-actions>
-        <button mat-button (click)="cancelEditWish()">Cancel</button>
-        <button mat-button>Modifier</button>
-      </mat-card-actions>
-    </mat-card>
-  
+    <mat-card class="wish-card flip-back">
+
+
+
+
+
+  
+
+
+
+
+
+      <app-wish-edit [wishItem]="wishItem"></app-wish-edit>
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+      <mat-card-actions>
+
+
+
+
+
+        <button mat-button (click)="cancelEditWish()">Cancel</button>
+
+
+
+
+
+        <button mat-button>Modifier</button>
+
+
+
+
+
+      </mat-card-actions>
+
+
+
+
+
+    </mat-card>
+
+
+
+
+
+  
+
+
+
+
+
   </app-flip-card>
 -->

@@ -1,11 +1,11 @@
-@import 'variables';
+@import "variables";
+@import "~@angular/material/theming";
+
 .wish-card {
   margin-bottom: 20px;
   max-width: 100% !important;
   padding: 10px;
 }
-
-
 
 //@extend-elements
 //original selectors
@@ -16,36 +16,35 @@
   cursor: pointer;
 }
 
-
-  :host {
-    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
-    box-shadow: 0 13px 18px 0 $black_58, 0 13px 22px 0 $black_12;
-    .logo-envie {
-      margin-top: -34px;
-    }
-    &:hover .edit-button {
-      display: block !important;
-    }
-    .bottom-envie .comments a {
-      color: $black;
-      &:hover {
-        color: $gray;
-      }
+:host {
+  //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+  box-shadow: 0 13px 18px 0 $black_58, 0 13px 22px 0 $black_12;
+  .logo-envie {
+    margin-top: -34px;
+  }
+  &:hover .edit-button {
+    display: block !important;
+  }
+  .bottom-envie .comments a {
+    color: $black;
+    &:hover {
+      color: $gray;
     }
   }
-  .envie-separator {
-    clear: both;
-  }
-  .wish-edit {
-    margin-top: -4px !important;
-  }
-  .comment-statusbar {
-    display: none !important;
-  }
-  .preview-image {
-    height: 100px;
-    width: 100px;
-  }
+}
+.envie-separator {
+  clear: both;
+}
+.wish-edit {
+  margin-top: -4px !important;
+}
+.comment-statusbar {
+  display: none !important;
+}
+.preview-image {
+  height: 100px;
+  width: 100px;
+}
 
 .wish-card {
   .panel-body {
@@ -72,7 +71,7 @@
       padding-left: 3px;
     }
   }
-  
+
   .wish-price {
     margin: 0 !important;
   }
@@ -95,12 +94,12 @@
     border-right: $seashell solid 1px;
     border-bottom: $seashell solid 1px;
   }
-  mat-card-actions {
+  /* mat-card-actions {
     padding: 5px;
     button.btn {
       margin: 0;
     }
-  }
+  }*/
 }
 .order-filter {
   .search {
@@ -133,7 +132,6 @@
 }
 
 .wish-card {
-
   display: inline-block;
   position: relative;
   width: 100%;
@@ -148,8 +146,6 @@
     left: 0;
     right: 0;
   }
-
-
 
   .card-image {
     height: 60%;
@@ -171,7 +167,7 @@
     }
   }
 
-  .content{
+  .content {
     padding: 15px;
   }
 
@@ -180,7 +176,7 @@
     padding: 18px;
   }
 
-  mat-card-actions {
+  /*mat-card-actions {
     height: 10%;
     padding: 18px;
     button, a {
@@ -192,50 +188,89 @@
         left: -15px;
       }
     }
-  }
+  }*/
 
-  mat-card-header{
-
+  mat-card-header {
     background-color: $white;
-  }
 
-  .header-primary{
-    border-top: $light-blue-700 6px solid;
-  }
-  .header-info{
-    border-top: $cyan-700 6px solid;
-  }
-  .header-success{
-    border-top: $light-green-700 6px solid;
-  }
-  .header-warning{
-    border-top: $amber-700 6px solid;
-  }
-  .header-danger{
-    border-top: $orange-700 6px solid;
-  }
+    .header-primary {
+      border-top: $light-blue-700 6px solid;
+    }
+    .header-info {
+      border-top: $cyan-700 6px solid;
+    }
+    .header-success {
+      border-top: $light-green-700 6px solid;
+    }
+    .header-warning {
+      border-top: $amber-700 6px solid;
+    }
+    .header-danger {
+      border-top: $orange-700 6px solid;
+    }
 
-
-
-  [class*="header-"]{
-    color: $black-color;
-    background-color: $gray-lighter;
-    border-radius: 4px 4px 0 0;
-    padding: 5px;
-    margin-bottom: 5px;
-    box-shadow: 0 4px 16px -3px $black_56;
-  }
-
-  .mat-expansion-panel-header ::ng-deep .mat-content {
-    align-items: center;
-  
-    .mat-chip {
-      margin-right: 3px;
+    [class*="header-"] {
+      color: $black-color;
+      background-color: $gray-lighter;
+      border-radius: 4px 4px 0 0;
+      padding: 5px;
+      margin-bottom: 5px;
+      box-shadow: 0 4px 16px -3px $black_56;
     }
   }
+
+  .comments {
+    @include mat-elevation(2);
+
+    .comment_icon {
+      height: 15px;
+      width: 15px;
+      margin-right: 15px;
+    }
+
+    .comment_item {
+      p.mat-line {
+        text-align: left;
+        font-size: 9px !important;
+        span {
+          font-size: 9px !important;
+        }
+
+        font-style: italic;
+      }
+
+      h6.mat-line {
+        text-align: left;
+        size: 14px;
+        span {
+          font-size: 14px;
+        }
+      }
+    }
+
+    .add_comment {
+      margin-top: 10px;
+      padding: 0;
+      height: 85px;
+      width: 100%;
+
+      & > * {
+        padding: 0;
+      }
+
+      mat-form-field {
+        width: 100%;
+      }
+    }
+    /*.mat-expansion-panel-header ::ng-deep .mat-content {
+      align-items: left;
+
+      .mat-chip {
+        margin-right: 3px;
+      }
+    }*/
+  }
 }
-
-
 
 .envie-container {
   padding-top: 20px;
@@ -341,7 +376,9 @@
   border-width: 1px;
   margin: 0;
   //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
-  box-shadow: inset 0 0 0 5px $color_steel_blue_approx, 0 16px 24px 2px $black_45, 0 6px 30px 5px $black_25, 0 8px 10px -5px $black_20 !important;
+  box-shadow: inset 0 0 0 5px $color_steel_blue_approx,
+    0 16px 24px 2px $black_45, 0 6px 30px 5px $black_25,
+    0 8px 10px -5px $black_20 !important;
 }
 .mega-dropdown-menu .list-group-item.owner {
   z-index: 2;
@@ -420,7 +457,3 @@ div.material-icons.form-control-feedback {
     border-color: $color_calypso_approx transparent;
   }
 }
-
-
-
-
