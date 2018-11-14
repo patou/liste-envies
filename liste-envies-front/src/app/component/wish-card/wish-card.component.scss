@@ -219,6 +219,10 @@
     }
   }
 
+  mat-chip.link-chips {
+    cursor: pointer;
+  }
+
   .comments {
     @include mat-elevation(2);
 

@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
-import { MaterialModule } from "../../shared/material.module";
+import { MaterialModule } from "./shared/material.module";
 
 import { RatingComponent } from "./rating/rating.component";
 import { FlipCardComponent } from "./flip-card/flip-card.component";
@@ -35,6 +35,7 @@ import { RouterModule } from "@angular/router";
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { ImgFormComponent } from "./img-form/img-form.component";
+import { ReadMoreComponent } from "./read-more/read-more.component";
 
 /*import { Ng2GridDirective } from './ng2-grid/ng2-grid.directive';*/
 
@@ -83,7 +84,8 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     LinksFormComponent,
     ImgFormComponent,
     WishListItemComponent,
-    ListTypeIcon
+    ListTypeIcon,
+    ReadMoreComponent
   ],
   exports: [
     CommonModule,
@@ -105,7 +107,8 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     FlexLayoutModule,
     SwiperModule,
     ListTypeIcon,
-    WishListItemComponent
+    WishListItemComponent,
+    ReadMoreComponent
   ],
   providers: [
     {

@@ -49,9 +49,13 @@
       </span>
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between stretch">
+      <span matTooltip="{{wishItem.date | date: 'long'}}"
+        ><mat-icon>date_range</mat-icon>
+        {{ wishItem.date | amLocal: "fr" | amTimeAgo }}</span
+      >
       <div
         class="owner"
-        matTooltip="'{{wishItem?.owner?.name}} : {{wishItem?.owner?.email}}'"
+        matTooltip="{{wishItem?.owner?.name}} : {{wishItem?.owner?.email}}"
       >
         <ngx-avatar
           [name]="wishItem?.owner?.name"
@@ -62,15 +66,9 @@
         </ngx-avatar>
         <span class="ownerName">{{ wishItem?.owner?.name }}</span>
       </div>
-      <span
-        title="{{wishItem.date | date: 'long'}}"
-        matTooltip="'{{wishItem.date | date: 'long'}}'"
-        ><mat-icon>date_range</mat-icon>
-        {{ wishItem.date | amLocal: "fr" | amTimeAgo }}</span
-      >
     </div>
   </mat-card-header>
-
+  <mat-divider inset="true"></mat-divider>
   <swiper
     class="swiper-container card-image"
     [useSwiperClass]
@@ -106,7 +104,7 @@
       <mat-chip-list>
         <mat-chip *ngIf="wishItem.price" color="accent" selected>
           {{ wishItem.price }}
-          <mat-icon matChipRemove>euro_symbol</mat-icon>
+          <mat-icon color="primary">euro_symbol</mat-icon>
         </mat-chip>
       </mat-chip-list>
       <app-rating
@@ -115,8 +113,8 @@
         [readonly]="true"
       ></app-rating>
     </div>
-
-    <p [innerHTML]="wishItem.description"></p>
+    <mat-divider inset="true"></mat-divider>
+    <read-more [content]="wishItem.description" maxHeight="100"></read-more>
 
     <div *ngIf="wishItem.urls && wishItem.urls.length > 0">
       <mat-chip-list>
@@ -128,10 +126,10 @@
           target="_blank"
           [matTooltip]="url.url"
         >
-          <mat-chip selectable
+          <mat-chip selectable class="link-chips"
             >{{ url.name ? url.name : "lien" }}
-            <mat-icon matChipRemove>open_in_new</mat-icon></mat-chip
-          >
+            <mat-icon matChipRemove>open_in_new</mat-icon>
+          </mat-chip>
         </a>
       </mat-chip-list>
     </div>
@@ -233,21 +231,11 @@
   </mat-card-content>
 
   <mat-card-actions>
-    <button
-      mat-button
-      color="warn"
-      *ngIf="wishItem.allreadyGiven"
-      disableRipple="true"
-    >
+    <mat-label color="warn" *ngIf="wishItem.allreadyGiven" disableRipple="true">
       Déjà offert
-    </button>
+    </mat-label>
 
-    <button
-      mat-button
-      color="warn"
-      *ngIf="wishItem.userGiven"
-      disableRipple="true"
-    >
+    <mat-label color="warn" *ngIf="wishItem.userGiven" disableRipple="true">
       Offert par
       <span
         *ngFor="let userGiven of wishItem.userTake; let last = last"
@@ -261,7 +249,7 @@
         ></ngx-avatar
         >{{ userGiven?.name }}{{ !last ? "," : "" }}
       </span>
-    </button>
+    </mat-label>
     <button
       mat-raised-button
       color="accent"

@@ -14,14 +14,14 @@
   </mat-card-header>
   <mat-card-content>
     <div fxLayout="row" fxLayoutAlign="space-between stretch">
-      <mat-form-field appearance="outline" class="mat-full-width">
+      <mat-form-field appearance="outline" class="col-9">
         <mat-label>Prix</mat-label>
         <input matInput #price [(ngModel)]="wishItem.price" name="price" />
         <mat-hint align="end"
           >Exemple: "14.99 €" ou "Entre 10 et 20 €" ou "Environ 100 €"</mat-hint
         >
       </mat-form-field>
-      <mat-label>
+      <mat-label class="col-3">
         <app-rating
           placeholder="Note"
           [(value)]="wishItem.rating"
@@ -46,7 +46,6 @@
         (onChange)="updatesPictures($event)"
       ></app-img-form>
     </div>
-    {{ wishItem.pictures | json }}
     <div>
       <h5>Liens</h5>
       <app-links-form
@@ -54,7 +53,6 @@
         (onChange)="updatesLinks($event)"
       ></app-links-form>
     </div>
-    {{ wishItem.urls | json }}
 
     <div></div>
   </mat-card-content>

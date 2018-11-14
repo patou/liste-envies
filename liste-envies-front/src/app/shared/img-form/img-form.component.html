@@ -8,16 +8,17 @@
       [(ngModel)]="addImage"
     />
 
-    <button mat-icon-button (click)="addImg(name.value)" matSuffix>
+    <button mat-mini-fab (click)="addImg(name.value)" matSuffix>
       <mat-icon>add</mat-icon>
     </button>
   </mat-form-field>
 </div>
 
-<div *ngIf="imgs && imgs.length > 0">
-  <mat-grid-list cols="4" rowHeight="2:1">
+<div *ngIf="(imgs && imgs.length > 0) || addImage">
+  <mat-grid-list cols="4" rowHeight="1:2">
     <mat-grid-tile *ngFor="let img of imgs" (click)="removeImg(img)">
       <img [src]="img" />
     </mat-grid-tile>
+    <mat-grid-tile *ngIf="addImage"> <img [src]="addImage" /> </mat-grid-tile>
   </mat-grid-list>
 </div>
