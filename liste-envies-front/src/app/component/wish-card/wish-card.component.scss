@@ -211,7 +211,7 @@
 
     [class*="header-"] {
       color: $black-color;
-      background-color: $gray-lighter;
+      /*background-color: $gray-lighter;*/
       border-radius: 4px 4px 0 0;
       padding: 5px;
       margin-bottom: 5px;
@@ -228,12 +228,12 @@
       margin-right: 15px;
     }
 
-    .comment_item {
+    mat-list-item.comment_item {
       p.mat-line {
         text-align: left;
-        font-size: 9px !important;
+        font-size: 10px !important;
         span {
-          font-size: 9px !important;
+          font-size: 10px !important;
         }
 
         font-style: italic;
@@ -249,8 +249,13 @@
     }
 
     .add_comment {
-      margin-top: 10px;
+      margin-top: 0px;
       padding: 0;
+      .button-add-comment {
+        margin-left: 10px;
+        padding-top: 2px;
+      }
+
       height: 85px;
       width: 100%;
 
@@ -260,6 +265,9 @@
 
       mat-form-field {
         width: 100%;
+        textarea {
+          resize: none;
+        }
       }
     }
     /*.mat-expansion-panel-header ::ng-deep .mat-content {

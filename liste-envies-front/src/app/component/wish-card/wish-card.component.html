@@ -4,8 +4,7 @@
   class="wish-card flip-front "
   fxLayout="column"
   fxLayoutAlign="space-between stretch"
-  [@animateWishCard]="animateWishCard"
->
+  ><!-- [@animateWishCard]="animateWishCard" -->
   <mat-card-header fxLayout="column" fxLayoutAlign="space-between stretch">
     <div
       [class]="headerClass()"
@@ -14,14 +13,39 @@
     >
       <span class="col-9">{{ wishItem.label }}</span>
       <span>
-        <mat-icon
+        <button
+          mat-icon-button
           class="col-1 push-right"
           *ngIf="wishItem.suggest"
-          matTooltip="Suggestion : cette envie n'est pas visible par les responsables de la liste"
+          disabled
         >
-          wb_incandescent</mat-icon
+          <mat-icon
+            matTooltip="Suggestion : cette envie n'est pas visible par les responsables de la liste"
+            >wb_incandescent</mat-icon
+          >
+        </button>
+        <button
+          mat-icon-button
+          *ngIf="wishItem.canEdit"
+          [matMenuTriggerFor]="menu"
+          class="col-1 push-right"
         >
-        <mat-icon class="col-1 push-right">delete</mat-icon>
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" xPosition="before">
+          <button mat-menu-item disabled>
+            <mat-icon>archive</mat-icon>
+            <span>Archiver</span>
+          </button>
+          <button mat-menu-item disabled>
+            <mat-icon>delete</mat-icon>
+            <span>Supprimer</span>
+          </button>
+          <button mat-menu-item disabled>
+            <mat-icon>copy</mat-icon>
+            <span>Copier</span>
+          </button>
+        </mat-menu>
       </span>
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between stretch">
@@ -40,7 +64,7 @@
       </div>
       <span
         title="{{wishItem.date | date: 'long'}}"
-        matTooltip="'{{wishItem.date | date: 'short'}}'"
+        matTooltip="'{{wishItem.date | date: 'long'}}'"
         ><mat-icon>date_range</mat-icon>
         {{ wishItem.date | amLocal: "fr" | amTimeAgo }}</span
       >
@@ -78,28 +102,39 @@
   </div>
 
   <mat-card-content fxLayout="column" fxLayoutAlign="space-between stretch">
-    <mat-chip-list *ngIf="wishItem.price">
-      <mat-chip color="accent">{{ wishItem.price }}</mat-chip>
-    </mat-chip-list>
+    <div fxLayout="row" fxLayoutAlign="space-between stretch">
+      <mat-chip-list>
+        <mat-chip *ngIf="wishItem.price" color="accent" selected>
+          {{ wishItem.price }}
+          <mat-icon matChipRemove>euro_symbol</mat-icon>
+        </mat-chip>
+      </mat-chip-list>
+      <app-rating
+        *ngIf="wishItem.rating"
+        [value]="wishItem.rating"
+        [readonly]="true"
+      ></app-rating>
+    </div>
 
     <p [innerHTML]="wishItem.description"></p>
 
-    <app-rating
-      *ngIf="wishItem.rating"
-      [value]="wishItem.rating"
-      [readonly]="true"
-    ></app-rating>
-
-    <mat-chip-list>
-      <a
-        [href]="url.url"
-        *ngFor="let url of wishItem.urls"
-        target="_blank"
-        [matTooltip]="url.url"
-      >
-        <mat-chip>{{ url.name ? url.name : "lien" }}</mat-chip>
-      </a>
-    </mat-chip-list>
+    <div *ngIf="wishItem.urls && wishItem.urls.length > 0">
+      <mat-chip-list>
+        <span *ngIf="wishItem.urls.length === 1; else: liens">Lien :</span>
+        <ng-template #liens>Liens :</ng-template>
+        <a
+          [href]="url.url"
+          *ngFor="let url of wishItem.urls"
+          target="_blank"
+          [matTooltip]="url.url"
+        >
+          <mat-chip selectable
+            >{{ url.name ? url.name : "lien" }}
+            <mat-icon matChipRemove>open_in_new</mat-icon></mat-chip
+          >
+        </a>
+      </mat-chip-list>
+    </div>
 
     <br />
 
@@ -154,7 +189,7 @@
               /
               <span
                 title="{{comment?.date | date: 'long'}}"
-                [matTooltip]="comment?.date | date: 'short'"
+                [matTooltip]="comment?.date | date: 'long'"
               >
                 <mat-icon inline="true">date_range</mat-icon>
                 {{ comment?.date | amLocal: "fr" | amTimeAgo }}
@@ -183,6 +218,7 @@
             mat-mini-fab
             matSuffix
             matTooltip="Envoyer le commentaires"
+            class="button-add-comment"
             (click)="sendComment(addComment.value)"
           >
             <mat-icon aria-label="Envoyer le commentaire">add_comment</mat-icon>
@@ -201,12 +237,17 @@
       mat-button
       color="warn"
       *ngIf="wishItem.allreadyGiven"
-      disabled="true"
+      disableRipple="true"
     >
       Déjà offert
     </button>
 
-    <button mat-button color="warn" *ngIf="wishItem.userGiven" disabled="true">
+    <button
+      mat-button
+      color="warn"
+      *ngIf="wishItem.userGiven"
+      disableRipple="true"
+    >
       Offert par
       <span
         *ngFor="let userGiven of wishItem.userTake; let last = last"
@@ -240,74 +281,5 @@
       Modifier
     </button>
   </mat-card-actions>
+  <p></p>
 </mat-card>
-
-<!--
-    <mat-card class="wish-card flip-back">
-
-
-
-
-
-  
-
-
-
-
-
-      <app-wish-edit [wishItem]="wishItem"></app-wish-edit>
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-      <mat-card-actions>
-
-
-
-
-
-        <button mat-button (click)="cancelEditWish()">Cancel</button>
-
-
-
-
-
-        <button mat-button>Modifier</button>
-
-
-
-
-
-      </mat-card-actions>
-
-
-
-
-
-    </mat-card>
-
-
-
-
-
-  
-
-
-
-
-
-  </app-flip-card>
--->

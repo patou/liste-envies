@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { LinksFormComponent } from "./links-form.component";
+import { ImgFormComponent } from "./img-form.component";
 
 describe("ImgFormComponent", () => {
-  let component: LinksFormComponent;
-  let fixture: ComponentFixture<LinksFormComponent>;
+  let component: ImgFormComponent;
+  let fixture: ComponentFixture<ImgFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [LinksFormComponent]
+      declarations: [ImgFormComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LinksFormComponent);
+    fixture = TestBed.createComponent(ImgFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

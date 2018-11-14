@@ -11,10 +11,10 @@ import { WishService } from "../../state/wishes/wish.service";
 @Component({
   selector: "app-wish-card",
   templateUrl: "./wish-card.component.html",
-  styleUrls: ["./wish-card.component.scss"],
-  animations: [
+  styleUrls: ["./wish-card.component.scss"]
+  /*animations: [
     trigger("animateWishCard", [transition("* => *", useAnimation(bounceInUp))])
-  ]
+  ]*/
 })
 export class WishCardComponent implements OnInit {
   animateWishCard: any;
@@ -55,7 +55,6 @@ export class WishCardComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((result: WishItem) => {
-        console.log("The dialog was closed");
         if (result) {
           this.wishService.update(result.id, result);
         } else {
@@ -69,13 +68,13 @@ export class WishCardComponent implements OnInit {
   }
 
   headerClass() {
-    if (this.wishItem.given) {
+    if (this.wishItem.canSuggest && this.wishItem.given) {
       return "header-danger";
     }
-    if (this.wishItem.allreadyGiven) {
+    if (this.wishItem.canSuggest && this.wishItem.allreadyGiven) {
       return "header-warning";
     }
-    if (this.wishItem.suggest) {
+    if (this.wishItem.canSuggest && this.wishItem.suggest) {
       return "header-info";
     }
     return "header-success";

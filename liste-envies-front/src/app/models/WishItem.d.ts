@@ -9,7 +9,7 @@
   label?: string;
   description?: string | null;
   price?: string | null;
-  pictures?: (string)[] | null;
+  pictures?: string[];
   date?: number;
   urls?: (UrlsEntity)[] | null;
   userTake?: string[];

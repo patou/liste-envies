@@ -34,6 +34,7 @@ import { WishListItemComponent } from "./wish-list-item/wish-list-item.component
 import { RouterModule } from "@angular/router";
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
+import { ImgFormComponent } from "./img-form/img-form.component";
 
 /*import { Ng2GridDirective } from './ng2-grid/ng2-grid.directive';*/
 
@@ -80,6 +81,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     FlipCardComponent,
     HtmlEditorComponent,
     LinksFormComponent,
+    ImgFormComponent,
     WishListItemComponent,
     ListTypeIcon
   ],
@@ -97,6 +99,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     FlipCardComponent,
     HtmlEditorComponent,
     LinksFormComponent,
+    ImgFormComponent,
     FirebaseUIModule,
     AvatarModule,
     FlexLayoutModule,

@@ -5,6 +5,7 @@
   users?: null;
   owners?: (OwnersEntity)[] | null;
   picture?: string;
+  pictures?: string[];
   type?: WishListType;
   date?: number | null;
   privacy?: "PRIVATE" | "OPEN" | "PUBLIC";

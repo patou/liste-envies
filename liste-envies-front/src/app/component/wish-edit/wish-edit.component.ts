@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnInit } from "@angular/core";
-import { WishItem } from "../../models/WishItem";
+import { UrlsEntity, WishItem } from "../../models/WishItem";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 
 @Component({
@@ -17,13 +17,21 @@ export class WishEditComponent implements OnInit {
 
   ngOnInit() {
     if (this.data) {
-      this.wishItem = this.data;
+      this.wishItem = {
+        description: "",
+        price: "",
+        pictures: [],
+        urls: [],
+        rating: 0,
+        ...this.data
+      };
     } else {
       this.wishItem = {
         label: "",
         description: "",
         price: "",
-        pictures: null,
+        pictures: [],
+        urls: [],
         allreadyGiven: false,
         rating: 0
       };
@@ -36,5 +44,13 @@ export class WishEditComponent implements OnInit {
 
   updateEditWish() {
     this.dialogRef.close(this.wishItem);
+  }
+
+  updatesPictures($event: string[]) {
+    this.wishItem.pictures = $event;
+  }
+
+  updatesLinks($event: UrlsEntity[]) {
+    this.wishItem.urls = $event;
   }
 }

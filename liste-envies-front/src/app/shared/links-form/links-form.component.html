@@ -1,20 +1,42 @@
 <div class="grid">
   <mat-form-field appearance="outline" class="col-5">
     <mat-label>Url du lien</mat-label>
-    <input matInput placeholder="Url du liens" #url [(ngModel)]="addUrl.url" />
+    <input
+      matInput="url"
+      placeholder="Url du liens"
+      #url
+      [(ngModel)]="addUrl.url"
+      (change)="onChangeUrl(addUrl.url)"
+    />
   </mat-form-field>
 
   <mat-form-field appearance="outline" class="col-5">
     <mat-label>Nom du lien</mat-label>
-    <input matInput placeholder="Nom du lien" #name [(ngModel)]="addUrl.name" />
+    <input
+      matInput="text"
+      placeholder="Nom du lien"
+      #name
+      [(ngModel)]="addUrl.name"
+    />
   </mat-form-field>
   <button mat-button (click)="addLink(url.value, name.value)" class="col-1">
     <mat-icon>add</mat-icon>
   </button>
 </div>
 
-<div *ngFor="let url of urls">
-  <button mat-raised-button matTooltip="{{url.url}}">
-    {{ url.name ? url.name : "liens" }}
-  </button>
+<div *ngIf="urls && urls.length > 0">
+  <mat-chip-list>
+    <span *ngIf="urls.length === 1; else: liens">Lien :</span>
+    <ng-template #liens>Liens :</ng-template>
+
+    <mat-chip
+      [removable]="true"
+      (removed)="removeLink(url)"
+      *ngFor="let url of urls"
+      ><a [href]="url.url" target="_blank" [matTooltip]="url.url">{{
+        url.name ? url.name : "lien"
+      }}</a>
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
+  </mat-chip-list>
 </div>

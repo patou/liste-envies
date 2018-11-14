@@ -1,0 +1,23 @@
+<div class="grid">
+  <mat-form-field appearance="outline" class="col-12">
+    <mat-label>Ajouter une image</mat-label>
+    <input
+      matInput="url"
+      placeholder="Url du l'image"
+      #name
+      [(ngModel)]="addImage"
+    />
+
+    <button mat-icon-button (click)="addImg(name.value)" matSuffix>
+      <mat-icon>add</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
+
+<div *ngIf="imgs && imgs.length > 0">
+  <mat-grid-list cols="4" rowHeight="2:1">
+    <mat-grid-tile *ngFor="let img of imgs" (click)="removeImg(img)">
+      <img [src]="img" />
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

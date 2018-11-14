@@ -26,7 +26,7 @@ import { WishService } from "../../state/wishes/wish.service";
   selector: "app-list",
   templateUrl: "./list.component.html",
   styleUrls: ["./list.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class ListComponent implements OnInit, OnChanges {
   listItems: Observable<WishItem[]>;
@@ -76,7 +76,6 @@ export class ListComponent implements OnInit, OnChanges {
 
     this.userAuth.subscribe(value => {
       this.loadList();
-      console.log("user AUTH NEXT in list page / ", value);
     });
   }
 
@@ -99,7 +98,6 @@ export class ListComponent implements OnInit, OnChanges {
       })
       .afterClosed()
       .subscribe((result: WishItem) => {
-        console.log("The dialog was closed");
         if (result) {
           this.wishService.add(this.listId, result);
         }
@@ -107,7 +105,6 @@ export class ListComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("On change :", changes);
     this.whishList$ = changes.list.currentValue;
   }
 }
