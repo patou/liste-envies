@@ -10,6 +10,8 @@ export class LinksFormComponent implements OnInit {
   @Input()
   public urls: UrlsEntity[];
 
+  public newUrls: UrlsEntity[];
+
   @Output()
   public onChange = new EventEmitter<UrlsEntity[]>();
 
@@ -18,20 +20,21 @@ export class LinksFormComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    if (!this.urls) {
-      this.urls = [];
+    this.newUrls = this.urls.slice(0);
+    if (!this.newUrls) {
+      this.newUrls = [];
     }
   }
 
   public addLink(url: string, name: string) {
-    this.urls.push({ name: name, url: url });
-    this.onChange.emit(this.urls);
+    this.newUrls.push({ name: name, url: url });
+    this.onChange.emit(this.newUrls);
     this.addUrl = { name: "", url: "" };
   }
   public removeLink(url: UrlsEntity) {
-    const index = this.urls.indexOf(url);
-    this.urls = this.urls.slice(index, 1);
-    this.onChange.emit(this.urls);
+    const index = this.newUrls.indexOf(url);
+    this.newUrls = this.newUrls.slice(index, 1);
+    this.onChange.emit(this.newUrls);
   }
 
   onChangeUrl(url: string) {

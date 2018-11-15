@@ -13,21 +13,30 @@ import { debounce } from "lodash-decorators";
   template: `
     <div class="read-more-box" [style.max-height]="currentMaxHeight">
       <p [innerHTML]="content" #readMoreContent></p>
-      <p class="read-more" *ngIf="displayed">
-        <button
-          mat-stroked-button
-          color="primary"
-          (click)="toggleReadMore()"
-          *ngIf="opened; else: readLess"
-        >
-          {{ textReadLess }}
-        </button>
-        <ng-template #readLess>
-          <button mat-stroked-button color="accent" (click)="toggleReadMore()">
-            {{ textReadMore }}
-          </button>
-        </ng-template>
-      </p>
+      <ng-container *ngIf="hasReadMore">
+        <p class="read-more" [hidden]="opened">
+          <br />
+          <br />
+        </p>
+      </ng-container>
+    </div>
+    <div *ngIf="hasReadMore">
+      <button
+        mat-button
+        color="primary"
+        (click)="toggleReadMore()"
+        [hidden]="!opened"
+      >
+        {{ textReadLess }}
+      </button>
+      <button
+        mat-button
+        color="accent"
+        (click)="toggleReadMore()"
+        [hidden]="opened"
+      >
+        {{ textReadMore }}
+      </button>
     </div>
   `,
   styles: [
@@ -35,7 +44,8 @@ import { debounce } from "lodash-decorators";
       .read-more-box {
         position: relative;
         overflow: hidden;
-        transition: all 2s;
+        -webkit-transition: all 0.3s ease-out; /* Android 2.1+, Chrome 1-25, iOS 3.2-6.1, Safari 3.2-6  */
+        transition: all 0.3s ease-out; /* Chrome 26, Firefox 16+, iOS 7+, IE 10+, Opera, Safari 6.1+  */
       }
 
       .read-more-box .read-more {
@@ -49,6 +59,7 @@ import { debounce } from "lodash-decorators";
 
         /* "transparent" only works here because == rgba(0,0,0,0) */
         background-image: linear-gradient(to bottom, transparent, white);
+        transition: all 0.3s ease-out;
       }
     `
   ]
@@ -58,13 +69,13 @@ export class ReadMoreComponent implements OnInit, AfterViewInit {
   public currentMaxHeight: string;
 
   @Input() public content: string;
-  @Input() public textReadMore = "voir plus ...";
-  @Input() public textReadLess = "voir moins ...";
+  @Input() public textReadMore: string = "voir plus ...";
+  @Input() public textReadLess: string = "voir moins ...";
 
   @ViewChild("readMoreContent") readMoreContent: ElementRef;
 
   public opened = false;
-  public displayed = false;
+  public hasReadMore = false;
 
   constructor(private el: ElementRef) {}
 
@@ -78,20 +89,16 @@ export class ReadMoreComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log(
-      "ngAfterViewInit :",
-      this.el.nativeElement.offsetHeight,
-      this.el.nativeElement.clientHeight
-    );
     this.testHeight();
   }
 
   @debounce(300)
   private testHeight() {
-    if (this.el.nativeElement.clientHeight < this.maxHeight) {
-      this.displayed = false;
-    } else {
-      this.displayed = true;
+    if (
+      this.el.nativeElement.offsetHeight >= this.maxHeight ||
+      this.el.nativeElement.getBoundingClientRect().height >= this.maxHeight
+    ) {
+      this.hasReadMore = true;
     }
   }
 }

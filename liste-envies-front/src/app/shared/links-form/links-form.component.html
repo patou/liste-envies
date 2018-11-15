@@ -24,15 +24,15 @@
   </button>
 </div>
 
-<div *ngIf="(urls && urls.length > 0) || addUrl.url">
+<div *ngIf="(newUrls && newUrls.length > 0) || addUrl.url">
   <mat-chip-list>
-    <span *ngIf="urls.length === 1; else: liens">Lien :</span>
+    <span *ngIf="newUrls.length === 1; else: liens">Lien :</span>
     <ng-template #liens>Liens :</ng-template>
 
     <mat-chip
       [removable]="true"
       (removed)="removeLink(url)"
-      *ngFor="let url of urls"
+      *ngFor="let url of newUrls"
       ><a [href]="url.url" target="_blank" [matTooltip]="url.url">{{
         url.name ? url.name : "lien"
       }}</a>

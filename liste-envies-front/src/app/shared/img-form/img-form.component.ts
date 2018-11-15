@@ -10,6 +10,8 @@ export class ImgFormComponent implements OnInit {
   @Input()
   public imgs: string[];
 
+  public newImages: string[];
+
   @Output()
   public onChange = new EventEmitter<string[]>();
 
@@ -18,24 +20,25 @@ export class ImgFormComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    if (!this.imgs) {
-      this.imgs = [];
+    this.newImages = this.imgs.slice(0);
+    if (!this.newImages) {
+      this.newImages = [];
     }
   }
 
   public addImg(name: string) {
-    this.imgs.push(name);
+    this.newImages.push(name);
     this.emitChange();
     this.addImage = "";
   }
 
   private emitChange() {
-    this.onChange.emit(this.imgs);
+    this.onChange.emit(this.newImages);
   }
 
   public removeImg(img: string) {
-    const index = this.imgs.indexOf(img);
-    this.imgs = this.imgs.slice(index, 1);
+    const index = this.newImages.indexOf(img);
+    this.newImages = this.newImages.slice(index, 1);
     this.emitChange();
   }
 }

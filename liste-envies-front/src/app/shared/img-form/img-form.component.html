@@ -14,9 +14,9 @@
   </mat-form-field>
 </div>
 
-<div *ngIf="(imgs && imgs.length > 0) || addImage">
+<div *ngIf="(newImages && newImages.length > 0) || addImage">
   <mat-grid-list cols="4" rowHeight="1:2">
-    <mat-grid-tile *ngFor="let img of imgs" (click)="removeImg(img)">
+    <mat-grid-tile *ngFor="let img of newImages" (click)="removeImg(img)">
       <img [src]="img" />
     </mat-grid-tile>
     <mat-grid-tile *ngIf="addImage"> <img [src]="addImage" /> </mat-grid-tile>
