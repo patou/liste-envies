@@ -23,6 +23,9 @@
     <mat-icon>add</mat-icon>
   </button>
 </div>
+<mat-error *ngIf="addUrl.url">
+  Cliquez sur l'icone + pour ajouter le lien
+</mat-error>
 
 <div *ngIf="(newUrls && newUrls.length > 0) || addUrl.url">
   <mat-chip-list>
@@ -31,8 +34,8 @@
 
     <mat-chip
       [removable]="true"
-      (removed)="removeLink(url)"
-      *ngFor="let url of newUrls"
+      (removed)="removeLink(i)"
+      *ngFor="let url of newUrls; index as i"
       ><a [href]="url.url" target="_blank" [matTooltip]="url.url">{{
         url.name ? url.name : "lien"
       }}</a>

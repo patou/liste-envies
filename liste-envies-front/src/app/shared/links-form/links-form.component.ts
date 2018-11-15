@@ -31,9 +31,8 @@ export class LinksFormComponent implements OnInit {
     this.onChange.emit(this.newUrls);
     this.addUrl = { name: "", url: "" };
   }
-  public removeLink(url: UrlsEntity) {
-    const index = this.newUrls.indexOf(url);
-    this.newUrls = this.newUrls.slice(index, 1);
+  public removeLink(index: number) {
+    this.newUrls.splice(index, 1);
     this.onChange.emit(this.newUrls);
   }
 
