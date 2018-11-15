@@ -167,6 +167,10 @@
     }
   }
 
+  .swiper-slide {
+    overflow: hidden !important;
+  }
+
   .content {
     padding: 15px;
   }

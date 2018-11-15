@@ -26,13 +26,19 @@ export class WishCardComponent implements OnInit {
     direction: "horizontal",
     slidesPerView: 1,
     navigation: true,
-    // effect: 'cube',
     lazy: true,
-    // parallax: true,
-    pagination: { el: ".swiper-pagination", type: "bullets", clickable: true }
-    // cubeEffect: {
-    //   slideShadows: false,
-    // }
+    zoom: true,
+    grabCursor: true,
+    centeredSlides: true,
+    watchOverflow: false,
+    pagination: {
+      el: ".swiper-pagination",
+      type: "progressbar"
+    },
+    scrollbar: {
+      el: ".swiper-scrollbar",
+      draggable: true
+    }
   };
 
   constructor(
