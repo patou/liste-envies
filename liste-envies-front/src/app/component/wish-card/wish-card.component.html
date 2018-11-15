@@ -68,34 +68,40 @@
       </div>
     </div>
   </mat-card-header>
-  <mat-divider inset="true"></mat-divider>
-  <div class="swiper-pagination"></div>
-  <swiper
-    [config]="SWIPER_CONFIG"
-    *ngIf="wishItem.pictures && wishItem.pictures.length > 1"
-  >
-    <div class="swiper-slide" *ngFor="let picture of wishItem.pictures">
-      <img
-        data-src="{{picture}}"
-        alt="{{wishItem.label}}"
-        class="swiper-lazy fixed border"
-      />
-      <div class="swiper-lazy-preloader"></div>
-    </div>
-  </swiper>
-  <div class="scrollbar"></div>
   <div
-    class="swiper-slide"
-    *ngIf="wishItem.pictures && wishItem.pictures.length == 1"
+    *ngIf="wishItem.pictures && wishItem.pictures.length > 1; else: oneImg"
+    class="card-image"
   >
-    <img
-      data-src="{{wishItem.pictures[0]}}"
-      alt="{{wishItem.label}}"
-      class="swiper-lazy border"
-      width="300"
-      height="300"
-    />
+    <div class="swiper-fraction">
+      <mat-chip>{{ index + 1 }} / {{ wishItem.pictures.length }}</mat-chip>
+    </div>
+    <div class="swiper-pagination"></div>
+    <swiper [config]="SWIPER_CONFIG" [(index)]="index">
+      <div class="swiper-slide" *ngFor="let picture of wishItem.pictures">
+        <img
+          data-src="{{picture}}"
+          alt="{{wishItem.label}}"
+          class="swiper-lazy fixed"
+        />
+        <div class="swiper-lazy-preloader"></div>
+      </div>
+    </swiper>
+    <div class="scrollbar"></div>
   </div>
+  <ng-template #oneImg>
+    <div
+      class="swiper-slide"
+      *ngIf="wishItem.pictures && wishItem.pictures.length == 1"
+    >
+      <img
+        data-src="{{wishItem.pictures[0]}}"
+        alt="{{wishItem.label}}"
+        class="swiper-lazy border"
+        width="300"
+        height="300"
+      />
+    </div>
+  </ng-template>
 
   <mat-card-content fxLayout="column" fxLayoutAlign="space-between stretch">
     <div fxLayout="row" fxLayoutAlign="space-between stretch">
@@ -146,8 +152,8 @@
             inline="true"
             [matBadgeColor]="wishItem.comments ? 'warn' : ''"
             matBadgeSize="medium"
-            >comment</mat-icon
-          >
+            >comment
+          </mat-icon>
           {{
             wishItem.comments && wishItem.comments.length > 1
               ? "Commentaires"
@@ -220,9 +226,8 @@
             <mat-icon aria-label="Envoyer le commentaire">add_comment</mat-icon>
           </button>
           <mat-hint
-            >le commentaire ne sera pas visible pour le owner de la
-            liste</mat-hint
-          >
+            >le commentaire ne sera pas visible pour le owner de la liste
+          </mat-hint>
         </mat-form-field>
       </div>
     </mat-expansion-panel>
@@ -244,8 +249,8 @@
           [gravatarId]="userGiven?.email"
           size="10"
           [round]="true"
-        ></ngx-avatar
-        >{{ userGiven?.name }}{{ !last ? "," : "" }}
+        ></ngx-avatar>
+        {{ userGiven?.name }}{{ !last ? "," : "" }}
       </span>
     </mat-label>
     <button

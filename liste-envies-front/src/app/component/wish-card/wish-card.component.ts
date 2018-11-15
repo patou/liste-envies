@@ -27,10 +27,11 @@ export class WishCardComponent implements OnInit {
     slidesPerView: 1,
     navigation: true,
     lazy: true,
-    zoom: true,
     grabCursor: true,
     centeredSlides: true,
+    spaceBetween: 15,
     watchOverflow: false,
+    centerInsufficientSlides: true,
     pagination: {
       el: ".swiper-pagination",
       type: "progressbar"
@@ -40,6 +41,8 @@ export class WishCardComponent implements OnInit {
       draggable: true
     }
   };
+
+  public index: number = 0;
 
   constructor(
     public dialog: MatDialog,
