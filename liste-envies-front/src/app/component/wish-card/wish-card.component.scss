@@ -226,8 +226,10 @@
     cursor: pointer;
   }
 
-  .comments {
+  mat-expansion-panel.comments {
     @include mat-elevation(2);
+
+    overflow: visible !important;
 
     .comment_icon {
       height: 15px;
@@ -255,9 +257,10 @@
       }
     }
 
-    .add_comment {
+    mat-action-row.add_comment {
       margin-top: 0px;
       padding: 0;
+      min-height: 130px;
       .button-add-comment {
         margin-left: 10px;
         padding-top: 2px;

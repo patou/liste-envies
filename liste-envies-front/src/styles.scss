@@ -151,6 +151,12 @@ mat-expansion-panel.badge-expansion-panel {
   }
 }
 
+mat-form-field.no-padding {
+  & > .mat-form-field-wrapper {
+    padding: 0 !important;
+  }
+}
+
 [hidden] {
   display: none !important;
 }

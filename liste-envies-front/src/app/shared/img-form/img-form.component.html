@@ -1,16 +1,22 @@
 <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5">
-  <img
-    [src]="
-      addImage
-        ? addImage
-        : 'https://placeholdit.imgix.net/~text?txtsize=10&txt=image&w=55&h=55&txttrack=0'
-    "
-    class="fixed border"
-    width="55"
-    height="55"
-    fxFlex="20"
-  />
-  <mat-form-field appearance="outline" fxFlex="65">
+  <div class="preview-img">
+    <img
+      [src]="
+        addImage
+          ? addImage
+          : 'https://placeholdit.imgix.net/~text?txtsize=10&txt=image&w=54&h=50&txttrack=0'
+      "
+      class="fixed"
+      width="54"
+      height="52"
+    />
+  </div>
+
+  <mat-form-field
+    appearance="outline"
+    fxFlex="70"
+    class="form-add-img no-padding"
+  >
     <mat-label>Ajouter une image</mat-label>
     <input
       matInput="url"
@@ -19,21 +25,24 @@
       [(ngModel)]="addImage"
     />
   </mat-form-field>
-  <button mat-mini-fab (click)="addImg(name.value)" fxFlex="15">
-    <mat-icon>add</mat-icon>
-  </button>
+  <div>
+    <button mat-mini-fab (click)="addImg(name.value)">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
 </div>
 <mat-error *ngIf="name.value">
   Cliquez sur l'icone + pour ajouter l'image
 </mat-error>
 
 <div *ngIf="(newImages && newImages.length > 0) || addImage">
-  <mat-grid-list cols="4" rowHeight="1:1" gutterSize="3">
+  <mat-grid-list cols="4" rowHeight="2:1" gutterSize="3" class="list-img">
     <mat-grid-tile
       *ngFor="let img of newImages; index as i"
       (click)="removeImg(i)"
     >
-      <img [src]="img" class="border " />
+      <img [src]="img" class="border fixed" />
+      <mat-icon class="remove-img">cancel</mat-icon>
     </mat-grid-tile>
   </mat-grid-list>
 </div>

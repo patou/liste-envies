@@ -161,7 +161,6 @@
           }}
         </mat-panel-title>
       </mat-expansion-panel-header>
-
       <mat-list>
         <ng-container *ngIf="wishItem.comments && wishItem.comments.length > 0">
           <mat-list-item
@@ -186,9 +185,9 @@
               de
               <span [matTooltip]="comment?.from?.email">
                 <mat-icon inline="true">person</mat-icon>
-                {{ comment?.from?.name }}</span
+                <b>{{ comment?.from?.name }}</b></span
               >
-              /
+              il y
               <span
                 title="{{comment?.date | date: 'long'}}"
                 [matTooltip]="comment?.date | date: 'long'"
@@ -197,39 +196,51 @@
                 {{ comment?.date | amLocal: "fr" | amTimeAgo }}
               </span>
             </p>
-            <h6 matLine>
-              <span> {{ comment?.text }} </span>
-            </h6>
+            <h6 matLine><span [innerHTML]="comment?.text"></span></h6>
             <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
           </mat-list-item>
 
           <mat-divider inset="true"></mat-divider>
         </ng-container>
       </mat-list>
+      <ng-template matExpansionPanelContent>
+        <mat-action-row *ngIf="wishItem.canParticipate" class="add_comment">
+          <!-- <div> -->
+          <mat-form-field appearance="fill">
+            <mat-label>Ajouter un commentaire</mat-label>
+            <!--
+              <textarea
+                matInput
+                placeholder="Entrez votre commentaire"
+                #addComment
+                (submit)="sendComment(addComment.value)"
+              ></textarea>
+            -->
 
-      <div *ngIf="wishItem.canParticipate" class="add_comment">
-        <mat-form-field appearance="fill">
-          <mat-label>Ajouter un commentaire</mat-label>
-          <textarea
-            matInput
-            placeholder="Entrez votre commentaire"
-            #addComment
-            (submit)="sendComment(addComment.value)"
-          ></textarea>
-          <button
-            mat-mini-fab
-            matSuffix
-            matTooltip="Envoyer le commentaires"
-            class="button-add-comment"
-            (click)="sendComment(addComment.value)"
-          >
-            <mat-icon aria-label="Envoyer le commentaire">add_comment</mat-icon>
-          </button>
-          <mat-hint
-            >le commentaire ne sera pas visible pour le owner de la liste
-          </mat-hint>
-        </mat-form-field>
-      </div>
+            <app-html-editor
+              [content]="addComment"
+              (contentChange)="addComment = $event"
+              type="light"
+              placeholder="Entrez votre commentaire"
+            ></app-html-editor>
+            <button
+              mat-mini-fab
+              matSuffix
+              matTooltip="Envoyer le commentaires"
+              class="button-add-comment"
+              (click)="sendComment(addComment)"
+            >
+              <mat-icon aria-label="Envoyer le commentaire"
+                >add_comment</mat-icon
+              >
+            </button>
+            <mat-hint
+              >le commentaire ne sera pas visible pour le owner de la liste
+            </mat-hint>
+          </mat-form-field>
+          <!-- </div> -->
+        </mat-action-row>
+      </ng-template>
     </mat-expansion-panel>
   </mat-card-content>
 

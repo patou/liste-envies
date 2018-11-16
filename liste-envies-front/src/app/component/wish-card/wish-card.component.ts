@@ -44,6 +44,16 @@ export class WishCardComponent implements OnInit {
 
   public index: number = 0;
 
+  public addComment: string = "";
+
+  public toolbar: [
+    ["bold", "italic", "underline", "strike"], // toggled buttons
+    ["blockquote"],
+    [{ list: "ordered" }, { list: "bullet" }],
+    ["clean"], // remove formatting button
+    ["link", "image", "video"] // link and image, video
+  ];
+
   constructor(
     public dialog: MatDialog,
     public wishApi: WishListApiService,
