@@ -2325,3 +2325,12 @@
     max-height: 80px;
   }
 }
+
+.editor-full {
+  .ql-toolbar.ql-snow {
+    border-radius: 4px;
+  }
+  .ql-container.ql-snow {
+    border: none;
+  }
+}

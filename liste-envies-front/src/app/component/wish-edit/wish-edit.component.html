@@ -30,14 +30,15 @@
       </mat-label>
     </div>
 
-    <div>
+    <mat-form-field appearance="outline" class="col-12">
+      <mat-label>Description</mat-label>
       <app-html-editor
         #description
         [(content)]="wishItem.description"
         placeholder="Description de l'envie"
       ></app-html-editor>
       <mat-hint>Vous pouvez donner plus de details sur votre envie.</mat-hint>
-    </div>
+    </mat-form-field>
 
     <div>
       <h5>Images</h5>
