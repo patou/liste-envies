@@ -17,7 +17,7 @@ export class WishesListService {
     private wishesListQuery: WishesListQuery
   ) {}
 
-  @Debounce(500)
+  @Debounce(200)
   get() {
     // console.trace('WishesListService.get()');
     this.wishesListStore.setLoading(true);

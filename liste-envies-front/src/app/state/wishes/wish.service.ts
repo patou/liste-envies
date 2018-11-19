@@ -5,6 +5,7 @@ import { WishStore } from "./wish.store";
 import { WishListApiService } from "../../service/wish-list-api.service";
 import { WishList } from "../../models/WishList";
 import { WishComment, WishItem } from "../../models/WishItem";
+import { Debounce } from "lodash-decorators";
 
 @Injectable({ providedIn: "root" })
 export class WishService {
@@ -13,6 +14,7 @@ export class WishService {
     private wishListApiService: WishListApiService
   ) {}
 
+  @Debounce(300)
   get(name: string, loading: boolean = true) {
     this.wishStore.setLoading(loading);
     this.wishListApiService.wishList(name).subscribe((wishList: WishList) => {

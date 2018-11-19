@@ -26,7 +26,7 @@ import { WishService } from "../../state/wishes/wish.service";
   selector: "app-list",
   templateUrl: "./list.component.html",
   styleUrls: ["./list.component.scss"],
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListComponent implements OnInit, OnChanges {
   listItems: Observable<WishItem[]>;

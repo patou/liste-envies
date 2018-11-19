@@ -99,6 +99,7 @@ export class HtmlEditorComponent
     this.stateChanges.next();
   }
   private _placeholder: string = "Entrez un texte";
+  private _placeholderCurrent: string = "";
 
   /** custom params **/
   @Input() public content: string | null = "";
@@ -150,14 +151,6 @@ export class HtmlEditorComponent
         };
         break;
     }
-
-    console.log(
-      "HtmlEditorComponent :",
-      this.type,
-      this.theme,
-      this.height,
-      this.modulesToolbar
-    );
   }
 
   constructor(
@@ -168,6 +161,11 @@ export class HtmlEditorComponent
   ) {
     fm.monitor(elRef, true).subscribe(origin => {
       this.focused = !!origin;
+      if (origin == null) {
+        this._placeholderCurrent = "";
+      } else {
+        this._placeholderCurrent = this._placeholder;
+      }
       this.stateChanges.next();
     });
   }
@@ -182,8 +180,6 @@ export class HtmlEditorComponent
   }
 
   onContainerClick(event: MouseEvent) {
-    /*if ((event.target as Element).tagName.toLowerCase() != 'input') {
-      this.elRef.nativeElement.querySelector('input')!.focus();
-    }*/
+    this._placeholderCurrent = this._placeholder;
   }
 }

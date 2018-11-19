@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { map } from "rxjs/operators";
 import { AuthService } from "../../service/auth.service";
@@ -10,7 +10,8 @@ import { WishList } from "../../models/WishList";
 @Component({
   selector: "app-page-nav",
   templateUrl: "./page-nav.component.html",
-  styleUrls: ["./page-nav.component.scss"]
+  styleUrls: ["./page-nav.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PageNavComponent implements OnInit {
   isHandset$: Observable<boolean> = this.breakpointObserver

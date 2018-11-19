@@ -4,10 +4,12 @@
   class="wish-card flip-front "
   fxLayout="column"
   fxLayoutAlign="space-between stretch"
-  ><!-- [@animateWishCard]="animateWishCard" -->
+  *ngIf="(wishItem$ | async) as wishItem"
+  ><!-- [@animateWishCard]="animateWishCard"
+  --><!-- *ngIf="wishItem$ | async as wishItem" -->
   <mat-card-header fxLayout="column" fxLayoutAlign="space-between stretch">
     <div
-      [class]="headerClass()"
+      [class]="headerClass(wishItem)"
       fxLayout="row"
       fxLayoutAlign="space-between center"
     >
@@ -139,9 +141,12 @@
     </div>
 
     <br />
-
+    expanded : {{ commentExpanded }}
     <mat-expansion-panel
       *ngIf="wishItem.canParticipate"
+      (opened)="commentExpanded = true"
+      (closed)="commentExpanded = false"
+      [expanded]="commentExpanded"
       class="comments badge-expansion-panel"
     >
       <mat-expansion-panel-header>
@@ -209,11 +214,15 @@
           <mat-form-field appearance="fill">
             <mat-label>Ajouter un commentaire</mat-label>
             <!--
-              <textarea
+              <textarea
                 matInput
+
                 placeholder="Entrez votre commentaire"
+
                 #addComment
+
                 (submit)="sendComment(addComment.value)"
+
               ></textarea>
             -->
 
@@ -221,14 +230,14 @@
               [content]="addComment"
               (contentChange)="addComment = $event"
               type="light"
-              placeholder="Entrez votre commentaire"
+              placeholder="Tappez ici votre commentaire et cliquez sur le bouton pour l'envoyer"
             ></app-html-editor>
             <button
               mat-mini-fab
               matSuffix
               matTooltip="Envoyer le commentaires"
               class="button-add-comment"
-              (click)="sendComment(addComment)"
+              (click)="sendComment(addComment, wishItem)"
             >
               <mat-icon aria-label="Envoyer le commentaire"
                 >add_comment</mat-icon
@@ -263,6 +272,14 @@
         ></ngx-avatar>
         {{ userGiven?.name }}{{ !last ? "," : "" }}
       </span>
+      <button
+        mat-raised-button
+        color="accent"
+        *ngIf="wishItem.userGiven && wishItem.canParticipate"
+        (click)="give(wishItem)"
+      >
+        Participer
+      </button>
     </mat-label>
     <button
       mat-raised-button
@@ -270,15 +287,15 @@
       *ngIf="
         !wishItem.allreadyGiven && wishItem.userGiven && wishItem.canParticipate
       "
-      (click)="give()"
+      (click)="give(wishItem)"
     >
-      Participer
+      Offrir
     </button>
     <button
       mat-raised-button
       color="primary"
       *ngIf="wishItem.canEdit"
-      (click)="editWish()"
+      (click)="editWish(wishItem)"
     >
       Modifier
     </button>

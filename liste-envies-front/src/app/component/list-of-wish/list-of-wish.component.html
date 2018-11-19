@@ -1,11 +1,9 @@
 <div class="row">
-  <div
-    class="col-4 wishitems-columns"
-    *ngFor="let colItems of (columns | async)"
-  >
+  <div class="col-4 wishitems-columns" *ngFor="let colItems of columns">
     <app-wish-card
-      [wishItem]="wishItem"
-      *ngFor="let wishItem of colItems"
+      [wishID]="wishItem.id"
+      [wishID]="wishItem.id"
+      *ngFor="let wishItem of (colItems | async); trackBy: trackByFn"
     ></app-wish-card>
   </div>
 </div>

@@ -1,13 +1,16 @@
 <!---->
 <quill-editor
   class="editor-{{type}}"
+  [ngClass]="{ focused: focused }"
   [ngModel]="content"
   (ngModelChange)="contentChange.emit($event)"
   [theme]="theme"
-  [placeholder]="placeholder"
+  [placeholder]="_placeholderCurrent"
   [style.height]="height"
   [style.maxHeight]="height"
   [modules]="modulesToolbar"
+  [readOnly]="disabled"
+  [required]="required"
   [bounds]="self"
 >
 </quill-editor>

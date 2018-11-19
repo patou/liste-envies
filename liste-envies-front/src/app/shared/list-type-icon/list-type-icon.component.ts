@@ -1,4 +1,4 @@
-import { Input, Component } from "@angular/core";
+import { Input, Component, ChangeDetectionStrategy } from "@angular/core";
 
 @Component({
   selector: "list-type-icon",
@@ -39,7 +39,8 @@ import { Input, Component } from "@angular/core";
         margin: 5px;
       }
     `
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListTypeIcon {
   @Input("type")

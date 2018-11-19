@@ -1,4 +1,13 @@
-import { Component, Input, OnInit } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  ViewChild
+} from "@angular/core";
 import { WishItem } from "../../models/WishItem";
 import { SwiperConfigInterface } from "ngx-swiper-wrapper";
 import { WishEditComponent } from "../wish-edit/wish-edit.component";
@@ -7,19 +16,26 @@ import { transition, trigger, useAnimation } from "@angular/animations";
 import { WishListApiService } from "../../service/wish-list-api.service";
 import { bounceInUp } from "ng-animate";
 import { WishService } from "../../state/wishes/wish.service";
+import { WishQuery } from "../../state/wishes/wish.query";
+import { Observable } from "rxjs/Observable";
+import { Subscription } from "rxjs/Subscription";
 
 @Component({
   selector: "app-wish-card",
   templateUrl: "./wish-card.component.html",
-  styleUrls: ["./wish-card.component.scss"]
+  styleUrls: ["./wish-card.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush
+
   /*animations: [
     trigger("animateWishCard", [transition("* => *", useAnimation(bounceInUp))])
   ]*/
 })
-export class WishCardComponent implements OnInit {
+export class WishCardComponent implements OnInit, OnChanges, OnDestroy {
   animateWishCard: any;
 
-  @Input() public wishItem: WishItem;
+  public wishItem$: Observable<WishItem>;
+  // public wishItem: WishItem;
+  @Input() public wishID: number;
   edit = false;
 
   public SWIPER_CONFIG: SwiperConfigInterface = {
@@ -53,16 +69,28 @@ export class WishCardComponent implements OnInit {
     ["clean"], // remove formatting button
     ["link", "image", "video"] // link and image, video
   ];
+  private commentExpanded: boolean;
 
   constructor(
     public dialog: MatDialog,
     public wishApi: WishListApiService,
+    public wishQuery: WishQuery,
     private wishService: WishService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log("Init Wish Card :", this);
+    this.subscriveWish();
+  }
 
-  editWish() {
+  private subscriveWish() {
+    if (this.wishID) {
+      this.wishItem$ = this.wishQuery.selectEntity(this.wishID);
+      // this.wishItem = this.wishQuery.getEntity(this.wishID);
+    }
+  }
+
+  editWish(wishItem: WishItem) {
     this.dialog
       .open(WishEditComponent, {
         width: "auto",
@@ -70,7 +98,7 @@ export class WishCardComponent implements OnInit {
         maxHeight: "90%",
         maxWidth: "100%",
         panelClass: "matDialogContent",
-        data: this.wishItem
+        data: wishItem
       })
       .afterClosed()
       .subscribe((result: WishItem) => {
@@ -86,26 +114,32 @@ export class WishCardComponent implements OnInit {
     this.edit = false;
   }
 
-  headerClass() {
-    if (this.wishItem.canSuggest && this.wishItem.given) {
+  headerClass(wishItem: WishItem) {
+    if (wishItem.canSuggest && wishItem.given) {
       return "header-danger";
     }
-    if (this.wishItem.canSuggest && this.wishItem.allreadyGiven) {
+    if (wishItem.canSuggest && wishItem.allreadyGiven) {
       return "header-warning";
     }
-    if (this.wishItem.canSuggest && this.wishItem.suggest) {
+    if (wishItem.canSuggest && wishItem.suggest) {
       return "header-info";
     }
     return "header-success";
   }
 
-  give() {
-    this.wishService.give(this.wishItem.id, this.wishItem);
+  give(wishItem: WishItem) {
+    this.wishService.give(wishItem.id, wishItem);
   }
 
-  sendComment(value: string) {
-    this.wishService.comment(this.wishItem.listId, this.wishItem.id, {
+  sendComment(value: string, wishItem: WishItem) {
+    this.wishService.comment(wishItem.listId, wishItem.id, {
       text: value
     });
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log("On Changes WishCard :", changes, this.commentExpanded);
+  }
+
+  ngOnDestroy(): void {}
 }

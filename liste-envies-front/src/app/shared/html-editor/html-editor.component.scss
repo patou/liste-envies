@@ -2329,8 +2329,15 @@
 .editor-full {
   .ql-toolbar.ql-snow {
     border-radius: 4px;
+    display: none;
   }
   .ql-container.ql-snow {
     border: none;
+  }
+
+  &.focused {
+    .ql-toolbar {
+      display: block;
+    }
   }
 }

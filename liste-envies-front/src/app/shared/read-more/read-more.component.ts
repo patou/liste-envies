@@ -1,5 +1,7 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
@@ -62,7 +64,8 @@ import { debounce } from "lodash-decorators";
         transition: all 0.3s ease-out;
       }
     `
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReadMoreComponent implements OnInit, AfterViewInit {
   @Input() public maxHeight: number = 120;
@@ -77,7 +80,7 @@ export class ReadMoreComponent implements OnInit, AfterViewInit {
   public opened = false;
   public hasReadMore = false;
 
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.currentMaxHeight = this.maxHeight + "px";
@@ -86,6 +89,7 @@ export class ReadMoreComponent implements OnInit, AfterViewInit {
   toggleReadMore() {
     this.opened = !this.opened;
     this.currentMaxHeight = this.opened ? "10000px" : this.maxHeight + "px";
+    this.cdr.detectChanges();
   }
 
   ngAfterViewInit(): void {
@@ -99,6 +103,7 @@ export class ReadMoreComponent implements OnInit, AfterViewInit {
       this.el.nativeElement.getBoundingClientRect().height >= this.maxHeight
     ) {
       this.hasReadMore = true;
+      this.cdr.detectChanges();
     }
   }
 }
