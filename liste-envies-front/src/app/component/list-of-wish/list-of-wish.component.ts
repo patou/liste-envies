@@ -21,11 +21,11 @@ declare var Macy;
   selector: "app-list-of-wish",
   templateUrl: "./list-of-wish.component.html",
   styleUrls: ["./list-of-wish.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush
-  /* animations: [
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
     trigger("animateColumn", [transition("* => *", useAnimation(fadeInUp))]),
     trigger("animateItems", [transition("* => *", useAnimation(bounceInLeft))])
-  ]*/
+  ]
 })
 export class ListOfWishComponent implements OnInit, OnChanges {
   animateItems: any;
@@ -75,7 +75,11 @@ export class ListOfWishComponent implements OnInit, OnChanges {
     }*/
   }
 
-  trackByFn(index, item) {
-    return item.id; // or item.id
+  trackByFn(index: number, item: WishItem) {
+    return item.id;
+  }
+
+  trackColumn(index: number, item: WishItem) {
+    return index;
   }
 }

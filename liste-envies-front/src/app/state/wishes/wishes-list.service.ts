@@ -19,7 +19,6 @@ export class WishesListService {
 
   @Debounce(200)
   get() {
-    // console.trace('WishesListService.get()');
     this.wishesListStore.setLoading(true);
     this.wishListService.listAll().subscribe(entities => {
       this.wishesListStore.set(entities);

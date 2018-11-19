@@ -4,9 +4,8 @@
   class="wish-card flip-front "
   fxLayout="column"
   fxLayoutAlign="space-between stretch"
-  *ngIf="(wishItem$ | async) as wishItem"
-  ><!-- [@animateWishCard]="animateWishCard"
-  --><!-- *ngIf="wishItem$ | async as wishItem" -->
+  [@animateWishCard]="animateWishCard"
+>
   <mat-card-header fxLayout="column" fxLayoutAlign="space-between stretch">
     <div
       [class]="headerClass(wishItem)"
@@ -141,7 +140,6 @@
     </div>
 
     <br />
-    expanded : {{ commentExpanded }}
     <mat-expansion-panel
       *ngIf="wishItem.canParticipate"
       (opened)="commentExpanded = true"
@@ -215,13 +213,18 @@
             <mat-label>Ajouter un commentaire</mat-label>
             <!--
               <textarea
+
                 matInput
+
 
                 placeholder="Entrez votre commentaire"
 
+
                 #addComment
 
+
                 (submit)="sendComment(addComment.value)"
+
 
               ></textarea>
             -->

@@ -27,7 +27,6 @@ export class WishListResolver implements Resolve<boolean> {
   ) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    console.log("List resolve ", route);
     this.setActive(route);
     return true;
   }

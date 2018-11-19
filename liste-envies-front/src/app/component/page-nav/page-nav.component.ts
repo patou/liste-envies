@@ -18,13 +18,14 @@ export class PageNavComponent implements OnInit {
     .observe(Breakpoints.Handset)
     .pipe(map(result => result.matches));
 
-  public userAuth: Observable<firebase.User>;
+  public userAuth$: Observable<firebase.User>;
 
   private myList$: Observable<WishList[]>;
   private otherList$: Observable<WishList[]>;
   private myListCount$: Observable<number>;
   private otherListCount$: Observable<number>;
   private loading$: Observable<boolean>;
+  private activeList$: Observable<string>;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -33,7 +34,7 @@ export class PageNavComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.userAuth = this.auth.user;
+    this.userAuth$ = this.auth.user;
     this.myList$ = this.wishesListQuery.selectAll({
       filterBy: list => list.owner
     });
@@ -45,6 +46,8 @@ export class PageNavComponent implements OnInit {
       list => !list.owner
     );
     this.loading$ = this.wishesListQuery.selectLoading();
+
+    this.activeList$ = this.wishesListQuery.selectActiveId();
   }
 
   connect() {
@@ -53,5 +56,9 @@ export class PageNavComponent implements OnInit {
 
   logout() {
     this.auth.logout();
+  }
+
+  trackByFn(index: number, item: WishList) {
+    return item.name;
   }
 }

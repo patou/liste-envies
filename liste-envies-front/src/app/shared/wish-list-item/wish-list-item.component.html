@@ -1,11 +1,12 @@
 <a
   [class.owner]="wishlist.owner"
+  [class.active]="active"
   [matTooltip]="
     wishlist.description
       ? (wishlist.description | stripTags | truncate: 200:'...':true)
       : null
   "
-  [routerLink]="['/', wishlist.name]"
+  [routerLink]="active ? null : ['/', wishlist.name]"
   matRipple
   class="wish-list-item list-envies-item"
   fxLayout="column"

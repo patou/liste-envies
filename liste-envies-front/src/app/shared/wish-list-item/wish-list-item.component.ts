@@ -16,6 +16,9 @@ export class WishListItemComponent implements OnInit {
   @Input()
   wishlist: WishList;
 
+  @Input()
+  active: boolean = false;
+
   constructor() {}
 
   ngOnInit() {}

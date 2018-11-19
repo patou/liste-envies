@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 
 .wish-list-item {
   position: relative;
@@ -15,6 +15,12 @@
   background-color: #fff;
   border-radius: 5px;
   margin: 7px 10px;
+
+  &.active {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.5;
+  }
 }
 
 .wish-list-item.owner {
@@ -45,14 +51,9 @@
   text-align: center;
 }
 
-
-
-
 .wish-list-item-text {
-
   width: 100%;
   min-width: 100%;
-
 
   font-size: 0.9em;
   -webkit-line-clamp: 3;

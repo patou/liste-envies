@@ -5,7 +5,7 @@ import { WishStore } from "./wish.store";
 import { WishListApiService } from "../../service/wish-list-api.service";
 import { WishList } from "../../models/WishList";
 import { WishComment, WishItem } from "../../models/WishItem";
-import { Debounce } from "lodash-decorators";
+import { Debounce, Throttle } from "lodash-decorators";
 
 @Injectable({ providedIn: "root" })
 export class WishService {
@@ -14,17 +14,24 @@ export class WishService {
     private wishListApiService: WishListApiService
   ) {}
 
-  @Debounce(300)
+  @Throttle(400)
   get(name: string, loading: boolean = true) {
     this.wishStore.setLoading(loading);
-    this.wishListApiService.wishList(name).subscribe((wishList: WishList) => {
-      console.log("wishList :", wishList);
-      this.wishStore.updateRoot({ wishList });
-    });
+
     this.wishListApiService.wishes(name).subscribe((wishes: WishItem[]) => {
       console.log("wishListItems :", wishes);
       this.wishStore.setLoading(false);
       this.wishStore.set(wishes);
+    });
+
+    this.getWishListInfos(name);
+  }
+
+  @Debounce(100)
+  private getWishListInfos(name: string) {
+    this.wishListApiService.wishList(name).subscribe((wishList: WishList) => {
+      console.log("wishList :", wishList);
+      this.wishStore.updateRoot({ wishList });
     });
   }
 
@@ -63,7 +70,7 @@ export class WishService {
     this.wishStore.updateRoot({ wishList });
   }
 
-  @action({ type: "add_comment" })
+  @action({ type: "add comment" })
   comment(listId: string, id: number, note: Partial<WishComment>) {
     this.wishListApiService
       .comment(listId, id, note)

@@ -24,18 +24,17 @@ import { Subscription } from "rxjs/Subscription";
   selector: "app-wish-card",
   templateUrl: "./wish-card.component.html",
   styleUrls: ["./wish-card.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush
-
-  /*animations: [
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
     trigger("animateWishCard", [transition("* => *", useAnimation(bounceInUp))])
-  ]*/
+  ]
 })
 export class WishCardComponent implements OnInit, OnChanges, OnDestroy {
   animateWishCard: any;
 
   public wishItem$: Observable<WishItem>;
-  // public wishItem: WishItem;
-  @Input() public wishID: number;
+  @Input() public wishItem: WishItem;
+  //@Input() public wishID: number;
   edit = false;
 
   public SWIPER_CONFIG: SwiperConfigInterface = {
@@ -84,10 +83,10 @@ export class WishCardComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private subscriveWish() {
-    if (this.wishID) {
+    /*if (this.wishID) {
       this.wishItem$ = this.wishQuery.selectEntity(this.wishID);
       // this.wishItem = this.wishQuery.getEntity(this.wishID);
-    }
+    }*/
   }
 
   editWish(wishItem: WishItem) {

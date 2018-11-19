@@ -12,7 +12,13 @@ const routes: Routes = [
     path: "",
     component: PageComponent,
     children: [
-      { path: "", component: HomeComponent },
+      {
+        path: "",
+        component: HomeComponent,
+        resolve: {
+          whishList: WishListResolver
+        }
+      },
       {
         path: "addList",
         component: AddListComponent

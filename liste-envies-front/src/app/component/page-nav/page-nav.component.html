@@ -1,37 +1,53 @@
 <mat-sidenav-container class="sidenav-container">
+  <div *ngIf="(activeList$ | async) as activeListId"></div>
+
   <mat-sidenav
     #drawer
     class="sidenav"
     fixedInViewport="true"
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="!(isHandset$ | async)"
+    [opened]="!(isHandset$ | async) || !(activeList$ | async)"
   >
-    <mat-toolbar color="primary">Listes </mat-toolbar>
+    <mat-toolbar color="primary">Listes</mat-toolbar>
 
     <div *ngIf="!(loading$ | async); else: loading" class="content_sidenav">
       <mat-accordion multi="true">
-        <mat-expansion-panel expanded="true" *ngIf="(myListCount$ | async) as myListCount">
+        <mat-expansion-panel
+          expanded="true"
+          *ngIf="(myListCount$ | async) as myListCount"
+        >
           <mat-expansion-panel-header>
-
-            <mat-panel-title  [matBadge]="myListCount" matBadgeColor="accent"  matBadgeSize="medium">
+            <mat-panel-title
+              [matBadge]="myListCount"
+              matBadgeColor="accent"
+              matBadgeSize="medium"
+            >
               Mes listes
             </mat-panel-title>
           </mat-expansion-panel-header>
 
           <mat-nav-list>
             <wish-list-item
-              *ngFor="let wishList of (myList$ | async)"
+              *ngFor="let wishList of (myList$ | async); trackBy: trackByFn"
               [wishlist]="wishList"
+              [active]="wishList.name === (activeList$ | async)"
               class="wishListCard"
               mat-list-item
             >
             </wish-list-item>
           </mat-nav-list>
         </mat-expansion-panel>
-        <mat-expansion-panel expanded="true" *ngIf="(otherListCount$ | async) as otherListCount" >
+        <mat-expansion-panel
+          expanded="true"
+          *ngIf="(otherListCount$ | async) as otherListCount"
+        >
           <mat-expansion-panel-header>
-            <mat-panel-title  [matBadge]="otherListCount" matBadgeColor="accent"  matBadgeSize="medium">
+            <mat-panel-title
+              [matBadge]="otherListCount"
+              matBadgeColor="accent"
+              matBadgeSize="medium"
+            >
               Autres listes partagées
             </mat-panel-title>
           </mat-expansion-panel-header>
@@ -69,7 +85,7 @@
         Listes de mes envies</a
       >
 
-      <div *ngIf="(userAuth | async) as user; else: showLogin">
+      <div *ngIf="(userAuth$ | async) as user; else: showLogin">
         <button mat-button [mat-menu-trigger-for]="connected">
           <span>
             <ngx-avatar
