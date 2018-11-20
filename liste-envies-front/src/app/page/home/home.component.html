@@ -34,21 +34,23 @@
       <mat-icon>playlist_add</mat-icon>
     </button>
   </span>
-    <mat-grid-list  *ngIf="!(loading$ | async); else: loading"
-                    cols="3" rowHeight="80" gutterSize="4"
-                    class="whishList-Container">
-      <mat-grid-tile *ngFor="let wishList of (list$ | async)">
-        <wish-list-item
-          class="wishListCard"
-          [wishlist]="wishList"
-        >
-        </wish-list-item>
-      </mat-grid-tile>
-    </mat-grid-list>
+  <mat-grid-list
+    *ngIf="!(loading$ | async); else: loading"
+    cols="3"
+    rowHeight="80"
+    gutterSize="4"
+    class="whishList-Container"
+  >
+    <mat-grid-tile *ngFor="let wishList of (list$ | async)">
+      <wish-list-item class="wishListCard" [wishlist]="wishList">
+      </wish-list-item>
+    </mat-grid-tile>
+  </mat-grid-list>
 
   <ng-template #loading>
     <div fxLayout="column" fxLayoutAlign="center center">
       <mat-spinner></mat-spinner>
     </div>
   </ng-template>
+  <app-page-footer></app-page-footer>
 </div>

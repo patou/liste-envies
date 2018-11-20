@@ -9,7 +9,6 @@
   &:hover {
     @include mat-elevation(8);
   }
-  width: 90%;
   height: 90%;
   padding: 0.5em;
   background-color: #fff;
@@ -65,6 +64,8 @@
     display: inline-block;
     margin: 0 2px;
     vertical-align: center;
+    position: relative;
+    bottom: -2px;
   }
 }
 

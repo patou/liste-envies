@@ -1,0 +1,16 @@
+footer {
+  margin: 0 5px;
+  color: grey;
+  font-size: 0.8em;
+  text-align: center;
+  display: flex;
+  justify-content: space-evenly;
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    a {
+      margin: 5px;
+    }
+  }
+}

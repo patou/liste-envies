@@ -1,28 +1,28 @@
 <div
   class="page-background"
-  [style.backgroundImage]="'url(/assets/' + whishList$?.picture + ')'"
+  [style.backgroundImage]="'url(/assets/' + list?.picture + ')'"
 >
-  <mat-card class="header-page-card" *ngIf="(whishList$ | async) as whishList">
+  <mat-card class="header-page-card" *ngIf="list">
     <section class="mat-typography">
-      <h1>
-        <list-type-icon [type]="whishList.type"></list-type-icon
-        >{{ whishList.title }}
+      <h1 [title]="list.title">
+        <list-type-icon [type]="list.type"></list-type-icon>{{ list.title }}
       </h1>
     </section>
     <mat-card-content>
-      <read-more [content]="whishList.description" maxHeight="200"></read-more>
+      <read-more [content]="list.description" maxHeight="200"></read-more>
     </mat-card-content>
   </mat-card>
   <div *ngIf="!(loading$ | async); else: loading">
     <app-list-of-wish [list]="listItems" class="col-12"></app-list-of-wish>
   </div>
-  <ng-template #loading>
-    <div fxLayout="column" fxLayoutAlign="center center">
-      <mat-spinner></mat-spinner>
-    </div>
-  </ng-template>
 
   <span class="done">
     <button mat-fab (click)="addWish()"><mat-icon>add</mat-icon></button>
   </span>
+  <app-page-footer></app-page-footer>
 </div>
+<ng-template #loading>
+  <div fxLayout="column" fxLayoutAlign="center center">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

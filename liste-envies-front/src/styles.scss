@@ -58,18 +58,21 @@ firebase-ui .firebaseui-container {
   overflow: auto;
   max-height: 95%;
 }
-.content_sidenav mat-expansion-panel {
-  .mat-badge-content.mat-badge-active {
-    top: 1px !important;
-  }
-  .mat-expansion-panel-body {
-    padding: 0 !important;
-  }
-}
 mat-expansion-panel.badge-expansion-panel {
   span.mat-content {
     /* height: 48px; */
     padding: 12px 0;
+  }
+}
+.content_sidenav mat-expansion-panel {
+  padding: 5px 0;
+
+  .mat-badge-content.mat-badge-active {
+    top: 1px !important;
+    font-size: 0.8em;
+  }
+  .mat-expansion-panel-body {
+    padding: 0 !important;
   }
 }
 

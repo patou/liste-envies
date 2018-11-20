@@ -12,8 +12,9 @@
     <mat-toolbar color="primary">Listes</mat-toolbar>
 
     <div *ngIf="!(loading$ | async); else: loading" class="content_sidenav">
-      <mat-accordion multi="true">
+      <mat-accordion multi="true" displayMode="flat">
         <mat-expansion-panel
+          class="mat-elevation-z0 badge-expansion-panel"
           expanded="true"
           *ngIf="(myListCount$ | async) as myListCount"
         >
@@ -21,7 +22,7 @@
             <mat-panel-title
               [matBadge]="myListCount"
               matBadgeColor="accent"
-              matBadgeSize="medium"
+              matBadgeSize="small"
             >
               Mes listes
             </mat-panel-title>
@@ -41,12 +42,13 @@
         <mat-expansion-panel
           expanded="true"
           *ngIf="(otherListCount$ | async) as otherListCount"
+          class="mat-elevation-z0 badge-expansion-panel"
         >
           <mat-expansion-panel-header>
             <mat-panel-title
               [matBadge]="otherListCount"
               matBadgeColor="accent"
-              matBadgeSize="medium"
+              matBadgeSize="small"
             >
               Autres listes partagées
             </mat-panel-title>

@@ -27,30 +27,29 @@
         </button>
         <button
           mat-icon-button
-          *ngIf="wishItem.canEdit"
           [matMenuTriggerFor]="menu"
           class="col-1 push-right"
         >
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu" xPosition="before">
-          <button mat-menu-item disabled>
+          <button mat-menu-item disabled *ngIf="wishItem.canEdit">
             <mat-icon>archive</mat-icon>
             <span>Archiver</span>
           </button>
-          <button mat-menu-item disabled>
+          <button mat-menu-item disabled *ngIf="wishItem.canEdit">
             <mat-icon>delete</mat-icon>
             <span>Supprimer</span>
           </button>
           <button mat-menu-item disabled>
-            <mat-icon>copy</mat-icon>
+            <mat-icon>file_copy</mat-icon>
             <span>Copier</span>
           </button>
         </mat-menu>
       </span>
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between stretch">
-      <span matTooltip="{{wishItem.date | date: 'long'}}"
+      <span matTooltip="{{wishItem.date | date: 'long'}}" class="date"
         ><mat-icon>date_range</mat-icon>
         {{ wishItem.date | amLocal: "fr" | amTimeAgo }}</span
       >
@@ -145,7 +144,7 @@
       (opened)="commentExpanded = true"
       (closed)="commentExpanded = false"
       [expanded]="commentExpanded"
-      class="comments badge-expansion-panel"
+      class="comments badge-expansion-panel mat-elevation-z0"
     >
       <mat-expansion-panel-header>
         <mat-panel-title>
@@ -214,16 +213,21 @@
             <!--
               <textarea
 
+
                 matInput
+
 
 
                 placeholder="Entrez votre commentaire"
 
 
+
                 #addComment
 
 
+
                 (submit)="sendComment(addComment.value)"
+
 
 
               ></textarea>
@@ -261,22 +265,27 @@
       Déjà offert
     </mat-label>
 
-    <mat-label color="warn" *ngIf="wishItem.userGiven" disableRipple="true">
+    <mat-label
+      color="warn"
+      *ngIf="wishItem.userGiven"
+      disableRipple="true"
+      class="userGiven"
+    >
       Offert par
       <span
         *ngFor="let userGiven of wishItem.userTake; let last = last"
-        matTooltip="'{{userGiven?.name}} : {{userGiven?.email}}'"
+        matTooltip="{{userGiven?.name}} : {{userGiven?.email}}"
       >
         <ngx-avatar
           [name]="userGiven?.name"
           [gravatarId]="userGiven?.email"
-          size="10"
+          size="20"
           [round]="true"
         ></ngx-avatar>
         {{ userGiven?.name }}{{ !last ? "," : "" }}
       </span>
       <button
-        mat-raised-button
+        mat-stroked-button
         color="accent"
         *ngIf="wishItem.userGiven && wishItem.canParticipate"
         (click)="give(wishItem)"
