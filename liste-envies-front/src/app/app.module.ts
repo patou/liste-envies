@@ -36,6 +36,10 @@ import { AkitaNgDevtools } from "@datorama/akita-ngdevtools";
 import { environment } from "../environments/environment";
 import { enableAkitaProdMode } from "@datorama/akita";
 import { NotificationsComponent } from "./component/notifications/notifications.component";
+import { akitaConfig } from "@datorama/akita";
+akitaConfig({
+  resettable: true
+});
 
 // the second parameter 'fr' is optional
 registerLocaleData(localeFr, "fr");

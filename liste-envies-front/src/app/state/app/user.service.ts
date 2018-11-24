@@ -11,6 +11,7 @@ import { concatMap } from "rxjs/operators";
 import { Subscription } from "rxjs/Subscription";
 import { NotificationsService } from "./notifications.service";
 import { Notification } from "./notification.model";
+import { resetStores } from "@datorama/akita";
 
 @Injectable({ providedIn: "root" })
 export class UserService {
@@ -31,11 +32,11 @@ export class UserService {
   }
 
   logout() {
+    resetStores();
     this.userStore.update(createInitialState());
     if (this.pollingNotificationsSubscription$) {
       this.pollingNotificationsSubscription$.unsubscribe();
     }
-    this.notificationService.reset();
     this.userStore.setPristine();
   }
 

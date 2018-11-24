@@ -3,17 +3,17 @@
     <section class="mat-typography">
       <div *ngIf="(userAuth | async) as user; else: showLogin">
         <h1>
-          Bonjour, {{ user.displayName }}! Bienvenue sur votre liste des envies
+          Bonjour {{ user.displayName }}! Bienvenue sur vos listes d'envies
         </h1>
       </div>
       <ng-template #showLogin>
         <h1>Bonjour, Bienvenue sur la liste de vos envies</h1>
         <p>
-          La liste d'envies qui vous permets de partager vos envies de cadeaux
-          avec vos proches, Ceux ci peuvent indiquer quels cadeaux ils souhaites
-          vous offrir et ce mettre d'accord entre eux, (pour ne pas offrir le
-          même), mais sans que vous ne soyez informé, pour garder la surprise le
-          jour J.
+          Unique en son genre ! Voici LA liste d'envies qui vous permet de
+          partager vos envies de cadeaux avec vos proches. Ainsi, ces derniers
+          peuvent indiquer quel(s) cadeau(x) ils souhaitent vous offrir, se
+          mettre d'accord entre eux,(en évitant les doublons!)sans que vous en
+          soyez informé. Vous aurez la surprise le jour j !
         </p>
         <p>
           Vous pouvez vous connecter / ou créer un compte pour commencer à créer
