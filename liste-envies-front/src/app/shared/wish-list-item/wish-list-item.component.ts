@@ -5,6 +5,8 @@ import {
   ChangeDetectionStrategy
 } from "@angular/core";
 import { WishList } from "../../models/WishList";
+import { NotificationsQuery } from "../../state/app/notifications.query";
+import { Observable } from "rxjs/Observable";
 
 @Component({
   selector: "wish-list-item",
@@ -19,7 +21,13 @@ export class WishListItemComponent implements OnInit {
   @Input()
   active: boolean = false;
 
-  constructor() {}
+  notifsCount$: Observable<number>;
 
-  ngOnInit() {}
+  constructor(private notificationQuery: NotificationsQuery) {}
+
+  ngOnInit() {
+    this.notifsCount$ = this.notificationQuery.selectCount(
+      notification => notification.listId === this.wishlist.name
+    );
+  }
 }

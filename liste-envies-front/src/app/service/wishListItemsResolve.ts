@@ -20,7 +20,6 @@ export class WishListItemsResolver implements Resolve<boolean> {
   ) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    console.log("List items resolve ", route);
     this.wishService.get(route.params.listId);
     return true;
   }

@@ -33,7 +33,7 @@
     "@angular/platform-browser": "^7.0.2",
     "@angular/platform-browser-dynamic": "^7.0.2",
     "@angular/router": "^7.0.2",
-    "@datorama/akita": "^1.21.0",
+    "@datorama/akita": "^1.22.0",
     "@firebase/app-types": "^0.3.2",
     "@schuchard/prettier": "^2.0.0",
     "angular-xxl": "^1.0.1",

@@ -5,7 +5,9 @@ import {
   Component,
   ElementRef,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   ViewChild
 } from "@angular/core";
 import { debounce } from "lodash-decorators";
@@ -67,7 +69,7 @@ import { debounce } from "lodash-decorators";
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ReadMoreComponent implements OnInit, AfterViewInit {
+export class ReadMoreComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() public maxHeight: number = 120;
   public currentMaxHeight: string;
 
@@ -105,5 +107,9 @@ export class ReadMoreComponent implements OnInit, AfterViewInit {
       this.hasReadMore = true;
       this.cdr.detectChanges();
     }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.testHeight();
   }
 }

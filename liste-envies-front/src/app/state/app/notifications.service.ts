@@ -10,15 +10,11 @@ export class NotificationsService {
   constructor(private notificationsStore: NotificationsStore) {}
 
   add(notification: Notification[]) {
-    for (const notif of notification) {
-      if (!entityExists(notif.date, this.notificationsStore.entities)) {
-        this.notificationsStore.add(notification, { prepend: true });
-      }
-    }
-
     if (this.notificationsStore.isPristine) {
       this.notificationsStore.setLoading(false);
     }
+
+    this.notificationsStore.add(notification, { prepend: true });
   }
 
   update(id, notification: Partial<Notification>) {

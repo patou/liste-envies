@@ -78,7 +78,6 @@ export class WishCardComponent implements OnInit, OnChanges, OnDestroy {
   ) {}
 
   ngOnInit() {
-    console.log("Init Wish Card :", this);
     this.subscriveWish();
   }
 
@@ -136,9 +135,7 @@ export class WishCardComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log("On Changes WishCard :", changes, this.commentExpanded);
-  }
+  ngOnChanges(changes: SimpleChanges): void {}
 
   ngOnDestroy(): void {}
 }

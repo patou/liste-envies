@@ -1,5 +1,7 @@
 mat-toolbar {
-  a.title, a:active.title, a:visited.title {
+  a.title,
+  a:active.title,
+  a:visited.title {
     padding-left: 5px;
     flex: 1;
     color: #fff;
@@ -10,4 +12,9 @@ mat-toolbar {
     float: left;
     margin-right: 10px;
   }
+}
+
+.page-content {
+  overflow: auto;
+  height: calc(100% - 64px);
 }

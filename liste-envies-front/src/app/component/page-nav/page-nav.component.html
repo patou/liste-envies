@@ -1,6 +1,4 @@
 <mat-sidenav-container class="sidenav-container">
-  <div *ngIf="(activeList$ | async) as activeListId"></div>
-
   <mat-sidenav
     #drawer
     class="sidenav"
@@ -35,6 +33,7 @@
               [active]="wishList.name === (activeList$ | async)"
               class="wishListCard"
               mat-list-item
+              (click)="isHandset ? drawer.close() : true"
             >
             </wish-list-item>
           </mat-nav-list>
@@ -97,6 +96,7 @@
         <mat-icon
           aria-label="Side nav toggle icon"
           [matBadge]="notifsCount$ | async"
+          matBadgeColor="warn"
           >notifications_active</mat-icon
         >
       </button>
@@ -141,13 +141,15 @@
   <mat-sidenav
     #notifs
     class="sidenav"
-    fixedInViewport="true"
+    fixedInViewport="false"
     attr.role="dialog"
     mode="over"
     position="end"
-    fixedTopGap="48px"
+    fixedTopGap="70"
   >
     <mat-toolbar color="primary">Notifications </mat-toolbar>
-    <app-notifications></app-notifications>
+    <app-notifications
+      (onSelect)="closeNotifications(notifs)"
+    ></app-notifications>
   </mat-sidenav>
 </mat-sidenav-container>

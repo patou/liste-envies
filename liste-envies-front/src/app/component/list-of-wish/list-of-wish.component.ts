@@ -44,8 +44,6 @@ export class ListOfWishComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit() {
-    console.log("On init wishItems ", this.list);
-
     this.splitObservable();
   }
 
@@ -59,21 +57,7 @@ export class ListOfWishComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log("list of wish onChanges", changes);
-    // this.splitObservable();
-    /*if (changes.list && changes.list.currentValue) {
-      this.columns = changes.list.currentValue.reduce(
-        (acc, val, index) => {
-          acc[index % acc.length].push(val);
-          return acc;
-        },
-        Array(this.nbrColumns)
-          .fill(0)
-          .map(() => [])
-      );
-    }*/
-  }
+  ngOnChanges(changes: SimpleChanges): void {}
 
   trackByFn(index: number, item: WishItem) {
     return item.id;

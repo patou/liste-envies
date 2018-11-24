@@ -1,5 +1,5 @@
 <ng-template #loading>Loading...</ng-template>
-<mat-nav-list>
+<mat-nav-list (click)="onSelect.emit()">
   <ng-container *ngFor="let notification of (notifications$ | async)">
     <ng-container [ngSwitch]="notification.type">
       <mat-list-item

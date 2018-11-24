@@ -19,7 +19,6 @@ export class WishService {
     this.wishStore.setLoading(loading);
 
     this.wishListApiService.wishes(name).subscribe((wishes: WishItem[]) => {
-      console.log("wishListItems :", wishes);
       this.wishStore.setLoading(false);
       this.wishStore.set(wishes);
     });
@@ -30,7 +29,6 @@ export class WishService {
   @Debounce(100)
   private getWishListInfos(name: string) {
     this.wishListApiService.wishList(name).subscribe((wishList: WishList) => {
-      console.log("wishList :", wishList);
       this.wishStore.updateRoot({ wishList });
     });
   }

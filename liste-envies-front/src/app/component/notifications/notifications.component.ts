@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { ID } from "@datorama/akita";
 import { Observable } from "rxjs";
 import { NotificationsService } from "../../state/app/notifications.service";
@@ -19,6 +19,8 @@ export class NotificationsComponent implements OnInit {
   notifications$: Observable<Notification[]>;
   isLoading$: Observable<boolean>;
 
+  @Output() onSelect = new EventEmitter<void>();
+
   constructor(
     private notificationsQuery: NotificationsQuery,
     private notificationsService: NotificationsService
@@ -27,7 +29,5 @@ export class NotificationsComponent implements OnInit {
   ngOnInit() {
     this.notifications$ = this.notificationsQuery.selectAll();
     this.isLoading$ = this.notificationsQuery.selectLoading();
-
-    // this.notificationsService.get();
   }
 }

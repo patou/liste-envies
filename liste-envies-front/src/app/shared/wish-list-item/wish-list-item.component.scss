@@ -20,6 +20,12 @@
     cursor: default;
     opacity: 0.5;
   }
+
+  .notification-list {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+  }
 }
 
 .wish-list-item.owner {

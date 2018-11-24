@@ -67,7 +67,7 @@ mat-expansion-panel.badge-expansion-panel {
 .content_sidenav mat-expansion-panel {
   padding: 5px 0;
 
-  .mat-badge-content.mat-badge-active {
+  mat-expansion-panel-header .mat-badge-content.mat-badge-active {
     top: 1px !important;
     font-size: 0.8em;
   }

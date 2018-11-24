@@ -1,6 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ViewChild
+} from "@angular/core";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
-import { map } from "rxjs/operators";
+import { map, tap } from "rxjs/operators";
 import { AuthService } from "../../service/auth.service";
 import * as firebase from "firebase";
 import { Observable } from "rxjs/Observable";
@@ -8,6 +13,8 @@ import { WishesListQuery } from "../../state/wishes/wishes-list.query";
 import { WishList } from "../../models/WishList";
 import { NotificationsService } from "../../state/app/notifications.service";
 import { NotificationsQuery } from "../../state/app/notifications.query";
+import { MatDrawer } from "@angular/material";
+import { debounce } from "lodash-decorators";
 
 @Component({
   selector: "app-page-nav",
@@ -18,7 +25,12 @@ import { NotificationsQuery } from "../../state/app/notifications.query";
 export class PageNavComponent implements OnInit {
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
-    .pipe(map(result => result.matches));
+    .pipe(
+      map(result => result.matches),
+      tap(ishandset => (this.isHandset = ishandset))
+    );
+
+  isHandset: boolean;
 
   public userAuth$: Observable<firebase.User>;
 
@@ -66,5 +78,10 @@ export class PageNavComponent implements OnInit {
 
   trackByFn(index: number, item: WishList) {
     return item.name;
+  }
+
+  @debounce(100)
+  closeNotifications(notifs) {
+    notifs.close();
   }
 }
