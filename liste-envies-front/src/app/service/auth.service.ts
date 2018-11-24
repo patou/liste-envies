@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
-import {User, UserInfo} from 'firebase';
+import { User, UserInfo } from "firebase";
 import {
   HttpHandler,
   HttpInterceptor,
@@ -14,6 +14,7 @@ import { pluck } from "rxjs/operators";
 import { WishesListService } from "../state/wishes/wishes-list.service";
 import { UserService } from "../state/app/user.service";
 import { UserQuery } from "../state/app/user.query";
+import { WishList } from "../models/WishList";
 
 @Injectable()
 export class AuthService implements HttpInterceptor {
@@ -33,10 +34,12 @@ export class AuthService implements HttpInterceptor {
 
     firebaseAuth.authState.subscribe(
       (user: User) => {
-
         if (user) {
-
-          if ((AuthService.currentUser && user.uid !== AuthService.currentUser.uid) ||  !AuthService.currentUser) {
+          if (
+            (AuthService.currentUser &&
+              user.uid !== AuthService.currentUser.uid) ||
+            !AuthService.currentUser
+          ) {
             user.getIdToken().then((token: string) => {
               AuthService.currentToken = token;
               // emit change user only when the token id was getting.
@@ -53,7 +56,6 @@ export class AuthService implements HttpInterceptor {
               this.wishesList.get();
             });
           }
-
 
           AuthService.currentUser = user;
         } else {
@@ -100,8 +102,11 @@ export class AuthService implements HttpInterceptor {
       data: {}
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-    });
+    dialogRef.afterClosed().subscribe(result => {});
+  }
+
+  notifications(): Observable<Notification[]> {
+    return null;
   }
 
   logout() {

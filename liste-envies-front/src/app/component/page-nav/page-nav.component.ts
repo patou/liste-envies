@@ -6,6 +6,8 @@ import * as firebase from "firebase";
 import { Observable } from "rxjs/Observable";
 import { WishesListQuery } from "../../state/wishes/wishes-list.query";
 import { WishList } from "../../models/WishList";
+import { NotificationsService } from "../../state/app/notifications.service";
+import { NotificationsQuery } from "../../state/app/notifications.query";
 
 @Component({
   selector: "app-page-nav",
@@ -26,11 +28,13 @@ export class PageNavComponent implements OnInit {
   private otherListCount$: Observable<number>;
   private loading$: Observable<boolean>;
   private activeList$: Observable<string>;
+  private notifsCount$: Observable<number>;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
     private wishesListQuery: WishesListQuery,
-    private auth: AuthService
+    private auth: AuthService,
+    private notificationsQuery: NotificationsQuery
   ) {}
 
   ngOnInit() {
@@ -48,6 +52,8 @@ export class PageNavComponent implements OnInit {
     this.loading$ = this.wishesListQuery.selectLoading();
 
     this.activeList$ = this.wishesListQuery.selectActiveId();
+
+    this.notifsCount$ = this.notificationsQuery.selectCount();
   }
 
   connect() {

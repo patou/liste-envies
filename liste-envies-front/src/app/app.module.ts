@@ -35,6 +35,7 @@ import { WishListItemsResolver } from "./service/wishListItemsResolve";
 import { AkitaNgDevtools } from "@datorama/akita-ngdevtools";
 import { environment } from "../environments/environment";
 import { enableAkitaProdMode } from "@datorama/akita";
+import { NotificationsComponent } from "./component/notifications/notifications.component";
 
 // the second parameter 'fr' is optional
 registerLocaleData(localeFr, "fr");
@@ -54,7 +55,8 @@ if (environment.production) {
     WishEditComponent,
     AddListComponent,
     LoginDialogComponent,
-    PageNavComponent
+    PageNavComponent,
+    NotificationsComponent
   ],
   imports: [
     AppRoutingModule,

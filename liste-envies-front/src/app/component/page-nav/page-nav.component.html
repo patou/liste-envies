@@ -57,6 +57,7 @@
             <wish-list-item
               *ngFor="let wishList of (otherList$ | async)"
               [wishlist]="wishList"
+              [active]="wishList.name === (activeList$ | async)"
               class="wishListCard"
               mat-list-item
             >
@@ -86,6 +87,19 @@
         ><span><mat-icon fontSet="fa" fontIcon="fa-gift"></mat-icon></span>
         Listes de mes envies</a
       >
+
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="notifs.toggle()"
+      >
+        <mat-icon
+          aria-label="Side nav toggle icon"
+          [matBadge]="notifsCount$ | async"
+          >notifications_active</mat-icon
+        >
+      </button>
 
       <div *ngIf="(userAuth$ | async) as user; else: showLogin">
         <button mat-button [mat-menu-trigger-for]="connected">
@@ -123,4 +137,17 @@
     </mat-menu>
     <ng-content></ng-content>
   </mat-sidenav-content>
+
+  <mat-sidenav
+    #notifs
+    class="sidenav"
+    fixedInViewport="true"
+    attr.role="dialog"
+    mode="over"
+    position="end"
+    fixedTopGap="48px"
+  >
+    <mat-toolbar color="primary">Notifications </mat-toolbar>
+    <app-notifications></app-notifications>
+  </mat-sidenav>
 </mat-sidenav-container>
