@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
-import { WishItem } from "../../models/WishItem";
-import { WishListPrivacy } from "../../models/WishList";
+import { ID } from "@datorama/akita";
+import { DemoStore } from "./demo.store";
+import { WishItem } from "../../../models/WishItem";
+import { WishList } from "../../../models/WishList";
 
-@Injectable({
-  providedIn: "root"
-})
-export class DemoWishListService {
+@Injectable({ providedIn: "root" })
+export class DemoService {
   private defaultWishs: WishItem[] = [
     {
       id: 4785074604081152,
@@ -28,7 +28,7 @@ export class DemoWishListService {
       userTake: [],
       given: false,
       userGiven: false,
-      allreadyGiven: false,
+      allreadyGiven: true,
       canEdit: false,
       canParticipate: true,
       canSuggest: true,
@@ -54,9 +54,9 @@ export class DemoWishListService {
       ],
       date: 1481904454372,
       urls: [],
-      userTake: [],
-      given: false,
-      userGiven: false,
+      userTake: [{ name: "manu", email: "mail@mail.com" }],
+      given: true,
+      userGiven: true,
       allreadyGiven: false,
       canEdit: false,
       canParticipate: true,
@@ -69,7 +69,7 @@ export class DemoWishListService {
       listId: "cadeaux-noel",
       listTitle: null,
       owner: { email: "kieffersuzanne@gmail.com", name: "kieffersuzanne" },
-      suggest: false,
+      suggest: true,
       deleted: false,
       archived: false,
       label: "SPA gonflable",
@@ -82,7 +82,7 @@ export class DemoWishListService {
       urls: [],
       userTake: [],
       given: false,
-      userGiven: false,
+      userGiven: true,
       allreadyGiven: false,
       canEdit: false,
       canParticipate: true,
@@ -116,7 +116,18 @@ export class DemoWishListService {
       canEdit: false,
       canParticipate: true,
       canSuggest: true,
-      comments: null,
+      comments: [
+        {
+          date: "000000000000",
+          text: "Commentaire",
+          from: { name: "manu", email: "mail@mail.org" }
+        },
+        {
+          date: "000000000000",
+          text: "Commentaire",
+          from: { name: "manu", email: "mail@mail.org" }
+        }
+      ],
       rating: 5
     },
     {
@@ -177,7 +188,38 @@ export class DemoWishListService {
       canEdit: false,
       canParticipate: true,
       canSuggest: true,
-      comments: null,
+      comments: [
+        {
+          date: "000000000000",
+          text: "Commentaire",
+          from: { name: "manu", email: "mail@mail.org" }
+        },
+        {
+          date: "000000000000",
+          text: "Commentaire",
+          from: { name: "manu", email: "mail@mail.org" }
+        },
+        {
+          date: "000000000000",
+          text: "Commentaire",
+          from: { name: "manu", email: "mail@mail.org" }
+        },
+        {
+          date: "000000000000",
+          text: "Commentaire",
+          from: { name: "manu", email: "mail@mail.org" }
+        },
+        {
+          date: "000000000000",
+          text: "Commentaire",
+          from: { name: "manu", email: "mail@mail.org" }
+        },
+        {
+          date: "000000000000",
+          text: "Commentaire",
+          from: { name: "manu", email: "mail@mail.org" }
+        }
+      ],
       rating: 2
     },
     {
@@ -190,12 +232,12 @@ export class DemoWishListService {
       archived: false,
       label: "mugs à cocktail",
       description: null,
-      price: null,
+      price: "10",
       pictures: ["http://i.ebayimg.com/images/g/s9QAAOSwGWNUWdvp/s-l400.jpg"],
       date: 1481903786585,
       urls: [],
-      userTake: [],
-      given: false,
+      userTake: [{ name: "manu", email: "mail@mail.com" }],
+      given: true,
       userGiven: true,
       allreadyGiven: false,
       canEdit: false,
@@ -206,57 +248,110 @@ export class DemoWishListService {
     }
   ];
 
-  constructor() {}
+  constructor(private demoStore: DemoStore) {}
+
+  get() {}
+
+  add(demos: WishItem[]) {
+    this.demoStore.add(demos);
+  }
+
+  update(demos: WishItem[]) {
+    this.demoStore.set(demos);
+  }
+
+  remove(id: ID) {
+    this.demoStore.remove(id);
+  }
+
+  setWishList(wishList: WishList) {
+    this.demoStore.updateRoot({ wishList });
+  }
 
   public getWishForPrivacy(
     privacy: "PRIVATE" | "OPEN" | "PUBLIC",
     user: "OWNER" | "REGISTRER" | "PUBLIC",
     forceAnonymous: boolean = false
   ) {
-    return this.defaultWishs.map((wish, index) => {
-      let defaultConfig: WishItem = {};
-      switch (privacy) {
-        case "OPEN":
-          defaultConfig = { userTake: [], userGiven: false };
-          break;
-        case "PRIVATE":
-          defaultConfig = { userTake: [], userGiven: true, given: true };
-          break;
-        case "PUBLIC":
-          defaultConfig = {
-            userTake: ["user@gmail.com"],
-            userGiven: true,
-            given: true
-          };
-          break;
-      }
+    return this.defaultWishs.reduce<WishItem[]>(
+      (returnWishItems: WishItem[], wish: WishItem, index) => {
+        const defaultConfig: WishItem = {};
+        let displayItem: boolean = true;
 
-      switch (user) {
-        case "OWNER":
-          defaultConfig.canParticipate = false;
-          defaultConfig.canEdit = true;
-          defaultConfig.comments = null;
-          break;
-        case "REGISTRER":
-          defaultConfig.canParticipate = true;
-          defaultConfig.canEdit = false;
-          defaultConfig.comments = [];
-          break;
-        case "PUBLIC":
-          defaultConfig.canParticipate = false;
-          defaultConfig.canEdit = false;
-          defaultConfig.comments = null;
-          break;
-      }
+        switch (user) {
+          case "OWNER":
+            defaultConfig.canParticipate = false;
+            defaultConfig.canEdit = true;
+            defaultConfig.canSuggest = false;
+            defaultConfig.comments = null;
+            switch (privacy) {
+              case "OPEN":
+                defaultConfig.userTake = [];
+                defaultConfig.userGiven = false;
+                defaultConfig.given = false;
+                break;
+              case "PRIVATE":
+                defaultConfig.userTake = [];
+                defaultConfig.userGiven = false;
+                defaultConfig.given = false;
+                break;
+              case "PUBLIC":
+                break;
+            }
 
-      if (forceAnonymous) {
-        defaultConfig.userTake = ["anonymous"];
-        defaultConfig.userGiven = true;
-        defaultConfig.given = true;
-      }
-      const updatedDefault = { ...wish, ...defaultConfig };
-      console.log("wish " + index, updatedDefault, privacy, user);
-      return updatedDefault;
-    });
+            if (forceAnonymous && wish.userGiven) {
+              defaultConfig.userTake = [{ name: "anonymous" }];
+              defaultConfig.userGiven = true;
+              defaultConfig.given = true;
+            }
+
+            if (wish.suggest) {
+              displayItem = false;
+            }
+
+            break;
+          case "REGISTRER":
+            defaultConfig.canParticipate = true;
+            defaultConfig.canEdit = false;
+            switch (privacy) {
+              case "OPEN":
+                break;
+              case "PRIVATE":
+                break;
+              case "PUBLIC":
+                displayItem = false;
+                break;
+            }
+            break;
+          case "PUBLIC":
+            defaultConfig.canParticipate = false;
+            defaultConfig.canEdit = false;
+            defaultConfig.comments = null;
+            switch (privacy) {
+              case "OPEN":
+                displayItem = false;
+                break;
+              case "PRIVATE":
+                displayItem = false;
+                break;
+              case "PUBLIC":
+                defaultConfig.userTake = [];
+                defaultConfig.userGiven = false;
+                defaultConfig.given = false;
+                break;
+            }
+            break;
+        }
+
+        const updatedDefault = { ...wish, ...defaultConfig };
+        console.log("wish " + index, updatedDefault, privacy, user);
+
+        if (displayItem) {
+          returnWishItems.push(updatedDefault);
+        }
+        return returnWishItems;
+      },
+      []
+    );
   }
 }

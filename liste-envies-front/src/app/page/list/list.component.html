@@ -13,7 +13,11 @@
     </mat-card-content>
   </mat-card>
   <div *ngIf="!(loading$ | async); else: loading">
-    <app-list-of-wish [list]="listItems" class="col-12"></app-list-of-wish>
+    <app-list-of-wish
+      [list]="listItems"
+      [demo]="demo"
+      class="col-12"
+    ></app-list-of-wish>
   </div>
 
   <span class="done">

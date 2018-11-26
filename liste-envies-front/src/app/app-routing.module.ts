@@ -24,6 +24,10 @@ const routes: Routes = [
         component: AddListComponent
       },
       {
+        path: "about",
+        loadChildren: "app/page/about/about.module#AboutModule"
+      },
+      {
         path: ":listId",
         resolve: {
           whishList: WishListResolver,

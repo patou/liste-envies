@@ -58,16 +58,18 @@
           </mat-form-field>
         </div>
         <div class="col-6">
-          <app-html-editor
-            #description
-            [(content)]="wishList.description"
-            placeholder="Description de l'envie"
-            name="description"
-            (contentChange)="onChanges($event)"
-          ></app-html-editor>
-          <mat-hint
-            >Vous pouvez donner plus de details sur votre liste.</mat-hint
-          >
+          <mat-form-field appearance="outline" class="col-12">
+            <app-html-editor
+              #description
+              [(content)]="wishList.description"
+              placeholder="Description de l'envie"
+              name="description"
+              (contentChange)="onChanges($event)"
+            ></app-html-editor>
+            <mat-hint
+              >Vous pouvez donner plus de details sur votre liste.</mat-hint
+            >
+          </mat-form-field>
         </div>
       </div>
     </form>
@@ -100,6 +102,7 @@
 
             <div class="col-12">
               <mat-checkbox
+                name="forceAnonymous"
                 [(ngModel)]="wishList.forceAnonymus"
                 [labelPosition]="left"
               >

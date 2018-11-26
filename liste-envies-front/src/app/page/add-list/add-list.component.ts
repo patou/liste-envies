@@ -4,7 +4,7 @@ import { WishList } from "../../models/WishList";
 import { LatinizePipe } from "ng-pipes";
 import { Subject } from "rxjs/Subject";
 import { WishItem } from "../../models/WishItem";
-import { DemoWishListService } from "../../service/demo/demo-wish-list.service";
+import { DemoService } from "../../state/wishes/demo/demo.service";
 import { WishListTypeLabel } from "../../models/const";
 
 @Component({
@@ -27,7 +27,7 @@ export class AddListComponent implements OnInit {
   constructor(
     private _formBuilder: FormBuilder,
     private latinize: LatinizePipe,
-    private demoWishService: DemoWishListService
+    private demoService: DemoService
   ) {
     this.wishList = {
       title: "titre",
@@ -45,7 +45,13 @@ export class AddListComponent implements OnInit {
       secondCtrl: ['', Validators.required]
     });*/
     this.onChangesPrivacy(null);
-    this.changesdemoWish();
+    this.demoService.add(
+      this.demoService.getWishForPrivacy(
+        this.wishList.privacy,
+        this.previewAs,
+        this.wishList.forceAnonymus
+      )
+    );
   }
 
   changeName(name) {
@@ -69,11 +75,11 @@ export class AddListComponent implements OnInit {
   }
 
   private changesdemoWish() {
-    this.demoWhishs.next(
-      this.demoWishService.getWishForPrivacy(
+    this.demoService.update(
+      this.demoService.getWishForPrivacy(
         this.wishList.privacy,
         this.previewAs,
-        true
+        this.wishList.forceAnonymus
       )
     );
   }

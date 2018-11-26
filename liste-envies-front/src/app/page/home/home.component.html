@@ -7,7 +7,7 @@
         </h1>
       </div>
       <ng-template #showLogin>
-        <h1>Bonjour, Bienvenue sur la liste de vos envies</h1>
+        <h1>Bienvenue sur la liste de vos envies</h1>
         <p>
           Unique en son genre ! Voici LA liste d'envies qui vous permet de
           partager vos envies de cadeaux avec vos proches. Ainsi, ces derniers
@@ -19,12 +19,15 @@
           Vous pouvez vous connecter / ou créer un compte pour commencer à créer
           votre liste.
         </p>
-        <a mat-raised-button color="primary" (click)="connect()">Connexion</a>
+        <a mat-button color="primary" routerLink="/about">En savoir plus</a
+        ><a mat-raised-button color="primary" (click)="connect()"
+          >Connexion / créer un compte</a
+        >
       </ng-template>
     </section>
   </mat-card>
 
-  <span class="done">
+  <span class="done" *ngIf="(userAuth | async)">
     <button
       mat-fab
       matTooltip="Créer une nouvelle liste d'envies"

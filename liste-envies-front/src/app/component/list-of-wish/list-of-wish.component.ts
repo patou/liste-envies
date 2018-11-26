@@ -14,6 +14,7 @@ import { WishListApiService } from "../../service/wish-list-api.service";
 import { Observable } from "rxjs/Observable";
 import { filter, map, switchMap, tap } from "rxjs/operators";
 import { WishQuery } from "../../state/wishes/wish.query";
+import { DemoQuery } from "../../state/wishes/demo/demo.query";
 
 declare var Macy;
 
@@ -37,10 +38,14 @@ export class ListOfWishComponent implements OnInit, OnChanges {
   public nbrColumns = 3;
   public columns: Observable<WishItem[]>[];
 
+  @Input()
+  public demo: boolean;
+
   constructor(
     public dialog: MatDialog,
     public wishApi: WishListApiService,
-    public wishQuery: WishQuery
+    public wishQuery: WishQuery,
+    public demoQuery: DemoQuery
   ) {}
 
   ngOnInit() {
@@ -48,12 +53,22 @@ export class ListOfWishComponent implements OnInit, OnChanges {
   }
 
   private splitObservable() {
-    this.columns = [];
-    for (let i = 0; i < this.nbrColumns; i++) {
-      this.columns[i] = this.wishQuery.selectAll({
-        filterBy: (wish: WishItem, index: number) =>
-          index % this.nbrColumns === i
-      });
+    if (this.demo) {
+      this.columns = [];
+      for (let i = 0; i < this.nbrColumns; i++) {
+        this.columns[i] = this.demoQuery.selectAll({
+          filterBy: (wish: WishItem, index: number) =>
+            index % this.nbrColumns === i
+        });
+      }
+    } else {
+      this.columns = [];
+      for (let i = 0; i < this.nbrColumns; i++) {
+        this.columns[i] = this.wishQuery.selectAll({
+          filterBy: (wish: WishItem, index: number) =>
+            index % this.nbrColumns === i
+        });
+      }
     }
   }
 

@@ -115,11 +115,7 @@
         class="notification-items"
         [routerLink]="['/', notification.listId]"
       >
-        <mat-icon
-          fontSet="fa"
-          mat-list-icon
-          fontIcon="fa-share-square-o"
-        ></mat-icon>
+        <mat-icon fontSet="fa" mat-list-icon fontIcon="fa-user-plus"></mat-icon>
         <h4 mat-line class="notification-text">
           La liste "<u>{{ notification.listName }}</u
           >" vous a été partagée par <b>{{ notification.actionUserName }}</b>

@@ -21,6 +21,8 @@ import { WishQuery } from "../../state/wishes/wish.query";
 import { pluck } from "rxjs/operators";
 import { WishState } from "../../state/wishes/wish.store";
 import { WishService } from "../../state/wishes/wish.service";
+import { DemoService } from "../../state/wishes/demo/demo.service";
+import { DemoQuery } from "../../state/wishes/demo/demo.query";
 
 @Component({
   selector: "app-list",
@@ -51,6 +53,8 @@ export class ListComponent implements OnInit, OnChanges {
   constructor(
     private wishService: WishService,
     private wishListApiService: WishListApiService,
+    private demoWishService: DemoService,
+    private demoWishQuery: DemoQuery,
     private route: ActivatedRoute,
     private auth: AuthService,
     public dialog: MatDialog,
@@ -61,7 +65,15 @@ export class ListComponent implements OnInit, OnChanges {
     this.userAuth = this.auth.user;
 
     if (this.demo) {
-      this.listItems = this.items;
+      this.listItems = this.demoWishQuery.selectAll();
+      this.loading$ = this.demoWishQuery.selectLoading();
+
+      /*this.whishList$ = this.demoWishQuery
+        .select()
+        .pipe(pluck<WishState, WishList>("wishList"));
+      this.whishList$.subscribe(wishList => {
+        this.list = wishList;
+      });*/
       return;
     }
 

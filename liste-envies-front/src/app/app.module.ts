@@ -30,7 +30,6 @@ import {
 } from "@angular/material";
 import { MomentModule } from "ngx-moment";
 import "moment/locale/fr";
-import { DemoWishListService } from "./service/demo/demo-wish-list.service";
 import { WishListItemsResolver } from "./service/wishListItemsResolve";
 import { AkitaNgDevtools } from "@datorama/akita-ngdevtools";
 import { environment } from "../environments/environment";
@@ -84,7 +83,6 @@ if (environment.production) {
     WishListApiService,
     WishListResolver,
     WishListItemsResolver,
-    DemoWishListService,
     { provide: LOCALE_ID, useValue: "fr" }
   ],
   entryComponents: [WishEditComponent, LoginDialogComponent],

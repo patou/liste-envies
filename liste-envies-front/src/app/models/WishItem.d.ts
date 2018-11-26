@@ -1,4 +1,6 @@
-﻿export interface WishItem {
+﻿import { UserInfo } from "firebase";
+
+export interface WishItem {
   id?: number;
   listId?: string;
   listTitle?: string;
@@ -12,7 +14,7 @@
   pictures?: string[];
   date?: number;
   urls?: (UrlsEntity)[] | null;
-  userTake?: string[];
+  userTake?: Owner[];
   given?: boolean;
   userGiven?: boolean;
   allreadyGiven?: boolean;
@@ -23,7 +25,7 @@
   rating?: number;
 }
 export interface Owner {
-  email: string;
+  email?: string;
   name: string;
 }
 export interface UrlsEntity {
