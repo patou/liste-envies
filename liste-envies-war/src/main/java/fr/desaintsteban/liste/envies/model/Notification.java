@@ -30,8 +30,18 @@ public class Notification {
 
     String actionUserName;
 
+    String actionUserPicture;
+
     @Index
     Date date;
+
+    public String getActionUserPicture() {
+        return actionUserPicture;
+    }
+
+    public void setActionUserPicture(String actionUserPicture) {
+        this.actionUserPicture = actionUserPicture;
+    }
 
     String message;
 
@@ -44,6 +54,7 @@ public class Notification {
         dto.setMessage(this.getMessage());
         dto.setActionUser(this.getActionUser());
         dto.setActionUserName(this.getActionUserName());
+        dto.setActionUserPicture(this.getActionUserPicture());
         return dto;
     }
 

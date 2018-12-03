@@ -53,7 +53,15 @@ public class WishRestService {
     public List<WishDto> getWish(@PathParam("name") String name) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         LOGGER.info("List");
-        return WishesService.list(user, name);
+        return WishesService.list(user, name, false);
+    }
+
+    @GET
+    @Path("/archived")
+    public List<WishDto> getWishArchivedForList(@PathParam("name") String name) {
+        final AppUser user = ServletUtils.getUserAuthenticated();
+        LOGGER.info("List archived");
+        return WishesService.list(user, name, true);
     }
 
     @POST

@@ -41,6 +41,7 @@ public final class NotificationsService {
 		newNotif.setMessage(message);
 		newNotif.setActionUser(currentUser.getEmail());
 		newNotif.setActionUserName(currentUser.getName());
+		newNotif.setActionUserPicture(currentUser.getPicture());
 
 		newNotif.setUser(wishList.getUsers().stream()
 				.filter(userShare ->
@@ -65,6 +66,7 @@ public final class NotificationsService {
 		newNotif.setDate(new Date());
 		newNotif.setActionUser(currentUser.getEmail());
 		newNotif.setActionUserName(currentUser.getName());
+		newNotif.setActionUserPicture(currentUser.getPicture());
 		return OfyService.ofy().transact(() -> {
             final Saver saver = OfyService.ofy().save();
             saver.entities(newNotif).now();

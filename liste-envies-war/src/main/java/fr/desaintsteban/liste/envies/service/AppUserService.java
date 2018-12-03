@@ -93,6 +93,11 @@ public final class AppUserService {
         return appUser;
     }
 
+    public static void removeAppUser() {
+        // Remove from thread Local
+        appUserThreadLocal.remove();
+    }
+
     public static AppUser getAppUser() {
         return appUserThreadLocal.get();
     }

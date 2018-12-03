@@ -125,7 +125,7 @@ public class AppUser {
 	}
 
 	public AppUserDto toDto() {
-		return new AppUserDto(this.getEmail(), this.getName(), this.getBirthday(), this.newUser);
+		return new AppUserDto(this.getEmail(), this.getName(), this.getPicture(), this.getBirthday(), this.newUser);
 	}
 
 	public String getLoginProvider() {

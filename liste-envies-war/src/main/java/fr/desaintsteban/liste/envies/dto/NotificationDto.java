@@ -21,6 +21,16 @@ public class NotificationDto {
 
     String actionUserName;
 
+    String actionUserPicture;
+
+    public String getActionUserPicture() {
+        return actionUserPicture;
+    }
+
+    public void setActionUserPicture(String actionUserPicture) {
+        this.actionUserPicture = actionUserPicture;
+    }
+
     public NotificationType getType() {
         return type;
     }

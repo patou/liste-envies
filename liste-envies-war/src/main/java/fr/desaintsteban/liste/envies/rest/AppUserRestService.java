@@ -35,7 +35,7 @@ public class AppUserRestService {
         if(user != null){
             LOGGER.info("List appuser");
             List<AppUser> list = AppUserService.list();
-            List<AppUserDto> convertList = list.stream().map(appUser -> new AppUserDto(appUser.getEmail(), appUser.getName(), appUser.getBirthday(), appUser.isNewUser())).collect(toList());
+            List<AppUserDto> convertList = list.stream().map(appUser -> new AppUserDto(appUser.getEmail(), appUser.getPicture(),  appUser.getBirthday(), appUser.isNewUser())).collect(toList());
             return convertList;
         }
         return null;
@@ -46,7 +46,7 @@ public class AppUserRestService {
     public AppUserDto getMyAccount() {
         AppUser appUser = ServletUtils.getUserAuthenticated();
         if (appUser != null) {
-            return new AppUserDto(appUser.getEmail(), appUser.getName(), appUser.getBirthday(), appUser.isNewUser());
+            return new AppUserDto(appUser.getEmail(), appUser.getName(), appUser.getPicture(), appUser.getBirthday(), appUser.isNewUser());
         }
         return null;
     }
@@ -58,7 +58,7 @@ public class AppUserRestService {
         if (user != null) {
             LOGGER.info("Put " + appUser.getEmail());
             AppUser orUpdate = AppUserService.createOrUpdate(new AppUser(appUser.getEmail(), appUser.getName(), appUser.getBirthday()));
-            return new AppUserDto(orUpdate.getEmail(), orUpdate.getName(), orUpdate.getBirthday(), orUpdate.isNewUser());
+            return new AppUserDto(orUpdate.getEmail(), orUpdate.getName(),  orUpdate.getPicture(), orUpdate.getBirthday(), orUpdate.isNewUser());
         }
         return null;
     }
@@ -68,7 +68,7 @@ public class AppUserRestService {
     public AppUserDto getUser(@PathParam("email") String email) {
         LOGGER.info("Get " + email);
         AppUser appUser = AppUserService.get(email);
-        return new AppUserDto(appUser.getEmail(), appUser.getName(), appUser.getBirthday(), appUser.isNewUser());
+        return new AppUserDto(appUser.getEmail(), appUser.getName(), appUser.getPicture(), appUser.getBirthday(), appUser.isNewUser());
     }
 
 

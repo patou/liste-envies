@@ -13,6 +13,16 @@ public class AppUserDto {
 
     private String name;
 
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    private String picture;
+
     private Date birthday;
 
     private boolean newUser;
@@ -20,9 +30,10 @@ public class AppUserDto {
     public AppUserDto() {
     }
 
-    public AppUserDto(String email, String name, Date birthday, boolean newUser) {
+    public AppUserDto(String email, String name, String picture, Date birthday, boolean newUser) {
         this.email = email;
         this.name = name;
+        this.picture = picture;
         this.birthday = birthday;
         this.newUser = newUser;
     }

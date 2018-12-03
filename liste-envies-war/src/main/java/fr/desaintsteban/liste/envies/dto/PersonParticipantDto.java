@@ -7,8 +7,8 @@ public class PersonParticipantDto extends PersonDto {
     public PersonParticipantDto() {
     }
 
-    public PersonParticipantDto(String email, String name, String amount, String message) {
-        super(email, name);
+    public PersonParticipantDto(String email, String name, String picture, String amount, String message) {
+        super(email, name, picture);
         this.amount = amount;
         this.message = message;
     }

@@ -40,6 +40,7 @@ public class AuthFilter implements Filter {
         String authorizationHeader = request.getHeader("Authorization");
         if (authorizationHeader != null) {
             if (!authorizationHeader.startsWith("Bearer")) {
+                AppUserService.removeAppUser();
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authorization Header must be valid");
                 return;
             }
@@ -50,6 +51,9 @@ public class AuthFilter implements Filter {
                 AppUserService.getAppUserFromJwt(jwt);
             } catch (JWTDecodeException exception){
                 //Invalid token
+                AppUserService.removeAppUser();
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authorization Header must be valid");
+                return;
             }
 
 
@@ -84,6 +88,9 @@ public class AuthFilter implements Filter {
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, "Forbidden");
                 return;
             }*/
+        } else {
+            // logout if no auth
+            AppUserService.removeAppUser();
         }
         
         filterChain.doFilter(servletRequest, servletResponse);
