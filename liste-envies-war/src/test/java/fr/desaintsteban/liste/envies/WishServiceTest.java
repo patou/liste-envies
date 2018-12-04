@@ -108,7 +108,7 @@ public class WishServiceTest {
 
     @Test
     public void testList() throws Exception {
-        List<WishDto> list = WishesService.list(patrice, "liste-patrice");
+        List<WishDto> list = WishesService.list(patrice, "liste-patrice", false);
         assertThat(list).hasSize(2).onProperty("label").contains("Livre", "DVD");
         assertThat(list).hasSize(2).onProperty("userTake").excludes("emmanuel@desaintsteban.fr");
     }
@@ -117,7 +117,7 @@ public class WishServiceTest {
     @Test
     public void testListWithArchived() throws Exception {
         WishesService.archive(patrice, "liste-patrice", livreId);
-        List<WishDto> list = WishesService.list(patrice, "liste-patrice");
+        List<WishDto> list = WishesService.list(patrice, "liste-patrice", false);
         assertThat(list).hasSize(1).onProperty("label").contains("DVD");
     }
 
@@ -139,7 +139,7 @@ public class WishServiceTest {
 
     @Test
     public void testListOther() throws Exception {
-        List<WishDto> list = WishesService.list(emmanuel, "liste-patrice");
+        List<WishDto> list = WishesService.list(emmanuel, "liste-patrice", false);
         assertThat(list).hasSize(2).onProperty("label").contains("Livre", "DVD");
         //assertThat(list).hasSize(2).onProperty("userTake"). contains(EncodeUtils.encode("emmanuel@desaintsteban.fr"));
     }

@@ -16,6 +16,10 @@ import java.util.stream.Collectors;
 
 public final class WishesService {
     private WishesService() {}
+
+    public static List<WishDto> list(AppUser user, String name) {
+        return WishesService.list(user, name, false);
+    }
     
     public static List<WishDto> list(AppUser user, String name, Boolean archive) {
         Objectify ofy = OfyService.ofy();
