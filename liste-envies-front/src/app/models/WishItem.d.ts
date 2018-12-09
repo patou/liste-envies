@@ -23,6 +23,7 @@ export interface WishItem {
   canSuggest?: boolean;
   comments?: WishComment[] | null;
   rating?: number;
+  draft?: boolean;
 }
 export interface Owner {
   email?: string;

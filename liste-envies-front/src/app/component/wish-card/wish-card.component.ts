@@ -68,7 +68,8 @@ export class WishCardComponent implements OnInit, OnChanges, OnDestroy {
     ["clean"], // remove formatting button
     ["link", "image", "video"] // link and image, video
   ];
-  private commentExpanded: boolean;
+  public commentExpanded: boolean = false;
+  public isActive$: Observable<boolean>;
 
   constructor(
     public dialog: MatDialog,
@@ -79,6 +80,7 @@ export class WishCardComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     this.subscriveWish();
+    this.isActive$ = this.wishService.selectIsActive(this.wishItem.id);
   }
 
   private subscriveWish() {
@@ -113,10 +115,10 @@ export class WishCardComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   headerClass(wishItem: WishItem) {
-    if (wishItem.canSuggest && wishItem.given) {
+    if (/*wishItem.canSuggest && */ wishItem.given) {
       return "header-danger";
     }
-    if (wishItem.canSuggest && wishItem.allreadyGiven) {
+    if (/*wishItem.canSuggest && */ wishItem.allreadyGiven) {
       return "header-warning";
     }
     if (wishItem.canSuggest && wishItem.suggest) {
@@ -130,9 +132,15 @@ export class WishCardComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   sendComment(value: string, wishItem: WishItem) {
-    this.wishService.comment(wishItem.listId, wishItem.id, {
-      text: value
-    });
+    this.addComment = "";
+    this.wishService.comment(
+      wishItem.listId,
+      wishItem.id,
+      {
+        text: value
+      },
+      wishItem
+    );
   }
 
   ngOnChanges(changes: SimpleChanges): void {}

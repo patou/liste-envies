@@ -1,6 +1,6 @@
 <div
   class="page-background"
-  [style.backgroundImage]="'url(/assets/' + list?.picture + ')'"
+  [style.backgroundImage]="'url(' + list?.picture + ')'"
 >
   <mat-card class="header-page-card" *ngIf="list">
     <section class="mat-typography">
@@ -11,6 +11,9 @@
     <mat-card-content>
       <read-more [content]="list.description" maxHeight="200"></read-more>
     </mat-card-content>
+    <mat-card-actions>
+      <app-wish-filters-form></app-wish-filters-form>
+    </mat-card-actions>
   </mat-card>
   <div *ngIf="!(loading$ | async); else: loading">
     <app-list-of-wish

@@ -20,7 +20,7 @@ export class LinksFormComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.newUrls = this.urls.slice(0);
+    this.newUrls = this.urls ? this.urls.slice(0) : [];
     if (!this.newUrls) {
       this.newUrls = [];
     }

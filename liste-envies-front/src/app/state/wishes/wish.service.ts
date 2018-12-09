@@ -1,18 +1,40 @@
 import { Injectable } from "@angular/core";
-import { action, ID } from "@datorama/akita";
+import {
+  action,
+  EntityDirtyCheckPlugin,
+  ID,
+  Order,
+  push
+} from "@datorama/akita";
 import { HttpClient } from "@angular/common/http";
-import { WishStore } from "./wish.store";
+import { WishState, WishStore } from "./wish.store";
 import { WishListApiService } from "../../service/wish-list-api.service";
 import { WishList } from "../../models/WishList";
-import { WishComment, WishItem } from "../../models/WishItem";
+import { Owner, WishComment, WishItem } from "../../models/WishItem";
 import { Debounce, Throttle } from "lodash-decorators";
+import { WishQuery } from "./wish.query";
+import { Observable } from "rxjs/Observable";
+import { PartialObserver } from "rxjs/Observer";
+import { UserQuery } from "../app/user.query";
+import { delay, map, tap } from "rxjs/operators";
+import { MatSnackBar } from "@angular/material";
+import { Filter, FiltersPlugin } from "@datorama/akita-filters-plugin";
 
 @Injectable({ providedIn: "root" })
 export class WishService {
+  private draft: EntityDirtyCheckPlugin<WishItem>;
+  private filters: FiltersPlugin<WishState, WishItem, any>;
+
   constructor(
     private wishStore: WishStore,
-    private wishListApiService: WishListApiService
-  ) {}
+    private wishQuery: WishQuery,
+    private wishListApiService: WishListApiService,
+    private userQuery: UserQuery,
+    private snackBar: MatSnackBar
+  ) {
+    this.draft = new EntityDirtyCheckPlugin<WishItem>(this.wishQuery);
+    this.filters = new FiltersPlugin(this.wishQuery);
+  }
 
   @Throttle(400)
   get(name: string, loading: boolean = true) {
@@ -21,6 +43,7 @@ export class WishService {
     this.wishListApiService.wishes(name).subscribe((wishes: WishItem[]) => {
       this.wishStore.setLoading(false);
       this.wishStore.set(wishes);
+      this.draft.destroy();
     });
 
     this.getWishListInfos(name);
@@ -36,30 +59,64 @@ export class WishService {
   add(listId: string, wish: WishItem) {
     this.wishListApiService
       .createWish(listId, wish)
-      .subscribe((Wish: WishItem) => {
-        this.wishStore.add(wish);
+      .subscribe((newWish: WishItem) => {
+        this.wishStore.add(newWish);
       });
   }
 
   update(id, wish: Partial<WishItem>) {
-    this.wishListApiService
-      .updateWish(wish.listId, id, wish)
-      .subscribe((Wish: WishItem) => {
-        this.wishStore.update(id, wish);
-      });
+    if (this.isChanged(id, wish)) {
+      this.subscribeAndUpdatedWish(
+        id,
+        this.wishListApiService.updateWish(wish.listId, id, wish)
+      );
+    }
   }
 
   @action({ type: "give wish" })
   give(id, wish: Partial<WishItem>) {
-    this.wishListApiService
-      .give(wish.listId, id)
-      .subscribe((newWish: WishItem) => {
-        this.wishStore.update(id, newWish);
-      });
+    wish = {};
+    wish.userGiven = true;
+    wish.given = true;
+    wish.userTake = push<Owner>(wish.userTake ? wish.userTake : [], {
+      name: this.userQuery.getSnapshot().user.displayName
+    });
+    if (this.isChanged(id, wish)) {
+      this.subscribeAndUpdatedWish(
+        id,
+        this.wishListApiService.give(wish.listId, id).pipe(
+          map<WishItem, WishItem>(newWish => {
+            // todo correct return in serveur
+            wish.userTake = newWish.userTake;
+            return wish;
+          })
+        )
+      );
+    }
   }
 
   remove(id: ID) {
     this.wishStore.remove(id);
+  }
+
+  @action({ type: "add comment" })
+  comment(listId: string, id: number, comment: WishComment, wish: WishItem) {
+    const newWish = { ...wish };
+    const temporaryComment = {
+      date: new Date().getUTCSeconds().toString(),
+      from: { name: this.userQuery.getSnapshot().user.displayName },
+      ...comment
+    };
+    newWish.comments = push<WishComment>(
+      wish.comments ? wish.comments : [],
+      temporaryComment
+    );
+    if (this.isChanged(id, newWish)) {
+      this.subscribeAndUpdatedWish(
+        id,
+        this.wishListApiService.comment(listId, id, comment)
+      );
+    }
   }
 
   @action({ type: "set wishlist" })
@@ -68,12 +125,68 @@ export class WishService {
     this.wishStore.updateRoot({ wishList });
   }
 
-  @action({ type: "add comment" })
-  comment(listId: string, id: number, note: Partial<WishComment>) {
-    this.wishListApiService
-      .comment(listId, id, note)
-      .subscribe((newWish: WishItem) => {
-        this.wishStore.update(id, newWish);
-      });
+  selectIsActive(id: ID): Observable<boolean> {
+    return this.wishQuery.selectIsActive(id);
+  }
+
+  private isChanged(id, wish: Partial<WishItem>) {
+    this.draft.setHead(id);
+    wish.draft = true;
+    this.wishStore.update(id, wish);
+    return true;
+  }
+
+  private subscribeAndUpdatedWish(id, observer: Observable<WishItem>) {
+    return observer.subscribe(
+      (wishUpdated: WishItem) => {
+        wishUpdated.draft = false;
+        this.wishStore.update(id, wishUpdated);
+        this.draft.setHead(id);
+      },
+      error => {
+        console.error("error update wish", id, error);
+        this.draft.reset(id);
+        this.wishStore.setError(error);
+        this.snackBar.open("Erreur lors la mise à jour de l'envie");
+      }
+    );
+  }
+
+  setFilter(filter: Filter<WishItem>) {
+    this.filters.setFilter(filter);
+  }
+
+  setOrderBy(by: any, order: string | "+" | "-") {
+    this.filters.setSortBy({
+      sortBy: by,
+      sortByOrder: order === "+" ? Order.ASC : Order.DESC
+    });
+  }
+
+  removeFilter(id: string) {
+    this.filters.removeFilter(id);
+  }
+
+  removeAllFilter() {
+    this.filters.clearFilters();
+  }
+
+  getFilterValue(id: string): any | null {
+    return this.filters.getFilterValue(id);
+  }
+
+  getSortValue(): string | null {
+    const sortValue = this.filters.getSortValue();
+    if (!sortValue) return "+date";
+    const order = sortValue.sortByOrder === Order.ASC ? "+" : "-";
+    return sortValue.sortBy ? order + sortValue.sortBy : "+date";
+  }
+
+  selectFilters(): Observable<Filter<WishItem>[]> {
+    return this.filters.selectFilters();
+  }
+
+  selectAll(options): Observable<WishItem[]> {
+    return this.filters.selectAllByFilters(options);
   }
 }

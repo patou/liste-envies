@@ -87,6 +87,55 @@
         Listes de mes envies</a
       >
 
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Changer de liste"
+          aria-label="State"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          panelWidth="250"
+          (optionSelected)="goToList($event)"
+        >
+          <mat-optgroup label="Mes listes">
+            <mat-option
+              *ngFor="let wishList of (myList$ | async); trackBy: trackByFn"
+              [value]="wishList.name"
+            >
+              <img
+                class="example-option-img"
+                aria-hidden
+                [src]="'/assets/thumb/' + wishList.picture"
+                height="15"
+                width="15"
+                class="border fixed"
+              />
+              <span>{{ wishList.title }}</span> |
+              <small>{{ wishList.owners | join: ", " }}</small>
+            </mat-option>
+          </mat-optgroup>
+          <mat-optgroup label="Autres listes">
+            <mat-option
+              *ngFor="let wishList of (otherList$ | async); trackBy: trackByFn"
+              [value]="wishList.name"
+            >
+              <img
+                class="example-option-img"
+                aria-hidden
+                [src]="'/assets/thumb/' + wishList.picture"
+                height="15"
+                width="15"
+                class="border fixed"
+              />
+              <span>{{ wishList.title }}</span> |
+              <small>{{ wishList.owners | join: ", " }}</small>
+            </mat-option>
+          </mat-optgroup>
+        </mat-autocomplete>
+      </mat-form-field>
+
       <div *ngIf="(userAuth$ | async) as user; else: showLogin">
         <button
           type="button"

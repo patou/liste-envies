@@ -15,6 +15,8 @@ import { NotificationsService } from "../../state/app/notifications.service";
 import { NotificationsQuery } from "../../state/app/notifications.query";
 import { MatDrawer } from "@angular/material";
 import { debounce } from "lodash-decorators";
+import { FormControl } from "@angular/forms";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-page-nav",
@@ -34,19 +36,20 @@ export class PageNavComponent implements OnInit {
 
   public userAuth$: Observable<firebase.User>;
 
-  private myList$: Observable<WishList[]>;
-  private otherList$: Observable<WishList[]>;
-  private myListCount$: Observable<number>;
-  private otherListCount$: Observable<number>;
-  private loading$: Observable<boolean>;
-  private activeList$: Observable<string>;
-  private notifsCount$: Observable<number>;
+  public myList$: Observable<WishList[]>;
+  public otherList$: Observable<WishList[]>;
+  public myListCount$: Observable<number>;
+  public otherListCount$: Observable<number>;
+  public loading$: Observable<boolean>;
+  public activeList$: Observable<string>;
+  public notifsCount$: Observable<number>;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
     private wishesListQuery: WishesListQuery,
     private auth: AuthService,
-    private notificationsQuery: NotificationsQuery
+    private notificationsQuery: NotificationsQuery,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -83,5 +86,9 @@ export class PageNavComponent implements OnInit {
   @debounce(100)
   closeNotifications(notifs) {
     notifs.close();
+  }
+
+  goToList($event) {
+    this.router.navigate(["/", $event.option.value]);
   }
 }

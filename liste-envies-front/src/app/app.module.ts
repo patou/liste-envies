@@ -22,10 +22,12 @@ import { HttpRestModule } from "ngx-http-annotations";
 import { PageNavComponent } from "./component/page-nav/page-nav.component";
 import { LayoutModule } from "@angular/cdk/layout";
 import {
+  MAT_SNACK_BAR_DEFAULT_OPTIONS,
   MatButtonModule,
   MatIconModule,
   MatListModule,
   MatSidenavModule,
+  MatSnackBarHorizontalPosition,
   MatToolbarModule
 } from "@angular/material";
 import { MomentModule } from "ngx-moment";
@@ -83,7 +85,11 @@ if (environment.production) {
     WishListApiService,
     WishListResolver,
     WishListItemsResolver,
-    { provide: LOCALE_ID, useValue: "fr" }
+    { provide: LOCALE_ID, useValue: "fr" },
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: { duration: 2500, horizontalPosition: "right" }
+    }
   ],
   entryComponents: [WishEditComponent, LoginDialogComponent],
   bootstrap: [AppComponent]

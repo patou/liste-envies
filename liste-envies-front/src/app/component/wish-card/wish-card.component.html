@@ -2,10 +2,13 @@
 
 <mat-card
   class="wish-card flip-front "
+  [ngClass]="{ active: isActive$ | async, draft: wishItem.draft }"
   fxLayout="column"
   fxLayoutAlign="space-between stretch"
   [@animateWishCard]="animateWishCard"
 >
+  <mat-progress-bar mode="query" *ngIf="wishItem.draft"></mat-progress-bar>
+
   <mat-card-header fxLayout="column" fxLayoutAlign="space-between stretch">
     <div
       [class]="headerClass(wishItem)"
@@ -214,7 +217,9 @@
               <textarea
 
 
+
                 matInput
+
 
 
 
@@ -222,11 +227,14 @@
 
 
 
+
                 #addComment
 
 
 
+
                 (submit)="sendComment(addComment.value)"
+
 
 
 
@@ -287,7 +295,7 @@
       <button
         mat-stroked-button
         color="accent"
-        *ngIf="wishItem.userGiven && wishItem.canParticipate"
+        *ngIf="wishItem.given && wishItem.canParticipate"
         (click)="give(wishItem)"
       >
         Participer
@@ -297,7 +305,7 @@
       mat-raised-button
       color="accent"
       *ngIf="
-        !wishItem.allreadyGiven && wishItem.userGiven && wishItem.canParticipate
+        !wishItem.allreadyGiven && !wishItem.given && wishItem.canParticipate
       "
       (click)="give(wishItem)"
     >

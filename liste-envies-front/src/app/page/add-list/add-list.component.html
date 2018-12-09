@@ -106,7 +106,7 @@
                 [(ngModel)]="wishList.forceAnonymus"
                 [labelPosition]="left"
               >
-                Force anonyme
+                Afficher les envies déjà donnée de manière anonyme
               </mat-checkbox>
             </div>
           </div>
@@ -129,14 +129,31 @@
 
     <form class="grid--between">
       <div class="col6 grid--between">
-        <mat-form-field>
-          <mat-label>Thème </mat-label>
-          <input
-            matInput
-            placeholder="Images personnalisé d'arrières plan"
-            name="pictures"
-          />
-        </mat-form-field>
+        <div>
+          <h3>Arrière plan</h3>
+
+          <mat-grid-list cols="4" rowHeight="2:1" *ngIf="wishList.type">
+            <mat-grid-tile *ngFor="let picture of wishListTypePicture">
+              <img
+                [src]="'/assets/thumb/' + picture.picture"
+                title="{{picture.credit}}"
+                (click)="wishList.picture = picture.picture"
+                class="bordered"
+                [ngClass]="{ active: picture.picture == wishList.picture }"
+            /></mat-grid-tile>
+          </mat-grid-list>
+          <mat-divider>ou</mat-divider>
+          <mat-form-field class="col-12 field" appearance="outline">
+            <mat-label>Images personalisé </mat-label>
+            <input
+              matInput
+              placeholder="Images personnalisé d'arrières plan"
+              [(ngModel)]="wishList.picture"
+              (selectionChange)="onChanges($event)"
+              name="pictures"
+            />
+          </mat-form-field>
+        </div>
       </div>
       <div class="col6 grid--between">
         <mat-form-field appearance="outline">

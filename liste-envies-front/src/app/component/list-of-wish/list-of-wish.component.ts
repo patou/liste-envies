@@ -15,6 +15,7 @@ import { Observable } from "rxjs/Observable";
 import { filter, map, switchMap, tap } from "rxjs/operators";
 import { WishQuery } from "../../state/wishes/wish.query";
 import { DemoQuery } from "../../state/wishes/demo/demo.query";
+import { WishService } from "../../state/wishes/wish.service";
 
 declare var Macy;
 
@@ -44,7 +45,7 @@ export class ListOfWishComponent implements OnInit, OnChanges {
   constructor(
     public dialog: MatDialog,
     public wishApi: WishListApiService,
-    public wishQuery: WishQuery,
+    public wishService: WishService,
     public demoQuery: DemoQuery
   ) {}
 
@@ -64,7 +65,7 @@ export class ListOfWishComponent implements OnInit, OnChanges {
     } else {
       this.columns = [];
       for (let i = 0; i < this.nbrColumns; i++) {
-        this.columns[i] = this.wishQuery.selectAll({
+        this.columns[i] = this.wishService.selectAll({
           filterBy: (wish: WishItem, index: number) =>
             index % this.nbrColumns === i
         });

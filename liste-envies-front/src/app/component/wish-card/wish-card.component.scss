@@ -5,6 +5,15 @@
   margin-bottom: 20px;
   max-width: 100% !important;
   padding: 10px;
+
+  .active {
+    border: red 2px solid;
+  }
+
+  .draft {
+    opacity: 0.5;
+    cursor: wait;
+  }
 }
 
 //@extend-elements
