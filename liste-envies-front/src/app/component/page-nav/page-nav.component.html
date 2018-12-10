@@ -87,12 +87,13 @@
         Listes de mes envies</a
       >
 
-      <mat-form-field>
+      <mat-form-field *ngIf="!(loading$ | async)">
         <input
           matInput
           placeholder="Changer de liste"
           aria-label="State"
           [matAutocomplete]="auto"
+          [formControl]="selectListControl"
         />
         <mat-autocomplete
           #auto="matAutocomplete"
@@ -113,7 +114,11 @@
                 class="border fixed"
               />
               <span>{{ wishList.title }}</span> |
-              <small>{{ wishList.owners | join: ", " }}</small>
+              <small
+                ><span *ngFor="let owner of wishList.owners">{{
+                  owner.name
+                }}</span></small
+              >
             </mat-option>
           </mat-optgroup>
           <mat-optgroup label="Autres listes">
