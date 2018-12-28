@@ -5,6 +5,7 @@ import { LatinizePipe } from "ng-pipes";
 import { Subject } from "rxjs/Subject";
 import { WishItem } from "../../models/WishItem";
 import { DemoWishListService } from "../../service/demo/demo-wish-list.service";
+import { WishListTypeLabel } from "../../models/const";
 
 @Component({
   selector: "app-add-list",
@@ -17,6 +18,7 @@ export class AddListComponent implements OnInit {
   secondFormGroup: FormGroup;
   wishList: WishList;
   demoList: WishList;
+  wishListLabel = WishListTypeLabel;
 
   previewAs: "OWNER" | "REGISTRER" | "PUBLIC" = "OWNER";
 

@@ -1,3 +1,12 @@
 .toolbar-spacer {
   flex: 1 1 auto;
 }
+.wish-list-url {
+  .mat-form-field-label-wrapper {
+    top: -5px !important;
+  }
+
+  .mat-form-field-prefix {
+    top: 0 !important;
+  }
+}

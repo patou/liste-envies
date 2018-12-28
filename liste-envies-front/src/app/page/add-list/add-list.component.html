@@ -2,10 +2,10 @@
 <mat-horizontal-stepper [linear]="isLinear" #stepper="matHorizontalStepper">
   <mat-step [stepControl]="nameFormGroup">
     <ng-template matStepLabel>Entrer un nom pour votre liste</ng-template>
-    <form class="grid form">
+    <form class="grid">
       <div class="row">
         <div class="col-6 grid--between">
-          <mat-form-field class="col-12 field" appearance="outline">
+          <mat-form-field class="col-12" appearance="outline">
             <mat-label>Titre</mat-label>
             <input
               matInput
@@ -16,18 +16,24 @@
               (ngModelChange)="changeName($event)"
             />
           </mat-form-field>
-          <mat-form-field class="col-12 field" appearance="outline">
+          <mat-form-field class="col-12" appearance="outline">
             <mat-label>Type d'événements</mat-label>
-            <span matPrefix
-              ><list-type-icon [type]="wishList.type"></list-type-icon
-            ></span>
             <mat-select
               [(value)]="wishList.type"
               placeholder="Pour quel évènement ?"
               name="type"
               (selectionChange)="onChanges($event)"
             >
-              <mat-option value="OTHER" selected>Autre</mat-option>
+              <mat-select-trigger
+                ><list-type-icon [type]="wishList.type"></list-type-icon>
+                {{ wishListLabel[wishList.type] }}</mat-select-trigger
+              >
+              <mat-option
+                *ngFor="let item of (testObject | keyvalue)"
+                value="OTHER"
+                selected
+                >Autre</mat-option
+              >
               <mat-option value="CHRISTMAS">Noël</mat-option>
               <mat-option value="BIRTHDAY">Anniversaire</mat-option>
               <mat-option value="BIRTH">Liste de naissance</mat-option>
@@ -39,9 +45,9 @@
             </mat-select>
           </mat-form-field>
 
-          <mat-form-field class="col-12 field" appearance="outline">
-            <mat-label>Url de la liste</mat-label>
+          <mat-form-field class="col-12 wish-list-url" appearance="outline">
             <span matPrefix>https://liste-envie.desaintsteban.fr/</span>
+            <mat-label>Url de la liste</mat-label>
             <input
               matInput
               type="text"
@@ -138,13 +144,13 @@
 
     <div>
       <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
+      <button mat-button (click)="stepper.reset()">Créer votre liste</button>
     </div>
   </mat-step>
 </mat-horizontal-stepper>
 <mat-divider></mat-divider>
 <mat-toolbar color="primary">
-  <span>Aperçut de la liste</span> <span class="toolbar-spacer"></span>
+  <span>Aperçu de la liste</span> <span class="toolbar-spacer"></span>
 
   <span>En tant que</span>
   <mat-button-toggle-group
