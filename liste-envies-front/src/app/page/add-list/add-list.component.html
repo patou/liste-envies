@@ -45,24 +45,36 @@
             </mat-select>
           </mat-form-field>
 
-          <mat-form-field class="col-12 wish-list-url" appearance="outline">
+          <mat-form-field
+            class="col-12 wish-list-url"
+            appearance="outline"
+            floatLabel="always"
+          >
             <span matPrefix>https://liste-envie.desaintsteban.fr/</span>
             <mat-label>Url de la liste</mat-label>
             <input
               matInput
               type="text"
               name="id"
+              required
               [ngModel]="wishList.name"
               (ngModelChange)="onChanges($event)"
             />
           </mat-form-field>
         </div>
         <div class="col-6">
-          <mat-form-field appearance="outline" class="col-12">
+          <mat-form-field
+            appearance="outline"
+            class="col-11 col-offset-1"
+            floatLabel="always"
+          >
+            <mat-label>Description</mat-label>
             <app-html-editor
               #description
               [(content)]="wishList.description"
-              placeholder="Description de l'envie"
+              hideToolbar="false"
+              editorHeight="500px"
+              placeholder="Entrez un Description pour votre liste, vous pouvez la mettre en forme, ajouter des liens etc..."
               name="description"
               (contentChange)="onChanges($event)"
             ></app-html-editor>
@@ -103,7 +115,7 @@
             <div class="col-12">
               <mat-checkbox
                 name="forceAnonymous"
-                [(ngModel)]="wishList.forceAnonymus"
+                [(ngModel)]="wishList.forceAnonymous"
                 [labelPosition]="left"
               >
                 Afficher les envies déjà donnée de manière anonyme
@@ -132,12 +144,12 @@
         <div>
           <h3>Arrière plan</h3>
 
-          <mat-grid-list cols="4" rowHeight="2:1" *ngIf="wishList.type">
+          <mat-grid-list cols="6" rowHeight="2:1" *ngIf="wishList.type">
             <mat-grid-tile *ngFor="let picture of wishListTypePicture">
               <img
                 [src]="'/assets/thumb/' + picture.picture"
                 title="{{picture.credit}}"
-                (click)="wishList.picture = picture.picture"
+                (click)="selectImg(picture)"
                 class="bordered"
                 [ngClass]="{ active: picture.picture == wishList.picture }"
             /></mat-grid-tile>
@@ -149,22 +161,18 @@
               matInput
               placeholder="Images personnalisé d'arrières plan"
               [(ngModel)]="wishList.picture"
-              (selectionChange)="onChanges($event)"
-              name="pictures"
+              (change)="onChanges($event)"
+              name="picture"
             />
           </mat-form-field>
         </div>
-      </div>
-      <div class="col6 grid--between">
-        <mat-form-field appearance="outline">
-          <input matInput placeholder="Email" required name="email" />
-        </mat-form-field>
       </div>
     </form>
 
     <div>
       <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Créer votre liste</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+      <button mat-raised-button (click)="createList()">Créer la liste</button>
     </div>
   </mat-step>
 </mat-horizontal-stepper>

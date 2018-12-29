@@ -31,7 +31,11 @@ export class WishesListService {
   }
 
   add(wishesList: WishList) {
-    this.wishesListStore.add(wishesList);
+    this.wishListService
+      .createOrUpdateList(wishesList.name, wishesList)
+      .subscribe(newList => {
+        this.wishesListStore.createOrReplace(wishesList.name, wishesList);
+      });
   }
 
   update(id, wishesList: Partial<WishList>) {

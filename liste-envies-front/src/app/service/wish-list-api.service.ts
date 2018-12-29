@@ -26,8 +26,11 @@ export class WishListApiService {
   }
 
   @POST
-  @Path("list/")
-  createList(@Body wishList: WishList): Observable<WishList> {
+  @Path("list/:name")
+  createOrUpdateList(
+    @PathParam("name") name: string,
+    @Body wishList: WishList
+  ): Observable<WishList> {
     return null;
   }
 

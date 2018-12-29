@@ -116,4 +116,17 @@ export class ListComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.whishList$ = changes.list.currentValue;
   }
+
+  listBackgroundImg() {
+    if (
+      this.list &&
+      this.list.picture &&
+      this.list.picture.startsWith("http")
+    ) {
+      return "url(" + this.list.picture + ")";
+    } else if (this.list && this.list.picture) {
+      return "url(assets/" + this.list.picture + ")";
+    }
+    return "url(assets/img/default.jpg)";
+  }
 }

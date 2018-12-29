@@ -5,6 +5,9 @@ import { LatinizePipe } from "ng-pipes";
 import { Subject } from "rxjs/Subject";
 import { WishItem } from "../../models/WishItem";
 import { DemoService } from "../../state/wishes/demo/demo.service";
+import { WishesListService } from "../../state/wishes/wishes-list.service";
+import { UserQuery } from "../../state/app/user.query";
+import { UserState } from "../../state/app/user.store";
 import { WishListTypeLabel } from "../../models/const";
 
 @Component({
@@ -254,14 +257,26 @@ export class AddListComponent implements OnInit {
   constructor(
     private _formBuilder: FormBuilder,
     private latinize: LatinizePipe,
-    private demoService: DemoService
+    private demoService: DemoService,
+    private wishListService: WishesListService,
+    private user: UserQuery
   ) {
+    const userInfo: UserState = this.user.getSnapshot();
     this.wishList = {
       title: "",
       picture: "",
       description: "",
-      privacy: "PRIVATE"
+      privacy: "PRIVATE",
+      users: []
     };
+
+    if (userInfo.user) {
+      this.wishList.users.push({
+        email: userInfo.user.email,
+        name: userInfo.user.displayName,
+        type: "OWNER"
+      });
+    }
   }
 
   ngOnInit() {
@@ -271,12 +286,13 @@ export class AddListComponent implements OnInit {
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ['', Validators.required]
     });*/
+
     this.onChangesPrivacy(null);
     this.demoService.add(
       this.demoService.getWishForPrivacy(
         this.wishList.privacy,
         this.previewAs,
-        this.wishList.forceAnonymus
+        this.wishList.forceAnonymous
       )
     );
   }
@@ -285,7 +301,10 @@ export class AddListComponent implements OnInit {
     this.onChanges(name);
     if (name) {
       this.wishList.name = this.latinize.transform(
-        name.toLowerCase().replace(" ", "_")
+        name
+          .toLowerCase()
+          .trim()
+          .replace(/ /g, "_")
       );
     }
   }
@@ -306,7 +325,7 @@ export class AddListComponent implements OnInit {
       this.demoService.getWishForPrivacy(
         this.wishList.privacy,
         this.previewAs,
-        this.wishList.forceAnonymus
+        this.wishList.forceAnonymous
       )
     );
   }
@@ -315,5 +334,14 @@ export class AddListComponent implements OnInit {
     console.debug("OnChanges Preview ", $event);
     this.previewAs = $event.value;
     this.changesdemoWish();
+  }
+
+  selectImg(picture: any) {
+    this.wishList.picture = picture.picture;
+    this.onChanges(this.wishList);
+  }
+
+  createList() {
+    this.wishListService.add(this.wishList);
   }
 }

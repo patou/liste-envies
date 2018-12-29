@@ -1,7 +1,4 @@
-<div
-  class="page-background"
-  [style.backgroundImage]="'url(' + list?.picture + ')'"
->
+<div class="page-background" [style.backgroundImage]="listBackgroundImg()">
   <mat-card class="header-page-card" *ngIf="list">
     <section class="mat-typography">
       <h1 [title]="list.title">

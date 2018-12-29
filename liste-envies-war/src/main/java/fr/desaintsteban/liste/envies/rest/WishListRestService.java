@@ -24,8 +24,7 @@ public class WishListRestService {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null){
             LOGGER.info("List users");
-            List<WishList> list = WishListService.list(user.getEmail());
-            if (!list.isEmpty()) {
+            List<WishList> list = WishListService.list(user.getEmail());if (!list.isEmpty()) {
                 return WishRules.applyRules(user, list);
             }
         }

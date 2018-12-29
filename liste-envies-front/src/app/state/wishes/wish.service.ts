@@ -21,7 +21,7 @@ import { MatSnackBar } from "@angular/material";
 import { Filter, FiltersPlugin } from "@datorama/akita-filters-plugin";
 
 @Injectable({ providedIn: "root" })
-export class WishService {
+export class WishService extends FiltersPlugin {
   private draft: EntityDirtyCheckPlugin<WishItem>;
   private filters: FiltersPlugin<WishState, WishItem, any>;
 
@@ -32,8 +32,8 @@ export class WishService {
     private userQuery: UserQuery,
     private snackBar: MatSnackBar
   ) {
+    super(wishQuery, { filtersStoreName: "WishFilters" });
     this.draft = new EntityDirtyCheckPlugin<WishItem>(this.wishQuery);
-    this.filters = new FiltersPlugin(this.wishQuery);
   }
 
   @Throttle(400)
@@ -152,41 +152,17 @@ export class WishService {
     );
   }
 
-  setFilter(filter: Filter<WishItem>) {
-    this.filters.setFilter(filter);
-  }
-
   setOrderBy(by: any, order: string | "+" | "-") {
-    this.filters.setSortBy({
+    this.setSortBy({
       sortBy: by,
       sortByOrder: order === "+" ? Order.ASC : Order.DESC
     });
   }
 
-  removeFilter(id: string) {
-    this.filters.removeFilter(id);
-  }
-
-  removeAllFilter() {
-    this.filters.clearFilters();
-  }
-
-  getFilterValue(id: string): any | null {
-    return this.filters.getFilterValue(id);
-  }
-
-  getSortValue(): string | null {
-    const sortValue = this.filters.getSortValue();
+  getSort(): string | null {
+    const sortValue = this.getSortValue();
     if (!sortValue) return "+date";
-    const order = sortValue.sortByOrder === Order.ASC ? "+" : "-";
-    return sortValue.sortBy ? order + sortValue.sortBy : "+date";
-  }
-
-  selectFilters(): Observable<Filter<WishItem>[]> {
-    return this.filters.selectFilters();
-  }
-
-  selectAll(options): Observable<WishItem[]> {
-    return this.filters.selectAllByFilters(options);
+    const order: string = sortValue.sortByOrder === Order.ASC ? "+" : "-";
+    return sortValue.sortBy ? order + sortValue.sortBy.toString() : "+date";
   }
 }

@@ -2,14 +2,14 @@
   name?: string;
   title?: string;
   description?: string;
-  users?: null;
+  users?: any[];
   owners?: (OwnersEntity)[] | null;
   picture?: string;
   pictures?: string[];
   type?: WishListType;
   date?: number | null;
   privacy?: "PRIVATE" | "OPEN" | "PUBLIC";
-  forceAnonymus?: boolean;
+  forceAnonymous?: boolean;
   state?: string;
   owner?: boolean;
 }

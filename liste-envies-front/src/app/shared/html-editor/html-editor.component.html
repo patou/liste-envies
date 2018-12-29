@@ -1,13 +1,14 @@
 <!---->
 <quill-editor
   class="editor-{{type}}"
-  [ngClass]="{ focused: focused }"
+  [ngClass]="{ focused: focused, hideToolbar: hideToolbar }"
   [ngModel]="content"
   (ngModelChange)="contentChange.emit($event)"
   [theme]="theme"
   [placeholder]="_placeholderCurrent"
-  [style.height]="height"
-  [style.maxHeight]="height"
+  [style.height]="editorHeight"
+  [style.maxHeight]="editorHeight"
+  [style.minHeight]="editorHeight"
   [modules]="modulesToolbar"
   [readOnly]="disabled"
   [required]="required"

@@ -47,6 +47,17 @@ export class HtmlEditorComponent
   stateChanges: Subject<void> = new Subject<void>();
   @HostBinding() id = `html-editor-input-${HtmlEditorComponent.nextId++}`;
 
+  @Input() // hide toolbar when no focuse, default true. False, to display always.
+  get hideToolbar(): boolean {
+    return this._hideToolbar;
+  }
+
+  set hideToolbar(value: boolean) {
+    this._hideToolbar = coerceBooleanProperty(value);
+    this.stateChanges.next();
+  }
+  private _hideToolbar = true;
+
   focused = false;
   errorState = false;
   controlType = "example-tel-input";
@@ -107,7 +118,16 @@ export class HtmlEditorComponent
   @Input() public type: HtmlEditorType = HtmlEditorType.FULL;
 
   public theme: string;
-  public height: string;
+  @Input()
+  get editorHeight(): string {
+    return this._height;
+  }
+
+  set editorHeight(value: string) {
+    this._height = value;
+    this.stateChanges.next();
+  }
+  private _height: string;
 
   public modulesToolbar;
 
@@ -115,7 +135,7 @@ export class HtmlEditorComponent
     switch (this.type) {
       case HtmlEditorType.LIGHT:
         this.theme = "bubble";
-        this.height = "90px";
+        this._height = !this._height ? "90px" : this._height;
         this.modulesToolbar = {
           toolbar: [
             [
@@ -133,7 +153,7 @@ export class HtmlEditorComponent
       case HtmlEditorType.FULL:
       default:
         this.theme = "snow";
-        this.height = "250px";
+        this._height = !this._height ? "250px" : this._height;
         this.modulesToolbar = {
           toolbar: [
             [

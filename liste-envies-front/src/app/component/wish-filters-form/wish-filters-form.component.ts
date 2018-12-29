@@ -114,7 +114,7 @@ export class WishFiltersFormComponent implements OnInit, OnDestroy {
       {
         search: this.wishService.getFilterValue("search"),
         comment: this.wishService.getFilterValue("comment"),
-        sort: this.wishService.getSortValue(),
+        sort: this.wishService.getSort(),
         type: this.wishService.getFilterValue("type")
       },
       { emitEvent: false }
