@@ -2345,3 +2345,15 @@
     }
   }
 }
+
+.form-field-240px .mat-form-field-infix {
+  height: 240px !important;
+  min-height: 240px !important;
+  max-height: 240px !important;
+
+  .ql-container.ql-snow {
+    height: 160px !important;
+    min-height: 160px !important;
+    max-height: 160px !important;
+  }
+}

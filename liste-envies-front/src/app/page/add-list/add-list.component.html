@@ -65,7 +65,7 @@
         <div class="col-6">
           <mat-form-field
             appearance="outline"
-            class="col-11 col-offset-1"
+            class="col-11 col-offset-1 form-field-240px"
             floatLabel="always"
           >
             <mat-label>Description</mat-label>
@@ -73,9 +73,10 @@
               #description
               [(content)]="wishList.description"
               hideToolbar="false"
-              editorHeight="500px"
+              editorHeight="150px"
               placeholder="Entrez un Description pour votre liste, vous pouvez la mettre en forme, ajouter des liens etc..."
               name="description"
+              type="full"
               (contentChange)="onChanges($event)"
             ></app-html-editor>
             <mat-hint
