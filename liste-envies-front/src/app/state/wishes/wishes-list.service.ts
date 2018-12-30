@@ -8,6 +8,7 @@ import { WishList } from "../../models/WishList";
 import { WishService } from "./wish.service";
 import { WishesListQuery } from "./wishes-list.query";
 import { FiltersPlugin, searchFilterIn } from "@datorama/akita-filters-plugin";
+import { Router } from "@angular/router";
 
 @Injectable({ providedIn: "root" })
 export class WishesListService {
@@ -16,7 +17,8 @@ export class WishesListService {
     private wishesListStore: WishesListStore,
     private wishListService: WishListApiService,
     private wishService: WishService,
-    private wishesListQuery: WishesListQuery
+    private wishesListQuery: WishesListQuery,
+    private router: Router
   ) {
     this.filters = new FiltersPlugin(this.wishesListQuery);
   }
@@ -34,7 +36,8 @@ export class WishesListService {
     this.wishListService
       .createOrUpdateList(wishesList.name, wishesList)
       .subscribe(newList => {
-        this.wishesListStore.createOrReplace(wishesList.name, wishesList);
+        this.wishesListStore.createOrReplace(newList.name, newList);
+        this.router.navigate(["/", newList.name]);
       });
   }
 

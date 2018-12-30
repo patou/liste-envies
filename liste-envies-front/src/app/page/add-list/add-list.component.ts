@@ -260,24 +260,7 @@ export class AddListComponent implements OnInit {
     private demoService: DemoService,
     private wishListService: WishesListService,
     private user: UserQuery
-  ) {
-    const userInfo: UserState = this.user.getSnapshot();
-    this.wishList = {
-      title: "",
-      picture: "",
-      description: "",
-      privacy: "PRIVATE",
-      users: []
-    };
-
-    if (userInfo.user) {
-      this.wishList.users.push({
-        email: userInfo.user.email,
-        name: userInfo.user.displayName,
-        type: "OWNER"
-      });
-    }
-  }
+  ) {}
 
   ngOnInit() {
     /*this.firstFormGroup = this._formBuilder.group({
@@ -286,6 +269,14 @@ export class AddListComponent implements OnInit {
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ['', Validators.required]
     });*/
+
+    this.wishList = {
+      title: "",
+      picture: "",
+      description: "",
+      privacy: "PRIVATE",
+      users: []
+    };
 
     this.onChangesPrivacy(null);
     this.demoService.add(
@@ -331,7 +322,6 @@ export class AddListComponent implements OnInit {
   }
 
   public onChangePreview($event) {
-    console.debug("OnChanges Preview ", $event);
     this.previewAs = $event.value;
     this.changesdemoWish();
   }
@@ -342,6 +332,14 @@ export class AddListComponent implements OnInit {
   }
 
   createList() {
+    const userInfo: UserState = this.user.getSnapshot();
+    if (userInfo.user) {
+      this.wishList.users.push({
+        email: userInfo.user.email,
+        name: userInfo.user.displayName,
+        type: "OWNER"
+      });
+    }
     this.wishListService.add(this.wishList);
   }
 }
