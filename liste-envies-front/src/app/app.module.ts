@@ -38,6 +38,7 @@ import { environment } from "../environments/environment";
 import { enableAkitaProdMode } from "@datorama/akita";
 import { NotificationsComponent } from "./component/notifications/notifications.component";
 import { akitaConfig } from "@datorama/akita";
+import { ReactiveFormsModule } from "@angular/forms";
 akitaConfig({
   resettable: true
 });
@@ -74,6 +75,7 @@ if (environment.production) {
     MatIconModule,
     MatListModule,
     MomentModule,
+    ReactiveFormsModule,
     environment.production ? [] : AkitaNgDevtools.forRoot()
   ],
   providers: [

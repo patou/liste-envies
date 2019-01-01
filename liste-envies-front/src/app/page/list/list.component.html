@@ -4,6 +4,9 @@
       <h1 [title]="list.title">
         <list-type-icon [type]="list.type"></list-type-icon>{{ list.title }}
       </h1>
+      <p>
+        de <span *ngFor="let owner of list.owners">{{ owner.name }}</span>
+      </p>
     </section>
     <mat-card-content>
       <read-more [content]="list.description" maxHeight="200"></read-more>

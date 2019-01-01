@@ -38,6 +38,7 @@ import { ImgFormComponent } from "./img-form/img-form.component";
 import { ReadMoreComponent } from "./read-more/read-more.component";
 import { PageFooterComponent } from "./page-footer/page-footer.component";
 import { WishFiltersFormComponent } from "../component/wish-filters-form/wish-filters-form.component";
+import { UserShareComponent } from "./user-share/user-share.component";
 
 /*import { Ng2GridDirective } from './ng2-grid/ng2-grid.directive';*/
 
@@ -89,7 +90,8 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     ListTypeIcon,
     ReadMoreComponent,
     PageFooterComponent,
-    WishFiltersFormComponent
+    WishFiltersFormComponent,
+    UserShareComponent
   ],
   exports: [
     CommonModule,
@@ -114,7 +116,8 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     WishListItemComponent,
     ReadMoreComponent,
     PageFooterComponent,
-    WishFiltersFormComponent
+    WishFiltersFormComponent,
+    UserShareComponent
   ],
   providers: [
     {

@@ -70,6 +70,7 @@ export class ListComponent implements OnInit, OnChanges {
 
       return;
     }
+    // if no demo, do the following
 
     this.whishList$ = this.wishQuery
       .select()
@@ -80,8 +81,6 @@ export class ListComponent implements OnInit, OnChanges {
 
     this.listItems = this.wishQuery.selectAll();
     this.loading$ = this.wishQuery.selectLoading();
-
-    // if no demo, do the following
 
     this.userAuth.subscribe(value => {
       this.loadList();

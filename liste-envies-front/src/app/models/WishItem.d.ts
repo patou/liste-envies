@@ -28,6 +28,7 @@ export interface WishItem {
 export interface Owner {
   email?: string;
   name: string;
+  picture?: string;
 }
 export interface UrlsEntity {
   url: string;

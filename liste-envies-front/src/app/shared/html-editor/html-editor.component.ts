@@ -60,7 +60,7 @@ export class HtmlEditorComponent
 
   focused = false;
   errorState = false;
-  controlType = "example-tel-input";
+  controlType = "html-editor-input";
   describedBy = "";
 
   get empty() {

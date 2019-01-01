@@ -1,0 +1,61 @@
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <mat-form-field appearance="outline" class="col-10 no-padding">
+    <mat-label>Emails</mat-label>
+    <input
+      matInput="email"
+      type="email"
+      [placeholder]="placeholder"
+      email
+      [formControl]="addEmailsControl"
+    />
+    <mat-hint
+      >Entrez un ou plusieurs (séparés par une virgule) emails puis cliquez sur
+      le bouton +
+    </mat-hint>
+  </mat-form-field>
+  <mat-checkbox
+    name="addOwnersControl"
+    [formControl]="addOwnersControl"
+    value="true"
+    labelPosition="left"
+  >
+    Ajouter en tant que co-Propriétaire de la liste
+  </mat-checkbox>
+
+  <button mat-mini-fab (click)="addUsers()" class="col-1">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+<mat-error *ngIf="addEmailsControl.value">
+  Cliquez sur l'icone + pour partager à cet emails
+</mat-error>
+{{ value | json }}
+<div *ngIf="value && value.length > 0">
+  <table mat-table [dataSource]="datasource" class="mat-elevation-z8">
+    <!--
+      - Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition"
+    -->
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>Email</th>
+      <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Nom</th>
+      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+    </ng-container>
+
+    <!-- Type Column -->
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef>Type</th>
+      <td mat-cell *matCellDef="let element">{{ element.type }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>

@@ -2,8 +2,8 @@
   name?: string;
   title?: string;
   description?: string;
-  users?: any[];
-  owners?: (OwnersEntity)[] | null;
+  users?: UserShare[];
+  owners?: UserShare[] | null;
   picture?: string;
   pictures?: string[];
   type?: WishListType;
@@ -14,10 +14,10 @@
   owner?: boolean;
 }
 
-export interface OwnersEntity {
+export interface UserShare {
   email?: string;
   name?: string;
-  type?: string;
+  type?: "SHARED" | "OWNER" | string;
 }
 
 export enum WishListPrivacy {

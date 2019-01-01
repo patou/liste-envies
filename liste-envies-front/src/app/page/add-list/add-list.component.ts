@@ -1,6 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { WishList } from "../../models/WishList";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators
+} from "@angular/forms";
+import { UserShare, WishList } from "../../models/WishList";
 import { LatinizePipe } from "ng-pipes";
 import { Subject } from "rxjs/Subject";
 import { WishItem } from "../../models/WishItem";
@@ -9,6 +14,7 @@ import { WishesListService } from "../../state/wishes/wishes-list.service";
 import { UserQuery } from "../../state/app/user.query";
 import { UserState } from "../../state/app/user.store";
 import { WishListTypeLabel } from "../../models/const";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-add-list",
@@ -16,6 +22,7 @@ import { WishListTypeLabel } from "../../models/const";
   styleUrls: ["./add-list.component.scss"]
 })
 export class AddListComponent implements OnInit {
+  private sending: boolean;
   get wishListTypePicture(): any[] {
     return this._wishListTypePicture.filter(
       value => value.type === this.wishList.type
@@ -24,6 +31,7 @@ export class AddListComponent implements OnInit {
   isLinear = false;
   nameFormGroup: FormGroup;
   secondFormGroup: FormGroup;
+  addUsers = new FormControl([]);
   wishList: WishList;
   demoList: WishList;
   wishListLabel = WishListTypeLabel;
@@ -259,7 +267,8 @@ export class AddListComponent implements OnInit {
     private latinize: LatinizePipe,
     private demoService: DemoService,
     private wishListService: WishesListService,
-    private user: UserQuery
+    private user: UserQuery,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -275,7 +284,8 @@ export class AddListComponent implements OnInit {
       picture: "",
       description: "",
       privacy: "PRIVATE",
-      users: []
+      users: [],
+      owners: []
     };
 
     this.onChangesPrivacy(null);
@@ -286,6 +296,33 @@ export class AddListComponent implements OnInit {
         this.wishList.forceAnonymous
       )
     );
+
+    this.user.select(userInfo => {
+      console.log("Change User infos", userInfo);
+      if (userInfo.user) {
+        const owner = {
+          email: userInfo.user.email,
+          name: userInfo.user.displayName,
+          type: "OWNER"
+        };
+        this.wishList.users.push(owner);
+        this.wishList.owners.push(owner);
+        this.addUsers.setValue(this.wishList.users);
+      }
+    });
+
+    this.addUsers.setValue(this.wishList.users);
+    this.addUsers.valueChanges.subscribe((changes: UserShare[]) => {
+      this.wishList.users = changes;
+      this.wishList.owners = changes.filter(user => user.type === "OWNER");
+
+      console.log(
+        "addUsers Value changes",
+        this.wishList.users,
+        this.wishList.owners
+      );
+      this.onChanges(this.wishList);
+    });
   }
 
   changeName(name) {
@@ -332,14 +369,11 @@ export class AddListComponent implements OnInit {
   }
 
   createList() {
-    const userInfo: UserState = this.user.getSnapshot();
-    if (userInfo.user) {
-      this.wishList.users.push({
-        email: userInfo.user.email,
-        name: userInfo.user.displayName,
-        type: "OWNER"
-      });
-    }
-    this.wishListService.add(this.wishList);
+    this.sending = true;
+
+    this.wishListService.add(this.wishList).subscribe(newList => {
+      this.sending = false;
+      this.router.navigate(["/", newList.name]);
+    });
   }
 }

@@ -2,9 +2,9 @@
 <mat-horizontal-stepper [linear]="isLinear" #stepper="matHorizontalStepper">
   <mat-step [stepControl]="nameFormGroup">
     <ng-template matStepLabel>Entrer un nom pour votre liste</ng-template>
-    <form class="grid">
+    <form class="grid  grid--between">
       <div class="row">
-        <div class="col-6 grid--between">
+        <div class="col-6">
           <mat-form-field class="col-12" appearance="outline">
             <mat-label>Titre</mat-label>
             <input
@@ -89,53 +89,48 @@
     <div><button mat-button matStepperNext>Suivant</button></div>
   </mat-step>
   <mat-step [stepControl]="secondFormGroup">
-    <form>
-      <ng-template matStepLabel>Partager la liste à : </ng-template>
-      <form class="grid ">
-        <div class="row">
-          <div class="col6 grid--between">
-            <div class="col-12">
-              <mat-label>Privacy</mat-label>
-              <mat-radio-group
-                [(ngModel)]="wishList.privacy"
-                name="privacy"
-                (ngModelChange)="onChangesPrivacy($event)"
-              >
-                <mat-radio-button value="PRIVATE"
-                  >Limité / Privé</mat-radio-button
-                >
-                <mat-radio-button value="OPEN"
-                  >Ouvert / connecté</mat-radio-button
-                >
-                <mat-radio-button value="PUBLIC"
-                  >Libre / Publique</mat-radio-button
-                >
-              </mat-radio-group>
-            </div>
-
-            <div class="col-12">
-              <mat-checkbox
-                name="forceAnonymous"
-                [(ngModel)]="wishList.forceAnonymous"
-                [labelPosition]="left"
-              >
-                Afficher les envies déjà donnée de manière anonyme
-              </mat-checkbox>
-            </div>
-          </div>
-          <div class="col6 grid--between">
-            <mat-form-field appearance="outline">
-              <input matInput placeholder="Email" required name="email" />
-            </mat-form-field>
-          </div>
+    <ng-template matStepLabel>Partager la liste à : </ng-template>
+    <form class="grid">
+      <div class="col-6 grid">
+        <div class="col-12">
+          <mat-label>Privacy</mat-label>
+          <mat-radio-group
+            [(ngModel)]="wishList.privacy"
+            name="privacy"
+            (ngModelChange)="onChangesPrivacy($event)"
+          >
+            <mat-radio-button value="PRIVATE">Limité / Privé </mat-radio-button>
+            <mat-radio-button value="OPEN">Ouvert / connecté </mat-radio-button>
+            <mat-radio-button value="PUBLIC"
+              >Libre / Publique
+            </mat-radio-button>
+          </mat-radio-group>
         </div>
-      </form>
 
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
+        <div class="col-12">
+          <mat-checkbox
+            name="forceAnonymous"
+            [(ngModel)]="wishList.forceAnonymous"
+            [labelPosition]="left"
+          >
+            Afficher les envies déjà donnée de manière anonyme
+          </mat-checkbox>
+        </div>
+      </div>
+      <div class="col-6 grid">
+        <mat-form-field appearance="outline" class="col-12 grid">
+          <app-user-share
+            class="col-12"
+            [formControl]="addUsers"
+          ></app-user-share>
+        </mat-form-field>
       </div>
     </form>
+
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Options de la liste</ng-template>
@@ -171,12 +166,17 @@
     </form>
 
     <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
-      <button mat-raised-button (click)="createList()">Créer la liste</button>
+      <button mat-button matStepperPrevious [disabled]="sending">Back</button>
+      <button mat-button (click)="stepper.reset()" [disabled]="sending">
+        Reset
+      </button>
+      <button mat-raised-button (click)="createList()" [disabled]="sending">
+        Créer la liste
+      </button>
     </div>
   </mat-step>
 </mat-horizontal-stepper>
+<mat-progress-bar mode="query" *ngIf="sending"></mat-progress-bar>
 <mat-divider></mat-divider>
 <mat-toolbar color="primary">
   <span>Aperçu de la liste</span> <span class="toolbar-spacer"></span>

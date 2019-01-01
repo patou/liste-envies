@@ -1,5 +1,5 @@
 import { ID } from "@datorama/akita";
-import { OwnersEntity, WishList, WishListType } from "../../models/WishList";
+import { UserShare, WishList, WishListType } from "../../models/WishList";
 
 /**
  * A factory function that creates WishesList
