@@ -297,8 +297,7 @@ export class AddListComponent implements OnInit {
       )
     );
 
-    this.user.select(userInfo => {
-      console.log("Change User infos", userInfo);
+    this.user.select().subscribe((userInfo: UserState) => {
       if (userInfo.user) {
         const owner = {
           email: userInfo.user.email,
@@ -316,11 +315,6 @@ export class AddListComponent implements OnInit {
       this.wishList.users = changes;
       this.wishList.owners = changes.filter(user => user.type === "OWNER");
 
-      console.log(
-        "addUsers Value changes",
-        this.wishList.users,
-        this.wishList.owners
-      );
       this.onChanges(this.wishList);
     });
   }
@@ -338,12 +332,10 @@ export class AddListComponent implements OnInit {
   }
 
   public onChanges($event) {
-    console.debug("OnChanges :", $event);
     this.demoList = { ...this.wishList };
   }
 
   public onChangesPrivacy($event) {
-    console.debug("OnChanges Privacy", $event);
     this.changesdemoWish();
     this.onChanges($event);
   }

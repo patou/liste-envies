@@ -19,7 +19,7 @@
     value="true"
     labelPosition="left"
   >
-    Ajouter en tant que co-Propriétaire de la liste
+    co-Propriétaire
   </mat-checkbox>
 
   <button mat-mini-fab (click)="addUsers()" class="col-1">
@@ -29,7 +29,6 @@
 <mat-error *ngIf="addEmailsControl.value">
   Cliquez sur l'icone + pour partager à cet emails
 </mat-error>
-{{ value | json }}
 <div *ngIf="value && value.length > 0">
   <table mat-table [dataSource]="datasource" class="mat-elevation-z8">
     <!--
@@ -53,6 +52,16 @@
     <ng-container matColumnDef="type">
       <th mat-header-cell *matHeaderCellDef>Type</th>
       <td mat-cell *matCellDef="let element">{{ element.type }}</td>
+    </ng-container>
+
+    <!-- Type Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button (click)="removeUser(element)">
+          <mat-icon aria-label="Supprimer">remove_circle</mat-icon>
+        </button>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -23,6 +23,7 @@ import { Observable } from "rxjs/Observable";
 import { coerceBooleanProperty } from "@angular/cdk/coercion";
 import { FocusMonitor } from "@angular/cdk/a11y";
 import { Subject } from "rxjs/Subject";
+import { el } from "@angular/platform-browser/testing/src/browser_util";
 
 @Component({
   selector: "app-user-share",
@@ -108,10 +109,7 @@ export class UserShareComponent
   }
   set value(val: UserShare[] | null) {
     this._value = val;
-    this.onChange(val);
-    console.log("User Shre Changes values :", this.value);
-    this.datasource.data = this.value;
-    this.stateChanges.next();
+    this.triggerChangeValue();
   }
   describedBy = "";
   //endregion
@@ -119,7 +117,7 @@ export class UserShareComponent
   addEmailsControl: FormControl = new FormControl("");
   addOwnersControl: FormControl = new FormControl(false);
 
-  displayedColumns: string[] = ["email", "name", "type"];
+  displayedColumns: string[] = ["email", "name", "type", "action"];
   public datasource: MatTableDataSource<UserShare> = new MatTableDataSource(
     this.value
   );
@@ -129,13 +127,18 @@ export class UserShareComponent
     emails.map((email: string) => {
       this.value.push(this.createUserShare(email.trim()));
     });
+
     this.addEmailsControl.setValue("");
     this.addOwnersControl.setValue(false);
     this.onTouched();
+
+    this.triggerChangeValue();
+  }
+
+  private triggerChangeValue() {
     this.datasource.data = this.value;
     this.stateChanges.next();
     this.onChange(this.value);
-    console.log("Add USers : ", this.value);
   }
 
   createUserShare(email: string): UserShare {
@@ -177,7 +180,6 @@ export class UserShareComponent
   // Update the model and changes needed for the view here.
   writeValue(users: UserShare[]): void {
     this.value = users;
-    this.onChange(this.value);
   }
 
   // Allows Angular to register a function to call when the model (rating) changes.
@@ -197,4 +199,9 @@ export class UserShareComponent
     this.disabled = isDisabled;
   }
   //endregion
+  removeUser(element: UserShare) {
+    const elementToRemove = this.value.indexOf(element);
+    this.value.splice(elementToRemove, 1);
+    this.triggerChangeValue();
+  }
 }

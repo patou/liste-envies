@@ -5,7 +5,10 @@
         <list-type-icon [type]="list.type"></list-type-icon>{{ list.title }}
       </h1>
       <p>
-        de <span *ngFor="let owner of list.owners">{{ owner.name }}</span>
+        de
+        <span *ngFor="let owner of list.owners" [matTooltip]="owner.email">
+          {{ owner.name }},
+        </span>
       </p>
     </section>
     <mat-card-content>
