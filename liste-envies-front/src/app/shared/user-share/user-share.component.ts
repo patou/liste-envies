@@ -10,7 +10,11 @@ import {
   Self,
   ViewEncapsulation
 } from "@angular/core";
-import { MatFormFieldControl, MatTableDataSource } from "@angular/material";
+import {
+  MatAutocompleteSelectedEvent,
+  MatFormFieldControl,
+  MatTableDataSource
+} from "@angular/material";
 import {
   ControlValueAccessor,
   FormBuilder,
@@ -18,12 +22,15 @@ import {
   NG_VALUE_ACCESSOR,
   NgControl
 } from "@angular/forms";
-import { UserShare } from "../../models/WishList";
+import { UserShare, WishList } from "../../models/WishList";
 import { Observable } from "rxjs/Observable";
 import { coerceBooleanProperty } from "@angular/cdk/coercion";
 import { FocusMonitor } from "@angular/cdk/a11y";
 import { Subject } from "rxjs/Subject";
 import { el } from "@angular/platform-browser/testing/src/browser_util";
+import { WishesListQuery } from "../../state/wishes/wishes-list.query";
+import * as _ from "lodash";
+import { untilDestroyed } from "ngx-take-until-destroy";
 
 @Component({
   selector: "app-user-share",
@@ -45,12 +52,15 @@ export class UserShareComponent
     @Optional() @Self() public ngControl: NgControl,
     fb: FormBuilder,
     private fm: FocusMonitor,
-    private elRef: ElementRef<HTMLElement>
+    private elRef: ElementRef<HTMLElement>,
+    private wishlistQuery: WishesListQuery
   ) {
-    fm.monitor(elRef, true).subscribe(origin => {
-      this.focused = !!origin;
-      this.stateChanges.next();
-    });
+    fm.monitor(elRef, true)
+      .pipe(untilDestroyed(this))
+      .subscribe(origin => {
+        this.focused = !!origin;
+        this.stateChanges.next();
+      });
 
     if (this.ngControl != null) {
       // Setting the value accessor directly (instead of using
@@ -118,6 +128,9 @@ export class UserShareComponent
   addOwnersControl: FormControl = new FormControl(false);
 
   displayedColumns: string[] = ["email", "name", "type", "action"];
+
+  users: UserShare[];
+
   public datasource: MatTableDataSource<UserShare> = new MatTableDataSource(
     this.value
   );
@@ -128,6 +141,16 @@ export class UserShareComponent
       this.value.push(this.createUserShare(email.trim()));
     });
 
+    this.afterAddUsers();
+  }
+
+  selectedUsers(autocomplete: MatAutocompleteSelectedEvent) {
+    const user: any = autocomplete.option.value;
+    this.value.push(this.createUserShare(user.email, user.name));
+    this.afterAddUsers();
+  }
+
+  private afterAddUsers() {
     this.addEmailsControl.setValue("");
     this.addOwnersControl.setValue(false);
     this.onTouched();
@@ -141,8 +164,14 @@ export class UserShareComponent
     this.onChange(this.value);
   }
 
-  createUserShare(email: string): UserShare {
-    const name = email.split("@").shift();
+  createUserShare(email: string, name: string = null): UserShare {
+    name = name
+      ? name
+      : email
+          .split("@")
+          .shift()
+          .replace(/[-_.\d]/g, " ")
+          .trim();
     const type = this.addOwnersControl.value ? "OWNER" : "SHARED";
     return { email, name, type };
   }
@@ -152,6 +181,24 @@ export class UserShareComponent
     if (!this._value) {
       this._value = [];
     }
+
+    this.wishlistQuery
+      .selectAll()
+      .pipe(untilDestroyed(this))
+      .subscribe((wishLists: WishList[]) => {
+        const allUsers = wishLists.reduce<UserShare[]>(
+          (userList: UserShare[], wishList: WishList) => {
+            // todo find a solution for getting other users
+            if (wishList.owners) {
+              userList.push(...wishList.owners);
+            }
+
+            return userList;
+          },
+          []
+        );
+        this.users = _.uniqBy(allUsers, "email");
+      });
   }
 
   ngOnDestroy() {

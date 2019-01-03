@@ -1,18 +1,24 @@
-<div fxLayout="row" fxLayoutAlign="space-between center">
-  <mat-form-field appearance="outline" class="col-10 no-padding">
+<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10">
+  <mat-form-field class="col-10 no-padding">
     <mat-label>Emails</mat-label>
     <input
       matInput="email"
       type="email"
       [placeholder]="placeholder"
-      email
       [formControl]="addEmailsControl"
+      [matAutocomplete]="auto"
     />
-    <mat-hint
-      >Entrez un ou plusieurs (séparés par une virgule) emails puis cliquez sur
-      le bouton +
-    </mat-hint>
+
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      (optionSelected)="selectedUsers($event)"
+    >
+      <mat-option *ngFor="let user of users" [value]="user">
+        {{ user.email }} - {{ user.name }}
+      </mat-option>
+    </mat-autocomplete>
   </mat-form-field>
+
   <mat-checkbox
     name="addOwnersControl"
     [formControl]="addOwnersControl"
@@ -30,7 +36,7 @@
   Cliquez sur l'icone + pour partager à cet emails
 </mat-error>
 <div *ngIf="value && value.length > 0">
-  <table mat-table [dataSource]="datasource" class="mat-elevation-z8">
+  <table mat-table [dataSource]="datasource" class="mat-elevation-z3">
     <!--
       - Note that these columns can be defined in any order.
         The actual rendered columns are set as a property on the row definition"
