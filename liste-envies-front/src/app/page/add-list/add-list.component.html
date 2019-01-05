@@ -91,20 +91,48 @@
   <mat-step [stepControl]="secondFormGroup">
     <ng-template matStepLabel>Partager la liste à : </ng-template>
     <form class="grid">
-      <div class="col-6 grid">
+      <div class="col-6 grid--ca-top">
         <div class="col-12">
           <mat-label>Privacy</mat-label>
           <mat-radio-group
             [(ngModel)]="wishList.privacy"
             name="privacy"
             (ngModelChange)="onChangesPrivacy($event)"
+            class="grid grid--ca-center"
           >
-            <mat-radio-button value="PRIVATE">Limité / Privé </mat-radio-button>
-            <mat-radio-button value="OPEN">Ouvert / connecté </mat-radio-button>
-            <mat-radio-button value="PUBLIC"
-              >Libre / Publique
+            <mat-radio-button value="PRIVATE">
+              Limité / Privé
+            </mat-radio-button>
+            <mat-radio-button value="OPEN">
+              Ouvert / connecté
+            </mat-radio-button>
+            <mat-radio-button value="PUBLIC">
+              Libre / Publique
             </mat-radio-button>
           </mat-radio-group>
+
+          <div [ngSwitch]="wishList.privacy">
+            <span *ngSwitchCase="'PRIVATE'"
+              >Liste accessible seulement à ceux à qui vous partagerez la liste.
+              <br />Vous ne verrez pas qui vous donne une envie, seules les
+              personnes a qui vous la partagerez le verra.</span
+            >
+            <span *ngSwitchCase="'OPEN'"
+              >Il faut être connecté pour voir les envies de la liste (et
+              intéragir avec), la liste est ouverte à tous les membres qui
+              connaisse le liens. <br />
+              Vous ne verrez pas qui vous donne une envie, par contre toutes les
+              personnes connectés (sauf les bénéficiaires) voient qui donne une
+              envie.</span
+            >
+            <span *ngSwitchCase="'PUBLIC'"
+              >La liste peut être affiché sans être connecté par toute personne
+              connaissant le lien. Il est nécessaire de se connecter pour
+              interagir avec, et voir si une envie est prise. <br />
+              Toutes les personnes connectés (bénéficiaires compris) voient qui
+              donne une envie.</span
+            >
+          </div>
         </div>
 
         <div class="col-12">

@@ -164,5 +164,9 @@ mat-form-field.no-padding {
   display: none !important;
 }
 
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
 /*** ***************** files pouns ***/
 @import "~filepond/dist/filepond.css";
