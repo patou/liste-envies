@@ -39,6 +39,7 @@ import { ReadMoreComponent } from "./read-more/read-more.component";
 import { PageFooterComponent } from "./page-footer/page-footer.component";
 import { WishFiltersFormComponent } from "../component/wish-filters-form/wish-filters-form.component";
 import { UserShareComponent } from "./user-share/user-share.component";
+import { FilePondModule, registerPlugin } from "ngx-filepond";
 
 /*import { Ng2GridDirective } from './ng2-grid/ng2-grid.directive';*/
 
@@ -60,6 +61,18 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
   method: AuthMethods.Popup,
   credentialHelper: CredentialHelper.OneTap
 };
+import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
+import FilePondPluginFileEncode from "./img-form/filepond-plugin-file-encode.esm.js";
+import FilePondPluginImageResize from "filepond-plugin-image-resize";
+import FilePondPluginImageTransform from "filepond-plugin-image-transform";
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+registerPlugin(
+  FilePondPluginImageExifOrientation,
+  FilePondPluginFileValidateType,
+  FilePondPluginImageResize,
+  FilePondPluginImageTransform,
+  FilePondPluginFileEncode
+);
 
 @NgModule({
   imports: [
@@ -73,6 +86,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     MaterialModule,
     QuillModule,
     SwiperModule,
+    FilePondModule,
     AvatarModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
@@ -112,6 +126,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     AvatarModule,
     FlexLayoutModule,
     SwiperModule,
+    FilePondModule,
     ListTypeIcon,
     WishListItemComponent,
     ReadMoreComponent,

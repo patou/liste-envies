@@ -17,7 +17,7 @@
     fxFlex="70"
     class="form-add-img no-padding"
   >
-    <mat-label>Ajouter une image</mat-label>
+    <mat-label>Ajouter une image par Url</mat-label>
     <input
       matInput="url"
       placeholder="Url du l'image"
@@ -34,6 +34,22 @@
 <mat-error *ngIf="name.value">
   Cliquez sur l'icone + pour ajouter l'image
 </mat-error>
+<div>
+  <mat-label>Ou en envoyant votre propre image</mat-label>
+  <file-pond
+    #myPond
+    [options]="pondOptions"
+    [files]="pondFiles"
+    (oninit)="pondHandleInit()"
+    (onaddfile)="pondHandleAddFile($event)"
+  >
+  </file-pond>
+  <mat-hint
+    >Pour des raisons de stockage, l'image est retaillé et fortement dégradé,
+    pour une meilleure qualité préférez l'envoyer vous même sur un service en
+    ligne et fournir seulement l'url.</mat-hint
+  >
+</div>
 
 <div *ngIf="(newImages && newImages.length > 0) || addImage">
   <mat-grid-list cols="4" rowHeight="2:1" gutterSize="3" class="list-img">

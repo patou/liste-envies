@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from "@angular/core";
 import { UrlsEntity } from "../../models/WishItem";
 
 @Component({
@@ -16,6 +23,25 @@ export class ImgFormComponent implements OnInit {
   public onChange = new EventEmitter<string[]>();
 
   public addImage = "";
+
+  @ViewChild("myPond") myPond: any;
+
+  pondOptions = {
+    class: "my-filepond",
+    multiple: true,
+    acceptedFileTypes: "image/*",
+    imageResizeTargetWidth: 400,
+    imageCropAspectRatio: 1,
+    imageTransformOutputMimeType: "image/jpeg",
+    imageTransformOutputQuality: 50,
+    allowFileEncode: true,
+    labelIdle:
+      'Glisser-déposer vos images ou <span class="filepond--label-action"> Parcourir votre ordinateur </span>',
+    labelFileTypeNotAllowed: "Fichiers non authorisé",
+    fileValidateTypeLabelExpectedTypes: "Seuls les images sont authorisés"
+  };
+
+  pondFiles = [];
 
   constructor() {}
 
@@ -41,5 +67,26 @@ export class ImgFormComponent implements OnInit {
   public removeImg(index: number) {
     this.newImages.splice(index, 1);
     this.emitChange();
+  }
+
+  pondHandleInit() {
+    document.addEventListener(
+      "FilePond:fileData",
+      (event: any): void => {
+        if (event.detail) {
+          event.detail.map(image => {
+            this.addImg("data:image/jpeg;base64," + image.data);
+          });
+          this.pondFiles = [];
+          this.myPond.removeFiles();
+        }
+      }
+    );
+  }
+
+  pondHandleAddFile(event: any) {
+    if (!event.error && !event.status) {
+      this.myPond.removeFile(event.file.id);
+    }
   }
 }
