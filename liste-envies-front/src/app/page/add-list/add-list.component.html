@@ -29,18 +29,10 @@
                 {{ wishListLabel[wishList.type] }}</mat-select-trigger
               >
               <mat-option
-                *ngFor="let item of (testObject | keyvalue)"
-                value="OTHER"
+                *ngFor="let item of (wishListLabel | keyvalue)"
+                [value]="item.key"
                 selected
-                >Autre</mat-option
-              >
-              <mat-option value="CHRISTMAS">Noël</mat-option>
-              <mat-option value="BIRTHDAY">Anniversaire</mat-option>
-              <mat-option value="BIRTH">Liste de naissance</mat-option>
-              <mat-option value="WEDDING">Liste de mariage</mat-option>
-              <mat-option value="LEAVING">Liste pour un départ</mat-option>
-              <mat-option value="SPECIAL_OCCASION"
-                >Occasion spéciale</mat-option
+                >{{ item.value }}</mat-option
               >
             </mat-select>
           </mat-form-field>
@@ -98,7 +90,7 @@
             [(ngModel)]="wishList.privacy"
             name="privacy"
             (ngModelChange)="onChangesPrivacy($event)"
-            class="grid grid--ca-center"
+            class="grid grid--ca-center privacy-radio-group"
           >
             <mat-radio-button value="PRIVATE">
               Limité / Privé
@@ -111,7 +103,7 @@
             </mat-radio-button>
           </mat-radio-group>
 
-          <div [ngSwitch]="wishList.privacy">
+          <div [ngSwitch]="wishList.privacy" class="privacy-explain">
             <span *ngSwitchCase="'PRIVATE'"
               >Liste accessible seulement à ceux à qui vous partagerez la liste.
               <br />Vous ne verrez pas qui vous donne une envie, seules les
@@ -141,7 +133,7 @@
             [(ngModel)]="wishList.forceAnonymous"
             [labelPosition]="left"
           >
-            Afficher les envies déjà donnée de manière anonyme
+            Afficher les envies déjà données de manière anonyme
           </mat-checkbox>
         </div>
       </div>
@@ -168,7 +160,7 @@
         <div>
           <h3>Arrière plan</h3>
 
-          <mat-grid-list cols="6" rowHeight="2:1" *ngIf="wishList.type">
+          <mat-grid-list cols="6" rowHeight="2:1">
             <mat-grid-tile *ngFor="let picture of wishListTypePicture">
               <img
                 [src]="'/assets/thumb/' + picture.picture"
@@ -180,10 +172,10 @@
           </mat-grid-list>
           <mat-divider>ou</mat-divider>
           <mat-form-field class="col-12 field" appearance="outline">
-            <mat-label>Images personalisé </mat-label>
+            <mat-label>Image personnalisé </mat-label>
             <input
               matInput
-              placeholder="Images personnalisé d'arrières plan"
+              placeholder="Image personnalisé d'arrière-plan"
               [(ngModel)]="wishList.picture"
               (change)="onChanges($event)"
               name="picture"

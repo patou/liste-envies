@@ -8,7 +8,7 @@
   pictures?: string[];
   type?: WishListType;
   date?: number | null;
-  privacy?: "PRIVATE" | "OPEN" | "PUBLIC";
+  privacy?: WishListPrivacy;
   forceAnonymous?: boolean;
   state?: string;
   owner?: boolean;
@@ -20,18 +20,13 @@ export interface UserShare {
   type?: "SHARED" | "OWNER" | string;
 }
 
-export enum WishListPrivacy {
-  PRIVATE,
-  OPEN,
-  PUBLIC
-}
+export type WishListPrivacy = "PRIVATE" | "OPEN" | "PUBLIC";
 
-export enum WishListType {
-  OTHER,
-  CHRISTMAS,
-  BIRTHDAY,
-  BIRTH,
-  WEDDING,
-  LEAVING,
-  SPECIAL_OCCASION
-}
+export type WishListType =
+  | "OTHER"
+  | "CHRISTMAS"
+  | "BIRTHDAY"
+  | "BIRTH"
+  | "WEDDING"
+  | "LEAVING"
+  | "SPECIAL_OCCASION";

@@ -1,9 +1,19 @@
 .wish-list-url {
   .mat-form-field-label-wrapper {
-    top: -5px !important;
+    top: -5px;
   }
 
-  .mat-form-field-prefix {
-    top: 0 !important;
+  ::ng-deep .mat-form-field-prefix {
+    top: 0;
   }
+}
+
+.privacy-radio-group .mat-radio-button {
+  margin-left: 5px;
+}
+
+.privacy-explain {
+  color: #666;
+  font-style: italic;
+  font-size: 0.9em;
 }
