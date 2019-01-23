@@ -20,7 +20,8 @@ import {
   FormBuilder,
   FormControl,
   NG_VALUE_ACCESSOR,
-  NgControl
+  NgControl,
+  Validators
 } from "@angular/forms";
 import { UserShare, WishList } from "../../models/WishList";
 import { Observable } from "rxjs/Observable";
@@ -31,6 +32,7 @@ import { el } from "@angular/platform-browser/testing/src/browser_util";
 import { WishesListQuery } from "../../state/wishes/wishes-list.query";
 import * as _ from "lodash";
 import { untilDestroyed } from "ngx-take-until-destroy";
+import { push, splice } from "@datorama/akita";
 
 @Component({
   selector: "app-user-share",
@@ -124,7 +126,7 @@ export class UserShareComponent
   describedBy = "";
   //endregion
 
-  addEmailsControl: FormControl = new FormControl("");
+  addEmailsControl: FormControl = new FormControl("", Validators.email);
   addOwnersControl: FormControl = new FormControl(false);
 
   displayedColumns: string[] = ["email", "name", "type", "action"];
@@ -136,12 +138,15 @@ export class UserShareComponent
   );
 
   addUsers() {
-    const emails: string[] = this.addEmailsControl.value.split(",");
-    emails.map((email: string) => {
-      this.value.push(this.createUserShare(email.trim()));
-    });
+    const userToAdd = this.addEmailsControl.value;
+    if (userToAdd) {
+      const emails: string[] = userToAdd.split(",");
+      emails.map((email: string) => {
+        this.value = push(this.value, this.createUserShare(email.trim()));
+      });
 
-    this.afterAddUsers();
+      this.afterAddUsers();
+    }
   }
 
   selectedUsers(autocomplete: MatAutocompleteSelectedEvent) {
@@ -160,11 +165,14 @@ export class UserShareComponent
 
   private triggerChangeValue() {
     this.datasource.data = this.value;
-    this.stateChanges.next();
     this.onChange(this.value);
+    this.stateChanges.next();
   }
 
   createUserShare(email: string, name: string = null): UserShare {
+    if (!email) {
+      return;
+    }
     name = name
       ? name
       : email
@@ -226,7 +234,7 @@ export class UserShareComponent
   // Allows Angular to update the model (rating).
   // Update the model and changes needed for the view here.
   writeValue(users: UserShare[]): void {
-    this.value = users;
+    this.value = [...users];
   }
 
   // Allows Angular to register a function to call when the model (rating) changes.
@@ -248,7 +256,7 @@ export class UserShareComponent
   //endregion
   removeUser(element: UserShare) {
     const elementToRemove = this.value.indexOf(element);
-    this.value.splice(elementToRemove, 1);
+    this.value = splice(this.value, elementToRemove, 1);
     this.triggerChangeValue();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   FormBuilder,
   FormControl,
@@ -15,14 +15,20 @@ import { UserQuery } from "../../state/app/user.query";
 import { UserState } from "../../state/app/user.store";
 import { WishListTypeLabel, WishListTypePicture } from "../../models/const";
 import { Router } from "@angular/router";
+import { untilDestroyed } from "ngx-take-until-destroy";
+import { AkitaNgFormsManager } from "@datorama/akita-ng-forms-manager";
+import { WishesListState } from "../../state/wishes/wishes-list.store";
+import { debounceTime, filter, takeUntil } from "rxjs/operators";
+import { splice } from "@datorama/akita";
 
 @Component({
   selector: "app-add-list",
   templateUrl: "./add-list.component.html",
   styleUrls: ["./add-list.component.scss"]
 })
-export class AddListComponent implements OnInit {
+export class AddListComponent implements OnInit, OnDestroy {
   private sending: boolean;
+  private wishListFormGroup: FormGroup;
   get wishListTypePicture(): any[] {
     return !!this.wishList.type
       ? WishListTypePicture.filter(value => value.type === this.wishList.type)
@@ -32,7 +38,17 @@ export class AddListComponent implements OnInit {
   nameFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   addUsers = new FormControl([]);
-  wishList: WishList;
+  wishList: WishList = {
+    title: "",
+    name: "",
+    picture: "",
+    description: "",
+    type: null,
+    privacy: "PRIVATE",
+    users: [],
+    owners: [],
+    forceAnonymous: false
+  };
   demoList: WishList;
   wishListLabel = WishListTypeLabel;
 
@@ -46,25 +62,26 @@ export class AddListComponent implements OnInit {
     private demoService: DemoService,
     private wishListService: WishesListService,
     private user: UserQuery,
-    private router: Router
+    private router: Router,
+    private formsManager: AkitaNgFormsManager<WishesListState>
   ) {}
 
   ngOnInit() {
-    /*this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required]
+    this.wishListFormGroup = this._formBuilder.group({
+      title: ["", Validators.required],
+      type: [null],
+      name: ["", [Validators.required, Validators.pattern("[a-z-_]+")]],
+      picture: [""],
+      description: [""],
+      privacy: ["PRIVATE"],
+      users: this._formBuilder.control([]),
+      owners: [],
+      forceAnonymous: [false]
     });
-    this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required]
-    });*/
 
-    this.wishList = {
-      title: "",
-      picture: "",
-      description: "",
-      privacy: "PRIVATE",
-      users: [],
-      owners: []
-    };
+    this.formsManager.upsert("wishList", this.wishListFormGroup);
+
+    this.wishListFormGroup.setValue(this.wishList);
 
     this.onChangesPrivacy(null);
     this.demoService.add(
@@ -75,47 +92,81 @@ export class AddListComponent implements OnInit {
       )
     );
 
-    this.user.select().subscribe((userInfo: UserState) => {
-      if (userInfo.user) {
-        const owner = {
-          email: userInfo.user.email,
-          name: userInfo.user.displayName,
-          type: "OWNER"
-        };
-        this.wishList.users.push(owner);
-        this.wishList.owners.push(owner);
-        this.addUsers.setValue(this.wishList.users);
-      }
-    });
+    this.user
+      .select()
+      .pipe(untilDestroyed(this))
+      .subscribe((userInfo: UserState) => {
+        if (userInfo.user) {
+          const owner = {
+            email: userInfo.user.email,
+            name: userInfo.user.displayName,
+            type: "OWNER"
+          };
+          // this.wishList.users.push(owner);
+          this.wishListFormGroup.controls.users.setValue(this.wishList.users);
+        }
+      });
 
-    this.addUsers.setValue(this.wishList.users);
-    this.addUsers.valueChanges.subscribe((changes: UserShare[]) => {
-      this.wishList.users = changes;
-      this.wishList.owners = changes.filter(user => user.type === "OWNER");
+    this.wishListFormGroup.controls.users.setValue(this.wishList.users || []);
+    this.formsManager
+      .selectValue("wishList", "users")
+      .pipe(untilDestroyed(this))
+      .subscribe((changes: UserShare[]) => {
+        const wishlist: Partial<WishList> = {};
+        wishlist.owners = changes.filter(user => user.type === "OWNER");
 
-      this.onChanges(this.wishList);
-    });
+        this.wishListFormGroup.patchValue(wishlist);
+      });
+
+    this.formsManager
+      .selectValue("wishList", "title")
+      .pipe(
+        untilDestroyed(this),
+        takeUntil(
+          this.formsManager
+            .selectDirty("wishList", "name")
+            .pipe(filter(value => value === true))
+        ) // if field name was changed, do not compute name
+      )
+      .subscribe(value => this.changeName(value));
+
+    this.formsManager
+      .selectValue("wishList", "privacy")
+      .pipe(untilDestroyed(this))
+      .subscribe(value => this.onChangesPrivacy(value));
+
+    this.formsManager
+      .selectValue("wishList")
+      .pipe(
+        untilDestroyed(this),
+        debounceTime(500)
+      )
+      .subscribe(value => this.onChanges(value));
   }
 
   changeName(name) {
-    this.onChanges(name);
-    if (name) {
-      this.wishList.name = this.latinize.transform(
-        name
-          .toLowerCase()
-          .trim()
-          .replace(/ /g, "_")
-      );
+    if (name && this.wishListFormGroup.controls.name.untouched) {
+      this.wishListFormGroup.controls.name.setValue(this.formatUrlName(name));
     }
   }
 
-  public onChanges($event) {
+  private formatUrlName(name) {
+    return this.latinize.transform(
+      name
+        .toLowerCase()
+        .trim()
+        .replace(/ /g, "_")
+    );
+  }
+
+  public onChanges(wishList) {
+    console.log("On change ", wishList);
+    this.wishList = wishList;
     this.demoList = { ...this.wishList };
   }
 
   public onChangesPrivacy($event) {
     this.changesdemoWish();
-    this.onChanges($event);
   }
 
   private changesdemoWish() {
@@ -134,8 +185,8 @@ export class AddListComponent implements OnInit {
   }
 
   selectImg(picture: any) {
-    this.wishList.picture = picture.picture;
-    this.onChanges(this.wishList);
+    console.log("Select Img :", picture);
+    this.wishListFormGroup.controls.picture.setValue(picture.picture);
   }
 
   createList() {
@@ -145,5 +196,9 @@ export class AddListComponent implements OnInit {
       this.sending = false;
       this.router.navigate(["/", newList.name]);
     });
+  }
+
+  ngOnDestroy(): void {
+    this.formsManager.unsubscribe();
   }
 }

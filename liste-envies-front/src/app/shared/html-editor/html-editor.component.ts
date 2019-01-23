@@ -13,7 +13,12 @@ import {
   ViewEncapsulation
 } from "@angular/core";
 import { MatFormFieldControl } from "@angular/material";
-import { FormBuilder, NG_VALUE_ACCESSOR, NgControl } from "@angular/forms";
+import {
+  ControlValueAccessor,
+  FormBuilder,
+  NG_VALUE_ACCESSOR,
+  NgControl
+} from "@angular/forms";
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
 import { FocusMonitor } from "@angular/cdk/a11y";
@@ -30,22 +35,23 @@ export enum HtmlEditorType {
   styleUrls: ["./html-editor.component.scss"],
   encapsulation: ViewEncapsulation.None,
   providers: [
-    { provide: MatFormFieldControl, useExisting: HtmlEditorComponent },
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => MatFormFieldControl),
-      multi: true
-    }
+    { provide: MatFormFieldControl, useExisting: HtmlEditorComponent }
   ]
 })
 export class HtmlEditorComponent
-  implements OnInit, OnDestroy, MatFormFieldControl<string> {
+  implements
+    OnInit,
+    OnDestroy,
+    MatFormFieldControl<string>,
+    ControlValueAccessor {
   static nextId = 0;
 
   /** MatFormFieldControl **/
   autofilled: boolean;
   stateChanges: Subject<void> = new Subject<void>();
   @HostBinding() id = `html-editor-input-${HtmlEditorComponent.nextId++}`;
+  private _onTouch: () => {};
+  private _onChange: (_: string) => {};
 
   @Input() // hide toolbar when no focuse, default true. False, to display always.
   get hideToolbar(): boolean {
@@ -188,6 +194,12 @@ export class HtmlEditorComponent
       }
       this.stateChanges.next();
     });
+
+    if (this.ngControl != null) {
+      // Setting the value accessor directly (instead of using
+      // the providers) to avoid running into a circular import.
+      this.ngControl.valueAccessor = this;
+    }
   }
 
   ngOnDestroy() {
@@ -201,5 +213,26 @@ export class HtmlEditorComponent
 
   onContainerClick(event: MouseEvent) {
     this._placeholderCurrent = this._placeholder;
+  }
+
+  registerOnChange(fn: any): void {
+    this._onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this._onTouch = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
+  writeValue(content: string): void {
+    this.content = content;
+  }
+
+  onChange($event: string) {
+    this._onChange && this._onChange($event);
+    this.contentChange.emit($event);
   }
 }

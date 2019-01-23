@@ -3,7 +3,7 @@
   class="editor-{{type}}"
   [ngClass]="{ focused: focused, hideToolbar: hideToolbar }"
   [ngModel]="content"
-  (ngModelChange)="contentChange.emit($event)"
+  (ngModelChange)="onChange($event)"
   [theme]="theme"
   [placeholder]="_placeholderCurrent"
   [style.height]="editorHeight"

@@ -1,201 +1,197 @@
 <h1>Créer une nouvelle liste</h1>
-<mat-horizontal-stepper [linear]="isLinear" #stepper="matHorizontalStepper">
-  <mat-step [stepControl]="nameFormGroup">
-    <ng-template matStepLabel>Entrer un nom pour votre liste</ng-template>
-    <form class="grid  grid--between">
-      <div class="row">
-        <div class="col-6">
-          <mat-form-field class="col-12" appearance="outline">
-            <mat-label>Titre</mat-label>
-            <input
-              matInput
-              [(ngModel)]="wishList.title"
-              placeholder="Liste pour ..."
-              name="title"
-              required
-              (ngModelChange)="changeName($event)"
-            />
-          </mat-form-field>
-          <mat-form-field class="col-12" appearance="outline">
-            <mat-label>Type d'événements</mat-label>
-            <mat-select
-              [(value)]="wishList.type"
-              placeholder="Pour quel évènement ?"
-              name="type"
-              (selectionChange)="onChanges($event)"
+<form [formGroup]="wishListFormGroup">
+  <mat-horizontal-stepper [linear]="isLinear" #stepper="matHorizontalStepper">
+    <mat-step [stepControl]="nameFormGroup">
+      <ng-template matStepLabel>Entrer un nom pour votre liste</ng-template>
+      <div class="grid  grid--between">
+        <div class="row">
+          <div class="col-6">
+            <mat-form-field class="col-12" appearance="outline">
+              <mat-label>Titre</mat-label>
+              <input
+                matInput
+                placeholder="Liste pour ..."
+                name="title"
+                required
+                formControlName="title"
+              />
+            </mat-form-field>
+            <mat-form-field
+              class="col-12 wish-list-url"
+              appearance="outline"
+              floatLabel="always"
             >
-              <mat-select-trigger
-                ><list-type-icon [type]="wishList.type"></list-type-icon>
-                {{ wishListLabel[wishList.type] }}</mat-select-trigger
-              >
-              <mat-option
-                *ngFor="let item of (wishListLabel | keyvalue)"
-                [value]="item.key"
-                selected
-                >{{ item.value }}</mat-option
-              >
-            </mat-select>
-          </mat-form-field>
+              <span matPrefix>https://liste-envie.desaintsteban.fr/</span>
+              <mat-label>Url de la liste</mat-label>
+              <input
+                matInput
+                type="text"
+                name="id"
+                required
+                formControlName="name"
+              />
+            </mat-form-field>
 
-          <mat-form-field
-            class="col-12 wish-list-url"
-            appearance="outline"
-            floatLabel="always"
-          >
-            <span matPrefix>https://liste-envie.desaintsteban.fr/</span>
-            <mat-label>Url de la liste</mat-label>
-            <input
-              matInput
-              type="text"
-              name="id"
-              required
-              [ngModel]="wishList.name"
-              (ngModelChange)="onChanges($event)"
-            />
-          </mat-form-field>
-        </div>
-        <div class="col-6">
-          <mat-form-field
-            appearance="outline"
-            class="col-11 col-offset-1 form-field-240px"
-            floatLabel="always"
-          >
-            <mat-label>Description</mat-label>
-            <app-html-editor
-              #description
-              [(content)]="wishList.description"
-              hideToolbar="false"
-              editorHeight="150px"
-              placeholder="Entrez un Description pour votre liste, vous pouvez la mettre en forme, ajouter des liens etc..."
-              name="description"
-              type="full"
-              (contentChange)="onChanges($event)"
-            ></app-html-editor>
-            <mat-hint
-              >Vous pouvez donner plus de details sur votre liste.</mat-hint
+            <mat-form-field class="col-12" appearance="outline">
+              <mat-label>Type d'événements</mat-label>
+              <mat-select
+                [(value)]="wishList.type"
+                placeholder="Pour quel évènement ?"
+                name="type"
+                formControlName="type"
+              >
+                <mat-select-trigger>
+                  <list-type-icon [type]="wishList.type"></list-type-icon>
+                  {{ wishListLabel[wishList.type] }}</mat-select-trigger
+                >
+                <mat-option
+                  *ngFor="let item of (wishListLabel | keyvalue)"
+                  [value]="item.key"
+                  selected
+                  >{{ item.value }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field
+              appearance="outline"
+              class="col-11 col-offset-1 form-field-240px"
+              floatLabel="always"
             >
-          </mat-form-field>
-        </div>
-      </div>
-    </form>
-    <div><button mat-button matStepperNext>Suivant</button></div>
-  </mat-step>
-  <mat-step [stepControl]="secondFormGroup">
-    <ng-template matStepLabel>Partager la liste à : </ng-template>
-    <form class="grid">
-      <div class="col-6 grid--ca-top">
-        <div class="col-12">
-          <mat-label>Privacy</mat-label>
-          <mat-radio-group
-            [(ngModel)]="wishList.privacy"
-            name="privacy"
-            (ngModelChange)="onChangesPrivacy($event)"
-            class="grid grid--ca-center privacy-radio-group"
-          >
-            <mat-radio-button value="PRIVATE">
-              Limité / Privé
-            </mat-radio-button>
-            <mat-radio-button value="OPEN">
-              Ouvert / connecté
-            </mat-radio-button>
-            <mat-radio-button value="PUBLIC">
-              Libre / Publique
-            </mat-radio-button>
-          </mat-radio-group>
-
-          <div [ngSwitch]="wishList.privacy" class="privacy-explain">
-            <span *ngSwitchCase="'PRIVATE'"
-              >Liste accessible seulement à ceux à qui vous partagerez la liste.
-              <br />Vous ne verrez pas qui vous donne une envie, seules les
-              personnes a qui vous la partagerez le verra.</span
-            >
-            <span *ngSwitchCase="'OPEN'"
-              >Il faut être connecté pour voir les envies de la liste (et
-              intéragir avec), la liste est ouverte à tous les membres qui
-              connaisse le liens. <br />
-              Vous ne verrez pas qui vous donne une envie, par contre toutes les
-              personnes connectés (sauf les bénéficiaires) voient qui donne une
-              envie.</span
-            >
-            <span *ngSwitchCase="'PUBLIC'"
-              >La liste peut être affiché sans être connecté par toute personne
-              connaissant le lien. Il est nécessaire de se connecter pour
-              interagir avec, et voir si une envie est prise. <br />
-              Toutes les personnes connectés (bénéficiaires compris) voient qui
-              donne une envie.</span
-            >
+              <mat-label>Description</mat-label>
+              <app-html-editor
+                #description
+                hideToolbar="false"
+                editorHeight="150px"
+                placeholder="Entrez un Description pour votre liste, vous pouvez la mettre en forme, ajouter des liens etc..."
+                type="full"
+                formControlName="description"
+              ></app-html-editor>
+              <mat-hint
+                >Vous pouvez donner plus de details sur votre liste.</mat-hint
+              >
+            </mat-form-field>
           </div>
         </div>
+        <div><button mat-button matStepperNext>Suivant</button></div>
+      </div>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+      <ng-template matStepLabel>Partager la liste à :</ng-template>
+      <div class="grid">
+        <div class="col-6 grid--ca-top">
+          <div class="col-12">
+            <mat-label>Privacy</mat-label>
+            <mat-radio-group
+              formControlName="privacy"
+              name="privacy"
+              class="grid grid--ca-center privacy-radio-group"
+            >
+              <mat-radio-button value="PRIVATE">
+                Limité / Privé
+              </mat-radio-button>
+              <mat-radio-button value="OPEN">
+                Ouvert / connecté
+              </mat-radio-button>
+              <mat-radio-button value="PUBLIC">
+                Libre / Publique
+              </mat-radio-button>
+            </mat-radio-group>
 
-        <div class="col-12">
-          <mat-checkbox
-            name="forceAnonymous"
-            [(ngModel)]="wishList.forceAnonymous"
-            [labelPosition]="left"
-          >
-            Afficher les envies déjà données de manière anonyme
-          </mat-checkbox>
+            <div [ngSwitch]="wishList.privacy" class="privacy-explain">
+              <span *ngSwitchCase="'PRIVATE'"
+                >Liste accessible seulement à ceux à qui vous partagerez la
+                liste. <br />Vous ne verrez pas qui vous donne une envie, seules
+                les personnes a qui vous la partagerez le verra.</span
+              >
+              <span *ngSwitchCase="'OPEN'"
+                >Il faut être connecté pour voir les envies de la liste (et
+                intéragir avec), la liste est ouverte à tous les membres qui
+                connaisse le liens. <br />
+                Vous ne verrez pas qui vous donne une envie, par contre toutes
+                les personnes connectés (sauf les bénéficiaires) voient qui
+                donne une envie.</span
+              >
+              <span *ngSwitchCase="'PUBLIC'"
+                >La liste peut être affiché sans être connecté par toute
+                personne connaissant le lien. Il est nécessaire de se connecter
+                pour interagir avec, et voir si une envie est prise. <br />
+                Toutes les personnes connectés (bénéficiaires compris) voient
+                qui donne une envie.</span
+              >
+            </div>
+          </div>
+
+          <div class="col-12">
+            <mat-checkbox
+              name="forceAnonymous"
+              formControlName="forceAnonymous"
+              [labelPosition]="left"
+            >
+              Afficher les envies déjà données de manière anonyme
+            </mat-checkbox>
+          </div>
         </div>
-      </div>
-      <div class="col-6 grid">
-        <mat-form-field appearance="outline" class="col-12 grid">
-          <app-user-share
-            class="col-12"
-            [formControl]="addUsers"
-          ></app-user-share>
-        </mat-form-field>
-      </div>
-    </form>
-
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button matStepperNext>Next</button>
-    </div>
-  </mat-step>
-  <mat-step>
-    <ng-template matStepLabel>Options de la liste</ng-template>
-
-    <form class="grid--between">
-      <div class="col6 grid--between">
-        <div>
-          <h3>Arrière plan</h3>
-
-          <mat-grid-list cols="6" rowHeight="2:1">
-            <mat-grid-tile *ngFor="let picture of wishListTypePicture">
-              <img
-                [src]="'/assets/thumb/' + picture.picture"
-                title="{{picture.credit}}"
-                (click)="selectImg(picture)"
-                class="bordered"
-                [ngClass]="{ active: picture.picture == wishList.picture }"
-            /></mat-grid-tile>
-          </mat-grid-list>
-          <mat-divider>ou</mat-divider>
-          <mat-form-field class="col-12 field" appearance="outline">
-            <mat-label>Image personnalisé </mat-label>
-            <input
-              matInput
-              placeholder="Image personnalisé d'arrière-plan"
-              [(ngModel)]="wishList.picture"
-              (change)="onChanges($event)"
-              name="picture"
-            />
+        <div class="col-6 grid">
+          <mat-form-field appearance="outline" class="col-12 grid">
+            <app-user-share
+              class="col-12"
+              formControlName="users"
+            ></app-user-share>
           </mat-form-field>
         </div>
       </div>
-    </form>
 
-    <div>
-      <button mat-button matStepperPrevious [disabled]="sending">Back</button>
-      <button mat-button (click)="stepper.reset()" [disabled]="sending">
-        Reset
-      </button>
-      <button mat-raised-button (click)="createList()" [disabled]="sending">
-        Créer la liste
-      </button>
-    </div>
-  </mat-step>
-</mat-horizontal-stepper>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Options de la liste</ng-template>
+
+      <div class="grid--between">
+        <div class="col6 grid--between">
+          <div>
+            <h3>Arrière plan</h3>
+
+            <mat-grid-list cols="6" rowHeight="2:1">
+              <mat-grid-tile *ngFor="let picture of wishListTypePicture">
+                <img
+                  [src]="'/assets/thumb/' + picture.picture"
+                  title="{{picture.credit}}"
+                  (click)="selectImg(picture)"
+                  class="bordered"
+                  [ngClass]="{ active: picture.picture == wishList.picture }"
+              /></mat-grid-tile>
+            </mat-grid-list>
+            <mat-divider>ou</mat-divider>
+            <mat-form-field class="col-12 field" appearance="outline">
+              <mat-label>Image personnalisé </mat-label>
+              <input
+                matInput
+                placeholder="Image personnalisé d'arrière-plan"
+                formControlName="picture"
+                name="picture"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button mat-button matStepperPrevious [disabled]="sending">Back</button>
+        <button mat-button (click)="stepper.reset()" [disabled]="sending">
+          Reset
+        </button>
+        <button mat-raised-button (click)="createList()" [disabled]="sending">
+          Créer la liste
+        </button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</form>
 <mat-progress-bar mode="query" *ngIf="sending"></mat-progress-bar>
 <mat-divider></mat-divider>
 <mat-toolbar color="primary">

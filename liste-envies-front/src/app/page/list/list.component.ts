@@ -113,7 +113,9 @@ export class ListComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.whishList$ = changes.list.currentValue;
+    if (changes.list && changes.list.currentValue) {
+      this.whishList$ = changes.list.currentValue;
+    }
   }
 
   listBackgroundImg() {
