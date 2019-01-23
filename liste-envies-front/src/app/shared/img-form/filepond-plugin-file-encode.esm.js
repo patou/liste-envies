@@ -141,6 +141,4 @@ if (isBrowser && document) {
   );
 }
 
-console.log("plugin file encode");
-
 export default plugin$1;

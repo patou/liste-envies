@@ -19,7 +19,9 @@ import { untilDestroyed } from "ngx-take-until-destroy";
 import { AkitaNgFormsManager } from "@datorama/akita-ng-forms-manager";
 import { WishesListState } from "../../state/wishes/wishes-list.store";
 import { debounceTime, filter, takeUntil } from "rxjs/operators";
-import { splice } from "@datorama/akita";
+import { merge } from "rxjs";
+
+import { push, splice } from "@datorama/akita";
 
 @Component({
   selector: "app-add-list",
@@ -83,14 +85,7 @@ export class AddListComponent implements OnInit, OnDestroy {
 
     this.wishListFormGroup.setValue(this.wishList);
 
-    this.onChangesPrivacy(null);
-    this.demoService.add(
-      this.demoService.getWishForPrivacy(
-        this.wishList.privacy,
-        this.previewAs,
-        this.wishList.forceAnonymous
-      )
-    );
+    this.changesdemoWish();
 
     this.user
       .select()
@@ -103,7 +98,11 @@ export class AddListComponent implements OnInit, OnDestroy {
             type: "OWNER"
           };
           // this.wishList.users.push(owner);
-          this.wishListFormGroup.controls.users.setValue(this.wishList.users);
+          const users: any[] = push(
+            this.wishListFormGroup.controls.users.value,
+            owner
+          );
+          this.wishListFormGroup.controls.users.setValue(users);
         }
       });
 
@@ -130,10 +129,12 @@ export class AddListComponent implements OnInit, OnDestroy {
       )
       .subscribe(value => this.changeName(value));
 
-    this.formsManager
-      .selectValue("wishList", "privacy")
+    merge(
+      this.formsManager.selectValue("wishList", "privacy"),
+      this.formsManager.selectValue("wishList", "forceAnonymous")
+    )
       .pipe(untilDestroyed(this))
-      .subscribe(value => this.onChangesPrivacy(value));
+      .subscribe(value => this.changesdemoWish());
 
     this.formsManager
       .selectValue("wishList")
@@ -160,21 +161,17 @@ export class AddListComponent implements OnInit, OnDestroy {
   }
 
   public onChanges(wishList) {
-    console.log("On change ", wishList);
     this.wishList = wishList;
     this.demoList = { ...this.wishList };
   }
 
-  public onChangesPrivacy($event) {
-    this.changesdemoWish();
-  }
-
   private changesdemoWish() {
+    const wishlist = this.wishListFormGroup.getRawValue();
     this.demoService.update(
       this.demoService.getWishForPrivacy(
-        this.wishList.privacy,
+        wishlist.privacy,
         this.previewAs,
-        this.wishList.forceAnonymous
+        wishlist.forceAnonymous
       )
     );
   }
@@ -185,7 +182,6 @@ export class AddListComponent implements OnInit, OnDestroy {
   }
 
   selectImg(picture: any) {
-    console.log("Select Img :", picture);
     this.wishListFormGroup.controls.picture.setValue(picture.picture);
   }
 

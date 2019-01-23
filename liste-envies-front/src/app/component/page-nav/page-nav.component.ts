@@ -104,7 +104,6 @@ export class PageNavComponent implements OnInit, OnDestroy {
   }
 
   goToList($event) {
-    console.log("goToList", $event);
     this.selectListControl.reset();
     this.router.navigate(["/", $event.option.value]);
   }

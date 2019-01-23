@@ -270,7 +270,7 @@ export class DemoService {
 
   public getWishForPrivacy(
     privacy: "PRIVATE" | "OPEN" | "PUBLIC",
-    user: "OWNER" | "REGISTRER" | "PUBLIC",
+    user: "OWNER" | "REGISTRER" | "PUBLIC" = "OWNER",
     forceAnonymous: boolean = false
   ) {
     return this.defaultWishs.reduce<WishItem[]>(
@@ -344,7 +344,6 @@ export class DemoService {
         }
 
         const updatedDefault = { ...wish, ...defaultConfig };
-        console.log("wish " + index, updatedDefault, privacy, user);
 
         if (displayItem) {
           returnWishItems.push(updatedDefault);
