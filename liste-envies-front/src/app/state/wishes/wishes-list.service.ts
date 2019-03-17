@@ -8,7 +8,7 @@ import { WishList } from "../../models/WishList";
 import { WishService } from "./wish.service";
 import { WishesListQuery } from "./wishes-list.query";
 import { FiltersPlugin, searchFilterIn } from "@datorama/akita-filters-plugin";
-import { share } from "rxjs/operators";
+import {share, tap} from 'rxjs/operators';
 import { Observable } from "rxjs/Observable";
 
 @Injectable({ providedIn: "root" })
@@ -32,15 +32,12 @@ export class WishesListService {
     });
   }
 
-  add(wishesList: WishList): Observable<WishList> {
-    const createList = this.wishListService
+  createOrReplace(wishesList: WishList): Observable<WishList> {
+    return this.wishListService
       .createOrUpdateList(wishesList.name, wishesList)
-      .pipe(share());
-    createList.subscribe(newList => {
-      this.wishesListStore.createOrReplace(newList.name, newList);
-    });
-
-    return createList;
+      .pipe(tap(newList => {
+        this.wishesListStore.createOrReplace(newList.name, newList);
+      }));
   }
 
   update(id, wishesList: Partial<WishList>) {

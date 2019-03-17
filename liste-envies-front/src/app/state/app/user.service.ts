@@ -53,7 +53,7 @@ export class UserService {
 
   private pollingNotifications() {
     this.pollingNotifications$ = timer(0, 30000).pipe(
-      concatMap<any, Notification[]>(() => this.getNotifications())
+      concatMap<any, Observable<Notification[]>>(() => this.getNotifications())
     );
     this.pollingNotificationsSubscription$ = this.pollingNotifications$.subscribe(
       (notifications: Notification[]) => {

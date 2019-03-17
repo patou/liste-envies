@@ -112,4 +112,8 @@ export class AuthService implements HttpInterceptor {
   logout() {
     this.firebaseAuth.auth.signOut();
   }
+
+  isConnected(): boolean {
+    return AuthService.currentUser !== null
+  }
 }

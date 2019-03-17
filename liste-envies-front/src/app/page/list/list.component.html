@@ -3,6 +3,9 @@
     <section class="mat-typography">
       <h1 [title]="list.title">
         <list-type-icon [type]="list.type"></list-type-icon>{{ list.title }}
+        <a mat-icon-button routerLink="edit" color="accent" *ngIf="!demo && list.owner">
+          <mat-icon class="mat-18">edit</mat-icon>
+        </a>
       </h1>
       <p>
         de
@@ -16,6 +19,7 @@
     </mat-card-content>
     <mat-card-actions>
       <app-wish-filters-form></app-wish-filters-form>
+
     </mat-card-actions>
   </mat-card>
   <div *ngIf="!(loading$ | async); else: loading">

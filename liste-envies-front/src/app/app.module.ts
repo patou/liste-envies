@@ -13,7 +13,7 @@ import { WishListApiService } from "./service/wish-list-api.service";
 import { WishCardComponent } from "./component/wish-card/wish-card.component";
 import { ListOfWishComponent } from "./component/list-of-wish/list-of-wish.component";
 import { WishEditComponent } from "./component/wish-edit/wish-edit.component";
-import { AddListComponent } from "./page/add-list/add-list.component";
+import { AddUpdateListComponent } from "./page/add-list/add-update-list.component";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AuthService } from "./service/auth.service";
 import { LoginDialogComponent } from "./component/login-dialog/login-dialog.component";
@@ -39,6 +39,7 @@ import { enableAkitaProdMode } from "@datorama/akita";
 import { NotificationsComponent } from "./component/notifications/notifications.component";
 import { akitaConfig } from "@datorama/akita";
 import { ReactiveFormsModule } from "@angular/forms";
+import { ConnectComponent } from './page/connect/connect.component';
 akitaConfig({
   resettable: true
 });
@@ -59,10 +60,11 @@ if (environment.production) {
     WishCardComponent,
     ListOfWishComponent,
     WishEditComponent,
-    AddListComponent,
+    AddUpdateListComponent,
     LoginDialogComponent,
     PageNavComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    ConnectComponent
   ],
   imports: [
     AppRoutingModule,

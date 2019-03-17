@@ -22,15 +22,18 @@ import { debounceTime, filter, takeUntil } from "rxjs/operators";
 import { merge } from "rxjs";
 
 import { push, splice } from "@datorama/akita";
+import {WishesListQuery} from '../../state/wishes/wishes-list.query';
+import {WishQuery} from '../../state/wishes/wish.query';
 
 @Component({
-  selector: "app-add-list",
-  templateUrl: "./add-list.component.html",
-  styleUrls: ["./add-list.component.scss"]
+  selector: "app-add-update-list",
+  templateUrl: "./add-update-list.component.html",
+  styleUrls: ["./add-update-list.component.scss"]
 })
-export class AddListComponent implements OnInit, OnDestroy {
+export class AddUpdateListComponent implements OnInit, OnDestroy {
   private sending: boolean;
   private wishListFormGroup: FormGroup;
+  private edit: boolean = false;
   get wishListTypePicture(): any[] {
     return !!this.wishList.type
       ? WishListTypePicture.filter(value => value.type === this.wishList.type)
@@ -63,6 +66,8 @@ export class AddListComponent implements OnInit, OnDestroy {
     private latinize: LatinizePipe,
     private demoService: DemoService,
     private wishListService: WishesListService,
+    private wishesListQuery: WishesListQuery,
+    private wishQuery: WishQuery,
     private user: UserQuery,
     private router: Router,
     private formsManager: AkitaNgFormsManager<WishesListState>
@@ -80,10 +85,35 @@ export class AddListComponent implements OnInit, OnDestroy {
       owners: [],
       forceAnonymous: [false]
     });
-
     this.formsManager.upsert("wishList", this.wishListFormGroup);
 
     this.wishListFormGroup.setValue(this.wishList);
+
+    if (this.wishesListQuery.hasActive()) {
+      this.edit = true;
+      console.log('active List Query : ', this.wishesListQuery.getActive());
+      this.wishQuery.selectWish().pipe(untilDestroyed(this)).subscribe((wishlist: WishList) => {
+        this.wishListFormGroup.patchValue(wishlist);
+        this.wishList = wishlist;
+      });
+    } else {
+      this.edit = false;
+      this.wishListFormGroup.patchValue(this.wishList);
+
+      this.formsManager
+        .selectValue("wishList", "title")
+        .pipe(
+          untilDestroyed(this),
+          takeUntil(
+            this.formsManager
+              .selectDirty("wishList", "name")
+              .pipe(filter(value => value === true))
+          ) // if field name was changed, do not compute name
+        )
+        .subscribe(value => this.changeName(value));
+    }
+
+
 
     this.changesdemoWish();
 
@@ -117,17 +147,7 @@ export class AddListComponent implements OnInit, OnDestroy {
         this.wishListFormGroup.patchValue(wishlist);
       });
 
-    this.formsManager
-      .selectValue("wishList", "title")
-      .pipe(
-        untilDestroyed(this),
-        takeUntil(
-          this.formsManager
-            .selectDirty("wishList", "name")
-            .pipe(filter(value => value === true))
-        ) // if field name was changed, do not compute name
-      )
-      .subscribe(value => this.changeName(value));
+
 
     merge(
       this.formsManager.selectValue("wishList", "privacy"),
@@ -143,6 +163,8 @@ export class AddListComponent implements OnInit, OnDestroy {
         debounceTime(500)
       )
       .subscribe(value => this.onChanges(value));
+
+
   }
 
   changeName(name) {
@@ -185,10 +207,10 @@ export class AddListComponent implements OnInit, OnDestroy {
     this.wishListFormGroup.controls.picture.setValue(picture.picture);
   }
 
-  createList() {
+  createorUpdateList() {
     this.sending = true;
 
-    this.wishListService.add(this.wishList).subscribe(newList => {
+    this.wishListService.createOrReplace(this.wishList).subscribe(newList => {
       this.sending = false;
       this.router.navigate(["/", newList.name]);
     });

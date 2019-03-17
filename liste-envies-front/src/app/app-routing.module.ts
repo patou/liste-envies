@@ -3,9 +3,12 @@ import { RouterModule, Routes } from "@angular/router";
 import { PageComponent } from "./component/page/page.component";
 import { HomeComponent } from "./page/home/home.component";
 import { ListComponent } from "./page/list/list.component";
-import { AddListComponent } from "./page/add-list/add-list.component";
+import { AddUpdateListComponent } from "./page/add-list/add-update-list.component";
 import { WishListResolver } from "./service/wishListResolve";
 import { WishListItemsResolver } from "./service/wishListItemsResolve";
+import {IsConnectedGuard} from './service/is-connected.guard';
+import {ConnectComponent} from './page/connect/connect.component';
+import {IsNotConnectedGuard} from './service/is-not-connected.guard';
 
 const routes: Routes = [
   {
@@ -21,11 +24,20 @@ const routes: Routes = [
       },
       {
         path: "addList",
-        component: AddListComponent
+        component: AddUpdateListComponent,
+        canActivate: [IsConnectedGuard],
+        resolve: {
+          whishList: WishListResolver
+        }
       },
       {
         path: "about",
         loadChildren: "app/page/about/about.module#AboutModule"
+      },
+      {
+        path: "connect",
+        canActivate: [IsNotConnectedGuard],
+        component: ConnectComponent
       },
       {
         path: ":listId",
@@ -33,7 +45,12 @@ const routes: Routes = [
           whishList: WishListResolver,
           whishesItems: WishListItemsResolver
         },
-        component: ListComponent
+        children: [{ path: "",
+          component: ListComponent
+        }, { path: "edit",
+          component: AddUpdateListComponent,
+          canActivate: [IsConnectedGuard]
+        }]
       }
     ]
   }

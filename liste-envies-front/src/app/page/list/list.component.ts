@@ -73,8 +73,7 @@ export class ListComponent implements OnInit, OnChanges {
     // if no demo, do the following
 
     this.whishList$ = this.wishQuery
-      .select()
-      .pipe(pluck<WishState, WishList>("wishList"));
+      .selectWish();
     this.whishList$.subscribe(wishList => {
       this.list = wishList;
     });
