@@ -21,9 +21,8 @@ import { WishesListState } from "../../state/wishes/wishes-list.store";
 import { debounceTime, filter, takeUntil } from "rxjs/operators";
 import { merge } from "rxjs";
 
-import { push, splice } from "@datorama/akita";
-import {WishesListQuery} from '../../state/wishes/wishes-list.query';
-import {WishQuery} from '../../state/wishes/wish.query';
+import { WishesListQuery } from "../../state/wishes/wishes-list.query";
+import { WishQuery } from "../../state/wishes/wish.query";
 
 @Component({
   selector: "app-add-update-list",
@@ -91,11 +90,14 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
 
     if (this.wishesListQuery.hasActive()) {
       this.edit = true;
-      console.log('active List Query : ', this.wishesListQuery.getActive());
-      this.wishQuery.selectWish().pipe(untilDestroyed(this)).subscribe((wishlist: WishList) => {
-        this.wishListFormGroup.patchValue(wishlist);
-        this.wishList = wishlist;
-      });
+      console.log("active List Query : ", this.wishesListQuery.getActive());
+      this.wishQuery
+        .selectWish()
+        .pipe(untilDestroyed(this))
+        .subscribe((wishlist: WishList) => {
+          this.wishListFormGroup.patchValue(wishlist);
+          this.wishList = wishlist;
+        });
     } else {
       this.edit = false;
       this.wishListFormGroup.patchValue(this.wishList);
@@ -113,8 +115,6 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
         .subscribe(value => this.changeName(value));
     }
 
-
-
     this.changesdemoWish();
 
     this.user
@@ -127,11 +127,10 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
             name: userInfo.user.displayName,
             type: "OWNER"
           };
-          // this.wishList.users.push(owner);
-          const users: any[] = push(
-            this.wishListFormGroup.controls.users.value,
+          const users: any[] = [
+            ...this.wishListFormGroup.controls.users.value,
             owner
-          );
+          ];
           this.wishListFormGroup.controls.users.setValue(users);
         }
       });
@@ -147,8 +146,6 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
         this.wishListFormGroup.patchValue(wishlist);
       });
 
-
-
     merge(
       this.formsManager.selectValue("wishList", "privacy"),
       this.formsManager.selectValue("wishList", "forceAnonymous")
@@ -163,8 +160,6 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
         debounceTime(500)
       )
       .subscribe(value => this.onChanges(value));
-
-
   }
 
   changeName(name) {

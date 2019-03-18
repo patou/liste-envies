@@ -1,21 +1,21 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AuthService} from '../../service/auth.service';
-import {untilDestroyed} from 'ngx-take-until-destroy';
-import {UserState} from '../../state/app/user.store';
-import {push} from '@datorama/akita';
-import {UserQuery} from '../../state/app/user.query';
-import {Router} from '@angular/router';
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { AuthService } from "../../service/auth.service";
+import { untilDestroyed } from "ngx-take-until-destroy";
+import { UserState } from "../../state/app/user.store";
+import { UserQuery } from "../../state/app/user.query";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-connect',
-  templateUrl: './connect.component.html',
-  styleUrls: ['./connect.component.scss']
+  selector: "app-connect",
+  templateUrl: "./connect.component.html",
+  styleUrls: ["./connect.component.scss"]
 })
 export class ConnectComponent implements OnInit, OnDestroy {
-
-  constructor(private auth: AuthService,
-              private user: UserQuery,
-              private router: Router) { }
+  constructor(
+    private auth: AuthService,
+    private user: UserQuery,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.user
@@ -23,7 +23,7 @@ export class ConnectComponent implements OnInit, OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe((userInfo: UserState) => {
         if (userInfo.user) {
-           this.router.navigateByUrl('/');
+          this.router.navigateByUrl("/");
         }
       });
   }
@@ -32,6 +32,5 @@ export class ConnectComponent implements OnInit, OnDestroy {
     this.auth.openLoginPopUp();
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 }

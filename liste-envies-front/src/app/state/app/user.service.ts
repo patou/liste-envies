@@ -37,12 +37,11 @@ export class UserService {
     if (this.pollingNotificationsSubscription$) {
       this.pollingNotificationsSubscription$.unsubscribe();
     }
-    this.userStore.setPristine();
   }
 
   private getNotifications() {
-    if (!this.isPristine()) {
-      const snapshot = this.userQuery.getSnapshot();
+    if (!this.isFirstCache()) {
+      const snapshot = this.userQuery.getValue();
 
       if (snapshot && snapshot.user && snapshot.user.email) {
         return this.api.notifications(snapshot.user.email);
@@ -62,7 +61,7 @@ export class UserService {
     );
   }
 
-  isPristine(): boolean {
-    return this.userStore.isPristine;
+  isFirstCache(): boolean {
+    return this.userQuery.getHasCache();
   }
 }

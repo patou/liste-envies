@@ -265,7 +265,7 @@ export class DemoService {
   }
 
   setWishList(wishList: WishList) {
-    this.demoStore.updateRoot({ wishList });
+    this.demoStore.update({ wishList });
   }
 
   public getWishForPrivacy(

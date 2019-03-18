@@ -15,6 +15,7 @@ import { WishesListService } from "../state/wishes/wishes-list.service";
 import { UserService } from "../state/app/user.service";
 import { UserQuery } from "../state/app/user.query";
 import { WishList } from "../models/WishList";
+import { UserState } from "../state/app/user.store";
 
 @Injectable()
 export class AuthService implements HttpInterceptor {
@@ -30,7 +31,7 @@ export class AuthService implements HttpInterceptor {
     private userService: UserService,
     private userQuery: UserQuery
   ) {
-    this.user = this.userQuery.select().pipe(pluck("user"));
+    this.user = this.userQuery.select().pipe(pluck<UserState, User>("user"));
 
     firebaseAuth.authState.subscribe(
       (user: User) => {
@@ -114,6 +115,6 @@ export class AuthService implements HttpInterceptor {
   }
 
   isConnected(): boolean {
-    return AuthService.currentUser !== null
+    return AuthService.currentUser !== null;
   }
 }

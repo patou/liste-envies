@@ -1,11 +1,5 @@
 import { Injectable } from "@angular/core";
-import {
-  action,
-  EntityDirtyCheckPlugin,
-  ID,
-  Order,
-  push
-} from "@datorama/akita";
+import { action, EntityDirtyCheckPlugin, ID, Order } from "@datorama/akita";
 import { HttpClient } from "@angular/common/http";
 import { WishState, WishStore } from "./wish.store";
 import { WishListApiService } from "../../service/wish-list-api.service";
@@ -52,7 +46,7 @@ export class WishService extends FiltersPlugin {
   @Debounce(100)
   private getWishListInfos(name: string) {
     this.wishListApiService.wishList(name).subscribe((wishList: WishList) => {
-      this.wishStore.updateRoot({ wishList });
+      this.wishStore.update({ wishList });
     });
   }
 
@@ -73,13 +67,14 @@ export class WishService extends FiltersPlugin {
     }
   }
 
-  @action({ type: "give wish" })
+  @action("give wish")
   give(id, wish: Partial<WishItem>) {
     wish = {};
     wish.userGiven = true;
     wish.given = true;
-    wish.userTake = push<Owner>(wish.userTake ? wish.userTake : [], {
-      name: this.userQuery.getSnapshot().user.displayName
+    wish.userTake = wish.userTake ? [...wish.userTake] : [];
+    wish.userTake.push({
+      name: this.userQuery.getValue().user.displayName
     });
     if (this.isChanged(id, wish)) {
       this.subscribeAndUpdatedWish(
@@ -99,18 +94,16 @@ export class WishService extends FiltersPlugin {
     this.wishStore.remove(id);
   }
 
-  @action({ type: "add comment" })
+  @action("add comment")
   comment(listId: string, id: number, comment: WishComment, wish: WishItem) {
     const newWish = { ...wish };
     const temporaryComment = {
       date: new Date().getUTCSeconds().toString(),
-      from: { name: this.userQuery.getSnapshot().user.displayName },
+      from: { name: this.userQuery.getValue().user.displayName },
       ...comment
     };
-    newWish.comments = push<WishComment>(
-      wish.comments ? wish.comments : [],
-      temporaryComment
-    );
+    newWish.comments = wish.comments ? [...wish.comments] : [];
+    newWish.comments.push(temporaryComment);
     if (this.isChanged(id, newWish)) {
       this.subscribeAndUpdatedWish(
         id,
@@ -119,10 +112,10 @@ export class WishService extends FiltersPlugin {
     }
   }
 
-  @action({ type: "set wishlist" })
-  setWishList(wishList: Partial<WishList>) {
+  @action("set wishlist")
+  setWishList(wishList: WishList) {
     // todo verify if their are a more complete data before update it.
-    this.wishStore.updateRoot({ wishList });
+    this.wishStore.update({ wishList });
   }
 
   selectIsActive(id: ID): Observable<boolean> {

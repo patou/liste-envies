@@ -32,7 +32,6 @@ import { el } from "@angular/platform-browser/testing/src/browser_util";
 import { WishesListQuery } from "../../state/wishes/wishes-list.query";
 import * as _ from "lodash";
 import { untilDestroyed } from "ngx-take-until-destroy";
-import { push, splice } from "@datorama/akita";
 
 @Component({
   selector: "app-user-share",
@@ -142,7 +141,7 @@ export class UserShareComponent
     if (userToAdd) {
       const emails: string[] = userToAdd.split(",");
       emails.map((email: string) => {
-        this.value = push(this.value, this.createUserShare(email.trim()));
+        this.value = [...this.value, this.createUserShare(email.trim())];
       });
 
       this.afterAddUsers();
@@ -256,7 +255,8 @@ export class UserShareComponent
   //endregion
   removeUser(element: UserShare) {
     const elementToRemove = this.value.indexOf(element);
-    this.value = splice(this.value, elementToRemove, 1);
+    this.value = [...this.value];
+    this.value.splice(elementToRemove, 1);
     this.triggerChangeValue();
   }
 }
