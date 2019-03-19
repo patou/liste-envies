@@ -40,14 +40,20 @@ export class WishService extends FiltersPlugin {
       this.draft.destroy();
     });
 
-    this.getWishListInfos(name);
+    this.getWishListInfosDelayed(name);
   }
 
   @Debounce(100)
-  private getWishListInfos(name: string) {
-    this.wishListApiService.wishList(name).subscribe((wishList: WishList) => {
-      this.wishStore.update({ wishList });
-    });
+  private getWishListInfosDelayed(name: string) {
+    this.getWishListFullInfos(name).subscribe(() => {});
+  }
+
+  public getWishListFullInfos(name: string): Observable<WishList> {
+    return this.wishListApiService.wishList(name).pipe(
+      tap((wishList: WishList) => {
+        this.wishStore.update({ wishList });
+      })
+    );
   }
 
   add(listId: string, wish: WishItem) {
@@ -115,6 +121,7 @@ export class WishService extends FiltersPlugin {
   @action("set wishlist")
   setWishList(wishList: WishList) {
     // todo verify if their are a more complete data before update it.
+
     this.wishStore.update({ wishList });
   }
 

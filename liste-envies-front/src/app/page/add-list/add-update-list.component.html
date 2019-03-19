@@ -1,4 +1,7 @@
-<h1>Créer une nouvelle liste</h1>
+<h1 *ngIf="edit; else addList">Editer : {{ this.wishList.title }}</h1>
+<ng-template #addList>
+  <h1>Créer une nouvelle liste</h1>
+</ng-template>
 <form [formGroup]="wishListFormGroup">
   <mat-horizontal-stepper [linear]="isLinear" #stepper="matHorizontalStepper">
     <mat-step [stepControl]="nameFormGroup">
@@ -74,7 +77,17 @@
             </mat-form-field>
           </div>
         </div>
-        <div><button mat-button matStepperNext>Suivant</button></div>
+        <div>
+          <button mat-button matStepperNext>Suivant</button>
+          <button
+            mat-raised-button
+            (click)="createorUpdateList()"
+            [disabled]="sending"
+            *ngIf="edit"
+          >
+            Mettre à jour la liste
+          </button>
+        </div>
       </div>
     </mat-step>
     <mat-step [stepControl]="secondFormGroup">
@@ -146,6 +159,14 @@
       <div>
         <button mat-button matStepperPrevious>Back</button>
         <button mat-button matStepperNext>Next</button>
+        <button
+          mat-raised-button
+          (click)="createorUpdateList()"
+          [disabled]="sending"
+          *ngIf="edit"
+        >
+          Mettre à jour la liste
+        </button>
       </div>
     </mat-step>
     <mat-step>
@@ -160,7 +181,7 @@
               <mat-grid-tile *ngFor="let picture of wishListTypePicture">
                 <img
                   [src]="'/assets/thumb/' + picture.picture"
-                  title="{{picture.credit}}"
+                  title="{{ picture.credit }}"
                   (click)="selectImg(picture)"
                   class="bordered"
                   [ngClass]="{ active: picture.picture == wishList.picture }"
@@ -182,11 +203,16 @@
 
       <div>
         <button mat-button matStepperPrevious [disabled]="sending">Back</button>
+        <button
+          mat-raised-button
+          (click)="createorUpdateList()"
+          [disabled]="sending"
+        >
+          <span *ngIf="edit; else addButtonLabel">Mettre à jour la liste</span>
+          <ng-template #addButtonLabel>Créer la liste</ng-template>
+        </button>
         <button mat-button (click)="stepper.reset()" [disabled]="sending">
           Reset
-        </button>
-        <button mat-raised-button (click)="createorUpdateList()" [disabled]="sending">
-          Créer la liste
         </button>
       </div>
     </mat-step>

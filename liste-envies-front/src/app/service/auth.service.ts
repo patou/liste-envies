@@ -10,7 +10,7 @@ import { HttpEvent } from "@angular/common/http/src/response";
 import { LoginDialogComponent } from "../component/login-dialog/login-dialog.component";
 import { MatDialog } from "@angular/material";
 import { AngularFireAuth } from "@angular/fire/auth";
-import { pluck } from "rxjs/operators";
+import { map, pluck } from "rxjs/operators";
 import { WishesListService } from "../state/wishes/wishes-list.service";
 import { UserService } from "../state/app/user.service";
 import { UserQuery } from "../state/app/user.query";
@@ -33,8 +33,9 @@ export class AuthService implements HttpInterceptor {
   ) {
     this.user = this.userQuery.select().pipe(pluck<UserState, User>("user"));
 
-    firebaseAuth.authState.subscribe(
+    this.firebaseAuth.authState.subscribe(
       (user: User) => {
+        console.warn("AuthState :", user.email, user.displayName, user);
         if (user) {
           if (
             (AuthService.currentUser &&
@@ -114,7 +115,7 @@ export class AuthService implements HttpInterceptor {
     this.firebaseAuth.auth.signOut();
   }
 
-  isConnected(): boolean {
-    return AuthService.currentUser !== null;
+  isConnected(): Observable<boolean> {
+    return this.firebaseAuth.authState.pipe(map<User, boolean>(user => !!user));
   }
 }

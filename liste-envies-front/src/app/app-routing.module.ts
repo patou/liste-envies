@@ -6,9 +6,10 @@ import { ListComponent } from "./page/list/list.component";
 import { AddUpdateListComponent } from "./page/add-list/add-update-list.component";
 import { WishListResolver } from "./service/wishListResolve";
 import { WishListItemsResolver } from "./service/wishListItemsResolve";
-import {IsConnectedGuard} from './service/is-connected.guard';
-import {ConnectComponent} from './page/connect/connect.component';
-import {IsNotConnectedGuard} from './service/is-not-connected.guard';
+import { IsConnectedGuard } from "./service/is-connected.guard";
+import { ConnectComponent } from "./page/connect/connect.component";
+import { IsNotConnectedGuard } from "./service/is-not-connected.guard";
+import { IsOwnerGuard } from "./service/is-owner.guard";
 
 const routes: Routes = [
   {
@@ -45,12 +46,14 @@ const routes: Routes = [
           whishList: WishListResolver,
           whishesItems: WishListItemsResolver
         },
-        children: [{ path: "",
-          component: ListComponent
-        }, { path: "edit",
-          component: AddUpdateListComponent,
-          canActivate: [IsConnectedGuard]
-        }]
+        children: [
+          { path: "", component: ListComponent },
+          {
+            path: "edit",
+            component: AddUpdateListComponent,
+            canActivate: [IsConnectedGuard, IsOwnerGuard]
+          }
+        ]
       }
     ]
   }

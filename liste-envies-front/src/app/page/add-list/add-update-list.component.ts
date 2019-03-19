@@ -23,6 +23,7 @@ import { merge } from "rxjs";
 
 import { WishesListQuery } from "../../state/wishes/wishes-list.query";
 import { WishQuery } from "../../state/wishes/wish.query";
+import { filterNil } from "@datorama/akita";
 
 @Component({
   selector: "app-add-update-list",
@@ -81,7 +82,7 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
       description: [""],
       privacy: ["PRIVATE"],
       users: this._formBuilder.control([]),
-      owners: [],
+      owners: this._formBuilder.control([]),
       forceAnonymous: [false]
     });
     this.formsManager.upsert("wishList", this.wishListFormGroup);
@@ -93,14 +94,17 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
       console.log("active List Query : ", this.wishesListQuery.getActive());
       this.wishQuery
         .selectWish()
-        .pipe(untilDestroyed(this))
+        .pipe(
+          untilDestroyed(this),
+          filterNil
+        )
         .subscribe((wishlist: WishList) => {
           this.wishListFormGroup.patchValue(wishlist);
           this.wishList = wishlist;
         });
     } else {
       this.edit = false;
-      this.wishListFormGroup.patchValue(this.wishList);
+      this.wishListFormGroup.setValue(this.wishList);
 
       this.formsManager
         .selectValue("wishList", "title")

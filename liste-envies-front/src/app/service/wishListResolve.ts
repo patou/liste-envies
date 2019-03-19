@@ -18,7 +18,7 @@ import { pluck } from "rxjs/operators";
 import { debounce } from "lodash-decorators";
 
 @Injectable()
-export class WishListResolver implements Resolve<boolean> {
+export class WishListResolver implements Resolve<boolean | WishList> {
   constructor(
     private router: Router,
     private wishService: WishService,
@@ -26,12 +26,16 @@ export class WishListResolver implements Resolve<boolean> {
     private wishListService: WishesListService
   ) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    this.setActive(route);
-    return true;
+  resolve(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean | Observable<WishList> {
+    return this.setActive(route);
   }
 
-  private setActive(route: ActivatedRouteSnapshot) {
-    this.wishListService.setActive(route.params.listId);
+  private setActive(
+    route: ActivatedRouteSnapshot
+  ): boolean | Observable<WishList> {
+    return this.wishListService.setActive(route.params.listId);
   }
 }

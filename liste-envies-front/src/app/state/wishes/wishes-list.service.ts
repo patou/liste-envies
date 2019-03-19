@@ -1,14 +1,13 @@
 import { Injectable } from "@angular/core";
 import { ID, SelectOptions } from "@datorama/akita";
 import { WishesListStore } from "./wishes-list.store";
-import { createWishesList } from "./wishes-list.model";
 import { WishListApiService } from "../../service/wish-list-api.service";
-import { throttle, Debounce } from "lodash-decorators";
+import { Debounce } from "lodash-decorators";
 import { WishList } from "../../models/WishList";
 import { WishService } from "./wish.service";
 import { WishesListQuery } from "./wishes-list.query";
 import { FiltersPlugin, searchFilterIn } from "@datorama/akita-filters-plugin";
-import { share, tap } from "rxjs/operators";
+import { tap } from "rxjs/operators";
 import { Observable } from "rxjs/Observable";
 
 @Injectable({ providedIn: "root" })
@@ -37,7 +36,9 @@ export class WishesListService {
       .createOrUpdateList(wishesList.name, wishesList)
       .pipe(
         tap(newList => {
+          console.log("createOrReplace list", newList);
           this.wishesListStore.upsert(newList.name, newList);
+          this.wishService.setWishList(newList);
         })
       );
   }
@@ -46,9 +47,23 @@ export class WishesListService {
     this.wishesListStore.update(id, wishesList);
   }
 
-  setActive(listName: string) {
+  setActive(listName: string): boolean | Observable<WishList> {
+    if (!listName) {
+      this.wishesListStore.setActive(null);
+      return false;
+    }
     this.wishesListStore.setActive(listName);
-    this.wishService.setWishList(this.wishesListQuery.getActive() as WishList);
+    if (
+      this.wishesListQuery.getHasCache() &&
+      this.wishesListQuery.hasEntity(listName)
+    ) {
+      this.wishService.setWishList(
+        this.wishesListQuery.getActive() as WishList
+      );
+      return true;
+    } else {
+      return this.wishService.getWishListFullInfos(listName);
+    }
   }
 
   remove(id: ID) {
