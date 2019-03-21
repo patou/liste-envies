@@ -168,5 +168,41 @@ mat-form-field.no-padding {
   flex: 1 1 auto;
 }
 
+mat-button-toggle-group.buttonGroupDemo {
+  height: 30px;
+  font-size: 14px;
+  position: relative;
+  top: -6px;
+  right: -11px;
+
+  mat-button-toggle {
+    padding-top: 0;
+    height: 30px;
+  }
+
+  button.mat-button-toggle-button
+    .mat-button-toggle-appearance-standard
+    .mat-button-toggle-label-content {
+    line-height: 30px !important;
+    padding: 2px 12px !important;
+    height: 30px !important;
+  }
+
+  .mat-button-toggle-label-content {
+    height: 30px;
+    line-height: 30px;
+  }
+
+  .mat-button-toggle-label-content button {
+    height: 30px;
+    line-height: 30px;
+  }
+
+  .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+    line-height: 30px;
+    padding: 2px 12px;
+  }
+}
+
 /*** ***************** files pouns ***/
 @import "~filepond/dist/filepond.css";

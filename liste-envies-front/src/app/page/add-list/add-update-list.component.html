@@ -32,6 +32,7 @@
                 name="id"
                 required
                 formControlName="name"
+                #urlName
               />
             </mat-form-field>
 
@@ -113,26 +114,36 @@
             </mat-radio-group>
 
             <div [ngSwitch]="wishList.privacy" class="privacy-explain">
-              <span *ngSwitchCase="'PRIVATE'"
-                >Liste accessible seulement à ceux à qui vous partagerez la
+              <div *ngSwitchCase="'PRIVATE'">
+                <img
+                  src="/assets/illu/undraw_security_o890.png"
+                  class="border round privacy-img"
+                />
+                Liste accessible seulement à ceux à qui vous partagerez la
                 liste. <br />Vous ne verrez pas qui vous donne une envie, seules
-                les personnes a qui vous la partagerez le verra.</span
-              >
-              <span *ngSwitchCase="'OPEN'"
-                >Il faut être connecté pour voir les envies de la liste (et
+                les personnes a qui vous la partagerez le verra.
+              </div>
+              <div *ngSwitchCase="'OPEN'">
+                <img
+                  src="/assets/illu/undraw_safe_bnk7.png"
+                  class="border round privacy-img"
+                />Il faut être connecté pour voir les envies de la liste (et
                 intéragir avec), la liste est ouverte à tous les membres qui
                 connaisse le liens. <br />
                 Vous ne verrez pas qui vous donne une envie, par contre toutes
                 les personnes connectés (sauf les bénéficiaires) voient qui
-                donne une envie.</span
-              >
-              <span *ngSwitchCase="'PUBLIC'"
-                >La liste peut être affiché sans être connecté par toute
+                donne une envie.
+              </div>
+              <div *ngSwitchCase="'PUBLIC'">
+                <img
+                  src="/assets/illu/undraw_world_9iqb.png"
+                  class="border round privacy-img"
+                />La liste peut être affiché sans être connecté par toute
                 personne connaissant le lien. Il est nécessaire de se connecter
                 pour interagir avec, et voir si une envie est prise. <br />
                 Toutes les personnes connectés (bénéficiaires compris) voient
-                qui donne une envie.</span
-              >
+                qui donne une envie.
+              </div>
             </div>
           </div>
 
@@ -219,26 +230,38 @@
   </mat-horizontal-stepper>
 </form>
 <mat-progress-bar mode="query" *ngIf="sending"></mat-progress-bar>
+
 <mat-divider></mat-divider>
-<mat-toolbar color="primary">
-  <span>Aperçu de la liste</span> <span class="toolbar-spacer"></span>
 
-  <span>En tant que</span>
-  <mat-button-toggle-group
-    #previewAs="matButtonToggleGroup"
-    [value]="previewAs"
-    (change)="onChangePreview($event)"
-  >
-    <mat-button-toggle value="OWNER" checked>
-      <mat-icon>format_align_left</mat-icon> Propriétaire
-    </mat-button-toggle>
-    <mat-button-toggle value="REGISTRER">
-      <mat-icon>format_align_center</mat-icon> Participant
-    </mat-button-toggle>
-    <mat-button-toggle value="PUBLIC">
-      <mat-icon>format_align_right</mat-icon> Public
-    </mat-button-toggle>
-  </mat-button-toggle-group>
-</mat-toolbar>
+<h4>Aperçu de la liste</h4>
+<div class="browser">
+  <div class="browser-navigation-bar">
+    <i></i><i></i><i></i>
+    <!-- Place your URL into <input> below -->
+    <input
+      value="https://liste-envie.desaintsteban.fr/{{ urlName.value }}"
+      disabled
+    />
+    <span class="labelDemo">En tant que</span>
+    <mat-button-toggle-group
+      #previewAs="matButtonToggleGroup"
+      class="buttonGroupDemo"
+      [value]="previewAs"
+      (change)="onChangePreview($event)"
+    >
+      <mat-button-toggle value="OWNER" checked>
+        <mat-icon>lock</mat-icon> Propriétaire
+      </mat-button-toggle>
+      <mat-button-toggle value="REGISTRER">
+        <mat-icon>lock_open</mat-icon> Participant
+      </mat-button-toggle>
+      <mat-button-toggle value="PUBLIC">
+        <mat-icon>public</mat-icon> Public
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
 
-<app-list [list]="demoList" [items]="demoWhishs" [demo]="true"></app-list>
+  <div class="browser-container">
+    <app-list [list]="demoList" [items]="demoWhishs" [demo]="true"></app-list>
+  </div>
+</div>

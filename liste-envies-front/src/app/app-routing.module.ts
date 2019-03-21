@@ -46,6 +46,7 @@ const routes: Routes = [
           whishList: WishListResolver,
           whishesItems: WishListItemsResolver
         },
+        runGuardsAndResolvers: "always",
         children: [
           { path: "", component: ListComponent },
           {
