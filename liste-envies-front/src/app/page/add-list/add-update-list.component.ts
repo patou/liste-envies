@@ -69,8 +69,7 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
     private wishesListQuery: WishesListQuery,
     private wishQuery: WishQuery,
     private user: UserQuery,
-    private router: Router,
-    private formsManager: AkitaNgFormsManager<WishesListState>
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -81,68 +80,85 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
       picture: [""],
       description: [""],
       privacy: ["PRIVATE"],
-      users: this._formBuilder.control([]),
+      users: [{ value: [] }],
       owners: this._formBuilder.control([]),
       forceAnonymous: [false]
     });
-    this.formsManager.upsert("wishList", this.wishListFormGroup);
 
     this.wishListFormGroup.setValue(this.wishList);
 
     if (this.wishesListQuery.hasActive()) {
       this.edit = true;
-      console.log("active List Query : ", this.wishesListQuery.getActive());
-      this.wishQuery
-        .selectWish()
-        .pipe(
-          untilDestroyed(this),
-          filterNil
-        )
+
+      this.wishesListQuery
+        .selectActive()
+        .pipe(untilDestroyed(this))
         .subscribe((wishlist: WishList) => {
           this.wishListFormGroup.patchValue(wishlist);
           this.wishList = wishlist;
         });
     } else {
       this.edit = false;
+
+      const userState = this.user.getValue();
+
+      if (userState.user) {
+        const owner = {
+          email: userState.user.email,
+          name: userState.user.displayName,
+          type: "OWNER"
+        };
+        const users: any[] = [
+          ...this.wishListFormGroup.controls.users.value,
+          owner
+        ];
+        this.wishListFormGroup.controls.users.setValue(users);
+      }
+
       this.wishListFormGroup.setValue(this.wishList);
 
-      this.formsManager
-        .selectValue("wishList", "title")
-        .pipe(
-          untilDestroyed(this),
-          takeUntil(
-            this.formsManager
-              .selectDirty("wishList", "name")
+      this.wishListFormGroup
+        .get("title")
+        .valueChanges.pipe(
+          untilDestroyed(this)
+          /*takeUntil(
+            this.wishListFormGroup.get(  "name").
               .pipe(filter(value => value === true))
-          ) // if field name was changed, do not compute name
+          ) // if field name was changed, do not compute name*/
         )
-        .subscribe(value => this.changeName(value));
+        .subscribe(value => {
+          if (!this.wishListFormGroup.get("name").pristine) {
+            this.changeName(value);
+          }
+        });
     }
 
     this.changesdemoWish();
 
-    this.user
-      .select()
-      .pipe(untilDestroyed(this))
-      .subscribe((userInfo: UserState) => {
-        if (userInfo.user) {
-          const owner = {
-            email: userInfo.user.email,
-            name: userInfo.user.displayName,
-            type: "OWNER"
-          };
-          const users: any[] = [
-            ...this.wishListFormGroup.controls.users.value,
-            owner
-          ];
-          this.wishListFormGroup.controls.users.setValue(users);
-        }
-      });
+    if (!this.edit) {
+      this.user
+        .select()
+        .pipe(untilDestroyed(this))
+        .subscribe((userInfo: UserState) => {
+          if (userInfo.user) {
+            const owner = {
+              email: userInfo.user.email,
+              name: userInfo.user.displayName,
+              type: "OWNER"
+            };
+            const users: any[] = [
+              ...this.wishListFormGroup.controls.users.value,
+              owner
+            ];
+            this.wishListFormGroup.controls.users.setValue(users);
+          }
+        });
+    }
 
     this.wishListFormGroup.controls.users.setValue(this.wishList.users || []);
-    this.formsManager
-      .selectValue("wishList", "users")
-      .pipe(untilDestroyed(this))
+    this.wishListFormGroup
+      .get("users")
+      .valueChanges.pipe(untilDestroyed(this))
       .subscribe((changes: UserShare[]) => {
         const wishlist: Partial<WishList> = {};
         wishlist.owners = changes.filter(user => user.type === "OWNER");
@@ -151,14 +167,13 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
       });
 
     merge(
-      this.formsManager.selectValue("wishList", "privacy"),
-      this.formsManager.selectValue("wishList", "forceAnonymous")
+      this.wishListFormGroup.get("privacy").valueChanges,
+      this.wishListFormGroup.get("forceAnonymous").valueChanges
     )
       .pipe(untilDestroyed(this))
       .subscribe(value => this.changesdemoWish());
 
-    this.formsManager
-      .selectValue("wishList")
+    this.wishListFormGroup.valueChanges
       .pipe(
         untilDestroyed(this),
         debounceTime(500)
@@ -209,13 +224,13 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
   createorUpdateList() {
     this.sending = true;
 
-    this.wishListService.createOrReplace(this.wishList).subscribe(newList => {
-      this.sending = false;
-      this.router.navigate(["/", newList.name]);
-    });
+    this.wishListService
+      .createOrReplace(this.wishListFormGroup.getRawValue())
+      .subscribe(newList => {
+        this.sending = false;
+        this.router.navigate(["/", newList.name]);
+      });
   }
 
-  ngOnDestroy(): void {
-    this.formsManager.unsubscribe();
-  }
+  ngOnDestroy(): void {}
 }

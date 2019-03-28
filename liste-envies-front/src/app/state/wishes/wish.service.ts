@@ -13,9 +13,11 @@ import { UserQuery } from "../app/user.query";
 import { delay, map, tap } from "rxjs/operators";
 import { MatSnackBar } from "@angular/material";
 import { Filter, FiltersPlugin } from "@datorama/akita-filters-plugin";
+import { WishesListStore } from "./wishes-list.store";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 @Injectable({ providedIn: "root" })
-export class WishService extends FiltersPlugin {
+export class WishService /*extends FiltersPlugin*/ {
   private draft: EntityDirtyCheckPlugin<WishItem>;
   private filters: FiltersPlugin<WishState, WishItem, any>;
 
@@ -24,9 +26,10 @@ export class WishService extends FiltersPlugin {
     private wishQuery: WishQuery,
     private wishListApiService: WishListApiService,
     private userQuery: UserQuery,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private wishesListStore: WishesListStore
   ) {
-    super(wishQuery, { filtersStoreName: "WishFilters" });
+    /* super(wishQuery, { filtersStoreName: "WishFilters" });*/
     this.draft = new EntityDirtyCheckPlugin<WishItem>(this.wishQuery);
   }
 
@@ -45,15 +48,13 @@ export class WishService extends FiltersPlugin {
 
   @Debounce(100)
   private getWishListInfosDelayed(name: string) {
-    this.getWishListFullInfos(name).subscribe(() => {});
+    this.getWishListFullInfos(name).subscribe((wishList: WishList) => {
+      this.setWishList(wishList);
+    });
   }
 
   public getWishListFullInfos(name: string): Observable<WishList> {
-    return this.wishListApiService.wishList(name).pipe(
-      tap((wishList: WishList) => {
-        this.wishStore.update({ wishList });
-      })
-    );
+    return this.wishListApiService.wishList(name);
   }
 
   add(listId: string, wish: WishItem) {
@@ -122,7 +123,8 @@ export class WishService extends FiltersPlugin {
   setWishList(wishList: WishList) {
     // todo verify if their are a more complete data before update it.
 
-    this.wishStore.update({ wishList });
+    this.wishesListStore.upsert(wishList.name, wishList);
+    this.wishStore.update({ wishList: { ...wishList } });
   }
 
   selectIsActive(id: ID): Observable<boolean> {
@@ -153,16 +155,29 @@ export class WishService extends FiltersPlugin {
   }
 
   setOrderBy(by: any, order: string | "+" | "-") {
-    this.setSortBy({
+    /*this.setSortBy({
       sortBy: by,
       sortByOrder: order === "+" ? Order.ASC : Order.DESC
-    });
+    });*/
   }
 
   getSort(): string | null {
-    const sortValue = this.getSortValue();
+    /*const sortValue = this.getSortValue();
     if (!sortValue) return "+date";
     const order: string = sortValue.sortByOrder === Order.ASC ? "+" : "-";
-    return sortValue.sortBy ? order + sortValue.sortBy.toString() : "+date";
+    return sortValue.sortBy ? order + sortValue.sortBy.toString() : "+date";*/
+    return null;
+  }
+
+  setFilter(param: any) {}
+
+  removeFilter(search1: string) {}
+
+  selectFilters() {
+    return new BehaviorSubject([]);
+  }
+
+  getFilterValue(type: string) {
+    return null;
   }
 }

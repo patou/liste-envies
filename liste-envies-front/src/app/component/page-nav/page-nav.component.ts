@@ -20,6 +20,7 @@ import { Router } from "@angular/router";
 import { WishesListService } from "../../state/wishes/wishes-list.service";
 import { untilDestroyed } from "ngx-take-until-destroy";
 import { Debounce as DebounceDecorator } from "lodash-decorators";
+import { ID } from "@datorama/akita";
 
 @Component({
   selector: "app-page-nav",
@@ -44,7 +45,7 @@ export class PageNavComponent implements OnInit, OnDestroy {
   public myListCount$: Observable<number>;
   public otherListCount$: Observable<number>;
   public loading$: Observable<boolean>;
-  public activeList$: Observable<string>;
+  public activeList$: Observable<ID>;
   public notifsCount$: Observable<number>;
 
   public selectListControl = new FormControl("");

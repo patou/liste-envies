@@ -46,11 +46,13 @@ const routes: Routes = [
           whishList: WishListResolver,
           whishesItems: WishListItemsResolver
         },
-        runGuardsAndResolvers: "always",
         children: [
           { path: "", component: ListComponent },
           {
             path: "edit",
+            resolve: {
+              whishList: WishListResolver
+            },
             component: AddUpdateListComponent,
             canActivate: [IsConnectedGuard, IsOwnerGuard]
           }

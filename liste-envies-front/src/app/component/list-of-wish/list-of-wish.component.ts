@@ -46,6 +46,7 @@ export class ListOfWishComponent implements OnInit, OnChanges {
     public dialog: MatDialog,
     public wishApi: WishListApiService,
     public wishService: WishService,
+    public wishQuery: WishQuery,
     public demoQuery: DemoQuery
   ) {}
 
@@ -65,10 +66,14 @@ export class ListOfWishComponent implements OnInit, OnChanges {
     } else {
       this.columns = [];
       for (let i = 0; i < this.nbrColumns; i++) {
-        this.columns[i] = this.wishService.selectAllByFilters({
+        this.columns[i] = this.wishQuery.selectAll({
           filterBy: (wish: WishItem, index: number) =>
             index % this.nbrColumns === i
         });
+        /*this.columns[i] = this.wishService.selectAllByFilters({
+          filterBy: (wish: WishItem, index: number) =>
+            index % this.nbrColumns === i
+        });*/
       }
     }
   }

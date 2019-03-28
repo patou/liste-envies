@@ -3,6 +3,7 @@ import {
   Component,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   SimpleChanges
 } from "@angular/core";
@@ -18,11 +19,12 @@ import { RouteData, RouteParams } from "angular-xxl";
 import { WishEditComponent } from "../../component/wish-edit/wish-edit.component";
 import { MatDialog } from "@angular/material";
 import { WishQuery } from "../../state/wishes/wish.query";
-import { pluck } from "rxjs/operators";
+import { pluck, skip } from "rxjs/operators";
 import { WishState } from "../../state/wishes/wish.store";
 import { WishService } from "../../state/wishes/wish.service";
 import { DemoService } from "../../state/wishes/demo/demo.service";
 import { DemoQuery } from "../../state/wishes/demo/demo.query";
+import { untilDestroyed } from "ngx-take-until-destroy";
 
 @Component({
   selector: "app-list",
@@ -30,20 +32,20 @@ import { DemoQuery } from "../../state/wishes/demo/demo.query";
   styleUrls: ["./list.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ListComponent implements OnInit, OnChanges {
+export class ListComponent implements OnInit, OnChanges, OnDestroy {
   listItems: Observable<WishItem[]>;
 
   whishList$: Observable<WishList>;
 
   loading$: Observable<boolean>;
 
-  @Input("list")
+  @Input()
   list: WishList;
 
-  @Input("items")
+  @Input()
   items: Observable<WishItem[]>;
 
-  @Input("demo")
+  @Input()
   demo = false;
 
   public userAuth: Observable<firebase.User>;
@@ -72,8 +74,7 @@ export class ListComponent implements OnInit, OnChanges {
     }
     // if no demo, do the following
 
-    this.whishList$ = this.wishQuery
-      .selectWish();
+    this.whishList$ = this.wishQuery.selectWish();
     this.whishList$.subscribe(wishList => {
       this.list = wishList;
     });
@@ -81,9 +82,14 @@ export class ListComponent implements OnInit, OnChanges {
     this.listItems = this.wishQuery.selectAll();
     this.loading$ = this.wishQuery.selectLoading();
 
-    this.userAuth.subscribe(value => {
-      this.loadList();
-    });
+    this.userAuth
+      .pipe(
+        skip(1),
+        untilDestroyed(this)
+      )
+      .subscribe(value => {
+        this.loadList();
+      });
   }
 
   private loadList() {
@@ -129,4 +135,6 @@ export class ListComponent implements OnInit, OnChanges {
     }
     return "url(assets/img/default.jpg)";
   }
+
+  ngOnDestroy(): void {}
 }

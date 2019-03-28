@@ -36,7 +36,6 @@ export class WishesListService {
       .createOrUpdateList(wishesList.name, wishesList)
       .pipe(
         tap(newList => {
-          console.log("createOrReplace list", newList);
           this.wishesListStore.upsert(newList.name, newList);
           this.wishService.setWishList(newList);
         })
@@ -48,6 +47,7 @@ export class WishesListService {
   }
 
   setActive(listName: string): boolean | Observable<WishList> {
+    console.trace("SetActive");
     if (!listName) {
       this.wishesListStore.setActive(null);
       return false;
@@ -57,12 +57,22 @@ export class WishesListService {
       this.wishesListQuery.getHasCache() &&
       this.wishesListQuery.hasEntity(listName)
     ) {
-      this.wishService.setWishList(
-        this.wishesListQuery.getActive() as WishList
-      );
-      return true;
+      const listActive = this.wishesListQuery.getActive() as WishList;
+
+      if (listActive.owner && !listActive.users) {
+        return this.wishService
+          .getWishListFullInfos(listName)
+          .pipe(tap(fullList => this.wishService.setWishList(fullList)));
+      } else {
+        this.wishService.setWishList(listActive);
+        return true;
+      }
     } else {
-      return this.wishService.getWishListFullInfos(listName);
+      return this.wishService.getWishListFullInfos(listName).pipe(
+        tap(fullList => {
+          this.wishService.setWishList(fullList);
+        })
+      );
     }
   }
 

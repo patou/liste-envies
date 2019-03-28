@@ -31,9 +31,7 @@ export class IsOwnerGuard implements CanActivate {
       filterNil,
       take(1),
       map<WishList, boolean | UrlTree>(wishList =>
-        wishList.state === "OWNER"
-          ? true
-          : this.router.parseUrl(`/${next.params.listId}`)
+        wishList.owner ? true : this.router.parseUrl(`/${next.params.listId}`)
       )
     );
   }
