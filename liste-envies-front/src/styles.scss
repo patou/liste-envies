@@ -178,6 +178,10 @@ mat-button-toggle-group.buttonGroupDemo {
   mat-button-toggle {
     padding-top: 0;
     height: 30px;
+
+    mat-icon {
+      font-size: 15px;
+    }
   }
 
   button.mat-button-toggle-button

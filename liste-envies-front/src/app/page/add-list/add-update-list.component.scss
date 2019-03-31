@@ -15,14 +15,26 @@
 .privacy-explain {
   color: #666;
   font-style: italic;
-  font-size: 0.9em;
+  font-size: 1.1em;
+  margin: 40px 20px;
+}
+
+.privacy-radio-group mat-radio-button {
+  margin-right: 10px;
+}
+
+mat-radio-group.privacy-radio-group {
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  flex-wrap: wrap;
 }
 
 .privacy-img {
-  height: 100px;
-  width: 100px;
+  height: 200px;
+  width: 200px;
   float: right;
-  margin: 10px;
+  margin: 30px;
 }
 
 .browser {

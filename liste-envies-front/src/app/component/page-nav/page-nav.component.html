@@ -21,7 +21,7 @@
       </button>
     </mat-toolbar>
 
-    <div *ngIf="!(loading$ | async); else: loading" class="content_sidenav">
+    <div *ngIf="!(loading$ | async); else loading" class="content_sidenav">
       <mat-accordion multi="true" displayMode="flat">
         <mat-expansion-panel
           class="mat-elevation-z0 badge-expansion-panel"
@@ -153,7 +153,7 @@
         </mat-autocomplete>
       </mat-form-field>
 
-      <div *ngIf="(userAuth$ | async) as user; else: showLogin">
+      <div *ngIf="(userAuth$ | async) as user; else showLogin">
         <button
           type="button"
           aria-label="Toggle sidenav"
@@ -199,9 +199,13 @@
         <mat-icon>logout</mat-icon>
         Déconnection
       </button>
-      <button mat-menu-item>
+      <button mat-menu-item disabled>
         <mat-icon>person</mat-icon>
         Profil
+      </button>
+      <button mat-menu-item routerLink="/about">
+        <mat-icon>info</mat-icon>
+        En savoir plus
       </button>
     </mat-menu>
     <ng-content></ng-content>

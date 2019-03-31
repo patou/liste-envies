@@ -117,7 +117,7 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
 
       this.wishListFormGroup.setValue(this.wishList);
 
-      this.wishListFormGroup
+      const subscribeTitle = this.wishListFormGroup
         .get("title")
         .valueChanges.pipe(
           untilDestroyed(this)
@@ -127,8 +127,10 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
           ) // if field name was changed, do not compute name*/
         )
         .subscribe(value => {
-          if (!this.wishListFormGroup.get("name").pristine) {
+          if (this.wishListFormGroup.get("name").untouched) {
             this.changeName(value);
+          } else {
+            subscribeTitle.unsubscribe();
           }
         });
     }
