@@ -1,25 +1,22 @@
 import { Injectable } from "@angular/core";
 import { action, EntityDirtyCheckPlugin, ID, Order } from "@datorama/akita";
-import { HttpClient } from "@angular/common/http";
 import { WishState, WishStore } from "./wish.store";
 import { WishListApiService } from "../../service/wish-list-api.service";
 import { WishList } from "../../models/WishList";
-import { Owner, WishComment, WishItem } from "../../models/WishItem";
+import { WishComment, WishItem } from "../../models/WishItem";
 import { Debounce, Throttle } from "lodash-decorators";
 import { WishQuery } from "./wish.query";
 import { Observable } from "rxjs/Observable";
-import { PartialObserver } from "rxjs/Observer";
 import { UserQuery } from "../app/user.query";
-import { delay, map, tap } from "rxjs/operators";
+import { map } from "rxjs/operators";
 import { MatSnackBar } from "@angular/material";
-import { Filter, FiltersPlugin } from "@datorama/akita-filters-plugin";
+import { AkitaFiltersPlugin } from "akita-filters-plugin";
 import { WishesListStore } from "./wishes-list.store";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 @Injectable({ providedIn: "root" })
-export class WishService /*extends FiltersPlugin*/ {
+export class WishService extends AkitaFiltersPlugin {
   private draft: EntityDirtyCheckPlugin<WishItem>;
-  private filters: FiltersPlugin<WishState, WishItem, any>;
+  private filters: AkitaFiltersPlugin<WishState, WishItem, any>;
 
   constructor(
     private wishStore: WishStore,
@@ -29,7 +26,7 @@ export class WishService /*extends FiltersPlugin*/ {
     private snackBar: MatSnackBar,
     private wishesListStore: WishesListStore
   ) {
-    /* super(wishQuery, { filtersStoreName: "WishFilters" });*/
+    super(wishQuery, { filtersStoreName: "WishFilters" });
     this.draft = new EntityDirtyCheckPlugin<WishItem>(this.wishQuery);
   }
 
@@ -44,13 +41,6 @@ export class WishService /*extends FiltersPlugin*/ {
     });
 
     this.getWishListInfosDelayed(name);
-  }
-
-  @Debounce(100)
-  private getWishListInfosDelayed(name: string) {
-    this.getWishListFullInfos(name).subscribe((wishList: WishList) => {
-      this.setWishList(wishList);
-    });
   }
 
   public getWishListFullInfos(name: string): Observable<WishList> {
@@ -131,6 +121,27 @@ export class WishService /*extends FiltersPlugin*/ {
     return this.wishQuery.selectIsActive(id);
   }
 
+  setOrderBy(by: any, order: string | "+" | "-") {
+    this.setSortBy({
+      sortBy: by,
+      sortByOrder: order === "+" ? Order.ASC : Order.DESC
+    });
+  }
+
+  getSort(): string | null {
+    const sortValue = this.getSortValue();
+    if (!sortValue) return "+date";
+    const order: string = sortValue.sortByOrder === Order.ASC ? "+" : "-";
+    return sortValue.sortBy ? order + sortValue.sortBy.toString() : "+date";
+  }
+
+  @Debounce(100)
+  private getWishListInfosDelayed(name: string) {
+    this.getWishListFullInfos(name).subscribe((wishList: WishList) => {
+      this.setWishList(wishList);
+    });
+  }
+
   private isChanged(id, wish: Partial<WishItem>) {
     this.draft.setHead(id);
     wish.draft = true;
@@ -152,32 +163,5 @@ export class WishService /*extends FiltersPlugin*/ {
         this.snackBar.open("Erreur lors la mise à jour de l'envie");
       }
     );
-  }
-
-  setOrderBy(by: any, order: string | "+" | "-") {
-    /*this.setSortBy({
-      sortBy: by,
-      sortByOrder: order === "+" ? Order.ASC : Order.DESC
-    });*/
-  }
-
-  getSort(): string | null {
-    /*const sortValue = this.getSortValue();
-    if (!sortValue) return "+date";
-    const order: string = sortValue.sortByOrder === Order.ASC ? "+" : "-";
-    return sortValue.sortBy ? order + sortValue.sortBy.toString() : "+date";*/
-    return null;
-  }
-
-  setFilter(param: any) {}
-
-  removeFilter(search1: string) {}
-
-  selectFilters() {
-    return new BehaviorSubject([]);
-  }
-
-  getFilterValue(type: string) {
-    return null;
   }
 }

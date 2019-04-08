@@ -66,14 +66,10 @@ export class ListOfWishComponent implements OnInit, OnChanges {
     } else {
       this.columns = [];
       for (let i = 0; i < this.nbrColumns; i++) {
-        this.columns[i] = this.wishQuery.selectAll({
+        this.columns[i] = this.wishService.selectAllByFilters({
           filterBy: (wish: WishItem, index: number) =>
             index % this.nbrColumns === i
         });
-        /*this.columns[i] = this.wishService.selectAllByFilters({
-          filterBy: (wish: WishItem, index: number) =>
-            index % this.nbrColumns === i
-        });*/
       }
     }
   }

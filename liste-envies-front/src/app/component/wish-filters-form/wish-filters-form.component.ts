@@ -6,7 +6,7 @@ import {
 } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { WishService } from "../../state/wishes/wish.service";
-import { Filter, searchFilter } from "@datorama/akita-filters-plugin";
+import { AkitaFilter, searchFilter } from "akita-filters-plugin";
 import { untilDestroyed } from "ngx-take-until-destroy";
 import { WishItem } from "../../models/WishItem";
 import { Observable } from "rxjs/Observable";
@@ -27,7 +27,7 @@ export class WishFiltersFormComponent implements OnInit, OnDestroy {
     size: new FormControl(),
     fastDeliveryControl: new FormControl()*/
   });
-  public filters: Observable<Filter<WishItem>[]>;
+  public filters: Observable<AkitaFilter<WishItem>[]>;
 
   constructor(private wishService: WishService) {}
 

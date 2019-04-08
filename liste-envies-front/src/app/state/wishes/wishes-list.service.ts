@@ -6,20 +6,20 @@ import { Debounce } from "lodash-decorators";
 import { WishList } from "../../models/WishList";
 import { WishService } from "./wish.service";
 import { WishesListQuery } from "./wishes-list.query";
-import { FiltersPlugin, searchFilterIn } from "@datorama/akita-filters-plugin";
+import { AkitaFiltersPlugin, searchFilterIn } from "akita-filters-plugin";
 import { tap } from "rxjs/operators";
 import { Observable } from "rxjs/Observable";
 
 @Injectable({ providedIn: "root" })
 export class WishesListService {
-  private filters: FiltersPlugin<any, any, any>;
+  private filters: AkitaFiltersPlugin<any, any, any>;
   constructor(
     private wishesListStore: WishesListStore,
     private wishListService: WishListApiService,
     private wishService: WishService,
     private wishesListQuery: WishesListQuery
   ) {
-    this.filters = new FiltersPlugin(this.wishesListQuery);
+    this.filters = new AkitaFiltersPlugin(this.wishesListQuery);
   }
 
   @Debounce(200)
