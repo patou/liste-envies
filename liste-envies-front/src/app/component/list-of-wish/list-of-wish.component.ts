@@ -12,7 +12,6 @@ import { bounceInLeft, fadeInUp } from "ng-animate";
 import { MatDialog } from "@angular/material";
 import { WishListApiService } from "../../service/wish-list-api.service";
 import { Observable } from "rxjs/Observable";
-import { filter, map, switchMap, tap } from "rxjs/operators";
 import { WishQuery } from "../../state/wishes/wish.query";
 import { DemoQuery } from "../../state/wishes/demo/demo.query";
 import { WishService } from "../../state/wishes/wish.service";
@@ -54,6 +53,16 @@ export class ListOfWishComponent implements OnInit, OnChanges {
     this.splitObservable();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {}
+
+  trackByFn(index: number, item: WishItem) {
+    return item.id;
+  }
+
+  trackColumn(index: number, item: WishItem) {
+    return index;
+  }
+
   private splitObservable() {
     if (this.demo) {
       this.columns = [];
@@ -72,15 +81,5 @@ export class ListOfWishComponent implements OnInit, OnChanges {
         });
       }
     }
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {}
-
-  trackByFn(index: number, item: WishItem) {
-    return item.id;
-  }
-
-  trackColumn(index: number, item: WishItem) {
-    return index;
   }
 }

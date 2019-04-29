@@ -50,6 +50,7 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
     description: "",
     type: null,
     privacy: "PRIVATE",
+    date: "",
     users: [],
     owners: [],
     forceAnonymous: false
@@ -60,6 +61,7 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
   previewAs: "OWNER" | "REGISTRER" | "PUBLIC" = "OWNER";
 
   demoWhishs: Subject<WishItem[]> = new Subject<WishItem[]>();
+  startDate = new Date();
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -81,6 +83,7 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
       description: [""],
       privacy: ["PRIVATE"],
       users: [{ value: [] }],
+      date: [""],
       owners: this._formBuilder.control([]),
       forceAnonymous: [false]
     });

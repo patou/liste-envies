@@ -33,6 +33,7 @@ import {
   MatStepperModule,
   MatBadgeModule
 } from "@angular/material";
+import { MatMomentDateModule } from "@angular/material-moment-adapter";
 
 @NgModule({
   imports: [
@@ -67,7 +68,8 @@ import {
     MatFormFieldModule,
     MatExpansionModule,
     MatStepperModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatMomentDateModule
   ],
   declarations: [],
   exports: [
@@ -101,7 +103,8 @@ import {
     MatFormFieldModule,
     MatExpansionModule,
     MatStepperModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatMomentDateModule
   ]
 })
 export class MaterialModule {}

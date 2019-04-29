@@ -1,9 +1,27 @@
 <div class="page-background" [style.backgroundImage]="listBackgroundImg()">
   <mat-card class="header-page-card" *ngIf="list">
+    <mat-card *ngIf="list.date" class="dateList">
+      <mat-card-header>
+        <mat-card-title>{{
+          list.date | amDateFormat: "dddd D"
+        }}</mat-card-title>
+        <mat-card-subtitle>{{
+          list.date | amDateFormat: "MMMM"
+        }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        dans {{ list.date | amTimeAgo: true }}
+      </mat-card-content>
+    </mat-card>
     <section class="mat-typography">
       <h1 [title]="list.title">
         <list-type-icon [type]="list.type"></list-type-icon>{{ list.title }}
-        <a mat-icon-button routerLink="edit" color="accent" *ngIf="!demo && list.owner">
+        <a
+          mat-icon-button
+          routerLink="edit"
+          color="accent"
+          *ngIf="!demo && list.owner"
+        >
           <mat-icon class="mat-18">edit</mat-icon>
         </a>
       </h1>
@@ -14,15 +32,15 @@
         </span>
       </p>
     </section>
+
     <mat-card-content>
       <read-more [content]="list.description" maxHeight="200"></read-more>
     </mat-card-content>
     <mat-card-actions>
       <app-wish-filters-form></app-wish-filters-form>
-
     </mat-card-actions>
   </mat-card>
-  <div *ngIf="!(loading$ | async); else: loading">
+  <div *ngIf="!(loading$ | async); else loading">
     <app-list-of-wish
       [list]="listItems"
       [demo]="demo"

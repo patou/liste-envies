@@ -36,7 +36,7 @@
               />
             </mat-form-field>
 
-            <mat-form-field class="col-12" appearance="outline">
+            <mat-form-field class="col-7" appearance="outline">
               <mat-label>Type d'événements</mat-label>
               <mat-select
                 [(value)]="wishList.type"
@@ -55,6 +55,24 @@
                   >{{ item.value }}</mat-option
                 >
               </mat-select>
+            </mat-form-field>
+            <mat-form-field class="col-4 col-offset-1" appearance="outline">
+              <mat-label>date de l'évenement</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                placeholder="Choisir la date de l'événement"
+                formControlName="date"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker
+                #picker
+                startView="month"
+                [startAt]="startDate"
+              ></mat-datepicker>
             </mat-form-field>
           </div>
           <div class="col-6">

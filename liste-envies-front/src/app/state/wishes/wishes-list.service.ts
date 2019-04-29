@@ -47,7 +47,6 @@ export class WishesListService {
   }
 
   setActive(listName: string): boolean | Observable<WishList> {
-    console.trace("SetActive");
     if (!listName) {
       this.wishesListStore.setActive(null);
       return false;
