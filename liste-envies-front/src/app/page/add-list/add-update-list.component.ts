@@ -16,14 +16,12 @@ import { UserState } from "../../state/app/user.store";
 import { WishListTypeLabel, WishListTypePicture } from "../../models/const";
 import { Router } from "@angular/router";
 import { untilDestroyed } from "ngx-take-until-destroy";
-import { AkitaNgFormsManager } from "@datorama/akita-ng-forms-manager";
-import { WishesListState } from "../../state/wishes/wishes-list.store";
-import { debounceTime, filter, takeUntil } from "rxjs/operators";
+import { debounceTime } from "rxjs/operators";
 import { merge } from "rxjs";
 
 import { WishesListQuery } from "../../state/wishes/wishes-list.query";
 import { WishQuery } from "../../state/wishes/wish.query";
-import { filterNil } from "@datorama/akita";
+import * as moment from "moment";
 
 @Component({
   selector: "app-add-update-list",
@@ -31,14 +29,6 @@ import { filterNil } from "@datorama/akita";
   styleUrls: ["./add-update-list.component.scss"]
 })
 export class AddUpdateListComponent implements OnInit, OnDestroy {
-  private sending: boolean;
-  private wishListFormGroup: FormGroup;
-  private edit: boolean = false;
-  get wishListTypePicture(): any[] {
-    return !!this.wishList.type
-      ? WishListTypePicture.filter(value => value.type === this.wishList.type)
-      : WishListTypePicture;
-  }
   isLinear = false;
   nameFormGroup: FormGroup;
   secondFormGroup: FormGroup;
@@ -50,18 +40,19 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
     description: "",
     type: null,
     privacy: "PRIVATE",
-    date: "",
+    date: 0,
     users: [],
     owners: [],
     forceAnonymous: false
   };
   demoList: WishList;
   wishListLabel = WishListTypeLabel;
-
   previewAs: "OWNER" | "REGISTRER" | "PUBLIC" = "OWNER";
-
   demoWhishs: Subject<WishItem[]> = new Subject<WishItem[]>();
-  startDate = new Date();
+  startDate = moment().month(1);
+  private sending: boolean;
+  private wishListFormGroup: FormGroup;
+  private edit: boolean = false;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -73,6 +64,12 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
     private user: UserQuery,
     private router: Router
   ) {}
+
+  get wishListTypePicture(): any[] {
+    return !!this.wishList.type
+      ? WishListTypePicture.filter(value => value.type === this.wishList.type)
+      : WishListTypePicture;
+  }
 
   ngOnInit() {
     this.wishListFormGroup = this._formBuilder.group({
@@ -192,29 +189,9 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
     }
   }
 
-  private formatUrlName(name) {
-    return this.latinize.transform(
-      name
-        .toLowerCase()
-        .trim()
-        .replace(/ /g, "_")
-    );
-  }
-
   public onChanges(wishList) {
     this.wishList = wishList;
     this.demoList = { ...this.wishList };
-  }
-
-  private changesdemoWish() {
-    const wishlist = this.wishListFormGroup.getRawValue();
-    this.demoService.update(
-      this.demoService.getWishForPrivacy(
-        wishlist.privacy,
-        this.previewAs,
-        wishlist.forceAnonymous
-      )
-    );
   }
 
   public onChangePreview($event) {
@@ -238,4 +215,24 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {}
+
+  private formatUrlName(name) {
+    return this.latinize.transform(
+      name
+        .toLowerCase()
+        .trim()
+        .replace(/ /g, "_")
+    );
+  }
+
+  private changesdemoWish() {
+    const wishlist = this.wishListFormGroup.getRawValue();
+    this.demoService.update(
+      this.demoService.getWishForPrivacy(
+        wishlist.privacy,
+        this.previewAs,
+        wishlist.forceAnonymous
+      )
+    );
+  }
 }
