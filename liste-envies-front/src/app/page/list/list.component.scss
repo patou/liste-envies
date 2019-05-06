@@ -2,8 +2,49 @@ mat-card.header-page-card.mat-card {
   text-align: left;
 }
 
-.dateList {
+mat-divider.mat-divider.divider-withDate.mat-divider-horizontal.mat-divider-inset {
+  width: 88%;
+}
+
+mat-card-title {
+  margin-bottom: 0px;
+  h1.title-list {
+    text-transform: capitalize;
+    size: 4em;
+    margin-bottom: 0px;
+  }
+}
+
+.owners-list {
+  display: flex;
+
+  span,
+  ngx-avatar {
+    margin-left: 6px;
+  }
+}
+
+mat-card.dateList {
   display: inline;
   float: right;
   position: relative;
+
+  &.mat-card {
+    padding: 0;
+    margin: 0;
+  }
+
+  mat-card-title.mat-card-title {
+    background: #f7747440;
+    padding: 5px 5px;
+    margin: 8px 0 !important;
+    border-radius: 2px;
+    text-transform: capitalize;
+  }
+
+  mat-card-subtitle.mat-card-subtitle {
+    margin-bottom: 2px;
+    text-transform: uppercase;
+    padding-top: 3px;
+  }
 }

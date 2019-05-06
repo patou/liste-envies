@@ -208,5 +208,11 @@ mat-button-toggle-group.buttonGroupDemo {
   }
 }
 
+mat-card.dateList {
+  .mat-card-header-text {
+    margin: 0 8px;
+  }
+}
+
 /*** ***************** files pouns ***/
 @import "~filepond/dist/filepond.css";

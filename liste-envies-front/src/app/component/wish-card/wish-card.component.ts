@@ -34,6 +34,8 @@ export class WishCardComponent implements OnInit, OnChanges, OnDestroy {
 
   public wishItem$: Observable<WishItem>;
   @Input() public wishItem: WishItem;
+
+  @Input() readOnly: boolean;
   //@Input() public wishID: number;
   edit = false;
 

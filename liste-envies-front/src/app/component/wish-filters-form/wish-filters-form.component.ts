@@ -1,8 +1,9 @@
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
-  OnDestroy
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewEncapsulation
 } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { WishService } from "../../state/wishes/wish.service";
@@ -15,7 +16,8 @@ import { Observable } from "rxjs/Observable";
   selector: "app-wish-filters-form",
   templateUrl: "./wish-filters-form.component.html",
   styleUrls: ["./wish-filters-form.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class WishFiltersFormComponent implements OnInit, OnDestroy {
   filtersForm = new FormGroup({

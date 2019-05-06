@@ -7,6 +7,7 @@
   <mat-button-toggle-group
     #typeWishToogle="matButtonToggleGroup"
     formControlName="type"
+    class="filterWishToggle"
   >
     <mat-button-toggle value="all">Tous</mat-button-toggle>
     <mat-button-toggle value="to_give">A offrir</mat-button-toggle>
@@ -17,18 +18,19 @@
   <mat-button-toggle-group
     #commentToogle="matButtonToggleGroup"
     formControlName="comment"
+    class="filterWishToggle"
   >
     <mat-button-toggle value="comment">Commentaires</mat-button-toggle>
   </mat-button-toggle-group>
 
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill" class="filters-wish-formfield">
     <mat-label>Recherche</mat-label>
     <input matInput placeholder="Placeholder" formControlName="search" />
     <mat-icon matSuffix>search</mat-icon>
     <mat-hint>Recherche dans les envies</mat-hint>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field appearance="fill" class="filters-wish-formfield">
     <mat-label>Trier</mat-label>
     <mat-select placeholder="Trier par" formControlName="sort">
       <mat-option value="+label">Titre - ASC</mat-option>
@@ -40,6 +42,7 @@
       <mat-option value="+rating">Note - ASC</mat-option>
       <mat-option value="-rating">Note - DESC</mat-option>
     </mat-select>
+    <mat-hint>Trier les envies par</mat-hint>
   </mat-form-field>
 </form>
 <div>

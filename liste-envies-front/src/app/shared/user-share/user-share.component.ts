@@ -130,7 +130,7 @@ export class UserShareComponent
 
   displayedColumns: string[] = ["email", "name", "type", "action"];
 
-  users: UserShare[];
+  users: UserShare[] = [];
 
   public datasource: MatTableDataSource<UserShare> = new MatTableDataSource(
     this.value
@@ -233,6 +233,9 @@ export class UserShareComponent
   // Allows Angular to update the model (rating).
   // Update the model and changes needed for the view here.
   writeValue(users: UserShare[]): void {
+    if (!users) {
+      return;
+    }
     this.value = [...users];
   }
 

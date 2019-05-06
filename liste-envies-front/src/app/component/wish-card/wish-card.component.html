@@ -36,11 +36,21 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu" xPosition="before">
-          <button mat-menu-item disabled *ngIf="wishItem.canEdit">
+          <button
+            mat-menu-item
+            disabled
+            *ngIf="wishItem.canEdit"
+            [disabled]="readOnly"
+          >
             <mat-icon>archive</mat-icon>
             <span>Archiver</span>
           </button>
-          <button mat-menu-item disabled *ngIf="wishItem.canEdit">
+          <button
+            mat-menu-item
+            disabled
+            *ngIf="wishItem.canEdit"
+            [disabled]="readOnly"
+          >
             <mat-icon>delete</mat-icon>
             <span>Supprimer</span>
           </button>
@@ -52,13 +62,13 @@
       </span>
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between stretch">
-      <span matTooltip="{{wishItem.date | date: 'long'}}" class="date"
+      <span matTooltip="{{ wishItem.date | date: 'long' }}" class="date"
         ><mat-icon>date_range</mat-icon>
         {{ wishItem.date | amLocal: "fr" | amTimeAgo }}</span
       >
       <div
         class="owner"
-        matTooltip="{{wishItem?.owner?.name}} : {{wishItem?.owner?.email}}"
+        matTooltip="{{ wishItem?.owner?.name }} : {{ wishItem?.owner?.email }}"
       >
         <ngx-avatar
           [name]="wishItem?.owner?.name"
@@ -72,7 +82,7 @@
     </div>
   </mat-card-header>
   <div
-    *ngIf="wishItem.pictures && wishItem.pictures.length > 1; else: oneImg"
+    *ngIf="wishItem.pictures && wishItem.pictures.length > 1; else oneImg"
     class="card-image"
   >
     <div class="swiper-fraction">
@@ -82,8 +92,8 @@
     <swiper [config]="SWIPER_CONFIG" [(index)]="index">
       <div class="swiper-slide" *ngFor="let picture of wishItem.pictures">
         <img
-          data-src="{{picture}}"
-          alt="{{wishItem.label}}"
+          data-src="{{ picture }}"
+          alt="{{ wishItem.label }}"
           class="swiper-lazy fixed"
         />
         <div class="swiper-lazy-preloader"></div>
@@ -97,8 +107,8 @@
       *ngIf="wishItem.pictures && wishItem.pictures.length == 1"
     >
       <img
-        data-src="{{wishItem.pictures[0]}}"
-        alt="{{wishItem.label}}"
+        data-src="{{ wishItem.pictures[0] }}"
+        alt="{{ wishItem.label }}"
         class="swiper-lazy border"
         width="300"
         height="300"
@@ -125,7 +135,7 @@
 
     <div *ngIf="wishItem.urls && wishItem.urls.length > 0">
       <mat-chip-list>
-        <span *ngIf="wishItem.urls.length === 1; else: liens">Lien :</span>
+        <span *ngIf="wishItem.urls.length === 1; else liens">Lien :</span>
         <ng-template #liens>Liens :</ng-template>
         <a
           [href]="url.url"
@@ -194,7 +204,7 @@
               >
               il y
               <span
-                title="{{comment?.date | date: 'long'}}"
+                title="{{ comment?.date | date: 'long' }}"
                 [matTooltip]="comment?.date | date: 'long'"
               >
                 <mat-icon inline="true">date_range</mat-icon>
@@ -214,26 +224,31 @@
           <mat-form-field appearance="fill">
             <mat-label>Ajouter un commentaire</mat-label>
             <!--
-              <textarea
-
-
-
-                matInput
+              <textarea
 
 
 
 
-                placeholder="Entrez votre commentaire"
+                matInput
 
 
 
 
-                #addComment
+
+                placeholder="Entrez votre commentaire"
 
 
 
 
-                (submit)="sendComment(addComment.value)"
+
+                #addComment
+
+
+
+
+
+                (submit)="sendComment(addComment.value)"
+
 
 
 
@@ -253,6 +268,7 @@
               matTooltip="Envoyer le commentaires"
               class="button-add-comment"
               (click)="sendComment(addComment, wishItem)"
+              [disabled]="readOnly"
             >
               <mat-icon aria-label="Envoyer le commentaire"
                 >add_comment</mat-icon
@@ -282,7 +298,7 @@
       Offert par
       <span
         *ngFor="let userGiven of wishItem.userTake; let last = last"
-        matTooltip="{{userGiven?.name}} : {{userGiven?.email}}"
+        matTooltip="{{ userGiven?.name }} : {{ userGiven?.email }}"
       >
         <ngx-avatar
           [name]="userGiven?.name"
@@ -297,6 +313,7 @@
         color="accent"
         *ngIf="wishItem.given && wishItem.canParticipate"
         (click)="give(wishItem)"
+        [disabled]="readOnly"
       >
         Participer
       </button>
@@ -307,6 +324,7 @@
       *ngIf="
         !wishItem.allreadyGiven && !wishItem.given && wishItem.canParticipate
       "
+      [disabled]="readOnly"
       (click)="give(wishItem)"
     >
       Offrir
@@ -316,6 +334,7 @@
       color="primary"
       *ngIf="wishItem.canEdit"
       (click)="editWish(wishItem)"
+      [disabled]="readOnly"
     >
       Modifier
     </button>

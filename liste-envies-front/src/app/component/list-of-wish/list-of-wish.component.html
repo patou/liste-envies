@@ -5,6 +5,7 @@
   >
     <app-wish-card
       [wishItem]="wishItem"
+      [readOnly]="demo"
       *ngFor="let wishItem of (colItems | async); trackBy: trackByFn"
     ></app-wish-card>
   </div>

@@ -14,25 +14,56 @@
       </mat-card-content>
     </mat-card>
     <section class="mat-typography">
-      <h1 [title]="list.title">
-        <list-type-icon [type]="list.type"></list-type-icon>{{ list.title }}
-        <a
-          mat-icon-button
-          routerLink="edit"
-          color="accent"
-          *ngIf="!demo && list.owner"
+      <mat-card-header>
+        <list-type-icon
+          mat-card-avatar
+          [type]="list.type"
+          size="large"
+        ></list-type-icon>
+        <mat-card-title
+          ><h1 class="title-list">
+            {{ list.title }}
+            <a
+              mat-icon-button
+              routerLink="edit"
+              color="accent"
+              *ngIf="!demo && list.owner"
+            >
+              <mat-icon class="mat-18">edit</mat-icon>
+            </a>
+          </h1></mat-card-title
         >
-          <mat-icon class="mat-18">edit</mat-icon>
-        </a>
-      </h1>
-      <p>
-        de
-        <span *ngFor="let owner of list.owners" [matTooltip]="owner.email">
-          {{ owner.name }},
-        </span>
-      </p>
+        <mat-card-subtitle class="owners-list" *ngIf="list.owners"
+          >de
+          <ng-container
+            *ngFor="let owner of list.owners; let last = last"
+            [matTooltip]="owner.email"
+          >
+            <ngx-avatar
+              [gravatarId]="owner.email"
+              [matTooltip]="owner.name"
+              [name]="owner.name"
+              [round]="true"
+              [src]="owner?.photoURL ? owner?.photoURL : ''"
+              matTooltipPosition="below"
+              size="15"
+            >
+            </ngx-avatar>
+            <span
+              [matTooltip]="owner.email"
+              [title]="owner.email"
+              class="owners"
+              matTooltipPosition="below"
+              >{{ owner.name }}</span
+            >{{ last ? "" : ", " }}
+          </ng-container></mat-card-subtitle
+        >
+      </mat-card-header>
     </section>
-
+    <mat-divider
+      [inset]="true"
+      [class.divider-withDate]="list.date"
+    ></mat-divider>
     <mat-card-content>
       <read-more [content]="list.description" maxHeight="200"></read-more>
     </mat-card-content>
@@ -49,7 +80,9 @@
   </div>
 
   <span class="done">
-    <button mat-fab (click)="addWish()"><mat-icon>add</mat-icon></button>
+    <button mat-fab (click)="addWish()" [disabled]="demo">
+      <mat-icon>add</mat-icon>
+    </button>
   </span>
   <app-page-footer></app-page-footer>
 </div>
