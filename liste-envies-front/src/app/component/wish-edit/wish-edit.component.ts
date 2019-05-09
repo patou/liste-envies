@@ -9,6 +9,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 })
 export class WishEditComponent implements OnInit {
   public wishItem: WishItem;
+  public isAddWhish: boolean;
 
   constructor(
     public dialogRef: MatDialogRef<WishEditComponent>,
@@ -17,6 +18,7 @@ export class WishEditComponent implements OnInit {
 
   ngOnInit() {
     if (this.data) {
+      this.isAddWhish = false;
       this.wishItem = {
         description: "",
         price: "",
@@ -26,6 +28,7 @@ export class WishEditComponent implements OnInit {
         ...this.data
       };
     } else {
+      this.isAddWhish = true;
       this.wishItem = {
         label: "",
         description: "",
