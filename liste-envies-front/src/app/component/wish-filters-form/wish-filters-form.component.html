@@ -25,7 +25,11 @@
 
   <mat-form-field appearance="fill" class="filters-wish-formfield">
     <mat-label>Recherche</mat-label>
-    <input matInput placeholder="Placeholder" formControlName="search" />
+    <input
+      matInput
+      placeholder="Un mot clé à rechercher ..."
+      formControlName="search"
+    />
     <mat-icon matSuffix>search</mat-icon>
     <mat-hint>Recherche dans les envies</mat-hint>
   </mat-form-field>
@@ -33,14 +37,14 @@
   <mat-form-field appearance="fill" class="filters-wish-formfield">
     <mat-label>Trier</mat-label>
     <mat-select placeholder="Trier par" formControlName="sort">
-      <mat-option value="+label">Titre - ASC</mat-option>
-      <mat-option value="-label">Titre - DESC</mat-option>
-      <mat-option value="+price">Prix - ASC</mat-option>
-      <mat-option value="-price">Prix - DESC</mat-option>
-      <mat-option value="+date">date - ASC</mat-option>
-      <mat-option value="-date">date - DESC</mat-option>
-      <mat-option value="+rating">Note - ASC</mat-option>
-      <mat-option value="-rating">Note - DESC</mat-option>
+      <mat-option value="+label">Titre - A à Z</mat-option>
+      <mat-option value="-label">Titre - Z à A</mat-option>
+      <mat-option value="+price">Prix - moins cher</mat-option>
+      <mat-option value="-price">Prix - plus cher</mat-option>
+      <mat-option value="+date">date - plus récent</mat-option>
+      <mat-option value="-date">date - plus anciens</mat-option>
+      <mat-option value="+rating">Note - 1 étoile</mat-option>
+      <mat-option value="-rating">Note - 5 étoiles</mat-option>
     </mat-select>
     <mat-hint>Trier les envies par</mat-hint>
   </mat-form-field>

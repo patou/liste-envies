@@ -159,6 +159,7 @@
     border: 1px solid $gray-lighter;
     padding: 2px;
     border-radius: 4px;
+    min-height: 150px;
 
     .swiper-fraction {
       position: absolute;
@@ -171,6 +172,7 @@
       border-top-left-radius: 2px;
       border-top-right-radius: 2px;
       pointer-events: none;
+      min-height: 150px;
     }
 
     .swiper-slide {

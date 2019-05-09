@@ -260,12 +260,12 @@
               [content]="addComment"
               (contentChange)="addComment = $event"
               type="light"
-              placeholder="Tappez ici votre commentaire et cliquez sur le bouton pour l'envoyer"
+              placeholder="Tapez ici votre commentaire et cliquez sur le bouton pour l'envoyer"
             ></app-html-editor>
             <button
               mat-mini-fab
               matSuffix
-              matTooltip="Envoyer le commentaires"
+              matTooltip="Envoyer le commentaire"
               class="button-add-comment"
               (click)="sendComment(addComment, wishItem)"
               [disabled]="readOnly"
@@ -274,8 +274,9 @@
                 >add_comment</mat-icon
               >
             </button>
-            <mat-hint
-              >le commentaire ne sera pas visible pour le owner de la liste
+            <mat-hint>
+              le commentaire ne sera pas visible pour le propriétaire de la
+              liste
             </mat-hint>
           </mat-form-field>
           <!-- </div> -->

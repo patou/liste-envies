@@ -6,11 +6,11 @@
           list.date | amDateFormat: "dddd D"
         }}</mat-card-title>
         <mat-card-subtitle>{{
-          list.date | amDateFormat: "MMMM"
+          list.date | amDateFormat: "MMMM YYYY"
         }}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        dans {{ list.date | amTimeAgo: true }}
+        {{ list.date | amTimeAgo }}
       </mat-card-content>
     </mat-card>
     <section class="mat-typography">
