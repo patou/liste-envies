@@ -77,7 +77,7 @@ export class ReadMoreComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() public textReadMore: string = "voir plus ...";
   @Input() public textReadLess: string = "voir moins ...";
 
-  @ViewChild("readMoreContent") readMoreContent: ElementRef;
+  @ViewChild("readMoreContent", {static: false}) readMoreContent: ElementRef;
 
   public opened = false;
   public hasReadMore = false;
