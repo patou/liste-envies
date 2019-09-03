@@ -21,6 +21,7 @@ import { WishesListService } from "../../state/wishes/wishes-list.service";
 import { untilDestroyed } from "ngx-take-until-destroy";
 import { Debounce as DebounceDecorator } from "lodash-decorators";
 import { ID } from "@datorama/akita";
+import {WishItem} from '../../models/WishItem';
 
 @Component({
   selector: "app-page-nav",
@@ -61,13 +62,13 @@ export class PageNavComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userAuth$ = this.auth.user;
-    this.myList$ = this.wishListService.selectAllByFilters({
+    this.myList$ = (this.wishListService.selectAllByFilters({
       filterBy: list => list.owner
-    });
+    }) as Observable<WishList[]>);
     this.myListCount$ = this.wishesListQuery.selectCount(list => list.owner);
-    this.otherList$ = this.wishListService.selectAllByFilters({
+    this.otherList$ = (this.wishListService.selectAllByFilters({
       filterBy: list => !list.owner
-    });
+    })  as Observable<WishList[]>);
     this.otherListCount$ = this.wishesListQuery.selectCount(
       list => !list.owner
     );

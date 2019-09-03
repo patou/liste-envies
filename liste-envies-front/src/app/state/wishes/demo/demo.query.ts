@@ -10,7 +10,7 @@ import { WishItem } from "../../../models/WishItem";
   sortBy: "date",
   sortByOrder: Order.DESC
 })
-export class DemoQuery extends QueryEntity<DemoState, WishItem> {
+export class DemoQuery extends QueryEntity<DemoState> {
   constructor(protected store: DemoStore) {
     super(store);
   }

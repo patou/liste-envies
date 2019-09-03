@@ -99,7 +99,7 @@ export class WishFiltersFormComponent implements OnInit, OnDestroy {
             id: "comment",
             value: "comment",
             name: `" avec commentaires "`,
-            predicate: entity => entity.comments && !!entity.comments.length
+            predicate: (entity: any) => entity.comments && !!entity.comments.length
           });
         } else {
           this.wishService.removeFilter("comment");

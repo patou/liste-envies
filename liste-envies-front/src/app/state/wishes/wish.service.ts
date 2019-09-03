@@ -14,9 +14,8 @@ import { AkitaFiltersPlugin } from "akita-filters-plugin";
 import { WishesListStore } from "./wishes-list.store";
 
 @Injectable({ providedIn: "root" })
-export class WishService extends AkitaFiltersPlugin {
+export class WishService extends AkitaFiltersPlugin<WishState> {
   private draft: EntityDirtyCheckPlugin<WishItem>;
-  private filters: AkitaFiltersPlugin<WishState, WishItem, any>;
 
   constructor(
     private wishStore: WishStore,
@@ -26,7 +25,9 @@ export class WishService extends AkitaFiltersPlugin {
     private snackBar: MatSnackBar,
     private wishesListStore: WishesListStore
   ) {
+    // @ts-ignore todo correct error with this parameters typescript error
     super(wishQuery, { filtersStoreName: "WishFilters" });
+    // @ts-ignore todo correct error with this parameters typescript error
     this.draft = new EntityDirtyCheckPlugin<WishItem>(this.wishQuery);
   }
 

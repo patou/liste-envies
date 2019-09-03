@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ID, SelectOptions } from "@datorama/akita";
-import { WishesListStore } from "./wishes-list.store";
+import {WishesListState, WishesListStore} from './wishes-list.store';
 import { WishListApiService } from "../../service/wish-list-api.service";
 import { Debounce } from "lodash-decorators";
 import { WishList } from "../../models/WishList";
@@ -12,14 +12,15 @@ import { Observable } from "rxjs/Observable";
 
 @Injectable({ providedIn: "root" })
 export class WishesListService {
-  private filters: AkitaFiltersPlugin<any, any, any>;
+  private filters: AkitaFiltersPlugin<WishesListState>;
   constructor(
     private wishesListStore: WishesListStore,
     private wishListService: WishListApiService,
     private wishService: WishService,
     private wishesListQuery: WishesListQuery
   ) {
-    this.filters = new AkitaFiltersPlugin(this.wishesListQuery);
+    // @ts-ignore
+    this.filters = new AkitaFiltersPlugin<WishesListState>(this.wishesListQuery);
   }
 
   @Debounce(200)

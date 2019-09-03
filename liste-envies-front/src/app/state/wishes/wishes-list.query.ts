@@ -11,9 +11,7 @@ import { WishList } from "../../models/WishList";
   sortByOrder: Order.ASC
 })
 export class WishesListQuery extends QueryEntity<
-  WishesListState,
-  WishList,
-  string
+  WishesListState
 > {
   constructor(protected store: WishesListStore) {
     super(store);
