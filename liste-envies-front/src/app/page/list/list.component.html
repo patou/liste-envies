@@ -1,4 +1,6 @@
-<div class="page-background" [style.backgroundImage]="listBackgroundImg()">
+
+<div class="page-all" >
+  <div class="page-background" [style.backgroundImage]="listBackgroundImg()"></div>
   <mat-card class="header-page-card" *ngIf="list">
     <mat-card *ngIf="list.date" class="dateList">
       <mat-card-header>
@@ -33,16 +35,15 @@
             </a>
           </h1></mat-card-title
         >
-        <mat-card-subtitle class="owners-list" *ngIf="list.owners"
+        <mat-card-subtitle class="owners-list" *ngIf="list?.owners && list?.owners?.length"
           >de
           <ng-container
-            *ngFor="let owner of list.owners; let last = last"
-            [matTooltip]="owner.email"
+            *ngFor="let owner of list?.owners; let last = last"
           >
             <ngx-avatar
-              [gravatarId]="owner.email"
-              [matTooltip]="owner.name"
-              [name]="owner.name"
+              [gravatarId]="owner?.email"
+              [matTooltip]="owner?.name"
+              [name]="owner?.name"
               [round]="true"
               [src]="owner?.photoURL ? owner?.photoURL : ''"
               matTooltipPosition="below"

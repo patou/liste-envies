@@ -61,7 +61,7 @@
         </mat-menu>
       </span>
     </div>
-    <div fxLayout="row" fxLayoutAlign="space-between stretch">
+    <div fxLayout="row" fxLayoutAlign="space-between stretch" class="wish-subtitle">
       <span matTooltip="{{ wishItem.date | date: 'long' }}" class="date"
         ><mat-icon>date_range</mat-icon>
         {{ wishItem.date | amLocal: "fr" | amTimeAgo }}</span
@@ -80,6 +80,7 @@
         <span class="ownerName">{{ wishItem?.owner?.name }}</span>
       </div>
     </div>
+    <mat-divider inset="true"></mat-divider>
   </mat-card-header>
   <div
     *ngIf="wishItem.pictures && wishItem.pictures.length > 1; else oneImg"
@@ -116,7 +117,7 @@
     </div>
   </ng-template>
 
-  <mat-card-content fxLayout="column" fxLayoutAlign="space-between stretch">
+  <mat-card-content fxLayout="column" fxLayoutAlign="space-between stretch" class="wish-content">
     <div fxLayout="row" fxLayoutAlign="space-between stretch">
       <mat-chip-list>
         <mat-chip *ngIf="wishItem.price" color="accent" selected>
@@ -130,7 +131,7 @@
         [readonly]="true"
       ></app-rating>
     </div>
-    <mat-divider inset="true"></mat-divider>
+
     <read-more [content]="wishItem.description" maxHeight="100"></read-more>
 
     <div *ngIf="wishItem.urls && wishItem.urls.length > 0">
@@ -285,7 +286,7 @@
     </mat-expansion-panel>
   </mat-card-content>
 
-  <mat-card-actions>
+  <mat-card-actions class="wish-footer">
     <mat-label color="warn" *ngIf="wishItem.allreadyGiven" disableRipple="true">
       Déjà offert
     </mat-label>
@@ -340,5 +341,4 @@
       Modifier
     </button>
   </mat-card-actions>
-  <p></p>
 </mat-card>
