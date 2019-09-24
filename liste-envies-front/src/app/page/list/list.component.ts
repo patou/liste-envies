@@ -15,12 +15,10 @@ import { WishItem } from "../../models/WishItem";
 import { ActivatedRoute } from "@angular/router";
 import { AuthService } from "../../service/auth.service";
 import * as firebase from "firebase";
-import { RouteData, RouteParams } from "angular-xxl";
 import { WishEditComponent } from "../../component/wish-edit/wish-edit.component";
 import { MatDialog } from "@angular/material";
 import { WishQuery } from "../../state/wishes/wish.query";
-import { pluck, skip } from "rxjs/operators";
-import { WishState } from "../../state/wishes/wish.store";
+import { skip } from "rxjs/operators";
 import { WishService } from "../../state/wishes/wish.service";
 import { DemoService } from "../../state/wishes/demo/demo.service";
 import { DemoQuery } from "../../state/wishes/demo/demo.query";
@@ -50,7 +48,6 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
 
   public userAuth: Observable<firebase.User>;
 
-  @RouteParams("listId", { observable: false }) public listId: string;
 
   constructor(
     private wishService: WishService,
@@ -112,7 +109,7 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
       .afterClosed()
       .subscribe((result: WishItem) => {
         if (result) {
-          this.wishService.add(this.listId, result);
+          this.wishService.add(this.route.snapshot.params["listId"], result);
         }
       });
   }

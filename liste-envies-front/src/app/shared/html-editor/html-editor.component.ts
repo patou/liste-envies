@@ -2,7 +2,6 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  forwardRef,
   HostBinding,
   Input,
   OnDestroy,
@@ -16,10 +15,8 @@ import { MatFormFieldControl } from "@angular/material";
 import {
   ControlValueAccessor,
   FormBuilder,
-  NG_VALUE_ACCESSOR,
   NgControl
 } from "@angular/forms";
-import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
 import { FocusMonitor } from "@angular/cdk/a11y";
 import { coerceBooleanProperty } from "@angular/cdk/coercion";
