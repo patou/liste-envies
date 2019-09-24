@@ -6,7 +6,6 @@ import {
   Output,
   ViewChild
 } from "@angular/core";
-import { UrlsEntity } from "../../models/WishItem";
 
 @Component({
   selector: "app-img-form",
@@ -69,24 +68,15 @@ export class ImgFormComponent implements OnInit {
     this.emitChange();
   }
 
-  pondHandleInit() {
-    document.addEventListener(
-      "FilePond:fileData",
-      (event: any): void => {
-        if (event.detail) {
-          event.detail.map(image => {
-            this.addImg("data:image/jpeg;base64," + image.data);
-          });
-          this.pondFiles = [];
-          this.myPond.removeFiles();
-        }
-      }
-    );
-  }
 
   pondHandleAddFile(event: any) {
+    console.log('pound Handle add file', event);
+
+    this.addImg(event.file.getFileEncodeDataURL());
     if (!event.error && !event.status) {
       this.myPond.removeFile(event.file.id);
     }
+
+
   }
 }

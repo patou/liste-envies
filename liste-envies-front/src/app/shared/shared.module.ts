@@ -62,7 +62,7 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
   credentialHelper: CredentialHelper.OneTap
 };
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
-import FilePondPluginFileEncode from "./img-form/filepond-plugin-file-encode.esm.js";
+import FilePondPluginFileEncode from "filepond-plugin-file-encode";
 import FilePondPluginImageResize from "filepond-plugin-image-resize";
 import FilePondPluginImageTransform from "filepond-plugin-image-transform";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
@@ -84,7 +84,7 @@ registerPlugin(
     NgPipesModule,
     BrowserAnimationsModule,
     MaterialModule,
-    QuillModule,
+    QuillModule.forRoot(),
     SwiperModule,
     FilePondModule,
     AvatarModule,
