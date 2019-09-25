@@ -1,0 +1,1 @@
+this.passwordResetForm.get('lpfResetpwdmethods').setValue([...value, event])
