@@ -4,6 +4,7 @@ import { WishList } from "../../models/WishList";
 import * as firebase from "firebase";
 import { AuthService } from "../../service/auth.service";
 import { WishesListQuery } from "../../state/wishes/wishes-list.query";
+import {ColorManagementService} from '../../service/color-management.service';
 
 @Component({
   selector: "app-home",
@@ -18,10 +19,12 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private wishListService: WishesListQuery,
-    private auth: AuthService
+    private auth: AuthService,
+    private colorManagementService: ColorManagementService
   ) {}
 
   ngOnInit() {
+    this.colorManagementService.applyDefaultColor();
     this.userAuth = this.auth.user;
     this.list$ = this.wishListService.selectAll();
     this.loading$ = this.wishListService.selectLoading();

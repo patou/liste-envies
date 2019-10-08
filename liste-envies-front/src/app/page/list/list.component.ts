@@ -18,11 +18,12 @@ import * as firebase from "firebase";
 import { WishEditComponent } from "../../component/wish-edit/wish-edit.component";
 import { MatDialog } from "@angular/material";
 import { WishQuery } from "../../state/wishes/wish.query";
-import { skip } from "rxjs/operators";
+import {distinct, distinctUntilKeyChanged, skip, tap} from 'rxjs/operators';
 import { WishService } from "../../state/wishes/wish.service";
 import { DemoService } from "../../state/wishes/demo/demo.service";
 import { DemoQuery } from "../../state/wishes/demo/demo.query";
 import { untilDestroyed } from "ngx-take-until-destroy";
+import {ColorManagementService} from '../../service/color-management.service';
 
 @Component({
   selector: "app-list",
@@ -57,7 +58,8 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
     private route: ActivatedRoute,
     private auth: AuthService,
     public dialog: MatDialog,
-    private wishQuery: WishQuery
+    private wishQuery: WishQuery,
+    private colorManagementService: ColorManagementService
   ) {}
 
   ngOnInit() {
@@ -72,8 +74,10 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
     // if no demo, do the following
 
     this.whishList$ = this.wishQuery.selectWish();
-    this.whishList$.subscribe(wishList => {
+    this.whishList$.pipe(distinct(), tap(wishList => {
       this.list = wishList;
+    }), distinctUntilKeyChanged('picture')).subscribe(() => {
+      this.colorManagementService.setColorFromUrl(this.getUrlImage());
     });
 
     this.listItems = this.wishQuery.selectAll();
@@ -121,16 +125,20 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   listBackgroundImg() {
+    return `url(${this.getUrlImage()})`;
+  }
+
+  getUrlImage() {
     if (
       this.list &&
       this.list.picture &&
-      this.list.picture.startsWith("http")
+      this.list.picture.startsWith('http')
     ) {
-      return "url(" + this.list.picture + ")";
+      return this.list.picture;
     } else if (this.list && this.list.picture) {
-      return "url(assets/" + this.list.picture + ")";
+      return `assets/${this.list.picture}`;
     }
-    return "url(assets/img/default.jpg)";
+    return 'assets/img/default.jpg';
   }
 
   ngOnDestroy(): void {}
