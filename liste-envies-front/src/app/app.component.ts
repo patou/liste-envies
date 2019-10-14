@@ -14,6 +14,8 @@ export class AppComponent {
     public matIconRegistry: MatIconRegistry,
     private wishesListService: WishesListService
   ) {
-    matIconRegistry.registerFontClassAlias("fa", "fa");
+    matIconRegistry.registerFontClassAlias("fa", "fas");
+    matIconRegistry.registerFontClassAlias("fas", "fas");
+    matIconRegistry.registerFontClassAlias("far", "far");
   }
 }

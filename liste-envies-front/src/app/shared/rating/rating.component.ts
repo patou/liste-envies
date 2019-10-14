@@ -1,29 +1,64 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output
-} from "@angular/core";
-import { FocusMonitor } from "@angular/cdk/a11y";
-import { coerceBooleanProperty } from "@angular/cdk/coercion";
-import { MatFormFieldControl } from "@angular/material";
-import { Subject } from "rxjs/Subject";
-import { FormBuilder } from "@angular/forms";
+import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {FocusMonitor} from '@angular/cdk/a11y';
+import {coerceBooleanProperty} from '@angular/cdk/coercion';
+import {MatFormFieldControl} from '@angular/material';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
   selector: "app-rating",
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <span class="rating" [ngClass]="{ pointer: !readonly }"
-      ><mat-icon
-        *ngFor="let rate of [1, 2, 3, 4, 5]"
-        (click)="selectStar(rate)"
-        >{{ rate <= value ? "favorite" : "favorite_border" }}</mat-icon
-      ><mat-icon *ngIf="!readonly" (click)="selectStar(undefined)" class="light"
-        >close</mat-icon
-      ></span
+    <span class="rating" [ngClass]="{ pointer: !readonly }" *ngIf="!readonly"
+      ><ng-container
+      *ngFor="let rate of [1, 2, 3, 4, 5]"
     >
+      <button mat-icon-button (click)="selectStar(rate)" [color]="rate === value? 'accent' : 'primary'">
+          <ng-container
+        *ngTemplateOutlet="iconTemplate;context:{$implicit: rate}">
+    </ng-container>
+      </button>
+
+
+</ng-container>
+
+
+
+      <mat-icon *ngIf="!readonly" (click)="selectStar(undefined)" class="light"
+        >close</mat-icon>
+      </span>
+    <span *ngIf="readonly">
+      <ng-container
+        *ngTemplateOutlet="iconTemplate;context:{$implicit: value}">
+    </ng-container>
+    </span>
+
+
+    <ng-template #iconTemplate let-rate>
+      <ng-container [ngSwitch]="rate">
+        <!-- the same view can be shown in more than one case -->
+        <ng-container *ngSwitchCase="1">
+          <mat-icon class="rating-icon fa-2x" fontSet="fa"
+                    matTooltip="Cela me ferait rire" fontIcon="fa-laugh"></mat-icon>
+        </ng-container>
+        <ng-container *ngSwitchCase="2">
+          <mat-icon class="rating-icon fa-2x"  fontSet="fa"
+                    matTooltip="Cela me serait utile" fontIcon="fa-toolbox"></mat-icon>
+        </ng-container>
+        <ng-container *ngSwitchCase="3">
+          <mat-icon class="rating-icon fa-2x" fontSet="fa"
+                    matTooltip="Bonne idée" fontIcon="fa-lightbulb"></mat-icon>
+        </ng-container>
+        <ng-container *ngSwitchCase="4">
+          <mat-icon class="rating-icon fa-2x" fontSet="fa"
+                    matTooltip="J'aime" fontIcon="fa-thumbs-up"></mat-icon>
+        </ng-container>
+        <ng-container *ngSwitchCase="5">
+          <mat-icon class="rating-icon fa-2x" fontSet="fa"
+                    matTooltip="J'adore" fontIcon="fa-heart"></mat-icon>
+        </ng-container>
+      </ng-container>
+    </ng-template>
+
   `,
   styles: [
     `
@@ -33,6 +68,12 @@ import { FormBuilder } from "@angular/forms";
       .light {
         color: #eee;
       }
+      .rating-icon {
+        &:hover {
+          color: red;
+         }
+      }
+
       .pointer {
         cursor: pointer;
       }
