@@ -38,22 +38,19 @@
 }
 
 .wish-list-item-heading {
-  display: block; /* Fallback for non-webkit */
+  display: block;
   display: -webkit-box;
-  max-width: 100%;
-
-  width: 95%;
-  margin: 0 auto;
-  font-size: 1.3em;
+  font-size: 1.6em;
   line-height: 1em;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-align: center;
+  width: 80%;
   vertical-align: middle;
-  text-align: center;
+  margin: auto 39px auto 0;
+  text-align: start;
 }
 
 .wish-list-item-text {
