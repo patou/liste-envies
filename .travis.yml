@@ -1,6 +1,7 @@
-matrix:
+jobs:
   include:
     - language: java
+      stage: build
       cache:
         directories:
           - $HOME/.m2
@@ -15,9 +16,10 @@ matrix:
       script:
         - cd $TRAVIS_BUILD_DIR/liste-envies-war
         - echo ${FIREBASE_SERVICE_ACCOUNT} > $TRAVIS_BUILD_DIR/liste-envies-war/src/main/resources/firebase.json
-        - "mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=error clean test"
-             
+        - "mvn -B --no-transfer-progress -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=error clean test"
+
     - language: node_js
+      stage: build
       node_js:
         - lts/*
         - 10
@@ -32,22 +34,22 @@ matrix:
       script:
         - cd $TRAVIS_BUILD_DIR/liste-envies-front
         - npm run build
-        - 
-#command to deploy
-after_success:
-  - cd $TRAVIS_BUILD_DIR/liste-envies-war
-  - if [ a${TRAVIS_BRANCH} = "amaster" -a ${TRAVIS_EVENT_TYPE} = "push" ]; then
-    echo ${GOOGLE_CLIENT_SECRET} > client-secret.json;
-    export APP_ID=${CLOUDSDK_CORE_PROJECT};
-    export APP_VERSION=${VERSION_CORE_NAME};
-    else
-    echo ${GOOGLE_CLIENT_SECRET_TEST} > client-secret.json;
-    export APP_ID=${CLOUDSDK_TEST_PROJECT};
-    export APP_VERSION=${TRAVIS_BRANCH//_/-};
-    fi
-  - echo "Deploy application ${APP_ID} version ${APP_VERSION}"
-  - gcloud auth activate-service-account --key-file client-secret.json
-  - mvn -B -DskipTests=true -Dapp.deploy.project=${APP_ID} -Dapp.deploy.version=${APP_VERSION} -Dapp.deploy.promote=false appengine:deploy
+    - language: java
+      stage: deploy
+      script:
+        - cd $TRAVIS_BUILD_DIR/liste-envies-war
+        - if [ a${TRAVIS_BRANCH} = "amaster" -a ${TRAVIS_EVENT_TYPE} = "push" ]; then
+          echo ${GOOGLE_CLIENT_SECRET} > client-secret.json;
+          export APP_ID=${CLOUDSDK_CORE_PROJECT};
+          export APP_VERSION=${VERSION_CORE_NAME};
+          else
+          echo ${GOOGLE_CLIENT_SECRET_TEST} > client-secret.json;
+          export APP_ID=${CLOUDSDK_TEST_PROJECT};
+          export APP_VERSION=${TRAVIS_BRANCH//_/-};
+          fi
+        - echo "Deploy application ${APP_ID} version ${APP_VERSION}"
+        - gcloud auth activate-service-account --key-file client-secret.json
+        - mvn -B --no-transfer-progress -DskipTests=true -Dapp.deploy.project=${APP_ID} -Dapp.deploy.version=${APP_VERSION} -Dapp.deploy.promote=false appengine:deploy
 
 notifications:
   slack: desaintsteban:OBrvC8hmnZXdW1HTa0QOE5tM
