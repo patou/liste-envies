@@ -2,19 +2,21 @@ version: 2 # use CircleCI 2.0
 jobs: # a collection of steps
   install:
     working_directory: ~/liste-envies
+    docker:
+      - image: circleci/openjdk:8-jdk-stretch
     steps:
       - checkout
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
-        # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-        key: google-cloud-sdk
+          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+          key: google-cloud-sdk
       - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
       - source $HOME/google-cloud-sdk/path.bash.inc
       - gcloud version
       - gcloud --quiet components update app-engine-java
       - save_cache: # special step to save the dependency cache
-        key: google-cloud-sdk
-        paths:
-          - $HOME/google-cloud-sdk/bin
+          key: google-cloud-sdk
+          paths:
+            - $HOME/google-cloud-sdk/bin
   build-frontend:
     working_directory: ~/liste-envies
     docker:
@@ -22,13 +24,13 @@ jobs: # a collection of steps
     steps:
       - cd liste-envies-front
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
-        # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-        key: node-{{ checksum "package-lock.json" }}
+          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+          key: node-{{ checksum "package-lock.json" }}
       - npm install
       - save_cache: # special step to save the dependency cache
-        key: node-{{ checksum "package-lock.json" }}
-        paths:
-          - ./node_modules
+          key: node-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
       - npm run build
       - store_artifacts:
           path: dist
@@ -50,7 +52,7 @@ jobs: # a collection of steps
       - "mvn -B --no-transfer-progress -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=error clean test"
   deploy-test:
     docker:
-      - image: google/cloud-sdk
+      - image: circleci/openjdk:8-jdk-stretch
     steps:
       - cd liste-envies-war
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
