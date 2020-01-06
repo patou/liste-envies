@@ -1,6 +1,7 @@
 jobs:
   include:
     - language: java
+      name: "Backend"
       stage: build
       cache:
         directories:
@@ -20,6 +21,7 @@ jobs:
 
     - language: node_js
       stage: build
+      name: "Frontend"
       node_js:
         - lts/*
         - 10
@@ -36,6 +38,7 @@ jobs:
         - npm run build
     - language: java
       stage: deploy
+      name: "Deploy"
       script:
         - cd $TRAVIS_BUILD_DIR/liste-envies-war
         - if [ a${TRAVIS_BRANCH} = "amaster" -a ${TRAVIS_EVENT_TYPE} = "push" ]; then
