@@ -66,6 +66,9 @@ jobs: # a collection of steps
             cp -r liste-envies-war/target/liste-envies/* package/
             cp -r liste-envies-front/dist/* package/
             echo ${FIREBASE_SERVICE_ACCOUNT_TEST} > package/WEB-INF/classes/firebase.json
+            ls package/*
+      - store_artifacts:
+          path: package
       - run:
           name: Deploy Apps
           command: |
@@ -74,7 +77,7 @@ jobs: # a collection of steps
             export APP_VERSION=${CIRCLE_BRANCH//_/-};
             echo "Deploy application ${APP_ID} version ${APP_VERSION}"
             gcloud auth activate-service-account --key-file client-secret.json
-            gcloud config set core/project $APP_ID
+            gcloud config set project $APP_ID
             gcloud app deploy package/WEB-INF/appengine-web.xml -v ${APP_VERSION}
 
 workflows:
