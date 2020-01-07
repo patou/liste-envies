@@ -81,7 +81,7 @@ workflows:
           channel: #liste-envies
           color: "#42e2f4"
           message: Un nouveau build sur circle-ci a été lancé
-          webhook: webhook
+          webhook: 'https://hooks.slack.com/services/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'
       - build-frontend
       - build-backend
       - deploy-test:
@@ -94,4 +94,4 @@ workflows:
       - slack/status:
           fail_only: false
           mentions: "Patou, Manu"
-          webhook: webhook
+          webhook: 'https://hooks.slack.com/services/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'
