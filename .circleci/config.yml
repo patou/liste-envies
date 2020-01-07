@@ -24,16 +24,15 @@ jobs: # a collection of steps
       - image: circleci/node:10.16.3
     steps:
       - checkout
-      - cd liste-envies-front
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: node-{{ checksum "package-lock.json" }}
-      - run: npm install
+      - run: cd liste-envies-front && npm install
       - save_cache: # special step to save the dependency cache
           key: node-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
-      - run: npm run build
+      - run: cd liste-envies-front && npm run build
       - persist_to_workspace:
           root: ~/liste-envies/liste-envies-front
           paths:
@@ -46,17 +45,16 @@ jobs: # a collection of steps
       - image: circleci/openjdk:8-jdk-stretch
     steps:
       - checkout
-      - cd liste-envies-war
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: java-{{ checksum "pom.xml" }}
-      - run: mvn dependency:go-offline # gets the project dependencies
+      - run: cd liste-envies-war && mvn dependency:go-offline # gets the project dependencies
       - save_cache: # saves the project dependencies
           paths:
             - ~/.m2
           key: java-{{ checksum "pom.xml" }}
-      - run: echo ${FIREBASE_SERVICE_TEST_ACCOUNT} > src/main/resources/firebase.json
-      - run: "mvn -B --no-transfer-progress -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=error clean test"
+      - run: echo ${FIREBASE_SERVICE_TEST_ACCOUNT} > liste-envies-war/src/main/resources/firebase.json
+      - run: cd liste-envies-war && "mvn -B --no-transfer-progress -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=error clean test"
   deploy-test:
     docker:
       - image: circleci/openjdk:8-jdk-stretch
@@ -64,7 +62,6 @@ jobs: # a collection of steps
       - checkout
       - attach_workspace:
           at: ~/liste-envies/liste-envies-front
-      - cd liste-envies-war
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: java-{{ checksum "pom.xml" }}
@@ -73,6 +70,7 @@ jobs: # a collection of steps
           key: google-cloud-sdk
       - run: |
           source $HOME/google-cloud-sdk/path.bash.inc
+          cd liste-envies-war
           echo ${FIREBASE_SERVICE_ACCOUNT_TEST} > src/main/resources/firebase.json
           echo ${GOOGLE_CLIENT_SECRET_TEST} > client-secret.json;
           export APP_ID=${CLOUDSDK_PROJECT_TEST};
