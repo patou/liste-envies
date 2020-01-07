@@ -16,9 +16,9 @@ jobs: # a collection of steps
             - ./node_modules
       - run: cd liste-envies-front && npm run build
       - persist_to_workspace:
-          root: ~/liste-envies
+          root: ~/liste-envies/liste-envies-front
           paths:
-            - liste-envies-front/dist/*
+            - dist
       - store_artifacts:
           path: liste-envies-front/dist
   build-backend: # runs not using Workflows must have a `build` job as entry point
@@ -53,13 +53,10 @@ jobs: # a collection of steps
     steps:
       - checkout
       - attach_workspace:
-          at: ~/liste-envies
+          at: ~/liste-envies/liste-envies-front
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: java-{{ checksum "liste-envies-war/pom.xml" }}
-      - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
-          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-          key: gcloud-{{ checksum "~/liste-envies/gcs/VERSION" }}
       - run:
           name: Install Gcloud
           command: |
