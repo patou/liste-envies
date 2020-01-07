@@ -59,15 +59,12 @@ jobs: # a collection of steps
       - checkout
       - attach_workspace:
           at: ~/liste-envies
-      - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
-          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-          key: java-{{ checksum "liste-envies-war/pom.xml" }}
       - run:
           name: Build package
           command: |
             mkdir package
-            cp liste-envies-war/target/liste-envies/* package/
-            cp liste-envies-front/dist/* package/
+            cp -r liste-envies-war/target/liste-envies/* package/
+            cp -r liste-envies-front/dist/* package/
             echo ${FIREBASE_SERVICE_ACCOUNT_TEST} > package/WEB-INF/classes/firebase.json
       - run:
           name: Deploy Apps
