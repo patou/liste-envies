@@ -15,10 +15,10 @@ jobs: # a collection of steps
           paths:
             - ./node_modules
       - run: cd liste-envies-front && npm run build
-      - persist_to_workspace:
-          root: ~/liste-envies/liste-envies-front
+      - save_cache: # special step to save the dependency cache
+          key: dist-{{ .BuildNum }}
           paths:
-            - dist
+            - ~/liste-envies/liste-envies-front/dist
       - store_artifacts:
           path: liste-envies-front/dist
   build-backend: # runs not using Workflows must have a `build` job as entry point
@@ -52,8 +52,8 @@ jobs: # a collection of steps
       - image: circleci/openjdk:8-jdk-stretch
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/liste-envies/liste-envies-front
+      - restore_cache:
+          key: dist-{{ .BuildNum }}
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: java-{{ checksum "liste-envies-war/pom.xml" }}
