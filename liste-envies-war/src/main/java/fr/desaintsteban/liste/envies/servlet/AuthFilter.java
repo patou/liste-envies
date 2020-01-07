@@ -107,9 +107,16 @@ public class AuthFilter implements Filter {
             .setCredentials(GoogleCredentials.fromStream(serviceAccount))
             .setDatabaseUrl("https://"+filterConfig.getInitParameter("firebaseId")+".firebaseio.com/")
             .build();
-            FirebaseApp.initializeApp(options);
-            LOGGER.info("Initialize firebase app");
-            initFirebase = true;
+            if(FirebaseApp.getApps().isEmpty()) { //<--- check with this line
+                FirebaseApp.initializeApp(options);
+                LOGGER.info("Initialize firebase app");
+                initFirebase = true;
+            } else {
+                LOGGER.info("firebase app is already initialized");
+                initFirebase = false;
+            }
+
+
 		} catch (IOException e) {
             LOGGER.log(Level.FINEST, "can't Initialize firebase app", e);
             e.printStackTrace();
