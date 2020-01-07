@@ -9,7 +9,7 @@ jobs: # a collection of steps
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: google-cloud-sdk
-      - run: >
+      - run: |
           if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
           source $HOME/google-cloud-sdk/path.bash.inc
           gcloud version
@@ -71,7 +71,7 @@ jobs: # a collection of steps
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: google-cloud-sdk
-      - run: >
+      - run: |
           source $HOME/google-cloud-sdk/path.bash.inc
           echo ${FIREBASE_SERVICE_ACCOUNT_TEST} > src/main/resources/firebase.json
           echo ${GOOGLE_CLIENT_SECRET_TEST} > client-secret.json;
