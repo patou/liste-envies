@@ -9,7 +9,6 @@ import fr.desaintsteban.liste.envies.model.*;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
 import fr.desaintsteban.liste.envies.util.WishRules;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +27,15 @@ public final class WishesService {
         List<Wish> list = ofy.load().type(Wish.class).ancestor(key).filter("archived =",archive).list();
         WishList wishList = loadResult.now();
         return WishRules.applyRules(user, wishList, list);
+    }
+
+    public static List<WishDto> listArchived(AppUser user, String name) {
+        Objectify ofy = OfyService.ofy();
+        Key<WishList> key = Key.create(WishList.class, name);
+        LoadResult<WishList> loadResult = ofy.load().key(key); //Chargement asynchrone
+        List<Wish> list = ofy.load().type(Wish.class).ancestor(key).filter("archived =",true).list();
+        WishList wishList = loadResult.now();
+        return WishRules.applyRulesArchived(user, wishList, list);
     }
 
     public static List<WishDto> archived(AppUser user) {
