@@ -9,19 +9,21 @@ jobs: # a collection of steps
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: google-cloud-sdk
-      - run: if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
-      - run: source $HOME/google-cloud-sdk/path.bash.inc
-      - run: gcloud version
-      - run: gcloud --quiet components update app-engine-java
+      - run: >
+          if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+          source $HOME/google-cloud-sdk/path.bash.inc
+          gcloud version
+          gcloud --quiet components update app-engine-java
       - save_cache: # special step to save the dependency cache
           key: google-cloud-sdk
           paths:
-            - $HOME/google-cloud-sdk/bin
+            - $HOME/google-cloud-sdk/
   build-frontend:
     working_directory: ~/liste-envies
     docker:
       - image: circleci/node:10.16.3
     steps:
+      - checkout
       - cd liste-envies-front
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
@@ -32,6 +34,10 @@ jobs: # a collection of steps
           paths:
             - ./node_modules
       - run: npm run build
+      - persist_to_workspace:
+          root: ~/liste-envies/liste-envies-front
+          paths:
+            - dist/*
       - store_artifacts:
           path: dist
   build-backend: # runs not using Workflows must have a `build` job as entry point
@@ -39,6 +45,7 @@ jobs: # a collection of steps
     docker:
       - image: circleci/openjdk:8-jdk-stretch
     steps:
+      - checkout
       - cd liste-envies-war
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
@@ -54,6 +61,9 @@ jobs: # a collection of steps
     docker:
       - image: circleci/openjdk:8-jdk-stretch
     steps:
+      - checkout
+      - attach_workspace:
+          at: ~/liste-envies/liste-envies-front
       - cd liste-envies-war
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
@@ -61,13 +71,15 @@ jobs: # a collection of steps
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: google-cloud-sdk
-      - run: echo ${FIREBASE_SERVICE_ACCOUNT_TEST} > src/main/resources/firebase.json
-      - run: echo ${GOOGLE_CLIENT_SECRET_TEST} > client-secret.json;
-      - run: export APP_ID=${CLOUDSDK_PROJECT_TEST};
-      - run: export APP_VERSION=${TRAVIS_BRANCH//_/-};
-      - run: echo "Deploy application ${APP_ID} version ${APP_VERSION}"
-      - run: gcloud auth activate-service-account --key-file client-secret.json
-      - run: mvn -B --no-transfer-progress -DskipTests=true -Dapp.deploy.project=${APP_ID} -Dapp.deploy.version=${APP_VERSION} -Dapp.deploy.promote=false appengine:deploy
+      - run: >
+          source $HOME/google-cloud-sdk/path.bash.inc
+          echo ${FIREBASE_SERVICE_ACCOUNT_TEST} > src/main/resources/firebase.json
+          echo ${GOOGLE_CLIENT_SECRET_TEST} > client-secret.json;
+          export APP_ID=${CLOUDSDK_PROJECT_TEST};
+          export APP_VERSION=${TRAVIS_BRANCH//_/-};
+          echo "Deploy application ${APP_ID} version ${APP_VERSION}"
+          gcloud auth activate-service-account --key-file client-secret.json
+          mvn -B --no-transfer-progress -DskipTests=true -Dapp.deploy.project=${APP_ID} -Dapp.deploy.version=${APP_VERSION} -Dapp.deploy.promote=false appengine:deploy
 
 workflows:
   version: 2
