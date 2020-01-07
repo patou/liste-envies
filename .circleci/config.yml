@@ -26,10 +26,10 @@ jobs: # a collection of steps
       - checkout
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-          key: node-{{ checksum "package-lock.json" }}
+          key: node-{{ checksum "liste-envies-front/package-lock.json" }}
       - run: cd liste-envies-front && npm install
       - save_cache: # special step to save the dependency cache
-          key: node-{{ checksum "package-lock.json" }}
+          key: node-{{ checksum "liste-envies-front/package-lock.json" }}
           paths:
             - ./node_modules
       - run: cd liste-envies-front && npm run build
@@ -38,7 +38,7 @@ jobs: # a collection of steps
           paths:
             - dist/*
       - store_artifacts:
-          path: dist
+          path: liste-envies-front/dist
   build-backend: # runs not using Workflows must have a `build` job as entry point
     working_directory: ~/liste-envies
     docker:
@@ -47,14 +47,24 @@ jobs: # a collection of steps
       - checkout
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-          key: java-{{ checksum "pom.xml" }}
+          key: java-{{ checksum "liste-envies-war/pom.xml" }}
       - run: cd liste-envies-war && mvn dependency:go-offline # gets the project dependencies
       - save_cache: # saves the project dependencies
           paths:
             - ~/.m2
-          key: java-{{ checksum "pom.xml" }}
+          key: java-{{ checksum "liste-envies-war/pom.xml" }}
       - run: echo ${FIREBASE_SERVICE_TEST_ACCOUNT} > liste-envies-war/src/main/resources/firebase.json
-      - run: cd liste-envies-war && "mvn -B --no-transfer-progress -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=error clean test"
+      - run: cd liste-envies-war && mvn -B --no-transfer-progress -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=error clean test
+      - run:
+          name: Save test results
+          command: |
+            mkdir -p ~/test-results/junit/
+            find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/test-results/junit/ \;
+          when: always
+      - store_test_results:
+          path: ~/test-results
+      - store_artifacts:
+          path: ~/test-results/junit
   deploy-test:
     docker:
       - image: circleci/openjdk:8-jdk-stretch
