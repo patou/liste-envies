@@ -1,4 +1,4 @@
-version: 2 # use CircleCI 2.0
+version: 2.1 # use CircleCI 2.0
 jobs: # a collection of steps
   build-frontend:
     working_directory: ~/liste-envies
@@ -71,7 +71,6 @@ jobs: # a collection of steps
             mvn -B --no-transfer-progress -DskipTests=true -Dapp.deploy.project=${APP_ID} -Dapp.deploy.version=${APP_VERSION} -Dapp.deploy.promote=false appengine:deploy
 orbs:
   slack: circleci/slack@3.4.2
-  version: 2.1
 
 workflows:
   version: 2
