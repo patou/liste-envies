@@ -8,14 +8,14 @@ jobs: # a collection of steps
       - checkout
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-          key: google-cloud-sdk-{{ checksum "~/google-cloud-sdk/VERSION" }}
+          key: gcloud-{{ checksum "~/google-cloud-sdk/VERSION" }}
       - run: |
           if [ ! -d "~/google-cloud-sdk/bin" ]; then rm -rf ~/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
           source ~/google-cloud-sdk/path.bash.inc
           gcloud version
           gcloud --quiet components update app-engine-java
       - save_cache: # special step to save the dependency cache
-          key: google-cloud-sdk-{{ checksum "~/google-cloud-sdk/VERSION" }}
+          key: gcloud-{{ checksum "~/google-cloud-sdk/VERSION" }}
           paths:
             - ~/google-cloud-sdk/
   build-frontend:
@@ -74,10 +74,10 @@ jobs: # a collection of steps
           at: ~/liste-envies/liste-envies-front
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-          key: java-{{ checksum "pom.xml" }}
+          key: java-{{ checksum "liste-envies-war/pom.xml" }}
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-          key: google-cloud-sdk-{{ checksum "~/google-cloud-sdk/VERSION" }}
+          key: gcloud-{{ checksum "~/google-cloud-sdk/VERSION" }}
       - run: |
           source ~/google-cloud-sdk/path.bash.inc
           cd liste-envies-war
