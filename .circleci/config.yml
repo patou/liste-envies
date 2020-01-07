@@ -16,7 +16,7 @@ jobs: # a collection of steps
             - ./node_modules
       - run: cd liste-envies-front && npm run build
       - save_cache: # special step to save the dependency cache
-          key: dist-{{ .BuildNum }}
+          key: dist-{{ .Revision }}
           paths:
             - ~/liste-envies/liste-envies-front/dist
       - store_artifacts:
@@ -53,7 +53,7 @@ jobs: # a collection of steps
     steps:
       - checkout
       - restore_cache:
-          key: dist-{{ .BuildNum }}
+          key: dist-{{ .Revision }}
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: java-{{ checksum "liste-envies-war/pom.xml" }}
