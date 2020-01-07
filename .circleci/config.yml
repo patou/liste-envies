@@ -84,8 +84,8 @@ workflows:
   version: 2
   build-test-and-deploy:
     jobs:
-      - build-frontend:
-      - build-backend:
+      - build-frontend
+      - build-backend
       - deploy-test:
           requires:
             - build-frontend
