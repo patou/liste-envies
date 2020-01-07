@@ -12,8 +12,13 @@ jobs: # a collection of steps
       - run: |
           if [ ! -d "~/google-cloud-sdk/bin" ]; then rm -rf ~/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
           source ~/google-cloud-sdk/path.bash.inc
+          cp ~/google-cloud-sdk/VERSION  ~/liste-envies/gcs/
           gcloud version
           gcloud --quiet components update app-engine-java
+      - persist_to_workspace:
+          root: ~/liste-envies
+          paths:
+            - gcs/*
       - save_cache: # special step to save the dependency cache
           key: gcloud-{{ checksum "~/google-cloud-sdk/VERSION" }}
           paths:
@@ -34,9 +39,9 @@ jobs: # a collection of steps
             - ./node_modules
       - run: cd liste-envies-front && npm run build
       - persist_to_workspace:
-          root: ~/liste-envies/liste-envies-front
+          root: ~/liste-envies
           paths:
-            - dist/*
+            - liste-envies-front/dist/*
       - store_artifacts:
           path: liste-envies-front/dist
   build-backend: # runs not using Workflows must have a `build` job as entry point
@@ -71,13 +76,13 @@ jobs: # a collection of steps
     steps:
       - checkout
       - attach_workspace:
-          at: ~/liste-envies/liste-envies-front
+          at: ~/liste-envies
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: java-{{ checksum "liste-envies-war/pom.xml" }}
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-          key: gcloud-{{ checksum "~/google-cloud-sdk/VERSION" }}
+          key: gcloud-{{ checksum "~/liste-envies/gcs/VERSION" }}
       - run: |
           source ~/google-cloud-sdk/path.bash.inc
           cd liste-envies-war
