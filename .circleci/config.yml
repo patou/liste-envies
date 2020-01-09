@@ -67,8 +67,6 @@ jobs: # a collection of steps
             cp -r -v liste-envies-front/dist/* package/
             echo ${FIREBASE_SERVICE_ACCOUNT_TEST} > package/WEB-INF/classes/firebase.json
             ls package/*
-      - store_artifacts:
-          path: package
       - run:
           name: Deploy Apps
           command: |

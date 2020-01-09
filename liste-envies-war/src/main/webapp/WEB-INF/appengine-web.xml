@@ -7,6 +7,7 @@
     <static-files>
       <include path="/assets/*.*" />
       <include path="*.js" />
+      <include path="*.map" />
       <include path="*.ico" />
       <include path="*.html" />
 	</static-files>
