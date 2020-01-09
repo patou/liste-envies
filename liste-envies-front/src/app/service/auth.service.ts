@@ -6,7 +6,7 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest
-} from '@angular/common/http';
+} from "@angular/common/http";
 import { LoginDialogComponent } from "../component/login-dialog/login-dialog.component";
 import { MatDialog } from "@angular/material";
 import { AngularFireAuth } from "@angular/fire/auth";
@@ -35,8 +35,8 @@ export class AuthService implements HttpInterceptor {
 
     this.firebaseAuth.authState.subscribe(
       (user: User) => {
-        console.warn("AuthState :", user.email, user.displayName, user);
         if (user) {
+          console.warn("AuthState :", user.email, user.displayName, user);
           if (
             (AuthService.currentUser &&
               user.uid !== AuthService.currentUser.uid) ||

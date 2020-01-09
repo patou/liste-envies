@@ -5,11 +5,11 @@
     <runtime>java8</runtime>
 
     <static-files>
-	  <include path="/js/*.*" />
-	  <include path="/css/*.*" />
-	  <include path="/templates/*.*" />
       <include path="/assets/*.*" />
       <include path="*.js" />
+      <include path="*.map" />
+      <include path="*.ico" />
+      <include path="*.html" />
 	</static-files>
     <resource-files>
         <include path="/**.json" />
