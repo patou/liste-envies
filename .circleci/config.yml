@@ -63,9 +63,10 @@ jobs: # a collection of steps
           name: Build package
           command: |
             mkdir package
-            cp -r liste-envies-war/target/liste-envies/WEB-INF package/
-            cp -r liste-envies-front/dist/* package/
+            cp -r -v liste-envies-war/target/liste-envies/WEB-INF package/
+            cp -r -v liste-envies-front/dist/* package/
             echo ${FIREBASE_SERVICE_ACCOUNT_TEST} > package/WEB-INF/classes/firebase.json
+            ls package/*
       - run:
           name: Deploy Apps
           command: |
