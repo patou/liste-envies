@@ -47,10 +47,6 @@
         <servlet-name>jersey-servlet</servlet-name>
         <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
         <init-param>
-            <param-name>com.sun.jersey.config.property.resourceConfigClass</param-name>
-            <param-value>com.sun.jersey.api.core.PackagesResourceConfig</param-value>
-        </init-param>
-        <init-param>
             <param-name>com.sun.jersey.config.property.packages</param-name>
             <param-value>fr.desaintsteban.liste.envies.rest</param-value>
         </init-param>
@@ -64,18 +60,6 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    <context-param>
-        <param-name>resteasy.scan</param-name>
-        <param-value>false</param-value>
-    </context-param>
-    <context-param>
-        <param-name>resteasy.scan.resources</param-name>
-        <param-value>false</param-value>
-    </context-param>
-    <context-param>
-        <param-name>resteasy.scan.providers</param-name>
-        <param-value>false</param-value>
-    </context-param>
 
     <servlet-mapping>
         <servlet-name>jersey-servlet</servlet-name>
