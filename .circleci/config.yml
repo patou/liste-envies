@@ -54,28 +54,33 @@ jobs: # a collection of steps
   deploy-test:
     working_directory: ~/liste-envies
     docker:
-      - image: gcr.io/google.com/cloudsdktool/cloud-sdk:latest
+      - image: circleci/openjdk:8-jdk-stretch
     steps:
       - checkout
       - attach_workspace:
           at: ~/liste-envies
+      - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
+          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+          key: java-{{ checksum "liste-envies-war/pom.xml" }}
       - run:
-          name: Build package
+          name: Install Gcloud
           command: |
-            mkdir package
-            cp -r -v liste-envies-war/target/liste-envies/WEB-INF package/
-            cp -r -v liste-envies-front/dist/* package/
-            echo ${FIREBASE_SERVICE_ACCOUNT_TEST} > package/WEB-INF/classes/firebase.json
-            ls package/*
+            if [ ! -d "~/google-cloud-sdk/bin" ]; then rm -rf ~/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+            source ~/google-cloud-sdk/path.bash.inc
+            gcloud version
+            gcloud --quiet components update app-engine-java
       - run:
           name: Deploy Apps
           command: |
+            source ~/google-cloud-sdk/path.bash.inc
+            cd liste-envies-war
+            echo ${FIREBASE_SERVICE_ACCOUNT_TEST} > src/main/resources/firebase.json
             echo ${GOOGLE_CLIENT_SECRET_TEST} > client-secret.json;
             export APP_ID=${CLOUDSDK_PROJECT_TEST};
             export APP_VERSION=${CIRCLE_BRANCH//_/-};
             echo "Deploy application ${APP_ID} version ${APP_VERSION}"
-            gcloud auth activate-service-account --key-file client-secret.json --project $APP_ID
-            gcloud app deploy --no-promote package/WEB-INF/appengine-web.xml -v ${APP_VERSION}
+            gcloud auth activate-service-account --key-file client-secret.json
+            mvn -B --no-transfer-progress -DskipTests=true -Dapp.deploy.project=${APP_ID} -Dapp.deploy.version=${APP_VERSION} -Dapp.deploy.promote=false appengine:deploy
 
 workflows:
   version: 2
