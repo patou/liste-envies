@@ -36,7 +36,7 @@ jobs: # a collection of steps
             - ~/.m2
           key: java-{{ checksum "liste-envies-war/pom.xml" }}
       - run: echo ${FIREBASE_SERVICE_TEST_ACCOUNT} > liste-envies-war/src/main/resources/firebase.json
-      - run: cd liste-envies-war && mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=error clean test
+      - run: cd liste-envies-war && mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=error clean package
       - run:
           name: Save test results
           command: |

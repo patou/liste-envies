@@ -172,9 +172,6 @@
                             <filtering>true</filtering>
                             <targetPath>WEB-INF</targetPath>
                         </resource>
-                        <resource>
-                            <directory>../liste-envies-front/dist/</directory>
-                        </resource>
                     </webResources>
                 </configuration>
             </plugin>
