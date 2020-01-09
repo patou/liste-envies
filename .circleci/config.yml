@@ -75,7 +75,7 @@ jobs: # a collection of steps
             export APP_VERSION=${CIRCLE_BRANCH//_/-};
             echo "Deploy application ${APP_ID} version ${APP_VERSION}"
             gcloud auth activate-service-account --key-file client-secret.json --project $APP_ID
-            gcloud app deploy package/WEB-INF/appengine-web.xml -v ${APP_VERSION}
+            gcloud app deploy --no-promote package/WEB-INF/appengine-web.xml -v ${APP_VERSION}
 
 workflows:
   version: 2
