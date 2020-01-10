@@ -5,7 +5,7 @@
     <runtime>java8</runtime>
 
     <static-files>
-      <include path="/assets/*.*" />
+      <include path="/assets/**.*" />
       <include path="*.js" />
       <include path="*.map" />
       <include path="*.ico" />
