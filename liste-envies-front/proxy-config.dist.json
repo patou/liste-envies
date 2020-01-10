@@ -1,12 +1,6 @@
 {
-  "/api2": {
-    "target": "http://ng5.test-liste-envies.appspot.com",
-    "secure": false,
-    "changeOrigin": true,
-    "logLevel": "debug"
-  },
   "/api": {
-    "target": "http://ng5-server-notif-archive-dot-test-liste-envies.appspot.com",
+    "target": "http://ng5.test-liste-envies.appspot.com",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"
