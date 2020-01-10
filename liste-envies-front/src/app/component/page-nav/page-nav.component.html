@@ -5,7 +5,7 @@
     fixedInViewport="true"
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="!(isHandset$ | async) || !(activeList$ | async)"
+    [opened]="isOpened"
   >
     <mat-toolbar color="primary">
       <h5>Listes</h5>
@@ -26,7 +26,7 @@
         <mat-expansion-panel
           class="mat-elevation-z0 badge-expansion-panel"
           expanded="true"
-          *ngIf="(myListCount$ | async) as myListCount"
+          *ngIf="myListCount$ | async as myListCount"
         >
           <mat-expansion-panel-header>
             <mat-panel-title
@@ -40,19 +40,19 @@
 
           <mat-nav-list>
             <wish-list-item
-              *ngFor="let wishList of (myList$ | async); trackBy: trackByFn"
+              *ngFor="let wishList of myList$ | async; trackBy: trackByFn"
               [wishlist]="wishList"
               [active]="wishList.name === (activeList$ | async)"
               class="wishListCard"
               mat-list-item
-              (click)="isHandset ? drawer.close() : true"
+              (click)="drawer.close()"
             >
             </wish-list-item>
           </mat-nav-list>
         </mat-expansion-panel>
         <mat-expansion-panel
           expanded="true"
-          *ngIf="(otherListCount$ | async) as otherListCount"
+          *ngIf="otherListCount$ | async as otherListCount"
           class="mat-elevation-z0 badge-expansion-panel"
         >
           <mat-expansion-panel-header>
@@ -66,7 +66,7 @@
           </mat-expansion-panel-header>
           <mat-nav-list>
             <wish-list-item
-              *ngFor="let wishList of (otherList$ | async)"
+              *ngFor="let wishList of otherList$ | async"
               [wishlist]="wishList"
               [active]="wishList.name === (activeList$ | async)"
               class="wishListCard"
@@ -99,7 +99,7 @@
         Listes de mes envies</a
       >
 
-      <mat-form-field *ngIf="!(loading$ | async)">
+      <mat-form-field *ngIf="!(loading$ | async) && !(isHandset$ | async)">
         <input
           matInput
           placeholder="Changer de liste"
@@ -114,7 +114,7 @@
         >
           <mat-optgroup label="Mes listes">
             <mat-option
-              *ngFor="let wishList of (myList$ | async); trackBy: trackByFn"
+              *ngFor="let wishList of myList$ | async; trackBy: trackByFn"
               [value]="wishList.name"
             >
               <img
@@ -135,7 +135,7 @@
           </mat-optgroup>
           <mat-optgroup label="Autres listes">
             <mat-option
-              *ngFor="let wishList of (otherList$ | async); trackBy: trackByFn"
+              *ngFor="let wishList of otherList$ | async; trackBy: trackByFn"
               [value]="wishList.name"
             >
               <img
@@ -153,7 +153,7 @@
         </mat-autocomplete>
       </mat-form-field>
 
-      <div *ngIf="(userAuth$ | async) as user; else showLogin">
+      <div *ngIf="userAuth$ | async as user; else showLogin">
         <button
           type="button"
           aria-label="Toggle sidenav"
