@@ -8,13 +8,13 @@ jobs: # a collection of steps
       - checkout
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-          key: node-{{ checksum "liste-envies-front/package-lock.json" }}
-      - run: cd liste-envies-front && npm install
+          key: yarn-packages-{{ checksum "liste-envies-front/yarn.lock" }}
+      - run: cd liste-envies-front && yarn install --frozen-lockfile
       - save_cache: # special step to save the dependency cache
-          key: node-{{ checksum "liste-envies-front/package-lock.json" }}
+          key: yarn-packages-{{ checksum "liste-envies-front/yarn.lock" }}
           paths:
-            - ./node_modules
-      - run: cd liste-envies-front && npm run build
+            - ~/.cache/yarn
+      - run: cd liste-envies-front && yarn run build
       - persist_to_workspace:
           root: ~/liste-envies
           paths:
