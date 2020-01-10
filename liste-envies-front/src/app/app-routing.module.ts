@@ -10,6 +10,7 @@ import { IsConnectedGuard } from "./service/is-connected.guard";
 import { ConnectComponent } from "./page/connect/connect.component";
 import { IsNotConnectedGuard } from "./service/is-not-connected.guard";
 import { IsOwnerGuard } from "./service/is-owner.guard";
+import { WishListItemsArchivedResolver } from "./service/wishListItemsArchivedResolve";
 
 const routes: Routes = [
   {
@@ -55,6 +56,14 @@ const routes: Routes = [
             },
             component: AddUpdateListComponent,
             canActivate: [IsConnectedGuard, IsOwnerGuard]
+          },
+          {
+            path: "archived",
+            resolve: {
+              whishesItems: WishListItemsArchivedResolver
+            },
+            component: ListComponent,
+            canActivate: [IsConnectedGuard]
           }
         ]
       }
