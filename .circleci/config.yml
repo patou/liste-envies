@@ -85,7 +85,10 @@ jobs: # a collection of steps
           color: "#42e2f4"
           title: ${CIRCLE_BRANCH//_/-}
           title_link: https://${CIRCLE_BRANCH//_/-}-dot-test-liste-envies.appspot.com/
-          message: Voir l'application deployé
+          message: Voir l'application deployé sur https://${CIRCLE_BRANCH//_/-}-dot-test-liste-envies.appspot.com/
+          include_visit_job_action: false
+          include_project_field: false
+          include_job_number_field: false
 
 orbs:
   slack: circleci/slack@3.4.2
