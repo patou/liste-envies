@@ -39,7 +39,8 @@ import { enableAkitaProdMode } from "@datorama/akita";
 import { NotificationsComponent } from "./component/notifications/notifications.component";
 import { akitaConfig } from "@datorama/akita";
 import { ReactiveFormsModule } from "@angular/forms";
-import { ConnectComponent } from './page/connect/connect.component';
+import { ConnectComponent } from "./page/connect/connect.component";
+import { WishListItemsArchivedResolver } from "./service/wishListItemsArchivedResolve";
 akitaConfig({
   resettable: true
 });
@@ -89,6 +90,7 @@ if (environment.production) {
     WishListApiService,
     WishListResolver,
     WishListItemsResolver,
+    WishListItemsArchivedResolver,
     { provide: LOCALE_ID, useValue: "fr" },
     {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,

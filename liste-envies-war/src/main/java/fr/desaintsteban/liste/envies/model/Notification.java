@@ -32,6 +32,16 @@ public class Notification {
 
     String actionUserPicture;
 
+    public Long getWishId() {
+        return wishId;
+    }
+
+    public void setWishId(Long wishId) {
+        this.wishId = wishId;
+    }
+
+    Long wishId;
+
     @Index
     Date date;
 
@@ -55,6 +65,7 @@ public class Notification {
         dto.setActionUser(this.getActionUser());
         dto.setActionUserName(this.getActionUserName());
         dto.setActionUserPicture(this.getActionUserPicture());
+        dto.setWishId(this.getWishId());
         return dto;
     }
 

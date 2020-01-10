@@ -21,6 +21,16 @@ public class NotificationDto {
 
     String actionUserName;
 
+    public Long getWishId() {
+        return wishId;
+    }
+
+    public void setWishId(Long wishId) {
+        this.wishId = wishId;
+    }
+
+    Long wishId;
+
     String actionUserPicture;
 
     public String getActionUserPicture() {

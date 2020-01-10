@@ -1,6 +1,8 @@
-
-<div class="page-all" >
-  <div class="page-background" [style.backgroundImage]="listBackgroundImg()"></div>
+<div class="page-all">
+  <div
+    class="page-background"
+    [style.backgroundImage]="listBackgroundImg()"
+  ></div>
   <mat-card class="header-page-card" *ngIf="list">
     <mat-card *ngIf="list.date" class="dateList">
       <mat-card-header>
@@ -33,13 +35,21 @@
             >
               <mat-icon class="mat-18">edit</mat-icon>
             </a>
+            <a
+              mat-icon-button
+              routerLink="archived"
+              color="accent"
+              mat-tooltip="Afficher les envies archivées"
+            >
+              <mat-icon class="mat-18">archive</mat-icon>
+            </a>
           </h1></mat-card-title
         >
-        <mat-card-subtitle class="owners-list" *ngIf="list?.owners && list?.owners?.length"
+        <mat-card-subtitle
+          class="owners-list"
+          *ngIf="list?.owners && list?.owners?.length"
           >de
-          <ng-container
-            *ngFor="let owner of list?.owners; let last = last"
-          >
+          <ng-container *ngFor="let owner of list?.owners; let last = last">
             <ngx-avatar
               [gravatarId]="owner?.email"
               [matTooltip]="owner?.name"

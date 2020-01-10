@@ -44,6 +44,21 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
     this.getWishListInfosDelayed(name);
   }
 
+  @Throttle(400)
+  getArchived(name: string, loading: boolean = true) {
+    this.wishStore.setLoading(loading);
+
+    this.wishListApiService
+      .wishesArchived(name)
+      .subscribe((wishes: WishItem[]) => {
+        this.wishStore.setLoading(false);
+        this.wishStore.set(wishes);
+        this.draft.destroy();
+      });
+
+    this.getWishListInfosDelayed(name);
+  }
+
   public getWishListFullInfos(name: string): Observable<WishList> {
     return this.wishListApiService.wishList(name);
   }

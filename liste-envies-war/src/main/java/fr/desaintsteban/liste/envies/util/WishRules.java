@@ -57,6 +57,11 @@ public class WishRules {
         return wishDtos;
     }
 
+    public static List<WishDto> applyRulesArchived(AppUser user, WishList wishList, List<Wish> wishes) {
+        WishOptionType type = WishOptionType.ALL_SUGGEST;
+        return computePermissionsArchived(filterWishList(wishes.stream().map(Wish::toDto).collect(toList()), type), user, wishList);
+    }
+
     public static WishDto applyRules(AppUser user, WishList wishList, Wish wish) {
         WishOptionType type = computeWishOptionsType(user, wishList);
         WishDto wishDto = cleanWish(wish.toDto(), type);
@@ -162,6 +167,14 @@ public class WishRules {
         return wishDtos;
     }
 
+    private static List<WishDto> computePermissionsArchived(List<WishDto> wishDtos, AppUser user, WishList wishList) {
+        WishListState state = WishListState.ARCHIVED;
+        wishDtos.forEach(wish -> {
+            computePermissions(wish, user, wishList, state);
+        });
+        return wishDtos;
+    }
+
     private static void computePermissions(WishDto wishDto, AppUser user, WishList wishList, WishListState state) {
         switch (state) {
             case OWNER:
@@ -178,6 +191,11 @@ public class WishRules {
                 }
                 wishDto.setCanParticipate(true);
                 wishDto.setCanSuggest(true);
+                break;
+            case ARCHIVED:
+                wishDto.setCanEdit(false);
+                wishDto.setCanParticipate(false);
+                wishDto.setCanSuggest(false);
                 break;
             case LOGGED:
             case ANONYMOUS:
