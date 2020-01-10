@@ -56,14 +56,6 @@ public class WishRestService {
         return WishesService.list(user, name, false);
     }
 
-    @GET
-    @Path("/archived")
-    public List<WishDto> getWishArchivedForList(@PathParam("name") String name) {
-        final AppUser user = ServletUtils.getUserAuthenticated();
-        LOGGER.info("List archived");
-        return WishesService.list(user, name, true);
-    }
-
     /**
      * Get archived wish for a list
      * @param name
