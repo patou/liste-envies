@@ -13,14 +13,22 @@
     <mat-hint align="end">{{ title.value?.length || 0 }}/30</mat-hint>
   </mat-form-field>
 
-  <div fxLayout="row" fxLayoutAlign="space-between stretch">
-    <mat-form-field appearance="outline" class="col-9">
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <mat-form-field appearance="outline" class="col-4">
       <mat-label>Prix</mat-label>
       <input matInput #price [(ngModel)]="wishItem.price" name="price" />
+      <mat-icon matSuffix>euro_symbol</mat-icon>
       <mat-hint align="end"
         >Exemple: "14.99 €" ou "Entre 10 et 20 €" ou "Environ 100 €"</mat-hint
       >
     </mat-form-field>
+    <mat-label>
+      <mat-slide-toggle
+        name="already_given"
+        [(ngModel)]="wishItem.allreadyGiven"
+        >Déjà offert !</mat-slide-toggle
+      >
+    </mat-label>
     <mat-label>
       <app-rating
         placeholder="Note"
@@ -59,11 +67,6 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <mat-label>
-    <mat-slide-toggle name="already_given" [(ngModel)]="wishItem.allreadyGiven"
-      >Déjà offert !</mat-slide-toggle
-    >
-  </mat-label>
   <div fxFlex></div>
   <button mat-button (click)="cancelEditWish()">Annuler</button>
   <button mat-raised-button color="primary" (click)="updateEditWish()">

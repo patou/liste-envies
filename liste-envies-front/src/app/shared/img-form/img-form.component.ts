@@ -23,7 +23,7 @@ export class ImgFormComponent implements OnInit {
 
   public addImage = "";
 
-  @ViewChild("myPond", {static: false}) myPond: any;
+  @ViewChild("myPond", { static: false }) myPond: any;
 
   pondOptions = {
     class: "my-filepond",
@@ -49,14 +49,16 @@ export class ImgFormComponent implements OnInit {
   }
 
   public addImg(name: string) {
-    if (this.newImages) {
-      this.newImages.push(name);
-    } else {
-      this.newImages = [name];
-    }
+    if (name.length > 0) {
+      if (this.newImages) {
+        this.newImages.push(name);
+      } else {
+        this.newImages = [name];
+      }
 
-    this.emitChange();
-    this.addImage = "";
+      this.emitChange();
+      this.addImage = "";
+    }
   }
 
   private emitChange() {
@@ -68,15 +70,12 @@ export class ImgFormComponent implements OnInit {
     this.emitChange();
   }
 
-
   pondHandleAddFile(event: any) {
-    console.log('pound Handle add file', event);
+    console.log("pound Handle add file", event);
 
     this.addImg(event.file.getFileEncodeDataURL());
     if (!event.error && !event.status) {
       this.myPond.removeFile(event.file.id);
     }
-
-
   }
 }

@@ -8,6 +8,7 @@
       [(ngModel)]="addUrl.url"
       (change)="onChangeUrl(addUrl.url)"
     />
+    <mat-icon matSuffix>link</mat-icon>
   </mat-form-field>
 
   <mat-form-field appearance="outline" class="col-5 no-padding">
@@ -29,7 +30,7 @@
 
 <div *ngIf="(newUrls && newUrls.length > 0) || addUrl.url">
   <mat-chip-list>
-    <span *ngIf="newUrls.length === 1; else: liens">Lien :</span>
+    <span *ngIf="newUrls.length === 1; else liens">Lien :</span>
     <ng-template #liens>Liens :</ng-template>
 
     <mat-chip

@@ -27,9 +27,11 @@ export class LinksFormComponent implements OnInit {
   }
 
   public addLink(url: string, name: string) {
-    this.newUrls.push({ name: name, url: url });
-    this.onChange.emit(this.newUrls);
-    this.addUrl = { name: "", url: "" };
+    if (url.length > 0) {
+      this.newUrls.push({ name: name, url: url });
+      this.onChange.emit(this.newUrls);
+      this.addUrl = { name: "", url: "" };
+    }
   }
   public removeLink(index: number) {
     this.newUrls.splice(index, 1);
