@@ -49,7 +49,7 @@
                   {{ wishListLabel[wishList.type] }}</mat-select-trigger
                 >
                 <mat-option
-                  *ngFor="let item of (wishListLabel | keyvalue)"
+                  *ngFor="let item of wishListLabel | keyvalue"
                   [value]="item.key"
                   selected
                   >{{ item.value }}</mat-option
@@ -186,8 +186,8 @@
       </div>
 
       <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-button matStepperPrevious>Précédent</button>
+        <button mat-button matStepperNext>Suivant</button>
         <button
           mat-raised-button
           (click)="createorUpdateList()"
@@ -231,7 +231,9 @@
       </div>
 
       <div>
-        <button mat-button matStepperPrevious [disabled]="sending">Back</button>
+        <button mat-button matStepperPrevious [disabled]="sending">
+          Précédent
+        </button>
         <button
           mat-raised-button
           (click)="createorUpdateList()"
