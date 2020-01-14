@@ -33,6 +33,35 @@ mat-toolbar {
     margin-right: 10px;
   }
 }
+
+.option-whishlist {
+  display: flex;
+  align-items: center;
+
+  list-type-icon {
+    margin: 0;
+
+    .mat-icon {
+      margin-right: 5px;
+    }
+  }
+
+  .option-title {
+    flex-grow: 1;
+    text-overflow: ellipsis;
+  }
+
+  ngx-avatar {
+    margin-left: 5px;
+    line-height: 100%;
+  }
+
+  .mat-icon {
+    margin: 0;
+    vertical-align: baseline;
+  }
+}
+
 .wishListCard {
   display: block;
   font-size: 10px;

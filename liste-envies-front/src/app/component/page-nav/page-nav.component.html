@@ -117,20 +117,21 @@
               *ngFor="let wishList of myList$ | async; trackBy: trackByFn"
               [value]="wishList.name"
             >
-              <img
-                class="example-option-img"
-                aria-hidden
-                [src]="'/assets/thumb/' + wishList.picture"
-                height="15"
-                width="15"
-                class="border fixed"
-              />
-              <span>{{ wishList.title }}</span> |
-              <small
-                ><span *ngFor="let owner of wishList.owners">{{
-                  owner.name
-                }}</span></small
-              >
+              <div class="option-whishlist">
+                <list-type-icon [type]="wishList.type"></list-type-icon>
+                <span class="option-title">{{ wishList.title }}</span>
+                <ngx-avatar
+                  *ngFor="let owner of wishList.owners"
+                  [gravatarId]="owner.email"
+                  [matTooltip]="owner.name + ' (' + owner.email + ')'"
+                  [name]="owner.name || owner.email"
+                  [round]="true"
+                  [src]="owner.photoURL"
+                  matTooltipPosition="above"
+                  size="20"
+                >
+                </ngx-avatar>
+              </div>
             </mat-option>
           </mat-optgroup>
           <mat-optgroup label="Autres listes">
@@ -138,16 +139,20 @@
               *ngFor="let wishList of otherList$ | async; trackBy: trackByFn"
               [value]="wishList.name"
             >
-              <img
-                class="example-option-img"
-                aria-hidden
-                [src]="'/assets/thumb/' + wishList.picture"
-                height="15"
-                width="15"
-                class="border fixed"
-              />
-              <span>{{ wishList.title }}</span> |
-              <small>{{ wishList.owners | join: ", " }}</small>
+              <div class="option-whishlist">
+                <list-type-icon [type]="wishList.type"></list-type-icon>
+                <span class="option-title">{{ wishList.title }}</span>
+                <ngx-avatar
+                  *ngFor="let owner of wishList.owners"
+                  [gravatarId]="owner.email"
+                  [matTooltip]="owner.name + ' (' + owner.email + ')'"
+                  [name]="owner.name || owner.email"
+                  [round]="true"
+                  [src]="owner.photoURL"
+                  matTooltipPosition="above"
+                  size="20"
+                ></ngx-avatar>
+              </div>
             </mat-option>
           </mat-optgroup>
         </mat-autocomplete>
