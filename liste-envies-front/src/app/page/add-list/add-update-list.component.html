@@ -52,7 +52,8 @@
                   *ngFor="let item of wishListLabel | keyvalue"
                   [value]="item.key"
                   selected
-                  >{{ item.value }}</mat-option
+                  ><list-type-icon [type]="item.key"></list-type-icon>
+                  {{ item.value }}</mat-option
                 >
               </mat-select>
             </mat-form-field>
