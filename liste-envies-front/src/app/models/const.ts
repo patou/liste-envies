@@ -7,6 +7,8 @@ export const WishListTypeLabel = {
   BIRTH: "Liste de naissance",
   WEDDING: "Liste de mariage",
   LEAVING: "Liste pour un départ",
+  HOUSE_WARNING: "Déménagement",
+  RETIREMENT: "Départ à la retraite",
   SPECIAL_OCCASION: "Occasion spéciale"
 };
 export interface TypePicture {
