@@ -170,14 +170,14 @@
         <button mat-button [mat-menu-trigger-for]="connected">
           <span>
             <ngx-avatar
-              [name]="user.displayName"
+              [name]="user.displayName || user.email"
               [src]="user.photoURL"
               [gravatarId]="user.email"
               size="30"
               [round]="true"
             >
             </ngx-avatar>
-            {{ user.displayName }}</span
+            {{ user.displayName || user.email }}</span
           >
           <mat-icon>arrow_drop_down</mat-icon>
         </button>

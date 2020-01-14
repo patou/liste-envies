@@ -52,7 +52,7 @@
           <ng-container *ngFor="let owner of list?.owners; let last = last">
             <ngx-avatar
               [gravatarId]="owner?.email"
-              [matTooltip]="owner?.name"
+              [matTooltip]="owner?.name || owner?.email"
               [name]="owner?.name"
               [round]="true"
               [src]="owner?.photoURL ? owner?.photoURL : ''"
