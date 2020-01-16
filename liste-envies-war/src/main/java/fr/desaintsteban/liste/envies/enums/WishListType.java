@@ -12,5 +12,6 @@ public enum WishListType {
     SPECIAL_OCCASION, // Occasion spéciale
     HOUSE_WARMING, // Pendaison de crémaillère
     RETIREMENT, // Retraite
+    CEREMONY, // Cérémonie religieuse (Baptême, Communi)
     OTHER // Autre
 }

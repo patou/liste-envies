@@ -9,6 +9,7 @@ export const WishListTypeLabel = {
   LEAVING: "Liste pour un départ",
   HOUSE_WARMING: "Pendaisons de Crémaillères",
   RETIREMENT: "Départ à la retraite",
+  CEREMONY: "Cérémonie (baptême, communion, ...)",
   SPECIAL_OCCASION: "Occasion spéciale"
 };
 export interface TypePicture {
@@ -236,5 +237,40 @@ export const WishListTypePicture: TypePicture[] = [
     type: "LEAVING",
     picture: "img/leaving2.jpg",
     credit: "Photo by Kristina Evstifeeva on Unsplash"
+  },
+  {
+    type: "HOUSE_WARMING",
+    picture: "img/housewarning.jpg",
+    credit: "Photo by Brandable Box on Unsplash"
+  },
+  {
+    type: "HOUSE_WARMING",
+    picture: "img/housewarning1.jpg",
+    credit: "Photo by Brandable Box on Unsplash"
+  },
+  {
+    type: "RETIREMENT",
+    picture: "img/retirement.jpg",
+    credit: "Photo by Matthew Bennett on Unsplash"
+  },
+  {
+    type: "CEREMONY",
+    picture: "img/ceremony.jpg",
+    credit: "Photo by Gardie Design & Social Media Marketing on Unsplash"
+  },
+  {
+    type: "CEREMONY",
+    picture: "img/ceremony1.jpg",
+    credit: "Photo by Angelo Pantazis on Unsplash"
+  },
+  {
+    type: "CEREMONY",
+    picture: "img/ceremony2.jpg",
+    credit: "Photo by James Coleman on Unsplash"
+  },
+  {
+    type: "CEREMONY",
+    picture: "img/ceremony3.jpg",
+    credit: "Photo by Mateus Campos Felipe on Unsplash"
   }
 ];

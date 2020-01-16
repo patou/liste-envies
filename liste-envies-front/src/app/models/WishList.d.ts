@@ -29,4 +29,7 @@ export type WishListType =
   | "BIRTH"
   | "WEDDING"
   | "LEAVING"
+  | "HOUSE_WARMING"
+  | "RETIREMENT"
+  | "CEREMONY"
   | "SPECIAL_OCCASION";
