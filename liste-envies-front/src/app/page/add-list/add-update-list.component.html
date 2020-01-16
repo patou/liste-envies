@@ -49,11 +49,11 @@
                   {{ wishListLabel[wishList.type] }}</mat-select-trigger
                 >
                 <mat-option
-                  *ngFor="let item of wishListLabel | keyvalue"
-                  [value]="item.key"
+                  *ngFor="let key of wishListTypeLabelOrder"
+                  [value]="key"
                   selected
-                  ><list-type-icon [type]="item.key"></list-type-icon>
-                  {{ item.value }}</mat-option
+                  ><list-type-icon [type]="key"></list-type-icon>
+                  {{ wishListLabel[key] }}</mat-option
                 >
               </mat-select>
             </mat-form-field>

@@ -1,17 +1,29 @@
 import { WishListType } from "./WishList";
 
 export const WishListTypeLabel = {
-  OTHER: "Autre",
   CHRISTMAS: "Noël",
-  BIRTHDAY: "Anniversaire",
-  BIRTH: "Liste de naissance",
   WEDDING: "Liste de mariage",
+  BIRTH: "Liste de naissance",
+  BIRTHDAY: "Anniversaire",
   LEAVING: "Liste pour un départ",
   HOUSE_WARMING: "Pendaisons de Crémaillères",
   RETIREMENT: "Départ à la retraite",
   CEREMONY: "Cérémonie (baptême, communion, ...)",
-  SPECIAL_OCCASION: "Occasion spéciale"
+  SPECIAL_OCCASION: "Occasion spéciale",
+  OTHER: "Autre"
 };
+export const WishListTypeLabelOrder = [
+  "CHRISTMAS",
+  "WEDDING",
+  "BIRTH",
+  "BIRTHDAY",
+  "LEAVING",
+  "HOUSE_WARMING",
+  "RETIREMENT",
+  "CEREMONY",
+  "SPECIAL_OCCASION",
+  "OTHER"
+];
 export interface TypePicture {
   type: WishListType;
   picture: string;

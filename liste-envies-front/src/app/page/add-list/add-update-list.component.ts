@@ -13,7 +13,11 @@ import { DemoService } from "../../state/wishes/demo/demo.service";
 import { WishesListService } from "../../state/wishes/wishes-list.service";
 import { UserQuery } from "../../state/app/user.query";
 import { UserState } from "../../state/app/user.store";
-import { WishListTypeLabel, WishListTypePicture } from "../../models/const";
+import {
+  WishListTypeLabel,
+  WishListTypeLabelOrder,
+  WishListTypePicture
+} from "../../models/const";
 import { Router } from "@angular/router";
 import { untilDestroyed } from "ngx-take-until-destroy";
 import { debounceTime } from "rxjs/operators";
@@ -47,6 +51,7 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
   };
   demoList: WishList;
   wishListLabel = WishListTypeLabel;
+  wishListTypeLabelOrder = WishListTypeLabelOrder;
   previewAs: "OWNER" | "REGISTRER" | "PUBLIC" = "OWNER";
   demoWhishs: Subject<WishItem[]> = new Subject<WishItem[]>();
   startDate = moment().month(1);
