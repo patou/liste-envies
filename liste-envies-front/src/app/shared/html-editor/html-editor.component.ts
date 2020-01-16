@@ -113,7 +113,7 @@ export class HtmlEditorComponent
     this.stateChanges.next();
   }
   private _placeholder: string = "Entrez un texte";
-  private _placeholderCurrent: string = "";
+  public _placeholderCurrent: string = "";
 
   /** custom params **/
   @Input() public content: string | null = "";
