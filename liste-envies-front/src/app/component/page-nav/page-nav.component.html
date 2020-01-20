@@ -93,16 +93,7 @@
               Autres listes partagées
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <mat-nav-list>
-            <wish-list-nav-item
-              *ngFor="let wishList of otherList$ | async"
-              [wishlist]="wishList"
-              [active]="wishList.name === (activeList$ | async)"
-              class="wishListCard"
-              mat-list-item
-            >
-            </wish-list-nav-item>
-          </mat-nav-list>
+
         </mat-expansion-panel>
       </mat-accordion>
     </div>
