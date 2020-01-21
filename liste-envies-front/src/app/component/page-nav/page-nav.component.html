@@ -39,35 +39,7 @@
           </mat-expansion-panel-header>
 
           <mat-nav-list>
-            <!--<mat-list-item
-              class="menu-wishlist"
-              *ngFor="let wishList of myList$ | async; trackBy: trackByFn"
-              [routerLink]="wishList.name === (activeList$ | async) ? null : ['/', wishList.name]"
-              (click)="drawer.close()"
-            >
-              <img [src]="'/assets/thumb/' + wishList.picture " class="background-images" />
-              <div class="menu-wishlist-content "></div>
-              <list-type-icon  mat-list-icon [type]="wishList.type"></list-type-icon>
-              <h4 mat-line>{{wishList.title}}</h4>
-              <p mat-line class="wish-list-item-text"
-                 fxLayout="row wrap"
-                 fxLayoutAlign="start start">
 
-                <ng-container *ngFor="let owner of wishList.owners; let last = last">
-                  <ngx-avatar
-                    [gravatarId]="owner.email"
-                    [matTooltip]="owner.name"
-                    [name]="owner.name"
-                    [round]="true"
-                    [src]="owner.photoURL"
-                    matTooltipPosition="above"
-                    size="15"
-                  >
-                  </ngx-avatar>
-                 </ng-container>
-
-              </p>
-            </mat-list-item>-->
             <wish-list-nav-item
               *ngFor="let wishList of (myList$ | async); trackBy: trackByFn"
               [wishlist]="wishList"

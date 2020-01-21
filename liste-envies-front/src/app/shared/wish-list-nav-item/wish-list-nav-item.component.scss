@@ -12,7 +12,7 @@
     height: 100%;
     width: 55px;
     position: absolute;
-    left: 6px;
+    left: 11px;
     bottom: 0;
     -webkit-clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
     clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
@@ -22,10 +22,15 @@
     z-index: 1;
   }
 
+  ::ng-deep .mat-list-text {
+    font-weight: 600 !important;
+  }
+
   list-type-icon ::ng-deep mat-icon.mat-icon {
     svg.svg-inline--fa {
       -webkit-filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
       filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
+      color: $theme-accent;
     }
   }
 
@@ -47,22 +52,22 @@
     @include mat-elevation(3);
 
     img.background-images {
-      transition: all 0.5s;
+      transition: all 0.3s;
       -webkit-filter: none;
-      filter: none;
+      filter: blur(0.5);
       height: 150%;
       width: 100%;
       top: -20px;
       left: 0;
       clip-path: none;
-      opacity: 0.2;
+      opacity: 0.1;
     }
 
     ::ng-deep .mat-list-text {
       transition: all 0.5s;
-      color: white;
-      font-weight: bolder;
-      text-shadow: 2px 2px 0 $theme-accent, 2px -2px 0 $theme-accent, -2px 2px 0 $theme-accent, -2px -2px 0 $theme-accent, 2px 0px 0 $theme-accent, 0px 2px 0 $theme-accent, -2px 0px 0 $theme-accent, 0px -2px 0 $theme-accent;
+      text-shadow: 4px 3px 0 white;
+      color: $theme-accent;
+      font-weight: 800 !important;
     }
   }
 
