@@ -68,15 +68,15 @@
 
       </mat-card-header>
       <nav mat-tab-nav-bar mat-align-tabs="end" color="accent" class="tabs-actif-archive">
-        <a mat-tab-link
+        <a mat-tab-link class="tab"
            [routerLink]="['/', list.name ]" routerLinkActive #currentList="routerLinkActive"
            [active]="currentList.isActive" [routerLinkActiveOptions]="{exact: true}">
-          <mat-icon class="mat-18">fiber_new</mat-icon> A offrir
+          <mat-icon class="tab-icon">card_giftcard</mat-icon> A offrir
         </a>
-        <a mat-tab-link
+        <a mat-tab-link class="tab"
            [routerLink]="['/', list.name, 'archived' ]" routerLinkActive #archiveList="routerLinkActive"
            [active]="archiveList.isActive">
-          <mat-icon class="mat-18">history</mat-icon> Déjà reçu
+          <mat-icon class="tab-icon">history</mat-icon> Déjà reçu
         </a>
       </nav>
     </section>

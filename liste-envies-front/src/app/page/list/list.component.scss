@@ -52,4 +52,18 @@ mat-card.dateList {
 nav.tabs-actif-archive {
   margin-top: -61px;
   margin-right: 113px;
+
+  .tab {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .tab-icon {
+      font-size: 14px;
+      margin-top: 8px;
+    }
+  }
+
+
 }
+
