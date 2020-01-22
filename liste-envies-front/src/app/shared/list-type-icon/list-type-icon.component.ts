@@ -231,8 +231,8 @@ export class ListTypeIcon {
       case 'SPECIAL_OCCASION':
         return 'fa-magic';
 
-      case 'HOUSE_WARMING':
-        return 'fa-home';
+      case "HOUSE_WARMING":
+        return "fa-home";
 
       case 'RETIREMENT':
         return 'fa-globe';
