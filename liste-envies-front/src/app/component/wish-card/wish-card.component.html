@@ -41,6 +41,7 @@
             disabled
             *ngIf="wishItem.canEdit"
             [disabled]="readOnly"
+            (click)="archive(wishItem)"
           >
             <mat-icon>archive</mat-icon>
             <span>Archiver</span>
@@ -50,6 +51,7 @@
             disabled
             *ngIf="wishItem.canEdit"
             [disabled]="readOnly"
+            (click)="remove(wishItem)"
           >
             <mat-icon>delete</mat-icon>
             <span>Supprimer</span>
@@ -61,7 +63,11 @@
         </mat-menu>
       </span>
     </div>
-    <div fxLayout="row" fxLayoutAlign="space-between stretch" class="wish-subtitle">
+    <div
+      fxLayout="row"
+      fxLayoutAlign="space-between stretch"
+      class="wish-subtitle"
+    >
       <span matTooltip="{{ wishItem.date | date: 'long' }}" class="date"
         ><mat-icon>date_range</mat-icon>
         {{ wishItem.date | amLocal: "fr" | amTimeAgo }}</span
@@ -117,7 +123,11 @@
     </div>
   </ng-template>
 
-  <mat-card-content fxLayout="column" fxLayoutAlign="space-between stretch" class="wish-content">
+  <mat-card-content
+    fxLayout="column"
+    fxLayoutAlign="space-between stretch"
+    class="wish-content"
+  >
     <div fxLayout="row" fxLayoutAlign="space-between stretch">
       <mat-chip-list>
         <mat-chip *ngIf="wishItem.price" color="accent" selected>

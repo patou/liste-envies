@@ -103,8 +103,18 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
     }
   }
 
-  remove(id: ID) {
-    this.wishStore.remove(id);
+  @action("delete wish")
+  remove(id, wish: Partial<WishItem>) {
+    this.wishListApiService.delete(wish.listId, id).subscribe(() => {
+      this.wishStore.remove(id);
+    });
+  }
+
+  @action("archive wish")
+  archive(id, wish: Partial<WishItem>) {
+    this.wishListApiService.archive(wish.listId, id).subscribe(() => {
+      this.wishStore.remove(id);
+    });
   }
 
   @action("add comment")

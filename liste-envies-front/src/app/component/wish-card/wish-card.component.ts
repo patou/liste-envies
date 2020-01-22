@@ -12,7 +12,13 @@ import { WishItem } from "../../models/WishItem";
 import { SwiperConfigInterface } from "ngx-swiper-wrapper";
 import { WishEditComponent } from "../wish-edit/wish-edit.component";
 import { MatDialog } from "@angular/material";
-import { transition, trigger, useAnimation } from "@angular/animations";
+import {
+  animate,
+  style,
+  transition,
+  trigger,
+  useAnimation
+} from "@angular/animations";
 import { WishListApiService } from "../../service/wish-list-api.service";
 import { bounceInUp } from "ng-animate";
 import { WishService } from "../../state/wishes/wish.service";
@@ -26,7 +32,15 @@ import { Subscription } from "rxjs/Subscription";
   styleUrls: ["./wish-card.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
-    trigger("animateWishCard", [transition("* => *", useAnimation(bounceInUp))])
+    trigger("animateWishCard", [
+      transition("* => *", useAnimation(bounceInUp)),
+      transition(":leave", [
+        animate(
+          "8s ease-out",
+          style({ transform: "translateX(100%)", scale: 0, opacity: 0 })
+        )
+      ])
+    ])
   ]
 })
 export class WishCardComponent implements OnInit, OnChanges, OnDestroy {
@@ -131,6 +145,14 @@ export class WishCardComponent implements OnInit, OnChanges, OnDestroy {
 
   give(wishItem: WishItem) {
     this.wishService.give(wishItem.id, wishItem);
+  }
+
+  archive(wishItem: WishItem) {
+    this.wishService.archive(wishItem.id, wishItem);
+  }
+
+  remove(wishItem: WishItem) {
+    this.wishService.remove(wishItem.id, wishItem);
   }
 
   sendComment(value: string, wishItem: WishItem) {
