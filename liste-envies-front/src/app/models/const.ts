@@ -1,14 +1,29 @@
 import { WishListType } from "./WishList";
 
 export const WishListTypeLabel = {
-  OTHER: "Autre",
   CHRISTMAS: "Noël",
-  BIRTHDAY: "Anniversaire",
-  BIRTH: "Liste de naissance",
   WEDDING: "Liste de mariage",
+  BIRTH: "Liste de naissance",
+  BIRTHDAY: "Anniversaire",
   LEAVING: "Liste pour un départ",
-  SPECIAL_OCCASION: "Occasion spéciale"
+  HOUSE_WARMING: "Pendaisons de Crémaillères",
+  RETIREMENT: "Départ à la retraite",
+  CEREMONY: "Cérémonie (baptême, communion, ...)",
+  SPECIAL_OCCASION: "Occasion spéciale",
+  OTHER: "Autre"
 };
+export const WishListTypeLabelOrder = [
+  "CHRISTMAS",
+  "WEDDING",
+  "BIRTH",
+  "BIRTHDAY",
+  "LEAVING",
+  "HOUSE_WARMING",
+  "RETIREMENT",
+  "CEREMONY",
+  "SPECIAL_OCCASION",
+  "OTHER"
+];
 export interface TypePicture {
   type: WishListType;
   picture: string;
@@ -234,5 +249,40 @@ export const WishListTypePicture: TypePicture[] = [
     type: "LEAVING",
     picture: "img/leaving2.jpg",
     credit: "Photo by Kristina Evstifeeva on Unsplash"
+  },
+  {
+    type: "HOUSE_WARMING",
+    picture: "img/housewarning.jpg",
+    credit: "Photo by Brandable Box on Unsplash"
+  },
+  {
+    type: "HOUSE_WARMING",
+    picture: "img/housewarning1.jpg",
+    credit: "Photo by Brandable Box on Unsplash"
+  },
+  {
+    type: "RETIREMENT",
+    picture: "img/retirement.jpg",
+    credit: "Photo by Matthew Bennett on Unsplash"
+  },
+  {
+    type: "CEREMONY",
+    picture: "img/ceremony.jpg",
+    credit: "Photo by Gardie Design & Social Media Marketing on Unsplash"
+  },
+  {
+    type: "CEREMONY",
+    picture: "img/ceremony1.jpg",
+    credit: "Photo by Angelo Pantazis on Unsplash"
+  },
+  {
+    type: "CEREMONY",
+    picture: "img/ceremony2.jpg",
+    credit: "Photo by James Coleman on Unsplash"
+  },
+  {
+    type: "CEREMONY",
+    picture: "img/ceremony3.jpg",
+    credit: "Photo by Mateus Campos Felipe on Unsplash"
   }
 ];

@@ -22,7 +22,7 @@
     <list-type-icon [type]="wishlist.type"></list-type-icon>
     {{ wishlist.title }}
   </h2>
-  <span class="notification-list" *ngIf="(notifsCount$ | async) as notifsCount">
+  <span class="notification-list" *ngIf="notifsCount$ | async as notifsCount">
     <mat-icon
       [matBadge]="notifsCount"
       color="accent"
@@ -42,7 +42,7 @@
       <ngx-avatar
         [gravatarId]="owner.email"
         [matTooltip]="owner.name"
-        [name]="owner.name"
+        [name]="owner.name || owner.email"
         [round]="true"
         [src]="owner.photoURL"
         matTooltipPosition="above"
@@ -54,7 +54,7 @@
         [title]="owner.email"
         class="owners"
         matTooltipPosition="above"
-        >{{ owner.name }}</span
+        >{{ owner.name || owner.email }}</span
       ><span *ngIf="!last">, </span></ng-container
     >
   </div>

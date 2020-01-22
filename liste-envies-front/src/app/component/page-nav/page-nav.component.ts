@@ -85,7 +85,11 @@ export class PageNavComponent implements OnInit, OnDestroy {
         debounceTime(250)
       )
       .subscribe(value => {
-        this.wishListService.searchList(value);
+        if (typeof value === "string") {
+          this.wishListService.searchList(value);
+        } else {
+          this.wishListService.searchList("");
+        }
       });
   }
 

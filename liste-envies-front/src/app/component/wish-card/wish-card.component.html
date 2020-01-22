@@ -61,7 +61,11 @@
         </mat-menu>
       </span>
     </div>
-    <div fxLayout="row" fxLayoutAlign="space-between stretch" class="wish-subtitle">
+    <div
+      fxLayout="row"
+      fxLayoutAlign="space-between stretch"
+      class="wish-subtitle"
+    >
       <span matTooltip="{{ wishItem.date | date: 'long' }}" class="date"
         ><mat-icon>date_range</mat-icon>
         {{ wishItem.date | amLocal: "fr" | amTimeAgo }}</span
@@ -71,7 +75,7 @@
         matTooltip="{{ wishItem?.owner?.name }} : {{ wishItem?.owner?.email }}"
       >
         <ngx-avatar
-          [name]="wishItem?.owner?.name"
+          [name]="wishItem?.owner?.name || wishItem?.owner?.email"
           [gravatarId]="wishItem?.owner?.email"
           size="20"
           [round]="true"
@@ -117,7 +121,11 @@
     </div>
   </ng-template>
 
-  <mat-card-content fxLayout="column" fxLayoutAlign="space-between stretch" class="wish-content">
+  <mat-card-content
+    fxLayout="column"
+    fxLayoutAlign="space-between stretch"
+    class="wish-content"
+  >
     <div fxLayout="row" fxLayoutAlign="space-between stretch">
       <mat-chip-list>
         <mat-chip *ngIf="wishItem.price" color="accent" selected>
@@ -191,7 +199,7 @@
           >
             <ngx-avatar
               matListAvatar
-              [name]="comment.from?.name"
+              [name]="comment.from?.name || comment.from?.email"
               [gravatarId]="comment.from?.email"
               size="40"
               [round]="true"
@@ -303,7 +311,7 @@
         matTooltip="{{ userGiven?.name }} : {{ userGiven?.email }}"
       >
         <ngx-avatar
-          [name]="userGiven?.name"
+          [name]="userGiven?.name || userGiven?.email"
           [gravatarId]="userGiven?.email"
           size="20"
           [round]="true"

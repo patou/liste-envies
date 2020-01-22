@@ -27,8 +27,8 @@
     "TITLE": "Liste d'envies",
     "DESCRIPTION": "la seule liste d'envies que vous pouvez partager de manière privée avec vos amis et familles afin qu'ils puissent se mettre d'accord sur les cadeaux à offrir, sans que vous soyez au courant. Vous aurez la surprise le jour J.",
     "FOOTER_LINKS": {
-      "LISTE_ENVIES" : "Liste d'envies",
-      "GITHUB" : "Git hub",
+      "LISTE_ENVIES": "Liste d'envies",
+      "GITHUB": "Git hub",
       "COPYRIGHT": "&copy; 2016, made with <i class='fa fa-heart heart'></i> by Patrice et Emmanuel DE SAINT STEBAN"
     }
   },
@@ -40,7 +40,7 @@
     "REFRESH_LIST": "Rafraichir la liste",
     "TITLE_GIVEN": "Mes cadeaux à donner",
     "TITLE_ARCHIVE": "Mes cadeaux reçus",
-    "LINK":"Lien de partage",
+    "LINK": "Lien de partage",
     "UPDATE_LIST": {
       "TITLE": "Mettre à jour votre liste d'envie",
       "BUTTON": "Enregistrer",
@@ -56,8 +56,8 @@
     },
     "CHANGE_URL": {
       "TITLE": "Modifier l'url",
-      "WARNING" : "<strong>Attention : </strong> le changement est définitif, l'ancienne url ne sera plus disponible.",
-      "EXIST" : "<strong>Déjà pris : </strong> cette url est déjà prise, choississez une autre url",
+      "WARNING": "<strong>Attention : </strong> le changement est définitif, l'ancienne url ne sera plus disponible.",
+      "EXIST": "<strong>Déjà pris : </strong> cette url est déjà prise, choississez une autre url",
       "BUTTON": "Renommer",
       "CLOSE": "Fermer"
     }
@@ -66,17 +66,15 @@
     "HOME_TITLE": "Liste de mes envies <small>Accueil</small>",
     "WELCOME_MESSAGE": "Bonjour, <strong>{{userName}}</strong>! Bienvenue sur votre liste des envies",
     "WELCOME_ANONYMOUS_MESSAGE": "Bonjour! Bienvenue sur votre liste des envies",
-    "CREATE_ACOUNT":"Je n'ai pas de compte !",
+    "CREATE_ACOUNT": "Je n'ai pas de compte !",
     "SEPARATOR_USER": "de",
     "BUTTON_CREATE_LIST": "Créer une liste",
     "BUTTON_CONNEXION": "@:NAVBAR.LOG_IN",
     "NEW_LIST": {
       "TITLE": "Créer une liste d'envie"
-
     }
   },
   "CANCEL_COMPONENT": {
-
     "BUTTON_EDIT_LIST2": "Editer la liste",
     "BUTTON_EDIT_LIST3": "Editer la liste",
     "CANCEL": "Annuler"
@@ -93,8 +91,8 @@
     "LOG_IN": "Connexion"
   },
   "WISH_CARD_COMPONENT": {
-    "DELETE_TITLE":"Supprimé",
-    "RECEIVED_TITLE":"Reçu",
+    "DELETE_TITLE": "Supprimé",
+    "RECEIVED_TITLE": "Reçu",
     "DELETE_MESSAGE": "Suppression définitive de l'envie {{whishName}}. Si vous l'avez reçu, archivez la en la marquant comme ",
     "RECEIVED_MESSAGE": "Le cadeau a été reçu, il est maintenant archivé {{whishName}}",
     "INPUT_TITRE": "Titre de l'envie",
@@ -130,9 +128,9 @@
     "CANCEL": "@:COMMONS.CANCEL"
   },
   "NOTIFICATIONS": {
-    "NOTIFICATION_TITLE" : "Mes Notifications",
+    "NOTIFICATION_TITLE": "Mes Notifications",
     "TYPE": {
-      "ADD_WISH" : "<b>{{actionUserName}}</b> a ajouté une nouvelle envie  <b>{{message}}</b> à la liste \"<u>{{listName}}</u>\"",
+      "ADD_WISH": "<b>{{actionUserName}}</b> a ajouté une nouvelle envie  <b>{{message}}</b> à la liste \"<u>{{listName}}</u>\"",
       "UPDATE_WISH": "L'envie <b>{{message}}</b> de la liste \"<u>{{listName}}</u>\" a été mise à jour",
       "DELETE_WISH": "L'envie <b>{{message}}</b> de la liste \"<u>{{listName}}</u>\" a été supprimée",
       "GIVEN_WISH": "L'envie <b>{{message}}</b> de la liste \"<u>{{listName}}</u>\" sera offerte par <b>{{actionUserName}}</b>",
@@ -164,7 +162,7 @@
       "WEDDING": "liste de mariage",
       "LEAVING": "liste pour un départ",
       "SPECIAL_OCCASION": "Occasion spéciale",
-      "HOUSE_WARNING": "Pendaison de crémaillère",
+      "HOUSE_WARMING": "Pendaison de crémaillère",
       "RETIREMENT": "Retraite",
       "OTHER": "Autre"
     },
@@ -181,20 +179,20 @@
     "DATE": "Date de l'événement",
     "DATE_INFO": "Pour afficher un compte à rebours jusqu'à l'événement"
   },
-  "LOGIN_FORM" : {
+  "LOGIN_FORM": {
     "TITLE": "Se connecter",
-    "DESCRIPTION":"Connectez-vous pour pouvoir utiliser le site liste-envies avec un compte google",
+    "DESCRIPTION": "Connectez-vous pour pouvoir utiliser le site liste-envies avec un compte google",
 
-    "LOGIN":"Se connecter",
-    "CREATE_ACOUNT":"Je n'ai pas de compte ! (creer un compte)"
+    "LOGIN": "Se connecter",
+    "CREATE_ACOUNT": "Je n'ai pas de compte ! (creer un compte)"
   },
   "PRIVACY_FORM": {
-    "BUTTON_CONNEXION":"Se connecter",
-    "CREATE_ACOUNT":"Je n'ai pas de compte ! (creer un compte)",
+    "BUTTON_CONNEXION": "Se connecter",
+    "CREATE_ACOUNT": "Je n'ai pas de compte ! (creer un compte)",
     "DESCRIPTION": "Connectez-vous (ou inscrivez-vous) pour voir et/ou participer à cette liste d'envies"
   },
   "JOIN_FORM": {
-    "BUTTON":"Rejoindre",
+    "BUTTON": "Rejoindre",
     "DESCRIPTION": "Rejoignez cette liste, pour l'ajouter à ses listes, et recevoir les notifications"
   }
 }
