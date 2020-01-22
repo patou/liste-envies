@@ -1,0 +1,14 @@
+name: Add url on PR
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: [linux]
+    steps:
+    - uses: mshick/add-pr-comment@v1
+      with:
+        message: |
+          Application deployé sur https://${{ github.ref }}-dot-test-liste-envies.appspot.com/
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        allow-repeats: false
