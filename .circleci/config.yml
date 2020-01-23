@@ -79,7 +79,6 @@ jobs: # a collection of steps
             export APP_ID=${CLOUDSDK_PROJECT_TEST};
             BRANCH=${CIRCLE_BRANCH//[^a-zA-Z0-9]/-}
             export APP_VERSION=${BRANCH:0:63};
-            echo 'export BRANCH=${BRANCH}' >> $BASH_ENV
             echo "Deploy application ${APP_ID} version ${APP_VERSION}"
             gcloud auth activate-service-account --key-file client-secret.json
             mvn -B --no-transfer-progress -DskipTests=true -Dapp.deploy.projectId=${APP_ID} -Dapp.deploy.version=${APP_VERSION} -Dapp.deploy.promote=false package appengine:deployAll
