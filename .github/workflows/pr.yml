@@ -1,0 +1,15 @@
+name: Add url on PR
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: rlespinasse/github-slug-action@master
+      - uses: mshick/add-pr-comment@v1
+        with:
+          message: |
+            Application deployé sur https://${{ env.GITHUB_HEAD_REF_SLUG }}-dot-test-liste-envies.appspot.com/
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          allow-repeats: false
