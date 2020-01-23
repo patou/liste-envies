@@ -4,6 +4,7 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 import fr.desaintsteban.liste.envies.dto.WishListDto;
 import fr.desaintsteban.liste.envies.dto.UserShareDto;
 import fr.desaintsteban.liste.envies.enums.SharingPrivacyType;
@@ -36,6 +37,7 @@ public class WishList {
     private Date date; // date of the event
     private SharingPrivacyType privacy; // Option for sharing privacy of the all list.
 
+    @Index
     private WishListStatus status =  WishListStatus.ACTIVE; // status
 
     public WishList() {

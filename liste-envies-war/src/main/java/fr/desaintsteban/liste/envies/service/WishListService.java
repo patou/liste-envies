@@ -28,7 +28,7 @@ public final class WishListService {
 	}
 
 	public static List<WishList> list(String email) {
-		List<WishList> list = OfyService.ofy().load().type(WishList.class).filter("users.email =", email).list();
+		List<WishList> list = OfyService.ofy().load().type(WishList.class).filter("status =",WishListStatus.ACTIVE).filter("users.email =", email).list();
 		return list;
 	}
 
