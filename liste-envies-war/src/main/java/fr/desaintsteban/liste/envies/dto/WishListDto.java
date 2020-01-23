@@ -3,6 +3,7 @@ package fr.desaintsteban.liste.envies.dto;
 import java.util.Date;
 import java.util.List;
 
+import fr.desaintsteban.liste.envies.enums.WishListStatus;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import fr.desaintsteban.liste.envies.enums.SharingPrivacyType;
@@ -22,7 +23,7 @@ public class WishListDto {
     private List<UserShareDto> users;
 
     private List<UserShareDto> owners;
-
+    private WishListStatus status; // status
 
     // settings
     private String picture; // Picture used for background, or for the list info
@@ -128,5 +129,13 @@ public class WishListDto {
 
     public void setCanSuggest(Boolean canSuggest) {
         this.canSuggest = canSuggest;
-    }  
+    }
+
+    public WishListStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(WishListStatus status) {
+        this.status = status;
+    }
 }
