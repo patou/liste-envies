@@ -10,6 +10,6 @@ jobs:
       - uses: mshick/add-pr-comment@v1
         with:
           message: |
-            Application deployé sur https://${{ env.GITHUB_HEAD_REF_SLUG }}-dot-test-liste-envies.appspot.com/
+            Application deployé sur https://${{ env.GITHUB_HEAD_REF_SLUG }}-dot-test-liste-envies.appspot.com/ (http://${{ env.GITHUB_HEAD_REF_SLUG }}.test-liste-envies.appspot.com/)
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           allow-repeats: false
