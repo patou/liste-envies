@@ -1,0 +1,13 @@
+on: delete
+name: Supression d'une branche
+jobs:
+  removeversion:
+    name: Suppression d'une branche
+    runs-on: ubuntu-latest
+    steps:
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: "275.0.0"
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+      - uses: rlespinasse/github-slug-action@master
+      - run: gcloud app versions delete --project test-liste-envies ${{ env.GITHUB_HEAD_REF_SLUG }}
