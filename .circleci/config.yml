@@ -82,7 +82,7 @@ jobs: # a collection of steps
             echo 'export BRANCH=${BRANCH}' >> $BASH_ENV
             echo "Deploy application ${APP_ID} version ${APP_VERSION}"
             gcloud auth activate-service-account --key-file client-secret.json
-            mvn -B --no-transfer-progress -DskipTests=true -Dapp.deploy.project=${APP_ID} -Dapp.deploy.version=${APP_VERSION} -Dapp.deploy.promote=false appengine:deployAll
+            mvn -B --no-transfer-progress -DskipTests=true -Dapp.deploy.projectId=${APP_ID} -Dapp.deploy.version=${APP_VERSION} -Dapp.deploy.promote=false appengine:deployAll
       - slack/notify:
           color: "#42e2f4"
           title: ${CIRCLE_BRANCH}
