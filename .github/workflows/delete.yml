@@ -1,5 +1,7 @@
-on: delete
 name: Supression d'une branche
+
+on: [delete]
+
 jobs:
   removeversion:
     name: Suppression d'une branche
