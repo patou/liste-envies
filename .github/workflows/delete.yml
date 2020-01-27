@@ -12,7 +12,7 @@ jobs:
       - uses: rlespinasse/github-slug-action@master
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
-          version: "275.0.0"
+          version: "277.0.0"
           service_account_key: ${{ secrets.GCP_SA_KEY }}
       - run: |
           APP_VERSION=${{ env.GITHUB_HEAD_REF_SLUG }}
