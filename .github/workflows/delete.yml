@@ -11,5 +11,11 @@ jobs:
         with:
           version: "275.0.0"
           service_account_key: ${{ secrets.GCP_SA_KEY }}
-      - uses: rlespinasse/github-slug-action@master
-      - run: gcloud app versions delete --project test-liste-envies ${{ env.GITHUB_HEAD_REF_SLUG }}
+      - run: echo Delete branch ${{ github.event.ref }}
+      - run: |
+          echo Delete branch ${{ github.event.ref }}
+          REF=${{ github.event.ref }}
+          BRANCH=${REF//[^a-zA-Z0-9]/-}
+          APP_VERSION=${BRANCH:0:63};
+          echo Delete version ${APP_VERSION}
+          gcloud app versions delete --project test-liste-envies ${{ github.event.ref }}
