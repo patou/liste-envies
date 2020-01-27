@@ -19,7 +19,6 @@ export class WishesListService {
     private wishService: WishService,
     private wishesListQuery: WishesListQuery
   ) {
-    // @ts-ignore
     this.filters = new AkitaFiltersPlugin<WishesListState>(
       this.wishesListQuery
     );
