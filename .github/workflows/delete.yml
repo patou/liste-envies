@@ -21,6 +21,6 @@ jobs:
           version: "275.0.0"
           service_account_key: ${{ secrets.GCP_SA_KEY }}
       - run: |
-          APP_VERSION=${{ env.GITHUB_REF_SLUG }}
+          APP_VERSION=${{ env.GITHUB_HEAD_REF_SLUG }}
           echo Delete version ${APP_VERSION}
-          gcloud app versions delete --project test-liste-envies ${{ github.event.ref }}
+          gcloud app versions delete --project test-liste-envies ${APP_VERSION}
