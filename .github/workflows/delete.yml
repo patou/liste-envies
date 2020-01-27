@@ -9,15 +9,18 @@ jobs:
     name: Suppression d'une branche
     runs-on: ubuntu-latest
     steps:
+      - uses: rlespinasse/github-slug-action@master
+      - name: Print slug variables
+        run: |
+          echo ${{ env.GITHUB_REF_SLUG }}
+          echo ${{ env.GITHUB_HEAD_REF_SLUG }}
+          echo ${{ env.GITHUB_BASE_REF_SLUG }}
+          echo ${{ env.GITHUB_SHA_SHORT }}
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
           version: "275.0.0"
           service_account_key: ${{ secrets.GCP_SA_KEY }}
-      - run: echo Delete branch ${{ github.event.ref }}
       - run: |
-          echo Delete branch ${{ github.event.ref }}
-          REF=${{ github.event.ref }}
-          BRANCH=${REF//[^a-zA-Z0-9]/-}
-          APP_VERSION=${BRANCH:0:63};
+          APP_VERSION=${{ env.GITHUB_REF_SLUG }}
           echo Delete version ${APP_VERSION}
           gcloud app versions delete --project test-liste-envies ${{ github.event.ref }}
