@@ -98,8 +98,10 @@ export class WishesListService {
   }
 
   archiveWishList(name: string) {
-    this.wishListService.archiveWishList(name).subscribe(value => {
-      this.wishesListStore.remove(name);
-    });
+    return this.wishListService.archiveWishList(name).pipe(
+      tap(value => {
+        this.wishesListStore.remove(name);
+      })
+    );
   }
 }

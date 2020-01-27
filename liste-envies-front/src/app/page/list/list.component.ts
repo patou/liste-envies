@@ -12,11 +12,11 @@ import { WishListApiService } from "../../service/wish-list-api.service";
 import { Observable } from "rxjs/Observable";
 import { WishList } from "../../models/WishList";
 import { WishItem } from "../../models/WishItem";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "../../service/auth.service";
 import * as firebase from "firebase";
 import { WishEditComponent } from "../../component/wish-edit/wish-edit.component";
-import { MatDialog } from "@angular/material";
+import { MatDialog, MatSnackBar } from "@angular/material";
 import { WishQuery } from "../../state/wishes/wish.query";
 import { distinct, distinctUntilKeyChanged, skip, tap } from "rxjs/operators";
 import { WishService } from "../../state/wishes/wish.service";
@@ -56,11 +56,13 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
     private demoWishService: DemoService,
     private demoWishQuery: DemoQuery,
     private route: ActivatedRoute,
+    private router: Router,
     private auth: AuthService,
     public dialog: MatDialog,
     private wishQuery: WishQuery,
     private wishesListService: WishesListService,
-    private colorManagementService: ColorManagementService
+    private colorManagementService: ColorManagementService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -150,7 +152,18 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
 
   archiveList() {
     // todo add a confirm dialog.
-    this.wishesListService.archiveWishList(this.list.name);
+    this.wishesListService.archiveWishList(this.list.name).subscribe(
+      value => {
+        this.snackBar.open(`Votre liste ${this.list.name} a été archivé `);
+        this.router.navigate(["/"]);
+      },
+      error => {
+        console.error(error);
+        this.snackBar.open(
+          `Erreur de l'archivage de la liste ${this.list.name}`
+        );
+      }
+    );
   }
 
   ngOnDestroy(): void {}
