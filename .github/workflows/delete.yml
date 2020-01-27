@@ -1,6 +1,8 @@
 name: Supression d'une branche
 
-on: [delete]
+on:
+  pull_request:
+    types: [closed]
 
 jobs:
   removeversion:
