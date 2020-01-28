@@ -12,8 +12,8 @@ front:
   - liste-envies-front/src/*
   - liste-envies-front/src/**/* 
 style: 
-   - **.scss
-   - **.css
+  - liste-envies-front/**/*.scss
+  - liste-envies-front/**/*.css
 test: 
  - liste-envies-front/**/*.spec.ts
  - liste-envies-war/src/test/**/*.java
