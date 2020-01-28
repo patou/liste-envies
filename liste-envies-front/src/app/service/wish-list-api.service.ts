@@ -41,7 +41,7 @@ export class WishListApiService {
   }
 
   @PUT
-  @Path("list/archive/:name")
+  @Path("list/:name/archive")
   archiveWishList(@PathParam("name") name: string): Observable<WishList> {
     return null;
   }

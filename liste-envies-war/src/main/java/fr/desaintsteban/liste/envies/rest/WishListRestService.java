@@ -141,7 +141,7 @@ public class WishListRestService {
     }
 
     @PUT
-    @Path("/archive/{name}/")
+    @Path("/{name}/archive/")
     public void archiveWishList(@PathParam("name") String name) throws Exception {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null){
