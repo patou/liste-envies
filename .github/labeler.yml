@@ -1,5 +1,7 @@
 ci:
   - ./.github/workflows/*
+  - ./.github/*
+  - .circleci/*
   - .travis.yml
 repo:
   - ./*
