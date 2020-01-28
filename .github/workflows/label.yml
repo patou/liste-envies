@@ -18,21 +18,21 @@ jobs:
       with:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
         ci:
-          - ./.github/workflows/*
-          - .travis.yml
+          - './.github/workflows/*'
+          - '.travis.yml'
         repo:
-          - ./*
+          - './*'
         back:
-          - liste-envies-war/src/*
-          - liste-envies-war/src/**/* 
+          - 'liste-envies-war/src/*'
+          - 'liste-envies-war/src/**/*'
         front:
-          - liste-envies-front/src/*
-          - liste-envies-front/src/**/* 
-        style: liste-envies-front/**/*.scss
+          - 'liste-envies-front/src/*'
+          - 'liste-envies-front/src/**/*' 
+        style: 'liste-envies-front/**/*.scss'
         test: 
-         - liste-envies-front/**/*.spec.ts
-         - liste-envies-war/src/test/**/*.java
+         - 'liste-envies-front/**/*.spec.ts'
+         - 'liste-envies-war/src/test/**/*.java'
         dependencies: 
-         - liste-envies-front/package.json
-         - liste-envies-war/pom.xml
+         - 'liste-envies-front/package.json'
+         - 'liste-envies-war/pom.xml'
        
