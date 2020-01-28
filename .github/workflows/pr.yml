@@ -22,3 +22,10 @@ jobs:
             Application deployé sur https://${{ env.GITHUB_HEAD_REF_SLUG }}-dot-test-liste-envies.appspot.com/ (http://${{ env.GITHUB_HEAD_REF_SLUG }}.test-liste-envies.appspot.com/)
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           allow-repeats: false
+      - name: Slack notification
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_AVATAR: repository # Optional. can be (repository, sender, an URL) (defaults to webhook app avatar)
+        uses: Ilshidur/action-slack@master
+        with:
+          args: "Voir l'application deployé sur https://{{ GITHUB_HEAD_REF_SLUG }}-dot-test-liste-envies.appspot.com/"
