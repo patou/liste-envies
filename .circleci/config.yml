@@ -79,21 +79,10 @@ jobs: # a collection of steps
             export APP_ID=${CLOUDSDK_PROJECT_TEST};
             BRANCH=${CIRCLE_BRANCH//[^a-zA-Z0-9]/-}
             export APP_VERSION=${BRANCH:0:63};
-            echo 'export BRANCH=${BRANCH}' >> $BASH_ENV
             echo "Deploy application ${APP_ID} version ${APP_VERSION}"
             gcloud auth activate-service-account --key-file client-secret.json
             mvn -B --no-transfer-progress -DskipTests=true -Dapp.deploy.projectId=${APP_ID} -Dapp.deploy.version=${APP_VERSION} -Dapp.deploy.promote=false package appengine:deployAll
-      - slack/notify:
-          color: "#42e2f4"
-          title: ${CIRCLE_BRANCH}
-          title_link: https://${CIRCLE_BRANCH//[^a-zA-Z0-9]/-}-dot-test-liste-envies.appspot.com/
-          message: Voir l'application deployé sur https://${CIRCLE_BRANCH//[^a-zA-Z0-9]/-}-dot-test-liste-envies.appspot.com/
-          include_visit_job_action: false
-          include_project_field: false
-          include_job_number_field: false
 
-orbs:
-  slack: circleci/slack@3.4.2
 workflows:
   version: 2
   build-test-and-deploy:
