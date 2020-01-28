@@ -49,8 +49,8 @@ public class WishList {
             users.add(new UserShare(shareUser, UserShareType.SHARED));
         }
 
-        this.picture = "img/christmas1.jpg";
-        this.type = type;
+        this.picture = "img/default.jpg";
+        this.type = WishListType.OTHER;
         this.date = new Date(2017, 12, 25);
         this.privacy = SharingPrivacyType.PRIVATE;
     }
@@ -60,7 +60,6 @@ public class WishList {
         this.name = name;
         this.title = title;
         this.description = description;
-        this.users = users;
         this.picture = picture;
         this.type = type;
         this.date = date;

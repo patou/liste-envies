@@ -111,7 +111,7 @@ public class Wish {
         }
         wish.setOwner(Person.toDto(getOwner()));
         wish.setSuggest(getSuggest());
-        wish.setDeleted(getDeleted());
+        wish.setState(getState());
         wish.setLabel(getLabel());
         wish.setDescription(getDescription());
         wish.setPrice(getPrice());
