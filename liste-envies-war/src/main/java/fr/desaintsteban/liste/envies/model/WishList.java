@@ -1,5 +1,6 @@
 package fr.desaintsteban.liste.envies.model;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Entity;
@@ -8,9 +9,11 @@ import fr.desaintsteban.liste.envies.dto.WishListDto;
 import fr.desaintsteban.liste.envies.dto.UserShareDto;
 import fr.desaintsteban.liste.envies.enums.SharingPrivacyType;
 import fr.desaintsteban.liste.envies.enums.UserShareType;
+import fr.desaintsteban.liste.envies.enums.WishListState;
 import fr.desaintsteban.liste.envies.enums.WishListType;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +43,7 @@ public class WishList {
         this.privacy = SharingPrivacyType.PRIVATE;
     }
 
+    @VisibleForTesting
     public WishList(String name, String title, String owner, String... shared) {
         this.name = name;
         this.title = title;
@@ -51,7 +55,7 @@ public class WishList {
 
         this.picture = "img/default.jpg";
         this.type = WishListType.OTHER;
-        this.date = new Date(2017, 12, 25);
+        this.date = new Date(2020 - 1900, Calendar.DECEMBER, 25);
         this.privacy = SharingPrivacyType.PRIVATE;
     }
 
