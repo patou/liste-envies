@@ -1,9 +1,9 @@
 package fr.desaintsteban.liste.envies.servlet;
 
-import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import fr.desaintsteban.liste.envies.enums.SharingPrivacyType;
 import fr.desaintsteban.liste.envies.enums.WishListType;
+import fr.desaintsteban.liste.envies.enums.WishState;
 import fr.desaintsteban.liste.envies.model.*;
 import fr.desaintsteban.liste.envies.model.deprecated.Envy;
 import fr.desaintsteban.liste.envies.model.deprecated.ListEnvies;
@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -70,12 +69,14 @@ public class MigrateServlet extends HttpServlet {
         for (WishList wishList : listWishList) {
             //Convert
             List<Wish> Envies = ofy.load().type(Wish.class).ancestor(wishList.getKey()).list();
-
+            wishList.resetCounts();
             for(Wish envy : Envies) {
                 //Convert archived and deleted to state
+                wishList.incrCounts(envy.getState());
                 ConvertedWish.add(envy);
             }
             listConverted.add(wishList);
+            out.println(String.format("%s: %d draft, %d active, %d archived, %d deleted", wishList.getName(), wishList.getCounts(WishState.DRAFT), wishList.getCounts(WishState.ACTIVE), wishList.getCounts(WishState.ARCHIVED), wishList.getCounts(WishState.DELETED)));
         }
 
         ofy.save().entities(listConverted);

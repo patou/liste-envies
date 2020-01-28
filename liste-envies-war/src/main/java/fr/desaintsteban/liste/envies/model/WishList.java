@@ -5,16 +5,20 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 import fr.desaintsteban.liste.envies.dto.WishListDto;
 import fr.desaintsteban.liste.envies.dto.UserShareDto;
 import fr.desaintsteban.liste.envies.enums.SharingPrivacyType;
 import fr.desaintsteban.liste.envies.enums.UserShareType;
 import fr.desaintsteban.liste.envies.enums.WishListState;
 import fr.desaintsteban.liste.envies.enums.WishListType;
+import fr.desaintsteban.liste.envies.enums.WishState;
 
+import javax.jdo.annotations.Embedded;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -37,6 +41,9 @@ public class WishList {
     private WishListType type; // Purpose of the event for this list
     private Date date; // date of the event
     private SharingPrivacyType privacy; // Option for sharing privacy of the all list.
+    @Embedded
+    @Index
+    private HashMap<WishState, Integer> counts = new HashMap<>(); //Compte le nombre d'envies dans chaque état
 
 
     public WishList() {
@@ -100,6 +107,7 @@ public class WishList {
         dto.setDate( getDate());
         dto.setPrivacy( getPrivacy());
         dto.setOwner(false);
+        dto.setCounts(getCounts());
         return dto;
     }
 
@@ -183,5 +191,34 @@ public class WishList {
     public void addUser(AppUser user) {
         if (users == null) users = new ArrayList<>();
         users.add(new UserShare(user.getEmail(), UserShareType.SHARED));
+    }
+
+    public HashMap<WishState, Integer> getCounts() {
+        return counts;
+    }
+
+    public Integer getCounts(WishState state) {
+        return counts.getOrDefault(state, 0);
+    }
+
+    public void resetCounts() {
+        counts = new HashMap<>();
+    }
+
+    public void incrCounts(WishState state) {
+        counts.compute(state, (k, v) -> v != null ? v + 1 : 1);
+    }
+
+    public void decrCounts(WishState state) {
+        counts.computeIfPresent(state, (k, v) -> v - 1);
+    }
+
+    public void changeCountsCount(WishState from, WishState to) {
+        decrCounts(from);
+        incrCounts(to);
+    }
+
+    public void setCounts(HashMap<WishState, Integer> counts) {
+        this.counts = counts;
     }
 }

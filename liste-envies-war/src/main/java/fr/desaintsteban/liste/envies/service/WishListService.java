@@ -66,6 +66,7 @@ public final class WishListService {
 					.map(UserShare::getEmail)
 					.filter(email -> email.equals(user.getEmail()))
 					.forEach(userToEmail::remove);
+			item.setCounts(updateElement.getCounts());
 		}
 		return OfyService.ofy().transact(() -> {
             final Saver saver = OfyService.ofy().save();

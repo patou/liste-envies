@@ -76,13 +76,17 @@ public final class WishesService {
             public void vrun() {
                 Objectify ofy = OfyService.ofy();
                 Wish saved = ofy.load().key(Key.create(parent, Wish.class, itemid)).now();
+                Saver saver = ofy.save();
                 if (saved.hasUserTaken() && wishList.containsOwner(saved.getOwner().getEmail())) {
-                    Saver saver = ofy.save();
+                    wishList.changeCountsCount(saved.getState(), WishState.ARCHIVED);
                     saved.setState(WishState.DELETED);
                     saver.entity(saved);
+                    saver.entity(wishList);
                     NotificationsService.notify(NotificationType.DELETE_WISH, user, wishList, true, saved.getLabel());
                 }
                 else {
+                    wishList.decrCounts(saved.getState());
+                    saver.entity(wishList);
                     ofy.delete().key(Key.create(parent, Wish.class, itemid)).now();
                 }
             }
@@ -99,6 +103,7 @@ public final class WishesService {
                 Objectify ofy = OfyService.ofy();
                 Wish saved = ofy.load().key(Key.create(parent, Wish.class, itemid)).now();
                 Saver saver = ofy.save();
+                wishList.changeCountsCount(saved.getState(), WishState.ARCHIVED);
                 saved.setState(WishState.ARCHIVED);
                 saved.setUserReceived(wishList.getUsers()
                         .stream()
@@ -106,6 +111,7 @@ public final class WishesService {
                         .map(UserShare::getEmail)
                         .collect(Collectors.toList()));
                 saver.entity(saved);
+                saver.entity(wishList);
 
                 NotificationsService.notify(NotificationType.ARCHIVE_WISH, user, wishList, true);
 
@@ -228,7 +234,15 @@ public final class WishesService {
                 item.setUserTake(saved.getUserTake());
                 item.setComments(saved.getComments());
                 item.setOwner(saved.getOwner());
+                if (saved.getState() != item.getState()) {
+                    wishList.changeCountsCount(saved.getState(), item.getState());
+                    saver.entity(wishList);
+                }
                 add = false;
+            }
+            else {
+                wishList.incrCounts(item.getState());
+                saver.entity(wishList);
             }
             if (item.getOwner() == null) {
                 item.setOwner(new Person(user, false));
