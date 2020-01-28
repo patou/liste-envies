@@ -1,0 +1,44 @@
+# This workflow will triage pull requests and apply a label based on the
+# paths that are modified in the pull request.
+#
+# To use this workflow, you will need to set up a .github/labeler.yml
+# file with configuration.  For more information, see:
+# https://github.com/actions/labeler/blob/master/README.md
+
+name: Labeler
+on: [pull_request]
+
+jobs:
+  label:
+    # Add 'repo' label to any root file changes
+    repo:
+      - ./*
+
+    # Add 'front' label to any change within the 'front' package
+    front:
+      - liste-envies-front/app/*
+      - liste-envies-front/app/**/*  
+        
+    # Add back label to any change within the 'back' package
+    back:
+      - liste-envies-war/src/*
+      - liste-envies-war/src/**/* 
+        
+     # Add style label to any change within .scss 
+    style:
+      - liste-envies-front/**/*.scss
+
+    # Add 'test' label to any change to test files
+    test:
+      - liste-envies-front/app/**/*.spec.ts
+      - liste-envies-war/src/test/**/*.java
+
+    runs-on: ubuntu-latest
+    
+
+    steps:
+    - uses: actions/labeler@v2
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+        
+      
