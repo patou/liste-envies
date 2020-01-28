@@ -33,7 +33,7 @@ public class AppUserServiceTest {
     @BeforeClass
     public static void setUpBeforeClass()
     {
-
+// test labeler
         //ObjectifyService.reset();
         // Reset the Factory so that all translators work properly.
         ObjectifyService.setFactory(new ObjectifyFactory() {
