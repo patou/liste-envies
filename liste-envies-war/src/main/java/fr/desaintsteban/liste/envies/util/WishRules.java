@@ -89,7 +89,6 @@ public class WishRules {
                 .map(UserShare::getEmail).collect(toSet());
         final Map<String,AppUser> map = AppUserService.loadAll(emails);
         return wishList.stream()
-                .filter(list -> list.getStatus() != WishListStatus.ARCHIVED)
                 .map(list -> {
                     WishListDto dto = list.toDto();
                     fillUsersInWishList(dto, list, user, map, false);
