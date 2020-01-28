@@ -18,7 +18,7 @@ jobs:
       with:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
         ci:
-          - .github/workflows/*
+          - ./.github/workflows/*
           - .travis.yml
         repo:
           - ./*
