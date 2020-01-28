@@ -1,0 +1,19 @@
+indexes:
+  - kind: Notification
+    properties:
+      - direction: asc
+        name: user
+      - direction: desc
+        name: date
+  - kind: Envy
+    properties:
+      - direction: asc
+        name: userTake
+      - direction: asc
+        name: archived
+  - kind: WishList
+    properties:
+      - name: users.email
+        direction: asc
+      - name: status
+        direction: asc
