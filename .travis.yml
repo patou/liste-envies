@@ -56,3 +56,5 @@ jobs:
 
 notifications:
   slack: desaintsteban:OBrvC8hmnZXdW1HTa0QOE5tM
+
+  # test labeler
