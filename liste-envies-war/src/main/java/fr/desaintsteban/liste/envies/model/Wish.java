@@ -5,6 +5,7 @@ import com.googlecode.objectify.annotation.*;
 import com.googlecode.objectify.condition.IfNotNull;
 import fr.desaintsteban.liste.envies.dto.WishDto;
 import fr.desaintsteban.liste.envies.dto.CommentDto;
+import fr.desaintsteban.liste.envies.enums.WishState;
 import fr.desaintsteban.liste.envies.util.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -33,15 +34,10 @@ public class Wish {
      * L'envie à été suggéré par une autre personne
      */
     private Boolean suggest = false;
-    /**
-     * L'envie est archivé
-     */
+
     @Index
-    private Boolean archived = false;
-    /**
-     * L'envie a été supprimé, mais elle a été noté comme donné.
-     */
-    private Boolean deleted = false;
+    private WishState state = WishState.ACTIVE;
+
     /**
      * L'envie a été noté comme donné.
      */
@@ -84,7 +80,7 @@ public class Wish {
         setId(wish.getId());
         setOwner(Person.fromDto(wish.getOwner(), false));
         setSuggest(wish.getSuggest());
-        setDeleted(wish.getDeleted());
+        setState(wish.getState());
         setLabel(wish.getLabel());
         setDescription(wish.getDescription());
         setPrice(wish.getPrice());
@@ -183,19 +179,23 @@ public class Wish {
     }
 
     public Boolean getArchived() {
-        return archived;
+        return state == WishState.ARCHIVED;
     }
 
+    @Deprecated
     public void setArchived(Boolean archived) {
-        this.archived = archived;
+        if (archived)
+            setState(WishState.ARCHIVED);
     }
 
     public Boolean getDeleted() {
-        return deleted;
+        return state == WishState.DELETED;
     }
 
+    @Deprecated
     public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
+        if (deleted)
+            setState(WishState.DELETED);
     }
 
     public void setSuggest(Boolean suggest) {
@@ -320,5 +320,21 @@ public class Wish {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public WishState getState() {
+        return state;
+    }
+
+    public void setState(WishState state) {
+        this.state = state;
+    }
+
+    void convertArchivedToState(@AlsoLoad("archived") Boolean archived) {
+        if (archived) state = WishState.ARCHIVED;
+    }
+
+    void convertDeletedToState(@AlsoLoad("deleted") Boolean deleted) {
+        if (deleted) state = WishState.DELETED;
     }
 }

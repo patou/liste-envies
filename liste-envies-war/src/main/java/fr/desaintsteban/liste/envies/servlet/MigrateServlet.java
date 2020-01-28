@@ -44,10 +44,10 @@ public class MigrateServlet extends HttpServlet {
         loadUsers(ofy);
 
 
-        List<ListEnvies> list = ofy.load().type(ListEnvies.class).list();
         List<WishList> listConverted = new ArrayList<>();
         List<Wish> ConvertedWish = new ArrayList<>();
-
+        /*
+        List<ListEnvies> list = ofy.load().type(ListEnvies.class).list();
         for (ListEnvies listEnvy : list) {
             WishList newWishList = convertListeEnvyToWishList(listEnvy);
 
@@ -63,6 +63,21 @@ public class MigrateServlet extends HttpServlet {
 
             listConverted.add(newWishList);
         }
+         */
+
+        List<WishList> listWishList = ofy.load().type(WishList.class).list();
+
+        for (WishList wishList : listWishList) {
+            //Convert
+            List<Wish> Envies = ofy.load().type(Wish.class).ancestor(wishList.getKey()).list();
+
+            for(Wish envy : Envies) {
+                //Convert archived and deleted to state
+                ConvertedWish.add(envy);
+            }
+            listConverted.add(wishList);
+        }
+
         ofy.save().entities(listConverted);
         ofy.save().entities(ConvertedWish);
 
