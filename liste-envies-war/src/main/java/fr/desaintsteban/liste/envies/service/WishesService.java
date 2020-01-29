@@ -119,6 +119,28 @@ public final class WishesService {
         });
     }
 
+    public static void revert(final AppUser user, final String name, final Long itemid) {
+        Objectify ofy = OfyService.ofy();
+        final Key<WishList> parent = Key.create(WishList.class, name);
+        final WishList wishList = ofy.load().key(parent).now();
+        OfyService.ofy().transact(new VoidWork() {
+            @Override
+            public void vrun() {
+                Objectify ofy = OfyService.ofy();
+                Wish saved = ofy.load().key(Key.create(parent, Wish.class, itemid)).now();
+                Saver saver = ofy.save();
+                wishList.changeCountsCount(saved.getState(), saved.getLastState());
+                saved.revertState();
+                saved.setUserReceived(null);
+                saver.entity(saved);
+                saver.entity(wishList);
+
+                NotificationsService.notify(NotificationType.ARCHIVE_WISH, user, wishList, true);
+
+            }
+        });
+    }
+
     public static WishDto get(AppUser user, String name, Long itemid) {
         Objectify ofy = OfyService.ofy();
         Key<WishList> parent = Key.create(WishList.class, name);

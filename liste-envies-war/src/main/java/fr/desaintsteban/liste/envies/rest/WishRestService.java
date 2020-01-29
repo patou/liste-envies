@@ -122,4 +122,14 @@ public class WishRestService {
             WishesService.archive(user, name, id);
         }
     }
+
+    @PUT
+    @Path("/revert/{id}")
+    public void revertWish(@PathParam("name") String name, @PathParam("id") Long id){
+        final AppUser user = ServletUtils.getUserAuthenticated();
+        if(user != null){
+            LOGGER.info("Archive " + id);
+            WishesService.revert(user, name, id);
+        }
+    }
 }
