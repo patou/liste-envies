@@ -4,6 +4,7 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalMemcacheServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
@@ -11,6 +12,7 @@ import com.googlecode.objectify.cache.AsyncCacheFilter;
 import fr.desaintsteban.liste.envies.dto.PersonDto;
 import fr.desaintsteban.liste.envies.dto.WishDto;
 import fr.desaintsteban.liste.envies.dto.CommentDto;
+import fr.desaintsteban.liste.envies.enums.WishState;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.Wish;
 import fr.desaintsteban.liste.envies.model.WishList;
@@ -184,5 +186,36 @@ public class WishServiceTest {
 
         assertThat(extractProperty("id").from(WishesService.list(patrice, "patrice"))).contains(livreId, dvdId);
         assertThat(WishesService.list(patrice, "liste-patrice")).isEmpty();
+    }
+
+    @Test
+    public void testStateArchived() throws Exception {
+        WishesService.archive(patrice, "liste-patrice", livreId);
+        Wish envie = OfyService.ofy().load().key(Key.create(Key.create(WishList.class, "liste-patrice"), Wish.class, livreId)).now();
+
+        assertThat(envie.getState()).isEqualTo(WishState.ARCHIVED);
+        assertThat(envie.getLastState()).isEqualTo(WishState.ACTIVE);
+    }
+
+    @Test
+    public void testCountsWishList() throws Exception {
+        assertThat(listePatrice.getCounts(WishState.ACTIVE)).isEqualTo(2);
+        assertThat(listePatrice.getCounts(WishState.ARCHIVED)).isEqualTo(0);
+        assertThat(listePatrice.getCounts(WishState.DELETED)).isEqualTo(0);
+
+        WishesService.archive(patrice, "liste-patrice", livreId);
+        assertThat(listePatrice.getCounts(WishState.ACTIVE)).isEqualTo(1);
+        assertThat(listePatrice.getCounts(WishState.ARCHIVED)).isEqualTo(1);
+        assertThat(listePatrice.getCounts(WishState.DELETED)).isEqualTo(0);
+
+        WishesService.delete(patrice, "liste-patrice", livreId);
+        assertThat(listePatrice.getCounts(WishState.ACTIVE)).isEqualTo(1);
+        assertThat(listePatrice.getCounts(WishState.ARCHIVED)).isEqualTo(0);
+        assertThat(listePatrice.getCounts(WishState.DELETED)).isEqualTo(1);
+
+        WishesService.revert(patrice, "liste-patrice", livreId);
+        assertThat(listePatrice.getCounts(WishState.ACTIVE)).isEqualTo(1);
+        assertThat(listePatrice.getCounts(WishState.ARCHIVED)).isEqualTo(1);
+        assertThat(listePatrice.getCounts(WishState.DELETED)).isEqualTo(0);
     }
 }

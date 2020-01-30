@@ -78,7 +78,7 @@ public final class WishesService {
                 Wish saved = ofy.load().key(Key.create(parent, Wish.class, itemid)).now();
                 Saver saver = ofy.save();
                 if (saved.hasUserTaken() && wishList.containsOwner(saved.getOwner().getEmail())) {
-                    wishList.changeCountsCount(saved.getState(), WishState.ARCHIVED);
+                    wishList.changeCountsCount(saved.getState(), WishState.DELETED);
                     saved.setState(WishState.DELETED);
                     saver.entity(saved);
                     saver.entity(wishList);
