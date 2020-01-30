@@ -21,7 +21,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.extractProperty;
 
 public class AppUserServiceTest {
     private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
@@ -76,7 +77,7 @@ public class AppUserServiceTest {
     @Test
     public void testList() throws Exception {
         List<AppUser> list = AppUserService.list();
-        assertThat(list).hasSize(2).onProperty("email").contains("patrice@desaintsteban.fr", "emmanuel@desaintsteban.fr");
+        assertThat(extractProperty("email").from(list)).hasSize(2).contains("patrice@desaintsteban.fr", "emmanuel@desaintsteban.fr");
     }
 
     @Test
