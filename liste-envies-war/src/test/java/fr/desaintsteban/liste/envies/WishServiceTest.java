@@ -28,6 +28,7 @@ import org.junit.Test;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -195,6 +196,7 @@ public class WishServiceTest {
 
         assertThat(envie.getState()).isEqualTo(WishState.ARCHIVED);
         assertThat(envie.getLastState()).isEqualTo(WishState.ACTIVE);
+        assertThat(envie.getStateDate()).isEqualToIgnoringMinutes(new Date());
     }
 
     @Test
