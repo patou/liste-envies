@@ -195,7 +195,6 @@ public class WishServiceTest {
         Wish envie = OfyService.ofy().load().key(Key.create(Key.create(WishList.class, "liste-patrice"), Wish.class, livreId)).now();
 
         assertThat(envie.getState()).isEqualTo(WishState.ARCHIVED);
-        assertThat(envie.getLastState()).isEqualTo(WishState.ACTIVE);
         assertThat(envie.getStateDate()).isEqualToIgnoringMinutes(new Date());
     }
 
@@ -214,10 +213,5 @@ public class WishServiceTest {
         assertThat(listePatrice.getCounts(WishState.ACTIVE)).isEqualTo(1);
         assertThat(listePatrice.getCounts(WishState.ARCHIVED)).isEqualTo(0);
         assertThat(listePatrice.getCounts(WishState.DELETED)).isEqualTo(1);
-
-        WishesService.revert(patrice, "liste-patrice", livreId);
-        assertThat(listePatrice.getCounts(WishState.ACTIVE)).isEqualTo(1);
-        assertThat(listePatrice.getCounts(WishState.ARCHIVED)).isEqualTo(1);
-        assertThat(listePatrice.getCounts(WishState.DELETED)).isEqualTo(0);
     }
 }

@@ -37,7 +37,6 @@ public class Wish {
 
     @Index
     private WishState state = WishState.ACTIVE;
-    private WishState lastState;
 
     private Date stateDate;
 
@@ -329,14 +328,6 @@ public class Wish {
         return state;
     }
 
-    public WishState getLastState() {
-        return lastState;
-    }
-
-    public void setLastState(WishState lastState) {
-        this.lastState = lastState;
-    }
-
     public Date getStateDate() {
         return stateDate;
     }
@@ -346,17 +337,7 @@ public class Wish {
     }
 
     public void setState(WishState state) {
-        if (this.lastState != state) {
-            this.lastState = this.state;
-            this.stateDate = new Date();
-        }
         this.state = state;
-    }
-
-    public void revertState() {
-        this.state = this.lastState;
-        this.lastState = null;
-        this.stateDate = new Date();
     }
 
     void convertArchivedToState(@AlsoLoad("archived") Boolean archived) {

@@ -80,6 +80,7 @@ public final class WishesService {
                 if (saved.hasUserTaken() && wishList.containsOwner(saved.getOwner().getEmail())) {
                     wishList.changeCountsCount(saved.getState(), WishState.DELETED);
                     saved.setState(WishState.DELETED);
+                    saved.setStateDate(new Date());
                     saver.entity(saved);
                     saver.entity(wishList);
                     NotificationsService.notify(NotificationType.DELETE_WISH, user, wishList, true, saved.getLabel());
@@ -105,33 +106,12 @@ public final class WishesService {
                 Saver saver = ofy.save();
                 wishList.changeCountsCount(saved.getState(), WishState.ARCHIVED);
                 saved.setState(WishState.ARCHIVED);
+                saved.setStateDate(new Date());
                 saved.setUserReceived(wishList.getUsers()
                         .stream()
                         .filter(UserShare::isOwner)
                         .map(UserShare::getEmail)
                         .collect(Collectors.toList()));
-                saver.entity(saved);
-                saver.entity(wishList);
-
-                NotificationsService.notify(NotificationType.ARCHIVE_WISH, user, wishList, true);
-
-            }
-        });
-    }
-
-    public static void revert(final AppUser user, final String name, final Long itemid) {
-        Objectify ofy = OfyService.ofy();
-        final Key<WishList> parent = Key.create(WishList.class, name);
-        final WishList wishList = ofy.load().key(parent).now();
-        OfyService.ofy().transact(new VoidWork() {
-            @Override
-            public void vrun() {
-                Objectify ofy = OfyService.ofy();
-                Wish saved = ofy.load().key(Key.create(parent, Wish.class, itemid)).now();
-                Saver saver = ofy.save();
-                wishList.changeCountsCount(saved.getState(), saved.getLastState());
-                saved.revertState();
-                saved.setUserReceived(null);
                 saver.entity(saved);
                 saver.entity(wishList);
 
@@ -258,12 +238,14 @@ public final class WishesService {
                 item.setOwner(saved.getOwner());
                 if (saved.getState() != item.getState()) {
                     wishList.changeCountsCount(saved.getState(), item.getState());
+                    item.setStateDate(new Date());
                     saver.entity(wishList);
                 }
                 add = false;
             }
             else {
                 wishList.incrCounts(item.getState());
+                item.setStateDate(new Date());
                 saver.entity(wishList);
             }
             if (item.getOwner() == null) {
