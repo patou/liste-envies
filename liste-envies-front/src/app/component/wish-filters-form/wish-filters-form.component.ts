@@ -11,6 +11,7 @@ import { AkitaFilter, searchFilter } from "akita-filters-plugin";
 import { untilDestroyed } from "ngx-take-until-destroy";
 import { WishItem } from "../../models/WishItem";
 import { Observable } from "rxjs/Observable";
+import { WishState } from "../../state/wishes/wish.store";
 
 @Component({
   selector: "app-wish-filters-form",
@@ -29,7 +30,7 @@ export class WishFiltersFormComponent implements OnInit, OnDestroy {
     size: new FormControl(),
     fastDeliveryControl: new FormControl()*/
   });
-  public filters: Observable<AkitaFilter<WishItem>[]>;
+  public filters: Observable<AkitaFilter<WishState>[]>;
 
   constructor(private wishService: WishService) {}
 
@@ -99,7 +100,8 @@ export class WishFiltersFormComponent implements OnInit, OnDestroy {
             id: "comment",
             value: "comment",
             name: `" avec commentaires "`,
-            predicate: (entity: any) => entity.comments && !!entity.comments.length
+            predicate: (entity: any) =>
+              entity.comments && !!entity.comments.length
           });
         } else {
           this.wishService.removeFilter("comment");

@@ -37,7 +37,7 @@
     "@datorama/akita": "^4.10.5",
     "@datorama/akita-ng-forms-manager": "^3.1.0",
     "@firebase/app-types": "^0.4.3",
-    "akita-filters-plugin": "^2.1.1",
+    "akita-filters-plugin": "^3.0.2",
     "core-js": "^3.2.1",
     "filepond": "^4.7.1",
     "filepond-plugin-file-encode": "^2.1.4",

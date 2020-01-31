@@ -28,7 +28,8 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.util.List;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.extractProperty;
 
 public class WishServiceTest {
     private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
@@ -103,14 +104,14 @@ public class WishServiceTest {
     public void testGetNotSameUser() throws Exception {
         WishDto envie = WishesService.get(emmanuel, "liste-patrice", livreId);
         assertThat(envie.getLabel()).isEqualTo("Livre");
-        assertThat(envie.getUserTake()).onProperty("email").contains("emmanuel@desaintsteban.fr");
+        assertThat(extractProperty("email").from(envie.getUserTake())).contains("emmanuel@desaintsteban.fr");
     }
 
     @Test
     public void testList() throws Exception {
         List<WishDto> list = WishesService.list(patrice, "liste-patrice", false);
-        assertThat(list).hasSize(2).onProperty("label").contains("Livre", "DVD");
-        assertThat(list).hasSize(2).onProperty("userTake").excludes("emmanuel@desaintsteban.fr");
+        assertThat(extractProperty("label").from(list)).hasSize(2).contains("Livre", "DVD");
+        assertThat(extractProperty("userTake").from(list)).hasSize(2).doesNotContain("emmanuel@desaintsteban.fr");
     }
 
 
@@ -118,14 +119,14 @@ public class WishServiceTest {
     public void testListWithArchived() throws Exception {
         WishesService.archive(patrice, "liste-patrice", livreId);
         List<WishDto> list = WishesService.list(patrice, "liste-patrice", false);
-        assertThat(list).hasSize(1).onProperty("label").contains("DVD");
+        assertThat(extractProperty("label").from(list)).hasSize(1).contains("DVD");
     }
 
 
     @Test
     public void testListGived() throws Exception {
         List<WishDto> list = WishesService.given(emmanuel);
-        assertThat(list).hasSize(1).onProperty("label").contains("Livre");
+        assertThat(extractProperty("label").from(list)).hasSize(1).contains("Livre");
     }
 
 
@@ -133,14 +134,14 @@ public class WishServiceTest {
     public void testListArchived() throws Exception {
         WishesService.archive(patrice, "liste-patrice", livreId);
         List<WishDto> list = WishesService.archived(patrice);
-        assertThat(list).hasSize(1).onProperty("label").contains("Livre");
+        assertThat(extractProperty("label").from(list)).hasSize(1).contains("Livre");
         assertThat(WishesService.given(emmanuel)).isEmpty();
     }
 
     @Test
     public void testListOther() throws Exception {
         List<WishDto> list = WishesService.list(emmanuel, "liste-patrice", false);
-        assertThat(list).hasSize(2).onProperty("label").contains("Livre", "DVD");
+        assertThat(extractProperty("label").from(list)).hasSize(2).contains("Livre", "DVD");
         //assertThat(list).hasSize(2).onProperty("userTake"). contains(EncodeUtils.encode("emmanuel@desaintsteban.fr"));
     }
 
@@ -173,15 +174,15 @@ public class WishServiceTest {
         WishDto dto = WishesService.get(patrice, "liste-emmanuel", saved.getId());
 
         assertThat(dto.getLabel()).isEqualTo(initdto.getLabel());
-        assertThat(dto.getComments()).onProperty("from.email").contains("patrice@desaintsteban.fr", "clemence@desaintsteban.fr");
-        assertThat(dto.getComments()).onProperty("text").contains("Commentaire", "Commentaire2");
+        assertThat(extractProperty("from.email").from(dto.getComments())).contains("patrice@desaintsteban.fr", "clemence@desaintsteban.fr");
+        assertThat(extractProperty("text").from(dto.getComments())).contains("Commentaire", "Commentaire2");
     }
 
     @Test
     public void renameWishList() throws Exception {
         WishListService.rename(patrice, "liste-patrice", "patrice");
 
-        assertThat(WishesService.list(patrice, "patrice")).onProperty("id").contains(livreId, dvdId);
+        assertThat(extractProperty("id").from(WishesService.list(patrice, "patrice"))).contains(livreId, dvdId);
         assertThat(WishesService.list(patrice, "liste-patrice")).isEmpty();
     }
 }

@@ -22,7 +22,8 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.util.List;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.extractProperty;
 
 public class WishListServiceTest {
     private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
@@ -81,13 +82,13 @@ public class WishListServiceTest {
     @Test
     public void testList() throws Exception {
         List<WishList> list = WishListService.list();
-        assertThat(list).hasSize(2).onProperty("name").contains("liste-patrice", "liste-emmanuel");
+        assertThat(extractProperty("name").from(list)).hasSize(2).contains("liste-patrice", "liste-emmanuel");
     }
 
     @Test
     public void testListEmails() throws Exception {
         List<WishList> list = WishListService.list("patrice@desaintsteban.fr");
-        assertThat(list).hasSize(1).onProperty("name").contains("liste-patrice");
+        assertThat(extractProperty("name").from(list)).hasSize(1).contains("liste-patrice");
     }
 
     @Test

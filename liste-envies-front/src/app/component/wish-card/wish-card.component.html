@@ -41,6 +41,7 @@
             disabled
             *ngIf="wishItem.canEdit"
             [disabled]="readOnly"
+            (click)="archive(wishItem)"
           >
             <mat-icon>archive</mat-icon>
             <span>Archiver</span>
@@ -50,6 +51,7 @@
             disabled
             *ngIf="wishItem.canEdit"
             [disabled]="readOnly"
+            (click)="remove(wishItem)"
           >
             <mat-icon>delete</mat-icon>
             <span>Supprimer</span>

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ID, SelectOptions } from "@datorama/akita";
-import {WishesListState, WishesListStore} from './wishes-list.store';
+import { WishesListState, WishesListStore } from "./wishes-list.store";
 import { WishListApiService } from "../../service/wish-list-api.service";
 import { Debounce } from "lodash-decorators";
 import { WishList } from "../../models/WishList";
@@ -19,8 +19,9 @@ export class WishesListService {
     private wishService: WishService,
     private wishesListQuery: WishesListQuery
   ) {
-    // @ts-ignore
-    this.filters = new AkitaFiltersPlugin<WishesListState>(this.wishesListQuery);
+    this.filters = new AkitaFiltersPlugin<WishesListState>(
+      this.wishesListQuery
+    );
   }
 
   @Debounce(200)
@@ -94,5 +95,13 @@ export class WishesListService {
         predicate: (list: WishList) => searchFilterIn(search, list, "title")
       });
     }
+  }
+
+  archiveWishList(name: string) {
+    return this.wishListService.archiveWishList(name).pipe(
+      tap(value => {
+        this.wishesListStore.remove(name);
+      })
+    );
   }
 }

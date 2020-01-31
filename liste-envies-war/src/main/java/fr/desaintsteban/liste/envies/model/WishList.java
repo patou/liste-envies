@@ -4,10 +4,12 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 import fr.desaintsteban.liste.envies.dto.WishListDto;
 import fr.desaintsteban.liste.envies.dto.UserShareDto;
 import fr.desaintsteban.liste.envies.enums.SharingPrivacyType;
 import fr.desaintsteban.liste.envies.enums.UserShareType;
+import fr.desaintsteban.liste.envies.enums.WishListStatus;
 import fr.desaintsteban.liste.envies.enums.WishListType;
 
 import java.util.ArrayList;
@@ -35,6 +37,8 @@ public class WishList {
     private Date date; // date of the event
     private SharingPrivacyType privacy; // Option for sharing privacy of the all list.
 
+    @Index
+    private WishListStatus status =  WishListStatus.ACTIVE; // status
 
     public WishList() {
         this.privacy = SharingPrivacyType.PRIVATE;
@@ -80,11 +84,11 @@ public class WishList {
         setDescription(dto.getDescription());
         List<UserShare> users = dto.getUsers().stream().map(userShareDto -> new UserShare(userShareDto.getEmail(), userShareDto.getType())).collect(Collectors.toList());
         setUsers(users);
-
         setPicture( dto.getPicture());
         setType( dto.getType());
         setDate( dto.getDate());
         setPrivacy( dto.getPrivacy());
+        setStatus(dto.getStatus());
     }
 
     public WishListDto toDto() {
@@ -97,6 +101,7 @@ public class WishList {
         dto.setDate( getDate());
         dto.setPrivacy( getPrivacy());
         dto.setOwner(false);
+        dto.setStatus(getStatus());
         return dto;
     }
 
@@ -180,5 +185,13 @@ public class WishList {
     public void addUser(AppUser user) {
         if (users == null) users = new ArrayList<>();
         users.add(new UserShare(user.getEmail(), UserShareType.SHARED));
+    }
+
+    public WishListStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(WishListStatus status) {
+        this.status = status;
     }
 }

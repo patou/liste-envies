@@ -12,18 +12,19 @@ import { WishListApiService } from "../../service/wish-list-api.service";
 import { Observable } from "rxjs/Observable";
 import { WishList } from "../../models/WishList";
 import { WishItem } from "../../models/WishItem";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "../../service/auth.service";
 import * as firebase from "firebase";
 import { WishEditComponent } from "../../component/wish-edit/wish-edit.component";
-import { MatDialog } from "@angular/material";
+import { MatDialog, MatSnackBar } from "@angular/material";
 import { WishQuery } from "../../state/wishes/wish.query";
-import {distinct, distinctUntilKeyChanged, skip, tap} from 'rxjs/operators';
+import { distinct, distinctUntilKeyChanged, skip, tap } from "rxjs/operators";
 import { WishService } from "../../state/wishes/wish.service";
 import { DemoService } from "../../state/wishes/demo/demo.service";
 import { DemoQuery } from "../../state/wishes/demo/demo.query";
 import { untilDestroyed } from "ngx-take-until-destroy";
-import {ColorManagementService} from '../../service/color-management.service';
+import { ColorManagementService } from "../../service/color-management.service";
+import { WishesListService } from "../../state/wishes/wishes-list.service";
 
 @Component({
   selector: "app-list",
@@ -49,17 +50,19 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
 
   public userAuth: Observable<firebase.User>;
 
-
   constructor(
     private wishService: WishService,
     private wishListApiService: WishListApiService,
     private demoWishService: DemoService,
     private demoWishQuery: DemoQuery,
     private route: ActivatedRoute,
+    private router: Router,
     private auth: AuthService,
     public dialog: MatDialog,
     private wishQuery: WishQuery,
-    private colorManagementService: ColorManagementService
+    private wishesListService: WishesListService,
+    private colorManagementService: ColorManagementService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -74,11 +77,17 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
     // if no demo, do the following
 
     this.whishList$ = this.wishQuery.selectWish();
-    this.whishList$.pipe(distinct(), tap(wishList => {
-      this.list = wishList;
-    }), distinctUntilKeyChanged('picture')).subscribe(() => {
-      this.colorManagementService.setColorFromUrl(this.getUrlImage());
-    });
+    this.whishList$
+      .pipe(
+        distinct(),
+        tap(wishList => {
+          this.list = wishList;
+        }),
+        distinctUntilKeyChanged("picture")
+      )
+      .subscribe(() => {
+        this.colorManagementService.setColorFromUrl(this.getUrlImage());
+      });
 
     this.listItems = this.wishQuery.selectAll();
     this.loading$ = this.wishQuery.selectLoading();
@@ -132,13 +141,29 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
     if (
       this.list &&
       this.list.picture &&
-      this.list.picture.startsWith('http')
+      this.list.picture.startsWith("http")
     ) {
       return this.list.picture;
     } else if (this.list && this.list.picture) {
       return `assets/${this.list.picture}`;
     }
-    return 'assets/img/default.jpg';
+    return "assets/img/default.jpg";
+  }
+
+  archiveList() {
+    // todo add a confirm dialog.
+    this.wishesListService.archiveWishList(this.list.name).subscribe(
+      value => {
+        this.snackBar.open(`Votre liste ${this.list.name} a été archivé `);
+        this.router.navigate(["/"]);
+      },
+      error => {
+        console.error(error);
+        this.snackBar.open(
+          `Erreur de l'archivage de la liste ${this.list.name}`
+        );
+      }
+    );
   }
 
   ngOnDestroy(): void {}

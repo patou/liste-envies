@@ -2032,10 +2032,10 @@ ajv@^5.0.0:
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.3.0"
 
-akita-filters-plugin@^2.1.1:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/akita-filters-plugin/-/akita-filters-plugin-2.1.3.tgz#b7b76b0d78434dc29a2d18bb164b06543120035c"
-  integrity sha512-GljuVZb6zfyU33+zwvG7jJIgu2zxQFmTw+yRT6hF49GR3jXURRqM+gOsk5B+21CnOAG3897vUULKD4Ovs4opdQ==
+akita-filters-plugin@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/akita-filters-plugin/-/akita-filters-plugin-3.0.2.tgz#d8f431504035517323bcad600ae30af00e268d5b"
+  integrity sha512-u/dXA7FGgX4+5LT+tKvkNEuMx7s4wKGi8PGgfOBT/09vfxtjC0Cj335tSiWXmEII0XN/4b3dHJWO22afbODdYQ==
   dependencies:
     tslib "^1.9.0"
   optionalDependencies:
