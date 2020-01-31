@@ -4,6 +4,7 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Deleter;
 import com.googlecode.objectify.cmd.QueryKeys;
 import com.googlecode.objectify.cmd.Saver;
+import fr.desaintsteban.liste.envies.enums.WishListStatus;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.Wish;
 import fr.desaintsteban.liste.envies.model.WishList;
@@ -27,7 +28,7 @@ public final class WishListService {
 	}
 
 	public static List<WishList> list(String email) {
-		List<WishList> list = OfyService.ofy().load().type(WishList.class).filter("users.email =", email).list();
+		List<WishList> list = OfyService.ofy().load().type(WishList.class).filter("users.email =", email).list(); // .filter("status != ",WishListStatus.ARCHIVED)
 		return list;
 	}
 
@@ -109,6 +110,24 @@ public final class WishListService {
 			Deleter deleter = OfyService.ofy().delete();
 			deleter.key(key);
 			deleter.keys(oldWishesKey);
+		});
+	}
+
+
+	public static void archive(AppUser user, String name) throws Exception {
+		Key<WishList> key = Key.create(WishList.class, name);
+		WishList list = OfyService.ofy().load().key(key).now();
+		if (!list.containsOwner(user.getEmail()))
+			throw new Exception("Not allowed");
+		List<Wish> wishes = OfyService.ofy().load().type(Wish.class).ancestor(key).list();
+		list.setStatus(WishListStatus.ARCHIVED);
+		wishes.forEach(wish ->  {
+			wish.setArchived(true);
+		});
+		OfyService.ofy().transact(() -> {
+			final Saver saver = OfyService.ofy().save();
+			saver.entity(list);
+			saver.entities(wishes);
 		});
 	}
 }

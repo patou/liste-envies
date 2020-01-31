@@ -11,6 +11,7 @@ import fr.desaintsteban.liste.envies.dto.UserShareDto;
 import fr.desaintsteban.liste.envies.enums.SharingPrivacyType;
 import fr.desaintsteban.liste.envies.enums.UserShareType;
 import fr.desaintsteban.liste.envies.enums.WishListState;
+import fr.desaintsteban.liste.envies.enums.WishListStatus;
 import fr.desaintsteban.liste.envies.enums.WishListType;
 import fr.desaintsteban.liste.envies.enums.WishState;
 
@@ -45,6 +46,8 @@ public class WishList {
     @Index
     private HashMap<WishState, Integer> counts = new HashMap<>(); //Compte le nombre d'envies dans chaque état
 
+    @Index
+    private WishListStatus status =  WishListStatus.ACTIVE; // status
 
     public WishList() {
         this.privacy = SharingPrivacyType.PRIVATE;
@@ -90,11 +93,11 @@ public class WishList {
         setDescription(dto.getDescription());
         List<UserShare> users = dto.getUsers().stream().map(userShareDto -> new UserShare(userShareDto.getEmail(), userShareDto.getType())).collect(Collectors.toList());
         setUsers(users);
-
         setPicture( dto.getPicture());
         setType( dto.getType());
         setDate( dto.getDate());
         setPrivacy( dto.getPrivacy());
+        setStatus(dto.getStatus());
     }
 
     public WishListDto toDto() {
@@ -108,6 +111,7 @@ public class WishList {
         dto.setPrivacy( getPrivacy());
         dto.setOwner(false);
         dto.setCounts(getCounts());
+        dto.setStatus(getStatus());
         return dto;
     }
 
@@ -220,5 +224,13 @@ public class WishList {
 
     public void setCounts(HashMap<WishState, Integer> counts) {
         this.counts = counts;
+    }
+
+    public WishListStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(WishListStatus status) {
+        this.status = status;
     }
 }

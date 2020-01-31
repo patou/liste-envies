@@ -55,9 +55,9 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
   previewAs: "OWNER" | "REGISTRER" | "PUBLIC" = "OWNER";
   demoWhishs: Subject<WishItem[]> = new Subject<WishItem[]>();
   startDate = moment().month(1);
-  private sending: boolean;
-  private wishListFormGroup: FormGroup;
-  private edit: boolean = false;
+  public sending: boolean;
+  public wishListFormGroup: FormGroup;
+  public edit: boolean = false;
 
   constructor(
     private _formBuilder: FormBuilder,

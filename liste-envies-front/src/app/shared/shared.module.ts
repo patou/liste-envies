@@ -66,6 +66,7 @@ import FilePondPluginFileEncode from "filepond-plugin-file-encode";
 import FilePondPluginImageResize from "filepond-plugin-image-resize";
 import FilePondPluginImageTransform from "filepond-plugin-image-transform";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+import {WishListNavItemComponent} from './wish-list-nav-item/wish-list-nav-item.component';
 registerPlugin(
   FilePondPluginImageExifOrientation,
   FilePondPluginFileValidateType,
@@ -101,6 +102,7 @@ registerPlugin(
     LinksFormComponent,
     ImgFormComponent,
     WishListItemComponent,
+    WishListNavItemComponent,
     ListTypeIcon,
     ReadMoreComponent,
     PageFooterComponent,
@@ -132,7 +134,8 @@ registerPlugin(
     ReadMoreComponent,
     PageFooterComponent,
     WishFiltersFormComponent,
-    UserShareComponent
+    UserShareComponent,
+    WishListNavItemComponent
   ],
   providers: [
     {

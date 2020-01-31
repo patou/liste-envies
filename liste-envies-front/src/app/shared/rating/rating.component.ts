@@ -68,10 +68,9 @@ import {Subject} from 'rxjs/Subject';
       .light {
         color: #eee;
       }
-      .rating-icon {
-        &:hover {
+      .rating-icon:hover {
           color: red;
-         }
+
       }
 
       .pointer {
