@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
   public userAuth: Observable<firebase.User>;
 
   private list$: Observable<WishList[]>;
-  private loading$: Observable<boolean>;
+  public loading$: Observable<boolean>;
 
   constructor(
     private wishListService: WishesListQuery,

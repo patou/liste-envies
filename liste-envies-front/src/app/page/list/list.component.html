@@ -3,6 +3,26 @@
     class="page-background"
     [style.backgroundImage]="listBackgroundImg()"
   ></div>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="edit" color="accent">
+      <mat-icon>edit</mat-icon>
+      <span>Modifier la liste</span>
+    </button>
+    <button mat-menu-item disabled>
+      <mat-icon>notifications_off</mat-icon>
+      <span>Disable alerts</span>
+    </button>
+    <button mat-menu-item (click)="archiveList()">
+      <mat-icon>archive</mat-icon>
+      <span
+        >Archiver la liste
+        <mat-icon
+          matTooltip="La liste et les envies associé seront archivées et ne seront plus visible dans vos listes."
+          >info</mat-icon
+        ></span
+      >
+    </button>
+  </mat-menu>
   <mat-card class="header-page-card" *ngIf="list">
     <mat-card *ngIf="list.date" class="dateList">
       <mat-card-header>
@@ -17,6 +37,17 @@
         {{ list.date | amTimeAgo }}
       </mat-card-content>
     </mat-card>
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="menu"
+      aria-label="Menu action"
+      class="menu-admin-list-button"
+      matTooltip="Administrer la liste"
+      *ngIf="!demo && list.owner"
+    >
+      <mat-icon>more_vert</mat-icon>
+    </button>
+
     <section class="mat-typography">
       <mat-card-header>
         <list-type-icon
