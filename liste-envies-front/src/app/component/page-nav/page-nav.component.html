@@ -39,7 +39,7 @@
           </mat-expansion-panel-header>
 
           <mat-nav-list>
-            <wish-list-item
+            <wish-list-nav-item
               *ngFor="let wishList of myList$ | async; trackBy: trackByFn"
               [wishlist]="wishList"
               [active]="wishList.name === (activeList$ | async)"
@@ -47,7 +47,7 @@
               mat-list-item
               (click)="drawer.close()"
             >
-            </wish-list-item>
+            </wish-list-nav-item>
           </mat-nav-list>
         </mat-expansion-panel>
         <mat-expansion-panel
@@ -64,15 +64,17 @@
               Autres listes partagées
             </mat-panel-title>
           </mat-expansion-panel-header>
+
           <mat-nav-list>
-            <wish-list-item
-              *ngFor="let wishList of otherList$ | async"
+            <wish-list-nav-item
+              *ngFor="let wishList of otherList$ | async; trackBy: trackByFn"
               [wishlist]="wishList"
               [active]="wishList.name === (activeList$ | async)"
               class="wishListCard"
               mat-list-item
+              (click)="drawer.close()"
             >
-            </wish-list-item>
+            </wish-list-nav-item>
           </mat-nav-list>
         </mat-expansion-panel>
       </mat-accordion>

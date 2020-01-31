@@ -1,7 +1,7 @@
 {
   "/api": {
-    "target": "http://ng5.test-liste-envies.appspot.com",
-    "secure": false,
+    "target": "https://ng5-dot-test-liste-envies.appspot.com",
+    "secure": true,
     "changeOrigin": true,
     "logLevel": "debug"
   },

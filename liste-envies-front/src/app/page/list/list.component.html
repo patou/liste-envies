@@ -66,16 +66,8 @@
             >
               <mat-icon class="mat-18">edit</mat-icon>
             </a>
-            <a
-              mat-icon-button
-              routerLink="archived"
-              color="accent"
-              mat-tooltip="Afficher les envies archivées"
-            >
-              <mat-icon class="mat-18">archive</mat-icon>
-            </a>
-          </h1></mat-card-title
-        >
+          </h1>
+        </mat-card-title>
         <mat-card-subtitle
           class="owners-list"
           *ngIf="list?.owners && list?.owners?.length"
@@ -101,11 +93,36 @@
           </ng-container></mat-card-subtitle
         >
       </mat-card-header>
+      <nav
+        mat-tab-nav-bar
+        mat-align-tabs="end"
+        color="accent"
+        class="tabs-actif-archive"
+      >
+        <a
+          mat-tab-link
+          class="tab"
+          [routerLink]="['/', list.name]"
+          routerLinkActive
+          #currentList="routerLinkActive"
+          [active]="currentList.isActive"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <mat-icon class="tab-icon">card_giftcard</mat-icon> A offrir
+        </a>
+        <a
+          mat-tab-link
+          class="tab"
+          [routerLink]="['/', list.name, 'archived']"
+          routerLinkActive
+          #archiveList="routerLinkActive"
+          [active]="archiveList.isActive"
+        >
+          <mat-icon class="tab-icon">history</mat-icon> Déjà reçu
+        </a>
+      </nav>
     </section>
-    <mat-divider
-      [inset]="true"
-      [class.divider-withDate]="list.date"
-    ></mat-divider>
+
     <mat-card-content>
       <read-more [content]="list.description" maxHeight="200"></read-more>
     </mat-card-content>
