@@ -98,7 +98,7 @@
 
       <a routerLink="/" class="title">
         <span><mat-icon fontSet="fa" fontIcon="fa-gift"></mat-icon></span>
-        Listes de mes envies</a
+        <span class="hidden-small">Listes de mes envies</span></a
       >
 
       <mat-form-field *ngIf="!(loading$ | async) && !(isHandset$ | async)">
@@ -182,12 +182,27 @@
               [gravatarId]="user.email"
               size="30"
               [round]="true"
+              matTooltip="{{ user.displayName }} - {{user.email}}"
             >
             </ngx-avatar>
-            {{ user.displayName || user.email }}</span
+            <span class="hidden-small">{{ user.displayName || user.email }}</span></span
           >
           <mat-icon>arrow_drop_down</mat-icon>
         </button>
+        <mat-menu yPosition="above" xPosition="before" #connected="matMenu">
+          <button mat-menu-item disabled >
+            <mat-icon>person</mat-icon>
+            {{user.displayName || user.email}}
+          </button>
+          <button mat-menu-item routerLink="/about">
+            <mat-icon>info</mat-icon>
+            En savoir plus
+          </button>
+          <button (click)="logout()" mat-menu-item>
+            <mat-icon>logout</mat-icon>
+            Déconnection
+          </button>
+        </mat-menu>
       </div>
       <ng-template #showLogin>
         <button mat-button routerLink="/about">
@@ -201,20 +216,7 @@
       </ng-template>
     </mat-toolbar>
 
-    <mat-menu yPosition="above" xPosition="before" #connected="matMenu">
-      <button (click)="logout()" mat-menu-item>
-        <mat-icon>logout</mat-icon>
-        Déconnection
-      </button>
-      <button mat-menu-item disabled>
-        <mat-icon>person</mat-icon>
-        Profil
-      </button>
-      <button mat-menu-item routerLink="/about">
-        <mat-icon>info</mat-icon>
-        En savoir plus
-      </button>
-    </mat-menu>
+
     <ng-content></ng-content>
   </mat-sidenav-content>
 

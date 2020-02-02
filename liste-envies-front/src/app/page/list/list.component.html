@@ -4,6 +4,23 @@
     [style.backgroundImage]="listBackgroundImg()"
   ></div>
   <mat-menu #menu="matMenu">
+    <button mat-menu-item
+      class="visible-small"
+      [routerLink]="['/', list.name]"
+      routerLinkActive
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <mat-icon class="tab-icon">card_giftcard</mat-icon>
+      A offrir
+    </button>
+    <button mat-menu-item
+      class="visible-small"
+      [routerLink]="['/', list.name, 'archived']"
+      routerLinkActive
+    >
+      <mat-icon class="tab-icon">history</mat-icon>
+      Déjà reçu
+    </button>
     <button mat-menu-item routerLink="edit" color="accent">
       <mat-icon>edit</mat-icon>
       <span>Modifier la liste</span>
@@ -23,113 +40,127 @@
       >
     </button>
   </mat-menu>
-  <mat-card class="header-page-card" *ngIf="list">
+
+  <mat-expansion-panel class="header-page-card" *ngIf="list" [expanded]="expandedHeader | async" >
+      <mat-expansion-panel-header
+        class="mat-typography header-wishlist"
+        collapsedHeight="80px"
+        expandedHeight="100px"
+      >
+
+        <mat-panel-title class="title header-wishlist-title"
+          ><list-type-icon
+          mat-card-avatar
+          [type]="list.type"
+          class="header-wishlist-icon"
+          size="large"
+        ></list-type-icon>
+          <div class="header-wishlist-title_block">
+            <h1 class="title-list">
+              {{ list.title }}
+              <a
+                mat-icon-button
+                routerLink="edit"
+                color="accent"
+                class=" hidden-small icon-edit"
+                *ngIf="!demo && list.owner"
+              >
+                <mat-icon class="mat-18">edit</mat-icon>
+              </a>
+            </h1>
+            <p
+              class="owners-list"
+              *ngIf="list?.owners && list?.owners?.length"
+            >de
+              <ng-container *ngFor="let owner of list?.owners; let last = last">
+                <ngx-avatar
+                  [gravatarId]="owner?.email"
+                  [matTooltip]="owner?.name || owner?.email"
+                  [name]="owner?.name"
+                  [round]="true"
+                  [src]="owner?.photoURL ? owner?.photoURL : ''"
+                  matTooltipPosition="below"
+                  size="15"
+                >
+                </ngx-avatar>
+                <span
+                  [matTooltip]="owner.email"
+                  [title]="owner.email"
+                  class="owners hidden-small"
+                  matTooltipPosition="below"
+                >{{ owner.name }}</span
+                >{{ last ? "" : ", " }}
+              </ng-container>
+            </p
+            >
+          </div>
+        </mat-panel-title>
+
+        <mat-panel-description class="header-wishlist-menu hidden-small">
+          <nav
+            mat-tab-nav-bar
+            mat-align-tabs="end"
+            color="accent"
+            class="tabs-actif-archive"
+          >
+            <a
+              mat-tab-link
+              class="tab"
+              [routerLink]="['/', list.name]"
+              routerLinkActive
+              #currentList="routerLinkActive"
+              [active]="currentList.isActive"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              <mat-icon class="tab-icon">card_giftcard</mat-icon>
+              A offrir
+            </a>
+            <a
+              mat-tab-link
+              class="tab"
+              [routerLink]="['/', list.name, 'archived']"
+              routerLinkActive
+              #archiveList="routerLinkActive"
+              [active]="archiveList.isActive"
+            >
+              <mat-icon class="tab-icon">history</mat-icon>
+              Déjà reçu
+            </a>
+          </nav>
+        </mat-panel-description>
+        <button
+          mat-icon-button
+          [matMenuTriggerFor]="menu"
+          aria-label="Menu action"
+          class="menu-admin-list-button"
+          matTooltip="Administrer la liste"
+          *ngIf="!demo && list.owner"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+      </mat-expansion-panel-header>
+
     <mat-card *ngIf="list.date" class="dateList">
       <mat-card-header>
         <mat-card-title>{{
           list.date | amDateFormat: "dddd D"
-        }}</mat-card-title>
+          }}</mat-card-title>
         <mat-card-subtitle>{{
           list.date | amDateFormat: "MMMM YYYY"
-        }}</mat-card-subtitle>
+          }}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         {{ list.date | amTimeAgo }}
       </mat-card-content>
     </mat-card>
-    <button
-      mat-icon-button
-      [matMenuTriggerFor]="menu"
-      aria-label="Menu action"
-      class="menu-admin-list-button"
-      matTooltip="Administrer la liste"
-      *ngIf="!demo && list.owner"
-    >
-      <mat-icon>more_vert</mat-icon>
-    </button>
 
-    <section class="mat-typography">
-      <mat-card-header>
-        <list-type-icon
-          mat-card-avatar
-          [type]="list.type"
-          size="large"
-        ></list-type-icon>
-        <mat-card-title
-          ><h1 class="title-list">
-            {{ list.title }}
-            <a
-              mat-icon-button
-              routerLink="edit"
-              color="accent"
-              *ngIf="!demo && list.owner"
-            >
-              <mat-icon class="mat-18">edit</mat-icon>
-            </a>
-          </h1>
-        </mat-card-title>
-        <mat-card-subtitle
-          class="owners-list"
-          *ngIf="list?.owners && list?.owners?.length"
-          >de
-          <ng-container *ngFor="let owner of list?.owners; let last = last">
-            <ngx-avatar
-              [gravatarId]="owner?.email"
-              [matTooltip]="owner?.name || owner?.email"
-              [name]="owner?.name"
-              [round]="true"
-              [src]="owner?.photoURL ? owner?.photoURL : ''"
-              matTooltipPosition="below"
-              size="15"
-            >
-            </ngx-avatar>
-            <span
-              [matTooltip]="owner.email"
-              [title]="owner.email"
-              class="owners"
-              matTooltipPosition="below"
-              >{{ owner.name }}</span
-            >{{ last ? "" : ", " }}
-          </ng-container></mat-card-subtitle
-        >
-      </mat-card-header>
-      <nav
-        mat-tab-nav-bar
-        mat-align-tabs="end"
-        color="accent"
-        class="tabs-actif-archive"
-      >
-        <a
-          mat-tab-link
-          class="tab"
-          [routerLink]="['/', list.name]"
-          routerLinkActive
-          #currentList="routerLinkActive"
-          [active]="currentList.isActive"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
-          <mat-icon class="tab-icon">card_giftcard</mat-icon> A offrir
-        </a>
-        <a
-          mat-tab-link
-          class="tab"
-          [routerLink]="['/', list.name, 'archived']"
-          routerLinkActive
-          #archiveList="routerLinkActive"
-          [active]="archiveList.isActive"
-        >
-          <mat-icon class="tab-icon">history</mat-icon> Déjà reçu
-        </a>
-      </nav>
-    </section>
 
-    <mat-card-content>
+
       <read-more [content]="list.description" maxHeight="200"></read-more>
-    </mat-card-content>
-    <mat-card-actions>
+    <mat-action-row>
       <app-wish-filters-form></app-wish-filters-form>
-    </mat-card-actions>
-  </mat-card>
+    </mat-action-row>
+  </mat-expansion-panel>
   <div *ngIf="!(loading$ | async); else loading">
     <app-list-of-wish
       [list]="listItems"
