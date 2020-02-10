@@ -19,14 +19,20 @@ import { WishEditComponent } from "../../component/wish-edit/wish-edit.component
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { WishQuery } from "../../state/wishes/wish.query";
-import {distinct, distinctUntilKeyChanged, map, skip, tap} from "rxjs/operators";
+import {
+  distinct,
+  distinctUntilKeyChanged,
+  map,
+  skip,
+  tap
+} from "rxjs/operators";
 import { WishService } from "../../state/wishes/wish.service";
 import { DemoService } from "../../state/wishes/demo/demo.service";
 import { DemoQuery } from "../../state/wishes/demo/demo.query";
 import { untilDestroyed } from "ngx-take-until-destroy";
 import { ColorManagementService } from "../../service/color-management.service";
 import { WishesListService } from "../../state/wishes/wishes-list.service";
-import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
+import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 
 @Component({
   selector: "app-list",
@@ -53,9 +59,7 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
   public userAuth: Observable<firebase.User>;
   expandedHeader: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
-    .pipe(
-      map(result => !result.matches)
-    );
+    .pipe(map(result => !result.matches));
 
   constructor(
     private wishService: WishService,
@@ -175,4 +179,11 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy(): void {}
+
+  doNothing(event) {
+    console.log("do Nothing : ", event);
+    event.preventDefault();
+    event.stopPropagation();
+    return true;
+  }
 }

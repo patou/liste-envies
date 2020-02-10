@@ -24,7 +24,6 @@ mat-divider.mat-divider.divider-withDate.mat-divider-horizontal.mat-divider-inse
     display: flex;
 
     .header-wishlist-title_block {
-
       h1.title-list {
         text-transform: capitalize;
         size: 16px;
@@ -41,15 +40,11 @@ mat-divider.mat-divider.divider-withDate.mat-divider-horizontal.mat-divider-inse
     }
 
     .header-wishlist-icon {
-
     }
-
-
   }
 
   .header-wishlist-menu {
     nav.tabs-actif-archive {
-
       .tab {
         display: flex;
         justify-content: space-around;
@@ -64,13 +59,8 @@ mat-divider.mat-divider.divider-withDate.mat-divider-horizontal.mat-divider-inse
   }
 
   .menu-admin-list-button {
-
   }
 }
-
-
-
-
 
 mat-card.dateList {
   display: inline;
@@ -97,10 +87,6 @@ mat-card.dateList {
   }
 }
 
-
-
-
-
 // responsive
 @import "~wire.css/src/scss/config";
 @import "~wire.css/src/scss/base/mixins";
@@ -112,6 +98,33 @@ mat-card.dateList {
     max-width: 100%;
     padding: 8px;
   }
+
+  .header-wishlist-title {
+    display: flex;
+    height: 64px;
+    margin: 0;
+
+    .header-wishlist-title_block {
+      h1.title-list {
+        font-size: 14px;
+        font-weight: 800;
+        text-overflow: ellipsis;
+        max-height: 45px;
+        height: 28px;
+        overflow: hidden;
+      }
+
+      list-type-icon.header-wishlist-icon.mat-card-avatar {
+        height: 30px;
+        width: 30px;
+        font-size: 30px !important;
+      }
+    }
+  }
+
+  mat-expansion-panel-header {
+    padding: 2px;
+  }
 }
 @include mq(medium) {
   // This code shows only on tablette and small pc media query
@@ -120,6 +133,13 @@ mat-card.dateList {
     max-width: 100%;
     padding: 8px;
   }
+
+  mat-panel-description.header-wishlist-menu {
+    position: fixed;
+    right: 81px;
+    height: 35px;
+    top: 121px;
+  }
 }
 @include mq(large) {
   // This code shows only on large computer media query
@@ -127,4 +147,3 @@ mat-card.dateList {
 @include mq(huge) {
   // This code shows only on big screen media query
 }
-
