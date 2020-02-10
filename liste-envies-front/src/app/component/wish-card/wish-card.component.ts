@@ -37,7 +37,7 @@ import { Subscription } from "rxjs/Subscription";
       transition(":leave", [
         animate(
           "8s ease-out",
-          style({ transform: "translateX(100%)", scale: 0, opacity: 0 })
+          style({ transform: "translateX(100%) scale(0)", opacity: 0 })
         )
       ])
     ])

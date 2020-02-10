@@ -1,8 +1,10 @@
 package fr.desaintsteban.liste.envies.dto;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
+import fr.desaintsteban.liste.envies.enums.WishState;
 import fr.desaintsteban.liste.envies.enums.WishListStatus;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
@@ -34,6 +36,8 @@ public class WishListDto {
     private WishListState state;
 
     private Boolean canSuggest;
+
+    private HashMap<WishState, Integer> counts;
 
     public List<UserShareDto> getOwners() {
         return owners;
@@ -131,6 +135,14 @@ public class WishListDto {
         this.canSuggest = canSuggest;
     }
 
+    public HashMap<WishState, Integer> getCounts() {
+        return counts;
+    }
+
+    public void setCounts(HashMap<WishState, Integer> counts) {
+        this.counts = counts;
+    }
+  
     public WishListStatus getStatus() {
         return status;
     }

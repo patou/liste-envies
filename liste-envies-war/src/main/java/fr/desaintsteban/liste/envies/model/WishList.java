@@ -1,5 +1,6 @@
 package fr.desaintsteban.liste.envies.model;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Entity;
@@ -9,11 +10,16 @@ import fr.desaintsteban.liste.envies.dto.WishListDto;
 import fr.desaintsteban.liste.envies.dto.UserShareDto;
 import fr.desaintsteban.liste.envies.enums.SharingPrivacyType;
 import fr.desaintsteban.liste.envies.enums.UserShareType;
+import fr.desaintsteban.liste.envies.enums.WishListState;
 import fr.desaintsteban.liste.envies.enums.WishListStatus;
 import fr.desaintsteban.liste.envies.enums.WishListType;
+import fr.desaintsteban.liste.envies.enums.WishState;
 
+import javax.jdo.annotations.Embedded;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -36,6 +42,9 @@ public class WishList {
     private WishListType type; // Purpose of the event for this list
     private Date date; // date of the event
     private SharingPrivacyType privacy; // Option for sharing privacy of the all list.
+    @Embedded
+    @Index
+    private HashMap<WishState, Integer> counts = new HashMap<>(); //Compte le nombre d'envies dans chaque état
 
     @Index
     private WishListStatus status =  WishListStatus.ACTIVE; // status
@@ -44,6 +53,7 @@ public class WishList {
         this.privacy = SharingPrivacyType.PRIVATE;
     }
 
+    @VisibleForTesting
     public WishList(String name, String title, String owner, String... shared) {
         this.name = name;
         this.title = title;
@@ -53,9 +63,9 @@ public class WishList {
             users.add(new UserShare(shareUser, UserShareType.SHARED));
         }
 
-        this.picture = "img/christmas1.jpg";
-        this.type = type;
-        this.date = new Date(2017, 12, 25);
+        this.picture = "img/default.jpg";
+        this.type = WishListType.OTHER;
+        this.date = new Date(2020 - 1900, Calendar.DECEMBER, 25);
         this.privacy = SharingPrivacyType.PRIVATE;
     }
 
@@ -64,7 +74,6 @@ public class WishList {
         this.name = name;
         this.title = title;
         this.description = description;
-        this.users = users;
         this.picture = picture;
         this.type = type;
         this.date = date;
@@ -101,6 +110,7 @@ public class WishList {
         dto.setDate( getDate());
         dto.setPrivacy( getPrivacy());
         dto.setOwner(false);
+        dto.setCounts(getCounts());
         dto.setStatus(getStatus());
         return dto;
     }
@@ -185,6 +195,35 @@ public class WishList {
     public void addUser(AppUser user) {
         if (users == null) users = new ArrayList<>();
         users.add(new UserShare(user.getEmail(), UserShareType.SHARED));
+    }
+
+    public HashMap<WishState, Integer> getCounts() {
+        return counts;
+    }
+
+    public Integer getCounts(WishState state) {
+        return counts.getOrDefault(state, 0);
+    }
+
+    public void resetCounts() {
+        counts = new HashMap<>();
+    }
+
+    public void incrCounts(WishState state) {
+        counts.compute(state, (k, v) -> v != null ? v + 1 : 1);
+    }
+
+    public void decrCounts(WishState state) {
+        counts.computeIfPresent(state, (k, v) -> v - 1);
+    }
+
+    public void changeCountsCount(WishState from, WishState to) {
+        decrCounts(from);
+        incrCounts(to);
+    }
+
+    public void setCounts(HashMap<WishState, Integer> counts) {
+        this.counts = counts;
     }
 
     public WishListStatus getStatus() {
