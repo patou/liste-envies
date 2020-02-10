@@ -93,7 +93,7 @@ public class HistoryApiFallbackFilter implements Filter {
 			LOGGER.info("doFilter: " + doFilter + ", requestURI: " + requestURI);
 			// Prevent the next request from hitting this filter
 			request.setAttribute(REENTRANCY_KEY, Boolean.TRUE);
-			request.getRequestDispatcher("/index.html").forward(request, response);
+			request.getRequestDispatcher("/").forward(request, response);
 		}
 	}
 
