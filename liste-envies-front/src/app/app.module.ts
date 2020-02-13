@@ -38,6 +38,8 @@ import { akitaConfig } from "@datorama/akita";
 import { ReactiveFormsModule } from "@angular/forms";
 import { ConnectComponent } from "./page/connect/connect.component";
 import { WishListItemsArchivedResolver } from "./service/wishListItemsArchivedResolve";
+import { ReceivedComponent } from "./page/received/received.component";
+import { WishListItemsReceivedResolver } from "./service/wishListItemsReceivedResolve";
 akitaConfig({
   resettable: true
 });
@@ -62,7 +64,8 @@ if (environment.production) {
     LoginDialogComponent,
     PageNavComponent,
     NotificationsComponent,
-    ConnectComponent
+    ConnectComponent,
+    ReceivedComponent
   ],
   imports: [
     AppRoutingModule,
@@ -88,6 +91,7 @@ if (environment.production) {
     WishListResolver,
     WishListItemsResolver,
     WishListItemsArchivedResolver,
+    WishListItemsReceivedResolver,
     { provide: LOCALE_ID, useValue: "fr" },
     {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,

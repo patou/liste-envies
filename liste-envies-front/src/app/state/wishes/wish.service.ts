@@ -12,6 +12,8 @@ import { map } from "rxjs/operators";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { AkitaFiltersPlugin } from "akita-filters-plugin";
 import { WishesListStore } from "./wishes-list.store";
+import { UserAPIService } from "../../service/user-api.service";
+import { AuthService } from "../../service/auth.service";
 
 @Injectable({ providedIn: "root" })
 export class WishService extends AkitaFiltersPlugin<WishState> {
@@ -21,6 +23,7 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
     private wishStore: WishStore,
     private wishQuery: WishQuery,
     private wishListApiService: WishListApiService,
+    private userAPIService: UserAPIService,
     private userQuery: UserQuery,
     private snackBar: MatSnackBar,
     private wishesListStore: WishesListStore
@@ -50,6 +53,20 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
 
     this.wishListApiService
       .wishesArchived(name)
+      .subscribe((wishes: WishItem[]) => {
+        this.wishStore.setLoading(false);
+        this.wishStore.set(wishes);
+        this.draft.destroy();
+      });
+
+    this.getWishListInfosDelayed(name);
+  }
+
+  @Throttle(400)
+  getReceived(loading: boolean = true) {
+    this.wishStore.setLoading(loading);
+    this.userAPIService
+      .archived(AuthService.currentUser.email)
       .subscribe((wishes: WishItem[]) => {
         this.wishStore.setLoading(false);
         this.wishStore.set(wishes);

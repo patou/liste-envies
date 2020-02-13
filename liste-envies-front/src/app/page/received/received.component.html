@@ -1,0 +1,28 @@
+<div class="page-all">
+  <div class="page-background"></div>
+  <mat-card class="header-page-card">
+    <section class="mat-typography">
+      <mat-card-header>
+        <list-type-icon
+          mat-card-avatar
+          type="other"
+          size="large"
+        ></list-type-icon>
+        <mat-card-title>
+          <h1 class="title-list">
+            Mes cadeaux reçus
+          </h1>
+        </mat-card-title>
+      </mat-card-header>
+    </section>
+  </mat-card>
+  <div *ngIf="!(loading$ | async); else loading">
+    <app-list-of-wish [list]="listItems" class="col-12"></app-list-of-wish>
+  </div>
+  <app-page-footer></app-page-footer>
+</div>
+<ng-template #loading>
+  <div fxLayout="column" fxLayoutAlign="center center">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
