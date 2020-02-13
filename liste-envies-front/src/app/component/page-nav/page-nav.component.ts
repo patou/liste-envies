@@ -14,7 +14,7 @@ import { WishesListQuery } from "../../state/wishes/wishes-list.query";
 import { WishList } from "../../models/WishList";
 import { NotificationsService } from "../../state/app/notifications.service";
 import { NotificationsQuery } from "../../state/app/notifications.query";
-import { MatDrawer } from "@angular/material";
+import { MatDrawer } from "@angular/material/sidenav";
 import { FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 import { WishesListService } from "../../state/wishes/wishes-list.service";

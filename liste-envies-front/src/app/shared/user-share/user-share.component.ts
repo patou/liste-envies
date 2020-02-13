@@ -1,5 +1,7 @@
 import {Component, ElementRef, HostBinding, Input, OnDestroy, OnInit, Optional, Self, ViewEncapsulation} from '@angular/core';
-import {MatAutocompleteSelectedEvent, MatFormFieldControl, MatTableDataSource} from '@angular/material';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatFormFieldControl } from '@angular/material/form-field';
+import { MatTableDataSource } from '@angular/material/table';
 import {ControlValueAccessor, FormBuilder, FormControl, NgControl, Validators} from '@angular/forms';
 import {UserShare, WishList} from '../../models/WishList';
 import {coerceBooleanProperty} from '@angular/cdk/coercion';

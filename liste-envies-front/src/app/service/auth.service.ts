@@ -8,7 +8,7 @@ import {
   HttpRequest
 } from "@angular/common/http";
 import { LoginDialogComponent } from "../component/login-dialog/login-dialog.component";
-import { MatDialog } from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { map, pluck } from "rxjs/operators";
 import { WishesListService } from "../state/wishes/wishes-list.service";

@@ -1,6 +1,6 @@
 import { Component, Inject, Input, OnInit } from "@angular/core";
 import { UrlsEntity, WishItem } from "../../models/WishItem";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 
 @Component({
   selector: "app-wish-edit",
