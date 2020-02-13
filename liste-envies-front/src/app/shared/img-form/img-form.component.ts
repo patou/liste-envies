@@ -23,7 +23,7 @@ export class ImgFormComponent implements OnInit {
 
   public addImage = "";
 
-  @ViewChild("myPond", { static: false }) myPond: any;
+  @ViewChild("myPond") myPond: any;
 
   pondOptions = {
     class: "my-filepond",
