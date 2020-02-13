@@ -25,9 +25,10 @@
               "src/styles.scss",
               "node_modules/firebaseui/dist/firebaseui.css"
             ],
-            "scripts": ["node_modules/hammerjs/hammer.min.js",
+            "scripts": [
               "node_modules/tinycolor2/dist/tinycolor-min.js",
-            "node_modules/node-vibrant/dist/vibrant.min.js"]
+              "node_modules/node-vibrant/dist/vibrant.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -96,7 +97,7 @@
             "karmaConfig": "./karma.conf.js",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
-            "scripts": ["node_modules/hammerjs/hammer.min.js"],
+            "scripts": [],
             "styles": [
               "src/styles.scss",
               "node_modules/firebaseui/dist/firebaseui.css"
