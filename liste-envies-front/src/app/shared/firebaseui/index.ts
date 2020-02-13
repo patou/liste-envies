@@ -22,7 +22,7 @@ export * from "./firebaseui.helper";
 export class FirebaseUIModule {
   static forRoot(
     firebaseUiAuthConfig: FirebaseUIAuthConfig
-  ): ModuleWithProviders {
+  ): ModuleWithProviders<FirebaseUIModule> {
     return {
       ngModule: FirebaseUIModule,
       providers: [
