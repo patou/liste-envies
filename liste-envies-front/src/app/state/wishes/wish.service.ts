@@ -13,7 +13,6 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { AkitaFiltersPlugin } from "akita-filters-plugin";
 import { WishesListStore } from "./wishes-list.store";
 import { UserAPIService } from "../../service/user-api.service";
-import { AuthService } from "../../service/auth.service";
 
 @Injectable({ providedIn: "root" })
 export class WishService extends AkitaFiltersPlugin<WishState> {
@@ -65,13 +64,11 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
   @Throttle(400)
   getReceived(loading: boolean = true) {
     this.wishStore.setLoading(loading);
-    this.userAPIService
-      .archived(AuthService.currentUser.email)
-      .subscribe((wishes: WishItem[]) => {
-        this.wishStore.setLoading(false);
-        this.wishStore.set(wishes);
-        this.draft.destroy();
-      });
+    this.userAPIService.archived("me").subscribe((wishes: WishItem[]) => {
+      this.wishStore.setLoading(false);
+      this.wishStore.set(wishes);
+      this.draft.destroy();
+    });
 
     this.getWishListInfosDelayed(name);
   }

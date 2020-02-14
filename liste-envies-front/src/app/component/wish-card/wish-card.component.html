@@ -10,6 +10,12 @@
   <mat-progress-bar mode="query" *ngIf="wishItem.draft"></mat-progress-bar>
 
   <mat-card-header fxLayout="column" fxLayoutAlign="space-between stretch">
+    <div *ngIf="wishItem.listTitle">
+      <button mat-menu-item [routerLink]="['/', wishItem.listId]">
+        <mat-icon fontSet="fa" fontIcon="fa-gift"></mat-icon
+        >{{ wishItem.listTitle }}
+      </button>
+    </div>
     <div
       [class]="headerClass(wishItem)"
       fxLayout="row"

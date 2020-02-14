@@ -77,6 +77,22 @@
             </wish-list-nav-item>
           </mat-nav-list>
         </mat-expansion-panel>
+        <mat-expansion-panel
+          expanded="true"
+          class="mat-elevation-z0 badge-expansion-panel"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Autre
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-nav-list *ngIf="userAuth$ | async as user">
+            <button mat-menu-item routerLink="/received">
+              <mat-icon>history</mat-icon>
+              Mes cadeaux reçus
+            </button>
+          </mat-nav-list>
+        </mat-expansion-panel>
       </mat-accordion>
     </div>
     <ng-template #loading>
