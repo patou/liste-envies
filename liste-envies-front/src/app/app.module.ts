@@ -21,15 +21,12 @@ import { WishListResolver } from "./service/wishListResolve";
 import { HttpRestModule } from "ngx-http-annotations";
 import { PageNavComponent } from "./component/page-nav/page-nav.component";
 import { LayoutModule } from "@angular/cdk/layout";
-import {
-  MAT_SNACK_BAR_DEFAULT_OPTIONS,
-  MatButtonModule,
-  MatIconModule,
-  MatListModule,
-  MatSidenavModule,
-  MatSnackBarHorizontalPosition,
-  MatToolbarModule
-} from "@angular/material";
+import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
+import { MatListModule } from "@angular/material/list";
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarHorizontalPosition } from "@angular/material/snack-bar";
+import { MatToolbarModule } from "@angular/material/toolbar";
 import { MomentModule } from "ngx-moment";
 import "moment/locale/fr";
 import { WishListItemsResolver } from "./service/wishListItemsResolve";

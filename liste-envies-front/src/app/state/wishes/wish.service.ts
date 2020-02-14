@@ -9,7 +9,7 @@ import { WishQuery } from "./wish.query";
 import { Observable } from "rxjs/Observable";
 import { UserQuery } from "../app/user.query";
 import { map } from "rxjs/operators";
-import { MatSnackBar } from "@angular/material";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { AkitaFiltersPlugin } from "akita-filters-plugin";
 import { WishesListStore } from "./wishes-list.store";
 

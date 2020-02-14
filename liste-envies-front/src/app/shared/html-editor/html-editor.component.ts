@@ -11,7 +11,7 @@ import {
   Self,
   ViewEncapsulation
 } from "@angular/core";
-import { MatFormFieldControl } from "@angular/material";
+import { MatFormFieldControl } from "@angular/material/form-field";
 import {
   ControlValueAccessor,
   FormBuilder,

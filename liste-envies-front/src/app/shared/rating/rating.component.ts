@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FocusMonitor} from '@angular/cdk/a11y';
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
-import {MatFormFieldControl} from '@angular/material';
+import { MatFormFieldControl } from '@angular/material/form-field';
 import {Subject} from 'rxjs/Subject';
 
 @Component({
