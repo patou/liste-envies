@@ -236,16 +236,78 @@
 
   <mat-sidenav
     #notifs
-    class="sidenav"
+    class="sidenav left-sidenav"
     fixedInViewport="false"
     attr.role="dialog"
     mode="over"
     position="end"
     fixedTopGap="70"
   >
-    <mat-toolbar color="primary">Notifications </mat-toolbar>
-    <app-notifications
-      (onSelect)="closeNotifications(notifs)"
-    ></app-notifications>
+    <mat-tab-group mat-stretch-tabs class="bottom-tabs" headerPosition="below">
+      <mat-tab data-grid="column">
+        <ng-template mat-tab-label>
+          <mat-icon
+            aria-label="notification icon"
+            [matBadge]="notifsCount$ | async"
+            matBadgeColor="warn"
+            matTooltip="Notification"
+            >notifications_active</mat-icon
+          >
+        </ng-template>
+        <mat-toolbar color="primary" class="sidenav-top"
+          >Notifications
+        </mat-toolbar>
+        <div class="sidenav-content">
+          <app-notifications
+            (onSelect)="closeNotifications(notifs)"
+          ></app-notifications>
+        </div>
+      </mat-tab>
+      <mat-tab data-grid="column">
+        <ng-template mat-tab-label>
+          <mat-icon
+            aria-label="notification icon"
+            [matBadge]="notifsCount$ | async"
+            matBadgeColor="warn"
+            matTooltip="Pannier"
+            >shopping_cart</mat-icon
+          >
+        </ng-template>
+        <mat-toolbar color="primary" class="sidenav-top"
+          >Pannier : à Donner
+        </mat-toolbar>
+        <div class="sidenav-content"></div>
+      </mat-tab>
+      <mat-tab data-grid="column">
+        <ng-template mat-tab-label>
+          <mat-icon
+            aria-label="notification icon"
+            [matBadge]="notifsCount$ | async"
+            matBadgeColor="warn"
+            matTooltip="Archive"
+            >archive</mat-icon
+          >
+        </ng-template>
+        <mat-toolbar color="primary" class="sidenav-top"
+          >Archive : Envie reçu</mat-toolbar
+        >
+        <div class="sidenav-content"></div>
+      </mat-tab>
+      <mat-tab data-grid="column">
+        <ng-template mat-tab-label>
+          <mat-icon
+            aria-label="notification icon"
+            [matBadge]="notifsCount$ | async"
+            matBadgeColor="warn"
+            matTooltip="Archive"
+            >delete</mat-icon
+          >
+        </ng-template>
+        <mat-toolbar color="primary" class="sidenav-top"
+          >Corbeille : Envie supprimé</mat-toolbar
+        >
+        <div class="sidenav-content"></div>
+      </mat-tab>
+    </mat-tab-group>
   </mat-sidenav>
 </mat-sidenav-container>
