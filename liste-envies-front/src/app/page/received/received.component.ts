@@ -11,9 +11,7 @@ import { WishItem } from "../../models/WishItem";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "../../service/auth.service";
 import * as firebase from "firebase";
-import { MatDialog } from "@angular/material";
 import { WishQuery } from "../../state/wishes/wish.query";
-import { skip } from "rxjs/operators";
 import { WishService } from "../../state/wishes/wish.service";
 import { untilDestroyed } from "ngx-take-until-destroy";
 import { ColorManagementService } from "../../service/color-management.service";
@@ -39,7 +37,6 @@ export class ReceivedComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private auth: AuthService,
-    public dialog: MatDialog,
     private wishQuery: WishQuery,
     private colorManagementService: ColorManagementService
   ) {}
