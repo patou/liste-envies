@@ -66,7 +66,10 @@ import FilePondPluginFileEncode from "filepond-plugin-file-encode";
 import FilePondPluginImageResize from "filepond-plugin-image-resize";
 import FilePondPluginImageTransform from "filepond-plugin-image-transform";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
-import {WishListNavItemComponent} from './wish-list-nav-item/wish-list-nav-item.component';
+import { WishListNavItemComponent } from "./wish-list-nav-item/wish-list-nav-item.component";
+import { SideOfWishComponent } from "../component/side_of_wish/side-of-wish.component";
+import { AppModule } from "../app.module";
+import { WishCardComponent } from "../component/wish-card/wish-card.component";
 registerPlugin(
   FilePondPluginImageExifOrientation,
   FilePondPluginFileValidateType,
@@ -107,6 +110,8 @@ registerPlugin(
     ReadMoreComponent,
     PageFooterComponent,
     WishFiltersFormComponent,
+    SideOfWishComponent,
+    WishCardComponent,
     UserShareComponent
   ],
   exports: [
@@ -135,6 +140,8 @@ registerPlugin(
     PageFooterComponent,
     WishFiltersFormComponent,
     UserShareComponent,
+    SideOfWishComponent,
+    WishCardComponent,
     WishListNavItemComponent
   ],
   providers: [

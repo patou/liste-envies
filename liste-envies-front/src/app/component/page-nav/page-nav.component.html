@@ -243,7 +243,7 @@
     position="end"
     fixedTopGap="70"
   >
-    <mat-tab-group mat-stretch-tabs class="bottom-tabs" headerPosition="below">
+    <mat-tab-group class="bottom-tabs" headerPosition="below">
       <mat-tab data-grid="column">
         <ng-template mat-tab-label>
           <mat-icon
@@ -276,7 +276,9 @@
         <mat-toolbar color="primary" class="sidenav-top"
           >Pannier : à Donner
         </mat-toolbar>
-        <div class="sidenav-content"></div>
+        <div class="sidenav-content">
+          <app-side-of-wish></app-side-of-wish>
+        </div>
       </mat-tab>
       <mat-tab data-grid="column">
         <ng-template mat-tab-label>
@@ -291,7 +293,9 @@
         <mat-toolbar color="primary" class="sidenav-top"
           >Archive : Envie reçu</mat-toolbar
         >
-        <div class="sidenav-content"></div>
+        <div class="sidenav-content">
+          <app-side-of-wish></app-side-of-wish>
+        </div>
       </mat-tab>
       <mat-tab data-grid="column">
         <ng-template mat-tab-label>
@@ -306,7 +310,9 @@
         <mat-toolbar color="primary" class="sidenav-top"
           >Corbeille : Envie supprimé</mat-toolbar
         >
-        <div class="sidenav-content"></div>
+        <div class="sidenav-content">
+          <app-side-of-wish></app-side-of-wish>
+        </div>
       </mat-tab>
     </mat-tab-group>
   </mat-sidenav>
