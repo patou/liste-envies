@@ -13,6 +13,7 @@
 
     .bottom-tabs {
       max-width: 100%;
+      min-width: 100%;
 
       ::ng-deep .mat-tab-body-content {
         overflow: hidden;

@@ -1,5 +1,3 @@
-<!-- <app-flip-card [flip]="edit"> -->
-
 <mat-card
   class="wish-card flip-front "
   [ngClass]="{ active: isActive$ | async, draft: wishItem.draft }"
@@ -10,12 +8,6 @@
   <mat-progress-bar mode="query" *ngIf="wishItem.draft"></mat-progress-bar>
 
   <mat-card-header fxLayout="column" fxLayoutAlign="space-between stretch">
-    <div *ngIf="wishItem.listTitle">
-      <button mat-menu-item [routerLink]="['/', wishItem.listId]">
-        <mat-icon fontSet="fa" fontIcon="fa-gift"></mat-icon
-        >{{ wishItem.listTitle }}
-      </button>
-    </div>
     <div
       [class]="headerClass(wishItem)"
       fxLayout="row"
@@ -76,7 +68,7 @@
     >
       <span matTooltip="{{ wishItem.date | date: 'long' }}" class="date"
         ><mat-icon>date_range</mat-icon>
-        {{ wishItem.date | amLocal: "fr" | amTimeAgo }}</span
+        {{ wishItem?.date | amLocal: "fr" | amTimeAgo }}</span
       >
       <div
         class="owner"

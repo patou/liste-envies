@@ -1,17 +1,24 @@
-<mat-expansion-panel *ngFor="let wishItem of list$ | async; trackBy: trackByFn">
-  <mat-expansion-panel-header>
-    <mat-panel-title>
-      {{ wishItem.label }}
-    </mat-panel-title>
-    <mat-panel-description>
-      {{ wishItem.listTitle }}
-      <mat-icon>gift</mat-icon>
-    </mat-panel-description>
-  </mat-expansion-panel-header>
+<mat-accordion>
+  <mat-expansion-panel
+    *ngFor="let wishItem of list$ | async; trackBy: trackByFn"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ wishItem.label }}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{ wishItem.listTitle }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
 
-  <app-wish-card [wishItem]="wishItem" [readOnly]="true"></app-wish-card>
+    <ng-template matExpansionPanelContent>
+      <app-wish-card [wishItem]="wishItem" [readOnly]="true"></app-wish-card>
+    </ng-template>
 
-  <mat-action-row>
-    <button mat-button color="primary">{{ wishItem.listTitle }}</button>
-  </mat-action-row>
-</mat-expansion-panel>
+    <mat-action-row>
+      <a mat-button color="primary" [routerLink]="wishItem.listId"
+        >Aller à la liste {{ wishItem.listTitle }}</a
+      >
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>

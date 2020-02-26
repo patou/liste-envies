@@ -70,6 +70,7 @@ import { WishListNavItemComponent } from "./wish-list-nav-item/wish-list-nav-ite
 import { SideOfWishComponent } from "../component/side_of_wish/side-of-wish.component";
 import { AppModule } from "../app.module";
 import { WishCardComponent } from "../component/wish-card/wish-card.component";
+import { MomentModule } from "ngx-moment";
 registerPlugin(
   FilePondPluginImageExifOrientation,
   FilePondPluginFileValidateType,
@@ -96,7 +97,8 @@ registerPlugin(
     AngularFireAuthModule,
     FlexLayoutModule,
     FirebaseUIModule.forRoot(firebaseUiAuthConfig),
-    RouterModule
+    RouterModule,
+    MomentModule
   ],
   declarations: [
     RatingComponent,

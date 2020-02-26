@@ -243,7 +243,11 @@
     position="end"
     fixedTopGap="70"
   >
-    <mat-tab-group class="bottom-tabs" headerPosition="below">
+    <mat-tab-group
+      class="bottom-tabs"
+      headerPosition="below"
+      [disablePagination]="true"
+    >
       <mat-tab data-grid="column">
         <ng-template mat-tab-label>
           <mat-icon
@@ -254,65 +258,74 @@
             >notifications_active</mat-icon
           >
         </ng-template>
-        <mat-toolbar color="primary" class="sidenav-top"
-          >Notifications
-        </mat-toolbar>
-        <div class="sidenav-content">
-          <app-notifications
-            (onSelect)="closeNotifications(notifs)"
-          ></app-notifications>
-        </div>
+        <ng-template matTabContent>
+          <mat-toolbar color="primary" class="sidenav-top"
+            >Notifications
+          </mat-toolbar>
+          <div class="sidenav-content">
+            <app-notifications
+              (onSelect)="closeNotifications(notifs)"
+            ></app-notifications>
+          </div>
+        </ng-template>
       </mat-tab>
       <mat-tab data-grid="column">
         <ng-template mat-tab-label>
           <mat-icon
             aria-label="notification icon"
-            [matBadge]="notifsCount$ | async"
+            [matBadge]="basketCount$ | async"
             matBadgeColor="warn"
             matTooltip="Pannier"
             >shopping_cart</mat-icon
           >
         </ng-template>
-        <mat-toolbar color="primary" class="sidenav-top"
-          >Pannier : à Donner
-        </mat-toolbar>
-        <div class="sidenav-content">
-          <app-side-of-wish></app-side-of-wish>
-        </div>
+        <ng-template matTabContent>
+          <mat-toolbar color="primary" class="sidenav-top"
+            >Pannier : à Donner
+          </mat-toolbar>
+          <div class="sidenav-content">
+            <app-side-of-wish typeWish="BASKET"></app-side-of-wish>
+          </div>
+        </ng-template>
       </mat-tab>
       <mat-tab data-grid="column">
         <ng-template mat-tab-label>
           <mat-icon
             aria-label="notification icon"
-            [matBadge]="notifsCount$ | async"
+            [matBadge]="archiveCount$ | async"
             matBadgeColor="warn"
             matTooltip="Archive"
             >archive</mat-icon
           >
         </ng-template>
-        <mat-toolbar color="primary" class="sidenav-top"
-          >Archive : Envie reçu</mat-toolbar
-        >
-        <div class="sidenav-content">
-          <app-side-of-wish></app-side-of-wish>
-        </div>
+        <ng-template matTabContent>
+          <mat-toolbar color="primary" class="sidenav-top"
+            >Archive : Envie reçu
+          </mat-toolbar>
+          <div class="sidenav-content">
+            <app-side-of-wish typeWish="ARCHIVE"></app-side-of-wish>
+          </div>
+        </ng-template>
       </mat-tab>
       <mat-tab data-grid="column">
         <ng-template mat-tab-label>
           <mat-icon
             aria-label="notification icon"
-            [matBadge]="notifsCount$ | async"
+            [matBadge]="trashCount$ | async"
             matBadgeColor="warn"
             matTooltip="Archive"
             >delete</mat-icon
           >
         </ng-template>
-        <mat-toolbar color="primary" class="sidenav-top"
-          >Corbeille : Envie supprimé</mat-toolbar
-        >
-        <div class="sidenav-content">
-          <app-side-of-wish></app-side-of-wish>
-        </div>
+        <ng-template matTabContent>
+          <mat-toolbar color="primary" class="sidenav-top"
+            >Corbeille : Envie supprimé
+          </mat-toolbar>
+
+          <div class="sidenav-content">
+            <app-side-of-wish typeWish="TRASH"></app-side-of-wish>
+          </div>
+        </ng-template>
       </mat-tab>
     </mat-tab-group>
   </mat-sidenav>
