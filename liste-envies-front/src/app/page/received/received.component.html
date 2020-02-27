@@ -15,7 +15,6 @@
   <div *ngIf="!(loading$ | async); else loading">
     <app-list-of-wish [list]="listItems" class="col-12"></app-list-of-wish>
   </div>
-  <app-page-footer></app-page-footer>
 </div>
 <ng-template #loading>
   <div fxLayout="column" fxLayoutAlign="center center">

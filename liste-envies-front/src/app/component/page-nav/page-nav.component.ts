@@ -55,6 +55,8 @@ export class PageNavComponent implements OnInit, OnDestroy {
 
   public selectListControl = new FormControl("");
   public isOpened: boolean = false;
+  public openedRightSideNav: boolean = false;
+  public selectedTabsRightSidebar: number = 0;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -123,4 +125,13 @@ export class PageNavComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {}
+
+  openRightSidePanel(selectedTabs: number) {
+    this.selectedTabsRightSidebar = selectedTabs;
+    this.openedRightSideNav = true;
+  }
+
+  closeRightSidePanel() {
+    this.openedRightSideNav = false;
+  }
 }
