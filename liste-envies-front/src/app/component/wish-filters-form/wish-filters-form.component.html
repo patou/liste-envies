@@ -1,8 +1,11 @@
 <form
   fxLayout="row nowrap"
+  fxLayout.lt-md="row wrap"
   fxLayoutAlign="space-between center"
-  fxLayoutGap="10"
+  fxLayoutGap="10px"
+  fxLayoutGap.lt-md="2px"
   [formGroup]="filtersForm"
+  class="form-filters"
 >
   <mat-button-toggle-group
     #typeWishToogle="matButtonToggleGroup"
@@ -54,7 +57,7 @@
     <mat-chip
       removable="true"
       (removed)="removeFilter(filter.id)"
-      *ngFor="let filter of (filters | async)"
+      *ngFor="let filter of filters | async"
       >{{ filter.name }}
       <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip>
