@@ -44,6 +44,9 @@ mat-divider.mat-divider.divider-withDate.mat-divider-horizontal.mat-divider-inse
   }
 
   .header-wishlist-menu {
+    max-height: 3em;
+    flex-direction: row-reverse;
+
     nav.tabs-actif-archive {
       .tab {
         display: flex;
@@ -97,6 +100,10 @@ mat-card.dateList {
     margin: 0;
     max-width: 100%;
     padding: 8px;
+
+    ::ng-deep .mat-expansion-panel-body {
+      padding: 0;
+    }
   }
 
   .header-wishlist-title {
@@ -131,12 +138,11 @@ mat-card.dateList {
   .header-page-card {
     margin: 0;
     max-width: 100%;
-    padding: 8px;
   }
 
   mat-panel-description.header-wishlist-menu {
     position: fixed;
-    right: 81px;
+    right: 130px;
     height: 35px;
     top: 121px;
   }

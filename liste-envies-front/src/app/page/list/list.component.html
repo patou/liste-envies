@@ -4,25 +4,6 @@
     [style.backgroundImage]="listBackgroundImg()"
   ></div>
   <mat-menu #menu="matMenu">
-    <button
-      mat-menu-item
-      class="visible-small"
-      [routerLink]="['/', list.name]"
-      routerLinkActive
-      [routerLinkActiveOptions]="{ exact: true }"
-    >
-      <mat-icon class="tab-icon">card_giftcard</mat-icon>
-      A offrir
-    </button>
-    <button
-      mat-menu-item
-      class="visible-small"
-      [routerLink]="['/', list.name, 'archived']"
-      routerLinkActive
-    >
-      <mat-icon class="tab-icon">history</mat-icon>
-      Déjà reçu
-    </button>
     <button mat-menu-item routerLink="edit" color="accent">
       <mat-icon>edit</mat-icon>
       <span>Modifier la liste</span>
@@ -44,16 +25,24 @@
   </mat-menu>
 
   <mat-expansion-panel
+    #headerList
     class="header-page-card"
     *ngIf="list"
     [expanded]="expandedHeader | async"
+    (opened)="headerOpened = true"
+    (closed)="headerOpened = false"
+    togglePosition="before"
+    hideToggle="true"
+    (click)="headerList.toggle()"
   >
     <mat-expansion-panel-header
       class="mat-typography header-wishlist"
       collapsedHeight="80px"
       expandedHeight="100px"
     >
-      <mat-panel-title class="title header-wishlist-title"
+      <mat-panel-title
+        class="title header-wishlist-title"
+        (click)="headerList.toggle()"
         ><list-type-icon
           mat-card-avatar
           [type]="list.type"
@@ -65,9 +54,10 @@
             {{ list.title }}
             <a
               mat-icon-button
-              routerLink="edit"
+              [routerLink]="['/', list.name, 'edit']"
               color="accent"
               class=" hidden-small icon-edit"
+              (click)="doNothing($event)"
               *ngIf="!demo && list.owner"
             >
               <mat-icon class="mat-18">edit</mat-icon>
@@ -102,9 +92,10 @@
         <nav
           mat-tab-nav-bar
           mat-align-tabs="end"
+          [disablePagination]="true"
+          [disableRipple]="true"
           color="accent"
           class="tabs-actif-archive"
-          (click)="doNothing($event)"
         >
           <a
             mat-tab-link
@@ -144,26 +135,75 @@
       >
         <mat-icon>more_vert</mat-icon>
       </button>
+      <button
+        mat-icon-button
+        aria-label="Menu action"
+        class=""
+        matTooltip="Administrer la liste"
+        (click)="headerList.toggle()"
+      >
+        <mat-icon>{{
+          headerOpened ? "keyboard_arrow_up" : "keyboard_arrow_down"
+        }}</mat-icon>
+      </button>
     </mat-expansion-panel-header>
 
-    <mat-card *ngIf="list.date" class="dateList">
-      <mat-card-header>
-        <mat-card-title>{{
-          list.date | amDateFormat: "dddd D"
-        }}</mat-card-title>
-        <mat-card-subtitle>{{
-          list.date | amDateFormat: "MMMM YYYY"
-        }}</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        {{ list.date | amTimeAgo }}
-      </mat-card-content>
-    </mat-card>
+    <div (click)="doNothing($event)">
+      <nav
+        mat-tab-nav-bar
+        color="accent"
+        class="tabs-actif-archive visible-small hidden-medium  hidden-large hidden-huge"
+      >
+        <a
+          mat-tab-link
+          class="tab"
+          [routerLink]="['/', list.name]"
+          routerLinkActive
+          #currentList="routerLinkActive"
+          [active]="currentList.isActive"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <mat-icon class="tab-icon">card_giftcard</mat-icon>
+          A offrir
+        </a>
+        <a
+          mat-tab-link
+          class="tab"
+          [routerLink]="['/', list.name, 'archived']"
+          routerLinkActive
+          #archiveList="routerLinkActive"
+          [active]="archiveList.isActive"
+        >
+          <mat-icon class="tab-icon">history</mat-icon>
+          Déjà reçu
+        </a>
+      </nav>
 
-    <read-more [content]="list.description" maxHeight="200"></read-more>
-    <mat-action-row>
-      <app-wish-filters-form></app-wish-filters-form>
-    </mat-action-row>
+      <mat-card *ngIf="list.date" class="dateList">
+        <mat-card-header>
+          <mat-card-title>{{
+            list.date | amDateFormat: "dddd D"
+          }}</mat-card-title>
+          <mat-card-subtitle>{{
+            list.date | amDateFormat: "MMMM YYYY"
+          }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          {{ list.date | amTimeAgo }}
+        </mat-card-content>
+      </mat-card>
+
+      <read-more
+        [content]="list.description"
+        maxHeight="200"
+        (click)="doNothing($event)"
+      ></read-more>
+      <mat-action-row>
+        <app-wish-filters-form
+          (click)="doNothing($event)"
+        ></app-wish-filters-form>
+      </mat-action-row>
+    </div>
   </mat-expansion-panel>
   <div *ngIf="!(loading$ | async); else loading">
     <app-list-of-wish

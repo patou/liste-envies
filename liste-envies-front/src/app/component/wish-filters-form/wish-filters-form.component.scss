@@ -1,6 +1,8 @@
 app-wish-filters-form {
   display: flex;
   flex: 1;
+  flex-direction: column;
+  max-width: 100%;
 
   .form-filters {
     flex: 1;
@@ -35,6 +37,18 @@ app-wish-filters-form {
       line-height: 38px;
       height: 2.8em;
       padding: 0 12px;
+    }
+  }
+
+  // responsive
+  @import "~wire.css/src/scss/config";
+  @import "~wire.css/src/scss/base/mixins";
+
+  @include mq(small) {
+    // This code shows only on phone media query
+    .filterWishToggle {
+      flex-wrap: wrap;
+      border: none;
     }
   }
 }

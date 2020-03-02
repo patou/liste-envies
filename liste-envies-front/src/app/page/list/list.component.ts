@@ -61,6 +61,8 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
     .observe(Breakpoints.Handset)
     .pipe(map(result => !result.matches));
 
+  public headerOpened: boolean;
+
   constructor(
     private wishService: WishService,
     private wishListApiService: WishListApiService,
@@ -104,14 +106,9 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
     this.listItems = this.wishQuery.selectAll();
     this.loading$ = this.wishQuery.selectLoading();
 
-    this.userAuth
-      .pipe(
-        skip(1),
-        untilDestroyed(this)
-      )
-      .subscribe(value => {
-        this.loadList();
-      });
+    this.userAuth.pipe(skip(1), untilDestroyed(this)).subscribe(value => {
+      this.loadList();
+    });
   }
 
   private loadList() {
@@ -181,9 +178,8 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
   ngOnDestroy(): void {}
 
   doNothing(event) {
-    console.log("do Nothing : ", event);
     event.preventDefault();
     event.stopPropagation();
-    return true;
+    return false;
   }
 }
