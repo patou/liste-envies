@@ -3,7 +3,26 @@
 @import "~@angular/material/theming";
 @include mat-core();
 
-@import "~wire.css";
+
+// Variables
+@import "~wire.css/src/scss/config";
+
+// Reset (Normalize)
+@import "~wire.css/src/scss/base/normalize";
+
+// Mixins
+@import "~wire.css/src/scss/base/mixins";
+
+// Helpers
+@import "~wire.css/src/scss/base/helpers";
+
+// Global
+@import "~wire.css/src/scss/base/global";
+
+
+// Components
+@import "~wire.css/src/scss/components/grid";
+@import "~wire.css/src/scss/components/images";
 
 // define 3 theme color
 
@@ -294,3 +313,29 @@ mat-card.dateList {
 
 /*** ***************** files pouns ***/
 @import "~filepond/dist/filepond.css";
+
+// responsive
+
+
+@include mq(small) {
+  // This code shows only on phone media query
+  .page-all {
+    margin: 0;
+    width: 100%;
+    padding: 2px;
+  }
+}
+@include mq(medium) {
+  // This code shows only on tablette and small pc media query
+  .page-all {
+    margin: 0;
+    padding: 1em;
+  }
+}
+@include mq(large) {
+  // This code shows only on large computer media query
+}
+@include mq(huge) {
+  // This code shows only on big screen media query
+}
+

@@ -40,7 +40,7 @@
   </span>
   <mat-grid-list
     *ngIf="!(loading$ | async); else loading"
-    cols="3"
+    [cols]="column$ | async"
     rowHeight="80"
     gutterSize="4"
     class="whishList-Container"

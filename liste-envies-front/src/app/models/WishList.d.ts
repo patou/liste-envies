@@ -18,6 +18,7 @@ export interface UserShare {
   email?: string;
   name?: string;
   type?: "SHARED" | "OWNER" | string;
+  photoURL?: string;
 }
 
 export type WishListPrivacy = "PRIVATE" | "OPEN" | "PUBLIC";
