@@ -14,7 +14,7 @@ jobs:
           checkInterval: 13
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-      - uses: rlespinasse/github-slug-action@master
+      - uses: rlespinasse/github-slug-action@v2.x
       - uses: mshick/add-pr-comment@v1
         if: steps.waitforstatuschecks.outputs.status == 'success'
         with:
