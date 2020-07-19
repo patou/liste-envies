@@ -48,7 +48,7 @@
     "firebase": "~6.6.2",
     "firebaseui": "4.2.0",
     "jwt-decode": "^2.2.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "lodash-decorators": "^6.0.1",
     "moment": "^2.24.0",
     "ng-animate": "^0.3.4",
