@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
 import {
   FormBuilder,
   FormControl,
@@ -67,7 +67,8 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
     private wishesListQuery: WishesListQuery,
     private wishQuery: WishQuery,
     private user: UserQuery,
-    private router: Router
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) {}
 
   get wishListTypePicture(): any[] {
@@ -100,7 +101,8 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
         .pipe(untilDestroyed(this))
         .subscribe((wishlist: WishList) => {
           this.wishListFormGroup.patchValue(wishlist);
-          this.wishList = wishlist;
+          this.onChanges(wishlist);
+          this.cd.markForCheck();
         });
     } else {
       this.edit = false;
@@ -181,10 +183,7 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
       .subscribe(value => this.changesdemoWish());
 
     this.wishListFormGroup.valueChanges
-      .pipe(
-        untilDestroyed(this),
-        debounceTime(500)
-      )
+      .pipe(untilDestroyed(this), debounceTime(500))
       .subscribe(value => this.onChanges(value));
   }
 
