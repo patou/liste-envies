@@ -5,22 +5,63 @@ mat-card.header-page-card.mat-card {
 mat-divider.mat-divider.divider-withDate.mat-divider-horizontal.mat-divider-inset {
   width: 88%;
 }
-
-mat-card-title {
-  margin-bottom: 0px;
-  h1.title-list {
-    text-transform: capitalize;
-    size: 4em;
-    margin-bottom: 0px;
+.header-wishlist {
+  .icon-edit {
+    height: 0;
+    width: 0;
+    opacity: 0;
   }
-}
+  &:hover {
+    .icon-edit {
+      height: 24px;
+      width: 24px;
+      opacity: 1;
+      transition: all 1s ease-in-out;
+    }
+  }
+  .header-wishlist-title {
+    margin-bottom: 0px;
+    display: flex;
 
-.owners-list {
-  display: flex;
+    .header-wishlist-title_block {
+      h1.title-list {
+        text-transform: capitalize;
+        size: 16px;
+        margin-bottom: 0px;
+      }
+      .owners-list {
+        display: flex;
 
-  span,
-  ngx-avatar {
-    margin-left: 6px;
+        span,
+        ngx-avatar {
+          margin-left: 6px;
+        }
+      }
+    }
+
+    .header-wishlist-icon {
+    }
+  }
+
+  .header-wishlist-menu {
+    max-height: 3em;
+    flex-direction: row-reverse;
+
+    nav.tabs-actif-archive {
+      .tab {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        .tab-icon {
+          font-size: 14px;
+          margin-top: 8px;
+        }
+      }
+    }
+  }
+
+  .menu-admin-list-button {
   }
 }
 
@@ -49,24 +90,66 @@ mat-card.dateList {
   }
 }
 
-nav.tabs-actif-archive {
-  margin-top: -61px;
-  margin-right: 113px;
+// responsive
+@import "~wire.css/src/scss/config";
+@import "~wire.css/src/scss/base/mixins";
 
-  .tab {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+@include mq(small) {
+  // This code shows only on phone media query
+  .header-page-card {
+    margin: 0;
+    max-width: 100%;
+    padding: 8px;
 
-    .tab-icon {
-      font-size: 14px;
-      margin-top: 8px;
+    ::ng-deep .mat-expansion-panel-body {
+      padding: 0;
     }
   }
-}
 
-.menu-admin-list-button {
-  display: inline;
-  float: right;
-  position: relative;
+  .header-wishlist-title {
+    display: flex;
+    height: 64px;
+    margin: 0;
+
+    .header-wishlist-title_block {
+      h1.title-list {
+        font-size: 14px;
+        font-weight: 800;
+        text-overflow: ellipsis;
+        max-height: 45px;
+        height: 28px;
+        overflow: hidden;
+      }
+
+      list-type-icon.header-wishlist-icon.mat-card-avatar {
+        height: 30px;
+        width: 30px;
+        font-size: 30px !important;
+      }
+    }
+  }
+
+  mat-expansion-panel-header {
+    padding: 2px;
+  }
+}
+@include mq(medium) {
+  // This code shows only on tablette and small pc media query
+  .header-page-card {
+    margin: 0;
+    max-width: 100%;
+  }
+
+  mat-panel-description.header-wishlist-menu {
+    position: fixed;
+    right: 130px;
+    height: 35px;
+    top: 121px;
+  }
+}
+@include mq(large) {
+  // This code shows only on large computer media query
+}
+@include mq(huge) {
+  // This code shows only on big screen media query
 }

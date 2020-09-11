@@ -101,9 +101,11 @@
       </div>
     </ng-template>
   </mat-sidenav>
+
   <mat-sidenav-content id="page">
     <div id="header">
       <mat-toolbar color="primary">
+
         <button
           type="button"
           aria-label="Toggle sidenav"
@@ -112,6 +114,7 @@
         >
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
+
 
         <a routerLink="/" class="title">
           <span><mat-icon fontSet="fa" fontIcon="fa-gift"></mat-icon></span>
@@ -151,6 +154,8 @@
                   >
                   </ngx-avatar>
                 </div>
+                
+                
               </mat-option>
             </mat-optgroup>
             <mat-optgroup label="Autres listes">
@@ -224,6 +229,7 @@
             aria-label="Toggle sidenav"
             mat-icon-button
             (click)="openRightSidePanel(3)"
+
           >
             <mat-icon
               aria-label="notification icon"
@@ -265,6 +271,7 @@
           <mat-icon>logout</mat-icon>
           Déconnection
         </button>
+
         <button mat-menu-item disabled>
           <mat-icon>person</mat-icon>
           Profil
@@ -281,6 +288,7 @@
       </div>
       <app-page-footer id="footer"></app-page-footer>
     </div>
+
   </mat-sidenav-content>
 
   <mat-sidenav
