@@ -1,5 +1,3 @@
-<!-- <app-flip-card [flip]="edit"> -->
-
 <mat-card
   class="wish-card flip-front "
   [ngClass]="{ active: isActive$ | async, draft: wishItem.draft }"
@@ -70,7 +68,7 @@
     >
       <span matTooltip="{{ wishItem.date | date: 'long' }}" class="date"
         ><mat-icon>date_range</mat-icon>
-        {{ wishItem.date | amLocal: "fr" | amTimeAgo }}</span
+        {{ wishItem?.date | amLocal: "fr" | amTimeAgo }}</span
       >
       <div
         class="owner"

@@ -90,7 +90,6 @@ public class HistoryApiFallbackFilter implements Filter {
 		if (doFilter) {
 			filterChain.doFilter(servletRequest, servletResponse);
 		} else {
-			LOGGER.info("doFilter: " + doFilter + ", requestURI: " + requestURI);
 			// Prevent the next request from hitting this filter
 			request.setAttribute(REENTRANCY_KEY, Boolean.TRUE);
 			request.getRequestDispatcher(forwardPath).forward(request, response);

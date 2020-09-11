@@ -1,7 +1,6 @@
-﻿import { UserInfo } from "firebase";
-
-export interface WishItem {
+﻿export interface WishItem {
   id?: number;
+  state?: WishItemState;
   listId?: string;
   listTitle?: string;
   owner?: Owner;
@@ -13,7 +12,7 @@ export interface WishItem {
   price?: string | null;
   pictures?: string[];
   date?: number;
-  urls?: (UrlsEntity)[] | null;
+  urls?: UrlsEntity[] | null;
   userTake?: Owner[];
   given?: boolean;
   userGiven?: boolean;
@@ -43,4 +42,11 @@ export interface WishComment {
   };
   text: string;
   type?: "PRIVATE" | "PUBLIC";
+}
+
+export enum WishItemState {
+  DRAFT = "DRAFT",
+  ACTIVE = "ACTIVE",
+  ARCHIVED = "ARCHIVED",
+  DELETED = "DELETED"
 }

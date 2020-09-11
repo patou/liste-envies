@@ -58,6 +58,12 @@ export class WishListApiService {
     return null;
   }
 
+  @GET
+  @Path("wishes/received")
+  wishesReceived(): Observable<WishItem[]> {
+    return null;
+  }
+
   @POST
   @Path("wishes/:name")
   createWish(

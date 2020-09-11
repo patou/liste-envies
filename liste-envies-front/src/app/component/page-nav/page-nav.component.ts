@@ -22,6 +22,7 @@ import { untilDestroyed } from "ngx-take-until-destroy";
 import { Debounce as DebounceDecorator } from "lodash-decorators";
 import { ID } from "@datorama/akita";
 import { WishItem } from "../../models/WishItem";
+import { MyWishQuery } from "../../state/wishes/my-wish/my-wish.query";
 
 @Component({
   selector: "app-page-nav",
@@ -48,9 +49,14 @@ export class PageNavComponent implements OnInit, OnDestroy {
   public loading$: Observable<boolean>;
   public activeList$: Observable<ID>;
   public notifsCount$: Observable<number>;
+  public basketCount$: Observable<number>;
+  public archiveCount$: Observable<number>;
+  public trashCount$: Observable<number>;
 
   public selectListControl = new FormControl("");
   public isOpened: boolean = false;
+  public openedRightSideNav: boolean = false;
+  public selectedTabsRightSidebar: number = 0;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -58,7 +64,8 @@ export class PageNavComponent implements OnInit, OnDestroy {
     private wishListService: WishesListService,
     private auth: AuthService,
     private notificationsQuery: NotificationsQuery,
-    private router: Router
+    private router: Router,
+    private myWishQuery: MyWishQuery
   ) {}
 
   ngOnInit() {
@@ -80,10 +87,7 @@ export class PageNavComponent implements OnInit, OnDestroy {
     this.notifsCount$ = this.notificationsQuery.selectCount();
 
     this.selectListControl.valueChanges
-      .pipe(
-        untilDestroyed(this),
-        debounceTime(250)
-      )
+      .pipe(untilDestroyed(this), debounceTime(250))
       .subscribe(value => {
         if (typeof value === "string") {
           this.wishListService.searchList(value);
@@ -91,6 +95,10 @@ export class PageNavComponent implements OnInit, OnDestroy {
           this.wishListService.searchList("");
         }
       });
+
+    this.basketCount$ = this.myWishQuery.countBasket();
+    this.archiveCount$ = this.myWishQuery.countArchive();
+    this.trashCount$ = this.myWishQuery.countTrash();
   }
 
   connect() {
@@ -117,4 +125,13 @@ export class PageNavComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {}
+
+  openRightSidePanel(selectedTabs: number) {
+    this.selectedTabsRightSidebar = selectedTabs;
+    this.openedRightSideNav = true;
+  }
+
+  closeRightSidePanel() {
+    this.openedRightSideNav = false;
+  }
 }
