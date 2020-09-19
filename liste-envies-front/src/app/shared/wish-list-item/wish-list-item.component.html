@@ -28,14 +28,14 @@
       {{ wishlist.title }}
     </h2>
     <span class="notification-list" *ngIf="notifsCount$ | async as notifsCount">
-    <mat-icon
-      [matBadge]="notifsCount"
-      color="accent"
-      matBadgeSize="medium"
-      matBadgeColor="primary"
-    >notifications_active</mat-icon
-    >
-  </span>
+      <mat-icon
+        [matBadge]="notifsCount"
+        color="accent"
+        matBadgeSize="medium"
+        matBadgeColor="primary"
+        >notifications_active</mat-icon
+      >
+    </span>
   </div>
 
   <div

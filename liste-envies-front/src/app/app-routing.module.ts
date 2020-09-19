@@ -36,7 +36,8 @@ const routes: Routes = [
       },
       {
         path: "about",
-        loadChildren: () => import('app/page/about/about.module').then(m => m.AboutModule)
+        loadChildren: () =>
+          import("app/page/about/about.module").then(m => m.AboutModule)
       },
       {
         path: "connect",

@@ -221,10 +221,7 @@ export class AddUpdateListComponent implements OnInit {
 
   private formatUrlName(name) {
     return this.latinize.transform(
-      name
-        .toLowerCase()
-        .trim()
-        .replace(/ /g, "_")
+      name.toLowerCase().trim().replace(/ /g, "_")
     );
   }
 
