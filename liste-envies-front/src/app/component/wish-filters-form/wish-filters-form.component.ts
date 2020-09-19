@@ -1,18 +1,18 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnDestroy,
   OnInit,
   ViewEncapsulation
 } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { WishService } from "../../state/wishes/wish.service";
 import { AkitaFilter, searchFilter } from "akita-filters-plugin";
-import { untilDestroyed } from "ngx-take-until-destroy";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { WishItem } from "../../models/WishItem";
 import { Observable } from "rxjs/Observable";
 import { WishState } from "../../state/wishes/wish.store";
 
+@UntilDestroy()
 @Component({
   selector: "app-wish-filters-form",
   templateUrl: "./wish-filters-form.component.html",
@@ -20,7 +20,7 @@ import { WishState } from "../../state/wishes/wish.store";
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class WishFiltersFormComponent implements OnInit, OnDestroy {
+export class WishFiltersFormComponent implements OnInit {
   filtersForm = new FormGroup({
     search: new FormControl("", { updateOn: "blur" }),
     type: new FormControl("all"),
@@ -124,8 +124,6 @@ export class WishFiltersFormComponent implements OnInit, OnDestroy {
       { emitEvent: false }
     );
   }
-
-  ngOnDestroy(): void {}
 
   removeFilter(id: any) {
     this.wishService.removeFilter(id);

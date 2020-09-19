@@ -3,7 +3,6 @@ import {
   Component,
   Input,
   OnChanges,
-  OnDestroy,
   OnInit,
   SimpleChanges
 } from "@angular/core";
@@ -23,17 +22,18 @@ import { distinct, distinctUntilKeyChanged, skip, tap } from "rxjs/operators";
 import { WishService } from "../../state/wishes/wish.service";
 import { DemoService } from "../../state/wishes/demo/demo.service";
 import { DemoQuery } from "../../state/wishes/demo/demo.query";
-import { untilDestroyed } from "ngx-take-until-destroy";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ColorManagementService } from "../../service/color-management.service";
 import { WishesListService } from "../../state/wishes/wishes-list.service";
 
+@UntilDestroy()
 @Component({
   selector: "app-list",
   templateUrl: "./list.component.html",
   styleUrls: ["./list.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ListComponent implements OnInit, OnChanges, OnDestroy {
+export class ListComponent implements OnInit, OnChanges {
   listItems: Observable<WishItem[]>;
 
   whishList$: Observable<WishList>;
@@ -93,14 +93,9 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
     this.listItems = this.wishQuery.selectAll();
     this.loading$ = this.wishQuery.selectLoading();
 
-    this.userAuth
-      .pipe(
-        skip(1),
-        untilDestroyed(this)
-      )
-      .subscribe(value => {
-        this.loadList();
-      });
+    this.userAuth.pipe(skip(1), untilDestroyed(this)).subscribe(value => {
+      this.loadList();
+    });
   }
 
   private loadList() {
@@ -166,6 +161,4 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
       }
     );
   }
-
-  ngOnDestroy(): void {}
 }

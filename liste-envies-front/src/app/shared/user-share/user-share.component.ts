@@ -1,25 +1,43 @@
-import {Component, ElementRef, HostBinding, Input, OnDestroy, OnInit, Optional, Self, ViewEncapsulation} from '@angular/core';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatFormFieldControl } from '@angular/material/form-field';
-import { MatTableDataSource } from '@angular/material/table';
-import {ControlValueAccessor, FormBuilder, FormControl, NgControl, Validators} from '@angular/forms';
-import {UserShare, WishList} from '../../models/WishList';
-import {coerceBooleanProperty} from '@angular/cdk/coercion';
-import {FocusMonitor} from '@angular/cdk/a11y';
-import {Subject} from 'rxjs/Subject';
-import {WishesListQuery} from '../../state/wishes/wishes-list.query';
-import * as _ from 'lodash';
-import {untilDestroyed} from 'ngx-take-until-destroy';
+import {
+  Component,
+  ElementRef,
+  HostBinding,
+  Input,
+  OnDestroy,
+  OnInit,
+  Optional,
+  Self,
+  ViewEncapsulation
+} from "@angular/core";
+import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
+import { MatFormFieldControl } from "@angular/material/form-field";
+import { MatTableDataSource } from "@angular/material/table";
+import {
+  ControlValueAccessor,
+  FormBuilder,
+  FormControl,
+  NgControl,
+  Validators
+} from "@angular/forms";
+import { UserShare, WishList } from "../../models/WishList";
+import { coerceBooleanProperty } from "@angular/cdk/coercion";
+import { FocusMonitor } from "@angular/cdk/a11y";
+import { Subject } from "rxjs/Subject";
+import { WishesListQuery } from "../../state/wishes/wishes-list.query";
+import * as _ from "lodash";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 
+@UntilDestroy()
 @Component({
-  selector: 'app-user-share',
-  templateUrl: './user-share.component.html',
-  styleUrls: ['./user-share.component.scss'],
+  selector: "app-user-share",
+  templateUrl: "./user-share.component.html",
+  styleUrls: ["./user-share.component.scss"],
   encapsulation: ViewEncapsulation.None,
-  providers: [{provide: MatFormFieldControl, useExisting: UserShareComponent}]
+  providers: [{ provide: MatFormFieldControl, useExisting: UserShareComponent }]
 })
 export class UserShareComponent
-  implements OnInit,
+  implements
+    OnInit,
     OnDestroy,
     MatFormFieldControl<UserShare[]>,
     ControlValueAccessor {
@@ -29,15 +47,15 @@ export class UserShareComponent
   readonly autofilled: boolean;
 
   //endregion
-  readonly controlType = 'user-share-input';
+  readonly controlType = "user-share-input";
   readonly errorState: boolean;
   focused: boolean;
   @HostBinding() id = `html-editor-input-${UserShareComponent.nextId++}`;
   readonly stateChanges: Subject<void> = new Subject<void>();
-  describedBy = '';
-  addEmailsControl: FormControl = new FormControl('', Validators.email);
+  describedBy = "";
+  addEmailsControl: FormControl = new FormControl("", Validators.email);
   addOwnersControl: FormControl = new FormControl(false);
-  displayedColumns: string[] = ['email', 'name', 'type', 'action'];
+  displayedColumns: string[] = ["email", "name", "type", "action"];
   users: UserShare[] = [];
   public datasource: MatTableDataSource<UserShare> = new MatTableDataSource(
     this.value
@@ -81,7 +99,7 @@ export class UserShareComponent
   }
 
   private _placeholder: string =
-    'Entrez une adresse mail, ou plusieurs séparé par une virgule';
+    "Entrez une adresse mail, ou plusieurs séparé par une virgule";
 
   @Input()
   get placeholder() {
@@ -125,7 +143,7 @@ export class UserShareComponent
   addUsers() {
     const userToAdd = this.addEmailsControl.value;
     if (userToAdd) {
-      const emails: string[] = userToAdd.split(',');
+      const emails: string[] = userToAdd.split(",");
       emails.map((email: string) => {
         this.value = [...this.value, this.createUserShare(email.trim())];
       });
@@ -147,12 +165,12 @@ export class UserShareComponent
     name = name
       ? name
       : email
-        .split('@')
-        .shift()
-        .replace(/[-_.\d]/g, ' ')
-        .trim();
-    const type = this.addOwnersControl.value ? 'OWNER' : 'SHARED';
-    return {email, name, type};
+          .split("@")
+          .shift()
+          .replace(/[-_.\d]/g, " ")
+          .trim();
+    const type = this.addOwnersControl.value ? "OWNER" : "SHARED";
+    return { email, name, type };
   }
 
   //region Lifecycle Function
@@ -176,7 +194,7 @@ export class UserShareComponent
           },
           []
         );
-        this.users = _.uniqBy(allUsers, 'email');
+        this.users = _.uniqBy(allUsers, "email");
       });
   }
 
@@ -186,7 +204,7 @@ export class UserShareComponent
   }
 
   setDescribedByIds(ids: string[]) {
-    this.describedBy = ids.join(' ');
+    this.describedBy = ids.join(" ");
   }
 
   onContainerClick(event: MouseEvent) {
@@ -194,12 +212,10 @@ export class UserShareComponent
   }
 
   // Function to call when the rating changes.
-  onChange = (users: UserShare[]) => {
-  };
+  onChange = (users: UserShare[]) => {};
 
   // Function to call when the input is touched (when a star is clicked).
-  onTouched = () => {
-  };
+  onTouched = () => {};
 
   //endregion
 
@@ -243,7 +259,7 @@ export class UserShareComponent
   }
 
   private afterAddUsers() {
-    this.addEmailsControl.setValue('');
+    this.addEmailsControl.setValue("");
     this.addOwnersControl.setValue(false);
     this.onTouched();
 
