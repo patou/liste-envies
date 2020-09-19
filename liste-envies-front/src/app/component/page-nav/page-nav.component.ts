@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnDestroy,
   OnInit,
   ViewChild
 } from "@angular/core";
@@ -18,19 +17,20 @@ import { MatDrawer } from "@angular/material/sidenav";
 import { FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 import { WishesListService } from "../../state/wishes/wishes-list.service";
-import { untilDestroyed } from "ngx-take-until-destroy";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Debounce as DebounceDecorator } from "lodash-decorators";
 import { ID } from "@datorama/akita";
 import { WishItem } from "../../models/WishItem";
 import { MyWishQuery } from "../../state/wishes/my-wish/my-wish.query";
 
+@UntilDestroy()
 @Component({
   selector: "app-page-nav",
   templateUrl: "./page-nav.component.html",
   styleUrls: ["./page-nav.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PageNavComponent implements OnInit, OnDestroy {
+export class PageNavComponent implements OnInit {
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
     .pipe(
@@ -123,8 +123,6 @@ export class PageNavComponent implements OnInit, OnDestroy {
     this.selectListControl.reset();
     this.router.navigate(["/", $event.option.value]);
   }
-
-  ngOnDestroy() {}
 
   openRightSidePanel(selectedTabs: number) {
     this.selectedTabsRightSidebar = selectedTabs;

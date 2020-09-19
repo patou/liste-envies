@@ -1,16 +1,17 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../../service/auth.service";
-import { untilDestroyed } from "ngx-take-until-destroy";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { UserState } from "../../state/app/user.store";
 import { UserQuery } from "../../state/app/user.query";
 import { Router } from "@angular/router";
 
+@UntilDestroy()
 @Component({
   selector: "app-connect",
   templateUrl: "./connect.component.html",
   styleUrls: ["./connect.component.scss"]
 })
-export class ConnectComponent implements OnInit, OnDestroy {
+export class ConnectComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private user: UserQuery,
@@ -31,6 +32,4 @@ export class ConnectComponent implements OnInit, OnDestroy {
   connect() {
     this.auth.openLoginPopUp();
   }
-
-  ngOnDestroy(): void {}
 }

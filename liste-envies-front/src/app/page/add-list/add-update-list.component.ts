@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import {
   FormBuilder,
   FormControl,
@@ -19,7 +19,7 @@ import {
   WishListTypePicture
 } from "../../models/const";
 import { Router } from "@angular/router";
-import { untilDestroyed } from "ngx-take-until-destroy";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { debounceTime } from "rxjs/operators";
 import { merge } from "rxjs";
 
@@ -27,12 +27,13 @@ import { WishesListQuery } from "../../state/wishes/wishes-list.query";
 import { WishQuery } from "../../state/wishes/wish.query";
 import * as moment from "moment";
 
+@UntilDestroy()
 @Component({
   selector: "app-add-update-list",
   templateUrl: "./add-update-list.component.html",
   styleUrls: ["./add-update-list.component.scss"]
 })
-export class AddUpdateListComponent implements OnInit, OnDestroy {
+export class AddUpdateListComponent implements OnInit {
   isLinear = false;
   nameFormGroup: FormGroup;
   secondFormGroup: FormGroup;
@@ -217,8 +218,6 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
         this.router.navigate(["/", newList.name]);
       });
   }
-
-  ngOnDestroy(): void {}
 
   private formatUrlName(name) {
     return this.latinize.transform(

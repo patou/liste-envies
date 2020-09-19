@@ -3,7 +3,6 @@ import {
   Component,
   Input,
   OnChanges,
-  OnDestroy,
   OnInit,
   SimpleChanges
 } from "@angular/core";
@@ -29,18 +28,19 @@ import {
 import { WishService } from "../../state/wishes/wish.service";
 import { DemoService } from "../../state/wishes/demo/demo.service";
 import { DemoQuery } from "../../state/wishes/demo/demo.query";
-import { untilDestroyed } from "ngx-take-until-destroy";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ColorManagementService } from "../../service/color-management.service";
 import { WishesListService } from "../../state/wishes/wishes-list.service";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 
+@UntilDestroy()
 @Component({
   selector: "app-list",
   templateUrl: "./list.component.html",
   styleUrls: ["./list.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ListComponent implements OnInit, OnChanges, OnDestroy {
+export class ListComponent implements OnInit, OnChanges {
   listItems: Observable<WishItem[]>;
 
   whishList$: Observable<WishList>;
@@ -174,8 +174,6 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
       }
     );
   }
-
-  ngOnDestroy(): void {}
 
   doNothing(event) {
     event.preventDefault();
