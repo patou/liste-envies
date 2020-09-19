@@ -38,7 +38,7 @@
     "@datorama/akita-ng-forms-manager": "^3.3.2",
     "@firebase/app-types": "^0.6.1",
     "@ngneat/until-destroy": "^8.0.2",
-    "akita-filters-plugin": "^3.0.2",
+    "akita-filters-plugin": "^4.0.0",
     "core-js": "^3.6.5",
     "filepond": "^4.20.1",
     "filepond-plugin-file-encode": "^2.1.9",
