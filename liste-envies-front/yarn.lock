@@ -1297,31 +1297,20 @@
     fs-extra "^4.0.1"
     viz.js "^1.8.0"
 
-"@datorama/akita-ng-forms-manager@^3.3.2":
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/@datorama/akita-ng-forms-manager/-/akita-ng-forms-manager-3.3.2.tgz#ca3f9c995884eb0899cd91d819ae13c1a12d02cb"
-  integrity sha512-mljisXu5G8uMbhQHggTBdi7F4cNFlgZu8oFqkpmCOZaCcZy/gBmLYuCnBSJsoaIKRz46ikqVwepCNYPfcO76Hg==
-  dependencies:
-    "@datorama/akita" "5.0.2"
-
-"@datorama/akita-ngdevtools@^3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@datorama/akita-ngdevtools/-/akita-ngdevtools-3.0.2.tgz#399e0706b33f56a8efea5501d633f11086dc9618"
-  integrity sha512-0pXxI1/4/avsM7KoIuNvkgvrvbbA0HBobCYR9aq3BhnyTo+v+Sle6iVzzqcD8keNB69+GobVeiJWIXF5sLaFhQ==
-  dependencies:
-    tslib "^1.9.0"
-
-"@datorama/akita@5.0.2":
+"@datorama/akita-ng-forms-manager@^5.0.2":
   version "5.0.2"
-  resolved "https://registry.yarnpkg.com/@datorama/akita/-/akita-5.0.2.tgz#eab1b2442d08a9710691adb0c8126d646af3adb4"
-  integrity sha512-Q8SrxKhTYDJy7w5QA6Xag2rs5CvxI4FAkXke6qPXoNSxeGWS+Hcbqb61U6Fa0+5cbtmufLEjE3eDFLhP+xELIw==
-  dependencies:
-    schematics-utilities "^1.1.1"
+  resolved "https://registry.yarnpkg.com/@datorama/akita-ng-forms-manager/-/akita-ng-forms-manager-5.0.2.tgz#40ab6b2f8198db9eec9f2e4d9c82a4e2d9ff72bb"
+  integrity sha512-kxKlEh9kSQI/ib6ZPJdKT4SAjvu/t7L4tEL1aDJ1ptBAeov4jq/d4zFxIjKpjdzF0vejLEk2c8IV2s9CkzCI9g==
 
-"@datorama/akita@^4.19.4":
-  version "4.23.2"
-  resolved "https://registry.yarnpkg.com/@datorama/akita/-/akita-4.23.2.tgz#294fa703a2977e079735e15196aa9e690ca44feb"
-  integrity sha512-MJorZ0AHN8m4iW0RzeXYRSRLK4Rkdj6M4iErREVFgUWLf87MXROCsD+m0Zac1V2aNl7S+WWhlr1zKGO6JfZJnA==
+"@datorama/akita-ngdevtools@^5.0.3":
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/@datorama/akita-ngdevtools/-/akita-ngdevtools-5.0.3.tgz#b0e1cda4c5893521b4f01a9dcefa5f18d4856e4b"
+  integrity sha512-Pq3OJxrRTxx/2wuaN91zMMBcCcvlUIAdD0cyKep0qRnXmsU5yQBSHaTV9o+pnvoFGagBY3t5yNWWqUfjUQQ3sw==
+
+"@datorama/akita@^5.2.3":
+  version "5.2.3"
+  resolved "https://registry.yarnpkg.com/@datorama/akita/-/akita-5.2.3.tgz#1ebbd59b5c104d67c832a586c5b0eb26201e47ac"
+  integrity sha512-Kqk82psQy95FBLJ867LKDP73JE7sdN1wWejdHWbQzxZjmc7MXUKC9LFx3m98/xkD5wkN4wAkEDFY30o+T4AaKA==
   dependencies:
     schematics-utilities "^1.1.1"
 
@@ -10255,6 +10244,11 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   integrity sha1-6Eg5bwV9Ij8kOGkkYY4laUFh7Ec=
   dependencies:
     aproba "^1.1.1"
+
+rxjs-compat@^6.6.3:
+  version "6.6.3"
+  resolved "https://registry.yarnpkg.com/rxjs-compat/-/rxjs-compat-6.6.3.tgz#141405fcee11f48718d428b99c8f01826f594e5c"
+  integrity sha512-y+wUqq7bS2dG+7rH2fNMoxsDiJ32RQzFxZQE/JdtpnmEZmwLQrb1tCiItyHxdXJHXjmHnnzFscn3b6PEmORGKw==
 
 rxjs@6.3.3:
   version "6.3.3"
