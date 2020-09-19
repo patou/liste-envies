@@ -7,7 +7,7 @@ import {
 } from "@angular/forms";
 import { UserShare, WishList } from "../../models/WishList";
 import { LatinizePipe } from "ng-pipes";
-import { Subject } from "rxjs/Subject";
+import { Subject } from "rxjs";
 import { WishItem } from "../../models/WishItem";
 import { DemoService } from "../../state/wishes/demo/demo.service";
 import { WishesListService } from "../../state/wishes/wishes-list.service";

@@ -6,7 +6,7 @@ import { WishList } from "../../models/WishList";
 import { WishComment, WishItem } from "../../models/WishItem";
 import { Debounce, Throttle } from "lodash-decorators";
 import { WishQuery } from "./wish.query";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { UserQuery } from "../app/user.query";
 import { map } from "rxjs/operators";
 import { MatSnackBar } from "@angular/material/snack-bar";

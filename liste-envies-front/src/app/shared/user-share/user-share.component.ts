@@ -22,7 +22,7 @@ import {
 import { UserShare, WishList } from "../../models/WishList";
 import { coerceBooleanProperty } from "@angular/cdk/coercion";
 import { FocusMonitor } from "@angular/cdk/a11y";
-import { Subject } from "rxjs/Subject";
+import { Subject } from "rxjs";
 import { WishesListQuery } from "../../state/wishes/wishes-list.query";
 import * as _ from "lodash";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";

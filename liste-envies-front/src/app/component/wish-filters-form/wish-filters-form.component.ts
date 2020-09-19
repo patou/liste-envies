@@ -9,7 +9,7 @@ import { WishService } from "../../state/wishes/wish.service";
 import { AkitaFilter, searchFilter } from "akita-filters-plugin";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { WishItem } from "../../models/WishItem";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { WishState } from "../../state/wishes/wish.store";
 
 @UntilDestroy()
