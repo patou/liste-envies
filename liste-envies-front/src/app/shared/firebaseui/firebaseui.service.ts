@@ -14,11 +14,9 @@ export class FirebaseUIService {
   constructor(angularFireAuth: AngularFireAuth) {
     // store the firebaseui instance on the window object to prevent double initialization
     if (!(<any>window).firebaseUiInstance) {
-      (<any>window).firebaseUiInstance = new firebaseui.auth.AuthUI(
-        angularFireAuth.auth
-      );
+      (<any>window).firebaseUiInstance = new firebaseui.AuthUI(angularFireAuth);
     }
     this.firebaseUiInstance = (<any>window)
-      .firebaseUiInstance as firebaseui.auth.AuthUI;
+      .firebaseUiInstance as firebaseui.AuthUI;
   }
 }

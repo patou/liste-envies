@@ -112,7 +112,7 @@ export class AuthService implements HttpInterceptor {
   }
 
   logout() {
-    this.firebaseAuth.auth.signOut();
+    this.firebaseAuth.signOut();
   }
 
   isConnected(): Observable<boolean> {
