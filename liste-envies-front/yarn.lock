@@ -183,10 +183,12 @@
   optionalDependencies:
     parse5 "^5.0.0"
 
-"@angular/cdk@^9.0.0":
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-9.0.0.tgz#5734817ae97044f90d304fa0f25c9c1a7fa0bf96"
-  integrity sha512-2kYpyYbewIB6fubSIDMvSprJLNplRZoL/AtXW3od4dLyRxtzX+7iWTAtzUG/dhq8CKev0lpd1HENh5lLR/Lhjw==
+"@angular/cdk@^10.2.1":
+  version "10.2.1"
+  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-10.2.1.tgz#7ca0fe7220ca97bdf8e73a40105212749427a88f"
+  integrity sha512-67nPfteerlGPlwBeKt+EEOgEo2zm3+U6FzwhXVqwEeBxCZ7PWelMDiartHC7zZnzIKkcNEO0Uptq7Bzl2gdU0w==
+  dependencies:
+    tslib "^2.0.0"
   optionalDependencies:
     parse5 "^5.0.0"
 
@@ -278,10 +280,12 @@
   resolved "https://registry.yarnpkg.com/@angular/language-service/-/language-service-10.1.1.tgz#7c027904507a875325fc0db870c809a495eb713e"
   integrity sha512-Mg+GUNVPtzSupmjkzIrxzvylM7TGtVP36h61Yd0ixyo7vBcNV+NQ7PTdwfKGVWN0N6PiMuk2/4PA0hW2EokSZg==
 
-"@angular/material-moment-adapter@^9.0.0":
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/@angular/material-moment-adapter/-/material-moment-adapter-9.0.0.tgz#7670dde83dd9fb3f5e0812f58cb198f3bb6a3ae3"
-  integrity sha512-xKCSodpJYOOdZ30EH/kGRbjkwkKnupuQQbr9eRGlCoBdnXm4Wkwpjkwl9l4MbpWZRZFQgsqR1X5D9C8nZCPoiA==
+"@angular/material-moment-adapter@^10.2.1":
+  version "10.2.1"
+  resolved "https://registry.yarnpkg.com/@angular/material-moment-adapter/-/material-moment-adapter-10.2.1.tgz#79686cd90f8aa58543bfa0f58b4bcc58eb4c9e73"
+  integrity sha512-0zhKN0ee0dBJBpD6S4HLC5LeEF7KF4BL4EVmrAoGT81LTxDNORPHKxhnuwWISMbzVZKNO6mE0uUmX/qBeJMlSw==
+  dependencies:
+    tslib "^2.0.0"
 
 "@angular/material@>=8.0.0":
   version "8.2.3"
@@ -290,10 +294,12 @@
   dependencies:
     tslib "^1.7.1"
 
-"@angular/material@^9.0.0":
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/@angular/material/-/material-9.0.0.tgz#655bfd4d4047337e84480b9f92be8e81af375b92"
-  integrity sha512-QxN2rmR5mvg2YE1NoIGWLpbnmcJq0iFidzy6odzvN17+XkoCJBZ65IdYsHrJgfwGpoIy6bywuixrDHHcSh9I5w==
+"@angular/material@^10.2.1":
+  version "10.2.1"
+  resolved "https://registry.yarnpkg.com/@angular/material/-/material-10.2.1.tgz#d402d157edfe39963c917095a51ab26c6071dfa2"
+  integrity sha512-TSfjW4w3orzDtTstNcNR2zsfNcO/R7NNmDMQ11LO6+EfnbNF2yktsMS3FZl811GX6dXEE+R/GCdDgCnlvqv9Mw==
+  dependencies:
+    tslib "^2.0.0"
 
 "@angular/platform-browser-dynamic@^10.1.1":
   version "10.1.1"
