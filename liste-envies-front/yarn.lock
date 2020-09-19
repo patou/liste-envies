@@ -193,15 +193,6 @@
   dependencies:
     tslib "^2.0.0"
 
-"@angular/cdk@>=8.0.0":
-  version "8.2.3"
-  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-8.2.3.tgz#16b96ffa935cbf5a646757ecaf2b19c434678f72"
-  integrity sha512-ZwO5Sn720RA2YvBqud0JAHkZXjmjxM0yNzCO8RVtRE9i8Gl26Wk0j0nQeJkVm4zwv2QO8MwbKUKGTMt8evsokA==
-  dependencies:
-    tslib "^1.7.1"
-  optionalDependencies:
-    parse5 "^5.0.0"
-
 "@angular/cdk@^10.2.1":
   version "10.2.1"
   resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-10.2.1.tgz#7ca0fe7220ca97bdf8e73a40105212749427a88f"
@@ -317,13 +308,6 @@
   integrity sha512-0zhKN0ee0dBJBpD6S4HLC5LeEF7KF4BL4EVmrAoGT81LTxDNORPHKxhnuwWISMbzVZKNO6mE0uUmX/qBeJMlSw==
   dependencies:
     tslib "^2.0.0"
-
-"@angular/material@>=8.0.0":
-  version "8.2.3"
-  resolved "https://registry.yarnpkg.com/@angular/material/-/material-8.2.3.tgz#16543e4e06a3fde2651a25cfe126e88e714ae105"
-  integrity sha512-SOczkIaqes+r+9XF/UUiokidfFKBpHkOPIaFK857sFD0FBNPvPEpOr5oHKCG3feERRwAFqHS7Wo2ohVEWypb5A==
-  dependencies:
-    tslib "^1.7.1"
 
 "@angular/material@^10.2.1":
   version "10.2.1"
@@ -2244,15 +2228,10 @@ ajv@^6.1.0, ajv@^6.10.2, ajv@^6.12.3, ajv@^6.12.4:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-akita-filters-plugin@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/akita-filters-plugin/-/akita-filters-plugin-3.0.2.tgz#d8f431504035517323bcad600ae30af00e268d5b"
-  integrity sha512-u/dXA7FGgX4+5LT+tKvkNEuMx7s4wKGi8PGgfOBT/09vfxtjC0Cj335tSiWXmEII0XN/4b3dHJWO22afbODdYQ==
-  dependencies:
-    tslib "^1.9.0"
-  optionalDependencies:
-    "@angular/cdk" ">=8.0.0"
-    "@angular/material" ">=8.0.0"
+akita-filters-plugin@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/akita-filters-plugin/-/akita-filters-plugin-4.0.0.tgz#42d89416f85ac1f7759161538188c1c1f1b61517"
+  integrity sha512-9QTbynUJe4tMBb6T2pUc/t3g0x7Kg8u/AZ1apU4KYLeFpziLkgP6VbJd+2b7Gop8Hyrq70Bjq35wncM0ecrk6g==
 
 akita-schematics@^2.0.1:
   version "2.0.1"
