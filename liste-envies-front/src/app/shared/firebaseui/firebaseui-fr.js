@@ -1,4 +1,4 @@
-(function() {
+(function () {
   var firebase = require("firebase/app");
   require("firebase/auth"); /*
 
@@ -17,15 +17,15 @@
  limitations under the License.
 */
   var componentHandler = {
-    upgradeDom: function(optJsClass, optCssClass) {},
-    upgradeElement: function(element, optJsClass) {},
-    upgradeElements: function(elements) {},
-    upgradeAllRegistered: function() {},
-    registerUpgradedCallback: function(jsClass, callback) {},
-    register: function(config) {},
-    downgradeElements: function(nodes) {}
+    upgradeDom: function (optJsClass, optCssClass) {},
+    upgradeElement: function (element, optJsClass) {},
+    upgradeElements: function (elements) {},
+    upgradeAllRegistered: function () {},
+    registerUpgradedCallback: function (jsClass, callback) {},
+    register: function (config) {},
+    downgradeElements: function (nodes) {}
   };
-  componentHandler = (function() {
+  componentHandler = (function () {
     var registeredComponents_ = [];
     var createdComponents_ = [];
     var componentConfigProperty_ = "mdlComponentConfigInternal_";
@@ -89,7 +89,7 @@
       var classesToUpgrade = [];
       if (!optJsClass) {
         var classList = element.classList;
-        registeredComponents_.forEach(function(component) {
+        registeredComponents_.forEach(function (component) {
           if (
             classList.contains(component.cssClass) &&
             classesToUpgrade.indexOf(component) === -1 &&
@@ -149,7 +149,7 @@
         widget: widget,
         callbacks: []
       };
-      registeredComponents_.forEach(function(item) {
+      registeredComponents_.forEach(function (item) {
         if (item.cssClass === newConfig.cssClass)
           throw new Error(
             "The provided cssClass has already been registered: " +
@@ -192,9 +192,9 @@
       }
     }
     function downgradeNodesInternal(nodes) {
-      var downgradeNode = function(node) {
+      var downgradeNode = function (node) {
         createdComponents_
-          .filter(function(item) {
+          .filter(function (item) {
             return item.element_ === node;
           })
           .forEach(deconstructComponentInternal);
@@ -228,7 +228,7 @@
   componentHandler["downgradeElements"] = componentHandler.downgradeElements;
   window.componentHandler = componentHandler;
   window["componentHandler"] = componentHandler;
-  window.addEventListener("load", function() {
+  window.addEventListener("load", function () {
     if (
       "classList" in document.createElement("div") &&
       "querySelector" in document &&
@@ -238,11 +238,11 @@
       document.documentElement.classList.add("mdl-js");
       componentHandler.upgradeAllRegistered();
     } else {
-      componentHandler.upgradeElement = function() {};
-      componentHandler.register = function() {};
+      componentHandler.upgradeElement = function () {};
+      componentHandler.register = function () {};
     }
   });
-  (function() {
+  (function () {
     var MaterialButton = function MaterialButton(element) {
       this.element_ = element;
       this.init();
@@ -254,18 +254,18 @@
       RIPPLE_CONTAINER: "mdl-button__ripple-container",
       RIPPLE: "mdl-ripple"
     };
-    MaterialButton.prototype.blurHandler_ = function(event) {
+    MaterialButton.prototype.blurHandler_ = function (event) {
       if (event) this.element_.blur();
     };
-    MaterialButton.prototype.disable = function() {
+    MaterialButton.prototype.disable = function () {
       this.element_.disabled = true;
     };
     MaterialButton.prototype["disable"] = MaterialButton.prototype.disable;
-    MaterialButton.prototype.enable = function() {
+    MaterialButton.prototype.enable = function () {
       this.element_.disabled = false;
     };
     MaterialButton.prototype["enable"] = MaterialButton.prototype.enable;
-    MaterialButton.prototype.init = function() {
+    MaterialButton.prototype.init = function () {
       if (this.element_) {
         if (this.element_.classList.contains(this.CssClasses_.RIPPLE_EFFECT)) {
           var rippleContainer = document.createElement("span");
@@ -295,7 +295,7 @@
       widget: true
     });
   })();
-  (function() {
+  (function () {
     var MaterialProgress = function MaterialProgress(element) {
       this.element_ = element;
       this.init();
@@ -305,7 +305,7 @@
     MaterialProgress.prototype.CssClasses_ = {
       INDETERMINATE_CLASS: "mdl-progress__indeterminate"
     };
-    MaterialProgress.prototype.setProgress = function(p) {
+    MaterialProgress.prototype.setProgress = function (p) {
       if (
         this.element_.classList.contains(this.CssClasses_.INDETERMINATE_CLASS)
       )
@@ -314,13 +314,13 @@
     };
     MaterialProgress.prototype["setProgress"] =
       MaterialProgress.prototype.setProgress;
-    MaterialProgress.prototype.setBuffer = function(p) {
+    MaterialProgress.prototype.setBuffer = function (p) {
       this.bufferbar_.style.width = p + "%";
       this.auxbar_.style.width = 100 - p + "%";
     };
     MaterialProgress.prototype["setBuffer"] =
       MaterialProgress.prototype.setBuffer;
-    MaterialProgress.prototype.init = function() {
+    MaterialProgress.prototype.init = function () {
       if (this.element_) {
         var el = document.createElement("div");
         el.className = "progressbar bar bar1";
@@ -347,7 +347,7 @@
       widget: true
     });
   })();
-  (function() {
+  (function () {
     var MaterialSpinner = function MaterialSpinner(element) {
       this.element_ = element;
       this.init();
@@ -362,7 +362,7 @@
       MDL_SPINNER_LEFT: "mdl-spinner__left",
       MDL_SPINNER_RIGHT: "mdl-spinner__right"
     };
-    MaterialSpinner.prototype.createLayer = function(index) {
+    MaterialSpinner.prototype.createLayer = function (index) {
       var layer = document.createElement("div");
       layer.classList.add(this.CssClasses_.MDL_SPINNER_LAYER);
       layer.classList.add(this.CssClasses_.MDL_SPINNER_LAYER + "-" + index);
@@ -387,15 +387,15 @@
     };
     MaterialSpinner.prototype["createLayer"] =
       MaterialSpinner.prototype.createLayer;
-    MaterialSpinner.prototype.stop = function() {
+    MaterialSpinner.prototype.stop = function () {
       this.element_.classList.remove("is-active");
     };
     MaterialSpinner.prototype["stop"] = MaterialSpinner.prototype.stop;
-    MaterialSpinner.prototype.start = function() {
+    MaterialSpinner.prototype.start = function () {
       this.element_.classList.add("is-active");
     };
     MaterialSpinner.prototype["start"] = MaterialSpinner.prototype.start;
-    MaterialSpinner.prototype.init = function() {
+    MaterialSpinner.prototype.init = function () {
       if (this.element_) {
         for (var i = 1; i <= this.Constant_.MDL_SPINNER_LAYER_COUNT; i++)
           this.createLayer(i);
@@ -409,7 +409,7 @@
       widget: true
     });
   })();
-  (function() {
+  (function () {
     var MaterialTextfield = function MaterialTextfield(element) {
       this.element_ = element;
       this.maxRows = this.Constant_.NO_MAX_ROWS;
@@ -430,41 +430,41 @@
       IS_UPGRADED: "is-upgraded",
       HAS_PLACEHOLDER: "has-placeholder"
     };
-    MaterialTextfield.prototype.onKeyDown_ = function(event) {
+    MaterialTextfield.prototype.onKeyDown_ = function (event) {
       var currentRowCount = event.target.value.split("\n").length;
       if (event.keyCode === 13)
         if (currentRowCount >= this.maxRows) event.preventDefault();
     };
-    MaterialTextfield.prototype.onFocus_ = function(event) {
+    MaterialTextfield.prototype.onFocus_ = function (event) {
       this.element_.classList.add(this.CssClasses_.IS_FOCUSED);
     };
-    MaterialTextfield.prototype.onBlur_ = function(event) {
+    MaterialTextfield.prototype.onBlur_ = function (event) {
       this.element_.classList.remove(this.CssClasses_.IS_FOCUSED);
     };
-    MaterialTextfield.prototype.onReset_ = function(event) {
+    MaterialTextfield.prototype.onReset_ = function (event) {
       this.updateClasses_();
     };
-    MaterialTextfield.prototype.updateClasses_ = function() {
+    MaterialTextfield.prototype.updateClasses_ = function () {
       this.checkDisabled();
       this.checkValidity();
       this.checkDirty();
       this.checkFocus();
     };
-    MaterialTextfield.prototype.checkDisabled = function() {
+    MaterialTextfield.prototype.checkDisabled = function () {
       if (this.input_.disabled)
         this.element_.classList.add(this.CssClasses_.IS_DISABLED);
       else this.element_.classList.remove(this.CssClasses_.IS_DISABLED);
     };
     MaterialTextfield.prototype["checkDisabled"] =
       MaterialTextfield.prototype.checkDisabled;
-    MaterialTextfield.prototype.checkFocus = function() {
+    MaterialTextfield.prototype.checkFocus = function () {
       if (Boolean(this.element_.querySelector(":focus")))
         this.element_.classList.add(this.CssClasses_.IS_FOCUSED);
       else this.element_.classList.remove(this.CssClasses_.IS_FOCUSED);
     };
     MaterialTextfield.prototype["checkFocus"] =
       MaterialTextfield.prototype.checkFocus;
-    MaterialTextfield.prototype.checkValidity = function() {
+    MaterialTextfield.prototype.checkValidity = function () {
       if (this.input_.validity)
         if (this.input_.validity.valid)
           this.element_.classList.remove(this.CssClasses_.IS_INVALID);
@@ -472,30 +472,30 @@
     };
     MaterialTextfield.prototype["checkValidity"] =
       MaterialTextfield.prototype.checkValidity;
-    MaterialTextfield.prototype.checkDirty = function() {
+    MaterialTextfield.prototype.checkDirty = function () {
       if (this.input_.value && this.input_.value.length > 0)
         this.element_.classList.add(this.CssClasses_.IS_DIRTY);
       else this.element_.classList.remove(this.CssClasses_.IS_DIRTY);
     };
     MaterialTextfield.prototype["checkDirty"] =
       MaterialTextfield.prototype.checkDirty;
-    MaterialTextfield.prototype.disable = function() {
+    MaterialTextfield.prototype.disable = function () {
       this.input_.disabled = true;
       this.updateClasses_();
     };
     MaterialTextfield.prototype["disable"] =
       MaterialTextfield.prototype.disable;
-    MaterialTextfield.prototype.enable = function() {
+    MaterialTextfield.prototype.enable = function () {
       this.input_.disabled = false;
       this.updateClasses_();
     };
     MaterialTextfield.prototype["enable"] = MaterialTextfield.prototype.enable;
-    MaterialTextfield.prototype.change = function(value) {
+    MaterialTextfield.prototype.change = function (value) {
       this.input_.value = value || "";
       this.updateClasses_();
     };
     MaterialTextfield.prototype["change"] = MaterialTextfield.prototype.change;
-    MaterialTextfield.prototype.init = function() {
+    MaterialTextfield.prototype.init = function () {
       if (this.element_) {
         this.label_ = this.element_.querySelector("." + this.CssClasses_.LABEL);
         this.input_ = this.element_.querySelector("." + this.CssClasses_.INPUT);
@@ -541,7 +541,7 @@
       widget: true
     });
   })();
-  (function() {
+  (function () {
     var supportCustomEvent = window.CustomEvent;
     if (!supportCustomEvent || typeof supportCustomEvent === "object") {
       supportCustomEvent = function CustomEvent(event, x) {
@@ -560,7 +560,7 @@
     function createsStackingContext(el) {
       while (el && el !== document.body) {
         var s = window.getComputedStyle(el);
-        var invalid = function(k, ok) {
+        var invalid = function (k, ok) {
           return !(s[k] === undefined || s[k] === ok);
         };
         if (
@@ -612,12 +612,12 @@
         mo.observe(dialog, { attributes: true, attributeFilter: ["open"] });
       } else {
         var removed = false;
-        var cb = function() {
+        var cb = function () {
           removed ? this.downgradeModal() : this.maybeHideModal();
           removed = false;
         }.bind(this);
         var timeout;
-        var delayModel = function(ev) {
+        var delayModel = function (ev) {
           if (ev.target !== dialog) return;
           var cand = "DOMNodeRemoved";
           removed |= ev.type.substr(0, cand.length) === cand;
@@ -628,7 +628,7 @@
           "DOMAttrModified",
           "DOMNodeRemoved",
           "DOMNodeRemovedFromDocument"
-        ].forEach(function(name) {
+        ].forEach(function (name) {
           dialog.addEventListener(name, delayModel);
         });
       }
@@ -644,7 +644,7 @@
       get dialog() {
         return this.dialog_;
       },
-      maybeHideModal: function() {
+      maybeHideModal: function () {
         if (
           this.dialog_.hasAttribute("open") &&
           document.body.contains(this.dialog_)
@@ -652,7 +652,7 @@
           return;
         this.downgradeModal();
       },
-      downgradeModal: function() {
+      downgradeModal: function () {
         if (!this.openAsModal_) return;
         this.openAsModal_ = false;
         this.dialog_.style.zIndex = "";
@@ -664,7 +664,7 @@
           this.backdrop_.parentNode.removeChild(this.backdrop_);
         dialogPolyfill.dm.removeDialog(this);
       },
-      setOpen: function(value) {
+      setOpen: function (value) {
         if (value)
           this.dialog_.hasAttribute("open") ||
             this.dialog_.setAttribute("open", "");
@@ -673,7 +673,7 @@
           this.maybeHideModal();
         }
       },
-      backdropClick_: function(e) {
+      backdropClick_: function (e) {
         if (!this.dialog_.hasAttribute("tabindex")) {
           var fake = document.createElement("div");
           this.dialog_.insertBefore(fake, this.dialog_.firstChild);
@@ -702,12 +702,12 @@
         this.dialog_.dispatchEvent(redirectedEvent);
         e.stopPropagation();
       },
-      focus_: function() {
+      focus_: function () {
         var target = this.dialog_.querySelector("[autofocus]:not([disabled])");
         if (!target && this.dialog_.tabIndex >= 0) target = this.dialog_;
         if (!target) {
           var opts = ["button", "input", "keygen", "select", "textarea"];
-          var query = opts.map(function(el) {
+          var query = opts.map(function (el) {
             return el + ":not([disabled])";
           });
           query.push('[tabindex]:not([disabled]):not([tabindex=""])');
@@ -716,19 +716,19 @@
         safeBlur(document.activeElement);
         target && target.focus();
       },
-      updateZIndex: function(dialogZ, backdropZ) {
+      updateZIndex: function (dialogZ, backdropZ) {
         if (dialogZ < backdropZ)
           throw new Error("dialogZ should never be < backdropZ");
         this.dialog_.style.zIndex = dialogZ;
         this.backdrop_.style.zIndex = backdropZ;
       },
-      show: function() {
+      show: function () {
         if (!this.dialog_.open) {
           this.setOpen(true);
           this.focus_();
         }
       },
-      showModal: function() {
+      showModal: function () {
         if (this.dialog_.hasAttribute("open"))
           throw new Error(
             "Failed to execute 'showModal' on dialog: The element is already open, and therefore cannot be opened modally."
@@ -759,7 +759,7 @@
         );
         this.focus_();
       },
-      close: function(opt_returnValue) {
+      close: function (opt_returnValue) {
         if (!this.dialog_.hasAttribute("open"))
           throw new Error(
             "Failed to execute 'close' on dialog: The element does not have an 'open' attribute, and therefore cannot be closed."
@@ -775,14 +775,14 @@
       }
     };
     var dialogPolyfill = {};
-    dialogPolyfill.reposition = function(element) {
+    dialogPolyfill.reposition = function (element) {
       var scrollTop =
         document.body.scrollTop || document.documentElement.scrollTop;
       var topValue =
         scrollTop + (window.innerHeight - element.offsetHeight) / 2;
       element.style.top = Math.max(scrollTop, topValue) + "px";
     };
-    dialogPolyfill.isInlinePositionSetByStylesheet = function(element) {
+    dialogPolyfill.isInlinePositionSetByStylesheet = function (element) {
       for (var i = 0; i < document.styleSheets.length; ++i) {
         var styleSheet = document.styleSheets[i];
         var cssRules = null;
@@ -808,7 +808,7 @@
       }
       return false;
     };
-    dialogPolyfill.needsCentering = function(dialog) {
+    dialogPolyfill.needsCentering = function (dialog) {
       var computedStyle = window.getComputedStyle(dialog);
       if (computedStyle.position !== "absolute") return false;
       if (
@@ -818,7 +818,7 @@
         return false;
       return !dialogPolyfill.isInlinePositionSetByStylesheet(dialog);
     };
-    dialogPolyfill.forceRegisterDialog = function(element) {
+    dialogPolyfill.forceRegisterDialog = function (element) {
       if (window.HTMLDialogElement || element.showModal)
         console.warn(
           "This browser already supports <dialog>, the polyfill " +
@@ -831,17 +831,17 @@
         );
       new dialogPolyfillInfo(element);
     };
-    dialogPolyfill.registerDialog = function(element) {
+    dialogPolyfill.registerDialog = function (element) {
       if (!element.showModal) dialogPolyfill.forceRegisterDialog(element);
     };
-    dialogPolyfill.DialogManager = function() {
+    dialogPolyfill.DialogManager = function () {
       this.pendingDialogStack = [];
       var checkDOM = this.checkDOM_.bind(this);
       this.overlay = document.createElement("div");
       this.overlay.className = "_dialog_overlay";
       this.overlay.addEventListener(
         "click",
-        function(e) {
+        function (e) {
           this.forwardTab_ = undefined;
           e.stopPropagation();
           checkDOM([]);
@@ -853,9 +853,9 @@
       this.zIndexHigh_ = 1e5 + 150;
       this.forwardTab_ = undefined;
       if ("MutationObserver" in window)
-        this.mo_ = new MutationObserver(function(records) {
+        this.mo_ = new MutationObserver(function (records) {
           var removed = [];
-          records.forEach(function(rec) {
+          records.forEach(function (rec) {
             for (var i = 0, c; (c = rec.removedNodes[i]); ++i) {
               if (!(c instanceof Element)) continue;
               else if (c.localName === "dialog") removed.push(c);
@@ -865,7 +865,7 @@
           removed.length && checkDOM(removed);
         });
     };
-    dialogPolyfill.DialogManager.prototype.blockDocument = function() {
+    dialogPolyfill.DialogManager.prototype.blockDocument = function () {
       document.documentElement.addEventListener(
         "focus",
         this.handleFocus_,
@@ -875,7 +875,7 @@
       this.mo_ &&
         this.mo_.observe(document, { childList: true, subtree: true });
     };
-    dialogPolyfill.DialogManager.prototype.unblockDocument = function() {
+    dialogPolyfill.DialogManager.prototype.unblockDocument = function () {
       document.documentElement.removeEventListener(
         "focus",
         this.handleFocus_,
@@ -884,7 +884,7 @@
       document.removeEventListener("keydown", this.handleKey_);
       this.mo_ && this.mo_.disconnect();
     };
-    dialogPolyfill.DialogManager.prototype.updateStacking = function() {
+    dialogPolyfill.DialogManager.prototype.updateStacking = function () {
       var zIndex = this.zIndexHigh_;
       for (var i = 0, dpi; (dpi = this.pendingDialogStack[i]); ++i) {
         dpi.updateZIndex(--zIndex, --zIndex);
@@ -897,7 +897,7 @@
       } else if (this.overlay.parentNode)
         this.overlay.parentNode.removeChild(this.overlay);
     };
-    dialogPolyfill.DialogManager.prototype.containedByTopDialog_ = function(
+    dialogPolyfill.DialogManager.prototype.containedByTopDialog_ = function (
       candidate
     ) {
       while ((candidate = findNearestDialog(candidate))) {
@@ -907,7 +907,7 @@
       }
       return false;
     };
-    dialogPolyfill.DialogManager.prototype.handleFocus_ = function(event) {
+    dialogPolyfill.DialogManager.prototype.handleFocus_ = function (event) {
       if (this.containedByTopDialog_(event.target)) return;
       event.preventDefault();
       event.stopPropagation();
@@ -922,7 +922,7 @@
       else;
       return false;
     };
-    dialogPolyfill.DialogManager.prototype.handleKey_ = function(event) {
+    dialogPolyfill.DialogManager.prototype.handleKey_ = function (event) {
       this.forwardTab_ = undefined;
       if (event.keyCode === 27) {
         event.preventDefault();
@@ -935,21 +935,21 @@
         if (dpi && dpi.dialog.dispatchEvent(cancelEvent)) dpi.dialog.close();
       } else if (event.keyCode === 9) this.forwardTab_ = !event.shiftKey;
     };
-    dialogPolyfill.DialogManager.prototype.checkDOM_ = function(removed) {
+    dialogPolyfill.DialogManager.prototype.checkDOM_ = function (removed) {
       var clone = this.pendingDialogStack.slice();
-      clone.forEach(function(dpi) {
+      clone.forEach(function (dpi) {
         if (removed.indexOf(dpi.dialog) !== -1) dpi.downgradeModal();
         else dpi.maybeHideModal();
       });
     };
-    dialogPolyfill.DialogManager.prototype.pushDialog = function(dpi) {
+    dialogPolyfill.DialogManager.prototype.pushDialog = function (dpi) {
       var allowed = (this.zIndexHigh_ - this.zIndexLow_) / 2 - 1;
       if (this.pendingDialogStack.length >= allowed) return false;
       if (this.pendingDialogStack.unshift(dpi) === 1) this.blockDocument();
       this.updateStacking();
       return true;
     };
-    dialogPolyfill.DialogManager.prototype.removeDialog = function(dpi) {
+    dialogPolyfill.DialogManager.prototype.removeDialog = function (dpi) {
       var index = this.pendingDialogStack.indexOf(dpi);
       if (index === -1) return;
       this.pendingDialogStack.splice(index, 1);
@@ -960,7 +960,7 @@
     dialogPolyfill.formSubmitter = null;
     dialogPolyfill.useValue = null;
     if (window.HTMLDialogElement === undefined) {
-      var replacementFormSubmit = function() {
+      var replacementFormSubmit = function () {
         if (!isFormMethodDialog(this)) return nativeFormSubmit.call(this);
         var dialog = findNearestDialog(this);
         dialog && dialog.close();
@@ -974,12 +974,12 @@
         );
         if (methodDescriptor) {
           var realGet = methodDescriptor.get;
-          methodDescriptor.get = function() {
+          methodDescriptor.get = function () {
             if (isFormMethodDialog(this)) return "dialog";
             return realGet.call(this);
           };
           var realSet = methodDescriptor.set;
-          methodDescriptor.set = function(v) {
+          methodDescriptor.set = function (v) {
             if (typeof v === "string" && v.toLowerCase() === "dialog")
               return this.setAttribute("method", v);
             return realSet.call(this, v);
@@ -993,7 +993,7 @@
       }
       document.addEventListener(
         "click",
-        function(ev) {
+        function (ev) {
           dialogPolyfill.formSubmitter = null;
           dialogPolyfill.useValue = null;
           if (ev.defaultPrevented) return;
@@ -1017,7 +1017,7 @@
       HTMLFormElement.prototype.submit = replacementFormSubmit;
       document.addEventListener(
         "submit",
-        function(ev) {
+        function (ev) {
           var form = ev.target;
           if (!isFormMethodDialog(form)) return;
           ev.preventDefault();
@@ -1035,7 +1035,7 @@
     dialogPolyfill["forceRegisterDialog"] = dialogPolyfill.forceRegisterDialog;
     dialogPolyfill["registerDialog"] = dialogPolyfill.registerDialog;
     if (typeof define === "function" && "amd" in define)
-      define(function() {
+      define(function () {
         return dialogPolyfill;
       });
     else if (
@@ -1045,12 +1045,12 @@
       module["exports"] = dialogPolyfill;
     else window["dialogPolyfill"] = dialogPolyfill;
   })();
-  (function() {
+  (function () {
     var h,
       aa =
         "function" == typeof Object.defineProperties
           ? Object.defineProperty
-          : function(a, b, c) {
+          : function (a, b, c) {
               a != Array.prototype && a != Object.prototype && (a[b] = c.value);
             },
       ba =
@@ -1060,12 +1060,12 @@
           ? global
           : this;
     function ca() {
-      ca = function() {};
+      ca = function () {};
       ba.Symbol || (ba.Symbol = da);
     }
-    var da = (function() {
+    var da = (function () {
       var a = 0;
-      return function(b) {
+      return function (b) {
         return "jscomp_symbol_" + (b || "") + a++;
       };
     })();
@@ -1077,22 +1077,22 @@
         aa(Array.prototype, a, {
           configurable: !0,
           writable: !0,
-          value: function() {
+          value: function () {
             return fa(this);
           }
         });
-      ea = function() {};
+      ea = function () {};
     }
     function fa(a) {
       var b = 0;
-      return ha(function() {
+      return ha(function () {
         return b < a.length ? { done: !1, value: a[b++] } : { done: !0 };
       });
     }
     function ha(a) {
       ea();
       a = { next: a };
-      a[ba.Symbol.iterator] = function() {
+      a[ba.Symbol.iterator] = function () {
         return this;
       };
       return a;
@@ -1109,7 +1109,7 @@
     }
     var na = ka[ka.length - 1],
       oa = ja[na],
-      pa = (function() {
+      pa = (function () {
         function a(a) {
           this.a = 0;
           this.h = void 0;
@@ -1127,26 +1127,26 @@
         function c(b) {
           return b instanceof a
             ? b
-            : new a(function(a) {
+            : new a(function (a) {
                 a(b);
               });
         }
         if (oa) return oa;
-        b.prototype.g = function(a) {
+        b.prototype.g = function (a) {
           null == this.a && ((this.a = []), this.j());
           this.a.push(a);
         };
-        b.prototype.j = function() {
+        b.prototype.j = function () {
           var a = this;
-          this.h(function() {
+          this.h(function () {
             a.u();
           });
         };
         var d = ba.setTimeout;
-        b.prototype.h = function(a) {
+        b.prototype.h = function (a) {
           d(a, 0);
         };
-        b.prototype.u = function() {
+        b.prototype.u = function () {
           for (; this.a && this.a.length; ) {
             var a = this.a;
             this.a = [];
@@ -1162,14 +1162,14 @@
           }
           this.a = null;
         };
-        b.prototype.i = function(a) {
-          this.h(function() {
+        b.prototype.i = function (a) {
+          this.h(function () {
             throw a;
           });
         };
-        a.prototype.j = function() {
+        a.prototype.j = function () {
           function a(a) {
-            return function(d) {
+            return function (d) {
               c || ((c = !0), a.call(b, d));
             };
           }
@@ -1177,7 +1177,7 @@
             c = !1;
           return { resolve: a(this.F), reject: a(this.i) };
         };
-        a.prototype.F = function(b) {
+        a.prototype.F = function (b) {
           if (b === this)
             this.i(new TypeError("A Promise cannot resolve to itself"));
           else if (b instanceof a) this.H(b);
@@ -1195,7 +1195,7 @@
             c ? this.D(b) : this.u(b);
           }
         };
-        a.prototype.D = function(a) {
+        a.prototype.D = function (a) {
           var b = void 0;
           try {
             b = a.then;
@@ -1205,13 +1205,13 @@
           }
           "function" == typeof b ? this.J(b, a) : this.u(a);
         };
-        a.prototype.i = function(a) {
+        a.prototype.i = function (a) {
           this.v(2, a);
         };
-        a.prototype.u = function(a) {
+        a.prototype.u = function (a) {
           this.v(1, a);
         };
-        a.prototype.v = function(a, b) {
+        a.prototype.v = function (a, b) {
           if (0 != this.a)
             throw Error(
               ("Cannot settle(" + a + ", " + b) |
@@ -1221,7 +1221,7 @@
           this.h = b;
           this.A();
         };
-        a.prototype.A = function() {
+        a.prototype.A = function () {
           if (null != this.g) {
             for (var a = this.g, b = 0; b < a.length; ++b)
               a[b].call(), (a[b] = null);
@@ -1229,11 +1229,11 @@
           }
         };
         var e = new b();
-        a.prototype.H = function(a) {
+        a.prototype.H = function (a) {
           var b = this.j();
           a.ya(b.resolve, b.reject);
         };
-        a.prototype.J = function(a, b) {
+        a.prototype.J = function (a, b) {
           var c = this.j();
           try {
             a.call(b, c.resolve, c.reject);
@@ -1241,10 +1241,10 @@
             c.reject(q);
           }
         };
-        a.prototype.then = function(b, c) {
+        a.prototype.then = function (b, c) {
           function d(a, b) {
             return "function" == typeof a
-              ? function(b) {
+              ? function (b) {
                   try {
                     e(a(b));
                   } catch (Ij) {
@@ -1255,17 +1255,17 @@
           }
           var e,
             f,
-            g = new a(function(a, b) {
+            g = new a(function (a, b) {
               e = a;
               f = b;
             });
           this.ya(d(b, e), d(c, f));
           return g;
         };
-        a.prototype.catch = function(a) {
+        a.prototype.catch = function (a) {
           return this.then(void 0, a);
         };
-        a.prototype.ya = function(a, b) {
+        a.prototype.ya = function (a, b) {
           function c() {
             switch (d.a) {
               case 1:
@@ -1281,30 +1281,30 @@
           var d = this;
           null == this.g
             ? e.g(c)
-            : this.g.push(function() {
+            : this.g.push(function () {
                 e.g(c);
               });
         };
         a.resolve = c;
-        a.reject = function(b) {
-          return new a(function(a, c) {
+        a.reject = function (b) {
+          return new a(function (a, c) {
             c(b);
           });
         };
-        a.race = function(b) {
-          return new a(function(a, d) {
+        a.race = function (b) {
+          return new a(function (a, d) {
             for (var e = ia(b), f = e.next(); !f.done; f = e.next())
               c(f.value).ya(a, d);
           });
         };
-        a.all = function(b) {
+        a.all = function (b) {
           var d = ia(b),
             e = d.next();
           return e.done
             ? c([])
-            : new a(function(a, b) {
+            : new a(function (a, b) {
                 function f(b) {
-                  return function(c) {
+                  return function (c) {
                     g[b] = c;
                     k--;
                     0 == k && a(g);
@@ -1335,7 +1335,7 @@
     function ra() {}
     function sa(a) {
       a.S = void 0;
-      a.Ia = function() {
+      a.Ia = function () {
         return a.S ? a.S : (a.S = new a());
       };
     }
@@ -1392,13 +1392,13 @@
       if (!a) throw Error();
       if (2 < arguments.length) {
         var d = Array.prototype.slice.call(arguments, 2);
-        return function() {
+        return function () {
           var c = Array.prototype.slice.call(arguments);
           Array.prototype.unshift.apply(c, d);
           return a.apply(b, c);
         };
       }
-      return function() {
+      return function () {
         return a.apply(b, arguments);
       };
     }
@@ -1411,7 +1411,7 @@
     }
     function Ea(a, b) {
       var c = Array.prototype.slice.call(arguments, 1);
-      return function() {
+      return function () {
         var b = c.slice();
         b.push.apply(b, arguments);
         return a.apply(this, b);
@@ -1422,7 +1422,7 @@
     }
     var Fa =
       Date.now ||
-      function() {
+      function () {
         return +new Date();
       };
     function r(a, b) {
@@ -1442,7 +1442,7 @@
       a.o = b.prototype;
       a.prototype = new c();
       a.prototype.constructor = a;
-      a.Mb = function(a, c, f) {
+      a.Mb = function (a, c, f) {
         for (
           var d = Array(arguments.length - 2), e = 2;
           e < arguments.length;
@@ -1475,10 +1475,10 @@
       return d + c.join("%s");
     }
     var Ja = String.prototype.trim
-      ? function(a) {
+      ? function (a) {
           return a.trim();
         }
-      : function(a) {
+      : function (a) {
           return a.replace(/^[\s\xa0]+|[\s\xa0]+$/g, "");
         };
     function Ka(a) {
@@ -1515,20 +1515,20 @@
       );
     }
     var Va = Array.prototype.indexOf
-        ? function(a, b) {
+        ? function (a, b) {
             return Array.prototype.indexOf.call(a, b, void 0);
           }
-        : function(a, b) {
+        : function (a, b) {
             if (m(a)) return m(b) && 1 == b.length ? a.indexOf(b, 0) : -1;
             for (var c = 0; c < a.length; c++)
               if (c in a && a[c] === b) return c;
             return -1;
           },
       Wa = Array.prototype.forEach
-        ? function(a, b, c) {
+        ? function (a, b, c) {
             Array.prototype.forEach.call(a, b, c);
           }
-        : function(a, b, c) {
+        : function (a, b, c) {
             for (
               var d = a.length, e = m(a) ? a.split("") : a, f = 0;
               f < d;
@@ -1542,10 +1542,10 @@
       for (--c; 0 <= c; --c) c in d && b.call(void 0, d[c], c, a);
     }
     var Ya = Array.prototype.filter
-        ? function(a, b) {
+        ? function (a, b) {
             return Array.prototype.filter.call(a, b, void 0);
           }
-        : function(a, b) {
+        : function (a, b) {
             for (
               var c = a.length,
                 d = [],
@@ -1562,10 +1562,10 @@
             return d;
           },
       Za = Array.prototype.map
-        ? function(a, b) {
+        ? function (a, b) {
             return Array.prototype.map.call(a, b, void 0);
           }
-        : function(a, b) {
+        : function (a, b) {
             for (
               var c = a.length, d = Array(c), e = m(a) ? a.split("") : a, f = 0;
               f < c;
@@ -1575,10 +1575,10 @@
             return d;
           },
       $a = Array.prototype.some
-        ? function(a, b) {
+        ? function (a, b) {
             return Array.prototype.some.call(a, b, void 0);
           }
-        : function(a, b) {
+        : function (a, b) {
             for (
               var c = a.length, d = m(a) ? a.split("") : a, e = 0;
               e < c;
@@ -1610,7 +1610,7 @@
     }
     function fb(a, b) {
       var c = 0;
-      Xa(a, function(d, e) {
+      Xa(a, function (d, e) {
         b.call(void 0, d, e, a) && db(a, e) && c++;
       });
     }
@@ -1692,7 +1692,7 @@
     var Ab;
     a: {
       var Bb = "",
-        Cb = (function() {
+        Cb = (function () {
           var a = ib;
           if (wb) return /rv:([^\);]+)(\)|;)/.exec(a);
           if (ub) return /Edge\/([\d\.]+)/.exec(a);
@@ -1712,7 +1712,7 @@
     }
     var sb = {};
     function Eb(a) {
-      return rb(a, function() {
+      return rb(a, function () {
         for (
           var b = 0,
             c = Ja(String(Ab)).split("."),
@@ -1753,10 +1753,10 @@
       this.g = Ib;
     }
     Hb.prototype.ja = !0;
-    Hb.prototype.ha = function() {
+    Hb.prototype.ha = function () {
       return this.a;
     };
-    Hb.prototype.toString = function() {
+    Hb.prototype.toString = function () {
       return "Const{" + this.a + "}";
     };
     function Jb(a) {
@@ -1776,13 +1776,13 @@
       this.h = Mb;
     }
     Lb.prototype.ja = !0;
-    Lb.prototype.ha = function() {
+    Lb.prototype.ha = function () {
       return this.a;
     };
-    Lb.prototype.g = function() {
+    Lb.prototype.g = function () {
       return 1;
     };
-    Lb.prototype.toString = function() {
+    Lb.prototype.toString = function () {
       return "TrustedResourceUrl{" + this.a + "}";
     };
     function Nb(a) {
@@ -1806,13 +1806,13 @@
       this.h = Qb;
     }
     Pb.prototype.ja = !0;
-    Pb.prototype.ha = function() {
+    Pb.prototype.ha = function () {
       return this.a;
     };
-    Pb.prototype.g = function() {
+    Pb.prototype.g = function () {
       return 1;
     };
-    Pb.prototype.toString = function() {
+    Pb.prototype.toString = function () {
       return "SafeUrl{" + this.a + "}";
     };
     function Rb(a) {
@@ -1839,14 +1839,14 @@
       this.j = Wb;
       this.h = null;
     }
-    Vb.prototype.g = function() {
+    Vb.prototype.g = function () {
       return this.h;
     };
     Vb.prototype.ja = !0;
-    Vb.prototype.ha = function() {
+    Vb.prototype.ha = function () {
       return this.a;
     };
-    Vb.prototype.toString = function() {
+    Vb.prototype.toString = function () {
       return "SafeHtml{" + this.a + "}";
     };
     function Xb(a) {
@@ -1868,20 +1868,20 @@
       this.a = qa(a) ? a : 0;
       this.g = qa(b) ? b : 0;
     }
-    Zb.prototype.toString = function() {
+    Zb.prototype.toString = function () {
       return "(" + this.a + ", " + this.g + ")";
     };
-    Zb.prototype.ceil = function() {
+    Zb.prototype.ceil = function () {
       this.a = Math.ceil(this.a);
       this.g = Math.ceil(this.g);
       return this;
     };
-    Zb.prototype.floor = function() {
+    Zb.prototype.floor = function () {
       this.a = Math.floor(this.a);
       this.g = Math.floor(this.g);
       return this;
     };
-    Zb.prototype.round = function() {
+    Zb.prototype.round = function () {
       this.a = Math.round(this.a);
       this.g = Math.round(this.g);
       return this;
@@ -1891,23 +1891,23 @@
       this.height = b;
     }
     h = $b.prototype;
-    h.toString = function() {
+    h.toString = function () {
       return "(" + this.width + " x " + this.height + ")";
     };
-    h.aspectRatio = function() {
+    h.aspectRatio = function () {
       return this.width / this.height;
     };
-    h.ceil = function() {
+    h.ceil = function () {
       this.width = Math.ceil(this.width);
       this.height = Math.ceil(this.height);
       return this;
     };
-    h.floor = function() {
+    h.floor = function () {
       this.width = Math.floor(this.width);
       this.height = Math.floor(this.height);
       return this;
     };
-    h.round = function() {
+    h.round = function () {
       this.width = Math.round(this.width);
       this.height = Math.round(this.height);
       return this;
@@ -1956,7 +1956,7 @@
       return e;
     }
     function gc(a, b) {
-      lb(b, function(b, d) {
+      lb(b, function (b, d) {
         b && b.ja && (b = b.ha());
         "style" == d
           ? (a.style.cssText = b)
@@ -2012,7 +2012,7 @@
     }
     function lc(a, b) {
       return b
-        ? mc(a, function(a) {
+        ? mc(a, function (a) {
             return !b || (m(a.className) && bb(a.className.split(/\s+/), b));
           })
         : null;
@@ -2028,7 +2028,7 @@
     function bc(a) {
       this.a = a || l.document || document;
     }
-    bc.prototype.K = function() {
+    bc.prototype.K = function () {
       return m(void 0) ? this.a.getElementById(void 0) : void 0;
     };
     var nc =
@@ -2036,10 +2036,10 @@
         ? l.StopIteration
         : { message: "StopIteration", stack: "" };
     function oc() {}
-    oc.prototype.next = function() {
+    oc.prototype.next = function () {
       throw nc;
     };
-    oc.prototype.ba = function() {
+    oc.prototype.ba = function () {
       return this;
     };
     function pc(a) {
@@ -2048,7 +2048,7 @@
       if (wa(a)) {
         var b = 0,
           c = new oc();
-        c.next = function() {
+        c.next = function () {
           for (;;) {
             if (b >= a.length) throw nc;
             if (b in a) return a[b++];
@@ -2079,7 +2079,7 @@
       if (wa(a)) return hb(a);
       a = pc(a);
       var b = [];
-      qc(a, function(a) {
+      qc(a, function (a) {
         b.push(a);
       });
       return b;
@@ -2110,16 +2110,16 @@
       }
     }
     h = sc.prototype;
-    h.ca = function() {
+    h.ca = function () {
       tc(this);
       for (var a = [], b = 0; b < this.a.length; b++) a.push(this.g[this.a[b]]);
       return a;
     };
-    h.ga = function() {
+    h.ga = function () {
       tc(this);
       return this.a.concat();
     };
-    h.clear = function() {
+    h.clear = function () {
       this.g = {};
       this.j = this.h = this.a.length = 0;
     };
@@ -2139,27 +2139,27 @@
         a.a.length = c;
       }
     }
-    h.get = function(a, b) {
+    h.get = function (a, b) {
       return uc(this.g, a) ? this.g[a] : b;
     };
-    h.set = function(a, b) {
+    h.set = function (a, b) {
       uc(this.g, a) || (this.h++, this.a.push(a), this.j++);
       this.g[a] = b;
     };
-    h.forEach = function(a, b) {
+    h.forEach = function (a, b) {
       for (var c = this.ga(), d = 0; d < c.length; d++) {
         var e = c[d],
           f = this.get(e);
         a.call(b, f, e, this);
       }
     };
-    h.ba = function(a) {
+    h.ba = function (a) {
       tc(this);
       var b = 0,
         c = this.j,
         d = this,
         e = new oc();
-      e.next = function() {
+      e.next = function () {
         if (c != d.j)
           throw Error("The map has changed since the iterator was created");
         if (b >= d.a.length) throw nc;
@@ -2233,7 +2233,7 @@
           (this.j = Gc(c[7] || "")))
         : ((this.i = !!b), (this.u = new Hc(null, this.i)));
     }
-    Bc.prototype.toString = function() {
+    Bc.prototype.toString = function () {
       var a = [],
         b = this.h;
       b && a.push(Ic(b, Jc, !0), ":");
@@ -2253,7 +2253,7 @@
       (c = this.j) && a.push("#", Ic(c, Mc));
       return a.join("");
     };
-    Bc.prototype.resolve = function(a) {
+    Bc.prototype.resolve = function (a) {
       var b = new Bc(this),
         c = !!a.h;
       c ? Cc(b, a.h) : (c = !!a.v);
@@ -2348,12 +2348,12 @@
         ((a.a = new sc()),
         (a.g = 0),
         a.h &&
-          wc(a.h, function(b, c) {
+          wc(a.h, function (b, c) {
             a.add(decodeURIComponent(b.replace(/\+/g, " ")), c);
           }));
     }
     h = Hc.prototype;
-    h.add = function(a, b) {
+    h.add = function (a, b) {
       Sc(this);
       this.h = null;
       a = Tc(this, a);
@@ -2373,7 +2373,7 @@
         uc(a.g, b) &&
           (delete a.g[b], a.h--, a.j++, a.a.length > 2 * a.h && tc(a)));
     }
-    h.clear = function() {
+    h.clear = function () {
       this.a = this.h = null;
       this.g = 0;
     };
@@ -2382,19 +2382,19 @@
       b = Tc(a, b);
       return uc(a.a.g, b);
     }
-    h.forEach = function(a, b) {
+    h.forEach = function (a, b) {
       Sc(this);
-      this.a.forEach(function(c, d) {
+      this.a.forEach(function (c, d) {
         Wa(
           c,
-          function(c) {
+          function (c) {
             a.call(b, c, d, this);
           },
           this
         );
       }, this);
     };
-    h.ga = function() {
+    h.ga = function () {
       Sc(this);
       for (
         var a = this.a.ca(), b = this.a.ga(), c = [], d = 0;
@@ -2404,7 +2404,7 @@
         for (var e = a[d], f = 0; f < e.length; f++) c.push(b[d]);
       return c;
     };
-    h.ca = function(a) {
+    h.ca = function (a) {
       Sc(this);
       var b = [];
       if (m(a)) Vc(this, a) && (b = gb(b, this.a.get(Tc(this, a))));
@@ -2414,7 +2414,7 @@
       }
       return b;
     };
-    h.set = function(a, b) {
+    h.set = function (a, b) {
       Sc(this);
       this.h = null;
       a = Tc(this, a);
@@ -2423,11 +2423,11 @@
       this.g += 1;
       return this;
     };
-    h.get = function(a, b) {
+    h.get = function (a, b) {
       a = a ? this.ca(a) : [];
       return 0 < a.length ? String(a[0]) : b;
     };
-    h.toString = function() {
+    h.toString = function () {
       if (this.h) return this.h;
       if (!this.a) return "";
       for (var a = [], b = this.a.ga(), c = 0; c < b.length; c++) {
@@ -2458,7 +2458,7 @@
         !a.j &&
         (Sc(a),
         (a.h = null),
-        a.a.forEach(function(a, b) {
+        a.a.forEach(function (a, b) {
           var c = b.toLowerCase();
           b != c &&
             (Uc(this, b),
@@ -2477,7 +2477,7 @@
       throw Error("Do not instantiate directly");
     }
     x.prototype.X = null;
-    x.prototype.toString = function() {
+    x.prototype.toString = function () {
       return this.content;
     };
     function Zc(a, b, c, d) {
@@ -2560,19 +2560,19 @@
         this.content = a;
       }
       b.prototype = a.prototype;
-      return function(a) {
+      return function (a) {
         return new b(String(a));
       };
     }
     function A(a) {
       return new id(a, void 0);
     }
-    var z = (function(a) {
+    var z = (function (a) {
       function b(a) {
         this.content = a;
       }
       b.prototype = a.prototype;
-      return function(a, d) {
+      return function (a, d) {
         a = new b(String(a));
         void 0 !== d && (a.X = d);
         return a;
@@ -2593,12 +2593,12 @@
     function md(a) {
       return (a = String(a)) ? new id(a, void 0) : "";
     }
-    var nd = (function(a) {
+    var nd = (function (a) {
       function b(a) {
         this.content = a;
       }
       b.prototype = a.prototype;
-      return function(a, d) {
+      return function (a, d) {
         a = String(a);
         if (!a) return "";
         a = new b(a);
@@ -2608,11 +2608,10 @@
     })(dd);
     function od(a) {
       return null != a && a.P === Wc
-        ? String(
-            String(a.content)
-              .replace(pd, "")
-              .replace(qd, "&lt;")
-          ).replace(rd, sd)
+        ? String(String(a.content).replace(pd, "").replace(qd, "&lt;")).replace(
+            rd,
+            sd
+          )
         : Ka(String(a));
     }
     function td(a) {
@@ -2770,10 +2769,10 @@
       this.credential = c || null;
     }
     t(Gd, Error);
-    Gd.prototype.fa = function() {
+    Gd.prototype.fa = function () {
       return { code: this.code, message: this.message };
     };
-    Gd.prototype.toJSON = function() {
+    Gd.prototype.toJSON = function () {
       return this.fa();
     };
     var Hd = "firebaseui/";
@@ -2785,7 +2784,7 @@
     var Jd = 0,
       Kd = {};
     Id.prototype.J = !1;
-    Id.prototype.m = function() {
+    Id.prototype.m = function () {
       if (!this.J && ((this.J = !0), this.l(), 0 != Jd)) {
         var a = this[Aa] || (this[Aa] = ++Ba);
         delete Kd[a];
@@ -2798,7 +2797,7 @@
           : b()
         : (a.H || (a.H = []), a.H.push(qa(void 0) ? n(b, void 0) : b));
     }
-    Id.prototype.l = function() {
+    Id.prototype.l = function () {
       if (this.H) for (; this.H.length; ) this.H.shift()();
     };
     function Md(a) {
@@ -2806,16 +2805,16 @@
     }
     var Nd =
       Object.freeze ||
-      function(a) {
+      function (a) {
         return a;
       };
     var Od = !v || 9 <= Number(Fb),
       Pd = v && !Eb("9"),
-      Qd = (function() {
+      Qd = (function () {
         if (!l.addEventListener || !Object.defineProperty) return !1;
         var a = !1,
           b = Object.defineProperty({}, "passive", {
-            get: function() {
+            get: function () {
               a = !0;
             }
           });
@@ -2829,10 +2828,10 @@
       this.h = !1;
       this.Va = !0;
     }
-    Rd.prototype.stopPropagation = function() {
+    Rd.prototype.stopPropagation = function () {
       this.h = !0;
     };
-    Rd.prototype.preventDefault = function() {
+    Rd.prototype.preventDefault = function () {
       this.Va = !1;
     };
     function B(a, b) {
@@ -2894,13 +2893,13 @@
     }
     t(B, Rd);
     var Sd = Nd({ 2: "touch", 3: "pen", 4: "mouse" });
-    B.prototype.stopPropagation = function() {
+    B.prototype.stopPropagation = function () {
       B.o.stopPropagation.call(this);
       this.a.stopPropagation
         ? this.a.stopPropagation()
         : (this.a.cancelBubble = !0);
     };
-    B.prototype.preventDefault = function() {
+    B.prototype.preventDefault = function () {
       B.o.preventDefault.call(this);
       var a = this.a;
       if (a.preventDefault) a.preventDefault();
@@ -2937,7 +2936,7 @@
       this.a = {};
       this.g = 0;
     }
-    Yd.prototype.add = function(a, b, c, d, e) {
+    Yd.prototype.add = function (a, b, c, d, e) {
       var f = a.toString();
       a = this.a[f];
       a || ((a = this.a[f] = []), this.g++);
@@ -3004,10 +3003,10 @@
     function je() {
       var a = le,
         b = Od
-          ? function(c) {
+          ? function (c) {
               return a.call(b.src, b.listener, c);
             }
-          : function(c) {
+          : function (c) {
               c = a.call(b.src, b.listener, c);
               if (!c) return c;
             };
@@ -3124,7 +3123,7 @@
     function ge(a) {
       if (xa(a)) return a;
       a[qe] ||
-        (a[qe] = function(b) {
+        (a[qe] = function (b) {
           return a.handleEvent(b);
         });
       return a[qe];
@@ -3138,10 +3137,10 @@
     t(C, Id);
     C.prototype[Td] = !0;
     h = C.prototype;
-    h.Ka = function(a) {
+    h.Ka = function (a) {
       this.ta = a;
     };
-    h.removeEventListener = function(a, b, c, d) {
+    h.removeEventListener = function (a, b, c, d) {
       me(this, a, b, c, d);
     };
     function re(a, b) {
@@ -3172,7 +3171,7 @@
           (g = b.g = c[f]), (e = se(g, d, !1, b) && e);
       return e;
     }
-    h.l = function() {
+    h.l = function () {
       C.o.l.call(this);
       if (this.A) {
         var a = this.A,
@@ -3186,10 +3185,10 @@
       }
       this.ta = null;
     };
-    h.Z = function(a, b, c, d) {
+    h.Z = function (a, b, c, d) {
       return this.A.add(String(a), b, !1, c, d);
     };
-    h.La = function(a, b, c, d) {
+    h.La = function (a, b, c, d) {
       var e = this.A;
       a = String(a).toString();
       if (a in e.a) {
@@ -3229,7 +3228,7 @@
       var b = we(a.K());
       te[b] &&
         te[b].length &&
-        (eb(te[b], function(b) {
+        (eb(te[b], function (b) {
           return b == a;
         }),
         te[b].length || delete te[b]);
@@ -3244,7 +3243,7 @@
       C.call(this);
     }
     t(ze, C);
-    ze.prototype.K = function() {
+    ze.prototype.K = function () {
       return this.a;
     };
     function Ae(a) {
@@ -3265,7 +3264,7 @@
       this.g = 0;
       this.a = null;
     }
-    Ce.prototype.get = function() {
+    Ce.prototype.get = function () {
       if (0 < this.g) {
         this.g--;
         var a = this.a;
@@ -3282,14 +3281,14 @@
       this.g = this.a = null;
     }
     var Ge = new Ce(
-      function() {
+      function () {
         return new Fe();
       },
-      function(a) {
+      function (a) {
         a.reset();
       }
     );
-    Ee.prototype.add = function(a, b) {
+    Ee.prototype.add = function (a, b) {
       var c = Ge.get();
       c.set(a, b);
       this.g ? (this.g.next = c) : (this.a = c);
@@ -3305,16 +3304,16 @@
     function Fe() {
       this.next = this.g = this.a = null;
     }
-    Fe.prototype.set = function(a, b) {
+    Fe.prototype.set = function (a, b) {
       this.a = a;
       this.g = b;
       this.next = null;
     };
-    Fe.prototype.reset = function() {
+    Fe.prototype.reset = function () {
       this.next = this.g = this.a = null;
     };
     function Je(a) {
-      l.setTimeout(function() {
+      l.setTimeout(function () {
         throw a;
       }, 0);
     }
@@ -3326,7 +3325,7 @@
         window.postMessage &&
         window.addEventListener &&
         !u("Presto") &&
-        (a = function() {
+        (a = function () {
           var a = document.createElement("IFRAME");
           a.style.display = "none";
           a.src = "";
@@ -3341,14 +3340,14 @@
               "file:" == b.location.protocol
                 ? "*"
                 : b.location.protocol + "//" + b.location.host;
-          a = n(function(a) {
+          a = n(function (a) {
             if (("*" == d || a.origin == d) && a.data == c)
               this.port1.onmessage();
           }, this);
           b.addEventListener("message", a, !1);
           this.port1 = {};
           this.port2 = {
-            postMessage: function() {
+            postMessage: function () {
               b.postMessage(c, d);
             }
           };
@@ -3357,7 +3356,7 @@
         var b = new a(),
           c = {},
           d = c;
-        b.port1.onmessage = function() {
+        b.port1.onmessage = function () {
           if (qa(c.next)) {
             c = c.next;
             var a = c.Sa;
@@ -3365,7 +3364,7 @@
             a();
           }
         };
-        return function(a) {
+        return function (a) {
           d.next = { Sa: a };
           d = d.next;
           b.port2.postMessage(0);
@@ -3373,9 +3372,9 @@
       }
       return "undefined" !== typeof document &&
         "onreadystatechange" in document.createElement("SCRIPT")
-        ? function(a) {
+        ? function (a) {
             var b = document.createElement("SCRIPT");
-            b.onreadystatechange = function() {
+            b.onreadystatechange = function () {
               b.onreadystatechange = null;
               b.parentNode.removeChild(b);
               b = null;
@@ -3384,7 +3383,7 @@
             };
             document.documentElement.appendChild(b);
           }
-        : function(a) {
+        : function (a) {
             l.setTimeout(a, 0);
           };
     }
@@ -3397,11 +3396,11 @@
     function Oe() {
       if (-1 != String(l.Promise).indexOf("[native code]")) {
         var a = l.Promise.resolve(void 0);
-        Ne = function() {
+        Ne = function () {
           a.then(Qe);
         };
       } else
-        Ne = function() {
+        Ne = function () {
           var a = Qe;
           !xa(l.setImmediate) ||
           (l.Window &&
@@ -3435,10 +3434,10 @@
           var c = this;
           a.call(
             b,
-            function(a) {
+            function (a) {
               Se(c, Te, a);
             },
-            function(a) {
+            function (a) {
               if (!(a instanceof Ue))
                 try {
                   if (a instanceof Error) throw a;
@@ -3458,15 +3457,15 @@
       this.next = this.context = this.g = this.h = this.a = null;
       this.j = !1;
     }
-    We.prototype.reset = function() {
+    We.prototype.reset = function () {
       this.context = this.g = this.h = this.a = null;
       this.j = !1;
     };
     var Xe = new Ce(
-      function() {
+      function () {
         return new We();
       },
-      function(a) {
+      function (a) {
         a.reset();
       }
     );
@@ -3484,20 +3483,20 @@
       return b;
     }
     function Ze(a) {
-      return new D(function(b, c) {
+      return new D(function (b, c) {
         c(a);
       });
     }
-    D.prototype.then = function(a, b, c) {
+    D.prototype.then = function (a, b, c) {
       return $e(this, xa(a) ? a : null, xa(b) ? b : null, c);
     };
     Ae(D);
     function af(a, b) {
       return $e(a, null, b, void 0);
     }
-    D.prototype.cancel = function(a) {
+    D.prototype.cancel = function (a) {
       this.a == Re &&
-        Me(function() {
+        Me(function () {
           var b = new Ue(a);
           bf(this, b);
         }, this);
@@ -3533,9 +3532,9 @@
     }
     function $e(a, b, c, d) {
       var e = Ye(null, null, null);
-      e.a = new D(function(a, g) {
+      e.a = new D(function (a, g) {
         e.h = b
-          ? function(c) {
+          ? function (c) {
               try {
                 var e = b.call(d, c);
                 a(e);
@@ -3545,7 +3544,7 @@
             }
           : a;
         e.g = c
-          ? function(b) {
+          ? function (b) {
               try {
                 var e = c.call(d, b);
                 !qa(e) && b instanceof Ue ? g(b) : a(e);
@@ -3559,11 +3558,11 @@
       ef(a, e);
       return e.a;
     }
-    D.prototype.D = function(a) {
+    D.prototype.D = function (a) {
       this.a = Re;
       Se(this, Te, a);
     };
-    D.prototype.F = function(a) {
+    D.prototype.F = function (a) {
       this.a = Re;
       Se(this, Ve, a);
     };
@@ -3628,7 +3627,7 @@
       a.g || (a.j = null);
       return b;
     }
-    D.prototype.A = function() {
+    D.prototype.A = function () {
       for (var a; (a = cf(this)); ) df(this, a, this.a, this.v);
       this.u = !1;
     };
@@ -3648,7 +3647,7 @@
     }
     function hf(a, b) {
       a.i = !0;
-      Me(function() {
+      Me(function () {
         a.i && kf.call(null, b);
       });
     }
@@ -3684,15 +3683,15 @@
     function of() {
       var a = null;
       return af(
-        new D(function(b) {
+        new D(function (b) {
           "complete" == l.document.readyState
             ? b()
-            : ((a = function() {
+            : ((a = function () {
                 b();
               }),
               fe(window, "load", a));
         }),
-        function(b) {
+        function (b) {
           me(window, "load", a);
           throw b;
         }
@@ -3709,7 +3708,7 @@
       this.g = null;
       this.A = 0;
     }
-    pf.prototype.cancel = function(a) {
+    pf.prototype.cancel = function (a) {
       if (this.a) this.h instanceof pf && this.h.cancel();
       else {
         if (this.g) {
@@ -3721,7 +3720,7 @@
         this.a || ((a = new qf(this)), rf(this), sf(this, !1, a));
       }
     };
-    pf.prototype.F = function(a, b) {
+    pf.prototype.F = function (a, b) {
       this.v = !1;
       sf(this, a, b);
     };
@@ -3741,21 +3740,21 @@
       a.i.push([b, c, void 0]);
       a.a && tf(a);
     }
-    pf.prototype.then = function(a, b, c) {
+    pf.prototype.then = function (a, b, c) {
       var d,
         e,
-        f = new D(function(a, b) {
+        f = new D(function (a, b) {
           d = a;
           e = b;
         });
-      vf(this, d, function(a) {
+      vf(this, d, function (a) {
         a instanceof qf ? f.cancel() : e(a);
       });
       return f.then(a, b, c);
     };
     Ae(pf);
     function wf(a) {
-      return $a(a.i, function(a) {
+      return $a(a.i, function (a) {
         return xa(a[1]);
       });
     }
@@ -3810,7 +3809,7 @@
       this.a = l.setTimeout(n(this.h, this), 0);
       this.g = a;
     }
-    yf.prototype.h = function() {
+    yf.prototype.h = function () {
       delete xf[this.a];
       throw this.g;
     };
@@ -3825,20 +3824,20 @@
         k = null,
         q = null != b.timeout ? b.timeout : 5e3;
       0 < q &&
-        ((k = window.setTimeout(function() {
+        ((k = window.setTimeout(function () {
           Bf(e, !0);
           var a = new Cf(Df, "Timeout reached for loading script " + d);
           rf(g);
           sf(g, !1, a);
         }, q)),
         (f.Xa = k));
-      e.onload = e.onreadystatechange = function() {
+      e.onload = e.onreadystatechange = function () {
         (e.readyState &&
           "loaded" != e.readyState &&
           "complete" != e.readyState) ||
           (Bf(e, b.Pb || !1, k), rf(g), sf(g, !0, null));
       };
-      e.onerror = function() {
+      e.onerror = function () {
         Bf(e, !0, k);
         var a = new Cf(Ef, "Error while loading script " + d);
         rf(g);
@@ -3867,7 +3866,7 @@
       a.onerror = ra;
       a.onreadystatechange = ra;
       b &&
-        window.setTimeout(function() {
+        window.setTimeout(function () {
           jc(a);
         }, 0);
     }
@@ -3887,18 +3886,18 @@
     }
     sa(Gf);
     var Hf = Kb("https://smartlock.google.com/client");
-    Gf.prototype.cancel = function() {
+    Gf.prototype.cancel = function () {
       this.a &&
         this.h &&
-        (this.g = this.a.cancelLastOperation().catch(function() {}));
+        (this.g = this.a.cancelLastOperation().catch(function () {}));
     };
     function If(a, b, c) {
       if (a.a && b) {
-        var d = function() {
+        var d = function () {
           a.h = !0;
           var d = Promise.resolve(null);
           c ||
-            (d = a.a.retrieve(b).catch(function(a) {
+            (d = a.a.retrieve(b).catch(function (a) {
               if (
                 "userCanceled" === a.type ||
                 "illegalConcurrentRequest" === a.type
@@ -3907,10 +3906,10 @@
               return null;
             }));
           return d
-            .then(function(c) {
+            .then(function (c) {
               return c ? c : a.a.hint(b);
             })
-            .catch(function(d) {
+            .catch(function (d) {
               if ("userCanceled" === d.type) a.g = Promise.resolve();
               else if ("illegalConcurrentRequest" === d.type)
                 return a.cancel(), If(a, b, c);
@@ -3924,11 +3923,11 @@
           (d = af(
             Jf.Ia()
               .load()
-              .then(function() {
+              .then(function () {
                 a.a = l.googleyolo;
                 return If(a, b, c);
               }),
-            function() {
+            function () {
               return null;
             }
           )),
@@ -3941,24 +3940,24 @@
       this.a = null;
     }
     sa(Jf);
-    Jf.prototype.load = function() {
+    Jf.prototype.load = function () {
       var a = this;
       if (this.a) return this.a;
       var b = Ob(Jb(Hf));
       return l.googleyolo
         ? E()
-        : (this.a = of().then(function() {
+        : (this.a = of().then(function () {
             if (!l.googleyolo)
-              return new D(function(c, d) {
-                var e = setTimeout(function() {
+              return new D(function (c, d) {
+                var e = setTimeout(function () {
                   a.a = null;
                   d(Error("Network error!"));
                 }, 1e4);
-                l.onGoogleYoloLoad = function() {
+                l.onGoogleYoloLoad = function () {
                   clearTimeout(e);
                   c();
                 };
-                af(E(zf(b)), function(b) {
+                af(E(zf(b)), function (b) {
                   clearTimeout(e);
                   a.a = null;
                   d(b);
@@ -3970,11 +3969,11 @@
       this.a = a;
       this.g =
         b ||
-        function(a) {
+        function (a) {
           throw a;
         };
     }
-    Kf.prototype.confirm = function(a) {
+    Kf.prototype.confirm = function (a) {
       return af(E(this.a.confirm(a)), this.g);
     };
     function Lf(a, b, c) {
@@ -3982,7 +3981,7 @@
     }
     Lf.prototype.a = null;
     var Mf = 0;
-    Lf.prototype.reset = function(a, b, c, d, e) {
+    Lf.prototype.reset = function (a, b, c, d, e) {
       "number" == typeof e || Mf++;
       this.h = d || Fa();
       this.j = a;
@@ -3998,7 +3997,7 @@
       this.name = a;
       this.value = b;
     }
-    Of.prototype.toString = function() {
+    Of.prototype.toString = function () {
       return this.name;
     };
     var Pf = new Of("SHOUT", 1200),
@@ -4011,7 +4010,7 @@
       Ua("Root logger has no level set.");
       return null;
     }
-    Nf.prototype.log = function(a, b, c) {
+    Nf.prototype.log = function (a, b, c) {
       if (a.value >= Tf(this).value)
         for (
           xa(b) && (b = b()),
@@ -4054,13 +4053,13 @@
       this.a = Fa();
     }
     var ag = null;
-    $f.prototype.set = function(a) {
+    $f.prototype.set = function (a) {
       this.a = a;
     };
-    $f.prototype.reset = function() {
+    $f.prototype.reset = function () {
       this.set(Fa());
     };
-    $f.prototype.get = function() {
+    $f.prototype.get = function () {
       return this.a;
     };
     function bg(a) {
@@ -4095,7 +4094,7 @@
       this.g = this.a.a = !1;
       this.j = {};
     }
-    fg.prototype.h = function(a) {
+    fg.prototype.h = function (a) {
       if (!this.j[a.g]) {
         var b = this.a;
         var c = [];
@@ -4168,7 +4167,7 @@
       this.j = c || null;
       this.g = d || null;
     }
-    mg.prototype.fa = function() {
+    mg.prototype.fa = function () {
       return {
         email: this.a,
         displayName: this.h,
@@ -4193,7 +4192,7 @@
       this.g = a;
       this.a = b || null;
     }
-    pg.prototype.fa = function() {
+    pg.prototype.fa = function () {
       return { email: this.g, credential: this.a && mb(this.a) };
     };
     function qg(a) {
@@ -4286,7 +4285,7 @@
     function ug(a, b) {
       b.push(
         '"',
-        a.replace(wg, function(a) {
+        a.replace(wg, function (a) {
           var b = vg[a];
           b ||
             ((b = "\\u" + (a.charCodeAt(0) | 65536).toString(16).substr(1)),
@@ -4299,10 +4298,10 @@
     function xg(a) {
       this.a = a;
     }
-    xg.prototype.set = function(a, b) {
+    xg.prototype.set = function (a, b) {
       qa(b) ? this.a.set(a, rg(b)) : this.a.ma(a);
     };
-    xg.prototype.get = function(a) {
+    xg.prototype.get = function (a) {
       try {
         var b = this.a.get(a);
       } catch (c) {
@@ -4318,10 +4317,10 @@
     function yg() {}
     function zg() {}
     t(zg, yg);
-    zg.prototype.clear = function() {
+    zg.prototype.clear = function () {
       var a = rc(this.ba(!0)),
         b = this;
-      Wa(a, function(a) {
+      Wa(a, function (a) {
         b.ma(a);
       });
     };
@@ -4338,7 +4337,7 @@
       }
     }
     h = Ag.prototype;
-    h.set = function(a, b) {
+    h.set = function (a, b) {
       try {
         this.a.setItem(a, b);
       } catch (c) {
@@ -4346,20 +4345,20 @@
         throw "Storage mechanism: Quota exceeded";
       }
     };
-    h.get = function(a) {
+    h.get = function (a) {
       a = this.a.getItem(a);
       if (!m(a) && null !== a)
         throw "Storage mechanism: Invalid value was encountered";
       return a;
     };
-    h.ma = function(a) {
+    h.ma = function (a) {
       this.a.removeItem(a);
     };
-    h.ba = function(a) {
+    h.ba = function (a) {
       var b = 0,
         c = this.a,
         d = new oc();
-      d.next = function() {
+      d.next = function () {
         if (b >= c.length) throw nc;
         var d = c.key(b++);
         if (a) return d;
@@ -4369,10 +4368,10 @@
       };
       return d;
     };
-    h.clear = function() {
+    h.clear = function () {
       this.a.clear();
     };
-    h.key = function(a) {
+    h.key = function (a) {
       return this.a.key(a);
     };
     function Cg() {
@@ -4396,20 +4395,20 @@
       this.a = b + "::";
     }
     t(Eg, zg);
-    Eg.prototype.set = function(a, b) {
+    Eg.prototype.set = function (a, b) {
       this.g.set(this.a + a, b);
     };
-    Eg.prototype.get = function(a) {
+    Eg.prototype.get = function (a) {
       return this.g.get(this.a + a);
     };
-    Eg.prototype.ma = function(a) {
+    Eg.prototype.ma = function (a) {
       this.g.ma(this.a + a);
     };
-    Eg.prototype.ba = function(a) {
+    Eg.prototype.ba = function (a) {
       var b = this.g.ba(!0),
         c = this,
         d = new oc();
-      d.next = function() {
+      d.next = function () {
         for (var d = b.next(); d.substr(0, c.a.length) != c.a; ) d = b.next();
         return a ? d.substr(c.a.length) : c.g.get(d);
       };
@@ -4448,21 +4447,21 @@
     }
     function Vg(a) {
       a = Qg(Pg, a) || [];
-      a = Za(a, function(a) {
+      a = Za(a, function (a) {
         return ng(a);
       });
       return Ya(a, ua);
     }
     function Wg(a, b) {
       var c = Vg(b),
-        d = ab(c, function(b) {
+        d = ab(c, function (b) {
           return b.a == a.a && (b.g || null) == (a.g || null);
         });
       -1 < d && db(c, d);
       c.unshift(a);
       Rg(
         Pg,
-        Za(c, function(a) {
+        Za(c, function (a) {
           return a.fa();
         }),
         b
@@ -4488,7 +4487,7 @@
         throw Error("Configuration " + b + " is not defined.");
       a.S[b.toLowerCase()] = c;
     }
-    Zg.prototype.get = function(a) {
+    Zg.prototype.get = function (a) {
       if (!(a.toLowerCase() in this.S))
         throw Error("Configuration " + a + " is not defined.");
       return this.S[a.toLowerCase()];
@@ -4503,10 +4502,10 @@
       this.a = {};
     }
     h = ch.prototype;
-    h.set = function(a, b) {
+    h.set = function (a, b) {
       dh(this, a, b, !1);
     };
-    h.add = function(a, b) {
+    h.add = function (a, b) {
       dh(this, a, b, !0);
     };
     function dh(a, b, c, d) {
@@ -4519,7 +4518,7 @@
         throw Error('The collection already contains the key "' + b + '"');
       a.g = c;
     }
-    h.get = function(a) {
+    h.get = function (a) {
       a: {
         for (var b = this, c = 0; c < a.length; c++)
           if (((b = b.a[a.charAt(c)]), !b)) {
@@ -4530,7 +4529,7 @@
       }
       return a ? a.g : void 0;
     };
-    h.ca = function() {
+    h.ca = function () {
       var a = [];
       eh(this, a);
       return a;
@@ -4539,7 +4538,7 @@
       void 0 !== a.g && b.push(a.g);
       for (var c in a.a) eh(a.a[c], b);
     }
-    h.ga = function() {
+    h.ga = function () {
       var a = [];
       fh(this, "", a);
       return a;
@@ -4548,7 +4547,7 @@
       void 0 !== a.g && c.push(b);
       for (var d in a.a) fh(a.a[d], b + d, c);
     }
-    h.clear = function() {
+    h.clear = function () {
       this.a = {};
       this.g = void 0;
     };
@@ -4980,19 +4979,19 @@
       { name: "Zambie", c: "260-ZM-0", b: "260", f: "ZM" },
       { name: "Zimbabwe", c: "263-ZW-0", b: "263", f: "ZW" }
     ];
-    (function(a, b) {
-      a.sort(function(a, d) {
+    (function (a, b) {
+      a.sort(function (a, d) {
         return a.name.localeCompare(d.name, b);
       });
     })(jh, "fr");
-    var hh = new function() {
+    var hh = new (function () {
       this.a = jh;
       this.g = new ch();
       for (var a = 0; a < this.a.length; a++) {
         var b = this.g.get("+" + this.a[a].b);
         b ? b.push(this.a[a]) : this.g.add("+" + this.a[a].b, [this.a[a]]);
       }
-    }();
+    })();
     function kh(a, b) {
       this.a = a;
       this.na = b;
@@ -5090,14 +5089,14 @@
       return null;
     }
     function Bh(a) {
-      return Za(zh(a), function(a) {
+      return Za(zh(a), function (a) {
         return a.provider;
       });
     }
     function Ch(a) {
       var b = [],
         c = [];
-      Wa(zh(a), function(a) {
+      Wa(zh(a), function (a) {
         a.authMethod &&
           (b.push(a.authMethod),
           a.clientId && c.push({ uri: a.authMethod, clientId: a.clientId }));
@@ -5110,14 +5109,14 @@
     }
     function Eh(a, b) {
       var c = null;
-      Wa(zh(a), function(a) {
+      Wa(zh(a), function (a) {
         a.authMethod === b && (c = a.provider);
       });
       return c;
     }
     function Fh(a) {
       var b = null;
-      Wa(zh(a), function(a) {
+      Wa(zh(a), function (a) {
         a.provider == firebase.auth.PhoneAuthProvider.PROVIDER_ID &&
           za(a.recaptchaParameters) &&
           !va(a.recaptchaParameters) &&
@@ -5125,7 +5124,7 @@
       });
       if (b) {
         var c = [];
-        Wa(th, function(a) {
+        Wa(th, function (a) {
           "undefined" !== typeof b[a] && (c.push(a), delete b[a]);
         });
         c.length &&
@@ -5223,7 +5222,7 @@
         ((a = {
           callbacks: {
             empty: a,
-            select: function(a, d) {
+            select: function (a, d) {
               a && a.account && b ? b(ng(a.account)) : c && c(!Sh(d));
             },
             store: a,
@@ -5243,7 +5242,7 @@
       function d() {
         var a = Qc(c).toString();
         Rh.select(
-          Za(b || [], function(a) {
+          Za(b || [], function (a) {
             return a.fa();
           }),
           { clientCallbackUrl: a }
@@ -5251,7 +5250,7 @@
       }
       b && b.length
         ? d()
-        : Rh.checkEmpty(function(b, c) {
+        : Rh.checkEmpty(function (b, c) {
             b || c ? a(!Sh(c)) : d();
           });
     }
@@ -5269,25 +5268,25 @@
       data: "Service is unavailable."
     };
     h = Uh.prototype;
-    h.store = function() {
+    h.store = function () {
       xa(this.a.callbacks.store) && this.a.callbacks.store(void 0, Xh);
     };
-    h.select = function() {
+    h.select = function () {
       xa(this.a.callbacks.select) && this.a.callbacks.select(void 0, Xh);
     };
-    h.update = function() {
+    h.update = function () {
       xa(this.a.callbacks.update) && this.a.callbacks.update(void 0, Xh);
     };
-    h.checkDisabled = function(a) {
+    h.checkDisabled = function (a) {
       a(!0);
     };
-    h.checkEmpty = function(a) {
+    h.checkEmpty = function (a) {
       a(void 0, Xh);
     };
-    h.checkAccountExist = function(a, b) {
+    h.checkAccountExist = function (a, b) {
       b(void 0, Xh);
     };
-    h.checkShouldUpdate = function(a, b) {
+    h.checkShouldUpdate = function (a, b) {
       b(void 0, Xh);
     };
     var Yh,
@@ -5379,7 +5378,7 @@
       a.classList
         ? a.classList.remove(b)
         : ni(a, b) &&
-          (a.className = Ya(mi(a), function(a) {
+          (a.className = Ya(mi(a), function (a) {
             return a != b;
           }).join(" "));
     }
@@ -5541,10 +5540,10 @@
     }
     t(vi, C);
     var wi = wb ? "keypress" : "keydown";
-    vi.prototype.g = function(a) {
+    vi.prototype.g = function (a) {
       (13 == a.keyCode || (w && 3 == a.keyCode)) && xi(this, a);
     };
-    vi.prototype.h = function(a) {
+    vi.prototype.h = function (a) {
       xi(this, a);
     };
     function xi(a, b) {
@@ -5558,7 +5557,7 @@
         }
       }
     }
-    vi.prototype.l = function() {
+    vi.prototype.l = function () {
       vi.o.l.call(this);
       me(this.a, wi, this.g, !1, this);
       me(this.a, "click", this.h, !1, this);
@@ -5582,13 +5581,13 @@
       this.h = ee(this.a, a, this, !v);
     }
     t(Ai, C);
-    Ai.prototype.handleEvent = function(a) {
+    Ai.prototype.handleEvent = function (a) {
       var b = new B(a.a);
       b.type =
         "focusin" == a.type || "focus" == a.type ? "focusin" : "focusout";
       re(this, b);
     };
-    Ai.prototype.l = function() {
+    Ai.prototype.l = function () {
       Ai.o.l.call(this);
       ne(this.g);
       ne(this.h);
@@ -5605,7 +5604,7 @@
     h = Bi.prototype;
     h.za = !1;
     h.R = null;
-    h.Ab = function() {
+    h.Ab = function () {
       if (this.za) {
         var a = Fa() - this.j;
         0 < a && a < 0.8 * this.g
@@ -5616,7 +5615,7 @@
               ((this.R = this.a.setTimeout(this.h, this.g)), (this.j = Fa())));
       }
     };
-    h.start = function() {
+    h.start = function () {
       this.za = !0;
       this.R || ((this.R = this.a.setTimeout(this.h, this.g)), (this.j = Fa()));
     };
@@ -5624,7 +5623,7 @@
       a.za = !1;
       a.R && (a.a.clearTimeout(a.R), (a.R = null));
     }
-    h.l = function() {
+    h.l = function () {
       Bi.o.l.call(this);
       Ci(this);
       delete this.a;
@@ -5642,7 +5641,7 @@
     }
     t(Ei, Id);
     var Fi = [];
-    Ei.prototype.Z = function(a, b, c, d) {
+    Ei.prototype.Z = function (a, b, c, d) {
       va(b) || (b && (Fi[0] = b.toString()), (b = Fi));
       for (var e = 0; e < b.length; e++) {
         var f = ee(a, b[e], c || this.handleEvent, d || !1, this.g || this);
@@ -5651,7 +5650,7 @@
       }
       return this;
     };
-    Ei.prototype.La = function(a, b, c, d, e) {
+    Ei.prototype.La = function (a, b, c, d, e) {
       if (va(b)) for (var f = 0; f < b.length; f++) this.La(a, b[f], c, d, e);
       else
         (c = c || this.handleEvent),
@@ -5671,18 +5670,18 @@
     function Gi(a) {
       lb(
         a.a,
-        function(a, c) {
+        function (a, c) {
           this.a.hasOwnProperty(c) && ne(a);
         },
         a
       );
       a.a = {};
     }
-    Ei.prototype.l = function() {
+    Ei.prototype.l = function () {
       Ei.o.l.call(this);
       Gi(this);
     };
-    Ei.prototype.handleEvent = function() {
+    Ei.prototype.handleEvent = function () {
       throw Error("EventHandler.handleEvent not implemented");
     };
     function Hi(a) {
@@ -5698,7 +5697,7 @@
       );
     }
     t(Hi, C);
-    Hi.prototype.handleEvent = function(a) {
+    Hi.prototype.handleEvent = function (a) {
       if ("input" == a.type)
         (v && Eb(10) && 0 == a.keyCode && 0 == a.j) ||
           (Ii(this), re(this, Ji(a)));
@@ -5707,7 +5706,7 @@
         v && 229 == a.keyCode && (b = null);
         var c = Ji(a);
         Ii(this);
-        this.a = Di(function() {
+        this.a = Di(function () {
           this.a = null;
           this.g.value != b && re(this, c);
         }, this);
@@ -5721,7 +5720,7 @@
       a.type = "input";
       return a;
     }
-    Hi.prototype.l = function() {
+    Hi.prototype.l = function () {
       Hi.o.l.call(this);
       this.h.m();
       Ii(this);
@@ -5801,7 +5800,7 @@
       Oi = v || ub || (w && Eb("525")),
       Pi = yb && wb;
     h = Ki.prototype;
-    h.jb = function(a) {
+    h.jb = function (a) {
       if (w || ub)
         if (
           (17 == this.O && !a.ctrlKey) ||
@@ -5819,11 +5818,11 @@
         ? this.handleEvent(a)
         : ((this.Y = ti(a.keyCode)), Pi && (this.Ha = a.altKey));
     };
-    h.lb = function(a) {
+    h.lb = function (a) {
       this.Y = this.O = -1;
       this.Ha = a.altKey;
     };
-    h.handleEvent = function(a) {
+    h.handleEvent = function (a) {
       var b = a.a,
         c = b.altKey;
       if (v && "keypress" == a.type) {
@@ -5852,7 +5851,7 @@
       b.altKey = c;
       re(this, b);
     };
-    h.K = function() {
+    h.K = function () {
       return this.ia;
     };
     function Li(a) {
@@ -5867,7 +5866,7 @@
       a.O = -1;
       a.Y = -1;
     }
-    h.l = function() {
+    h.l = function () {
       Ki.o.l.call(this);
       Li(this);
     };
@@ -5885,7 +5884,7 @@
       this.bottom = c;
       this.left = d;
     }
-    Ri.prototype.toString = function() {
+    Ri.prototype.toString = function () {
       return (
         "(" +
         this.top +
@@ -5898,21 +5897,21 @@
         "l)"
       );
     };
-    Ri.prototype.ceil = function() {
+    Ri.prototype.ceil = function () {
       this.top = Math.ceil(this.top);
       this.right = Math.ceil(this.right);
       this.bottom = Math.ceil(this.bottom);
       this.left = Math.ceil(this.left);
       return this;
     };
-    Ri.prototype.floor = function() {
+    Ri.prototype.floor = function () {
       this.top = Math.floor(this.top);
       this.right = Math.floor(this.right);
       this.bottom = Math.floor(this.bottom);
       this.left = Math.floor(this.left);
       return this;
     };
-    Ri.prototype.round = function() {
+    Ri.prototype.round = function () {
       this.top = Math.round(this.top);
       this.right = Math.round(this.right);
       this.bottom = Math.round(this.bottom);
@@ -6038,7 +6037,7 @@
     t(Zi, C);
     h = Zi.prototype;
     h.mb = Yi.Ia();
-    h.K = function() {
+    h.K = function () {
       return this.h;
     };
     function L(a, b) {
@@ -6048,36 +6047,36 @@
       a.D || (a.D = new Ei(a));
       return a.D;
     }
-    h.Ka = function(a) {
+    h.Ka = function (a) {
       if (this.U && this.U != a) throw Error("Method not supported");
       Zi.o.Ka.call(this, a);
     };
-    h.Ua = function() {
+    h.Ua = function () {
       this.h = this.v.a.createElement("DIV");
     };
-    h.render = function(a) {
+    h.render = function (a) {
       if (this.da) throw Error("Component already rendered");
       this.h || this.Ua();
       a ? a.insertBefore(this.h, null) : this.v.a.body.appendChild(this.h);
       (this.U && !this.U.da) || this.w();
     };
-    h.w = function() {
+    h.w = function () {
       this.da = !0;
-      aj(this, function(a) {
+      aj(this, function (a) {
         !a.da && a.K() && a.w();
       });
     };
-    h.la = function() {
-      aj(this, function(a) {
+    h.la = function () {
+      aj(this, function (a) {
         a.da && a.la();
       });
       this.D && Gi(this.D);
       this.da = !1;
     };
-    h.l = function() {
+    h.l = function () {
       this.da && this.la();
       this.D && (this.D.m(), delete this.D);
-      aj(this, function(a) {
+      aj(this, function (a) {
         a.m();
       });
       this.h && jc(this.h);
@@ -6087,7 +6086,7 @@
     function aj(a, b) {
       a.ra && Wa(a.ra, b, void 0);
     }
-    h.removeChild = function(a, b) {
+    h.removeChild = function (a, b) {
       if (a) {
         var c = m(a) ? a : a.Na || (a.Na = ":" + (a.mb.a++).toString(36));
         this.qa && c
@@ -6126,7 +6125,7 @@
     function cj(a, b, c) {
       b = new Ki(b);
       Ld(a, Ea(Md, b));
-      $i(a).Z(b, "key", function(a) {
+      $i(a).Z(b, "key", function (a) {
         13 == a.keyCode && (a.stopPropagation(), a.preventDefault(), c(a));
       });
     }
@@ -6143,7 +6142,7 @@
     function fj(a, b, c) {
       b = new vi(b);
       Ld(a, Ea(Md, b));
-      $i(a).Z(b, "action", function(a) {
+      $i(a).Z(b, "action", function (a) {
         a.stopPropagation();
         a.preventDefault();
         c(a);
@@ -6330,9 +6329,9 @@
       a &&
         window.componentHandler &&
         window.componentHandler[b] &&
-        Wa(Aj, function(c) {
+        Wa(Aj, function (c) {
           if (ni(a, c)) window.componentHandler[b](a);
-          Wa(dc(c, a), function(a) {
+          Wa(dc(c, a), function (a) {
             window.componentHandler[b](a);
           });
         });
@@ -6344,7 +6343,7 @@
       a.showModal();
       xj(a);
       b &&
-        fj(this, a, function(b) {
+        fj(this, a, function (b) {
           var c = a.getBoundingClientRect();
           (b.clientX < c.left ||
             c.left + c.width < b.clientX ||
@@ -6356,7 +6355,7 @@
         var d = this.K().parentElement || this.K().parentNode;
         if (d) {
           var e = this;
-          this.V = function() {
+          this.V = function () {
             if (a.open) {
               var b = a.getBoundingClientRect().height,
                 c = d.getBoundingClientRect().height,
@@ -6427,20 +6426,20 @@
       this.u = this.$ = null;
     }
     t(P, Zi);
-    P.prototype.Ua = function() {
+    P.prototype.Ua = function () {
       var a = Zc(this.Qa, this.Pa, Hj, this.v);
       xj(a);
       this.h = a;
     };
-    P.prototype.w = function() {
+    P.prototype.w = function () {
       P.o.w.call(this);
       ve(Q(this), new Jj("pageEnter", Q(this), { pageId: this.Oa }));
     };
-    P.prototype.la = function() {
+    P.prototype.la = function () {
       ve(Q(this), new Jj("pageExit", Q(this), { pageId: this.Oa }));
       P.o.la.call(this);
     };
-    P.prototype.l = function() {
+    P.prototype.l = function () {
       window.clearTimeout(this.$);
       this.Pa = this.Qa = this.$ = null;
       this.sa = !1;
@@ -6450,7 +6449,7 @@
     };
     function Kj(a) {
       a.sa = !0;
-      a.$ = window.setTimeout(function() {
+      a.$ = window.setTimeout(function () {
         a.K() &&
           null === a.u &&
           ((a.u = Zc(vj, null, null, a.v)), a.K().appendChild(a.u), xj(a.u));
@@ -6466,37 +6465,34 @@
       }
       if (a.sa) return null;
       Kj(a);
-      return b
-        .apply(null, c)
-        .then(d, e)
-        .then(f, f);
+      return b.apply(null, c).then(d, e).then(f, f);
     }
     function Q(a) {
       return a.K().parentElement || a.K().parentNode;
     }
     function Mj(a, b, c) {
-      cj(a, b, function() {
+      cj(a, b, function () {
         c.focus();
       });
     }
     function Nj(a, b, c) {
-      cj(a, b, function() {
+      cj(a, b, function () {
         c();
       });
     }
     p(P.prototype, {
-      g: function(a) {
+      g: function (a) {
         Ej.call(this);
         var b = Zc(rj, { message: a }, null, this.v);
         this.K().appendChild(b);
-        fj(this, Gj.call(this), function() {
+        fj(this, Gj.call(this), function () {
           jc(b);
         });
       },
       Nb: Ej,
       Tb: Fj,
       Sb: Gj,
-      ua: function(a, b) {
+      ua: function (a, b) {
         a = Zc(tj, { Ba: a, message: b }, null, this.v);
         Bj.call(this, a);
       },
@@ -6923,13 +6919,13 @@
       return L(this, "firebaseui-id-secondary-link");
     }
     function kk(a, b) {
-      fj(this, ik.call(this), function(b) {
+      fj(this, ik.call(this), function (b) {
         a(b);
       });
       var c = jk.call(this);
       c &&
         b &&
-        fj(this, c, function(a) {
+        fj(this, c, function (a) {
           b(a);
         });
     }
@@ -6942,7 +6938,7 @@
     function nk() {
       var a = lk.call(this),
         b = mk.call(this);
-      bj(this, a, function() {
+      bj(this, a, function () {
         hj(b) && (M(a, !0), gj(b));
       });
     }
@@ -6960,18 +6956,18 @@
       this.I = c;
     }
     t(pk, P);
-    pk.prototype.w = function() {
+    pk.prototype.w = function () {
       this.M();
       this.L(this.a, this.I);
       Nj(this, this.i(), this.a);
       this.i().focus();
       pk.o.w.call(this);
     };
-    pk.prototype.l = function() {
+    pk.prototype.l = function () {
       this.a = null;
       pk.o.l.call(this);
     };
-    pk.prototype.G = function() {
+    pk.prototype.G = function () {
       return K(L(this, "firebaseui-id-email"));
     };
     p(pk.prototype, { i: lk, C: mk, M: nk, B: ok, aa: ik, W: jk, L: kk });
@@ -6985,11 +6981,11 @@
     function tk(a) {
       var b = rk.call(this),
         c = sk.call(this);
-      bj(this, b, function() {
+      bj(this, b, function () {
         hj(c) && (M(b, !0), gj(c));
       });
       a &&
-        cj(this, b, function() {
+        cj(this, b, function () {
           a();
         });
     }
@@ -7017,7 +7013,7 @@
       this.I = b;
     }
     t(wk, P);
-    wk.prototype.w = function() {
+    wk.prototype.w = function () {
       this.M();
       this.aa();
       this.W(this.a, this.I);
@@ -7026,7 +7022,7 @@
       K(this.s()) ? this.i().focus() : this.s().focus();
       wk.o.w.call(this);
     };
-    wk.prototype.l = function() {
+    wk.prototype.l = function () {
       this.I = this.a = null;
       wk.o.l.call(this);
     };
@@ -7049,11 +7045,11 @@
       this.a = c || null;
     }
     t(R, P);
-    R.prototype.w = function() {
+    R.prototype.w = function () {
       this.a && (this.s(this.a), this.i().focus());
       R.o.w.call(this);
     };
-    R.prototype.l = function() {
+    R.prototype.l = function () {
       this.a = null;
       R.o.l.call(this);
     };
@@ -7093,7 +7089,7 @@
       Fk ||
         ("undefined" == typeof accountchooser && li()
           ? ((b = Ob(Jb(Kb("//www.gstatic.com/accountchooser/client.js")))),
-            (Fk = af(E(zf(b)), function() {})))
+            (Fk = af(E(zf(b)), function () {})))
           : (Fk = E()));
       Fk.then(a, a);
     }
@@ -7108,12 +7104,12 @@
     function Jk(a, b, c, d, e) {
       d
         ? (H("callback", a, b), Ek && c())
-        : Hk(a, function() {
+        : Hk(a, function () {
             Yg(T(a));
             Wh(
-              function(d) {
+              function (d) {
                 F(Mg, T(a));
-                Ik(a, d ? "empty" : "unavailable", function() {
+                Ik(a, d ? "empty" : "unavailable", function () {
                   H("signIn", a, b);
                   (d || Ek) && c();
                 });
@@ -7129,13 +7125,13 @@
         V(b, c, void 0, a);
         d();
       }
-      Ik(b, "accountSelected", function() {
+      Ik(b, "accountSelected", function () {
         Ug(!1, T(b));
         W(
           b,
           X(b)
             .fetchProvidersForEmail(a.a)
-            .then(function(e) {
+            .then(function (e) {
               Lk(b, c, e, a.a, a.h || void 0);
               d();
             }, e)
@@ -7143,7 +7139,7 @@
       });
     }
     function Mk(a, b, c, d) {
-      Ik(b, a ? "addAccount" : "unavailable", function() {
+      Ik(b, a ? "addAccount" : "unavailable", function () {
         H("signIn", b, c);
         (a || Ek) && d();
       });
@@ -7154,15 +7150,15 @@
         b && (b = Nh(S(b))) && b();
       }
       Th(
-        function() {
+        function () {
           var f = a();
           f && Jk(f, b, e, c, d);
         },
-        function(c) {
+        function (c) {
           var d = a();
           d && Kk(c, d, b, e);
         },
-        function(c) {
+        function (c) {
           var d = a();
           d && Mk(c, d, b, e);
         },
@@ -7197,7 +7193,7 @@
       F(Og, T(a));
       c = Sk(a, c);
       d = c
-        .then(function(b) {
+        .then(function (b) {
           Qk(a, b, g);
         }, f)
         .then(void 0, f);
@@ -7215,7 +7211,7 @@
       if (e) {
         if (d) return Uk(a, c), E();
         if (!c.credential) throw Error("No credential found!");
-        d = function(c) {
+        d = function (c) {
           if (!c.name || "cancel" != c.name)
             if (Pk(c)) (c = Q(b)), b.m(), V(a, c, void 0, Dd().toString());
             else {
@@ -7243,7 +7239,7 @@
         F(Og, T(a));
         c = Vk(a, c);
         d = c
-          .then(function(b) {
+          .then(function (b) {
             Uk(a, b);
           }, d)
           .then(void 0, d);
@@ -7372,11 +7368,11 @@
             b,
             n(a.zb, a),
             [q],
-            function() {
+            function () {
               if ("file:" === (window.location && window.location.protocol))
                 return W(
                   a,
-                  Zk(a).then(function(c) {
+                  Zk(a).then(function (c) {
                     b.m();
                     F(Mg, T(a));
                     H("callback", a, k, E(c));
@@ -7419,7 +7415,7 @@
         ? e()
         : W(
             a,
-            $k(a, q).then(function(c) {
+            $k(a, q).then(function (c) {
               b.m();
               H("callback", a, k, E(c));
             }, f)
@@ -7432,13 +7428,13 @@
           b,
           n(a.wb, a),
           [c],
-          function(c) {
+          function (c) {
             var e = Q(b);
             b.m();
             H("callback", a, e, E(c));
             d = !0;
           },
-          function(c) {
+          function (c) {
             if (!c.name || "cancel" != c.name)
               if (!c || "auth/credential-already-in-use" != c.code)
                 if (
@@ -7455,10 +7451,10 @@
         );
         W(a, c);
         return c.then(
-          function() {
+          function () {
             return d;
           },
-          function() {
+          function () {
             return !1;
           }
         );
@@ -7491,7 +7487,7 @@
               b,
               n(a.xb, a),
               [c, d],
-              function(c) {
+              function (c) {
                 return Tk(a, b, {
                   user: c.user,
                   credential: e,
@@ -7499,7 +7495,7 @@
                   additionalUserInfo: c.additionalUserInfo
                 });
               },
-              function(a) {
+              function (a) {
                 if (!a.name || "cancel" != a.name)
                   switch (a.code) {
                     case "auth/email-already-in-use":
@@ -7551,12 +7547,12 @@
           b,
           n(X(a).fetchProvidersForEmail, X(a)),
           [c],
-          function(f) {
+          function (f) {
             Ug(Dh(S(a)) == oh, T(a));
             b.m();
             Lk(a, e, f, c, void 0, d);
           },
-          function(a) {
+          function (a) {
             a = U(a);
             b.g(a);
           }
@@ -7577,14 +7573,14 @@
     }
     function el(a, b, c) {
       Dh(S(a)) == oh
-        ? Gk(function() {
+        ? Gk(function () {
             Rh
-              ? Hk(a, function() {
+              ? Hk(a, function () {
                   Yg(T(a));
                   Wh(
-                    function(d) {
+                    function (d) {
                       F(Mg, T(a));
-                      Ik(a, d ? "empty" : "unavailable", function() {
+                      Ik(a, d ? "empty" : "unavailable", function () {
                         H("signIn", a, b, c);
                       });
                     },
@@ -7595,8 +7591,8 @@
               : (Y(a), Nk(gl, b, !1, uh(S(a))));
           }, !1)
         : ((Ek = !1),
-          Hk(a, function() {
-            Ik(a, "unavailable", function() {
+          Hk(a, function () {
+            Ik(a, "unavailable", function () {
               H("signIn", a, b, c);
             });
           }));
@@ -7620,7 +7616,7 @@
     function kl() {
       var a = zc(window.location.href, "continueUrl");
       return a
-        ? function() {
+        ? function () {
             lf(a);
           }
         : null;
@@ -7646,7 +7642,7 @@
             V(a, c);
             break;
           } else {
-            Gk(function() {
+            Gk(function () {
               Y(a);
               Nk(gl, c, !0);
             }, !0);
@@ -7678,7 +7674,7 @@
             ? W(
                 a,
                 c.user.linkAndRetrieveDataWithCredential(g).then(
-                  function(c) {
+                  function (c) {
                     d = {
                       user: c.user,
                       credential: g,
@@ -7687,7 +7683,7 @@
                     };
                     ql(a, b, d);
                   },
-                  function(c) {
+                  function (c) {
                     rl(a, b, c);
                   }
                 )
@@ -7714,7 +7710,7 @@
         X(a)
           .fetchProvidersForEmail(c)
           .then(
-            function(f) {
+            function (f) {
               b.m();
               f.length
                 ? "password" == f[0]
@@ -7723,7 +7719,7 @@
                 : (F(Lg, T(a)),
                   H("passwordRecovery", a, e, c, !1, Ed().toString()));
             },
-            function(c) {
+            function (c) {
               rl(a, b, c);
             }
           )
@@ -7734,11 +7730,11 @@
       W(
         a,
         tl(a).then(
-          function() {
+          function () {
             b.m();
             H("emailMismatch", a, d, c);
           },
-          function(a) {
+          function (a) {
             (a.name && "cancel" == a.name) || ((a = U(a.code)), b.g(a));
           }
         )
@@ -7751,7 +7747,7 @@
           if (b == a.providerData[c].email) return !0;
       return !1;
     }
-    G.callback = function(a, b, c) {
+    G.callback = function (a, b, c) {
       var d = new ml();
       d.render(b);
       Z(a, d);
@@ -7759,10 +7755,10 @@
       W(
         a,
         b.then(
-          function(b) {
+          function (b) {
             nl(a, d, b);
           },
-          function(b) {
+          function (b) {
             if (
               b &&
               ("auth/account-exists-with-different-credential" == b.code ||
@@ -7800,15 +7796,15 @@
       this.a = c || null;
     }
     t(ul, P);
-    ul.prototype.w = function() {
+    ul.prototype.w = function () {
       var a = this;
-      fj(this, L(this, "firebaseui-id-reset-password-link"), function() {
+      fj(this, L(this, "firebaseui-id-reset-password-link"), function () {
         a.i();
       });
       this.a && (this.B(this.a), this.s().focus());
       ul.o.w.call(this);
     };
-    ul.prototype.l = function() {
+    ul.prototype.l = function () {
       this.i = this.a = null;
       ul.o.l.call(this);
     };
@@ -7840,17 +7836,17 @@
       var a = vl.call(this);
       a.type = "password";
       var b = yl.call(this);
-      bj(this, a, function() {
+      bj(this, a, function () {
         hj(b) && (M(a, !0), gj(b));
       });
       var c = wl.call(this);
       oi(c, "firebaseui-input-toggle-on");
       pi(c, "firebaseui-input-toggle-off");
-      dj(this, a, function() {
+      dj(this, a, function () {
         oi(c, "firebaseui-input-toggle-focus");
         pi(c, "firebaseui-input-toggle-blur");
       });
-      ej(this, a, function() {
+      ej(this, a, function () {
         oi(c, "firebaseui-input-toggle-blur");
         pi(c, "firebaseui-input-toggle-focus");
       });
@@ -7869,14 +7865,14 @@
       this.a = b;
     }
     t(Bl, P);
-    Bl.prototype.w = function() {
+    Bl.prototype.w = function () {
       this.G();
       this.C(this.a);
       Nj(this, this.i(), this.a);
       this.i().focus();
       Bl.o.w.call(this);
     };
-    Bl.prototype.l = function() {
+    Bl.prototype.l = function () {
       this.a = null;
       Bl.o.l.call(this);
     };
@@ -7890,13 +7886,13 @@
             c,
             n(X(a).confirmPasswordReset, X(a)),
             [d, f],
-            function() {
+            function () {
               c.m();
               var d = new Ak(e);
               d.render(b);
               Z(a, d);
             },
-            function(d) {
+            function (d) {
               Dl(a, b, c, d);
             }
           )
@@ -7908,20 +7904,20 @@
         : (c && c.m(), (c = new Bk()), c.render(b), Z(a, c));
     }
     function El(a, b, c) {
-      var d = new ul(c, function() {
+      var d = new ul(c, function () {
         W(
           a,
           Lj(
             d,
             n(X(a).sendPasswordResetEmail, X(a)),
             [c],
-            function() {
+            function () {
               d.m();
               d = new xk(c);
               d.render(b);
               Z(a, d);
             },
-            function() {
+            function () {
               d.g(
                 A(
                   "Impossible d'envoyer le code de r\u00e9initialisation du mot de passe \u00e0 l'adresse e-mail indiqu\u00e9e"
@@ -7934,40 +7930,40 @@
       d.render(b);
       Z(a, d);
     }
-    G.passwordReset = function(a, b, c, d) {
+    G.passwordReset = function (a, b, c, d) {
       W(
         a,
         X(a)
           .verifyPasswordResetCode(c)
           .then(
-            function(e) {
-              var f = new Bl(e, function() {
+            function (e) {
+              var f = new Bl(e, function () {
                 Cl(a, b, f, c, d);
               });
               f.render(b);
               Z(a, f);
             },
-            function() {
+            function () {
               Dl(a, b);
             }
           )
       );
     };
-    G.emailChangeRevocation = function(a, b, c) {
+    G.emailChangeRevocation = function (a, b, c) {
       var d = null;
       W(
         a,
         X(a)
           .checkActionCode(c)
-          .then(function(b) {
+          .then(function (b) {
             d = b.data.email;
             return X(a).applyActionCode(c);
           })
           .then(
-            function() {
+            function () {
               El(a, b, d);
             },
-            function() {
+            function () {
               var c = new Ck();
               c.render(b);
               Z(a, c);
@@ -7975,18 +7971,18 @@
           )
       );
     };
-    G.emailVerification = function(a, b, c, d) {
+    G.emailVerification = function (a, b, c, d) {
       W(
         a,
         X(a)
           .applyActionCode(c)
           .then(
-            function() {
+            function () {
               var c = new yk(d);
               c.render(b);
               Z(a, c);
             },
-            function() {
+            function () {
               var c = new zk();
               c.render(b);
               Z(a, c);
@@ -8000,28 +7996,28 @@
       this.i = d;
     }
     t(Fl, P);
-    Fl.prototype.w = function() {
+    Fl.prototype.w = function () {
       this.C(this.s, this.i);
       this.B().focus();
       Fl.o.w.call(this);
     };
-    Fl.prototype.l = function() {
+    Fl.prototype.l = function () {
       this.i = this.a = null;
       Fl.o.l.call(this);
     };
     p(Fl.prototype, { B: ik, G: jk, C: kk });
-    G.emailMismatch = function(a, b, c) {
+    G.emailMismatch = function (a, b, c) {
       var d = Xg(T(a));
       if (d) {
         var e = new Fl(
           c.user.email,
           d.g,
-          function() {
+          function () {
             var b = e;
             F(Lg, T(a));
             Tk(a, b, c);
           },
-          function() {
+          function () {
             var b = c.credential.providerId,
               g = Q(e);
             e.m();
@@ -8039,20 +8035,20 @@
       this.a = c;
     }
     t(Gl, P);
-    Gl.prototype.w = function() {
+    Gl.prototype.w = function () {
       this.s(this.a);
       this.i().focus();
       Gl.o.w.call(this);
     };
-    Gl.prototype.l = function() {
+    Gl.prototype.l = function () {
       this.a = null;
       Gl.o.l.call(this);
     };
     p(Gl.prototype, { i: ik, s: kk });
-    G.federatedLinking = function(a, b, c, d, e) {
+    G.federatedLinking = function (a, b, c, d, e) {
       var f = Xg(T(a));
       if (f && f.a) {
-        var g = new Gl(c, d, function() {
+        var g = new Gl(c, d, function () {
           Yk(a, g, d, c);
         });
         g.render(b);
@@ -8060,8 +8056,8 @@
         e && g.g(e);
       } else V(a, b);
     };
-    G.federatedSignIn = function(a, b, c, d, e) {
-      var f = new Gl(c, d, function() {
+    G.federatedSignIn = function (a, b, c, d, e) {
+      var f = new Gl(c, d, function () {
         Yk(a, f, d, c);
       });
       f.render(b);
@@ -8077,10 +8073,10 @@
               b,
               n(a.ub, a),
               [c, e],
-              function(c) {
+              function (c) {
                 c = c.user
                   .linkAndRetrieveDataWithCredential(d)
-                  .then(function(c) {
+                  .then(function (c) {
                     return Tk(a, b, {
                       user: c.user,
                       credential: d,
@@ -8091,7 +8087,7 @@
                 W(a, c);
                 return c;
               },
-              function(a) {
+              function (a) {
                 if (!a.name || "cancel" != a.name)
                   switch (a.code) {
                     case "auth/wrong-password":
@@ -8109,17 +8105,17 @@
           )
         : b.i().focus();
     }
-    G.passwordLinking = function(a, b, c) {
+    G.passwordLinking = function (a, b, c) {
       var d = Xg(T(a));
       F(Lg, T(a));
       var e = d && d.a;
       if (e) {
         var f = new pk(
           c,
-          function() {
+          function () {
             Hl(a, f, c, e);
           },
-          function() {
+          function () {
             f.m();
             H("passwordRecovery", a, b, c);
           }
@@ -8134,14 +8130,14 @@
       this.s = b;
     }
     t(Il, P);
-    Il.prototype.w = function() {
+    Il.prototype.w = function () {
       this.G();
       this.I(this.a, this.s);
       K(this.i()) || this.i().focus();
       Nj(this, this.i(), this.a);
       Il.o.w.call(this);
     };
-    Il.prototype.l = function() {
+    Il.prototype.l = function () {
       this.s = this.a = null;
       Il.o.l.call(this);
     };
@@ -8156,16 +8152,16 @@
             b,
             n(X(a).sendPasswordResetEmail, X(a)),
             [c],
-            function() {
+            function () {
               b.m();
-              var e = new xk(c, function() {
+              var e = new xk(c, function () {
                 e.m();
                 V(a, d);
               });
               e.render(d);
               Z(a, e);
             },
-            function(a) {
+            function (a) {
               M(b.i(), !1);
               N(b.C(), U(a));
             }
@@ -8173,14 +8169,14 @@
         );
       } else b.i().focus();
     }
-    G.passwordRecovery = function(a, b, c, d, e) {
+    G.passwordRecovery = function (a, b, c, d, e) {
       var f = new Il(
-        function() {
+        function () {
           Jl(a, f);
         },
         d
           ? void 0
-          : function() {
+          : function () {
               f.m();
               V(a, b);
             },
@@ -8190,12 +8186,12 @@
       Z(a, f);
       e && f.g(e);
     };
-    G.passwordSignIn = function(a, b, c) {
+    G.passwordSignIn = function (a, b, c) {
       var d = new wk(
-        function() {
+        function () {
           bl(a, d);
         },
-        function() {
+        function () {
           var c = d.L();
           d.m();
           H("passwordRecovery", a, b, c);
@@ -8224,7 +8220,7 @@
       this.C = b;
     }
     t(Ml, P);
-    Ml.prototype.w = function() {
+    Ml.prototype.w = function () {
       this.aa();
       this.C && this.Fa();
       this.wa();
@@ -8240,7 +8236,7 @@
         : this.i().focus();
       Ml.o.w.call(this);
     };
-    Ml.prototype.l = function() {
+    Ml.prototype.l = function () {
       this.G = this.a = null;
       Ml.o.l.call(this);
     };
@@ -8252,14 +8248,14 @@
       L: vk,
       B: Kl,
       Ub: Ll,
-      Fa: function() {
+      Fa: function () {
         var a = Kl.call(this),
           b = Ll.call(this);
-        bj(this, a, function() {
+        bj(this, a, function () {
           hj(b) && (M(a, !0), gj(b));
         });
       },
-      I: function() {
+      I: function () {
         var a = Kl.call(this);
         var b = Ll.call(this);
         var c = K(a);
@@ -8300,7 +8296,7 @@
               b,
               n(a.vb, a),
               [d, f],
-              function(d) {
+              function (d) {
                 var f = {
                   user: d.user,
                   credential: g,
@@ -8310,14 +8306,14 @@
                 return c
                   ? ((d = d.user
                       .updateProfile({ displayName: e })
-                      .then(function() {
+                      .then(function () {
                         return Tk(a, b, f);
                       })),
                     W(a, d),
                     d)
                   : Tk(a, b, f);
               },
-              function(c) {
+              function (c) {
                 if (!c.name || "cancel" != c.name) {
                   var e = U(c);
                   switch (c.code) {
@@ -8352,21 +8348,21 @@
       var f = X(a)
         .fetchProvidersForEmail(c)
         .then(
-          function(d) {
+          function (d) {
             d.length
               ? e()
               : ((d = Q(b)),
                 b.m(),
                 H("passwordRecovery", a, d, c, !1, Ed().toString()));
           },
-          function() {
+          function () {
             e();
           }
         );
       W(a, f);
       return f;
     }
-    G.passwordSignUp = function(a, b, c, d, e) {
+    G.passwordSignUp = function (a, b, c, d, e) {
       function f() {
         g.m();
         V(a, b);
@@ -8374,7 +8370,7 @@
       var g = new Ml(
         Kh(S(a)),
         Lh(S(a)),
-        function() {
+        function () {
           Nl(a, g);
         },
         e ? void 0 : f,
@@ -8404,15 +8400,15 @@
       this.L = d;
     }
     t(Sl, P);
-    Sl.prototype.w = function() {
+    Sl.prototype.w = function () {
       var a = this;
       this.M(this.Fa);
       ee(this.i, "tick", this.B, !1, this);
       this.i.start();
-      fj(this, L(this, "firebaseui-id-change-phone-number-link"), function() {
+      fj(this, L(this, "firebaseui-id-change-phone-number-link"), function () {
         a.I();
       });
-      fj(this, this.Ma(), function() {
+      fj(this, this.Ma(), function () {
         a.L();
       });
       this.wa(this.a);
@@ -8420,14 +8416,14 @@
       this.s().focus();
       Sl.o.w.call(this);
     };
-    Sl.prototype.l = function() {
+    Sl.prototype.l = function () {
       this.L = this.G = this.a = this.I = null;
       Ci(this.i);
       me(this.i, "tick", this.B);
       this.i = null;
       Sl.o.l.call(this);
     };
-    Sl.prototype.B = function() {
+    Sl.prototype.B = function () {
       --this.C;
       0 < this.C
         ? this.M(this.C)
@@ -8436,23 +8432,23 @@
     p(Sl.prototype, {
       s: Pl,
       aa: Ql,
-      wa: function(a) {
+      wa: function (a) {
         var b = Pl.call(this),
           c = Ql.call(this);
-        bj(this, b, function() {
+        bj(this, b, function () {
           hj(c) && (M(b, !0), gj(c));
         });
         a &&
-          cj(this, b, function() {
+          cj(this, b, function () {
             a();
           });
       },
-      T: function() {
+      T: function () {
         var a = Ja(K(Pl.call(this)) || "");
         return /^\d{6}$/.test(a) ? a : null;
       },
       Ya: Rl,
-      M: function(a) {
+      M: function (a) {
         kc(
           Rl.call(this),
           A(
@@ -8460,14 +8456,14 @@
           ).toString()
         );
       },
-      va: function() {
+      va: function () {
         var a = this.Ya();
         gj(a);
       },
-      Ma: function() {
+      Ma: function () {
         return L(this, "firebaseui-id-resend-link");
       },
-      Ra: function() {
+      Ra: function () {
         N(this.Ma());
       },
       cb: ik,
@@ -8492,13 +8488,13 @@
               b,
               n(d.confirm, d),
               [f],
-              function(c) {
+              function (c) {
                 b.j();
                 b.ua(
                   "firebaseui-icon-done",
                   A("Le code a bien \u00e9t\u00e9 valid\u00e9.").toString()
                 );
-                var d = setTimeout(function() {
+                var d = setTimeout(function () {
                   b.j();
                   b.m();
                   var d = {
@@ -8509,12 +8505,12 @@
                   };
                   Tk(a, b, d, !0);
                 }, 1e3);
-                W(a, function() {
+                W(a, function () {
                   b && b.j();
                   clearTimeout(d);
                 });
               },
-              function(d) {
+              function (d) {
                 if (d.name && "cancel" == d.name) b.j();
                 else {
                   var f = U(d);
@@ -8542,20 +8538,20 @@
           ))
         : e(Ad().toString());
     }
-    G.phoneSignInFinish = function(a, b, c, d, e, f) {
+    G.phoneSignInFinish = function (a, b, c, d, e, f) {
       var g = new Sl(
-        function() {
+        function () {
           g.m();
           H("phoneSignInStart", a, b, c);
         },
-        function() {
+        function () {
           Tl(a, g, c, e);
         },
-        function() {
+        function () {
           g.m();
           V(a, b);
         },
-        function() {
+        function () {
           g.m();
           H("phoneSignInStart", a, b, c);
         },
@@ -8608,7 +8604,7 @@
       a = Zc(uj, { items: a }, null, this.v);
       Bj.call(this, a, !0, !0);
       c && (c = Xl(a, c)) && (c.focus(), Ui(c, a));
-      fj(this, a, function(a) {
+      fj(this, a, function (a) {
         if (
           (a =
             (a = lc(a.target, "firebaseui-id-list-box-dialog-button")) &&
@@ -8630,7 +8626,7 @@
       return L(this, "firebaseui-id-phone-number-error");
     }
     function $l() {
-      return Za(jh, function(a) {
+      return Za(jh, function (a) {
         return {
           id: a.c,
           Ba: "firebaseui-flag " + am(a),
@@ -8646,7 +8642,7 @@
       Wl.call(
         this,
         $l(),
-        function(b) {
+        function (b) {
           cm.call(a, b, !0);
           a.F().focus();
         },
@@ -8722,7 +8718,7 @@
       this.B = b;
     }
     t(em, P);
-    em.prototype.w = function() {
+    em.prototype.w = function () {
       this.W(this.G);
       this.L(this.a, this.B);
       this.I || Mj(this, this.F(), this.i());
@@ -8731,23 +8727,23 @@
       dm(this.F(), (this.F().value || "").length);
       em.o.w.call(this);
     };
-    em.prototype.l = function() {
+    em.prototype.l = function () {
       this.B = this.a = null;
       em.o.l.call(this);
     };
     p(em.prototype, {
       F: Yl,
       C: Zl,
-      W: function(a, b) {
+      W: function (a, b) {
         var c = this,
           d = Yl.call(this),
           e = L(this, "firebaseui-id-country-selector"),
           f = Zl.call(this);
         cm.call(this, a || "1-US-0");
-        fj(this, e, function() {
+        fj(this, e, function () {
           bm.call(c);
         });
-        bj(this, d, function() {
+        bj(this, d, function () {
           hj(f) && (M(d, !0), gj(f));
           var a = Ja(K(d) || ""),
             b = ih(this.oa);
@@ -8757,11 +8753,11 @@
             ((b = a[0]), cm.call(c, "1" == b.b ? "1-US-0" : b.c));
         });
         b &&
-          cj(this, d, function() {
+          cj(this, d, function () {
             b();
           });
       },
-      M: function() {
+      M: function () {
         var a = Ja(K(Yl.call(this)) || ""),
           b = gh(a),
           c = ih(this.oa);
@@ -8769,10 +8765,10 @@
         b.length && (a = a.substr(b[0].b.length + 1));
         return a ? new kh(this.oa, a) : null;
       },
-      T: function() {
+      T: function () {
         return L(this, "firebaseui-recaptcha-container");
       },
-      s: function() {
+      s: function () {
         return L(this, "firebaseui-id-recaptcha-error");
       },
       i: ik,
@@ -8793,23 +8789,23 @@
                 b,
                 n(a.yb, a),
                 [mh(e), c],
-                function(c) {
+                function (c) {
                   var d = Q(b);
                   b.ua(
                     "firebaseui-icon-done",
                     A("Le code a bien \u00e9t\u00e9 envoy\u00e9.").toString()
                   );
-                  var f = setTimeout(function() {
+                  var f = setTimeout(function () {
                     b.j();
                     b.m();
                     H("phoneSignInFinish", a, d, e, 15, c);
                   }, 1e3);
-                  W(a, function() {
+                  W(a, function () {
                     b && b.j();
                     clearTimeout(f);
                   });
                 },
-                function(a) {
+                function (a) {
                   b.j();
                   if (!a.name || "cancel" != a.name) {
                     grecaptcha.reset($h);
@@ -8840,17 +8836,17 @@
           : !Zh && d && b.i().click()
         : (b.F().focus(), N(b.C(), zd().toString()));
     }
-    G.phoneSignInStart = function(a, b, c, d) {
+    G.phoneSignInStart = function (a, b, c, d) {
       var e = Fh(S(a)) || {};
       Yh = null;
       Zh = !(e && "invisible" === e.size);
       var f = Jh(S(a)),
         g = dl(a) ? Ih(S(a)) : null,
         k = new em(
-          function(b) {
+          function (b) {
             fm(a, k, q, !(!b || !b.keyCode));
           },
-          function() {
+          function () {
             q.clear();
             k.m();
             V(a, b);
@@ -8862,12 +8858,12 @@
       k.render(b);
       Z(a, k);
       d && k.g(d);
-      e.callback = function(b) {
+      e.callback = function (b) {
         k.s() && gj(k.s());
         Yh = b;
         Zh || fm(a, k, q);
       };
-      e["expired-callback"] = function() {
+      e["expired-callback"] = function () {
         Yh = null;
       };
       var q = new firebase.auth.RecaptchaVerifier(
@@ -8881,10 +8877,10 @@
           k,
           n(q.render, q),
           [],
-          function(a) {
+          function (a) {
             $h = a;
           },
-          function(c) {
+          function (c) {
             (c.name && "cancel" == c.name) ||
               ((c = U(c)), k.m(), V(a, b, void 0, c));
           }
@@ -8896,16 +8892,16 @@
       this.a = a;
     }
     t(gm, P);
-    gm.prototype.w = function() {
+    gm.prototype.w = function () {
       this.i(this.a);
       gm.o.w.call(this);
     };
-    gm.prototype.l = function() {
+    gm.prototype.l = function () {
       this.a = null;
       gm.o.l.call(this);
     };
     p(gm.prototype, {
-      i: function(a) {
+      i: function (a) {
         function b(b) {
           a(b);
         }
@@ -8923,8 +8919,8 @@
         }
       }
     });
-    G.providerSignIn = function(a, b, c) {
-      var d = new gm(function(c) {
+    G.providerSignIn = function (a, b, c) {
+      var d = new gm(function (c) {
         c == firebase.auth.EmailAuthProvider.PROVIDER_ID
           ? (d.m(), el(a, b))
           : c == firebase.auth.PhoneAuthProvider.PROVIDER_ID
@@ -8944,29 +8940,29 @@
       this.s = b;
     }
     t(im, P);
-    im.prototype.w = function() {
+    im.prototype.w = function () {
       this.C(this.i);
       this.G(this.i, this.s || void 0);
       this.a().focus();
       dm(this.a(), (this.a().value || "").length);
       im.o.w.call(this);
     };
-    im.prototype.l = function() {
+    im.prototype.l = function () {
       this.s = this.i = null;
       im.o.l.call(this);
     };
     p(im.prototype, { a: rk, L: sk, C: tk, I: uk, B: vk, T: ik, M: jk, G: kk });
-    G.signIn = function(a, b, c, d) {
+    G.signIn = function (a, b, c, d) {
       var e = cl(a) && Dh(S(a)) != oh,
         f = new im(
-          function() {
+          function () {
             var b = f,
               c = b.B() || "";
             c && fl(a, b, c);
           },
           e
             ? null
-            : function() {
+            : function () {
                 f.m();
                 V(a, b, c);
               },
@@ -9021,16 +9017,16 @@
     function Zk(a) {
       Y(a);
       a.i ||
-        (a.i = nm(a, function(b) {
+        (a.i = nm(a, function (b) {
           return b && !Xg(T(a))
             ? E(
                 Rk(a)
                   .getRedirectResult()
                   .then(
-                    function(a) {
+                    function (a) {
                       return a;
                     },
-                    function(b) {
+                    function (b) {
                       if (
                         b &&
                         "auth/email-already-in-use" == b.code &&
@@ -9045,7 +9041,7 @@
             : E(
                 X(a)
                   .getRedirectResult()
-                  .then(function(b) {
+                  .then(function (b) {
                     return xh(S(a)) && !b.user && a.a && !a.a.isAnonymous
                       ? Rk(a).getRedirectResult()
                       : b;
@@ -9075,11 +9071,11 @@
       return a.$;
     }
     h = jm.prototype;
-    h.nb = function() {
+    h.nb = function () {
       Y(this);
       return "pending" === Qg(Mg, T(this));
     };
-    h.start = function(a, b) {
+    h.start = function (a, b) {
       Y(this);
       var c = this;
       "undefined" !== typeof this.h.languageCode &&
@@ -9091,16 +9087,16 @@
       F(Mg, T(this));
       var e = l.document;
       this.A
-        ? this.A.then(function() {
+        ? this.A.then(function () {
             "complete" == e.readyState
               ? qm(c, a)
-              : fe(window, "load", function() {
+              : fe(window, "load", function () {
                   qm(c, a);
                 });
           })
         : "complete" == e.readyState
         ? qm(c, a)
-        : fe(window, "load", function() {
+        : fe(window, "load", function () {
             qm(c, a);
           });
     };
@@ -9133,14 +9129,14 @@
     }
     function nm(a, b) {
       if (a.v) return b(sm(a));
-      W(a, function() {
+      W(a, function () {
         a.v = !1;
       });
       if (xh(S(a))) {
-        var c = new D(function(c) {
+        var c = new D(function (c) {
           W(
             a,
-            a.h.onAuthStateChanged(function(d) {
+            a.h.onAuthStateChanged(function (d) {
               a.a = d;
               a.v || ((a.v = !0), c(b(sm(a))));
             })
@@ -9160,15 +9156,15 @@
       Y(a);
       if (b) {
         a.j.push(b);
-        var c = function() {
-          fb(a.j, function(a) {
+        var c = function () {
+          fb(a.j, function (a) {
             return a == b;
           });
         };
         "function" != typeof b && b.then(c, c);
       }
     }
-    h.disableAutoSignIn = function() {
+    h.disableAutoSignIn = function () {
       Y(this);
       this.s = !0;
     };
@@ -9181,7 +9177,7 @@
         (b = !(!a || "select_account" !== a.prompt)));
       return b;
     }
-    h.reset = function() {
+    h.reset = function () {
       Y(this);
       var a = this;
       this.H && this.H.removeAttribute("lang");
@@ -9206,10 +9202,10 @@
       this.F = null;
       this.u &&
         (this.A = tl(this).then(
-          function() {
+          function () {
             a.A = null;
           },
-          function() {
+          function () {
             a.A = null;
           }
         ));
@@ -9218,7 +9214,7 @@
       a.F = null;
       a.D = new ze(b);
       xe(a.D);
-      ee(a.D, "pageEnter", function(b) {
+      ee(a.D, "pageEnter", function (b) {
         b = b && b.pageId;
         if (a.F != b) {
           var c = S(a);
@@ -9227,7 +9223,7 @@
         }
       });
     }
-    h.Ta = function(a) {
+    h.Ta = function (a) {
       Y(this);
       var b = this.B,
         c;
@@ -9243,7 +9239,7 @@
       Y(a);
       return a.B;
     }
-    h.tb = function() {
+    h.tb = function () {
       Y(this);
       var a = S(this),
         b = bh(a.a, "widgetUrl");
@@ -9328,10 +9324,10 @@
     function Y(a) {
       if (a.U) throw Error("AuthUI instance is deleted!");
     }
-    h.hb = function() {
+    h.hb = function () {
       var a = this;
       Y(this);
-      return this.u.app.delete().then(function() {
+      return this.u.app.delete().then(function () {
         var b = km(T(a));
         delete lm[b];
         a.reset();
@@ -9341,20 +9337,20 @@
     function hm(a) {
       Y(a);
       try {
-        If(a.J, Ch(S(a)), tm(a)).then(function(b) {
+        If(a.J, Ch(S(a)), tm(a)).then(function (b) {
           return a.g ? al(a, a.g, b) : !1;
         });
       } catch (b) {}
     }
-    h.xb = function(a, b) {
+    h.xb = function (a, b) {
       Y(this);
       var c = this;
       return X(this)
         .signInAndRetrieveDataWithEmailAndPassword(a, b)
-        .then(function(d) {
-          return nm(c, function(e) {
+        .then(function (d) {
+          return nm(c, function (e) {
             return e
-              ? tl(c).then(function() {
+              ? tl(c).then(function () {
                   return om(
                     c,
                     { code: "auth/email-already-in-use" },
@@ -9365,10 +9361,10 @@
           });
         });
     };
-    h.vb = function(a, b) {
+    h.vb = function (a, b) {
       Y(this);
       var c = this;
-      return nm(this, function(d) {
+      return nm(this, function (d) {
         if (d) {
           var e = firebase.auth.EmailAuthProvider.credential(a, b);
           return d.linkAndRetrieveDataWithCredential(e);
@@ -9376,16 +9372,16 @@
         return X(c).createUserAndRetrieveDataWithEmailAndPassword(a, b);
       });
     };
-    h.wb = function(a) {
+    h.wb = function (a) {
       Y(this);
       var b = this;
-      return nm(this, function(c) {
+      return nm(this, function (c) {
         return c
           ? c.linkAndRetrieveDataWithCredential(a).then(
-              function(a) {
+              function (a) {
                 return a;
               },
-              function(c) {
+              function (c) {
                 if (
                   c &&
                   "auth/email-already-in-use" == c.code &&
@@ -9401,13 +9397,13 @@
     };
     function $k(a, b) {
       Y(a);
-      return nm(a, function(c) {
+      return nm(a, function (c) {
         return c && !Xg(T(a))
           ? c.linkWithPopup(b).then(
-              function(a) {
+              function (a) {
                 return a;
               },
-              function(b) {
+              function (b) {
                 if (
                   b &&
                   "auth/email-already-in-use" == b.code &&
@@ -9421,58 +9417,58 @@
           : X(a).signInWithPopup(b);
       });
     }
-    h.zb = function(a) {
+    h.zb = function (a) {
       Y(this);
       var b = this,
         c = this.i;
       this.i = null;
-      return nm(this, function(c) {
+      return nm(this, function (c) {
         return c && !Xg(T(b))
           ? c.linkWithRedirect(a)
           : X(b).signInWithRedirect(a);
       }).then(
-        function() {},
-        function(a) {
+        function () {},
+        function (a) {
           b.i = c;
           throw a;
         }
       );
     };
-    h.yb = function(a, b) {
+    h.yb = function (a, b) {
       Y(this);
       var c = this;
-      return nm(this, function(d) {
+      return nm(this, function (d) {
         return d
-          ? d.linkWithPhoneNumber(a, b).then(function(a) {
-              return new Kf(a, function(a) {
+          ? d.linkWithPhoneNumber(a, b).then(function (a) {
+              return new Kf(a, function (a) {
                 if ("auth/credential-already-in-use" == a.code) return om(c, a);
                 throw a;
               });
             })
           : Rk(c)
               .signInWithPhoneNumber(a, b)
-              .then(function(a) {
+              .then(function (a) {
                 return new Kf(a);
               });
       });
     };
     function Sk(a, b) {
       Y(a);
-      return nm(a, function(c) {
+      return nm(a, function (c) {
         return a.a && !a.a.isAnonymous && xh(S(a)) && !X(a).currentUser
-          ? tl(a).then(function() {
+          ? tl(a).then(function () {
               return a.a;
             })
           : c
           ? tl(a)
-              .then(function() {
+              .then(function () {
                 return c.linkWithCredential(b);
               })
               .then(
-                function() {
+                function () {
                   return c;
                 },
-                function(c) {
+                function (c) {
                   if (
                     c &&
                     "auth/email-already-in-use" == c.code &&
@@ -9483,33 +9479,33 @@
                   return om(a, c, b);
                 }
               )
-          : tl(a).then(function() {
+          : tl(a).then(function () {
               return Rk(a).signInWithCredential(b);
             });
       });
     }
     function Vk(a, b) {
       Y(a);
-      return nm(a, function(c) {
+      return nm(a, function (c) {
         if (a.a && !a.a.isAnonymous && xh(S(a)) && !X(a).currentUser)
-          return tl(a).then(function() {
+          return tl(a).then(function () {
             "password" == b.credential.providerId && (b.credential = null);
             return b;
           });
         if (c)
           return tl(a)
-            .then(function() {
+            .then(function () {
               return c.linkAndRetrieveDataWithCredential(b.credential);
             })
             .then(
-              function(a) {
+              function (a) {
                 b.user = a.user;
                 b.credential = a.credential;
                 b.operationType = a.operationType;
                 b.additionalUserInfo = a.additionalUserInfo;
                 return b;
               },
-              function(c) {
+              function (c) {
                 if (
                   c &&
                   "auth/email-already-in-use" == c.code &&
@@ -9522,10 +9518,10 @@
             );
         if (!b.credential) throw Error("No credential found!");
         return tl(a)
-          .then(function() {
+          .then(function () {
             return Rk(a).signInAndRetrieveDataWithCredential(b.credential);
           })
-          .then(function(a) {
+          .then(function (a) {
             b.user = a.user;
             b.credential = a.credential;
             b.operationType = a.operationType;
@@ -9533,7 +9529,7 @@
           });
       });
     }
-    h.ub = function(a, b) {
+    h.ub = function (a, b) {
       Y(this);
       return X(this).signInAndRetrieveDataWithEmailAndPassword(a, b);
     };
@@ -9551,7 +9547,7 @@
       ) {
         var d = yh(S(a));
         return E()
-          .then(function() {
+          .then(function () {
             return d(
               new Gd(
                 "anonymous-upgrade-merge-conflict",
@@ -9560,7 +9556,7 @@
               )
             );
           })
-          .then(function() {
+          .then(function () {
             a.g && (a.g.m(), (a.g = null));
             throw b;
           });
@@ -9568,7 +9564,7 @@
       return Ze(b);
     }
     r("firebaseui.auth.AuthUI", jm);
-    r("firebaseui.auth.AuthUI.getInstance", function(a) {
+    r("firebaseui.auth.AuthUI.getInstance", function (a) {
       a = km(a);
       return lm[a] ? lm[a] : null;
     });

@@ -54,7 +54,7 @@
     <mat-chip
       removable="true"
       (removed)="removeFilter(filter.id)"
-      *ngFor="let filter of (filters | async)"
+      *ngFor="let filter of filters | async"
       >{{ filter.name }}
       <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip>

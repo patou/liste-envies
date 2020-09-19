@@ -27,9 +27,7 @@ import { AngularFireAuth } from "@angular/fire/auth";
 
 @Component({
   selector: "firebase-ui",
-  template: `
-    <div id="firebaseui-auth-container"></div>
-  `
+  template: ` <div id="firebaseui-auth-container"></div> `
 })
 export class FirebaseUIComponent implements OnInit, OnDestroy {
   @Output("signInSuccess")

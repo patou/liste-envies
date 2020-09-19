@@ -1,6 +1,6 @@
 <ng-template #loading>Loading...</ng-template>
 <mat-nav-list (click)="onSelect.emit()">
-  <ng-container *ngFor="let notification of (notifications$ | async)">
+  <ng-container *ngFor="let notification of notifications$ | async">
     <ng-container [ngSwitch]="notification.type">
       <mat-list-item
         *ngSwitchCase="Notification_type.ADD_WISH"
@@ -17,7 +17,7 @@
         </h4>
         <p
           mat-line
-          matTooltip="{{notification.date | date: 'long'}}"
+          matTooltip="{{ notification.date | date: 'long' }}"
           class="date"
         >
           <mat-icon>date_range</mat-icon>
@@ -39,7 +39,7 @@
         </h4>
         <p
           mat-line
-          matTooltip="{{notification.date | date: 'long'}}"
+          matTooltip="{{ notification.date | date: 'long' }}"
           class="date"
         >
           <mat-icon>date_range</mat-icon>
@@ -60,7 +60,7 @@
         </h4>
         <p
           mat-line
-          matTooltip="{{notification.date | date: 'long'}}"
+          matTooltip="{{ notification.date | date: 'long' }}"
           class="date"
         >
           <mat-icon>date_range</mat-icon>
@@ -82,7 +82,7 @@
         </h4>
         <p
           mat-line
-          matTooltip="{{notification.date | date: 'long'}}"
+          matTooltip="{{ notification.date | date: 'long' }}"
           class="date"
         >
           <mat-icon>date_range</mat-icon>
@@ -102,7 +102,7 @@
         </h4>
         <p
           mat-line
-          matTooltip="{{notification.date | date: 'long'}}"
+          matTooltip="{{ notification.date | date: 'long' }}"
           class="date"
         >
           <mat-icon>date_range</mat-icon>
@@ -122,7 +122,7 @@
         </h4>
         <p
           mat-line
-          matTooltip="{{notification.date | date: 'long'}}"
+          matTooltip="{{ notification.date | date: 'long' }}"
           class="date"
         >
           <mat-icon>date_range</mat-icon>
@@ -141,7 +141,7 @@
         </h4>
         <p
           mat-line
-          matTooltip="{{notification.date | date: 'long'}}"
+          matTooltip="{{ notification.date | date: 'long' }}"
           class="date"
         >
           <mat-icon>date_range</mat-icon>
@@ -165,7 +165,7 @@
         </p>
         <p
           mat-line
-          matTooltip="{{notification.date | date: 'long'}}"
+          matTooltip="{{ notification.date | date: 'long' }}"
           class="date"
         >
           <mat-icon>date_range</mat-icon>
