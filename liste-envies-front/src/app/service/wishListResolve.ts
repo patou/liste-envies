@@ -7,7 +7,7 @@ import {
 } from "@angular/router";
 
 import { WishListApiService } from "./wish-list-api.service";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { WishList } from "../models/WishList";
 import { WishService } from "../state/wishes/wish.service";
 import { WishQuery } from "../state/wishes/wish.query";

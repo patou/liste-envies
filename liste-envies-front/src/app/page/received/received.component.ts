@@ -5,7 +5,7 @@ import {
   OnInit
 } from "@angular/core";
 
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { WishItem } from "../../models/WishItem";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "../../service/auth.service";

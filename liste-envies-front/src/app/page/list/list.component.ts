@@ -8,7 +8,7 @@ import {
 } from "@angular/core";
 
 import { WishListApiService } from "../../service/wish-list-api.service";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { WishList } from "../../models/WishList";
 import { WishItem } from "../../models/WishItem";
 import { ActivatedRoute, Router } from "@angular/router";

@@ -23,8 +23,7 @@ import { WishListApiService } from "../../service/wish-list-api.service";
 import { bounceInUp } from "ng-animate";
 import { WishService } from "../../state/wishes/wish.service";
 import { WishQuery } from "../../state/wishes/wish.query";
-import { Observable } from "rxjs/Observable";
-import { Subscription } from "rxjs/Subscription";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-wish-card",

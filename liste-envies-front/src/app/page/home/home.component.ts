@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { Observable } from "rxjs/Observable";
 import { WishList } from "../../models/WishList";
 import * as firebase from "firebase";
 import { AuthService } from "../../service/auth.service";
 import { WishesListQuery } from "../../state/wishes/wishes-list.query";
-import {ColorManagementService} from '../../service/color-management.service';
+import { ColorManagementService } from "../../service/color-management.service";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-home",
