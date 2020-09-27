@@ -42,6 +42,7 @@ import { ConnectComponent } from "./page/connect/connect.component";
 import { WishListItemsArchivedResolver } from "./service/wishListItemsArchivedResolve";
 import { ReceivedComponent } from "./page/received/received.component";
 import { WishListItemsReceivedResolver } from "./service/wishListItemsReceivedResolve";
+import {NgxAuthFirebaseUIModule} from "ngx-auth-firebaseui";
 akitaConfig({
   resettable: true
 });
@@ -80,7 +81,8 @@ if (environment.production) {
     MatListModule,
     MomentModule,
     ReactiveFormsModule,
-    environment.production ? [] : AkitaNgDevtools.forRoot()
+    environment.production ? [] : AkitaNgDevtools.forRoot(),
+    NgxAuthFirebaseUIModule.forRoot(environment.firebaseConfig)
   ],
   providers: [
     {

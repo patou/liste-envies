@@ -186,6 +186,13 @@
     "@angular-devkit/core" "7.3.10"
     rxjs "6.3.3"
 
+"@angular-material-extensions/password-strength@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@angular-material-extensions/password-strength/-/password-strength-7.0.0.tgz#8979978107b122d65da35ece8bddebf69f6560c6"
+  integrity sha512-lHIHuhxo4PadnfPQdTC50ehlFuzEIaenWhSkN/tMTL1FVAh+8GB0QspyLmL7pqGLpMpS1NidE5v1aidbLmO/VQ==
+  dependencies:
+    tslib "^2.0.0"
+
 "@angular/animations@^10.1.2":
   version "10.1.2"
   resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-10.1.2.tgz#2d66399cc06a9b3c804c67a3fbb71266a6190da9"
@@ -4402,11 +4409,6 @@ di@^0.0.1:
   resolved "https://registry.yarnpkg.com/di/-/di-0.0.1.tgz#806649326ceaa7caa3306d75d985ea2748ba913c"
   integrity sha1-gGZJMmzqp8qjMG112YXqJ0i6kTw=
 
-dialog-polyfill@^0.4.7:
-  version "0.4.10"
-  resolved "https://registry.yarnpkg.com/dialog-polyfill/-/dialog-polyfill-0.4.10.tgz#c4ea68a0deed4abb59a6a2a025c548b278cd532e"
-  integrity sha512-j5yGMkP8T00UFgyO+78OxiN5vC5dzRQF3BEio+LhNvDbyfxWBsi3sfPArDm54VloaJwy2hm3erEiDWqHRC8rzw==
-
 diff@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/diff/-/diff-4.0.1.tgz#0c667cb467ebbb5cea7f14f135cc2dba7780a8ff"
@@ -5436,14 +5438,6 @@ firebase@~7.21.0:
     "@firebase/remote-config" "0.1.28"
     "@firebase/storage" "0.3.43"
     "@firebase/util" "0.3.2"
-
-firebaseui@4.6.1:
-  version "4.6.1"
-  resolved "https://registry.yarnpkg.com/firebaseui/-/firebaseui-4.6.1.tgz#142b2e431f736e953137515fc1d9b1b9c43ab339"
-  integrity sha512-wZHv1feHMKunYj5ZC72CvZcfNjn+3aVB7XGbK5xOH1ukNFHs5VZDtlEu+oOX8jI2OfotbQs72oOTIRVNrJgAqw==
-  dependencies:
-    dialog-polyfill "^0.4.7"
-    material-design-lite "^1.2.0"
 
 flatted@^2.0.1:
   version "2.0.2"
@@ -7652,11 +7646,6 @@ marked@^0.7.0:
   resolved "https://registry.yarnpkg.com/marked/-/marked-0.7.0.tgz#b64201f051d271b1edc10a04d1ae9b74bb8e5c0e"
   integrity sha512-c+yYdCZJQrsRjTPhUx7VKkApw9bwDkNbHUKo1ovgcfDjb2kc8rLuRbIFyXL5WOEUwzSSKo3IXpph2K6DqB/KZg==
 
-material-design-lite@^1.2.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/material-design-lite/-/material-design-lite-1.3.0.tgz#d004ce3fee99a1eeb74a78b8a325134a5f1171d3"
-  integrity sha1-0ATOP+6Zoe63Sni4oyUTSl8RcdM=
-
 md5.js@^1.3.4:
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/md5.js/-/md5.js-1.3.5.tgz#b5d07b8e3216e3e27cd728d72f70d1e6a342005f"
@@ -8104,6 +8093,13 @@ ng-pipes@^0.1.5:
   integrity sha1-mY8QsP9ATvtDzFVbkJCdcO8gp+A=
   dependencies:
     tslib "^1.7.1"
+
+ngx-auth-firebaseui@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/ngx-auth-firebaseui/-/ngx-auth-firebaseui-4.4.0.tgz#4e9a154b2fd2c52efa13dcac51f3c150f34c5e65"
+  integrity sha512-tyhsUvwCO3j7A1d88ACAzoojWjN92iNX2CEHsrkMM+zqx2SbFB8FslVDJ/FSm3Fbq3CXt0FJszh7aDoX7x0rBg==
+  dependencies:
+    tslib "^1.10.0"
 
 ngx-avatar@4.0.0:
   version "4.0.0"
