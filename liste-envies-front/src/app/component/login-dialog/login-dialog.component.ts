@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { FirebaseUISignInSuccess } from "../../shared/firebaseui";
 
 @Component({
   selector: "app-login-dialog",
@@ -15,7 +14,7 @@ export class LoginDialogComponent implements OnInit {
 
   ngOnInit() {}
 
-  successCallback(signInSuccessData: FirebaseUISignInSuccess) {
+  successCallback(signInSuccessData) {
     this.dialogRef.close(signInSuccessData);
   }
 }

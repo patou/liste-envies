@@ -20,10 +20,13 @@
             "stylePreprocessorOptions": {
               "includePaths": ["src/styles"]
             },
-            "assets": ["src/assets", "src/favicon.ico"],
+            "assets": ["src/assets", "src/favicon.ico", {
+              "glob": "**/*",
+              "input": "node_modules/ngx-auth-firebaseui/assets/",
+              "output": "./assets/"
+            }],
             "styles": [
-              "src/styles.scss",
-              "node_modules/firebaseui/dist/firebaseui.css"
+              "src/styles.scss"
             ],
             "scripts": [
               "node_modules/tinycolor2/dist/tinycolor-min.js",
@@ -99,8 +102,7 @@
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [],
             "styles": [
-              "src/styles.scss",
-              "node_modules/firebaseui/dist/firebaseui.css"
+              "src/styles.scss"
             ],
             "assets": ["src/assets", "src/favicon.ico"]
           }
