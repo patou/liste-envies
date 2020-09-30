@@ -14,6 +14,7 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Debounce as DebounceDecorator } from "lodash-decorators";
 import { ID } from "@datorama/akita";
 import { MyWishQuery } from "../../state/wishes/my-wish/my-wish.query";
+import { LinkMenuItem } from "ngx-auth-firebaseui";
 
 @UntilDestroy()
 @Component({
@@ -49,6 +50,9 @@ export class PageNavComponent implements OnInit {
   public isOpened: boolean = false;
   public openedRightSideNav: boolean = false;
   public selectedTabsRightSidebar: number = 0;
+  public links: LinkMenuItem[] = [
+    {icon: 'info', text: 'En savoir plus', callback: () => this.goToAboutPage()}
+  ];
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -99,6 +103,10 @@ export class PageNavComponent implements OnInit {
 
   logout() {
     this.auth.logout();
+  }
+
+  goToAboutPage() {
+    this.router.navigateByUrl('/about');
   }
 
   trackByFn(index: number, item: WishList) {

@@ -231,21 +231,13 @@
               >delete</mat-icon
             >
           </button>
-          <ngx-auth-firebaseui-avatar></ngx-auth-firebaseui-avatar>
-          <button mat-button [mat-menu-trigger-for]="connected">
-            <span>
-              <ngx-avatar
-                [name]="user.displayName || user.email"
-                [src]="user.photoURL"
-                [gravatarId]="user.email"
-                size="30"
-                [round]="true"
-              >
-              </ngx-avatar>
-              {{ user.displayName || user.email }}</span
-            >
-            <mat-icon>arrow_drop_down</mat-icon>
-          </button>
+          <ngx-auth-firebaseui-avatar
+            [links]="links"
+            layout="simple"
+            textProfile="Modifier mes infos"
+            textSignOut="Déconnexion"
+          ></ngx-auth-firebaseui-avatar>
+
         </div>
         <ng-template #showLogin>
           <button mat-button routerLink="/about">
@@ -259,20 +251,7 @@
         </ng-template>
       </mat-toolbar>
 
-      <mat-menu yPosition="above" xPosition="before" #connected="matMenu">
-        <button (click)="logout()" mat-menu-item>
-          <mat-icon>logout</mat-icon>
-          Déconnection
-        </button>
-        <button mat-menu-item disabled>
-          <mat-icon>person</mat-icon>
-          Profil
-        </button>
-        <button mat-menu-item routerLink="/about">
-          <mat-icon>info</mat-icon>
-          En savoir plus
-        </button>
-      </mat-menu>
+
     </div>
     <div id="scroll-page">
       <div id="content">
