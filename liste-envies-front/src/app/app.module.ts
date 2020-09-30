@@ -24,25 +24,23 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatListModule } from "@angular/material/list";
 import { MatSidenavModule } from "@angular/material/sidenav";
-import {
-  MAT_SNACK_BAR_DEFAULT_OPTIONS,
-  MatSnackBarHorizontalPosition
-} from "@angular/material/snack-bar";
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from "@angular/material/snack-bar";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MomentModule } from "ngx-moment";
 import "moment/locale/fr";
 import { WishListItemsResolver } from "./service/wishListItemsResolve";
 import { AkitaNgDevtools } from "@datorama/akita-ngdevtools";
 import { environment } from "../environments/environment";
-import { enableAkitaProdMode } from "@datorama/akita";
+import { akitaConfig, enableAkitaProdMode } from "@datorama/akita";
 import { NotificationsComponent } from "./component/notifications/notifications.component";
-import { akitaConfig } from "@datorama/akita";
 import { ReactiveFormsModule } from "@angular/forms";
 import { ConnectComponent } from "./page/connect/connect.component";
 import { WishListItemsArchivedResolver } from "./service/wishListItemsArchivedResolve";
 import { ReceivedComponent } from "./page/received/received.component";
 import { WishListItemsReceivedResolver } from "./service/wishListItemsReceivedResolve";
-import {NgxAuthFirebaseUIModule} from "ngx-auth-firebaseui";
+import { AuthProvider, NgxAuthFirebaseUIModule } from "ngx-auth-firebaseui";
+import { AUTH_PROVIDERS } from "./shared/auth_providers";
+
 akitaConfig({
   resettable: true
 });
@@ -97,11 +95,20 @@ if (environment.production) {
     WishListItemsReceivedResolver,
     { provide: LOCALE_ID, useValue: "fr" },
     {
+      provide: AUTH_PROVIDERS,
+      useValue: [
+        AuthProvider.Google,
+        AuthProvider.Facebook,
+        AuthProvider.Twitter,
+        AuthProvider.Github,
+        AuthProvider.EmailAndPassword
+      ]
+    },
+    {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
       useValue: { duration: 2500, horizontalPosition: "right" }
     }
   ],
-  entryComponents: [WishEditComponent, LoginDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

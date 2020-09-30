@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, Inject, OnInit } from "@angular/core";
 import { WishList } from "../../models/WishList";
 import * as firebase from "firebase";
 import { AuthService } from "../../service/auth.service";
@@ -12,6 +12,8 @@ import {
 } from "@angular/cdk/layout";
 import { untilDestroyed } from "ngx-take-until-destroy";
 import { map } from "rxjs/operators";
+import { AUTH_PROVIDERS } from "../../shared/auth_providers";
+import { AuthProvider } from "ngx-auth-firebaseui";
 
 @Component({
   selector: "app-home",
@@ -29,7 +31,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     private wishListService: WishesListQuery,
     private breakpointObserver: BreakpointObserver,
     private auth: AuthService,
-    private colorManagementService: ColorManagementService
+    private colorManagementService: ColorManagementService,
+    @Inject(AUTH_PROVIDERS) public providers: AuthProvider[]
   ) {
     this.column$ = this.breakpointObserver
       .observe([
