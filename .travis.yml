@@ -23,7 +23,6 @@ jobs:
       stage: build
       name: "Frontend"
       node_js:
-        - lts/*
         - 12
       cache:
         directories:
