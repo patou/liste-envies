@@ -24,7 +24,7 @@ jobs:
       name: "Frontend"
       node_js:
         - lts/*
-        - 10
+        - 12
       cache:
         directories:
           - $TRAVIS_BUILD_DIR/liste-envies-front/node_modules
