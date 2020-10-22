@@ -10,11 +10,12 @@ import {
   Breakpoints,
   BreakpointState
 } from "@angular/cdk/layout";
-import { untilDestroyed } from "ngx-take-until-destroy";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { map } from "rxjs/operators";
 import { AUTH_PROVIDERS } from "../../shared/auth_providers";
 import { AuthProvider } from "ngx-auth-firebaseui";
 
+@UntilDestroy()
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
