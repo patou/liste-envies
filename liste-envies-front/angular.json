@@ -20,17 +20,25 @@
             "stylePreprocessorOptions": {
               "includePaths": ["src/styles"]
             },
-            "assets": ["src/assets", "src/favicon.ico", {
-              "glob": "**/*",
-              "input": "node_modules/ngx-auth-firebaseui/assets/",
-              "output": "./assets/"
-            }],
-            "styles": [
-              "src/styles.scss"
+            "assets": [
+              "src/assets",
+              "src/favicon.ico",
+              {
+                "glob": "**/*",
+                "input": "node_modules/ngx-auth-firebaseui/assets/",
+                "output": "./assets/"
+              }
             ],
+            "styles": ["src/styles.scss"],
             "scripts": [
               "node_modules/tinycolor2/dist/tinycolor-min.js",
               "node_modules/node-vibrant/dist/vibrant.min.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "node-vibrant",
+              "moment/locale/fr",
+              "firebase/app"
             ]
           },
           "configurations": {
@@ -101,9 +109,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "styles": ["src/styles.scss"],
             "assets": ["src/assets", "src/favicon.ico"]
           }
         },
