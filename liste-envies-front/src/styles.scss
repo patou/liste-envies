@@ -3,7 +3,6 @@
 @import "~@angular/material/theming";
 @include mat-core();
 
-
 // Variables
 @import "~wire.css/src/scss/config";
 
@@ -18,7 +17,6 @@
 
 // Global
 @import "~wire.css/src/scss/base/global";
-
 
 // Components
 @import "~wire.css/src/scss/components/grid";
@@ -147,6 +145,8 @@ firebase-ui .firebaseui-container {
   min-height: 100vh;
   .header-page-card {
     margin-top: 0px;
+    margin-left: 10px;
+    margin-right: 10px;
   }
 }
 
@@ -316,7 +316,6 @@ mat-card.dateList {
 
 // responsive
 
-
 @include mq(small) {
   // This code shows only on phone media query
   .page-all {
@@ -338,4 +337,3 @@ mat-card.dateList {
 @include mq(huge) {
   // This code shows only on big screen media query
 }
-
