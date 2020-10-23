@@ -11,6 +11,8 @@ import { ConnectComponent } from "./page/connect/connect.component";
 import { IsNotConnectedGuard } from "./service/is-not-connected.guard";
 import { IsOwnerGuard } from "./service/is-owner.guard";
 import { WishListItemsArchivedResolver } from "./service/wishListItemsArchivedResolve";
+import { ReceivedComponent } from "./page/received/received.component";
+import { WishListItemsReceivedResolver } from "./service/wishListItemsReceivedResolve";
 
 const routes: Routes = [
   {
@@ -34,12 +36,21 @@ const routes: Routes = [
       },
       {
         path: "about",
-        loadChildren: () => import('app/page/about/about.module').then(m => m.AboutModule)
+        loadChildren: () =>
+          import("app/page/about/about.module").then(m => m.AboutModule)
       },
       {
         path: "connect",
         canActivate: [IsNotConnectedGuard],
         component: ConnectComponent
+      },
+      {
+        path: "received",
+        component: ReceivedComponent,
+        canActivate: [IsConnectedGuard],
+        resolve: {
+          whishesItems: WishListItemsReceivedResolver
+        }
       },
       {
         path: ":listId",

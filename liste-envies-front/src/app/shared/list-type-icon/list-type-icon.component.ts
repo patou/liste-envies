@@ -1,7 +1,7 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
 @Component({
-  selector: 'list-type-icon',
+  selector: "list-type-icon",
   template: `
     <ng-container [ngSwitch]="type">
       <span [class]="size" *ngSwitchCase="'CHRISTMAS'"
@@ -181,7 +181,7 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
     </ng-container>
   `,
   styles: [
-      `
+    `
       :host {
         margin: 5px;
       }
@@ -189,57 +189,56 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
       span.large {
         font-size: 48px;
 
-      svg.svg-inline--fa.fa-child.mat-icon {
-        width: 10em;
-      }
+        svg.svg-inline--fa.fa-child.mat-icon {
+          width: 10em;
+        }
       }
 
       span.small {
         font-size: 22px;
-      svg.svg-inline--fa.fa-child.mat-icon {
-        width: 5em;
-      }
-
+        svg.svg-inline--fa.fa-child.mat-icon {
+          width: 5em;
+        }
       }
     `
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListTypeIcon {
-  @Input('type')
+  @Input("type")
   type: string;
 
-  @Input() size: 'small' | 'large' = 'small';
+  @Input() size: "small" | "large" = "small";
 
   private getIconClassName(type: string) {
     switch (type) {
-      case 'CHRISTMAS':
-        return 'fa-tree';
+      case "CHRISTMAS":
+        return "fa-tree";
 
-      case 'BIRTHDAY':
-        return 'fa-birthday-cake';
+      case "BIRTHDAY":
+        return "fa-birthday-cake";
 
-      case 'BIRTH':
-        return 'fa-child';
+      case "BIRTH":
+        return "fa-child";
 
-      case 'WEDDING':
-        return 'fa-circle-thin';
+      case "WEDDING":
+        return "fa-circle-thin";
 
-      case 'LEAVING':
-        return 'fa-plane';
+      case "LEAVING":
+        return "fa-plane";
 
-      case 'SPECIAL_OCCASION':
-        return 'fa-magic';
+      case "SPECIAL_OCCASION":
+        return "fa-magic";
 
       case "HOUSE_WARMING":
         return "fa-home";
 
-      case 'RETIREMENT':
-        return 'fa-globe';
+      case "RETIREMENT":
+        return "fa-globe";
 
-      case 'OTHER':
+      case "OTHER":
       default:
-        return 'fa-gift';
+        return "fa-gift";
     }
   }
 }

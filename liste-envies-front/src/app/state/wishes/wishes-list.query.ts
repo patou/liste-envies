@@ -10,9 +10,7 @@ import { WishList } from "../../models/WishList";
   sortBy: "title",
   sortByOrder: Order.ASC
 })
-export class WishesListQuery extends QueryEntity<
-  WishesListState
-> {
+export class WishesListQuery extends QueryEntity<WishesListState> {
   constructor(protected store: WishesListStore) {
     super(store);
   }

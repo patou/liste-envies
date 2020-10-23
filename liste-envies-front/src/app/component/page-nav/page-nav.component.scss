@@ -1,11 +1,86 @@
-.sidenav-container {
-  height: 100%;
-}
-
-
 .sidenav {
   width: 300px;
   box-shadow: 3px 0 6px rgba(0, 0, 0, 0.24);
+
+  &.right-sidenav {
+    width: 300px;
+    height: 100%;
+    overflow: hidden;
+
+    .bottom-tabs {
+      max-width: 100%;
+      min-width: 100%;
+
+      ::ng-deep .mat-tab-body-content {
+        overflow: hidden;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+
+        mat-panel-title.mat-expansion-panel-header-title {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          height: 2.6em;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+        }
+
+        mat-expansion-panel.mat-expansion-panel.mat-expanded {
+          background-color: #c3c3c34f;
+        }
+
+        .mat-expansion-panel-body {
+          padding: 3px;
+        }
+      }
+
+      ::ng-deep mat-toolbar.mat-toolbar.sidenav-top {
+        height: 70px;
+      }
+
+      ::ng-deep .sidenav-content {
+        flex-grow: 1;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        width: 100%;
+        height: 100%;
+      }
+
+      ::ng-deep.mat-tab-link,
+      ::ng-deep.mat-tab-label,
+      ::ng-deep.mat-tab-label-active {
+        min-width: 20% !important;
+      }
+    }
+
+    ::ng-deep .mat-drawer-inner-container {
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex: 1;
+    }
+
+    ::ng-deep .mat-tab-body-wrapper {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      height: 100%;
+      width: 100%;
+    }
+
+    button.closeRightSidePannel {
+      position: absolute;
+      right: 6px;
+    }
+
+    .sidenav-content {
+      flex-grow: 1;
+      overflow: scroll;
+    }
+  }
 
   .mat-drawer-inner-container {
     overflow: hidden;
@@ -19,19 +94,41 @@
   }
 }
 
-mat-toolbar {
-  a.title,
-  a:active.title,
-  a:visited.title {
-    padding-left: 5px;
-    flex: 1;
-    color: #fff;
-    text-decoration: none;
+#page {
+  height: 100vh; /* 1 */
+  min-height: 100vh; /* 1 */
+  max-height: 100vh; /* 1 */
+  display: flex; /* 2 */
+  flex-direction: column; /* 3 */
+  overflow: hidden;
+
+  #header {
+    mat-toolbar {
+      a.title,
+      a:active.title,
+      a:visited.title {
+        padding-left: 5px;
+        flex: 1;
+        color: #fff;
+        text-decoration: none;
+      }
+
+      ngx-avatar {
+        float: left;
+        margin-right: 10px;
+      }
+    }
   }
 
-  ngx-avatar {
-    float: left;
-    margin-right: 10px;
+  #scroll-page {
+    flex-grow: 1; /* 4 */
+    overflow: auto;
+    display: flex; /* 2 */
+    flex-direction: column; /* 3 */
+
+    #content {
+      flex-grow: 1; /* 4 */
+    }
   }
 }
 
@@ -67,4 +164,3 @@ mat-toolbar {
   display: block;
   font-size: 10px;
 }
-

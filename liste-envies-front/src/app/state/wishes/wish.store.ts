@@ -1,5 +1,10 @@
 import { Injectable } from "@angular/core";
-import {ActiveState, EntityState, EntityStore, StoreConfig} from '@datorama/akita';
+import {
+  ActiveState,
+  EntityState,
+  EntityStore,
+  StoreConfig
+} from "@datorama/akita";
 import { WishList } from "../../models/WishList";
 import { WishItem } from "../../models/WishItem";
 

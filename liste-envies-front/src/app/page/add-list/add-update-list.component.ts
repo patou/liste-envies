@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import {
   FormBuilder,
   FormControl,
@@ -7,7 +7,7 @@ import {
 } from "@angular/forms";
 import { UserShare, WishList } from "../../models/WishList";
 import { LatinizePipe } from "ng-pipes";
-import { Subject } from "rxjs/Subject";
+import { Subject } from "rxjs";
 import { WishItem } from "../../models/WishItem";
 import { DemoService } from "../../state/wishes/demo/demo.service";
 import { WishesListService } from "../../state/wishes/wishes-list.service";
@@ -19,7 +19,7 @@ import {
   WishListTypePicture
 } from "../../models/const";
 import { Router } from "@angular/router";
-import { untilDestroyed } from "ngx-take-until-destroy";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { debounceTime } from "rxjs/operators";
 import { merge } from "rxjs";
 
@@ -27,12 +27,13 @@ import { WishesListQuery } from "../../state/wishes/wishes-list.query";
 import { WishQuery } from "../../state/wishes/wish.query";
 import * as moment from "moment";
 
+@UntilDestroy()
 @Component({
   selector: "app-add-update-list",
   templateUrl: "./add-update-list.component.html",
   styleUrls: ["./add-update-list.component.scss"]
 })
-export class AddUpdateListComponent implements OnInit, OnDestroy {
+export class AddUpdateListComponent implements OnInit {
   isLinear = false;
   nameFormGroup: FormGroup;
   secondFormGroup: FormGroup;
@@ -67,7 +68,8 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
     private wishesListQuery: WishesListQuery,
     private wishQuery: WishQuery,
     private user: UserQuery,
-    private router: Router
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) {}
 
   get wishListTypePicture(): any[] {
@@ -100,7 +102,8 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
         .pipe(untilDestroyed(this))
         .subscribe((wishlist: WishList) => {
           this.wishListFormGroup.patchValue(wishlist);
-          this.wishList = wishlist;
+          this.onChanges(wishlist);
+          this.cd.markForCheck();
         });
     } else {
       this.edit = false;
@@ -181,10 +184,7 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
       .subscribe(value => this.changesdemoWish());
 
     this.wishListFormGroup.valueChanges
-      .pipe(
-        untilDestroyed(this),
-        debounceTime(500)
-      )
+      .pipe(untilDestroyed(this), debounceTime(500))
       .subscribe(value => this.onChanges(value));
   }
 
@@ -219,14 +219,9 @@ export class AddUpdateListComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy(): void {}
-
   private formatUrlName(name) {
     return this.latinize.transform(
-      name
-        .toLowerCase()
-        .trim()
-        .replace(/ /g, "_")
+      name.toLowerCase().trim().replace(/ /g, "_")
     );
   }
 

@@ -10,7 +10,6 @@ import { HomeComponent } from "./page/home/home.component";
 import { SharedModule } from "./shared/shared.module";
 import { ListComponent } from "./page/list/list.component";
 import { WishListApiService } from "./service/wish-list-api.service";
-import { WishCardComponent } from "./component/wish-card/wish-card.component";
 import { ListOfWishComponent } from "./component/list-of-wish/list-of-wish.component";
 import { WishEditComponent } from "./component/wish-edit/wish-edit.component";
 import { AddUpdateListComponent } from "./page/add-list/add-update-list.component";
@@ -25,19 +24,23 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatListModule } from "@angular/material/list";
 import { MatSidenavModule } from "@angular/material/sidenav";
-import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarHorizontalPosition } from "@angular/material/snack-bar";
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from "@angular/material/snack-bar";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MomentModule } from "ngx-moment";
 import "moment/locale/fr";
 import { WishListItemsResolver } from "./service/wishListItemsResolve";
 import { AkitaNgDevtools } from "@datorama/akita-ngdevtools";
 import { environment } from "../environments/environment";
-import { enableAkitaProdMode } from "@datorama/akita";
+import { akitaConfig, enableAkitaProdMode } from "@datorama/akita";
 import { NotificationsComponent } from "./component/notifications/notifications.component";
-import { akitaConfig } from "@datorama/akita";
 import { ReactiveFormsModule } from "@angular/forms";
 import { ConnectComponent } from "./page/connect/connect.component";
 import { WishListItemsArchivedResolver } from "./service/wishListItemsArchivedResolve";
+import { ReceivedComponent } from "./page/received/received.component";
+import { WishListItemsReceivedResolver } from "./service/wishListItemsReceivedResolve";
+import { AuthProvider, NgxAuthFirebaseUIModule } from "ngx-auth-firebaseui";
+import { AUTH_PROVIDERS } from "./shared/auth_providers";
+
 akitaConfig({
   resettable: true
 });
@@ -55,14 +58,14 @@ if (environment.production) {
     PageComponent,
     HomeComponent,
     ListComponent,
-    WishCardComponent,
     ListOfWishComponent,
     WishEditComponent,
     AddUpdateListComponent,
     LoginDialogComponent,
     PageNavComponent,
     NotificationsComponent,
-    ConnectComponent
+    ConnectComponent,
+    ReceivedComponent
   ],
   imports: [
     AppRoutingModule,
@@ -76,7 +79,8 @@ if (environment.production) {
     MatListModule,
     MomentModule,
     ReactiveFormsModule,
-    environment.production ? [] : AkitaNgDevtools.forRoot()
+    environment.production ? [] : AkitaNgDevtools.forRoot(),
+    NgxAuthFirebaseUIModule.forRoot(environment.firebaseConfig)
   ],
   providers: [
     {
@@ -88,13 +92,23 @@ if (environment.production) {
     WishListResolver,
     WishListItemsResolver,
     WishListItemsArchivedResolver,
+    WishListItemsReceivedResolver,
     { provide: LOCALE_ID, useValue: "fr" },
+    {
+      provide: AUTH_PROVIDERS,
+      useValue: [
+        AuthProvider.Google,
+        AuthProvider.Facebook,
+        AuthProvider.Twitter,
+        AuthProvider.Github,
+        AuthProvider.EmailAndPassword
+      ]
+    },
     {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
       useValue: { duration: 2500, horizontalPosition: "right" }
     }
   ],
-  entryComponents: [WishEditComponent, LoginDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
