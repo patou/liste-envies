@@ -327,6 +327,11 @@ mat-card.dateList {
   .page-all {
     margin: 0;
     padding: 1em;
+    .header-page-card {
+      margin-top: 0px;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
   }
 }
 @include mq(large) {
