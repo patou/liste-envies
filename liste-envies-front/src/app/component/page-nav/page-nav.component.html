@@ -82,9 +82,7 @@
           class="mat-elevation-z0 badge-expansion-panel"
         >
           <mat-expansion-panel-header>
-            <mat-panel-title>
-              Autre
-            </mat-panel-title>
+            <mat-panel-title> Autre </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-nav-list *ngIf="userAuth$ | async as user">
             <button mat-menu-item routerLink="/received">
@@ -101,11 +99,9 @@
       </div>
     </ng-template>
   </mat-sidenav>
-
   <mat-sidenav-content id="page">
     <div id="header">
       <mat-toolbar color="primary">
-
         <button
           type="button"
           aria-label="Toggle sidenav"
@@ -114,8 +110,6 @@
         >
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
-
-
         <a routerLink="/" class="title">
           <span><mat-icon fontSet="fa" fontIcon="fa-gift"></mat-icon></span>
           Listes de mes envies</a
@@ -154,8 +148,6 @@
                   >
                   </ngx-avatar>
                 </div>
-                
-                
               </mat-option>
             </mat-optgroup>
             <mat-optgroup label="Autres listes">
@@ -229,7 +221,6 @@
             aria-label="Toggle sidenav"
             mat-icon-button
             (click)="openRightSidePanel(3)"
-
           >
             <mat-icon
               aria-label="notification icon"
@@ -239,20 +230,12 @@
               >delete</mat-icon
             >
           </button>
-          <button mat-button [mat-menu-trigger-for]="connected">
-            <span>
-              <ngx-avatar
-                [name]="user.displayName || user.email"
-                [src]="user.photoURL"
-                [gravatarId]="user.email"
-                size="30"
-                [round]="true"
-              >
-              </ngx-avatar>
-              {{ user.displayName || user.email }}</span
-            >
-            <mat-icon>arrow_drop_down</mat-icon>
-          </button>
+          <ngx-auth-firebaseui-avatar
+            [links]="links"
+            layout="simple"
+            textProfile="Modifier mes infos"
+            textSignOut="Déconnexion"
+          ></ngx-auth-firebaseui-avatar>
         </div>
         <ng-template #showLogin>
           <button mat-button routerLink="/about">
@@ -265,22 +248,6 @@
           </button>
         </ng-template>
       </mat-toolbar>
-
-      <mat-menu yPosition="above" xPosition="before" #connected="matMenu">
-        <button (click)="logout()" mat-menu-item>
-          <mat-icon>logout</mat-icon>
-          Déconnection
-        </button>
-
-        <button mat-menu-item disabled>
-          <mat-icon>person</mat-icon>
-          Profil
-        </button>
-        <button mat-menu-item routerLink="/about">
-          <mat-icon>info</mat-icon>
-          En savoir plus
-        </button>
-      </mat-menu>
     </div>
     <div id="scroll-page">
       <div id="content">
@@ -288,7 +255,6 @@
       </div>
       <app-page-footer id="footer"></app-page-footer>
     </div>
-
   </mat-sidenav-content>
 
   <mat-sidenav

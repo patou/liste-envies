@@ -12,12 +12,8 @@ import {
   ViewEncapsulation
 } from "@angular/core";
 import { MatFormFieldControl } from "@angular/material/form-field";
-import {
-  ControlValueAccessor,
-  FormBuilder,
-  NgControl
-} from "@angular/forms";
-import { Subject } from "rxjs/Subject";
+import { ControlValueAccessor, FormBuilder, NgControl } from "@angular/forms";
+import { Subject } from "rxjs";
 import { FocusMonitor } from "@angular/cdk/a11y";
 import { coerceBooleanProperty } from "@angular/cdk/coercion";
 

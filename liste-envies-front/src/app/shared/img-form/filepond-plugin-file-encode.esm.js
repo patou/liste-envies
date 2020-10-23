@@ -8,7 +8,7 @@
 /**
  * DataURI Worker
  */
-const DataURIWorker = function() {
+const DataURIWorker = function () {
   // route messages
   self.onmessage = e => {
     convert(e.data.message, response => {

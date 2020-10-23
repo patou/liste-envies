@@ -1,8 +1,9 @@
 <h3>Cette page n'est accessible que si l'on est connecté</h3>
-<p>
-  Merci de se connecter ou de s'inscrire pour utiliser l'application
-</p>
+<p>Merci de se connecter ou de s'inscrire pour utiliser l'application</p>
 <button mat-button (click)="connect()">
   <mat-icon>login</mat-icon>
   Connexion ou inscription
 </button>
+<ngx-auth-firebaseui-providers
+  [providers]="providers"
+></ngx-auth-firebaseui-providers>

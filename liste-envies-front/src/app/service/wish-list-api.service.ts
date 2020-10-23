@@ -1,9 +1,8 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { WishComment, WishItem } from "../models/WishItem";
 import { WishList } from "../models/WishList";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import {
   Body,
   GET,

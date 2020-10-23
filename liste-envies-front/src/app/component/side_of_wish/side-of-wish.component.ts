@@ -8,7 +8,7 @@ import { WishItem } from "../../models/WishItem";
 import { transition, trigger, useAnimation } from "@angular/animations";
 import { bounceInLeft, fadeInUp } from "ng-animate";
 import { MatDialog } from "@angular/material/dialog";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { WishService } from "../../state/wishes/wish.service";
 import { UserAPIService } from "../../service/user-api.service";
 import { MyWishQuery } from "../../state/wishes/my-wish/my-wish.query";
