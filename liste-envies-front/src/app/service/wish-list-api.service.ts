@@ -1,9 +1,8 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { WishComment, WishItem } from "../models/WishItem";
 import { WishList } from "../models/WishList";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import {
   Body,
   GET,
@@ -55,6 +54,12 @@ export class WishListApiService {
   @GET
   @Path("wishes/:name/archived")
   wishesArchived(@PathParam("name") name: string): Observable<WishItem[]> {
+    return null;
+  }
+
+  @GET
+  @Path("wishes/received")
+  wishesReceived(): Observable<WishItem[]> {
     return null;
   }
 

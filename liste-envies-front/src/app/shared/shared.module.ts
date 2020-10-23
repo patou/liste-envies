@@ -20,13 +20,8 @@ import {
   SwiperModule
 } from "ngx-swiper-wrapper";
 import { AuthService } from "../service/auth.service";
-import {
-  AuthMethods,
-  AuthProvider as AuthProviderUi,
-  CredentialHelper,
-  FirebaseUIAuthConfig,
-  FirebaseUIModule
-} from "./firebaseui";
+
+
 import { AvatarModule } from "ngx-avatar";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { LatinizePipe, NgPipesModule } from "ng-pipes";
@@ -50,23 +45,16 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   pagination: false
 };
 
-const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
-  providers: [
-    AuthProviderUi.Google,
-    AuthProviderUi.Facebook,
-    AuthProviderUi.Twitter,
-    // AuthProviderUi.Github,
-    AuthProviderUi.Password
-  ],
-  method: AuthMethods.Popup,
-  credentialHelper: CredentialHelper.OneTap
-};
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginFileEncode from "filepond-plugin-file-encode";
 import FilePondPluginImageResize from "filepond-plugin-image-resize";
 import FilePondPluginImageTransform from "filepond-plugin-image-transform";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
-import {WishListNavItemComponent} from './wish-list-nav-item/wish-list-nav-item.component';
+import { WishListNavItemComponent } from "./wish-list-nav-item/wish-list-nav-item.component";
+import { SideOfWishComponent } from "../component/side_of_wish/side-of-wish.component";
+import { AppModule } from "../app.module";
+import { WishCardComponent } from "../component/wish-card/wish-card.component";
+import { MomentModule } from "ngx-moment";
 registerPlugin(
   FilePondPluginImageExifOrientation,
   FilePondPluginFileValidateType,
@@ -92,8 +80,8 @@ registerPlugin(
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     FlexLayoutModule,
-    FirebaseUIModule.forRoot(firebaseUiAuthConfig),
-    RouterModule
+    RouterModule,
+    MomentModule
   ],
   declarations: [
     RatingComponent,
@@ -107,6 +95,8 @@ registerPlugin(
     ReadMoreComponent,
     PageFooterComponent,
     WishFiltersFormComponent,
+    SideOfWishComponent,
+    WishCardComponent,
     UserShareComponent
   ],
   exports: [
@@ -124,7 +114,6 @@ registerPlugin(
     HtmlEditorComponent,
     LinksFormComponent,
     ImgFormComponent,
-    FirebaseUIModule,
     AvatarModule,
     FlexLayoutModule,
     SwiperModule,
@@ -135,6 +124,8 @@ registerPlugin(
     PageFooterComponent,
     WishFiltersFormComponent,
     UserShareComponent,
+    SideOfWishComponent,
+    WishCardComponent,
     WishListNavItemComponent
   ],
   providers: [

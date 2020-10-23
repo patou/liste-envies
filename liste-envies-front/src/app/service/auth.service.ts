@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { User, UserInfo } from "firebase";
 import {
   HttpEvent,
@@ -112,7 +112,7 @@ export class AuthService implements HttpInterceptor {
   }
 
   logout() {
-    this.firebaseAuth.auth.signOut();
+    this.firebaseAuth.signOut();
   }
 
   isConnected(): Observable<boolean> {

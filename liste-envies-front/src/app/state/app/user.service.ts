@@ -1,17 +1,15 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
 import { createInitialState, UserStore } from "./user.store";
-import { User, UserInfo } from "firebase";
+import { UserInfo } from "firebase";
 import { UserAPIService } from "../../service/user-api.service";
 import { UserQuery } from "./user.query";
-import { Observable } from "rxjs/Observable";
-import { EMPTY } from "rxjs";
-import { timer } from "rxjs/internal/observable/timer";
+import { EMPTY, timer, Observable } from "rxjs";
 import { concatMap } from "rxjs/operators";
-import { Subscription } from "rxjs/Subscription";
+import { Subscription } from "rxjs";
 import { NotificationsService } from "./notifications.service";
 import { Notification } from "./notification.model";
 import { resetStores } from "@datorama/akita";
+import { MyWishService } from "../wishes/my-wish/my-wish.service";
 
 @Injectable({ providedIn: "root" })
 export class UserService {
@@ -22,12 +20,14 @@ export class UserService {
     private userStore: UserStore,
     private userQuery: UserQuery,
     private api: UserAPIService,
-    private notificationService: NotificationsService
+    private notificationService: NotificationsService,
+    private myWishService: MyWishService
   ) {}
 
   login(user: UserInfo, token) {
     const updateUser = this.userStore.update({ user, token });
     this.pollingNotifications();
+    this.myWishService.loadAll();
     return updateUser;
   }
 

@@ -8,7 +8,7 @@ import {
   PUT,
   DELETE
 } from "ngx-http-annotations";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { WishItem } from "../models/WishItem";
 import { Notification } from "../state/app/notification.model";
 

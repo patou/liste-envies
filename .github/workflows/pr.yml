@@ -8,13 +8,13 @@ jobs:
     steps:
       - name: "Wait for status checks"
         id: waitforstatuschecks
-        uses: "WyriHaximus/github-action-wait-for-status@f8bbe3bb321919ec6a009bc98121f39874dc8ee0"
+        uses: "WyriHaximus/github-action-wait-for-status@v1.2"
         with:
           ignoreActions: commentpr
           checkInterval: 13
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-      - uses: rlespinasse/github-slug-action@master
+      - uses: rlespinasse/github-slug-action@v2.x
       - uses: mshick/add-pr-comment@v1
         if: steps.waitforstatuschecks.outputs.status == 'success'
         with:

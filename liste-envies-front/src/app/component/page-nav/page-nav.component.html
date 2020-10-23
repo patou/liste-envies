@@ -77,6 +77,20 @@
             </wish-list-nav-item>
           </mat-nav-list>
         </mat-expansion-panel>
+        <mat-expansion-panel
+          expanded="true"
+          class="mat-elevation-z0 badge-expansion-panel"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title> Autre </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-nav-list *ngIf="userAuth$ | async as user">
+            <button mat-menu-item routerLink="/received">
+              <mat-icon>history</mat-icon>
+              Mes cadeaux reçus
+            </button>
+          </mat-nav-list>
+        </mat-expansion-panel>
       </mat-accordion>
     </div>
     <ng-template #loading>
@@ -85,153 +99,304 @@
       </div>
     </ng-template>
   </mat-sidenav>
-  <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
-      >
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
-
-      <a routerLink="/" class="title">
-        <span><mat-icon fontSet="fa" fontIcon="fa-gift"></mat-icon></span>
-        <span class="hidden-small">Listes de mes envies</span></a
-      >
-
-      <mat-form-field *ngIf="!(loading$ | async) && !(isHandset$ | async)">
-        <input
-          matInput
-          placeholder="Changer de liste"
-          aria-label="State"
-          [matAutocomplete]="auto"
-          [formControl]="selectListControl"
-        />
-        <mat-autocomplete
-          #auto="matAutocomplete"
-          panelWidth="250"
-          (optionSelected)="goToList($event)"
-        >
-          <mat-optgroup label="Mes listes">
-            <mat-option
-              *ngFor="let wishList of myList$ | async; trackBy: trackByFn"
-              [value]="wishList.name"
-            >
-              <div class="option-whishlist">
-                <list-type-icon [type]="wishList.type"></list-type-icon>
-                <span class="option-title">{{ wishList.title }}</span>
-                <ngx-avatar
-                  *ngFor="let owner of wishList.owners"
-                  [gravatarId]="owner.email"
-                  [matTooltip]="owner.name + ' (' + owner.email + ')'"
-                  [name]="owner.name || owner.email"
-                  [round]="true"
-                  [src]="owner.photoURL"
-                  matTooltipPosition="above"
-                  size="20"
-                >
-                </ngx-avatar>
-              </div>
-            </mat-option>
-          </mat-optgroup>
-          <mat-optgroup label="Autres listes">
-            <mat-option
-              *ngFor="let wishList of otherList$ | async; trackBy: trackByFn"
-              [value]="wishList.name"
-            >
-              <div class="option-whishlist">
-                <list-type-icon [type]="wishList.type"></list-type-icon>
-                <span class="option-title">{{ wishList.title }}</span>
-                <ngx-avatar
-                  *ngFor="let owner of wishList.owners"
-                  [gravatarId]="owner.email"
-                  [matTooltip]="owner.name + ' (' + owner.email + ')'"
-                  [name]="owner.name || owner.email"
-                  [round]="true"
-                  [src]="owner.photoURL"
-                  matTooltipPosition="above"
-                  size="20"
-                ></ngx-avatar>
-              </div>
-            </mat-option>
-          </mat-optgroup>
-        </mat-autocomplete>
-      </mat-form-field>
-
-      <div *ngIf="userAuth$ | async as user; else showLogin">
+  <mat-sidenav-content id="page">
+    <div id="header">
+      <mat-toolbar color="primary">
         <button
           type="button"
           aria-label="Toggle sidenav"
           mat-icon-button
-          (click)="notifs.toggle()"
+          (click)="drawer.toggle()"
         >
-          <mat-icon
-            aria-label="Side nav toggle icon"
-            [matBadge]="notifsCount$ | async"
-            matBadgeColor="warn"
-            >notifications_active</mat-icon
-          >
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
-        <button mat-button [mat-menu-trigger-for]="connected">
-          <span>
-            <ngx-avatar
-              [name]="user.displayName || user.email"
-              [src]="user.photoURL"
-              [gravatarId]="user.email"
-              size="30"
-              [round]="true"
-              matTooltip="{{ user.displayName }} - {{user.email}}"
-            >
-            </ngx-avatar>
-            <span class="hidden-small">{{ user.displayName || user.email }}</span></span
+        <a routerLink="/" class="title">
+          <span><mat-icon fontSet="fa" fontIcon="fa-gift"></mat-icon></span>
+          Listes de mes envies</a
+        >
+
+        <mat-form-field *ngIf="!(loading$ | async) && !(isHandset$ | async)">
+          <input
+            matInput
+            placeholder="Changer de liste"
+            aria-label="State"
+            [matAutocomplete]="auto"
+            [formControl]="selectListControl"
+          />
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            panelWidth="250"
+            (optionSelected)="goToList($event)"
           >
-          <mat-icon>arrow_drop_down</mat-icon>
-        </button>
-        <mat-menu yPosition="above" xPosition="before" #connected="matMenu">
-          <button mat-menu-item disabled >
-            <mat-icon>person</mat-icon>
-            {{user.displayName || user.email}}
+            <mat-optgroup label="Mes listes">
+              <mat-option
+                *ngFor="let wishList of myList$ | async; trackBy: trackByFn"
+                [value]="wishList.name"
+              >
+                <div class="option-whishlist">
+                  <list-type-icon [type]="wishList.type"></list-type-icon>
+                  <span class="option-title">{{ wishList.title }}</span>
+                  <ngx-avatar
+                    *ngFor="let owner of wishList.owners"
+                    [gravatarId]="owner.email"
+                    [matTooltip]="owner.name + ' (' + owner.email + ')'"
+                    [name]="owner.name || owner.email"
+                    [round]="true"
+                    [src]="owner.photoURL"
+                    matTooltipPosition="above"
+                    size="20"
+                  >
+                  </ngx-avatar>
+                </div>
+              </mat-option>
+            </mat-optgroup>
+            <mat-optgroup label="Autres listes">
+              <mat-option
+                *ngFor="let wishList of otherList$ | async; trackBy: trackByFn"
+                [value]="wishList.name"
+              >
+                <div class="option-whishlist">
+                  <list-type-icon [type]="wishList.type"></list-type-icon>
+                  <span class="option-title">{{ wishList.title }}</span>
+                  <ngx-avatar
+                    *ngFor="let owner of wishList.owners"
+                    [gravatarId]="owner.email"
+                    [matTooltip]="owner.name + ' (' + owner.email + ')'"
+                    [name]="owner.name || owner.email"
+                    [round]="true"
+                    [src]="owner.photoURL"
+                    matTooltipPosition="above"
+                    size="20"
+                  ></ngx-avatar>
+                </div>
+              </mat-option>
+            </mat-optgroup>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <div *ngIf="userAuth$ | async as user; else showLogin">
+          <button
+            type="button"
+            aria-label="Toggle sidenav"
+            mat-icon-button
+            (click)="openRightSidePanel(0)"
+          >
+            <mat-icon
+              aria-label="Side nav toggle icon"
+              [matBadge]="notifsCount$ | async"
+              matBadgeColor="warn"
+              >notifications_active
+            </mat-icon>
           </button>
-          <button mat-menu-item routerLink="/about">
+          <button
+            type="button"
+            aria-label="Toggle sidenav"
+            mat-icon-button
+            (click)="openRightSidePanel(1)"
+          >
+            <mat-icon
+              aria-label="notification icon"
+              [matBadge]="basketCount$ | async"
+              matBadgeColor="warn"
+              matTooltip="Pannier"
+              >shopping_cart</mat-icon
+            >
+          </button>
+          <button
+            type="button"
+            aria-label="Toggle sidenav"
+            mat-icon-button
+            (click)="openRightSidePanel(2)"
+          >
+            <mat-icon
+              aria-label="notification icon"
+              [matBadge]="archiveCount$ | async"
+              matBadgeColor="warn"
+              matTooltip="Archive"
+              >archive</mat-icon
+            >
+          </button>
+          <button
+            type="button"
+            aria-label="Toggle sidenav"
+            mat-icon-button
+            (click)="openRightSidePanel(3)"
+          >
+            <mat-icon
+              aria-label="notification icon"
+              [matBadge]="trashCount$ | async"
+              matBadgeColor="warn"
+              matTooltip="Archive"
+              >delete</mat-icon
+            >
+          </button>
+          <ngx-auth-firebaseui-avatar
+            [links]="links"
+            layout="simple"
+            textProfile="Modifier mes infos"
+            textSignOut="Déconnexion"
+          ></ngx-auth-firebaseui-avatar>
+        </div>
+        <ng-template #showLogin>
+          <button mat-button routerLink="/about">
             <mat-icon>info</mat-icon>
             En savoir plus
           </button>
-          <button (click)="logout()" mat-menu-item>
-            <mat-icon>logout</mat-icon>
-            Déconnection
+          <button mat-button (click)="connect()">
+            <mat-icon>login</mat-icon>
+            Connexion
           </button>
-        </mat-menu>
+        </ng-template>
+      </mat-toolbar>
+    </div>
+    <div id="scroll-page">
+      <div id="content">
+        <ng-content></ng-content>
       </div>
-      <ng-template #showLogin>
-        <button mat-button routerLink="/about">
-          <mat-icon>info</mat-icon>
-          En savoir plus
-        </button>
-        <button mat-button (click)="connect()">
-          <mat-icon>login</mat-icon>
-          Connexion
-        </button>
-      </ng-template>
-    </mat-toolbar>
-
-
-    <ng-content></ng-content>
+      <app-page-footer id="footer"></app-page-footer>
+    </div>
   </mat-sidenav-content>
 
   <mat-sidenav
-    #notifs
-    class="sidenav"
+    #right_sidebar
+    class="sidenav right-sidenav"
     fixedInViewport="false"
     attr.role="dialog"
     mode="over"
     position="end"
     fixedTopGap="70"
+    [(opened)]="openedRightSideNav"
   >
-    <mat-toolbar color="primary">Notifications </mat-toolbar>
-    <app-notifications
-      (onSelect)="closeNotifications(notifs)"
-    ></app-notifications>
+    <mat-tab-group
+      class="bottom-tabs"
+      headerPosition="below"
+      [disablePagination]="true"
+      [selectedIndex]="selectedTabsRightSidebar"
+    >
+      <mat-tab data-grid="column">
+        <ng-template mat-tab-label>
+          <mat-icon
+            aria-label="notification icon"
+            [matBadge]="notifsCount$ | async"
+            matBadgeColor="warn"
+            matTooltip="Notification"
+            >notifications_active</mat-icon
+          >
+        </ng-template>
+        <ng-template matTabContent>
+          <mat-toolbar color="primary" class="sidenav-top"
+            >Notifications
+            <button
+              type="button"
+              aria-label="Toggle sidenav"
+              mat-icon-button
+              class="closeRightSidePannel"
+              (click)="closeRightSidePanel()"
+            >
+              <mat-icon aria-label="close sidepanel" matTooltip="Fermer"
+                >close</mat-icon
+              >
+            </button>
+          </mat-toolbar>
+          <div class="sidenav-content">
+            <app-notifications
+              (onSelect)="closeNotifications(right_sidebar)"
+            ></app-notifications>
+          </div>
+        </ng-template>
+      </mat-tab>
+      <mat-tab data-grid="column">
+        <ng-template mat-tab-label>
+          <mat-icon
+            aria-label="notification icon"
+            [matBadge]="basketCount$ | async"
+            matBadgeColor="warn"
+            matTooltip="Pannier"
+            >shopping_cart</mat-icon
+          >
+        </ng-template>
+        <ng-template matTabContent>
+          <mat-toolbar color="primary" class="sidenav-top">
+            Panier : Envies à donner
+
+            <button
+              type="button"
+              aria-label="Toggle sidenav"
+              mat-icon-button
+              class="closeRightSidePannel"
+              (click)="closeRightSidePanel()"
+            >
+              <mat-icon aria-label="close sidepanel" matTooltip="Fermer"
+                >close</mat-icon
+              >
+            </button>
+          </mat-toolbar>
+          <div class="sidenav-content">
+            <app-side-of-wish typeWish="BASKET"></app-side-of-wish>
+          </div>
+        </ng-template>
+      </mat-tab>
+      <mat-tab data-grid="column">
+        <ng-template mat-tab-label>
+          <mat-icon
+            aria-label="notification icon"
+            [matBadge]="archiveCount$ | async"
+            matBadgeColor="warn"
+            matTooltip="Archive"
+            >archive</mat-icon
+          >
+        </ng-template>
+        <ng-template matTabContent>
+          <mat-toolbar color="primary" class="sidenav-top"
+            >Archive : Envies reçues
+            <button
+              type="button"
+              aria-label="Toggle sidenav"
+              mat-icon-button
+              class="closeRightSidePannel"
+              (click)="closeRightSidePanel()"
+            >
+              <mat-icon aria-label="close sidepanel" matTooltip="Fermer"
+                >close</mat-icon
+              >
+            </button>
+          </mat-toolbar>
+          <div class="sidenav-content">
+            <app-side-of-wish typeWish="ARCHIVE"></app-side-of-wish>
+          </div>
+        </ng-template>
+      </mat-tab>
+      <mat-tab data-grid="column">
+        <ng-template mat-tab-label>
+          <mat-icon
+            aria-label="notification icon"
+            [matBadge]="trashCount$ | async"
+            matBadgeColor="warn"
+            matTooltip="Archive"
+            >delete</mat-icon
+          >
+        </ng-template>
+        <ng-template matTabContent>
+          <mat-toolbar color="primary" class="sidenav-top"
+            >Corbeille : Envies supprimées
+            <button
+              type="button"
+              aria-label="Toggle sidenav"
+              mat-icon-button
+              class="closeRightSidePannel"
+              (click)="closeRightSidePanel()"
+            >
+              <mat-icon aria-label="close sidepanel" matTooltip="Fermer"
+                >close</mat-icon
+              >
+            </button>
+          </mat-toolbar>
+
+          <div class="sidenav-content">
+            <app-side-of-wish typeWish="TRASH"></app-side-of-wish>
+          </div>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
   </mat-sidenav>
 </mat-sidenav-container>

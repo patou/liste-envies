@@ -1,1 +1,1 @@
-this.passwordResetForm.get('lpfResetpwdmethods').setValue([...value, event])
+v12.18.4

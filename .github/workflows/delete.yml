@@ -9,7 +9,7 @@ jobs:
     name: Suppression d'une branche
     runs-on: ubuntu-latest
     steps:
-      - uses: rlespinasse/github-slug-action@master
+      - uses: rlespinasse/github-slug-action@v2.x
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
           version: "277.0.0"

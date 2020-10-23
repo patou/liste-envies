@@ -6,7 +6,7 @@ import {
 } from "@angular/core";
 import { WishList } from "../../models/WishList";
 import { NotificationsQuery } from "../../state/app/notifications.query";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "wish-list-nav-item",
