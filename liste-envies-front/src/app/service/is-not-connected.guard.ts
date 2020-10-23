@@ -20,12 +20,10 @@ export class IsNotConnectedGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
-    return this.authService
-      .isConnected()
-      .pipe(
-        map<boolean, boolean | UrlTree>(user =>
-          user ? this.router.parseUrl("/") : true
-        )
-      );
+    return this.authService.isConnected().pipe(
+      map<boolean, boolean | UrlTree>(user =>
+        user ? this.router.parseUrl("/") : true
+      )
+    );
   }
 }

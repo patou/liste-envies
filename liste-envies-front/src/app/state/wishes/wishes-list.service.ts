@@ -8,7 +8,7 @@ import { WishService } from "./wish.service";
 import { WishesListQuery } from "./wishes-list.query";
 import { AkitaFiltersPlugin, searchFilterIn } from "akita-filters-plugin";
 import { tap } from "rxjs/operators";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 
 @Injectable({ providedIn: "root" })
 export class WishesListService {

@@ -1,36 +1,29 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { map, tap, debounceTime } from "rxjs/operators";
 import { AuthService } from "../../service/auth.service";
 import * as firebase from "firebase";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { WishesListQuery } from "../../state/wishes/wishes-list.query";
 import { WishList } from "../../models/WishList";
-import { NotificationsService } from "../../state/app/notifications.service";
 import { NotificationsQuery } from "../../state/app/notifications.query";
-import { MatDrawer } from "@angular/material/sidenav";
 import { FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 import { WishesListService } from "../../state/wishes/wishes-list.service";
-import { untilDestroyed } from "ngx-take-until-destroy";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Debounce as DebounceDecorator } from "lodash-decorators";
 import { ID } from "@datorama/akita";
-import { WishItem } from "../../models/WishItem";
 import { MyWishQuery } from "../../state/wishes/my-wish/my-wish.query";
+import { LinkMenuItem } from "ngx-auth-firebaseui";
 
+@UntilDestroy()
 @Component({
   selector: "app-page-nav",
   templateUrl: "./page-nav.component.html",
   styleUrls: ["./page-nav.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PageNavComponent implements OnInit, OnDestroy {
+export class PageNavComponent implements OnInit {
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
     .pipe(
@@ -57,6 +50,13 @@ export class PageNavComponent implements OnInit, OnDestroy {
   public isOpened: boolean = false;
   public openedRightSideNav: boolean = false;
   public selectedTabsRightSidebar: number = 0;
+  public links: LinkMenuItem[] = [
+    {
+      icon: "info",
+      text: "En savoir plus",
+      callback: () => this.goToAboutPage()
+    }
+  ];
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -109,6 +109,10 @@ export class PageNavComponent implements OnInit, OnDestroy {
     this.auth.logout();
   }
 
+  goToAboutPage() {
+    this.router.navigateByUrl("/about");
+  }
+
   trackByFn(index: number, item: WishList) {
     return item.name;
   }
@@ -123,8 +127,6 @@ export class PageNavComponent implements OnInit, OnDestroy {
     this.selectListControl.reset();
     this.router.navigate(["/", $event.option.value]);
   }
-
-  ngOnDestroy() {}
 
   openRightSidePanel(selectedTabs: number) {
     this.selectedTabsRightSidebar = selectedTabs;

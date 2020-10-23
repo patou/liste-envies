@@ -22,23 +22,23 @@ declare var nextend,
 window.N2PRO = 1;
 window.N2GSAP = 1;
 window.N2PLATFORM = "joomla";
-(function() {
+(function () {
   var N = this;
   (N.N2_ = N.N2_ || { r: [], d: [] }),
     (N.N2R =
       N.N2R ||
-      function() {
+      function () {
         N.N2_.r.push(arguments);
       }),
     (N.N2D =
       N.N2D ||
-      function() {
+      function () {
         N.N2_.d.push(arguments);
       });
 }.call(window));
 if (!window.n2jQuery) {
   window.n2jQuery = {
-    ready: function(cb) {
+    ready: function (cb) {
       console.error("n2jQuery will be deprecated!");
       N2R(["$"], cb);
     }
@@ -46,9 +46,9 @@ if (!window.n2jQuery) {
 }
 window.nextend = {
   localization: {},
-  ready: function(cb) {
+  ready: function (cb) {
     console.error("nextend.ready will be deprecated!");
-    N2R("documentReady", function($) {
+    N2R("documentReady", function ($) {
       cb.call(window, $);
     });
   }
@@ -56,17 +56,17 @@ window.nextend = {
 window.N2SSPRO = 1;
 window.N2SS3C = "smartslider3";
 nextend.fontsLoaded = false;
-nextend.fontsLoadedActive = function() {
+nextend.fontsLoadedActive = function () {
   nextend.fontsLoaded = true;
 };
 var fontData = {
   google: {
     families: ["Roboto:300,400:latin"]
   },
-  active: function() {
+  active: function () {
     nextend.fontsLoadedActive();
   },
-  inactive: function() {
+  inactive: function () {
     nextend.fontsLoadedActive();
   }
 };
@@ -74,12 +74,12 @@ if (typeof WebFontConfig !== "undefined") {
   var _WebFontConfig = WebFontConfig;
   for (var k in WebFontConfig) {
     if (k == "active") {
-      fontData.active = function() {
+      fontData.active = function () {
         nextend.fontsLoadedActive();
         _WebFontConfig.active();
       };
     } else if (k == "inactive") {
-      fontData.inactive = function() {
+      fontData.inactive = function () {
         nextend.fontsLoadedActive();
         _WebFontConfig.inactive();
       };
@@ -99,17 +99,17 @@ if (typeof WebFont === "undefined") {
 } else {
   WebFont.load(fontData);
 }
-N2R("documentReady", function($) {
+N2R("documentReady", function ($) {
   nextend.fontsDeferred = $.Deferred();
   if (nextend.fontsLoaded) {
     nextend.fontsDeferred.resolve();
   } else {
-    nextend.fontsLoadedActive = function() {
+    nextend.fontsLoadedActive = function () {
       nextend.fontsLoaded = true;
       nextend.fontsDeferred.resolve();
     };
     var intercalCounter = 0;
-    nextend.fontInterval = setInterval(function() {
+    nextend.fontInterval = setInterval(function () {
       if (
         intercalCounter > 3 ||
         document.documentElement.className.indexOf("wf-active") !== -1
@@ -127,7 +127,7 @@ N2R("documentReady", function($) {
       "nextend-gsap",
       "smartslider-block-type-frontend"
     ],
-    function() {
+    function () {
       new N2Classes.SmartSliderBlock("#n2-ss-37", {
         admin: false,
         translate3d: 1,
@@ -269,7 +269,7 @@ N2R("documentReady", function($) {
       "nextend-gsap",
       "smartslider-block-type-frontend"
     ],
-    function() {
+    function () {
       new N2Classes.SmartSliderBlock("#n2-ss-38", {
         admin: false,
         translate3d: 1,
@@ -408,7 +408,7 @@ N2R("documentReady", function($) {
       "nextend-gsap",
       "smartslider-block-type-frontend"
     ],
-    function() {
+    function () {
       new N2Classes.SmartSliderBlock("#n2-ss-39", {
         admin: false,
         translate3d: 1,
@@ -650,7 +650,7 @@ N2R("documentReady", function($) {
       "nextend-gsap",
       "smartslider-block-type-frontend"
     ],
-    function() {
+    function () {
       new N2Classes.SmartSliderBlock("#n2-ss-40", {
         admin: false,
         translate3d: 1,
@@ -784,25 +784,25 @@ N2R("documentReady", function($) {
   );
 
   window.n2Scroll = {
-    to: function(top) {
+    to: function (top) {
       $("html, body").animate({ scrollTop: top }, 400);
     },
-    top: function() {
+    top: function () {
       n2Scroll.to(0);
     },
-    bottom: function() {
+    bottom: function () {
       n2Scroll.to($(document).height() - $(window).height());
     },
-    before: function(el) {
+    before: function (el) {
       n2Scroll.to(el.offset().top - $(window).height());
     },
-    after: function(el) {
+    after: function (el) {
       n2Scroll.to(el.offset().top + el.height());
     },
-    next: function(el, selector) {
+    next: function (el, selector) {
       var els = $(selector),
         nextI = -1;
-      els.each(function(i, slider) {
+      els.each(function (i, slider) {
         if ($(el).is(slider) || $.contains(slider, el)) {
           nextI = i + 1;
           return false;
@@ -812,10 +812,10 @@ N2R("documentReady", function($) {
         n2Scroll.element(els.eq(nextI));
       }
     },
-    previous: function(el, selector) {
+    previous: function (el, selector) {
       var els = $(selector),
         prevI = -1;
-      els.each(function(i, slider) {
+      els.each(function (i, slider) {
         if ($(el).is(slider) || $.contains(slider, el)) {
           prevI = i - 1;
           return false;
@@ -825,7 +825,7 @@ N2R("documentReady", function($) {
         n2Scroll.element(els.eq(prevI));
       }
     },
-    element: function(selector) {
+    element: function (selector) {
       var offsetTop = 0;
       if (typeof n2ScrollOffsetSelector !== "undefined") {
         offsetTop = $(n2ScrollOffsetSelector).outerHeight();
@@ -840,7 +840,7 @@ N2R("documentReady", function($) {
       "nextend-gsap",
       "smartslider-simple-type-frontend"
     ],
-    function() {
+    function () {
       new N2Classes.SmartSliderSimple("#n2-ss-41", {
         admin: false,
         translate3d: 1,
@@ -1002,7 +1002,7 @@ N2R("documentReady", function($) {
       "nextend-gsap",
       "smartslider-block-type-frontend"
     ],
-    function() {
+    function () {
       new N2Classes.SmartSliderBlock("#n2-ss-42", {
         admin: false,
         translate3d: 1,
@@ -1141,7 +1141,7 @@ N2R("documentReady", function($) {
       "nextend-gsap",
       "smartslider-block-type-frontend"
     ],
-    function() {
+    function () {
       new N2Classes.SmartSliderBlock("#n2-ss-43", {
         admin: false,
         translate3d: 1,

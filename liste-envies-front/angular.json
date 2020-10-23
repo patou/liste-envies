@@ -20,14 +20,25 @@
             "stylePreprocessorOptions": {
               "includePaths": ["src/styles"]
             },
-            "assets": ["src/assets", "src/favicon.ico"],
-            "styles": [
-              "src/styles.scss",
-              "node_modules/firebaseui/dist/firebaseui.css"
+            "assets": [
+              "src/assets",
+              "src/favicon.ico",
+              {
+                "glob": "**/*",
+                "input": "node_modules/ngx-auth-firebaseui/assets/",
+                "output": "./assets/"
+              }
             ],
+            "styles": ["src/styles.scss"],
             "scripts": [
               "node_modules/tinycolor2/dist/tinycolor-min.js",
               "node_modules/node-vibrant/dist/vibrant.min.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "node-vibrant",
+              "moment/locale/fr",
+              "firebase/app"
             ]
           },
           "configurations": {
@@ -98,10 +109,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [],
-            "styles": [
-              "src/styles.scss",
-              "node_modules/firebaseui/dist/firebaseui.css"
-            ],
+            "styles": ["src/styles.scss"],
             "assets": ["src/assets", "src/favicon.ico"]
           }
         },
@@ -145,5 +153,8 @@
     "@schematics/angular:directive": {
       "prefix": "app"
     }
+  },
+  "cli": {
+    "analytics": "61955884-e799-45d7-bff6-6bb4792f98da"
   }
 }

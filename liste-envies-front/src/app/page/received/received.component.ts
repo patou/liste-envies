@@ -2,27 +2,27 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnDestroy,
   OnInit
 } from "@angular/core";
 
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { WishItem } from "../../models/WishItem";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "../../service/auth.service";
 import * as firebase from "firebase";
 import { WishQuery } from "../../state/wishes/wish.query";
 import { WishService } from "../../state/wishes/wish.service";
-import { untilDestroyed } from "ngx-take-until-destroy";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ColorManagementService } from "../../service/color-management.service";
 
+@UntilDestroy()
 @Component({
   selector: "app-archive",
   templateUrl: "./received.component.html",
   styleUrls: ["./received.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ReceivedComponent implements OnInit, OnDestroy {
+export class ReceivedComponent implements OnInit {
   listItems: Observable<WishItem[]>;
 
   loading$: Observable<boolean>;
@@ -54,8 +54,6 @@ export class ReceivedComponent implements OnInit, OnDestroy {
       }
     });
   }
-
-  ngOnDestroy(): void {}
 
   private loadList() {
     console.log("loadlist");

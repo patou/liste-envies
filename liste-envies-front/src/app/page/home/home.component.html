@@ -24,6 +24,13 @@
         ><a mat-raised-button color="primary" (click)="connect()"
           >Connexion / créer un compte</a
         >
+        <p>
+          Vous pouvez aussi vous connecter ou vous inscrire à partir de vos
+          comptes suivants :
+        </p>
+        <ngx-auth-firebaseui-providers
+          [providers]="providers"
+        ></ngx-auth-firebaseui-providers>
       </ng-template>
     </section>
   </mat-card>

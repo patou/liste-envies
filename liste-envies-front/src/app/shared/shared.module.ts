@@ -20,13 +20,8 @@ import {
   SwiperModule
 } from "ngx-swiper-wrapper";
 import { AuthService } from "../service/auth.service";
-import {
-  AuthMethods,
-  AuthProvider as AuthProviderUi,
-  CredentialHelper,
-  FirebaseUIAuthConfig,
-  FirebaseUIModule
-} from "./firebaseui";
+
+
 import { AvatarModule } from "ngx-avatar";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { LatinizePipe, NgPipesModule } from "ng-pipes";
@@ -50,17 +45,6 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   pagination: false
 };
 
-const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
-  providers: [
-    AuthProviderUi.Google,
-    AuthProviderUi.Facebook,
-    AuthProviderUi.Twitter,
-    // AuthProviderUi.Github,
-    AuthProviderUi.Password
-  ],
-  method: AuthMethods.Popup,
-  credentialHelper: CredentialHelper.OneTap
-};
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginFileEncode from "filepond-plugin-file-encode";
 import FilePondPluginImageResize from "filepond-plugin-image-resize";
@@ -96,7 +80,6 @@ registerPlugin(
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     FlexLayoutModule,
-    FirebaseUIModule.forRoot(firebaseUiAuthConfig),
     RouterModule,
     MomentModule
   ],
@@ -131,7 +114,6 @@ registerPlugin(
     HtmlEditorComponent,
     LinksFormComponent,
     ImgFormComponent,
-    FirebaseUIModule,
     AvatarModule,
     FlexLayoutModule,
     SwiperModule,
