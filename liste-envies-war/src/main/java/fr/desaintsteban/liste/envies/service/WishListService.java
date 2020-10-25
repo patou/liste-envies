@@ -6,9 +6,9 @@ import com.googlecode.objectify.cmd.QueryKeys;
 import com.googlecode.objectify.cmd.Saver;
 import fr.desaintsteban.liste.envies.enums.WishListStatus;
 import fr.desaintsteban.liste.envies.model.AppUser;
+import fr.desaintsteban.liste.envies.model.UserShare;
 import fr.desaintsteban.liste.envies.model.Wish;
 import fr.desaintsteban.liste.envies.model.WishList;
-import fr.desaintsteban.liste.envies.model.UserShare;
 import fr.desaintsteban.liste.envies.util.StringUtils;
 
 import java.util.ArrayList;

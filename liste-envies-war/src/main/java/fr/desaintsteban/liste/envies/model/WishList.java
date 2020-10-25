@@ -7,10 +7,8 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 import fr.desaintsteban.liste.envies.dto.WishListDto;
-import fr.desaintsteban.liste.envies.dto.UserShareDto;
 import fr.desaintsteban.liste.envies.enums.SharingPrivacyType;
 import fr.desaintsteban.liste.envies.enums.UserShareType;
-import fr.desaintsteban.liste.envies.enums.WishListState;
 import fr.desaintsteban.liste.envies.enums.WishListStatus;
 import fr.desaintsteban.liste.envies.enums.WishListType;
 import fr.desaintsteban.liste.envies.enums.WishState;
@@ -21,7 +19,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**

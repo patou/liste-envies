@@ -2,7 +2,6 @@ package fr.desaintsteban.liste.envies.service;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.google.api.client.json.Json;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -12,7 +11,6 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.cmd.Saver;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.util.NicknameUtils;
-import org.json.JSONObject;
 
 import java.util.Collection;
 import java.util.Date;
@@ -29,7 +27,7 @@ public final class AppUserService {
 
     public static AppUser getAppUser(User user) {
         UserService userService = UserServiceFactory.getUserService();
-        return getAppUser(user.getEmail(), newAppUser -> {         
+        return getAppUser(user.getEmail(), newAppUser -> {
             newAppUser.setEmail(user.getEmail());
             newAppUser.setName(NicknameUtils.getNickname(user.getNickname()));
             newAppUser.setIsAdmin(userService.isUserAdmin());
@@ -40,7 +38,7 @@ public final class AppUserService {
     }
 
     public static AppUser getAppUser(FirebaseToken user) {
-        return getAppUser(user.getEmail(), newAppUser -> {         
+        return getAppUser(user.getEmail(), newAppUser -> {
             newAppUser.setEmail(user.getEmail());
             newAppUser.setName(user.getName());
             newAppUser.setPicture(user.getPicture());

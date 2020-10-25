@@ -1,11 +1,12 @@
 package fr.desaintsteban.liste.envies.servlet;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import fr.desaintsteban.liste.envies.service.AppUserService;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -15,15 +16,10 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.auth0.jwt.JWT;
-
-import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import fr.desaintsteban.liste.envies.service.AppUserService;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * AuthFilter, this filter validate the firebase auth token, create or load the AppUser.
@@ -92,7 +88,7 @@ public class AuthFilter implements Filter {
             // logout if no auth
             AppUserService.removeAppUser();
         }
-        
+
         filterChain.doFilter(servletRequest, servletResponse);
    }
 
@@ -125,6 +121,6 @@ public class AuthFilter implements Filter {
 
 	@Override
 	public void destroy() {
-		
-	} 
+
+	}
 }

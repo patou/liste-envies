@@ -1,6 +1,8 @@
 package fr.desaintsteban.liste.envies.model;
 
-import com.googlecode.objectify.annotation.*;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 import fr.desaintsteban.liste.envies.dto.NotificationDto;
 import fr.desaintsteban.liste.envies.enums.NotificationType;
 

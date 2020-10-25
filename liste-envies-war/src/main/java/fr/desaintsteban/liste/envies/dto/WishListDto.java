@@ -1,16 +1,15 @@
 package fr.desaintsteban.liste.envies.dto;
 
+import fr.desaintsteban.liste.envies.enums.SharingPrivacyType;
+import fr.desaintsteban.liste.envies.enums.WishListState;
+import fr.desaintsteban.liste.envies.enums.WishListStatus;
+import fr.desaintsteban.liste.envies.enums.WishListType;
+import fr.desaintsteban.liste.envies.enums.WishState;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
-import fr.desaintsteban.liste.envies.enums.WishState;
-import fr.desaintsteban.liste.envies.enums.WishListStatus;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-
-import fr.desaintsteban.liste.envies.enums.SharingPrivacyType;
-import fr.desaintsteban.liste.envies.enums.WishListState;
-import fr.desaintsteban.liste.envies.enums.WishListType;
 
 /**
  *
@@ -142,7 +141,7 @@ public class WishListDto {
     public void setCounts(HashMap<WishState, Integer> counts) {
         this.counts = counts;
     }
-  
+
     public WishListStatus getStatus() {
         return status;
     }

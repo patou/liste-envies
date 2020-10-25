@@ -1,11 +1,11 @@
 package fr.desaintsteban.liste.envies.servlet;
-import java.io.IOException;
+
+import com.google.appengine.api.users.UserServiceFactory;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.google.appengine.api.users.UserServiceFactory;
+import java.io.IOException;
 
 @SuppressWarnings("serial")
 public class LogoutServlet extends HttpServlet {

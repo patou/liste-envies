@@ -4,7 +4,10 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.util.Closeable;
-import fr.desaintsteban.liste.envies.model.*;
+import fr.desaintsteban.liste.envies.model.AppUser;
+import fr.desaintsteban.liste.envies.model.Notification;
+import fr.desaintsteban.liste.envies.model.Wish;
+import fr.desaintsteban.liste.envies.model.WishList;
 import fr.desaintsteban.liste.envies.model.deprecated.Envy;
 import fr.desaintsteban.liste.envies.model.deprecated.ListEnvies;
 

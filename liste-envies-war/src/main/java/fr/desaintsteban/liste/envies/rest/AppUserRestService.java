@@ -1,25 +1,26 @@
 package fr.desaintsteban.liste.envies.rest;
 
 import fr.desaintsteban.liste.envies.dto.AppUserDto;
-import fr.desaintsteban.liste.envies.dto.WishDto;
 import fr.desaintsteban.liste.envies.dto.NotificationDto;
+import fr.desaintsteban.liste.envies.dto.WishDto;
 import fr.desaintsteban.liste.envies.model.AppUser;
-import fr.desaintsteban.liste.envies.model.Wish;
 import fr.desaintsteban.liste.envies.model.Notification;
-import fr.desaintsteban.liste.envies.model.WishList;
 import fr.desaintsteban.liste.envies.service.AppUserService;
-import fr.desaintsteban.liste.envies.service.WishListService;
-import fr.desaintsteban.liste.envies.service.WishesService;
 import fr.desaintsteban.liste.envies.service.NotificationsService;
+import fr.desaintsteban.liste.envies.service.WishesService;
 import fr.desaintsteban.liste.envies.util.ServletUtils;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
