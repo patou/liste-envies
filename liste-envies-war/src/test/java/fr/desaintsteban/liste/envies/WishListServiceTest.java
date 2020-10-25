@@ -13,10 +13,11 @@ import fr.desaintsteban.liste.envies.model.WishList;
 import fr.desaintsteban.liste.envies.model.Notification;
 import fr.desaintsteban.liste.envies.service.WishListService;
 import fr.desaintsteban.liste.envies.service.OfyService;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -33,7 +34,7 @@ public class WishListServiceTest {
     private Closeable closable;
     private AppUser patrice;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpBeforeClass()
     {
 
@@ -52,7 +53,7 @@ public class WishListServiceTest {
 
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         helper.setUp();
         closable = OfyService.begin();
@@ -61,7 +62,7 @@ public class WishListServiceTest {
         WishListService.createOrUpdate(patrice, new WishList("liste-emmanuel", "Liste de Emmanuel", "emmanuel@desaintsteban.fr"));
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         helper.tearDown();
         AsyncCacheFilter.complete();
@@ -112,8 +113,10 @@ public class WishListServiceTest {
         assertThat(WishListService.get("patrice")).isNotNull();
     }
 
-    @Test(expected = Exception.class)
+    @Test()
     public void testRenameExist() throws Exception {
-        WishListService.rename(patrice, "liste-patrice", "liste-emmanuel");
+        assertThrows(Exception.class, () -> {
+            WishListService.rename(patrice, "liste-patrice", "liste-emmanuel");
+        });
     }
 }

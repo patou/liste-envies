@@ -21,10 +21,10 @@ import fr.desaintsteban.liste.envies.service.AppUserService;
 import fr.desaintsteban.liste.envies.service.WishesService;
 import fr.desaintsteban.liste.envies.service.WishListService;
 import fr.desaintsteban.liste.envies.service.OfyService;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -49,7 +49,7 @@ public class WishServiceTest {
     private WishList listeEmmanuel;
     private AppUser clemence;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpBeforeClass()
     {
         //ObjectifyService.reset();
@@ -67,7 +67,7 @@ public class WishServiceTest {
         ObjectifyService.factory().register(Notification.class);
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         helper.setUp();
         closable = OfyService.begin();
@@ -86,7 +86,7 @@ public class WishServiceTest {
         WishesService.give(emmanuel, "liste-patrice", livreId);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         helper.tearDown();
         AsyncCacheFilter.complete();
@@ -97,21 +97,21 @@ public class WishServiceTest {
         }
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testGetSameUser() throws Exception {
         WishDto envie = WishesService.get(patrice, "liste-patrice", livreId);
         assertThat(envie.getLabel()).isEqualTo("Livre");
         assertThat(envie.getUserTake()).isNull();
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testGetNotSameUser() throws Exception {
         WishDto envie = WishesService.get(emmanuel, "liste-patrice", livreId);
         assertThat(envie.getLabel()).isEqualTo("Livre");
         assertThat(extractProperty("email").from(envie.getUserTake())).contains("emmanuel@desaintsteban.fr");
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testList() throws Exception {
         List<WishDto> list = WishesService.list(patrice, "liste-patrice", false);
         assertThat(extractProperty("label").from(list)).hasSize(2).contains("Livre", "DVD");
@@ -119,7 +119,7 @@ public class WishServiceTest {
     }
 
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testListWithArchived() throws Exception {
         WishesService.archive(patrice, "liste-patrice", livreId);
         List<WishDto> list = WishesService.list(patrice, "liste-patrice", false);
@@ -127,14 +127,14 @@ public class WishServiceTest {
     }
 
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testListGived() throws Exception {
         List<WishDto> list = WishesService.given(emmanuel);
         assertThat(extractProperty("label").from(list)).hasSize(1).contains("Livre");
     }
 
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testListArchived() throws Exception {
         WishesService.archive(patrice, "liste-patrice", livreId);
         List<WishDto> list = WishesService.archived(patrice);
@@ -142,19 +142,19 @@ public class WishServiceTest {
         assertThat(WishesService.given(emmanuel)).isEmpty();
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testListOther() throws Exception {
         List<WishDto> list = WishesService.list(emmanuel, "liste-patrice", false);
         assertThat(extractProperty("label").from(list)).hasSize(2).contains("Livre", "DVD");
         //assertThat(list).hasSize(2).onProperty("userTake"). contains(EncodeUtils.encode("emmanuel@desaintsteban.fr"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testCreate() throws Exception {
         WishDto itemDvd = WishesService.createOrUpdate(emmanuel, "liste-emmanuel", new Wish(listeEmmanuel, "DVD"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testDelete() throws Exception {
         WishesService.delete(patrice, "liste-patrice", livreId);
     }
@@ -182,7 +182,7 @@ public class WishServiceTest {
         assertThat(extractProperty("text").from(dto.getComments())).contains("Commentaire", "Commentaire2");
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void renameWishList() throws Exception {
         WishListService.rename(patrice, "liste-patrice", "patrice");
 
@@ -199,7 +199,7 @@ public class WishServiceTest {
         assertThat(envie.getStateDate()).isEqualToIgnoringMinutes(new Date());
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testCountsWishList() throws Exception {
         assertThat(listePatrice.getCounts(WishState.ACTIVE)).isEqualTo(2);
         assertThat(listePatrice.getCounts(WishState.ARCHIVED)).isEqualTo(0);
