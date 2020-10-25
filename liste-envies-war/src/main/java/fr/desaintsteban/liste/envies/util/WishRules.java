@@ -333,14 +333,14 @@ public class WishRules {
             case HIDDEN:
                 wish.setUserTake(null);
                 wish.setGiven(wish.getAllreadyGiven());
-                if (!ListUtils.isNullOrEmpty(wish.getComments())) {
+                if (ListUtils.isNotEmpty(wish.getComments())) {
                     wish.setComments(wish.getComments().stream().filter(comment -> comment.getType() != CommentType.PRIVATE).collect(toList()));
                 }
                 break;
             case ANONYMOUS:
                 wish.setUserTake(null);
                 wish.setGiven(wish.getAllreadyGiven());
-                if (!ListUtils.isNullOrEmpty(wish.getComments())) {
+                if (ListUtils.isNotEmpty(wish.getComments())) {
                     wish.setComments(wish.getComments().stream().filter(comment -> comment.getType() == CommentType.PUBLIC).collect(toList()));
                 }
                 break;
