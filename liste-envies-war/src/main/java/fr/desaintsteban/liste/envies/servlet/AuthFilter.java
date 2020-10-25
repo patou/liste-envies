@@ -92,7 +92,8 @@ public class AuthFilter implements Filter {
         filterChain.doFilter(servletRequest, servletResponse);
    }
 
-	@Override
+	@SuppressWarnings("RedundantThrows")
+    @Override
 	public void init(FilterConfig filterConfig) throws ServletException {
         LOGGER.info("AuthFilter init");
         FirebaseOptions options;

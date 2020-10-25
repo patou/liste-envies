@@ -121,9 +121,7 @@ public final class WishListService {
 			throw new Exception("Not allowed");
 		List<Wish> wishes = OfyService.ofy().load().type(Wish.class).ancestor(key).list();
 		list.setStatus(WishListStatus.ARCHIVED);
-		wishes.forEach(wish ->  {
-			wish.setArchived(true);
-		});
+		wishes.forEach(wish -> wish.setArchived(true));
 		OfyService.ofy().transact(() -> {
 			final Saver saver = OfyService.ofy().save();
 			saver.entity(list);

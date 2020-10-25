@@ -165,17 +165,13 @@ public class WishRules {
 
     private static List<WishDto> computePermissions(List<WishDto> wishDtos, AppUser user, WishList wishList) {
         WishListState state = computeWishListState(user, wishList);
-        wishDtos.forEach(wish -> {
-            computePermissions(wish, user, wishList, state);
-        });
+        wishDtos.forEach(wish -> computePermissions(wish, user, wishList, state));
         return wishDtos;
     }
 
     private static List<WishDto> computePermissionsArchived(List<WishDto> wishDtos, AppUser user, WishList wishList) {
         WishListState state = WishListState.ARCHIVED;
-        wishDtos.forEach(wish -> {
-            computePermissions(wish, user, wishList, state);
-        });
+        wishDtos.forEach(wish -> computePermissions(wish, user, wishList, state));
         return wishDtos;
     }
 
@@ -299,7 +295,6 @@ public class WishRules {
                 if (list != null && list.getPrivacy() != null) {
                     switch (list.getPrivacy()) {
                         case PRIVATE:
-                            return WishOptionType.NONE;
                         case OPEN:
                             return WishOptionType.NONE;
                         case PUBLIC:

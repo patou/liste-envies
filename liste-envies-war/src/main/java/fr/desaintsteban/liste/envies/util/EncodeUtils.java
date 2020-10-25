@@ -1,7 +1,6 @@
 package fr.desaintsteban.liste.envies.util;
 
 import javax.xml.bind.DatatypeConverter;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -19,7 +18,7 @@ public class EncodeUtils {
             String encoded = DatatypeConverter.printBase64Binary(message);
             return encoded;
         }
-        return string;
+        return null;
     }
 
     public static String decode(String string, boolean decode) {
@@ -31,6 +30,6 @@ public class EncodeUtils {
             byte[] decoded = DatatypeConverter.parseBase64Binary(string);
             return new String(decoded, StandardCharsets.UTF_8);
         }
-        return string;
+        return null;
     }
 }

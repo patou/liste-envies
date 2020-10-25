@@ -143,7 +143,6 @@ public class WishListRestService {
         if(user != null  && user.isAdmin()){
             LOGGER.info("Delete wish list : " + name + " by " + user.getName());
             WishListService.delete(name);
-            return;
         }
     }
 

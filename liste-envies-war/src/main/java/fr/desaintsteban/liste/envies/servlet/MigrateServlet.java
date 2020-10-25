@@ -34,6 +34,7 @@ import static java.util.stream.Collectors.toMap;
 /**
  *
  */
+@SuppressWarnings("RedundantThrows")
 public class MigrateServlet extends HttpServlet {
 
     private Map<String, AppUser> users;

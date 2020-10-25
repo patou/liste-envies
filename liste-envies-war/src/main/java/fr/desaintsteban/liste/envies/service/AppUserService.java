@@ -32,9 +32,7 @@ public final class AppUserService {
             newAppUser.setName(NicknameUtils.getNickname(user.getNickname()));
             newAppUser.setIsAdmin(userService.isUserAdmin());
             newAppUser.setLoginProvider("appengine");
-        }, appUser -> {
-            return (!appUser.getEmail().equalsIgnoreCase(user.getEmail()) || userService.isUserAdmin() != appUser.getIsAdmin());
-        });
+        }, appUser -> (!appUser.getEmail().equalsIgnoreCase(user.getEmail()) || userService.isUserAdmin() != appUser.getIsAdmin()));
     }
 
     public static AppUser getAppUser(FirebaseToken user) {
@@ -44,9 +42,7 @@ public final class AppUserService {
             newAppUser.setPicture(user.getPicture());
             newAppUser.setIsAdmin(false);
             newAppUser.setLoginProvider(user.getIssuer());
-        }, appUser -> {
-            return (!appUser.isAdmin() || !appUser.getEmail().equalsIgnoreCase(user.getEmail()) /*|| !appUser.getPicture() || !appUser.getPicture().equals(user.getPicture())*/);
-        });
+        }, appUser -> (!appUser.isAdmin() || !appUser.getEmail().equalsIgnoreCase(user.getEmail()) /*|| !appUser.getPicture() || !appUser.getPicture().equals(user.getPicture())*/));
     }
 
     public static AppUser getAppUserFromJwt(DecodedJWT jwt) {
@@ -59,9 +55,7 @@ public final class AppUserService {
             newAppUser.setPicture(user.get("picture").asString());
             newAppUser.setIsAdmin(false);
             newAppUser.setLoginProvider(user.get("iss").asString());
-        }, appUser -> {
-            return (!appUser.isAdmin() || !appUser.getEmail().equalsIgnoreCase(user.get("email").asString()) || appUser.getPicture() == null || (appUser.getPicture() != null && !appUser.getPicture().equals(user.get("picture").asString()) ) );
-        });
+        }, appUser -> (!appUser.isAdmin() || !appUser.getEmail().equalsIgnoreCase(user.get("email").asString()) || appUser.getPicture() == null || (appUser.getPicture() != null && !appUser.getPicture().equals(user.get("picture").asString()) ) ));
     }
 
 

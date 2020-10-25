@@ -34,6 +34,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.extractProperty;
 
+@SuppressWarnings("ConstantConditions")
 public class WishServiceTest {
     private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
             new LocalDatastoreServiceTestConfig().setApplyAllHighRepJobPolicy(),

@@ -145,20 +145,17 @@ public final class WishesService {
         final Key<WishList> parent = Key.create(WishList.class, name);
         final WishList wishList = ofy.load().key(parent).now();
         if (WishRules.canGive(wishList, user)) {
-            return OfyService.ofy().transact(new Work<WishDto>() {
-                @Override
-                public WishDto run() {
-                    Objectify ofy = OfyService.ofy();
-                    Wish saved = ofy.load().key(Key.create(parent, Wish.class, itemId)).now();
-                    Saver saver = ofy.save();
-                    PersonParticipant personParticipant = new PersonParticipant();
-                    personParticipant.setEmail(user.getEmail());
-                    personParticipant.setName(user.getName());
-                    saved.addUserTake(personParticipant);
-                    saver.entity(saved);
-                    NotificationsService.notify(NotificationType.GIVEN_WISH, user, wishList, true, saved.getLabel());
-                    return saved.toDto();
-                }
+            return OfyService.ofy().transact(() -> {
+                Objectify ofy1 = OfyService.ofy();
+                Wish saved = ofy1.load().key(Key.create(parent, Wish.class, itemId)).now();
+                Saver saver = ofy1.save();
+                PersonParticipant personParticipant = new PersonParticipant();
+                personParticipant.setEmail(user.getEmail());
+                personParticipant.setName(user.getName());
+                saved.addUserTake(personParticipant);
+                saver.entity(saved);
+                NotificationsService.notify(NotificationType.GIVEN_WISH, user, wishList, true, saved.getLabel());
+                return saved.toDto();
             });
         }
         return null;
@@ -177,22 +174,19 @@ public final class WishesService {
         final Key<WishList> parent = Key.create(WishList.class, name);
         final WishList wishList = ofy.load().key(parent).now();
         if (wishList != null && !wishList.containsOwner(user.getEmail()) && wishList.containsUser(user.getEmail())) {
-            return OfyService.ofy().transact(new Work<WishDto>() {
-                @Override
-                public WishDto run() {
-                    Objectify ofy = OfyService.ofy();
-                    Wish saved = ofy.load().key(Key.create(parent, Wish.class, itemId)).now();
-                    Saver saver = ofy.save();
+            return OfyService.ofy().transact(() -> {
+                Objectify ofy1 = OfyService.ofy();
+                Wish saved = ofy1.load().key(Key.create(parent, Wish.class, itemId)).now();
+                Saver saver = ofy1.save();
 
-                    Comment commentToAdd = Comment.fromDto(comment, true);
-                    commentToAdd.setFrom(new Person(user, true));
-                    saved.addComment(commentToAdd);
-                    saver.entity(saved);
+                Comment commentToAdd = Comment.fromDto(comment, true);
+                commentToAdd.setFrom(new Person(user, true));
+                saved.addComment(commentToAdd);
+                saver.entity(saved);
 
-                    NotificationsService.notify(NotificationType.ADD_NOTE, user, wishList, true, comment.getText());
+                NotificationsService.notify(NotificationType.ADD_NOTE, user, wishList, true, comment.getText());
 
-                    return WishRules.applyRules(user, wishList, saved);
-                }
+                return WishRules.applyRules(user, wishList, saved);
             });
         }
         return null;

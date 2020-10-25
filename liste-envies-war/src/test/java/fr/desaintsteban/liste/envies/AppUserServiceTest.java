@@ -18,7 +18,6 @@ import org.junit.Test;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
