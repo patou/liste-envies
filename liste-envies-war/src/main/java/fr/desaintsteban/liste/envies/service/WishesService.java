@@ -92,13 +92,13 @@ public final class WishesService {
                     saved.setStateDate(new Date());
                     saver.entity(saved);
                     saver.entity(wishList);
-                    NotificationsService.notify(NotificationType.DELETE_WISH, user, wishList, true, saved.getLabel(), itemid);
                 }
                 else {
                     wishList.decrCounts(saved.getState());
                     saver.entity(wishList);
                     ofy.delete().key(Key.create(parent, Wish.class, itemid)).now();
                 }
+                NotificationsService.notify(NotificationType.DELETE_WISH, user, wishList, true, saved.getLabel(), itemid);
             }
         });
     }

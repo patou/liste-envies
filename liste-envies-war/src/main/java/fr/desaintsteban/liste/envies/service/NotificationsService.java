@@ -70,6 +70,7 @@ public final class NotificationsService {
 		newNotif.setMessage(message);
 		newNotif.setActionUser(currentUser.getEmail());
 		newNotif.setActionUserName(currentUser.getName());
+		newNotif.setActionUserPicture(currentUser.getPicture());
 
 
 		newNotif.setUser(wishList.getUsers().stream()
