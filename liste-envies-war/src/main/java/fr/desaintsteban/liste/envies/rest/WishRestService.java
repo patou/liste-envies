@@ -91,7 +91,7 @@ public class WishRestService {
     public WishDto addComment(@PathParam("name") String name, @PathParam("id") Long wishId, CommentDto comment) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null) {
-            LOGGER.info("add comment from " + user.getName()+"wish id : "+wishId+" Comment : "+comment.getText());
+            LOGGER.info("add comment from " + user.getName() +" wish id : " + wishId + " Comment : " + comment.getText());
             WishDto wishDto = WishesService.addComment(user, wishId, name, comment);
             if (wishDto != null) {
                 LOGGER.info("Updated wish with comments " + wishDto.getLabel());
