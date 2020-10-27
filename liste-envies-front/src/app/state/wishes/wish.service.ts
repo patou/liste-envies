@@ -95,11 +95,14 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
   }
 
   @action("give wish")
-  give(id, wish: Partial<WishItem>) {
-    wish = {};
-    wish.userGiven = true;
-    wish.given = true;
-    wish.userTake = wish.userTake ? [...wish.userTake] : [];
+  give(id, wishToGive: Partial<WishItem>) {
+    const wish : Partial<WishItem> = {
+          listId: wishToGive.listId, 
+          id,
+          userGiven: true,
+          given: true,
+          userTake: wishToGive.userTake ? [...wishToGive.userTake] : [],
+      };
     wish.userTake.push({
       name: this.userQuery.getValue().user.displayName
     });
