@@ -11,14 +11,13 @@ import com.googlecode.objectify.cache.AsyncCacheFilter;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.service.AppUserService;
 import fr.desaintsteban.liste.envies.service.OfyService;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,7 +30,7 @@ public class AppUserServiceTest {
             new LocalTaskQueueTestConfig());
     private Closeable closable;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpBeforeClass()
     {
 
@@ -48,7 +47,7 @@ public class AppUserServiceTest {
 
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         helper.setUp();
         closable = OfyService.begin();
@@ -56,7 +55,7 @@ public class AppUserServiceTest {
         AppUserService.createOrUpdate(new AppUser("emmanuel@desaintsteban.fr", "Emmanuel"));
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         helper.tearDown();
         AsyncCacheFilter.complete();

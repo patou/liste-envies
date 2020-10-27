@@ -1,11 +1,9 @@
 package fr.desaintsteban.liste.envies.model;
 
-import com.googlecode.objectify.annotation.AlsoLoad;
 import fr.desaintsteban.liste.envies.dto.CommentDto;
 import fr.desaintsteban.liste.envies.dto.PersonDto;
 import fr.desaintsteban.liste.envies.enums.CommentType;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
-import fr.desaintsteban.liste.envies.util.NicknameUtils;
 
 import java.util.Date;
 

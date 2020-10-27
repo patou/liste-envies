@@ -4,16 +4,16 @@ import fr.desaintsteban.liste.envies.dto.WishDto;
 import fr.desaintsteban.liste.envies.dto.WishListDto;
 import fr.desaintsteban.liste.envies.enums.*;
 import fr.desaintsteban.liste.envies.model.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.extractProperty;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class WishRulesTest {
@@ -49,7 +49,7 @@ public class WishRulesTest {
         assertThat(extractProperty("text").from(cleaned.getComments())).hasSize(3).contains("Public", "Owner", "Private");
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void filterWishAll() {
         List<WishDto> wishList = createDefaultListOfWish();
 
@@ -59,7 +59,7 @@ public class WishRulesTest {
     }
 
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void filterWishAllSuggest() {
         List<WishDto> wishList = createDefaultListOfWish();
 
@@ -68,7 +68,7 @@ public class WishRulesTest {
         assertThat(cleaned).isNotNull().hasSize(2);
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void filterWishNone() {
         List<WishDto> wishList = createDefaultListOfWish();
 
@@ -77,7 +77,7 @@ public class WishRulesTest {
         assertThat(cleaned).isNotNull().hasSize(0);
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testComputeWishListState() {
         WishList wishlist = createDefaultWishList();
 
@@ -89,7 +89,7 @@ public class WishRulesTest {
 
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testComputeWishOptionType() {
         WishList wishlist = createDefaultWishList();
 
@@ -115,7 +115,7 @@ public class WishRulesTest {
         assertEquals(WishOptionType.ANONYMOUS, WishRules.computeWishOptionsType(null, wishlist));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testComputePermissionWishList() {
         WishList wishlist = createDefaultWishList();
         WishListDto dto = new WishListDto();

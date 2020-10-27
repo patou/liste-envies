@@ -14,13 +14,13 @@ import java.io.IOException;
 public final class ServletUtils {
 	private ServletUtils() { }
 
-	private static Gson gson = new Gson();
-	private static Gson customGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+	private static final Gson gson = new Gson();
+	private static final Gson customGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
 	public static String toJson(Object o) {
 		return gson.toJson(o);
 	}
-	
+
 	public static String toCustomJson(Object o) {
 		return customGson.toJson(o);
 	}
@@ -28,7 +28,7 @@ public final class ServletUtils {
 	public static <T> T fromJson(String json, Class<T> clazz) {
 		return gson.fromJson(json, clazz);
 	}
-	
+
 	public static <T> T fromCustomJson(String json, Class<T> clazz) {
 		return customGson.fromJson(json, clazz);
 	}
@@ -48,15 +48,15 @@ public final class ServletUtils {
 	    }
 		return sb.toString();
 	}
-	
+
 	public static <T> T fromJson(BufferedReader reader, Class<T> clazz) throws IOException {
 	    return fromJson(getString(reader), clazz);
 	}
-	
+
 	public static <T> T fromCustomJson(BufferedReader reader, Class<T> clazz) throws IOException {
 	    return fromCustomJson(getString(reader), clazz);
 	}
-	
+
 	public static AppUser getUserAuthenticated() {
 		AppUser appUser = AppUserService.getAppUser();
 		if (appUser == null) {

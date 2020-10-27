@@ -2,7 +2,6 @@ package fr.desaintsteban.liste.envies.service;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.google.api.client.json.Json;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -12,7 +11,6 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.cmd.Saver;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.util.NicknameUtils;
-import org.json.JSONObject;
 
 import java.util.Collection;
 import java.util.Date;
@@ -29,26 +27,22 @@ public final class AppUserService {
 
     public static AppUser getAppUser(User user) {
         UserService userService = UserServiceFactory.getUserService();
-        return getAppUser(user.getEmail(), newAppUser -> {         
+        return getAppUser(user.getEmail(), newAppUser -> {
             newAppUser.setEmail(user.getEmail());
             newAppUser.setName(NicknameUtils.getNickname(user.getNickname()));
             newAppUser.setIsAdmin(userService.isUserAdmin());
             newAppUser.setLoginProvider("appengine");
-        }, appUser -> {
-            return (!appUser.getEmail().equalsIgnoreCase(user.getEmail()) || userService.isUserAdmin() != appUser.getIsAdmin());
-        });
+        }, appUser -> (!appUser.getEmail().equalsIgnoreCase(user.getEmail()) || userService.isUserAdmin() != appUser.getIsAdmin()));
     }
 
     public static AppUser getAppUser(FirebaseToken user) {
-        return getAppUser(user.getEmail(), newAppUser -> {         
+        return getAppUser(user.getEmail(), newAppUser -> {
             newAppUser.setEmail(user.getEmail());
             newAppUser.setName(user.getName());
             newAppUser.setPicture(user.getPicture());
             newAppUser.setIsAdmin(false);
             newAppUser.setLoginProvider(user.getIssuer());
-        }, appUser -> {
-            return (!appUser.isAdmin() || !appUser.getEmail().equalsIgnoreCase(user.getEmail()) /*|| !appUser.getPicture() || !appUser.getPicture().equals(user.getPicture())*/);
-        });
+        }, appUser -> (!appUser.isAdmin() || !appUser.getEmail().equalsIgnoreCase(user.getEmail()) /*|| !appUser.getPicture() || !appUser.getPicture().equals(user.getPicture())*/));
     }
 
     public static AppUser getAppUserFromJwt(DecodedJWT jwt) {
@@ -61,9 +55,7 @@ public final class AppUserService {
             newAppUser.setPicture(user.get("picture").asString());
             newAppUser.setIsAdmin(false);
             newAppUser.setLoginProvider(user.get("iss").asString());
-        }, appUser -> {
-            return (!appUser.isAdmin() || !appUser.getEmail().equalsIgnoreCase(user.get("email").asString()) || appUser.getPicture() == null || (appUser.getPicture() != null && !appUser.getPicture().equals(user.get("picture").asString()) ) );
-        });
+        }, appUser -> (!appUser.isAdmin() || !appUser.getEmail().equalsIgnoreCase(user.get("email").asString()) || appUser.getPicture() == null || (appUser.getPicture() != null && !appUser.getPicture().equals(user.get("picture").asString()) ) ));
     }
 
 
