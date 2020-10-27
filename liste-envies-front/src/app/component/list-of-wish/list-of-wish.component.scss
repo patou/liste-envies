@@ -1,10 +1,8 @@
-
-
-.dynamic-grid{
+.dynamic-grid {
   position: relative;
   display: block;
 }
-.dynamic-grid.angular-grid{
+.dynamic-grid.angular-grid {
   display: block;
 }
 .grid {
@@ -13,7 +11,7 @@
   list-style: none;
   //background: #ffffff;
   box-sizing: border-box;
-  -moz-box-sizing : border-box;
+  -moz-box-sizing: border-box;
   -webkit-transition: all 0.6s ease-out;
   transition: all 0.6s ease-out;
   overflow: hidden;
@@ -29,11 +27,32 @@
   opacity: 0;
   visibility: hidden;
 }
-.grid-img.img-loaded{
+.grid-img.img-loaded {
   visibility: visible;
   opacity: 1;
 }
 
 .wishitems-columns {
   padding: 10px;
+}
+
+.wishitems-columns:first-child {
+  padding-left: 0;
+}
+
+.wishitems-columns:last-child {
+  padding-right: 0;
+}
+
+.list-of-wish {
+  margin-top: 10px;
+}
+// responsive
+@import "~wire.css/src/scss/config";
+@import "~wire.css/src/scss/base/mixins";
+
+@include mq(small) {
+  .wishitems-columns {
+    padding: 0;
+  }
 }
