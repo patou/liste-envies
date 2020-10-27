@@ -103,7 +103,6 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
           given: true,
           userTake: wishToGive.userTake ? [...wishToGive.userTake] : [];
       };
-    wish.userTake = wishToGive.userTake ? [...wishToGive.userTake] : [];
     wish.userTake.push({
       name: this.userQuery.getValue().user.displayName
     });
