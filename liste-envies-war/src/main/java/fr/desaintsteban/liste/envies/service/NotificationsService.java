@@ -36,17 +36,27 @@ public final class NotificationsService {
 	}
 
 	public static Notification notify(NotificationType type, final AppUser currentUser, final WishList wishList, boolean noOwners, final String message) {
-		final Notification newNotif = createNotification(type, currentUser, wishList, noOwners, message);
-
-		return OfyService.ofy().transact(() -> {
-            final Saver saver = OfyService.ofy().save();
-            saver.entities(newNotif).now();
-            return newNotif;
-        });
+		return notify(type, currentUser, wishList, noOwners, message, null);
 	}
 
      public static Notification notify(NotificationType type, final AppUser currentUser, final WishList wishList, boolean noOwners, final String message, final Long wishId) {
-		 final Notification newNotif = createNotification(type, currentUser, wishList, noOwners, message);
+		 final Notification newNotif = new Notification();
+
+		 newNotif.setType(type);
+		 newNotif.setListId(wishList.getName());
+		 newNotif.setListName(wishList.getTitle());
+		 newNotif.setDate(new Date());
+		 newNotif.setMessage(message);
+		 newNotif.setActionUser(currentUser.getEmail());
+		 newNotif.setActionUserName(currentUser.getName());
+		 newNotif.setActionUserPicture(currentUser.getPicture());
+
+
+		 newNotif.setUser(wishList.getUsers().stream()
+				 .filter(userShare ->
+						 (userShare.getType() != UserShareType.OWNER || !noOwners)
+								 && !userShare.getEmail().equals(currentUser.getEmail()))
+				 .map(UserShare::getEmail).collect(toList()));
 
 		 if (wishId != null) {
 			 newNotif.setWishId(wishId);
@@ -59,27 +69,6 @@ public final class NotificationsService {
         });
 	}
 
-
-	private static Notification createNotification(NotificationType type, AppUser currentUser, WishList wishList, boolean noOwners, String message) {
-		final Notification newNotif = new Notification();
-
-		newNotif.setType(type);
-		newNotif.setListId(wishList.getName());
-		newNotif.setListName(wishList.getTitle());
-		newNotif.setDate(new Date());
-		newNotif.setMessage(message);
-		newNotif.setActionUser(currentUser.getEmail());
-		newNotif.setActionUserName(currentUser.getName());
-		newNotif.setActionUserPicture(currentUser.getPicture());
-
-
-		newNotif.setUser(wishList.getUsers().stream()
-				.filter(userShare ->
-						(userShare.getType() != UserShareType.OWNER || !noOwners)
-								&& !userShare.getEmail().equals(currentUser.getEmail()))
-				.map(UserShare::getEmail).collect(toList()));
-		return newNotif;
-	}
 
 
 	public static Notification notifyUserAddedToList(final WishList list, List<String> users, final AppUser currentUser) {
