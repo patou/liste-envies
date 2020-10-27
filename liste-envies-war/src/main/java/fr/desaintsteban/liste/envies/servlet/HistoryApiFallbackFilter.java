@@ -1,7 +1,5 @@
 package fr.desaintsteban.liste.envies.servlet;
 
-import fr.desaintsteban.liste.envies.rest.AppUserRestService;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;

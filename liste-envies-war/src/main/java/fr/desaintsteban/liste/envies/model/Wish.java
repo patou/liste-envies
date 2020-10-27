@@ -1,10 +1,15 @@
 package fr.desaintsteban.liste.envies.model;
 
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.annotation.*;
+import com.googlecode.objectify.annotation.AlsoLoad;
+import com.googlecode.objectify.annotation.Cache;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Parent;
 import com.googlecode.objectify.condition.IfNotNull;
-import fr.desaintsteban.liste.envies.dto.WishDto;
 import fr.desaintsteban.liste.envies.dto.CommentDto;
+import fr.desaintsteban.liste.envies.dto.WishDto;
 import fr.desaintsteban.liste.envies.enums.WishState;
 import fr.desaintsteban.liste.envies.util.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;

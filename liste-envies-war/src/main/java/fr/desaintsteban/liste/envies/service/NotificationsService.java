@@ -4,7 +4,11 @@ import com.googlecode.objectify.cmd.Query;
 import com.googlecode.objectify.cmd.Saver;
 import fr.desaintsteban.liste.envies.enums.NotificationType;
 import fr.desaintsteban.liste.envies.enums.UserShareType;
-import fr.desaintsteban.liste.envies.model.*;
+import fr.desaintsteban.liste.envies.model.AppUser;
+import fr.desaintsteban.liste.envies.model.Notification;
+import fr.desaintsteban.liste.envies.model.UserShare;
+import fr.desaintsteban.liste.envies.model.Wish;
+import fr.desaintsteban.liste.envies.model.WishList;
 
 import java.util.Date;
 import java.util.List;

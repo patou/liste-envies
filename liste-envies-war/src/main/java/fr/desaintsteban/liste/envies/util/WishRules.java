@@ -4,7 +4,12 @@ import fr.desaintsteban.liste.envies.dto.PersonParticipantDto;
 import fr.desaintsteban.liste.envies.dto.UserShareDto;
 import fr.desaintsteban.liste.envies.dto.WishDto;
 import fr.desaintsteban.liste.envies.dto.WishListDto;
-import fr.desaintsteban.liste.envies.enums.*;
+import fr.desaintsteban.liste.envies.enums.CommentType;
+import fr.desaintsteban.liste.envies.enums.SharingPrivacyType;
+import fr.desaintsteban.liste.envies.enums.UserShareType;
+import fr.desaintsteban.liste.envies.enums.WishListState;
+import fr.desaintsteban.liste.envies.enums.WishListStatus;
+import fr.desaintsteban.liste.envies.enums.WishOptionType;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.UserShare;
 import fr.desaintsteban.liste.envies.model.Wish;
@@ -16,8 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static fr.desaintsteban.liste.envies.util.StringUtils.isNullOrEmpty;
@@ -162,17 +165,13 @@ public class WishRules {
 
     private static List<WishDto> computePermissions(List<WishDto> wishDtos, AppUser user, WishList wishList) {
         WishListState state = computeWishListState(user, wishList);
-        wishDtos.forEach(wish -> {
-            computePermissions(wish, user, wishList, state);
-        });
+        wishDtos.forEach(wish -> computePermissions(wish, user, wishList, state));
         return wishDtos;
     }
 
     private static List<WishDto> computePermissionsArchived(List<WishDto> wishDtos, AppUser user, WishList wishList) {
         WishListState state = WishListState.ARCHIVED;
-        wishDtos.forEach(wish -> {
-            computePermissions(wish, user, wishList, state);
-        });
+        wishDtos.forEach(wish -> computePermissions(wish, user, wishList, state));
         return wishDtos;
     }
 
@@ -296,7 +295,6 @@ public class WishRules {
                 if (list != null && list.getPrivacy() != null) {
                     switch (list.getPrivacy()) {
                         case PRIVATE:
-                            return WishOptionType.NONE;
                         case OPEN:
                             return WishOptionType.NONE;
                         case PUBLIC:
@@ -330,14 +328,14 @@ public class WishRules {
             case HIDDEN:
                 wish.setUserTake(null);
                 wish.setGiven(wish.getAllreadyGiven());
-                if (!ListUtils.isNullOrEmpty(wish.getComments())) {
+                if (ListUtils.isNotEmpty(wish.getComments())) {
                     wish.setComments(wish.getComments().stream().filter(comment -> comment.getType() != CommentType.PRIVATE).collect(toList()));
                 }
                 break;
             case ANONYMOUS:
                 wish.setUserTake(null);
                 wish.setGiven(wish.getAllreadyGiven());
-                if (!ListUtils.isNullOrEmpty(wish.getComments())) {
+                if (ListUtils.isNotEmpty(wish.getComments())) {
                     wish.setComments(wish.getComments().stream().filter(comment -> comment.getType() == CommentType.PUBLIC).collect(toList()));
                 }
                 break;
