@@ -56,7 +56,7 @@
               mat-icon-button
               [routerLink]="['/', list.name, 'edit']"
               color="accent"
-              class=" hidden-small icon-edit"
+              class="hidden-small icon-edit"
               (click)="doNothing($event)"
               *ngIf="!demo && list.owner"
             >
@@ -139,7 +139,7 @@
         mat-icon-button
         aria-label="Menu action"
         class=""
-        matTooltip="Administrer la liste"
+        matTooltip="Afficher / cacher les détails de la liste et les filtres"
         (click)="headerList.toggle()"
       >
         <mat-icon>{{
@@ -152,7 +152,7 @@
       <nav
         mat-tab-nav-bar
         color="accent"
-        class="tabs-actif-archive visible-small hidden-medium  hidden-large hidden-huge"
+        class="tabs-actif-archive visible-small hidden-medium hidden-large hidden-huge"
       >
         <a
           mat-tab-link

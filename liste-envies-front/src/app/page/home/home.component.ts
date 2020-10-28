@@ -45,7 +45,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       .pipe(
         untilDestroyed(this),
         map((result: BreakpointState) => {
-          console.log("breackpoints :", result);
           const breakpoints = result.breakpoints;
           if (breakpoints[Breakpoints.XLarge]) {
             return 4;
