@@ -92,13 +92,13 @@ public final class WishesService {
                     saved.setStateDate(new Date());
                     saver.entity(saved);
                     saver.entity(wishList);
-                    NotificationsService.notify(NotificationType.DELETE_WISH, user, wishList, true, saved.getLabel());
                 }
                 else {
                     wishList.decrCounts(saved.getState());
                     saver.entity(wishList);
                     ofy.delete().key(Key.create(parent, Wish.class, itemid)).now();
                 }
+                NotificationsService.notify(NotificationType.DELETE_WISH, user, wishList, true, saved.getLabel(), itemid);
             }
         });
     }
@@ -124,7 +124,7 @@ public final class WishesService {
                 saver.entity(saved);
                 saver.entity(wishList);
 
-                NotificationsService.notify(NotificationType.ARCHIVE_WISH, user, wishList, true);
+                NotificationsService.notify(NotificationType.ARCHIVE_WISH, user, wishList, true, saved.getLabel(), saved.getId());
 
             }
         });
@@ -154,7 +154,7 @@ public final class WishesService {
                 personParticipant.setName(user.getName());
                 saved.addUserTake(personParticipant);
                 saver.entity(saved);
-                NotificationsService.notify(NotificationType.GIVEN_WISH, user, wishList, true, saved.getLabel());
+                NotificationsService.notify(NotificationType.GIVEN_WISH, user, wishList, true, saved.getLabel(), itemId);
                 return saved.toDto();
             });
         }
@@ -184,7 +184,7 @@ public final class WishesService {
                 saved.addComment(commentToAdd);
                 saver.entity(saved);
 
-                NotificationsService.notify(NotificationType.ADD_NOTE, user, wishList, true, comment.getText());
+               NotificationsService.notify(NotificationType.ADD_NOTE, user, wishList, true, comment.getText(), itemId);
 
                 return WishRules.applyRules(user, wishList, saved);
             });
@@ -259,7 +259,7 @@ public final class WishesService {
             item.setDate(new Date());
             Key<Wish> key = saver.entity(item).now();
 
-            NotificationsService.notify((add)? NotificationType.ADD_WISH : NotificationType.UPDATE_WISH, user, wishList, !containsOwner, item.getLabel());
+            NotificationsService.notify((add)? NotificationType.ADD_WISH : NotificationType.UPDATE_WISH, user, wishList, !containsOwner, item.getLabel(), item.getId());
 
                 //return item.toDto(containsOwner);
                 return WishRules.applyRules(user, wishList, item);
