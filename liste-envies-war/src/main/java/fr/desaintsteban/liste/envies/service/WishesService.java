@@ -184,7 +184,7 @@ public final class WishesService {
                 saved.addComment(commentToAdd);
                 saver.entity(saved);
 
-                    NotificationsService.notify(NotificationType.ADD_NOTE, user, wishList, true, comment.getText(), itemId);
+               NotificationsService.notify(NotificationType.ADD_NOTE, user, wishList, true, comment.getText(), itemId);
 
                 return WishRules.applyRules(user, wishList, saved);
             });
