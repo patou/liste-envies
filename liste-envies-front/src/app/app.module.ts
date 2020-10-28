@@ -99,8 +99,6 @@ if (environment.production) {
       useValue: [
         AuthProvider.Google,
         AuthProvider.Facebook,
-        AuthProvider.Twitter,
-        AuthProvider.Github,
         AuthProvider.EmailAndPassword
       ]
     },

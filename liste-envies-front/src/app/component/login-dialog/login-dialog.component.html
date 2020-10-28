@@ -1,8 +1,12 @@
 <h2 mat-dialog-title>Connexion / inscription</h2>
 <mat-dialog-content>
+  <p>Si vous n'avez pas de compte, vous pouvez en créer un ci-dessous ou utiliser un compte social.
+    Sinon entrez votre login et mot de passe pour vous connecter via votre compte "liste d'envie".
+  </p>
   <ngx-auth-firebaseui
     [providers]="providers"
     [guestEnabled]="false"
+    (onSuccess)="successCallback($event)"
     loginButtonText="S'identifier"
     emailText="Email"
     emailErrorRequiredText="L'email est requis"
@@ -28,7 +32,13 @@
     resetPasswordInstructionsText="Réinitialisation demandée. Suivez les instructions du courrier électronique qui vous a été envoyé."
     emailConfirmationTitle="Confirmez votre adresse email !"
     emailConfirmationText="Un email de confirmation vous a été envoyé.\n   Vérifiez votre boîte de réception et cliquez sur le lien Confirmer mon adresse e-mail pour confirmer votre adresse email."
+    verifyEmailTitleText="Confirmez votre adresse email !"
+    verifyEmailConfirmationText="Un email de confirmation vous a été envoyé.\n   Vérifiez votre boîte de réception et cliquez sur le lien Confirmer mon adresse e-mail pour confirmer votre adresse email."
+    verifyEmailGoBackText="Retour"
+    sendNewVerificationEmailText="Envoyez un nouveau email de confirmation"
+    signOutText="Déconnexion"
   ></ngx-auth-firebaseui>
+  <p>Ou vous pouvez aussi vous connecter/inscrire via google ou facebook en cliquant sur les boutons ci-dessus.</p>
 </mat-dialog-content>
 <!--
 signInTabText="Se connecter"
