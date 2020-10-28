@@ -36,7 +36,6 @@ export class AuthService implements HttpInterceptor {
     this.firebaseAuth.authState.subscribe(
       (user: User) => {
         if (user) {
-          console.warn("AuthState :", user.email, user.displayName, user);
           if (
             (AuthService.currentUser &&
               user.uid !== AuthService.currentUser.uid) ||

@@ -25,13 +25,11 @@ export class MyWishService {
 
   loadAll() {
     this.userApi.archived("me").subscribe((values: WishItem[]) => {
-      console.log("archived loaded", values);
       this.add(values);
       this.myWishStore.update({ ui: { isArchiveLoaded: true } });
     });
 
     this.userApi.given("me").subscribe((values: WishItem[]) => {
-      console.log("given loaded", values);
       this.add(values);
       this.myWishStore.update({ ui: { isBasketLoaded: true } });
     });
