@@ -1,12 +1,32 @@
-<h2 mat-dialog-title>Connexion / inscription</h2>
+<div class="dialog-header">
+  <div class="dialog-title-text">
+    <mat-icon class="dialog-title-icon">login</mat-icon>
+    <span mat-dialog-title>Connexion / inscription</span>
+  </div>
+  <div class="dialog-title-close">
+    <button
+      mat-icon-button
+      mat-dialog-close
+      class="close-btn"
+      matTooltip="Close"
+      matTooltipPosition="left"
+      (click)="successCallback(false)"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>
 <mat-dialog-content>
-  <p>Si vous n'avez pas de compte, vous pouvez en créer un ci-dessous ou utiliser un compte social.
-    Sinon entrez votre login et mot de passe pour vous connecter via votre compte "liste d'envie".
+  <p class="login-dialog-connexion">
+    Si vous n'avez pas de compte, vous pouvez en créer un ci-dessous ou utiliser
+    un compte social. Sinon entrez votre login et mot de passe pour vous
+    connecter via votre compte "liste d'envie".
   </p>
   <ngx-auth-firebaseui
     [providers]="providers"
     [guestEnabled]="false"
     (onSuccess)="successCallback($event)"
+    appearance="outline"
     loginButtonText="S'identifier"
     emailText="Email"
     emailErrorRequiredText="L'email est requis"
@@ -14,14 +34,14 @@
     passwordText="Mot de passe"
     passwordErrorRequiredText="Le mot de passe est requis"
     signInTabText="Se connecter"
-    signInCardTitleText="Connectez-vous"
+    signInCardTitleText="Connectez-vous avec un compte 'liste d'envie'"
     forgotPasswordButtonText="Mot de passe oublié ?"
     nameText="Nom"
     nameErrorRequiredText="Le nom est requis"
     nameErrorMinLengthText="Le nom est trop court !"
     nameErrorMaxLengthText="Le nom est trop long !"
     registerTabText="Créer un compte"
-    registerCardTitleText="Enregistrement"
+    registerCardTitleText="Creér un compte 'liste d'envie'"
     registerButtonText="Créer"
     guestButtonText="continuer en tant qu'invité"
     resetPasswordTabText="Réinitialisation du mot de passe par email"
@@ -37,9 +57,15 @@
     verifyEmailGoBackText="Retour"
     sendNewVerificationEmailText="Envoyez un nouveau email de confirmation"
     signOutText="Déconnexion"
+    messageOnAuthSuccess="Vous êtes bien connecté, vous pouvez maintenant utiliser 'liste d'envies'"
+    messageOnAuthError="Une erreur lors de la connexion! Merci de réessayer!"
   ></ngx-auth-firebaseui>
-  <p>Ou vous pouvez aussi vous connecter/inscrire via google ou facebook en cliquant sur les boutons ci-dessus.</p>
 </mat-dialog-content>
+
+<mat-dialog-actions class="login-dialog-subdescription"
+  >Ou vous pouvez aussi vous connecter/inscrire via google ou facebook en
+  cliquant sur les boutons ci-dessus.</mat-dialog-actions
+>
 <!--
 signInTabText="Se connecter"
                       signInCardTitleText="Connectez-vous"

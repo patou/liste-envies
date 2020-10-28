@@ -1,0 +1,36 @@
+.dialog-header {
+  padding-left: 3px;
+
+  width: 100%;
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+
+  .dialog-title-close {
+    margin-left: auto;
+  }
+
+  .dialog-title-text {
+    align-self: center;
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    line-height: 22px;
+
+    .mat-dialog-title {
+      margin: 0;
+      display: block;
+      line-height: 22px;
+    }
+
+    mat-icon {
+      vertical-align: text-bottom;
+      margin-right: 10px;
+    }
+  }
+}
+
+.login-dialog-connexion,
+.login-dialog-subdescription {
+  font-size: 12px;
+}
