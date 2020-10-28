@@ -52,7 +52,9 @@ public final class AppUserService {
         return getAppUser(user.get("email").asString(), newAppUser -> {
             newAppUser.setEmail(user.get("email").asString());
             newAppUser.setName(user.get("name").asString());
-            newAppUser.setPicture(user.get("picture").asString());
+            if (user.containsKey("picture")) {
+                newAppUser.setPicture(user.get("picture").asString());
+            }
             newAppUser.setIsAdmin(false);
             newAppUser.setLoginProvider(user.get("iss").asString());
         }, appUser -> (!appUser.isAdmin() || !appUser.getEmail().equalsIgnoreCase(user.get("email").asString()) || appUser.getPicture() == null || (appUser.getPicture() != null && !appUser.getPicture().equals(user.get("picture").asString()) ) ));
