@@ -105,22 +105,18 @@ export class AddUpdateListComponent implements OnInit {
           this.onChanges(wishlist);
           this.cd.markForCheck();
         });
+
+      this.wishListFormGroup.get("users").setValue(this.wishList.users || []);
     } else {
       this.edit = false;
 
-      const userState = this.user.getValue();
-
-      if (userState.user) {
-        const owner = {
-          email: userState.user.email,
-          name: userState.user.displayName,
-          type: "OWNER"
-        };
+      const owner = this.getOwner();
+      if (owner) {
         const users: any[] = [
-          ...this.wishListFormGroup.controls.users.value,
+          ...this.wishListFormGroup.get("users").value,
           owner
         ];
-        this.wishListFormGroup.controls.users.setValue(users);
+        this.wishListFormGroup.get("users").setValue(users);
       }
 
       this.wishListFormGroup.setValue(this.wishList);
@@ -165,7 +161,6 @@ export class AddUpdateListComponent implements OnInit {
         });
     }
 
-    this.wishListFormGroup.controls.users.setValue(this.wishList.users || []);
     this.wishListFormGroup
       .get("users")
       .valueChanges.pipe(untilDestroyed(this))
@@ -210,13 +205,34 @@ export class AddUpdateListComponent implements OnInit {
 
   createorUpdateList() {
     this.sending = true;
+    const rawValue: WishList = this.wishListFormGroup.getRawValue();
 
-    this.wishListService
-      .createOrReplace(this.wishListFormGroup.getRawValue())
-      .subscribe(newList => {
-        this.sending = false;
-        this.router.navigate(["/", newList.name]);
-      });
+    if (rawValue.users.length === 0) {
+      const owner = this.getOwner();
+      rawValue.users = [owner];
+    }
+
+    rawValue.owners = rawValue.users.filter(
+      userShare => userShare.type === "OWNER"
+    );
+
+    this.wishListService.createOrReplace(rawValue).subscribe(newList => {
+      this.sending = false;
+      this.router.navigate(["/", newList.name]);
+    });
+  }
+
+  private getOwner() {
+    const userState = this.user.getValue();
+
+    if (userState.user) {
+      return {
+        email: userState.user.email,
+        name: userState.user.displayName,
+        type: "OWNER"
+      };
+    }
+    return null;
   }
 
   private formatUrlName(name) {
