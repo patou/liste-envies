@@ -12,6 +12,8 @@
   forceAnonymous?: boolean;
   state?: string;
   owner?: boolean;
+  canSuggest?: boolean;
+  counts: { [key: string]: number };
 }
 
 export interface UserShare {
