@@ -31,7 +31,7 @@ public class WishListDto {
     private WishListType type; // Purpose of the event for this list
     private Date date; // date of the event
     private SharingPrivacyType privacy; // Option for sharing privacy of the all list.
-
+    private Boolean forceAnonymous;
     private WishListState state;
 
     private Boolean canSuggest;
@@ -116,6 +116,14 @@ public class WishListDto {
 
     public void setPrivacy(SharingPrivacyType privacy) {
         this.privacy = privacy;
+    }
+
+    public Boolean getForceAnonymous() {
+        return forceAnonymous;
+    }
+
+    public void setForceAnonymous(Boolean forceAnonymous) {
+        this.forceAnonymous = forceAnonymous;
     }
 
     public WishListState getState() {
