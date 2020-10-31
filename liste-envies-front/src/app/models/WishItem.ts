@@ -3,7 +3,7 @@
   state?: WishItemState;
   listId?: string;
   listTitle?: string;
-  owner?: Owner;
+  owner?: Person;
   suggest?: boolean;
   deleted?: boolean;
   archived?: boolean;
@@ -13,7 +13,7 @@
   pictures?: string[];
   date?: number;
   urls?: UrlsEntity[] | null;
-  userTake?: Owner[];
+  userTake?: Person[];
   given?: boolean;
   userGiven?: boolean;
   allreadyGiven?: boolean;
@@ -24,7 +24,7 @@
   rating?: number;
   draft?: boolean;
 }
-export interface Owner {
+export interface Person {
   email?: string;
   name: string;
   picture?: string;
@@ -36,12 +36,9 @@ export interface UrlsEntity {
 
 export interface WishComment {
   date?: string;
-  from?: {
-    email?: string;
-    name?: string;
-  };
+  from?: Person;
   text: string;
-  type?: "PRIVATE" | "PUBLIC";
+  type?: "PRIVATE" | "PUBLIC" | "OWNER";
 }
 
 export enum WishItemState {
