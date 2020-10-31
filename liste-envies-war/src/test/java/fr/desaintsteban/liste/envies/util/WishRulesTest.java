@@ -24,7 +24,7 @@ public class WishRulesTest {
 
         WishDto cleaned = WishRules.cleanWish(wish, WishOptionType.ANONYMOUS);
 
-        assertThat(cleaned.getUserTake()).isNull();
+        assertThat(extractProperty("name").from(cleaned.getUserTake())).hasSize(1).contains("anonyme");
         assertThat(extractProperty("text").from(cleaned.getComments())).hasSize(1).contains("Public");
     }
 
