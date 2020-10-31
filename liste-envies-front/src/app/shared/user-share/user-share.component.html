@@ -1,4 +1,4 @@
-<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10">
+<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
   <mat-form-field class="col-10 no-padding">
     <mat-label>Emails</mat-label>
     <input
@@ -24,8 +24,9 @@
     [formControl]="addOwnersControl"
     value="true"
     labelPosition="left"
+    matTooltip="Cette personne recevra les cadeaux avec vous, pourra modifier la liste, et ne pourra pas voir les envies donnés"
   >
-    co-Propriétaire
+    Co-Bénéficiaire
   </mat-checkbox>
 
   <button mat-mini-fab (click)="addUsers()" class="col-1">
@@ -33,15 +34,14 @@
   </button>
 </div>
 <mat-error *ngIf="addEmailsControl.value">
-  Cliquez sur l'icone + pour partager à cet emails
+  Cliquez sur l'icone + pour partager à cet email
 </mat-error>
 <div *ngIf="value && value.length > 0">
-  <table mat-table [dataSource]="datasource" class="mat-elevation-z3">
-    <!--
-      - Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition"
-    -->
-
+  <table
+    mat-table
+    [dataSource]="datasource"
+    class="mat-elevation-z3 user-share-table"
+  >
     <!-- Position Column -->
     <ng-container matColumnDef="email">
       <th mat-header-cell *matHeaderCellDef>Email</th>
@@ -57,7 +57,9 @@
     <!-- Type Column -->
     <ng-container matColumnDef="type">
       <th mat-header-cell *matHeaderCellDef>Type</th>
-      <td mat-cell *matCellDef="let element">{{ element.type }}</td>
+      <td mat-cell *matCellDef="let element">
+        {{ element.type == "OWNER" ? "Co-Bénéficiaire" : "Participant" }}
+      </td>
     </ng-container>
 
     <!-- Type Column -->
