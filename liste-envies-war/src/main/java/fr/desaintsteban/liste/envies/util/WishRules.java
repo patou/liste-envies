@@ -18,6 +18,7 @@ import fr.desaintsteban.liste.envies.service.AppUserService;
 import fr.desaintsteban.liste.envies.service.WishListService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -256,8 +257,11 @@ public class WishRules {
         WishListState state = computeWishListState(user, list);
         switch (state) {
             case OWNER:
+                if (list.getForceAnonymous()) {
+                    return WishOptionType.ANONYMOUS;
+                }
                 //Si une options est définie dans la liste, alors c'est l'option par défaut
-                if (list.getPrivacy() != null) {
+                else if (list.getPrivacy() != null) {
                     switch (list.getPrivacy()) {
                         case PRIVATE:
                             return WishOptionType.HIDDEN;
@@ -333,8 +337,15 @@ public class WishRules {
                 }
                 break;
             case ANONYMOUS:
-                wish.setUserTake(null);
-                wish.setGiven(wish.getAllreadyGiven());
+                if (wish.getUserTake() == null || wish.getUserTake().isEmpty()) {
+                    wish.setUserTake(null);
+                    wish.setGiven(wish.getAllreadyGiven());
+                } else {
+                    PersonParticipantDto anonymous = new PersonParticipantDto("", "anonyme", "", "", "");
+                    wish.setUserTake(Arrays.asList(anonymous));
+                    wish.setGiven(true);
+                    wish.setUserGiven(true);
+                }
                 if (ListUtils.isNotEmpty(wish.getComments())) {
                     wish.setComments(wish.getComments().stream().filter(comment -> comment.getType() == CommentType.PUBLIC).collect(toList()));
                 }

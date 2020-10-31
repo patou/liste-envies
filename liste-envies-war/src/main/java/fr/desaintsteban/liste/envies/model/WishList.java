@@ -2,6 +2,7 @@ package fr.desaintsteban.liste.envies.model;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.annotation.AlsoLoad;
 import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -39,6 +40,9 @@ public class WishList {
     private WishListType type; // Purpose of the event for this list
     private Date date; // date of the event
     private SharingPrivacyType privacy; // Option for sharing privacy of the all list.
+    @AlsoLoad("forceAnonymus")
+    private Boolean forceAnonymous = false;
+
     @Embedded
     @Index
     private HashMap<WishState, Integer> counts = new HashMap<>(); //Compte le nombre d'envies dans chaque état
@@ -90,10 +94,11 @@ public class WishList {
         setDescription(dto.getDescription());
         List<UserShare> users = dto.getUsers().stream().map(userShareDto -> new UserShare(userShareDto.getEmail(), userShareDto.getType())).collect(Collectors.toList());
         setUsers(users);
-        setPicture( dto.getPicture());
-        setType( dto.getType());
-        setDate( dto.getDate());
-        setPrivacy( dto.getPrivacy());
+        setPicture(dto.getPicture());
+        setType(dto.getType());
+        setDate(dto.getDate());
+        setPrivacy(dto.getPrivacy());
+        setForceAnonymous(dto.getForceAnonymous() );
         setStatus(dto.getStatus());
     }
 
@@ -102,10 +107,11 @@ public class WishList {
         dto.setName(getName());
         dto.setTitle(getTitle());
         dto.setDescription(getDescription());
-        dto.setPicture( getPicture());
-        dto.setType( getType());
-        dto.setDate( getDate());
-        dto.setPrivacy( getPrivacy());
+        dto.setPicture(getPicture());
+        dto.setType(getType());
+        dto.setDate(getDate());
+        dto.setPrivacy(getPrivacy());
+        dto.setForceAnonymous(getForceAnonymous());
         dto.setOwner(false);
         dto.setCounts(getCounts());
         dto.setStatus(getStatus());
@@ -175,6 +181,14 @@ public class WishList {
 
     public void setPrivacy(SharingPrivacyType privacy) {
         this.privacy = privacy;
+    }
+
+    public Boolean getForceAnonymous() {
+        return forceAnonymous;
+    }
+
+    public void setForceAnonymous(Boolean forceAnonymous) {
+        this.forceAnonymous = forceAnonymous;
     }
 
     public boolean containsOwner(String email) {
