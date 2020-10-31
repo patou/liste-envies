@@ -216,7 +216,7 @@
               >archive</mat-icon
             >
           </button>
-          <button
+          <!--<button
             type="button"
             aria-label="Toggle sidenav"
             mat-icon-button
@@ -229,7 +229,7 @@
               matTooltip="Archive"
               >delete</mat-icon
             >
-          </button>
+          </button>-->
           <ngx-auth-firebaseui-avatar
             [links]="links"
             layout="simple"
@@ -367,7 +367,7 @@
           </div>
         </ng-template>
       </mat-tab>
-      <mat-tab data-grid="column">
+      <!--<mat-tab data-grid="column">
         <ng-template mat-tab-label>
           <mat-icon
             aria-label="notification icon"
@@ -377,6 +377,7 @@
             >delete</mat-icon
           >
         </ng-template>
+
         <ng-template matTabContent>
           <mat-toolbar color="primary" class="sidenav-top"
             >Corbeille : Envies supprimées
@@ -397,7 +398,9 @@
             <app-side-of-wish typeWish="TRASH"></app-side-of-wish>
           </div>
         </ng-template>
+
       </mat-tab>
+      -->
     </mat-tab-group>
   </mat-sidenav>
 </mat-sidenav-container>
