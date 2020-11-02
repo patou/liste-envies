@@ -88,42 +88,6 @@
         </div>
       </mat-panel-title>
 
-      <!--<mat-panel-description class="header-wishlist-menu hidden-small">
-        <nav
-          mat-tab-nav-bar
-          mat-align-tabs="end"
-          [disablePagination]="true"
-          [disableRipple]="true"
-          color="accent"
-          class="tabs-actif-archive"
-        >
-          <a
-            mat-tab-link
-            class="tab"
-            [routerLink]="['/', list.name]"
-            routerLinkActive
-            #currentList="routerLinkActive"
-            (click)="onClickTabGive($event, currentList.isActive)"
-            [active]="currentList.isActive"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            <mat-icon class="tab-icon">card_giftcard</mat-icon>
-            A offrir
-          </a>
-          <a
-            mat-tab-link
-            class="tab"
-            [routerLink]="['/', list.name, 'archived']"
-            routerLinkActive
-            #archiveList="routerLinkActive"
-            (click)="onClickTabGive($event, archiveList.isActive)"
-            [active]="archiveList.isActive"
-          >
-            <mat-icon class="tab-icon">history</mat-icon>
-            Déjà reçu
-          </a>
-        </nav>
-      </mat-panel-description>-->
       <button
         mat-icon-button
         [matMenuTriggerFor]="menu"
