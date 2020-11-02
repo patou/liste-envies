@@ -55,7 +55,7 @@ export class UserShareComponent
   describedBy = "";
   addEmailsControl: FormControl = new FormControl("", Validators.email);
   addOwnersControl: FormControl = new FormControl(false);
-  displayedColumns: string[] = ["email", "name", "type", "action"];
+  displayedColumns: string[] = ["infos", "type", "action"];
   users: UserShare[] = [];
   public datasource: MatTableDataSource<UserShare> = new MatTableDataSource(
     this.value

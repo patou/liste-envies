@@ -1,3 +1,11 @@
-.user-share-table {
-  width: 100%;
+.user-share-container {
+  max-width: 100%;
+
+  .button-remove-user {
+    margin-bottom: 20px;
+  }
+}
+
+.user-share-add {
+  flex-wrap: wrap;
 }

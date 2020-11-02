@@ -1,5 +1,10 @@
-<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
-  <mat-form-field class="col-10 no-padding">
+<div
+  fxLayout="row wrap"
+  fxLayoutAlign="space-between center"
+  fxLayoutGap="10px"
+  class="user-share-add"
+>
+  <mat-form-field appearance="outline" class="col-12">
     <mat-label>Emails</mat-label>
     <input
       matInput="email"
@@ -8,7 +13,6 @@
       [formControl]="addEmailsControl"
       [matAutocomplete]="auto"
     />
-
     <mat-autocomplete
       #auto="matAutocomplete"
       (optionSelected)="selectedUsers($event)"
@@ -17,62 +21,65 @@
         {{ user.email }} - {{ user.name }}
       </mat-option>
     </mat-autocomplete>
+    <button mat-mini-fab matSuffix (click)="addUsers()" class="col-1">
+      <mat-icon>person_add</mat-icon>
+    </button>
+    <mat-hint
+      ><mat-checkbox
+        name="addOwnersControl"
+        [formControl]="addOwnersControl"
+        value="true"
+        labelPosition="left"
+        matTooltip="Cette personne recevra les cadeaux avec vous, pourra modifier la liste, et ne pourra pas voir les envies donnés"
+      >
+        Co-Bénéficiaire
+      </mat-checkbox></mat-hint
+    >
   </mat-form-field>
-
-  <mat-checkbox
-    name="addOwnersControl"
-    [formControl]="addOwnersControl"
-    value="true"
-    labelPosition="left"
-    matTooltip="Cette personne recevra les cadeaux avec vous, pourra modifier la liste, et ne pourra pas voir les envies donnés"
-  >
-    Co-Bénéficiaire
-  </mat-checkbox>
-
-  <button mat-mini-fab (click)="addUsers()" class="col-1">
-    <mat-icon>add</mat-icon>
-  </button>
 </div>
 <mat-error *ngIf="addEmailsControl.value">
   Cliquez sur l'icone + pour partager à cet email
 </mat-error>
-<div *ngIf="value && value.length > 0">
-  <table
-    mat-table
-    [dataSource]="datasource"
-    class="mat-elevation-z3 user-share-table"
-  >
-    <!-- Position Column -->
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef>Email</th>
-      <td mat-cell *matCellDef="let element">{{ element.email }}</td>
-    </ng-container>
-
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Nom</th>
-      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-    </ng-container>
-
-    <!-- Type Column -->
-    <ng-container matColumnDef="type">
-      <th mat-header-cell *matHeaderCellDef>Type</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.type == "OWNER" ? "Co-Bénéficiaire" : "Participant" }}
-      </td>
-    </ng-container>
-
-    <!-- Type Column -->
-    <ng-container matColumnDef="action">
-      <th mat-header-cell *matHeaderCellDef>Actions</th>
-      <td mat-cell *matCellDef="let element">
-        <button mat-icon-button (click)="removeUser(element)">
-          <mat-icon aria-label="Supprimer">remove_circle</mat-icon>
+<br />
+<mat-divider></mat-divider>
+<br /><br />
+<div
+  *ngIf="value && value.length > 0"
+  class="mat-elevation-z3 user-share-container"
+>
+  <mat-list>
+    <div mat-subheader>Co-Bénéficiaire</div>
+    <ng-container *ngFor="let owner of value">
+      <mat-list-item *ngIf="owner.type === 'OWNER'">
+        <button
+          mat-icon-button
+          mat-list-icon
+          class="button-remove-user"
+          matTooltip="Ne plus partager avec ce co-bénéficiaire"
+          (click)="removeUser(owner)"
+        >
+          <mat-icon aria-label="Supprimer">person_remove</mat-icon>
         </button>
-      </td>
+        <div mat-line>{{ owner.name }}</div>
+        <div mat-line>{{ owner.email }}</div>
+      </mat-list-item>
     </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
+    <mat-divider></mat-divider>
+    <div mat-subheader>Participant</div>
+    <ng-container *ngFor="let participant of value">
+      <mat-list-item *ngIf="participant.type !== 'OWNER'">
+        <button
+          mat-icon-button
+          mat-list-icon
+          class="button-remove-user"
+          matTooltip="Ne plus partager avec ce participant"
+          (click)="removeUser(participant)"
+        >
+          <mat-icon aria-label="Supprimer">person_remove</mat-icon>
+        </button>
+        <div mat-line>{{ participant.name }}</div>
+        <div mat-line>{{ participant.email }}</div>
+      </mat-list-item>
+    </ng-container>
+  </mat-list>
 </div>
