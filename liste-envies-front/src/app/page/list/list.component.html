@@ -88,7 +88,7 @@
         </div>
       </mat-panel-title>
 
-      <mat-panel-description class="header-wishlist-menu hidden-small">
+      <!--<mat-panel-description class="header-wishlist-menu hidden-small">
         <nav
           mat-tab-nav-bar
           mat-align-tabs="end"
@@ -103,7 +103,7 @@
             [routerLink]="['/', list.name]"
             routerLinkActive
             #currentList="routerLinkActive"
-            (click)="doNothing($event)"
+            (click)="onClickTabGive($event, currentList.isActive)"
             [active]="currentList.isActive"
             [routerLinkActiveOptions]="{ exact: true }"
           >
@@ -116,14 +116,14 @@
             [routerLink]="['/', list.name, 'archived']"
             routerLinkActive
             #archiveList="routerLinkActive"
-            (click)="doNothing($event)"
+            (click)="onClickTabGive($event, archiveList.isActive)"
             [active]="archiveList.isActive"
           >
             <mat-icon class="tab-icon">history</mat-icon>
             Déjà reçu
           </a>
         </nav>
-      </mat-panel-description>
+      </mat-panel-description>-->
       <button
         mat-icon-button
         [matMenuTriggerFor]="menu"
@@ -149,36 +149,6 @@
     </mat-expansion-panel-header>
 
     <div (click)="doNothing($event)">
-      <nav
-        mat-tab-nav-bar
-        color="accent"
-        class="tabs-actif-archive visible-small hidden-medium hidden-large hidden-huge"
-      >
-        <a
-          mat-tab-link
-          class="tab"
-          [routerLink]="['/', list.name]"
-          routerLinkActive
-          #currentList="routerLinkActive"
-          [active]="currentList.isActive"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
-          <mat-icon class="tab-icon">card_giftcard</mat-icon>
-          A offrir
-        </a>
-        <a
-          mat-tab-link
-          class="tab"
-          [routerLink]="['/', list.name, 'archived']"
-          routerLinkActive
-          #archiveList="routerLinkActive"
-          [active]="archiveList.isActive"
-        >
-          <mat-icon class="tab-icon">history</mat-icon>
-          Déjà reçu
-        </a>
-      </nav>
-
       <mat-card *ngIf="list.date" class="dateList">
         <mat-card-header>
           <mat-card-title>{{
@@ -203,6 +173,33 @@
           (click)="doNothing($event)"
         ></app-wish-filters-form>
       </mat-action-row>
+      <nav mat-tab-nav-bar color="accent" class="tabs-actif-archive">
+        <a
+          mat-tab-link
+          class="tab"
+          [routerLink]="['/', list.name]"
+          routerLinkActive
+          #currentList="routerLinkActive"
+          [active]="currentList.isActive"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="onClickTabGive($event, currentList.isActive)"
+        >
+          <mat-icon class="tab-icon">card_giftcard</mat-icon>
+          A offrir
+        </a>
+        <a
+          mat-tab-link
+          class="tab"
+          [routerLink]="['/', list.name, 'archived']"
+          routerLinkActive
+          #archiveList="routerLinkActive"
+          [active]="archiveList.isActive"
+          (click)="onClickTabGive($event, archiveList.isActive)"
+        >
+          <mat-icon class="tab-icon">history</mat-icon>
+          Déjà reçu
+        </a>
+      </nav>
     </div>
   </mat-expansion-panel>
   <div *ngIf="!(loading$ | async); else loading">

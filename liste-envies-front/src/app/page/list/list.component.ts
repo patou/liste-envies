@@ -175,6 +175,13 @@ export class ListComponent implements OnInit, OnChanges {
     );
   }
 
+  onClickTabGive(event, isActive) {
+    console.log("IsActive :", isActive);
+    if (!isActive) {
+      this.wishService.setLoading();
+    }
+  }
+
   doNothing(event) {
     event.preventDefault();
     event.stopPropagation();
