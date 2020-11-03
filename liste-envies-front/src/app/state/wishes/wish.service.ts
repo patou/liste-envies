@@ -96,13 +96,13 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
 
   @action("give wish")
   give(id, wishToGive: Partial<WishItem>) {
-    const wish : Partial<WishItem> = {
-          listId: wishToGive.listId, 
-          id,
-          userGiven: true,
-          given: true,
-          userTake: wishToGive.userTake ? [...wishToGive.userTake] : [],
-      };
+    const wish: Partial<WishItem> = {
+      listId: wishToGive.listId,
+      id,
+      userGiven: true,
+      given: true,
+      userTake: wishToGive.userTake ? [...wishToGive.userTake] : []
+    };
     wish.userTake.push({
       name: this.userQuery.getValue().user.displayName
     });
@@ -176,6 +176,10 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
     if (!sortValue) return "+date";
     const order: string = sortValue.sortByOrder === Order.ASC ? "+" : "-";
     return sortValue.sortBy ? order + sortValue.sortBy.toString() : "+date";
+  }
+
+  setLoading(loading: boolean = true) {
+    this.wishStore.setLoading(loading);
   }
 
   @Debounce(100)
