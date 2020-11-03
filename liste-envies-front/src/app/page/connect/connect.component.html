@@ -4,7 +4,7 @@
     <section class="mat-typography">
       <h3>Cette page n'est accessible que si l'on est connecté</h3>
       <div class="row">
-        <div class="col-6">
+        <div class="col-7">
           <p>
             Vous devez vous connecter / ou créer un compte pour accéder à cette
             page.
@@ -14,7 +14,7 @@
           </a>
         </div>
         <div class="col-1 divider"></div>
-        <div class="col-5">
+        <div class="col-4">
           <p>
             Vous pouvez aussi vous connecter ou vous inscrire à partir de vos
             comptes sociaux suivants :
@@ -22,6 +22,7 @@
           <ngx-auth-firebaseui-providers
             [providers]="providers"
             [theme]="theme"
+            layout="column"
           ></ngx-auth-firebaseui-providers>
         </div>
       </div>
