@@ -50,36 +50,46 @@
   <mat-list>
     <div mat-subheader>Co-Bénéficiaire</div>
     <ng-container *ngFor="let owner of value">
-      <mat-list-item *ngIf="owner.type === 'OWNER'">
-        <button
-          mat-icon-button
-          mat-list-icon
-          class="button-remove-user"
-          matTooltip="Ne plus partager avec ce co-bénéficiaire"
-          (click)="removeUser(owner)"
+      <ng-container *ngIf="owner.type === 'OWNER'">
+        <ng-container
+          *ngTemplateOutlet="userShareLine; context: { $implicit: owner }"
         >
-          <mat-icon aria-label="Supprimer">person_remove</mat-icon>
-        </button>
-        <div mat-line>{{ owner.name }}</div>
-        <div mat-line>{{ owner.email }}</div>
-      </mat-list-item>
+        </ng-container>
+      </ng-container>
     </ng-container>
     <mat-divider></mat-divider>
     <div mat-subheader>Participant</div>
     <ng-container *ngFor="let participant of value">
-      <mat-list-item *ngIf="participant.type !== 'OWNER'">
-        <button
-          mat-icon-button
-          mat-list-icon
-          class="button-remove-user"
-          matTooltip="Ne plus partager avec ce participant"
-          (click)="removeUser(participant)"
+      <ng-container *ngIf="participant.type !== 'OWNER'">
+        <ng-container
+          *ngTemplateOutlet="userShareLine; context: { $implicit: participant }"
         >
-          <mat-icon aria-label="Supprimer">person_remove</mat-icon>
-        </button>
-        <div mat-line>{{ participant.name }}</div>
-        <div mat-line>{{ participant.email }}</div>
-      </mat-list-item>
+        </ng-container>
+      </ng-container>
     </ng-container>
   </mat-list>
+  <ng-template #userShareLine let-userShare>
+    <mat-list-item>
+      <ngx-avatar
+        matListAvatar
+        [gravatarId]="userShare?.email"
+        [matTooltip]="userShare?.name || userShare?.email"
+        [name]="userShare?.name || userShare?.email"
+        [round]="true"
+        matTooltipPosition="below"
+        size="30"
+      >
+      </ngx-avatar>
+      <div mat-line>{{ userShare?.name }}</div>
+      <div mat-line>{{ userShare?.email }}</div>
+      <button
+        mat-icon-button
+        class="button-remove-user"
+        matTooltip="Ne plus partager la liste avec cette personne"
+        (click)="removeUser(userShare)"
+      >
+        <mat-icon aria-label="Supprimer">person_remove</mat-icon>
+      </button>
+    </mat-list-item>
+  </ng-template>
 </div>
