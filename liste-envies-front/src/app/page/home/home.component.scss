@@ -2,6 +2,19 @@
   margin-top: 30px;
   max-width: calc(90% - 1em);
   text-align: center;
+
+  .intro1 {
+    margin-top: 30px;
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  }
+
+  .wishlist-img {
+    width: 330px;
+  }
+
+  .divider {
+    border-left: 1px #5a5a5a solid;
+  }
 }
 
 .whishList-Container {
