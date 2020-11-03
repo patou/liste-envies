@@ -115,8 +115,6 @@
         data-src="{{ wishItem.pictures[0] }}"
         alt="{{ wishItem.label }}"
         class="swiper-lazy border"
-        width="300"
-        height="300"
       />
     </div>
   </ng-template>
@@ -130,7 +128,7 @@
       <mat-chip-list>
         <mat-chip *ngIf="wishItem.price" color="accent" selected>
           {{ wishItem.price }}
-          <mat-icon color="primary">euro_symbol</mat-icon>
+          <mat-icon>euro_symbol</mat-icon>
         </mat-chip>
       </mat-chip-list>
       <app-rating

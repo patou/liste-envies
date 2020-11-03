@@ -251,6 +251,9 @@
 
   mat-chip.link-chips {
     cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .userGiven {
