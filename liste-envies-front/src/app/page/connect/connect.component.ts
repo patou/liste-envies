@@ -5,7 +5,7 @@ import { UserState } from "../../state/app/user.store";
 import { UserQuery } from "../../state/app/user.query";
 import { Router } from "@angular/router";
 import { AUTH_PROVIDERS } from "../../shared/auth_providers";
-import { AuthProvider } from "ngx-auth-firebaseui";
+import { AuthProvider, Theme } from "ngx-auth-firebaseui";
 
 @UntilDestroy()
 @Component({
@@ -14,6 +14,7 @@ import { AuthProvider } from "ngx-auth-firebaseui";
   styleUrls: ["./connect.component.scss"]
 })
 export class ConnectComponent implements OnInit {
+  theme: Theme = Theme.RAISED;
   constructor(
     private auth: AuthService,
     private user: UserQuery,

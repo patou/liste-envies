@@ -112,69 +112,71 @@
         </button>
         <a routerLink="/" class="title">
           <span><mat-icon fontSet="fa" fontIcon="fa-gift"></mat-icon></span>
-          Listes de mes envies</a
+          Liste d'envies</a
         >
 
-        <mat-form-field *ngIf="!(loading$ | async) && !(isHandset$ | async)">
-          <input
-            matInput
-            placeholder="Changer de liste"
-            aria-label="State"
-            [matAutocomplete]="auto"
-            [formControl]="selectListControl"
-          />
-          <mat-autocomplete
-            #auto="matAutocomplete"
-            panelWidth="250"
-            (optionSelected)="goToList($event)"
-          >
-            <mat-optgroup label="Mes listes">
-              <mat-option
-                *ngFor="let wishList of myList$ | async; trackBy: trackByFn"
-                [value]="wishList.name"
-              >
-                <div class="option-whishlist">
-                  <list-type-icon [type]="wishList.type"></list-type-icon>
-                  <span class="option-title">{{ wishList.title }}</span>
-                  <ngx-avatar
-                    *ngFor="let owner of wishList.owners"
-                    [gravatarId]="owner.email"
-                    [matTooltip]="owner.name + ' (' + owner.email + ')'"
-                    [name]="owner.name || owner.email"
-                    [round]="true"
-                    [src]="owner.photoURL"
-                    matTooltipPosition="above"
-                    size="20"
-                  >
-                  </ngx-avatar>
-                </div>
-              </mat-option>
-            </mat-optgroup>
-            <mat-optgroup label="Autres listes">
-              <mat-option
-                *ngFor="let wishList of otherList$ | async; trackBy: trackByFn"
-                [value]="wishList.name"
-              >
-                <div class="option-whishlist">
-                  <list-type-icon [type]="wishList.type"></list-type-icon>
-                  <span class="option-title">{{ wishList.title }}</span>
-                  <ngx-avatar
-                    *ngFor="let owner of wishList.owners"
-                    [gravatarId]="owner.email"
-                    [matTooltip]="owner.name + ' (' + owner.email + ')'"
-                    [name]="owner.name || owner.email"
-                    [round]="true"
-                    [src]="owner.photoURL"
-                    matTooltipPosition="above"
-                    size="20"
-                  ></ngx-avatar>
-                </div>
-              </mat-option>
-            </mat-optgroup>
-          </mat-autocomplete>
-        </mat-form-field>
-
         <div *ngIf="userAuth$ | async as user; else showLogin">
+          <mat-form-field *ngIf="!(loading$ | async) && !(isHandset$ | async)">
+            <input
+              matInput
+              placeholder="Changer de liste"
+              aria-label="State"
+              [matAutocomplete]="auto"
+              [formControl]="selectListControl"
+            />
+            <mat-autocomplete
+              #auto="matAutocomplete"
+              panelWidth="250"
+              (optionSelected)="goToList($event)"
+            >
+              <mat-optgroup label="Mes listes">
+                <mat-option
+                  *ngFor="let wishList of myList$ | async; trackBy: trackByFn"
+                  [value]="wishList.name"
+                >
+                  <div class="option-whishlist">
+                    <list-type-icon [type]="wishList.type"></list-type-icon>
+                    <span class="option-title">{{ wishList.title }}</span>
+                    <ngx-avatar
+                      *ngFor="let owner of wishList.owners"
+                      [gravatarId]="owner.email"
+                      [matTooltip]="owner.name + ' (' + owner.email + ')'"
+                      [name]="owner.name || owner.email"
+                      [round]="true"
+                      [src]="owner.photoURL"
+                      matTooltipPosition="above"
+                      size="20"
+                    >
+                    </ngx-avatar>
+                  </div>
+                </mat-option>
+              </mat-optgroup>
+              <mat-optgroup label="Autres listes">
+                <mat-option
+                  *ngFor="
+                    let wishList of otherList$ | async;
+                    trackBy: trackByFn
+                  "
+                  [value]="wishList.name"
+                >
+                  <div class="option-whishlist">
+                    <list-type-icon [type]="wishList.type"></list-type-icon>
+                    <span class="option-title">{{ wishList.title }}</span>
+                    <ngx-avatar
+                      *ngFor="let owner of wishList.owners"
+                      [gravatarId]="owner.email"
+                      [matTooltip]="owner.name + ' (' + owner.email + ')'"
+                      [name]="owner.name || owner.email"
+                      [round]="true"
+                      [src]="owner.photoURL"
+                      matTooltipPosition="above"
+                      size="20"
+                    ></ngx-avatar>
+                  </div>
+                </mat-option>
+              </mat-optgroup>
+            </mat-autocomplete>
+          </mat-form-field>
           <button
             type="button"
             aria-label="Toggle sidenav"
@@ -239,10 +241,6 @@
           ></ngx-auth-firebaseui-avatar>
         </div>
         <ng-template #showLogin>
-          <button mat-button routerLink="/about">
-            <mat-icon>info</mat-icon>
-            En savoir plus
-          </button>
           <button mat-button (click)="connect()">
             <mat-icon>login</mat-icon>
             Connexion

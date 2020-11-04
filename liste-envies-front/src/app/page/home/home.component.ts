@@ -1,4 +1,4 @@
-import { Component, OnDestroy, Inject, OnInit } from "@angular/core";
+import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
 import { WishList } from "../../models/WishList";
 import * as firebase from "firebase";
 import { AuthService } from "../../service/auth.service";
@@ -13,7 +13,7 @@ import {
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { map } from "rxjs/operators";
 import { AUTH_PROVIDERS } from "../../shared/auth_providers";
-import { AuthProvider } from "ngx-auth-firebaseui";
+import { AuthProvider, Theme } from "ngx-auth-firebaseui";
 
 @UntilDestroy()
 @Component({
@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private list$: Observable<WishList[]>;
   public loading$: Observable<boolean>;
   public column$: Observable<number>;
+  theme: Theme = Theme.RAISED;
 
   constructor(
     private wishListService: WishesListQuery,
