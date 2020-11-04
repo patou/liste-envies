@@ -59,6 +59,7 @@
 .wish-card {
   .wish-subtitle {
     padding: 2px 10px;
+    font-size: 11px;
   }
 
   mat-card-content.wish-content {
@@ -245,7 +246,8 @@
     }
     .date mat-icon {
       position: relative;
-      bottom: -5px;
+      bottom: 0;
+      font-size: 11px !important;
     }
   }
 
