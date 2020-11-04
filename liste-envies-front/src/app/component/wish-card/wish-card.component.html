@@ -126,9 +126,14 @@
   >
     <div fxLayout="row" fxLayoutAlign="space-between stretch">
       <mat-chip-list>
-        <mat-chip *ngIf="wishItem.price" color="accent" selected>
-          {{ wishItem.price }}
-          <mat-icon>euro_symbol</mat-icon>
+        <mat-chip
+          *ngIf="wishItem.price"
+          color="accent"
+          selected
+          class="wish-price"
+        >
+          {{ wishItem.price | truncate: 37:"..." }}
+          <mat-icon matChipRemove>euro_symbol</mat-icon>
         </mat-chip>
       </mat-chip-list>
       <app-rating
@@ -151,7 +156,7 @@
           [matTooltip]="url.url"
         >
           <mat-chip selectable class="link-chips"
-            >{{ url.name ? url.name : "lien" }}
+            >{{ !url.name ? "lien" : (url.name | truncate: 46:"...") }}
             <mat-icon matChipRemove>open_in_new</mat-icon>
           </mat-chip>
         </a>

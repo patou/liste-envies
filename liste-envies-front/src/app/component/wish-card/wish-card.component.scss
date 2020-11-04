@@ -254,6 +254,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 500px;
   }
 
   .userGiven {
@@ -529,5 +530,41 @@ div.material-icons.form-control-feedback {
   }
   .message:after {
     border-color: $color_calypso_approx transparent;
+  }
+}
+
+// responsive
+// Variables
+@import "~wire.css/src/scss/config";
+// Mixins
+@import "~wire.css/src/scss/base/mixins";
+
+@include mq(medium) {
+  .wish-card {
+    // This code shows only on phone media query
+    mat-chip.link-chips {
+      font-size: 11px !important;
+      max-width: 200px;
+    }
+
+    .wish-price {
+      font-size: 12px !important;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 180px;
+    }
+  }
+}
+
+@include mq(small) {
+  .wish-card {
+    // This code shows only on phone media query
+    mat-chip.link-chips {
+      font-size: 11px !important;
+    }
+
+    .wish-price {
+      font-size: 11px !important;
+    }
   }
 }
