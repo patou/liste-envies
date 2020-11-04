@@ -306,6 +306,10 @@ mat-card.dateList {
   }
 }
 
+.divider {
+  border-left: 1px #5a5a5a solid;
+}
+
 /*** ***************** files pouns ***/
 @import "~filepond/dist/filepond.css";
 

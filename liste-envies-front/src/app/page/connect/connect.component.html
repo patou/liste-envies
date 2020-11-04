@@ -1,9 +1,31 @@
-<h3>Cette page n'est accessible que si l'on est connecté</h3>
-<p>Merci de se connecter ou de s'inscrire pour utiliser l'application</p>
-<button mat-button (click)="connect()">
-  <mat-icon>login</mat-icon>
-  Connexion ou inscription
-</button>
-<ngx-auth-firebaseui-providers
-  [providers]="providers"
-></ngx-auth-firebaseui-providers>
+<div>
+  <div class="page-background"></div>
+  <mat-card class="header-page-card">
+    <section class="mat-typography">
+      <h3>Cette page n'est accessible que si l'on est connecté</h3>
+      <div class="row">
+        <div class="col-7">
+          <p>
+            Vous devez vous connecter / ou créer un compte pour accéder à cette
+            page.
+          </p>
+          <a mat-raised-button color="primary" (click)="connect()">
+            Connexion / créer un compte
+          </a>
+        </div>
+        <div class="col-1 divider"></div>
+        <div class="col-4">
+          <p>
+            Vous pouvez aussi vous connecter ou vous inscrire à partir de vos
+            comptes sociaux suivants :
+          </p>
+          <ngx-auth-firebaseui-providers
+            [providers]="providers"
+            [theme]="theme"
+            layout="column"
+          ></ngx-auth-firebaseui-providers>
+        </div>
+      </div>
+    </section>
+  </mat-card>
+</div>
