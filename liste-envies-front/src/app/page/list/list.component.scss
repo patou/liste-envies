@@ -1,5 +1,12 @@
-mat-card.header-page-card.mat-card {
+.header-page-card {
   text-align: left;
+  ::ng-deep .mat-expansion-panel-body {
+    padding-bottom: 0 !important;
+  }
+
+  .list-filters {
+    padding: 0 8px 0 0;
+  }
 }
 
 mat-divider.mat-divider.divider-withDate.mat-divider-horizontal.mat-divider-inset {

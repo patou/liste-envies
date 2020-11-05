@@ -59,10 +59,12 @@
 .wish-card {
   .wish-subtitle {
     padding: 2px 10px;
+    font-size: 11px;
   }
 
   mat-card-content.wish-content {
-    padding: 2px 10px;
+    padding: 8px 10px;
+    margin-bottom: 15px;
   }
 
   mat-card-actions.wish-footer {
@@ -86,6 +88,11 @@
   .owner {
     display: flex;
     align-items: center;
+    max-width: 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 14px;
+    white-space: nowrap;
     .ownerName {
       flex: 4;
       overflow: hidden;
@@ -245,17 +252,39 @@
     }
     .date mat-icon {
       position: relative;
-      bottom: -5px;
+      bottom: 0;
+      font-size: 11px !important;
+      height: 11px;
+      width: 14px;
+    }
+
+    .wish-title {
+      font-weight: bold;
+      &.wish-title-sort {
+        font-size: 24px;
+      }
+      &.wish-title-medium {
+        font-size: 20px;
+      }
+      &.wish-title-long {
+        font-size: 14px;
+      }
     }
   }
 
   mat-chip.link-chips {
     cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 500px;
   }
 
   .userGiven {
     display: block;
-    line-height: 25px;
+    line-height: 24px;
+    font-size: 14px;
+    color: $amber-700;
 
     span {
       display: inline-flex;
@@ -340,6 +369,9 @@
         margin-right: 3px;
       }
     }*/
+  }
+  .wish-action-button {
+    width: 96%;
   }
 }
 
@@ -526,5 +558,41 @@ div.material-icons.form-control-feedback {
   }
   .message:after {
     border-color: $color_calypso_approx transparent;
+  }
+}
+
+// responsive
+// Variables
+@import "~wire.css/src/scss/config";
+// Mixins
+@import "~wire.css/src/scss/base/mixins";
+
+@include mq(medium) {
+  .wish-card {
+    // This code shows only on phone media query
+    mat-chip.link-chips {
+      font-size: 11px !important;
+      max-width: 200px;
+    }
+
+    .wish-price {
+      font-size: 12px !important;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 180px;
+    }
+  }
+}
+
+@include mq(small) {
+  .wish-card {
+    // This code shows only on phone media query
+    mat-chip.link-chips {
+      font-size: 11px !important;
+    }
+
+    .wish-price {
+      font-size: 11px !important;
+    }
   }
 }
