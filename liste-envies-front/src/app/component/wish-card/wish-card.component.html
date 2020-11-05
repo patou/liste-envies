@@ -13,7 +13,15 @@
       fxLayout="row"
       fxLayoutAlign="space-between center"
     >
-      <span class="col-9">{{ wishItem.label }}</span>
+      <span
+        class="col-9 wish-title"
+        [class.wish-title-small]="wishItem.label?.length < 20"
+        [class.wish-title-medium]="
+          wishItem.label?.length >= 20 && wishItem.label?.length < 60
+        "
+        [class.wish-title-big]="wishItem.label?.length >= 60"
+        >{{ wishItem.label }}</span
+      >
       <span>
         <button
           mat-icon-button
@@ -77,7 +85,7 @@
         <ngx-avatar
           [name]="wishItem?.owner?.name || wishItem?.owner?.email"
           [gravatarId]="wishItem?.owner?.email"
-          size="20"
+          size="15"
           [round]="true"
         >
         </ngx-avatar>
@@ -115,8 +123,6 @@
         data-src="{{ wishItem.pictures[0] }}"
         alt="{{ wishItem.label }}"
         class="swiper-lazy border"
-        width="300"
-        height="300"
       />
     </div>
   </ng-template>
@@ -128,9 +134,14 @@
   >
     <div fxLayout="row" fxLayoutAlign="space-between stretch">
       <mat-chip-list>
-        <mat-chip *ngIf="wishItem.price" color="accent" selected>
-          {{ wishItem.price }}
-          <mat-icon color="primary">euro_symbol</mat-icon>
+        <mat-chip
+          *ngIf="wishItem.price"
+          color="primary"
+          selected
+          class="wish-price"
+        >
+          {{ wishItem.price | truncate: 37:"..." }}
+          <mat-icon matChipRemove>euro_symbol</mat-icon>
         </mat-chip>
       </mat-chip-list>
       <app-rating
@@ -153,7 +164,7 @@
           [matTooltip]="url.url"
         >
           <mat-chip selectable class="link-chips"
-            >{{ url.name ? url.name : "lien" }}
+            >{{ !url.name ? "lien" : (url.name | truncate: 46:"...") }}
             <mat-icon matChipRemove>open_in_new</mat-icon>
           </mat-chip>
         </a>
@@ -280,8 +291,8 @@
               [disabled]="readOnly"
             >
               <mat-icon aria-label="Envoyer le commentaire"
-                >add_comment</mat-icon
-              >
+                >add_comment
+              </mat-icon>
             </button>
             <mat-hint>
               le commentaire ne sera pas visible pour le propriétaire de la
@@ -295,7 +306,12 @@
   </mat-card-content>
 
   <mat-card-actions class="wish-footer">
-    <mat-label color="warn" *ngIf="wishItem.allreadyGiven" disableRipple="true">
+    <mat-label
+      color="warn"
+      class="userGiven"
+      *ngIf="wishItem.allreadyGiven"
+      disableRipple="true"
+    >
       Déjà offert
     </mat-label>
 
@@ -305,7 +321,7 @@
       disableRipple="true"
       class="userGiven"
     >
-      Offert par
+      Sera offert par
       <span
         *ngFor="let userGiven of wishItem.userTake; let last = last"
         matTooltip="{{ userGiven?.name }} : {{ userGiven?.email }}"
@@ -313,23 +329,25 @@
         <ngx-avatar
           [name]="userGiven?.name || userGiven?.email"
           [gravatarId]="userGiven?.email"
-          size="20"
+          size="15"
           [round]="true"
         ></ngx-avatar>
         {{ userGiven?.name }}{{ !last ? "," : "" }}
       </span>
       <button
         mat-stroked-button
+        class="wish-action-button"
         color="accent"
         *ngIf="wishItem.given && wishItem.canParticipate"
         (click)="give(wishItem)"
         [disabled]="readOnly"
       >
-        Participer
+        Je souhaite participer
       </button>
     </mat-label>
     <button
       mat-raised-button
+      class="wish-action-button"
       color="accent"
       *ngIf="
         !wishItem.allreadyGiven && !wishItem.given && wishItem.canParticipate
@@ -337,10 +355,11 @@
       [disabled]="readOnly"
       (click)="give(wishItem)"
     >
-      Offrir
+      je souhaite l'offrir
     </button>
     <button
       mat-raised-button
+      class="wish-action-button"
       color="primary"
       *ngIf="wishItem.canEdit"
       (click)="editWish(wishItem)"
