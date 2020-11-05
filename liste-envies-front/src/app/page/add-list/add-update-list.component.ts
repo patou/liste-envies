@@ -139,8 +139,6 @@ export class AddUpdateListComponent implements OnInit {
         });
     }
 
-    this.changesdemoWish();
-
     if (!this.edit) {
       this.user
         .select()
@@ -181,6 +179,8 @@ export class AddUpdateListComponent implements OnInit {
     this.wishListFormGroup.valueChanges
       .pipe(untilDestroyed(this), debounceTime(500))
       .subscribe(value => this.onChanges(value));
+
+    this.changesdemoWish();
   }
 
   changeName(name) {

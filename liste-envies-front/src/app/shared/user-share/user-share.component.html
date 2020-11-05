@@ -30,7 +30,7 @@
         [formControl]="addOwnersControl"
         value="true"
         labelPosition="left"
-        matTooltip="Cette personne recevra les cadeaux avec vous, pourra modifier la liste, et ne pourra pas voir les envies donnés"
+        matTooltip="Cette personne recevra les cadeaux avec vous, pourra modifier la liste, et ne pourra pas voir les envies données"
       >
         Co-Bénéficiaire
       </mat-checkbox></mat-hint
@@ -38,7 +38,7 @@
   </mat-form-field>
 </div>
 <mat-error *ngIf="addEmailsControl.value">
-  Cliquez sur l'icone + pour partager à cet email
+  Cliquez sur l'icone + pour partager cette liste à cet email
 </mat-error>
 <br />
 <mat-divider></mat-divider>
@@ -48,7 +48,7 @@
   class="mat-elevation-z3 user-share-container"
 >
   <mat-list>
-    <div mat-subheader>Co-Bénéficiaire</div>
+    <div mat-subheader>Co-Bénéficiaires</div>
     <ng-container *ngFor="let owner of value">
       <ng-container *ngIf="owner.type === 'OWNER'">
         <ng-container
@@ -58,7 +58,7 @@
       </ng-container>
     </ng-container>
     <mat-divider></mat-divider>
-    <div mat-subheader>Participant</div>
+    <div mat-subheader>Participants</div>
     <ng-container *ngFor="let participant of value">
       <ng-container *ngIf="participant.type !== 'OWNER'">
         <ng-container

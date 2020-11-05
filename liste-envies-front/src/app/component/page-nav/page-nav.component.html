@@ -119,7 +119,7 @@
           <mat-form-field *ngIf="!(loading$ | async) && !(isHandset$ | async)">
             <input
               matInput
-              placeholder="Changer de liste"
+              placeholder="Rechercher une liste"
               aria-label="State"
               [matAutocomplete]="auto"
               [formControl]="selectListControl"
@@ -199,8 +199,8 @@
             <mat-icon
               aria-label="notification icon"
               [matBadge]="basketCount$ | async"
-              matBadgeColor="warn"
-              matTooltip="Pannier"
+              matBadgeColor="primary"
+              matTooltip="Les envies que j'offre"
               >shopping_cart</mat-icon
             >
           </button>
@@ -213,8 +213,8 @@
             <mat-icon
               aria-label="notification icon"
               [matBadge]="archiveCount$ | async"
-              matBadgeColor="warn"
-              matTooltip="Archive"
+              matBadgeColor="primary"
+              matTooltip="Mes envies reçus et/ou archivées"
               >archive</mat-icon
             >
           </button>
@@ -278,7 +278,7 @@
             aria-label="notification icon"
             [matBadge]="notifsCount$ | async"
             matBadgeColor="warn"
-            matTooltip="Notification"
+            matTooltip="Notifications"
             >notifications_active</mat-icon
           >
         </ng-template>
@@ -309,14 +309,14 @@
           <mat-icon
             aria-label="notification icon"
             [matBadge]="basketCount$ | async"
-            matBadgeColor="warn"
-            matTooltip="Pannier"
+            matBadgeColor="primary"
+            matTooltip="Les envies que j'offre"
             >shopping_cart</mat-icon
           >
         </ng-template>
         <ng-template matTabContent>
           <mat-toolbar color="primary" class="sidenav-top">
-            Panier : Envies à donner
+            Les envies que j'offre
 
             <button
               type="button"
@@ -340,14 +340,14 @@
           <mat-icon
             aria-label="notification icon"
             [matBadge]="archiveCount$ | async"
-            matBadgeColor="warn"
-            matTooltip="Archive"
+            matBadgeColor="primary"
+            matTooltip="Mes envies reçus et/ou archivées"
             >archive</mat-icon
           >
         </ng-template>
         <ng-template matTabContent>
           <mat-toolbar color="primary" class="sidenav-top"
-            >Archive : Envies reçues
+            >Mes envies archivées
             <button
               type="button"
               aria-label="Toggle sidenav"

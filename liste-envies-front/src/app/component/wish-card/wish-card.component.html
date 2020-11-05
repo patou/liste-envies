@@ -30,7 +30,7 @@
           disabled
         >
           <mat-icon
-            matTooltip="Suggestion : cette envie n'est pas visible par les responsables de la liste"
+            matTooltip="Suggestion : cette envie n'est pas visible par les co-bénéficiaires de la liste"
             >wb_incandescent</mat-icon
           >
         </button>
@@ -76,7 +76,7 @@
     >
       <span matTooltip="{{ wishItem.date | date: 'long' }}" class="date"
         ><mat-icon>date_range</mat-icon>
-        {{ wishItem?.date | amLocal: "fr" | amTimeAgo }}</span
+        {{ wishItem.date | amLocal: "fr" | amTimeAgo }}</span
       >
       <div
         class="owner"
@@ -139,6 +139,7 @@
           color="primary"
           selected
           class="wish-price"
+          [matTooltip]="wishItem.price"
         >
           {{ wishItem.price | truncate: 37:"..." }}
           <mat-icon matChipRemove>euro_symbol</mat-icon>
@@ -161,10 +162,16 @@
           [href]="url.url"
           *ngFor="let url of wishItem.urls"
           target="_blank"
-          [matTooltip]="url.url"
+          [matTooltip]="
+            url?.name
+              ? 'Acheter sur ' + url?.name + ' : ' + url.url
+              : 'Acheter sur : ' + url.url
+          "
         >
           <mat-chip selectable class="link-chips"
-            >{{ !url.name ? "lien" : (url.name | truncate: 46:"...") }}
+            >{{
+              !url.name ? "lien pour acheter" : (url.name | truncate: 46:"...")
+            }}
             <mat-icon matChipRemove>open_in_new</mat-icon>
           </mat-chip>
         </a>
@@ -228,7 +235,7 @@
                 [matTooltip]="comment?.date | date: 'long'"
               >
                 <mat-icon inline="true">date_range</mat-icon>
-                {{ comment?.date | amLocal: "fr" | amTimeAgo }}
+                {{ comment.date | amLocal: "fr" | amTimeAgo }}
               </span>
             </p>
             <h6 matLine><span [innerHTML]="comment?.text"></span></h6>
@@ -295,7 +302,7 @@
               </mat-icon>
             </button>
             <mat-hint>
-              le commentaire ne sera pas visible pour le propriétaire de la
+              le commentaire ne sera pas visible pour les bénéficiaires de la
               liste
             </mat-hint>
           </mat-form-field>
@@ -341,6 +348,7 @@
         *ngIf="wishItem.given && wishItem.canParticipate"
         (click)="give(wishItem)"
         [disabled]="readOnly"
+        [matTooltip]="'Je souhaite joindre ma participation à cette envie'"
       >
         Je souhaite participer
       </button>
@@ -354,6 +362,9 @@
       "
       [disabled]="readOnly"
       (click)="give(wishItem)"
+      [matTooltip]="
+        'Indiquez aux autres que vous offrez cette envie, puis à vous de l\'acheter et de l\'offrir'
+      "
     >
       je souhaite l'offrir
     </button>
