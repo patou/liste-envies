@@ -249,6 +249,19 @@
       bottom: 0;
       font-size: 11px !important;
     }
+
+    .wish-title {
+      font-weight: bold;
+      &.wish-title-sort {
+        font-size: 24px;
+      }
+      &.wish-title-medium {
+        font-size: 20px;
+      }
+      &.wish-title-long {
+        font-size: 14px;
+      }
+    }
   }
 
   mat-chip.link-chips {
