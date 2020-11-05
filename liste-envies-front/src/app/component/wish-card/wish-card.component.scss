@@ -63,7 +63,8 @@
   }
 
   mat-card-content.wish-content {
-    padding: 2px 10px;
+    padding: 8px 10px;
+    margin-bottom: 15px;
   }
 
   mat-card-actions.wish-footer {
@@ -87,6 +88,11 @@
   .owner {
     display: flex;
     align-items: center;
+    max-width: 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 14px;
+    white-space: nowrap;
     .ownerName {
       flex: 4;
       overflow: hidden;
@@ -248,6 +254,8 @@
       position: relative;
       bottom: 0;
       font-size: 11px !important;
+      height: 11px;
+      width: 14px;
     }
 
     .wish-title {
@@ -274,7 +282,9 @@
 
   .userGiven {
     display: block;
-    line-height: 25px;
+    line-height: 24px;
+    font-size: 14px;
+    color: $amber-700;
 
     span {
       display: inline-flex;
@@ -359,6 +369,9 @@
         margin-right: 3px;
       }
     }*/
+  }
+  .wish-action-button {
+    width: 96%;
   }
 }
 

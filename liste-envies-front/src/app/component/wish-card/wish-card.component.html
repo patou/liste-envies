@@ -136,7 +136,7 @@
       <mat-chip-list>
         <mat-chip
           *ngIf="wishItem.price"
-          color="accent"
+          color="primary"
           selected
           class="wish-price"
         >
@@ -306,7 +306,12 @@
   </mat-card-content>
 
   <mat-card-actions class="wish-footer">
-    <mat-label color="warn" *ngIf="wishItem.allreadyGiven" disableRipple="true">
+    <mat-label
+      color="warn"
+      class="userGiven"
+      *ngIf="wishItem.allreadyGiven"
+      disableRipple="true"
+    >
       Déjà offert
     </mat-label>
 
@@ -316,7 +321,7 @@
       disableRipple="true"
       class="userGiven"
     >
-      Offert par
+      Sera offert par
       <span
         *ngFor="let userGiven of wishItem.userTake; let last = last"
         matTooltip="{{ userGiven?.name }} : {{ userGiven?.email }}"
@@ -324,23 +329,25 @@
         <ngx-avatar
           [name]="userGiven?.name || userGiven?.email"
           [gravatarId]="userGiven?.email"
-          size="20"
+          size="15"
           [round]="true"
         ></ngx-avatar>
         {{ userGiven?.name }}{{ !last ? "," : "" }}
       </span>
       <button
         mat-stroked-button
+        class="wish-action-button"
         color="accent"
         *ngIf="wishItem.given && wishItem.canParticipate"
         (click)="give(wishItem)"
         [disabled]="readOnly"
       >
-        Participer
+        Je souhaite participer
       </button>
     </mat-label>
     <button
       mat-raised-button
+      class="wish-action-button"
       color="accent"
       *ngIf="
         !wishItem.allreadyGiven && !wishItem.given && wishItem.canParticipate
@@ -348,10 +355,11 @@
       [disabled]="readOnly"
       (click)="give(wishItem)"
     >
-      Offrir
+      je souhaite l'offrir
     </button>
     <button
       mat-raised-button
+      class="wish-action-button"
       color="primary"
       *ngIf="wishItem.canEdit"
       (click)="editWish(wishItem)"
