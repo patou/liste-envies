@@ -235,7 +235,7 @@
                 [matTooltip]="comment?.date | date: 'long'"
               >
                 <mat-icon inline="true">date_range</mat-icon>
-                {{ comment.date | amLocal: "fr" | amTimeAgo }}
+                {{ comment?.date | amLocal: "fr" | amTimeAgo }}
               </span>
             </p>
             <h6 matLine><span [innerHTML]="comment?.text"></span></h6>
