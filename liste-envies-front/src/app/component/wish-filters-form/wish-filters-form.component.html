@@ -12,10 +12,26 @@
     formControlName="type"
     class="filterWishToggle"
   >
-    <mat-button-toggle value="all">Tous</mat-button-toggle>
-    <mat-button-toggle value="to_give">A offrir</mat-button-toggle>
-    <mat-button-toggle value="given">Offert</mat-button-toggle>
-    <mat-button-toggle value="suggest">Suggestion</mat-button-toggle>
+    <mat-button-toggle
+      value="all"
+      matTooltip="Afficher toutes les envies de la liste"
+      >Tous</mat-button-toggle
+    >
+    <mat-button-toggle
+      value="to_give"
+      matTooltip="Afficher seulement les envies qui restent à offrir"
+      >A offrir</mat-button-toggle
+    >
+    <mat-button-toggle
+      value="given"
+      matTooltip="Afficher seulement les envies déjà offert"
+      >Offert</mat-button-toggle
+    >
+    <mat-button-toggle
+      value="suggest"
+      matTooltip="Afficher seulement les suggestions d'envies"
+      >Suggestions</mat-button-toggle
+    >
   </mat-button-toggle-group>
 
   <mat-button-toggle-group
@@ -23,7 +39,11 @@
     formControlName="comment"
     class="filterWishToggle"
   >
-    <mat-button-toggle value="comment">Commentaires</mat-button-toggle>
+    <mat-button-toggle
+      value="comment"
+      matTooltip="Afficher seulement les envies qui ont des commentaires"
+      >Commentaires</mat-button-toggle
+    >
   </mat-button-toggle-group>
 
   <mat-form-field appearance="fill" class="filters-wish-formfield">
@@ -34,7 +54,7 @@
       formControlName="search"
     />
     <mat-icon matSuffix>search</mat-icon>
-    <mat-hint>Recherche dans les envies</mat-hint>
+    <mat-hint>Recherche dans les envies de la liste</mat-hint>
   </mat-form-field>
 
   <mat-form-field appearance="fill" class="filters-wish-formfield">
@@ -45,7 +65,7 @@
       <mat-option value="+price">Prix - moins cher</mat-option>
       <mat-option value="-price">Prix - plus cher</mat-option>
       <mat-option value="+date">date - plus récent</mat-option>
-      <mat-option value="-date">date - plus anciens</mat-option>
+      <mat-option value="-date">date - plus ancien</mat-option>
       <mat-option value="+rating">Note - 1 étoile</mat-option>
       <mat-option value="-rating">Note - 5 étoiles</mat-option>
     </mat-select>
@@ -58,6 +78,7 @@
       removable="true"
       (removed)="removeFilter(filter.id)"
       *ngFor="let filter of filters | async"
+      matTooltip="Supprimer ce filtre"
       >{{ filter.name }}
       <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip>

@@ -147,6 +147,7 @@
           [active]="currentList.isActive"
           [routerLinkActiveOptions]="{ exact: true }"
           (click)="onClickTabGive($event, currentList.isActive)"
+          matTooltip="Afficher les envies en cours de la liste offertes ou qui reste à offrir"
         >
           <mat-icon class="tab-icon">card_giftcard</mat-icon>
           A offrir
@@ -159,9 +160,10 @@
           #archiveList="routerLinkActive"
           [active]="archiveList.isActive"
           (click)="onClickTabGive($event, archiveList.isActive)"
+          matTooltip="Afficher les envies de cette liste qui ont déjà été offertes et qui ont été archivées"
         >
           <mat-icon class="tab-icon">history</mat-icon>
-          Déjà reçu
+          Archivé (Déjà reçu)
         </a>
       </nav>
     </div>
@@ -175,7 +177,13 @@
   </div>
 
   <span class="done">
-    <button mat-fab (click)="addWish()" [disabled]="demo">
+    <button
+      mat-fab
+      (click)="addWish()"
+      [disabled]="demo"
+      matTooltip="Ajouter une nouvelle envie"
+      matTooltipPosition="left"
+    >
       <mat-icon>add</mat-icon>
     </button>
   </span>

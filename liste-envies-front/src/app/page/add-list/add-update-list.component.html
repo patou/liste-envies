@@ -59,7 +59,7 @@
               </mat-select>
             </mat-form-field>
             <mat-form-field class="col-4 col-offset-1" appearance="outline">
-              <mat-label>date de l'évenement</mat-label>
+              <mat-label>date de l'événement</mat-label>
               <input
                 matInput
                 [matDatepicker]="picker"
@@ -88,7 +88,7 @@
                 #description
                 hideToolbar="false"
                 editorHeight="150px"
-                placeholder="Entrez un Description pour votre liste, vous pouvez la mettre en forme, ajouter des liens etc..."
+                placeholder="Entrez une description pour votre liste, vous pouvez la mettre en forme, ajouter des liens etc..."
                 type="full"
                 formControlName="description"
               ></app-html-editor>
@@ -99,9 +99,12 @@
           </div>
         </div>
         <div>
-          <button mat-button matStepperNext>Suivant</button>
+          <button mat-button matStepperNext mat-raised-button color="accent">
+            Suivant
+          </button>
           <button
             mat-raised-button
+            color="primary"
             (click)="createorUpdateList()"
             [disabled]="sending"
             *ngIf="edit"
@@ -116,7 +119,7 @@
       <div class="grid">
         <div class="col-6 grid--ca-space-around">
           <div class="col-12">
-            <mat-label>Privacy</mat-label>
+            <mat-label>Mode de partage</mat-label>
             <mat-radio-group
               formControlName="privacy"
               name="privacy"
@@ -139,9 +142,11 @@
                   src="/assets/illu/undraw_security_o890.png"
                   class="border round privacy-img"
                 />
-                Liste accessible seulement à ceux à qui vous partagerez la
-                liste. <br />Vous ne verrez pas qui vous donne une envie, seules
-                les personnes a qui vous la partagerez le verra.
+                Liste accessible seulement aux prsonnes à qui vous la
+                partagerez.
+                <br />Vous ne verrez pas qui vous offre une envie. Contrairement
+                aux participants qui pourront voir et indiquer qui offre une
+                envie.
               </div>
               <div *ngSwitchCase="'OPEN'">
                 <img
@@ -149,20 +154,21 @@
                   class="border round privacy-img"
                 />Il faut être connecté pour voir les envies de la liste (et
                 intéragir avec), la liste est ouverte à tous les membres qui
-                connaisse le liens. <br />
+                connaissent le lien. <br />
                 Vous ne verrez pas qui vous donne une envie, par contre toutes
-                les personnes connectés (sauf les bénéficiaires) voient qui
+                les personnes connectés (sauf les co-bénéficiaires) voient qui
                 donne une envie.
               </div>
               <div *ngSwitchCase="'PUBLIC'">
                 <img
                   src="/assets/illu/undraw_world_9iqb.png"
                   class="border round privacy-img"
-                />La liste peut être affiché sans être connecté par toute
-                personne connaissant le lien. Il est nécessaire de se connecter
-                pour interagir avec, et voir si une envie est prise. <br />
-                Toutes les personnes connectés (bénéficiaires compris) voient
-                qui donne une envie.
+                />La liste peut être affichée par toute personne connaissant le
+                lien (sans être connecté). Par contre, Il est nécessaire de se
+                connecter pour interagir avec, et voir si une envie est prise.
+                <br />
+                Toutes les personnes connectées (co-bénéficiaires compris)
+                voient qui offre une envie.
               </div>
             </div>
           </div>
@@ -189,7 +195,7 @@
 
       <div>
         <button mat-button matStepperPrevious>Précédent</button>
-        <button mat-button matStepperNext>Suivant</button>
+        <button matStepperNext mat-raised-button color="accent">Suivant</button>
         <button
           mat-raised-button
           (click)="createorUpdateList()"
@@ -223,7 +229,7 @@
               <mat-label>Image personnalisé </mat-label>
               <input
                 matInput
-                placeholder="Image personnalisé d'arrière-plan"
+                placeholder="Image personnalisée d'arrière-plan"
                 formControlName="picture"
                 name="picture"
               />
@@ -236,16 +242,17 @@
         <button mat-button matStepperPrevious [disabled]="sending">
           Précédent
         </button>
+        <button mat-button (click)="stepper.reset()" [disabled]="sending">
+          Réinitialiser
+        </button>
         <button
           mat-raised-button
+          color="accent"
           (click)="createorUpdateList()"
           [disabled]="sending"
         >
           <span *ngIf="edit; else addButtonLabel">Mettre à jour la liste</span>
           <ng-template #addButtonLabel>Créer la liste</ng-template>
-        </button>
-        <button mat-button (click)="stepper.reset()" [disabled]="sending">
-          Réinitialiser
         </button>
       </div>
     </mat-step>
@@ -264,7 +271,7 @@
       value="https://liste-envie.desaintsteban.fr/{{ urlName.value }}"
       disabled
     />
-    <span class="labelDemo">En tant que</span>
+    <!--<span class="labelDemo">En tant que</span>
     <mat-button-toggle-group
       #previewAs="matButtonToggleGroup"
       class="buttonGroupDemo"
@@ -272,15 +279,15 @@
       (change)="onChangePreview($event)"
     >
       <mat-button-toggle value="OWNER" checked>
-        <mat-icon>lock</mat-icon> Propriétaire
+        <mat-icon>lock</mat-icon> Co-bénéficaires
       </mat-button-toggle>
       <mat-button-toggle value="REGISTRER">
-        <mat-icon>lock_open</mat-icon> Participant
+        <mat-icon>lock_open</mat-icon> Participants
       </mat-button-toggle>
       <mat-button-toggle value="PUBLIC">
         <mat-icon>public</mat-icon> Public
       </mat-button-toggle>
-    </mat-button-toggle-group>
+    </mat-button-toggle-group>-->
   </div>
 
   <div class="browser-container">

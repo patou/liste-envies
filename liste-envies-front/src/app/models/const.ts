@@ -6,7 +6,7 @@ export const WishListTypeLabel = {
   BIRTH: "Liste de naissance",
   BIRTHDAY: "Anniversaire",
   LEAVING: "Liste pour un départ",
-  HOUSE_WARMING: "Pendaisons de Crémaillères",
+  HOUSE_WARMING: "Pendaisons de Crémaillère",
   RETIREMENT: "Départ à la retraite",
   CEREMONY: "Cérémonie (baptême, communion, ...)",
   SPECIAL_OCCASION: "Occasion spéciale",

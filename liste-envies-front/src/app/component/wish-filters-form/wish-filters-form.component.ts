@@ -64,7 +64,7 @@ export class WishFiltersFormComponent implements OnInit {
         switch (type) {
           case "to_give":
             typeFilter = (wishes: WishItem) => !wishes.given;
-            typeName = "Envies à donner";
+            typeName = "Envies à offrir";
             break;
 
           case "given":
@@ -73,7 +73,7 @@ export class WishFiltersFormComponent implements OnInit {
             break;
           case "suggest":
             typeFilter = (wishes: WishItem) => wishes.suggest;
-            typeName = "Suggestion";
+            typeName = "Suggestions";
             break;
         }
 

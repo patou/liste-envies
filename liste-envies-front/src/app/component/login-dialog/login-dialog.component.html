@@ -23,13 +23,13 @@
         Si vous n'avez pas de compte, vous pouvez en créer un ci-dessous ou
         utiliser un compte social (exemple Google ou Facebook). Sinon entrez
         votre login et mot de passe pour vous connecter via votre compte "liste
-        d'envie".
+        d'envies".
       </p>
       <ngx-auth-firebaseui
         [providers]="[]"
         [guestEnabled]="false"
         (onSuccess)="successCallback($event)"
-        appearance="outline"
+        appearance="Apparence"
         loginButtonText="S'identifier"
         emailText="Email"
         emailErrorRequiredText="L'email est requis"
@@ -37,14 +37,14 @@
         passwordText="Mot de passe"
         passwordErrorRequiredText="Le mot de passe est requis"
         signInTabText="Se connecter"
-        signInCardTitleText="Connectez-vous avec un compte 'liste d'envie'"
+        signInCardTitleText="Connectez-vous avec un compte 'liste d'envies'"
         forgotPasswordButtonText="Mot de passe oublié ?"
         nameText="Nom"
         nameErrorRequiredText="Le nom est requis"
         nameErrorMinLengthText="Le nom est trop court !"
         nameErrorMaxLengthText="Le nom est trop long !"
         registerTabText="Créer un compte"
-        registerCardTitleText="Creér un compte 'liste d'envie'"
+        registerCardTitleText="Creér un compte 'liste d'envies'"
         registerButtonText="Créer"
         guestButtonText="continuer en tant qu'invité"
         resetPasswordTabText="Réinitialisation du mot de passe par email"
@@ -76,7 +76,7 @@
         [theme]="theme"
       ></ngx-auth-firebaseui-providers>
       <p class="login-dialog-subdescription">
-        Si vous aviez déjà un compte sur la version 1 de liste d'envie, vous
+        Si vous aviez déjà un compte sur la version 1 de liste d'envies, vous
         devez utiliser la connection via votre compte Google.
       </p>
     </div>
