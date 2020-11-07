@@ -82,6 +82,36 @@ jobs: # a collection of steps
             echo "Deploy application ${APP_ID} version ${APP_VERSION}"
             gcloud auth activate-service-account --key-file client-secret.json
             mvn -B --no-transfer-progress -DskipTests=true -Dapp.deploy.projectId=${APP_ID} -Dapp.deploy.version=${APP_VERSION} -Dapp.deploy.promote=false package appengine:deployAll
+  deploy-prod:
+    working_directory: ~/liste-envies
+    docker:
+      - image: circleci/openjdk:8-jdk-stretch
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/liste-envies
+      - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
+          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+          key: java-{{ checksum "liste-envies-war/pom.xml" }}
+      - run:
+          name: Install Gcloud
+          command: |
+            if [ ! -d "~/google-cloud-sdk/bin" ]; then rm -rf ~/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+            source ~/google-cloud-sdk/path.bash.inc
+            gcloud version
+            gcloud --quiet components update app-engine-java
+      - run:
+          name: Deploy Apps
+          command: |
+            source ~/google-cloud-sdk/path.bash.inc
+            cd liste-envies-war
+            echo ${FIREBASE_SERVICE_ACCOUNT} > src/main/resources/firebase.json
+            echo ${GOOGLE_CLIENT_SECRET} > client-secret.json;
+            export APP_ID=${CLOUDSDK_PROJECT};
+            export APP_VERSION=${MASTER_VERSION:0:63};
+            echo "Deploy application ${APP_ID} version ${APP_VERSION}"
+            gcloud auth activate-service-account --key-file client-secret.json
+            mvn -B --no-transfer-progress -DskipTests=true -Dapp.deploy.projectId=${APP_ID} -Dapp.deploy.version=${APP_VERSION} -Dapp.deploy.promote=false package appengine:deployAll
 
 workflows:
   version: 2
@@ -96,3 +126,13 @@ workflows:
           filters:
             branches:
               ignore: master
+      - deploy-prod:
+          requires:
+            - build-frontend
+            - build-backend
+          filters:
+            branches:
+              only:
+                - master
+                - /preprod\/.*/
+                - /beta\/.*/
