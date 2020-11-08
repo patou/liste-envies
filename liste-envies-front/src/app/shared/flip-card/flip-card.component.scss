@@ -1,0 +1,50 @@
+@import "../../../styles/mixins";
+
+// Flip cards
+$rotate: 180deg;
+$cardWidth: 360px;
+$cardHeight: 300px;
+$speed: .6s;
+$scale: 1;
+
+.card-container {
+  /*width: $cardWidth;
+  height: $cardHeight;*/
+  position: relative;
+  @include transition( z-index $speed );
+  @include perspective( 1000 );
+  &:hover {
+    z-index: 3;
+  }
+  &.flip {
+    z-index: 4;
+
+    .card {
+      @include transform( rotateY( $rotate ) scale( $scale ) );
+    }
+  }  .card {
+    position: relative;
+    //@include transform( scale( 0.5 ) ); // Initial Scale
+    @include transition( all $speed ease-in-out );
+    @include transform-style( preserve-3d );
+    .front, .back {
+      /*width: $cardWidth;*/
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 5px;
+      @include backface-visibility( hidden );
+    }
+    .front {
+      z-index: 2;
+    }
+    .back {
+
+      @include transform( rotateY( $rotate ) );
+    }
+  }
+}
+// end Flip cards
+
+
+

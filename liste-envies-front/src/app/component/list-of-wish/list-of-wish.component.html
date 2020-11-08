@@ -1,0 +1,12 @@
+<div class="row list-of-wish">
+  <div
+    class="col-4 wishitems-columns"
+    *ngFor="let colItems of columns; trackBy: trackColumn"
+  >
+    <app-wish-card
+      [wishItem]="wishItem"
+      [readOnly]="demo"
+      *ngFor="let wishItem of colItems | async; trackBy: trackByFn"
+    ></app-wish-card>
+  </div>
+</div>

@@ -1,0 +1,75 @@
+<h1 mat-dialog-title>
+  {{ wishItem.label || "Ajouter une nouvelle envie" }}
+  <span *ngIf="wishItem?.owner">par {{ wishItem?.owner?.name }}</span>
+</h1>
+<mat-dialog-content class="example-form">
+  <mat-form-field
+    class="col-12"
+    appearance="outline"
+    hintLabel="Préférez un titre court de 30 caractères maximum"
+  >
+    <mat-label>Titre</mat-label>
+    <input matInput #title [(ngModel)]="wishItem.label" name="titre" />
+    <mat-hint align="end">{{ title.value?.length || 0 }}/30</mat-hint>
+  </mat-form-field>
+
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <mat-form-field appearance="outline" class="col-4">
+      <mat-label>Prix</mat-label>
+      <input matInput #price [(ngModel)]="wishItem.price" name="price" />
+      <mat-icon matSuffix>euro_symbol</mat-icon>
+      <mat-hint align="end"
+        >Exemple: "14.99 €" ou "Entre 10 et 20 €" ou "Environ 100 €"</mat-hint
+      >
+    </mat-form-field>
+    <mat-label>
+      <mat-slide-toggle
+        name="already_given"
+        [(ngModel)]="wishItem.allreadyGiven"
+        >Déjà offert !</mat-slide-toggle
+      >
+    </mat-label>
+    <mat-label>
+      <app-rating
+        placeholder="Note"
+        [(value)]="wishItem.rating"
+        [readonly]="false"
+      ></app-rating>
+    </mat-label>
+  </div>
+
+  <mat-form-field appearance="outline" class="col-12">
+    <mat-label>Description</mat-label>
+    <app-html-editor
+      #description
+      [(content)]="wishItem.description"
+      placeholder="Description de l'envie"
+    ></app-html-editor>
+    <mat-hint>Vous pouvez donner plus de details sur votre envie.</mat-hint>
+  </mat-form-field>
+
+  <div>
+    <h5>Images</h5>
+    <app-img-form
+      [imgs]="wishItem.pictures"
+      (onChange)="updatesPictures($event)"
+    ></app-img-form>
+  </div>
+  <div>
+    <h5>Liens</h5>
+    <app-links-form
+      [urls]="wishItem.urls"
+      (onChange)="updatesLinks($event)"
+    ></app-links-form>
+  </div>
+
+  <div></div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div fxFlex></div>
+  <button mat-button (click)="cancelEditWish()">Annuler</button>
+  <button mat-raised-button color="primary" (click)="updateEditWish()">
+    {{ isAddWhish ? "Ajouter" : "Modifier" }}
+  </button>
+</mat-dialog-actions>

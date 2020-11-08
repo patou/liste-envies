@@ -1,0 +1,38 @@
+.header-page-card {
+  margin-top: 30px;
+  max-width: calc(90% - 1em);
+  text-align: center;
+
+  .intro1 {
+    margin-top: 30px;
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  }
+
+  .wishlist-img {
+    width: 330px;
+  }
+}
+
+.whishList-Container {
+  width: 90%;
+  margin: 2em auto;
+  padding: 3em;
+}
+
+.wishListCard {
+  width: 100%;
+  height: 100%;
+  /*width: 420px;
+  display: inline-block;
+  margin: 1em;*/
+  cursor: pointer;
+  /*@media screen and (max-width: 600px) {
+    width: 100%;
+  }*/
+}
+
+img.mat-card-avatar {
+  height: 29px;
+  width: 30px;
+  margin: 0 5px;
+}

@@ -1,0 +1,168 @@
+@import "~@angular/material/theming";
+@import "../../../styles/variables";
+
+
+.menu-wishlist {
+  overflow: hidden;
+  @include mat-elevation-transition;
+  @include mat-elevation(1);
+  cursor: pointer;
+
+  img.background-images {
+    height: 100%;
+    width: 55px;
+    position: absolute;
+    left: 11px;
+    bottom: 0;
+    -webkit-clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+    clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+    -webkit-filter: grayscale(1);
+    filter: grayscale(1);
+    opacity: 0.3;
+    z-index: 1;
+  }
+
+  ::ng-deep .mat-list-text {
+    font-weight: 600 !important;
+  }
+
+  list-type-icon ::ng-deep mat-icon.mat-icon {
+    svg.svg-inline--fa {
+      -webkit-filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
+      filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
+      color: $theme-accent;
+    }
+  }
+
+  span.notification-list {
+    right: 14px;
+    position: absolute;
+    top: 25px;
+  }
+
+  .menu-wishlist-content {
+    z-index: 10;
+  }
+
+  &.active {
+    cursor: initial;
+  }
+
+  &:hover, &.active {
+    @include mat-elevation(3);
+
+    img.background-images {
+      transition: all 0.3s;
+      -webkit-filter: none;
+      filter: blur(0.5);
+      height: 150%;
+      width: 100%;
+      top: -20px;
+      left: 0;
+      clip-path: none;
+      opacity: 0.1;
+    }
+
+    ::ng-deep .mat-list-text {
+      transition: all 0.5s;
+      text-shadow: 4px 3px 0 white;
+      color: $theme-accent;
+      font-weight: 800 !important;
+    }
+  }
+
+}
+
+
+
+
+.wish-list-item {
+  position: relative;
+  display: inline-block;
+  @include mat-elevation-transition;
+  @include mat-elevation(2);
+
+  &:hover {
+    @include mat-elevation(8);
+  }
+  height: 90%;
+  padding: 0.5em;
+  background-color: #fff;
+  border-radius: 5px;
+  margin: 7px 10px;
+
+  &.active {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.5;
+  }
+
+  .notification-list {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+  }
+}
+
+.wish-list-item.owner {
+  z-index: 2;
+  border-color: #337ab7;
+  border-style: solid;
+  border-width: 1px;
+  margin: 6px 9px;
+  //box-shadow: inset 0px 0px 0px 1px #337ab7, 0 16px 24px 2px rgba(0, 0, 0, 0.45), 0 6px 30px 5px rgba(0, 0, 0, 0.25), 0 8px 10px -5px rgba(0, 0, 0, 0.2) !important;
+}
+
+.wish-list-item-heading {
+  display: block;
+  display: -webkit-box;
+  font-size: 1.6em;
+  line-height: 1em;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 80%;
+  vertical-align: middle;
+  margin: auto 39px auto 0;
+  text-align: start;
+}
+
+.wish-list-item-text {
+  width: 100%;
+  min-width: 100%;
+
+  font-size: 0.9em;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  ngx-avatar {
+    display: inline-block;
+    margin: 0 2px;
+    vertical-align: center;
+    position: relative;
+    bottom: -2px;
+  }
+}
+
+.owners {
+  word-break: break-all;
+  overflow-wrap: break-word;
+  max-width: 40%;
+  max-height: 19px;
+}
+
+.backgroundimg {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  opacity: 0.2;
+}

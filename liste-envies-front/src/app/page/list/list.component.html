@@ -1,0 +1,195 @@
+<div class="page-all">
+  <div
+    class="page-background"
+    [style.backgroundImage]="listBackgroundImg()"
+  ></div>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="edit" color="accent">
+      <mat-icon>edit</mat-icon>
+      <span>Modifier la liste</span>
+    </button>
+    <button mat-menu-item disabled>
+      <mat-icon>notifications_off</mat-icon>
+      <span>Disable alerts</span>
+    </button>
+    <button mat-menu-item (click)="archiveList()">
+      <mat-icon>archive</mat-icon>
+      <span
+        >Archiver la liste
+        <mat-icon
+          matTooltip="La liste et les envies associé seront archivées et ne seront plus visible dans vos listes."
+          >info</mat-icon
+        ></span
+      >
+    </button>
+  </mat-menu>
+
+  <mat-expansion-panel
+    #headerList
+    class="header-page-card"
+    *ngIf="list"
+    [expanded]="expandedHeader | async"
+    (opened)="headerOpened = true"
+    (closed)="headerOpened = false"
+    togglePosition="before"
+    hideToggle="true"
+    (click)="headerList.toggle()"
+  >
+    <mat-expansion-panel-header
+      class="mat-typography header-wishlist"
+      collapsedHeight="80px"
+      expandedHeight="100px"
+    >
+      <mat-panel-title
+        class="title header-wishlist-title"
+        (click)="headerList.toggle()"
+        ><list-type-icon
+          mat-card-avatar
+          [type]="list.type"
+          class="header-wishlist-icon"
+          size="large"
+        ></list-type-icon>
+        <div class="header-wishlist-title_block">
+          <h1 class="title-list">
+            {{ list.title }}
+            <a
+              mat-icon-button
+              [routerLink]="['/', list.name, 'edit']"
+              color="accent"
+              class="hidden-small icon-edit"
+              (click)="doNothing($event)"
+              *ngIf="!demo && list.owner"
+            >
+              <mat-icon class="mat-18">edit</mat-icon>
+            </a>
+          </h1>
+          <p class="owners-list" *ngIf="list?.owners && list?.owners?.length">
+            de
+            <ng-container *ngFor="let owner of list?.owners; let last = last">
+              <ngx-avatar
+                [gravatarId]="owner?.email"
+                [matTooltip]="owner?.name || owner?.email"
+                [name]="owner?.name"
+                [round]="true"
+                [src]="owner?.photoURL ? owner?.photoURL : ''"
+                matTooltipPosition="below"
+                size="15"
+              >
+              </ngx-avatar>
+              <span
+                [matTooltip]="owner.email"
+                [title]="owner.email"
+                class="owners hidden-small hidden-medium"
+                matTooltipPosition="below"
+                >{{ owner.name }}</span
+              >{{ last ? "" : ", " }}
+            </ng-container>
+          </p>
+        </div>
+      </mat-panel-title>
+
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        aria-label="Menu action"
+        class="menu-admin-list-button"
+        matTooltip="Administrer la liste"
+        (click)="doNothing($event)"
+        *ngIf="!demo && list.owner"
+      >
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        aria-label="Menu action"
+        class=""
+        matTooltip="Afficher / cacher les détails de la liste et les filtres"
+        (click)="headerList.toggle()"
+      >
+        <mat-icon>{{
+          headerOpened ? "keyboard_arrow_up" : "keyboard_arrow_down"
+        }}</mat-icon>
+      </button>
+    </mat-expansion-panel-header>
+
+    <div (click)="doNothing($event)">
+      <mat-card *ngIf="list.date" class="dateList">
+        <mat-card-header>
+          <mat-card-title>{{
+            list.date | amDateFormat: "dddd D"
+          }}</mat-card-title>
+          <mat-card-subtitle>{{
+            list.date | amDateFormat: "MMMM YYYY"
+          }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          {{ list.date | amTimeAgo }}
+        </mat-card-content>
+      </mat-card>
+
+      <read-more
+        [content]="list.description"
+        maxHeight="200"
+        (click)="doNothing($event)"
+      ></read-more>
+      <mat-action-row class="list-filters">
+        <app-wish-filters-form
+          (click)="doNothing($event)"
+        ></app-wish-filters-form>
+      </mat-action-row>
+      <nav mat-tab-nav-bar color="accent" class="tabs-actif-archive">
+        <a
+          mat-tab-link
+          class="tab"
+          [routerLink]="['/', list.name]"
+          routerLinkActive
+          #currentList="routerLinkActive"
+          [active]="currentList.isActive"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="onClickTabGive($event, currentList.isActive)"
+          matTooltip="Afficher les envies en cours de la liste offertes ou qui reste à offrir"
+        >
+          <mat-icon class="tab-icon">card_giftcard</mat-icon>
+          A offrir
+        </a>
+        <a
+          mat-tab-link
+          class="tab"
+          [routerLink]="['/', list.name, 'archived']"
+          routerLinkActive
+          #archiveList="routerLinkActive"
+          [active]="archiveList.isActive"
+          (click)="onClickTabGive($event, archiveList.isActive)"
+          matTooltip="Afficher les envies de cette liste qui ont déjà été offertes et qui ont été archivées"
+        >
+          <mat-icon class="tab-icon">history</mat-icon>
+          Archivé (Déjà reçu)
+        </a>
+      </nav>
+    </div>
+  </mat-expansion-panel>
+  <div *ngIf="!(loading$ | async); else loading">
+    <app-list-of-wish
+      [list]="listItems"
+      [demo]="demo"
+      class="col-12"
+    ></app-list-of-wish>
+  </div>
+
+  <span class="done">
+    <button
+      mat-fab
+      (click)="addWish()"
+      [disabled]="demo"
+      matTooltip="Ajouter une nouvelle envie"
+      matTooltipPosition="left"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </span>
+</div>
+<ng-template #loading>
+  <div fxLayout="column" fxLayoutAlign="center center">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

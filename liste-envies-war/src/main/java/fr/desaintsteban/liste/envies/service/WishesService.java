@@ -1,29 +1,52 @@
 package fr.desaintsteban.liste.envies.service;
 
-import com.googlecode.objectify.*;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.LoadResult;
+import com.googlecode.objectify.Objectify;
+import com.googlecode.objectify.VoidWork;
+import com.googlecode.objectify.Work;
 import com.googlecode.objectify.cmd.Saver;
-import fr.desaintsteban.liste.envies.dto.WishDto;
 import fr.desaintsteban.liste.envies.dto.CommentDto;
+import fr.desaintsteban.liste.envies.dto.WishDto;
 import fr.desaintsteban.liste.envies.enums.NotificationType;
-import fr.desaintsteban.liste.envies.model.*;
+import fr.desaintsteban.liste.envies.enums.WishState;
+import fr.desaintsteban.liste.envies.model.AppUser;
+import fr.desaintsteban.liste.envies.model.Comment;
+import fr.desaintsteban.liste.envies.model.Person;
+import fr.desaintsteban.liste.envies.model.PersonParticipant;
+import fr.desaintsteban.liste.envies.model.UserShare;
+import fr.desaintsteban.liste.envies.model.Wish;
+import fr.desaintsteban.liste.envies.model.WishList;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
 import fr.desaintsteban.liste.envies.util.WishRules;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public final class WishesService {
     private WishesService() {}
-    
+
     public static List<WishDto> list(AppUser user, String name) {
+        return WishesService.list(user, name, false);
+    }
+
+    @Deprecated
+    public static List<WishDto> list(AppUser user, String name, Boolean archive) {
+        return list(user, name, archive ? WishState.ARCHIVED : WishState.ACTIVE);
+    }
+
+    public static List<WishDto> list(AppUser user, String name, WishState ...states) {
         Objectify ofy = OfyService.ofy();
         Key<WishList> key = Key.create(WishList.class, name);
         LoadResult<WishList> loadResult = ofy.load().key(key); //Chargement asynchrone
-        List<Wish> list = ofy.load().type(Wish.class).ancestor(key).filter("archived =",false).list();
+        List<Wish> list = ofy.load().type(Wish.class).ancestor(key).filter("state IN",states).list();
         WishList wishList = loadResult.now();
         return WishRules.applyRules(user, wishList, list);
+    }
+
+    public static List<WishDto> listArchived(AppUser user, String name) {
+        return list(user, name, WishState.ARCHIVED);
     }
 
     public static List<WishDto> archived(AppUser user) {
@@ -34,7 +57,7 @@ public final class WishesService {
 
     public static List<WishDto> given(AppUser user) {
         Objectify ofy = OfyService.ofy();
-        List<Wish> list = ofy.load().type(Wish.class).filter("userTake.email =", EncodeUtils.encode(user.getEmail())).filter("archived =", false).list();
+        List<Wish> list = ofy.load().type(Wish.class).filter("userTake.email =", EncodeUtils.encode(user.getEmail())).filter("state =", WishState.ACTIVE).list();
         return WishRules.applyRules(user, null, list);
     }
 
@@ -52,7 +75,7 @@ public final class WishesService {
         WishList wishList = loadResult.now();
         return WishRules.applyRules(user, wishList, list);
     }
-    
+
     public static void delete(final AppUser user, final String name, final Long itemid) {
         Objectify ofy = OfyService.ofy();
         final Key<WishList> parent = Key.create(WishList.class, name);
@@ -62,15 +85,20 @@ public final class WishesService {
             public void vrun() {
                 Objectify ofy = OfyService.ofy();
                 Wish saved = ofy.load().key(Key.create(parent, Wish.class, itemid)).now();
+                Saver saver = ofy.save();
                 if (saved.hasUserTaken() && wishList.containsOwner(saved.getOwner().getEmail())) {
-                    Saver saver = ofy.save();
-                    saved.setDeleted(true);
+                    wishList.changeCountsCount(saved.getState(), WishState.DELETED);
+                    saved.setState(WishState.DELETED);
+                    saved.setStateDate(new Date());
                     saver.entity(saved);
-                    NotificationsService.notify(NotificationType.DELETE_WISH, user, wishList, true, saved.getLabel());
+                    saver.entity(wishList);
                 }
                 else {
+                    wishList.decrCounts(saved.getState());
+                    saver.entity(wishList);
                     ofy.delete().key(Key.create(parent, Wish.class, itemid)).now();
                 }
+                NotificationsService.notify(NotificationType.DELETE_WISH, user, wishList, true, saved.getLabel(), itemid);
             }
         });
     }
@@ -85,16 +113,18 @@ public final class WishesService {
                 Objectify ofy = OfyService.ofy();
                 Wish saved = ofy.load().key(Key.create(parent, Wish.class, itemid)).now();
                 Saver saver = ofy.save();
-                saved.setArchived(true);
-                saved.setDeleted(false);
+                wishList.changeCountsCount(saved.getState(), WishState.ARCHIVED);
+                saved.setState(WishState.ARCHIVED);
+                saved.setStateDate(new Date());
                 saved.setUserReceived(wishList.getUsers()
                         .stream()
                         .filter(UserShare::isOwner)
                         .map(UserShare::getEmail)
                         .collect(Collectors.toList()));
                 saver.entity(saved);
+                saver.entity(wishList);
 
-                NotificationsService.notify(NotificationType.ARCHIVE_WISH, user, wishList, true);
+                NotificationsService.notify(NotificationType.ARCHIVE_WISH, user, wishList, true, saved.getLabel(), saved.getId());
 
             }
         });
@@ -115,20 +145,17 @@ public final class WishesService {
         final Key<WishList> parent = Key.create(WishList.class, name);
         final WishList wishList = ofy.load().key(parent).now();
         if (WishRules.canGive(wishList, user)) {
-            return OfyService.ofy().transact(new Work<WishDto>() {
-                @Override
-                public WishDto run() {
-                    Objectify ofy = OfyService.ofy();
-                    Wish saved = ofy.load().key(Key.create(parent, Wish.class, itemId)).now();
-                    Saver saver = ofy.save();
-                    PersonParticipant personParticipant = new PersonParticipant();
-                    personParticipant.setEmail(user.getEmail());
-                    personParticipant.setName(user.getName());
-                    saved.addUserTake(personParticipant);
-                    saver.entity(saved);
-                    NotificationsService.notify(NotificationType.GIVEN_WISH, user, wishList, true, saved.getLabel());
-                    return saved.toDto();
-                }
+            return OfyService.ofy().transact(() -> {
+                Objectify ofy1 = OfyService.ofy();
+                Wish saved = ofy1.load().key(Key.create(parent, Wish.class, itemId)).now();
+                Saver saver = ofy1.save();
+                PersonParticipant personParticipant = new PersonParticipant();
+                personParticipant.setEmail(user.getEmail());
+                personParticipant.setName(user.getName());
+                saved.addUserTake(personParticipant);
+                saver.entity(saved);
+                NotificationsService.notify(NotificationType.GIVEN_WISH, user, wishList, true, saved.getLabel(), itemId);
+                return saved.toDto();
             });
         }
         return null;
@@ -147,22 +174,19 @@ public final class WishesService {
         final Key<WishList> parent = Key.create(WishList.class, name);
         final WishList wishList = ofy.load().key(parent).now();
         if (wishList != null && !wishList.containsOwner(user.getEmail()) && wishList.containsUser(user.getEmail())) {
-            return OfyService.ofy().transact(new Work<WishDto>() {
-                @Override
-                public WishDto run() {
-                    Objectify ofy = OfyService.ofy();
-                    Wish saved = ofy.load().key(Key.create(parent, Wish.class, itemId)).now();
-                    Saver saver = ofy.save();
+            return OfyService.ofy().transact(() -> {
+                Objectify ofy1 = OfyService.ofy();
+                Wish saved = ofy1.load().key(Key.create(parent, Wish.class, itemId)).now();
+                Saver saver = ofy1.save();
 
-                    Comment commentToAdd = Comment.fromDto(comment, true);
-                    commentToAdd.setFrom(new Person(user, true));
-                    saved.addComment(commentToAdd);
-                    saver.entity(saved);
+                Comment commentToAdd = Comment.fromDto(comment, true);
+                commentToAdd.setFrom(new Person(user, true));
+                saved.addComment(commentToAdd);
+                saver.entity(saved);
 
-                    NotificationsService.notify(NotificationType.ADD_NOTE, user, wishList, true, comment.getText());
+               NotificationsService.notify(NotificationType.ADD_NOTE, user, wishList, true, comment.getText(), itemId);
 
-                    return WishRules.applyRules(user, wishList, saved);
-                }
+                return WishRules.applyRules(user, wishList, saved);
             });
         }
         return null;
@@ -215,7 +239,17 @@ public final class WishesService {
                 item.setUserTake(saved.getUserTake());
                 item.setComments(saved.getComments());
                 item.setOwner(saved.getOwner());
+                if (saved.getState() != item.getState()) {
+                    wishList.changeCountsCount(saved.getState(), item.getState());
+                    item.setStateDate(new Date());
+                    saver.entity(wishList);
+                }
                 add = false;
+            }
+            else {
+                wishList.incrCounts(item.getState());
+                item.setStateDate(new Date());
+                saver.entity(wishList);
             }
             if (item.getOwner() == null) {
                 item.setOwner(new Person(user, false));
@@ -225,7 +259,7 @@ public final class WishesService {
             item.setDate(new Date());
             Key<Wish> key = saver.entity(item).now();
 
-            NotificationsService.notify((add)? NotificationType.ADD_WISH : NotificationType.UPDATE_WISH, user, wishList, !containsOwner, item.getLabel());
+            NotificationsService.notify((add)? NotificationType.ADD_WISH : NotificationType.UPDATE_WISH, user, wishList, !containsOwner, item.getLabel(), item.getId());
 
                 //return item.toDto(containsOwner);
                 return WishRules.applyRules(user, wishList, item);

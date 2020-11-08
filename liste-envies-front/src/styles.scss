@@ -1,0 +1,343 @@
+/* You can add global styles to this file, and also import other style files */
+@import "styles/variables";
+@import "~@angular/material/theming";
+@include mat-core();
+
+// Variables
+@import "~wire.css/src/scss/config";
+
+// Reset (Normalize)
+@import "~wire.css/src/scss/base/normalize";
+
+// Mixins
+@import "~wire.css/src/scss/base/mixins";
+
+// Helpers
+@import "~wire.css/src/scss/base/helpers";
+
+// Global
+@import "~wire.css/src/scss/base/global";
+
+// Components
+@import "~wire.css/src/scss/components/grid";
+@import "~wire.css/src/scss/components/images";
+
+// define 3 theme color
+
+$dynamic-theme-primary: (
+  50: var(--theme-primary-50),
+  100: var(--theme-primary-100),
+  200: var(--theme-primary-200),
+  300: var(--theme-primary-300),
+  400: var(--theme-primary-400),
+  500: var(--theme-primary-500),
+  600: var(--theme-primary-600),
+  700: var(--theme-primary-700),
+  800: var(--theme-primary-800),
+  900: var(--theme-primary-900),
+  A100: var(--theme-primary-A100),
+  A200: var(--theme-primary-A200),
+  A400: var(--theme-primary-A400),
+  A700: var(--theme-primary-A700),
+  contrast: (
+    50: var(--theme-primary-contrast-50),
+    100: var(--theme-primary-contrast-100),
+    200: var(--theme-primary-contrast-200),
+    300: var(--theme-primary-contrast-300),
+    400: var(--theme-primary-contrast-400),
+    500: var(--theme-primary-contrast-500),
+    600: var(--theme-primary-contrast-600),
+    700: var(--theme-primary-contrast-700),
+    800: var(--theme-primary-contrast-800),
+    900: var(--theme-primary-contrast-900),
+    A100: var(--theme-primary-contrast-A100),
+    A200: var(--theme-primary-contrast-A200),
+    A400: var(--theme-primary-contrast-A400),
+    A700: var(--theme-primary-contrast-A700)
+  )
+);
+
+$dynamic-theme-accent: (
+  50: var(--theme-accent-50),
+  100: var(--theme-accent-100),
+  200: var(--theme-accent-200),
+  300: var(--theme-accent-300),
+  400: var(--theme-accent-400),
+  500: var(--theme-accent-500),
+  600: var(--theme-accent-600),
+  700: var(--theme-accent-700),
+  800: var(--theme-accent-800),
+  900: var(--theme-accent-900),
+  A100: var(--theme-accent-A100),
+  A200: var(--theme-accent-A200),
+  A400: var(--theme-accent-A400),
+  A700: var(--theme-accent-A700),
+  contrast: (
+    50: var(--theme-accent-contrast-50),
+    100: var(--theme-accent-contrast-100),
+    200: var(--theme-accent-contrast-200),
+    300: var(--theme-accent-contrast-300),
+    400: var(--theme-accent-contrast-400),
+    500: var(--theme-accent-contrast-500),
+    600: var(--theme-accent-contrast-600),
+    700: var(--theme-accent-contrast-700),
+    800: var(--theme-accent-contrast-800),
+    900: var(--theme-accent-contrast-900),
+    A100: var(--theme-accent-contrast-A100),
+    A200: var(--theme-accent-contrast-A200),
+    A400: var(--theme-accent-contrast-A400),
+    A700: var(--theme-accent-contrast-A700)
+  )
+);
+
+$my-theme-primary: mat-palette($dynamic-theme-primary);
+$my-theme-accent: mat-palette($dynamic-theme-accent);
+$my-theme-warn: mat-palette($mat-deep-orange, A200);
+
+// create theme (use mat-dark-theme for themes with dark backgrounds)
+$my-theme: mat-light-theme($my-theme-primary, $my-theme-accent, $my-theme-warn);
+
+// mat-palette accepts $palette-name, main, lighter and darker variants
+@include angular-material-theme($my-theme);
+body {
+  font-family: Roboto, Arial, sans-serif;
+  margin: 0;
+}
+mat-card {
+  max-width: 80%;
+  margin: 2em auto;
+  text-align: center;
+}
+mat-toolbar-row {
+  justify-content: space-between;
+}
+
+.done {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  color: white;
+  z-index: 9999;
+}
+
+.page-background {
+  background-image: url(/assets/img/default.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 64px);
+  top: 64px;
+  left: 0;
+  z-index: -1;
+  opacity: 0.5;
+}
+
+.page-all {
+  background: none;
+  padding: 2em;
+  padding-top: 20px;
+  min-height: 100vh;
+  .header-page-card {
+    margin-top: 0px;
+  }
+}
+
+/** Specific css for styling generated angular materials css **/
+.matDialogContent {
+  overflow: auto;
+  max-height: 95%;
+}
+mat-expansion-panel.badge-expansion-panel {
+  span.mat-content {
+    /* height: 48px; */
+    padding: 12px 0;
+  }
+}
+.content_sidenav mat-expansion-panel {
+  padding: 5px 0;
+
+  mat-expansion-panel-header .mat-badge-content.mat-badge-active {
+    top: 1px !important;
+    font-size: 0.8em;
+  }
+  .mat-expansion-panel-body {
+    padding: 0 !important;
+  }
+}
+
+.comments mat-list.mat-list mat-list-item.comment_item {
+  height: auto !important;
+  .mat-list-item-content {
+    padding: 10px 0;
+    align-items: self-start;
+  }
+  ngx-avatar.mat-list-avatar {
+    align-self: flex-start;
+  }
+  .mat-list-text h6.mat-line {
+    white-space: normal;
+    overflow-wrap: break-word;
+    text-overflow: unset;
+  }
+  &.odd {
+    .mat-list-text {
+      align-items: flex-end;
+      padding-left: 0 !important;
+      padding-right: 16px !important;
+    }
+    ngx-avatar.mat-list-avatar {
+      order: 1;
+    }
+  }
+  mat-divider.mat-divider.mat-divider-horizontal.mat-divider-inset {
+    margin-right: 72px;
+    width: calc(100% - 72px - 72px);
+  }
+  &.even .mat-list-text {
+    background-color: #e2e2fdb5;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    margin-left: 10px;
+    &:before {
+      content: "";
+      position: absolute;
+      right: calc(100% - 55px);
+      top: 13px;
+      width: 0;
+      height: 0;
+      border-top: 2px solid transparent;
+      border-right: 15px solid #e2e2fdb5;
+      border-bottom: 10px solid transparent;
+      transform: rotate(25deg);
+    }
+  }
+  &.odd .mat-list-text {
+    background-color: #fbe4d6b5;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    margin-right: 10px;
+    &:after {
+      content: "";
+      position: absolute;
+      left: calc(100% - 55px);
+      top: 13px;
+      width: 0;
+      height: 0;
+      border-top: 2px solid transparent;
+      border-left: 15px solid #fbe4d6b5;
+      border-bottom: 10px solid transparent;
+      transform: rotate(-25deg);
+    }
+  }
+}
+
+.swiper-pagination.swiper-pagination-progressbar {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  background: $grey-200;
+  position: absolute;
+  .swiper-pagination-progressbar-fill {
+    background: $grey-500;
+  }
+}
+
+mat-form-field.no-padding {
+  & > .mat-form-field-wrapper {
+    padding: 0 !important;
+  }
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+mat-button-toggle-group.buttonGroupDemo {
+  height: 30px;
+  font-size: 14px;
+  position: relative;
+  top: -6px;
+  right: -11px;
+
+  mat-button-toggle {
+    padding-top: 0;
+    height: 30px;
+
+    mat-icon {
+      font-size: 15px;
+    }
+  }
+
+  button.mat-button-toggle-button
+    .mat-button-toggle-appearance-standard
+    .mat-button-toggle-label-content {
+    line-height: 30px !important;
+    padding: 2px 12px !important;
+    height: 30px !important;
+  }
+
+  .mat-button-toggle-label-content {
+    height: 30px;
+    line-height: 30px;
+  }
+
+  .mat-button-toggle-label-content button {
+    height: 30px;
+    line-height: 30px;
+  }
+
+  .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+    line-height: 30px;
+    padding: 2px 12px;
+  }
+}
+
+mat-card.dateList {
+  .mat-card-header-text {
+    margin: 0 8px;
+  }
+}
+
+.divider {
+  border-left: 1px #5a5a5a solid;
+}
+
+/*** ***************** files pouns ***/
+@import "~filepond/dist/filepond.css";
+
+// responsive
+
+@include mq(small) {
+  // This code shows only on phone media query
+  .page-all {
+    margin: 0;
+    width: 100%;
+    padding: 2px;
+  }
+}
+@include mq(medium) {
+  // This code shows only on tablette and small pc media query
+  .page-all {
+    margin: 0;
+    padding: 1em;
+    .header-page-card {
+      margin-top: 0px;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  }
+}
+@include mq(large) {
+  // This code shows only on large computer media query
+}
+@include mq(huge) {
+  // This code shows only on big screen media query
+}

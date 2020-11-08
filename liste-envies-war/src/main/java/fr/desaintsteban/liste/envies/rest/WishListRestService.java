@@ -8,7 +8,14 @@ import fr.desaintsteban.liste.envies.service.WishListService;
 import fr.desaintsteban.liste.envies.util.ServletUtils;
 import fr.desaintsteban.liste.envies.util.WishRules;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.logging.Logger;
@@ -24,8 +31,7 @@ public class WishListRestService {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null){
             LOGGER.info("List users");
-            List<WishList> list = WishListService.list(user.getEmail());
-            if (!list.isEmpty()) {
+            List<WishList> list = WishListService.list(user.getEmail());if (!list.isEmpty()) {
                 return WishRules.applyRules(user, list);
             }
         }
@@ -65,7 +71,7 @@ public class WishListRestService {
     public List<WishListDto> getAllList() {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if(user != null && user.isAdmin()){
-            LOGGER.info("List all WishList");
+            LOGGER.info("List all WishList by " + user.getName());
             List<WishList> list = WishListService.list();
 
             return WishRules.applyRules(user, list);
@@ -99,7 +105,6 @@ public class WishListRestService {
     }
 
     @POST
-    @Path("/")
     public WishListDto addWishList(WishListDto wishListDto) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null) {
@@ -135,10 +140,22 @@ public class WishListRestService {
     @Path("/{name}")
     public void deleteWishList(@PathParam("name") String name){
         final AppUser user = ServletUtils.getUserAuthenticated();
-        if(user != null){
-            LOGGER.info("name " + name);
+        if(user != null  && user.isAdmin()){
+            LOGGER.info("Delete wish list : " + name + " by " + user.getName());
             WishListService.delete(name);
         }
+    }
+
+    @PUT
+    @Path("/{name}/archive/")
+    public void archiveWishList(@PathParam("name") String name) throws Exception {
+        final AppUser user = ServletUtils.getUserAuthenticated();
+        if(user != null){
+            LOGGER.info("Archive wish list : " + name + " by " + user.getName());
+            WishListService.archive(user, name);
+            return;
+        }
+        throw new RuntimeException("not allowed");
     }
 
 }

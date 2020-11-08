@@ -1,0 +1,38 @@
+<mat-list-item
+  class="menu-wishlist"
+  [class.active]="active"
+  [routerLink]="active ? null : ['/', wishlist.name]"
+>
+  <img [src]="'/assets/thumb/' + wishlist.picture" class="background-images" />
+  <div class="menu-wishlist-content"></div>
+  <list-type-icon mat-list-icon [type]="wishlist.type"></list-type-icon>
+  <h4 mat-line>{{ wishlist.title }}</h4>
+  <p
+    mat-line
+    class="wish-list-item-text"
+    fxLayout="row wrap"
+    fxLayoutAlign="start start"
+  >
+    <ng-container *ngFor="let owner of wishlist.owners; let last = last">
+      <ngx-avatar
+        [gravatarId]="owner.email"
+        [matTooltip]="owner.name"
+        [name]="owner.name"
+        [round]="true"
+        [src]="owner.photoURL"
+        matTooltipPosition="above"
+        size="15"
+      >
+      </ngx-avatar>
+    </ng-container>
+  </p>
+  <span class="notification-list" *ngIf="notifsCount$ | async as notifsCount">
+    <mat-icon
+      [matBadge]="notifsCount"
+      color="accent"
+      matBadgeSize="medium"
+      matBadgeColor="primary"
+      >notifications_active</mat-icon
+    ></span
+  >
+</mat-list-item>

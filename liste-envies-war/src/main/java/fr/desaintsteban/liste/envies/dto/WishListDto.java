@@ -1,13 +1,15 @@
 package fr.desaintsteban.liste.envies.dto;
 
-import java.util.Date;
-import java.util.List;
-
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-
 import fr.desaintsteban.liste.envies.enums.SharingPrivacyType;
 import fr.desaintsteban.liste.envies.enums.WishListState;
+import fr.desaintsteban.liste.envies.enums.WishListStatus;
 import fr.desaintsteban.liste.envies.enums.WishListType;
+import fr.desaintsteban.liste.envies.enums.WishState;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -22,21 +24,19 @@ public class WishListDto {
     private List<UserShareDto> users;
 
     private List<UserShareDto> owners;
-
+    private WishListStatus status; // status
 
     // settings
     private String picture; // Picture used for background, or for the list info
     private WishListType type; // Purpose of the event for this list
     private Date date; // date of the event
     private SharingPrivacyType privacy; // Option for sharing privacy of the all list.
-
-
-
-    private boolean forceAnonymus = false; // To force display list as anonymous. for owner it will show the list as anonyme.
-
+    private Boolean forceAnonymous;
     private WishListState state;
 
     private Boolean canSuggest;
+
+    private HashMap<WishState, Integer> counts;
 
     public List<UserShareDto> getOwners() {
         return owners;
@@ -118,6 +118,14 @@ public class WishListDto {
         this.privacy = privacy;
     }
 
+    public Boolean getForceAnonymous() {
+        return forceAnonymous;
+    }
+
+    public void setForceAnonymous(Boolean forceAnonymous) {
+        this.forceAnonymous = forceAnonymous;
+    }
+
     public WishListState getState() {
         return state;
     }
@@ -134,12 +142,19 @@ public class WishListDto {
         this.canSuggest = canSuggest;
     }
 
-    public boolean isForceAnonymus() {
-        return forceAnonymus;
+    public HashMap<WishState, Integer> getCounts() {
+        return counts;
     }
 
-    public void setForceAnonymus(boolean forceAnonymus) {
-        this.forceAnonymus = forceAnonymus;
+    public void setCounts(HashMap<WishState, Integer> counts) {
+        this.counts = counts;
     }
 
+    public WishListStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(WishListStatus status) {
+        this.status = status;
+    }
 }

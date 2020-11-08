@@ -4,6 +4,7 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalMemcacheServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
@@ -11,6 +12,7 @@ import com.googlecode.objectify.cache.AsyncCacheFilter;
 import fr.desaintsteban.liste.envies.dto.PersonDto;
 import fr.desaintsteban.liste.envies.dto.WishDto;
 import fr.desaintsteban.liste.envies.dto.CommentDto;
+import fr.desaintsteban.liste.envies.enums.WishState;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.Wish;
 import fr.desaintsteban.liste.envies.model.WishList;
@@ -19,17 +21,20 @@ import fr.desaintsteban.liste.envies.service.AppUserService;
 import fr.desaintsteban.liste.envies.service.WishesService;
 import fr.desaintsteban.liste.envies.service.WishListService;
 import fr.desaintsteban.liste.envies.service.OfyService;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.extractProperty;
 
+@SuppressWarnings("ConstantConditions")
 public class WishServiceTest {
     private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
             new LocalDatastoreServiceTestConfig().setApplyAllHighRepJobPolicy(),
@@ -44,7 +49,7 @@ public class WishServiceTest {
     private WishList listeEmmanuel;
     private AppUser clemence;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpBeforeClass()
     {
         //ObjectifyService.reset();
@@ -62,7 +67,7 @@ public class WishServiceTest {
         ObjectifyService.factory().register(Notification.class);
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         helper.setUp();
         closable = OfyService.begin();
@@ -81,7 +86,7 @@ public class WishServiceTest {
         WishesService.give(emmanuel, "liste-patrice", livreId);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         helper.tearDown();
         AsyncCacheFilter.complete();
@@ -92,64 +97,64 @@ public class WishServiceTest {
         }
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testGetSameUser() throws Exception {
         WishDto envie = WishesService.get(patrice, "liste-patrice", livreId);
         assertThat(envie.getLabel()).isEqualTo("Livre");
         assertThat(envie.getUserTake()).isNull();
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testGetNotSameUser() throws Exception {
         WishDto envie = WishesService.get(emmanuel, "liste-patrice", livreId);
         assertThat(envie.getLabel()).isEqualTo("Livre");
-        assertThat(envie.getUserTake()).onProperty("email").contains("emmanuel@desaintsteban.fr");
+        assertThat(extractProperty("email").from(envie.getUserTake())).contains("emmanuel@desaintsteban.fr");
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testList() throws Exception {
-        List<WishDto> list = WishesService.list(patrice, "liste-patrice");
-        assertThat(list).hasSize(2).onProperty("label").contains("Livre", "DVD");
-        assertThat(list).hasSize(2).onProperty("userTake").excludes("emmanuel@desaintsteban.fr");
+        List<WishDto> list = WishesService.list(patrice, "liste-patrice", false);
+        assertThat(extractProperty("label").from(list)).hasSize(2).contains("Livre", "DVD");
+        assertThat(extractProperty("userTake").from(list)).hasSize(2).doesNotContain("emmanuel@desaintsteban.fr");
     }
 
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testListWithArchived() throws Exception {
         WishesService.archive(patrice, "liste-patrice", livreId);
-        List<WishDto> list = WishesService.list(patrice, "liste-patrice");
-        assertThat(list).hasSize(1).onProperty("label").contains("DVD");
+        List<WishDto> list = WishesService.list(patrice, "liste-patrice", false);
+        assertThat(extractProperty("label").from(list)).hasSize(1).contains("DVD");
     }
 
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testListGived() throws Exception {
         List<WishDto> list = WishesService.given(emmanuel);
-        assertThat(list).hasSize(1).onProperty("label").contains("Livre");
+        assertThat(extractProperty("label").from(list)).hasSize(1).contains("Livre");
     }
 
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testListArchived() throws Exception {
         WishesService.archive(patrice, "liste-patrice", livreId);
         List<WishDto> list = WishesService.archived(patrice);
-        assertThat(list).hasSize(1).onProperty("label").contains("Livre");
+        assertThat(extractProperty("label").from(list)).hasSize(1).contains("Livre");
         assertThat(WishesService.given(emmanuel)).isEmpty();
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testListOther() throws Exception {
-        List<WishDto> list = WishesService.list(emmanuel, "liste-patrice");
-        assertThat(list).hasSize(2).onProperty("label").contains("Livre", "DVD");
+        List<WishDto> list = WishesService.list(emmanuel, "liste-patrice", false);
+        assertThat(extractProperty("label").from(list)).hasSize(2).contains("Livre", "DVD");
         //assertThat(list).hasSize(2).onProperty("userTake"). contains(EncodeUtils.encode("emmanuel@desaintsteban.fr"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testCreate() throws Exception {
         WishDto itemDvd = WishesService.createOrUpdate(emmanuel, "liste-emmanuel", new Wish(listeEmmanuel, "DVD"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testDelete() throws Exception {
         WishesService.delete(patrice, "liste-patrice", livreId);
     }
@@ -173,15 +178,41 @@ public class WishServiceTest {
         WishDto dto = WishesService.get(patrice, "liste-emmanuel", saved.getId());
 
         assertThat(dto.getLabel()).isEqualTo(initdto.getLabel());
-        assertThat(dto.getComments()).onProperty("from.email").contains("patrice@desaintsteban.fr", "clemence@desaintsteban.fr");
-        assertThat(dto.getComments()).onProperty("text").contains("Commentaire", "Commentaire2");
+        assertThat(extractProperty("from.email").from(dto.getComments())).contains("patrice@desaintsteban.fr", "clemence@desaintsteban.fr");
+        assertThat(extractProperty("text").from(dto.getComments())).contains("Commentaire", "Commentaire2");
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void renameWishList() throws Exception {
         WishListService.rename(patrice, "liste-patrice", "patrice");
 
-        assertThat(WishesService.list(patrice, "patrice")).onProperty("id").contains(livreId, dvdId);
+        assertThat(extractProperty("id").from(WishesService.list(patrice, "patrice"))).contains(livreId, dvdId);
         assertThat(WishesService.list(patrice, "liste-patrice")).isEmpty();
+    }
+
+    @Test
+    public void testStateArchived() throws Exception {
+        WishesService.archive(patrice, "liste-patrice", livreId);
+        Wish envie = OfyService.ofy().load().key(Key.create(Key.create(WishList.class, "liste-patrice"), Wish.class, livreId)).now();
+
+        assertThat(envie.getState()).isEqualTo(WishState.ARCHIVED);
+        assertThat(envie.getStateDate()).isEqualToIgnoringMinutes(new Date());
+    }
+
+    @org.junit.jupiter.api.Test
+    public void testCountsWishList() throws Exception {
+        assertThat(listePatrice.getCounts(WishState.ACTIVE)).isEqualTo(2);
+        assertThat(listePatrice.getCounts(WishState.ARCHIVED)).isEqualTo(0);
+        assertThat(listePatrice.getCounts(WishState.DELETED)).isEqualTo(0);
+
+        WishesService.archive(patrice, "liste-patrice", livreId);
+        assertThat(listePatrice.getCounts(WishState.ACTIVE)).isEqualTo(1);
+        assertThat(listePatrice.getCounts(WishState.ARCHIVED)).isEqualTo(1);
+        assertThat(listePatrice.getCounts(WishState.DELETED)).isEqualTo(0);
+
+        WishesService.delete(patrice, "liste-patrice", livreId);
+        assertThat(listePatrice.getCounts(WishState.ACTIVE)).isEqualTo(1);
+        assertThat(listePatrice.getCounts(WishState.ARCHIVED)).isEqualTo(0);
+        assertThat(listePatrice.getCounts(WishState.DELETED)).isEqualTo(1);
     }
 }

@@ -1,6 +1,8 @@
 package fr.desaintsteban.liste.envies.model;
 
-import com.googlecode.objectify.annotation.*;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 import fr.desaintsteban.liste.envies.dto.NotificationDto;
 import fr.desaintsteban.liste.envies.enums.NotificationType;
 
@@ -30,8 +32,28 @@ public class Notification {
 
     String actionUserName;
 
+    String actionUserPicture;
+
+    public Long getWishId() {
+        return wishId;
+    }
+
+    public void setWishId(Long wishId) {
+        this.wishId = wishId;
+    }
+
+    Long wishId;
+
     @Index
     Date date;
+
+    public String getActionUserPicture() {
+        return actionUserPicture;
+    }
+
+    public void setActionUserPicture(String actionUserPicture) {
+        this.actionUserPicture = actionUserPicture;
+    }
 
     String message;
 
@@ -44,6 +66,8 @@ public class Notification {
         dto.setMessage(this.getMessage());
         dto.setActionUser(this.getActionUser());
         dto.setActionUserName(this.getActionUserName());
+        dto.setActionUserPicture(this.getActionUserPicture());
+        dto.setWishId(this.getWishId());
         return dto;
     }
 

@@ -1,0 +1,64 @@
+<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5">
+  <div class="preview-img">
+    <img
+      [src]="
+        addImage
+          ? addImage
+          : 'https://placeholder.pics/svg/154x150/F4F4F4/BFBFBF-FFFFFF/image'
+      "
+      class="fixed"
+      width="54"
+      height="52"
+    />
+  </div>
+
+  <mat-form-field
+    appearance="outline"
+    fxFlex="70"
+    class="form-add-img no-padding"
+  >
+    <mat-label>Ajouter une image par Url</mat-label>
+    <input
+      matInput="url"
+      placeholder="Url du l'image"
+      #name
+      [(ngModel)]="addImage"
+    />
+    <mat-icon matSuffix>add_photo_alternate</mat-icon>
+  </mat-form-field>
+  <div>
+    <button mat-mini-fab (click)="addImg(name.value)">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>
+<mat-error *ngIf="name.value">
+  Cliquez sur l'icone + pour ajouter l'image
+</mat-error>
+<div>
+  <mat-label>Ou envoyer votre propre image</mat-label>
+  <file-pond
+    #myPond
+    [options]="pondOptions"
+    [files]="pondFiles"
+    (onaddfile)="pondHandleAddFile($event)"
+  >
+  </file-pond>
+  <mat-hint
+    >Pour des raisons de stockage, l'image est retaillée et fortement dégradée.
+    Pour une meilleure qualité préférez l'envoyer vous même sur un service en
+    ligne et fournir seulement l'url.</mat-hint
+  >
+</div>
+
+<div *ngIf="(newImages && newImages.length > 0) || addImage">
+  <mat-grid-list cols="4" rowHeight="2:1" gutterSize="3" class="list-img">
+    <mat-grid-tile
+      *ngFor="let img of newImages; index as i"
+      (click)="removeImg(i)"
+    >
+      <img [src]="img" class="border fixed" />
+      <mat-icon class="remove-img">cancel</mat-icon>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

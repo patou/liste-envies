@@ -1,0 +1,6 @@
+<div class="card-container" [ngClass]="{ flip: flip }">
+  <div class="card">
+    <div class="front"><ng-content select=".flip-front"></ng-content></div>
+    <div class="back"><ng-content select=".flip-back"></ng-content></div>
+  </div>
+</div>

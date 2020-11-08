@@ -6,9 +6,9 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import fr.desaintsteban.liste.envies.dto.UserShareDto;
 import fr.desaintsteban.liste.envies.dto.WishListDto;
+import fr.desaintsteban.liste.envies.enums.UserShareType;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.UserShare;
-import fr.desaintsteban.liste.envies.enums.UserShareType;
 
 import java.util.ArrayList;
 import java.util.List;

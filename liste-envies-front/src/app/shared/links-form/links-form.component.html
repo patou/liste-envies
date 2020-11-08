@@ -1,0 +1,53 @@
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <mat-form-field appearance="outline" class="col-5 no-padding">
+    <mat-label>Url du lien</mat-label>
+    <input
+      matInput="url"
+      placeholder="Url du lien"
+      #url
+      [(ngModel)]="addUrl.url"
+      (change)="onChangeUrl(addUrl.url)"
+    />
+    <mat-icon matSuffix>link</mat-icon>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-5 no-padding">
+    <mat-label>Nom du lien</mat-label>
+    <input
+      matInput="text"
+      placeholder="Nom du lien"
+      #name
+      [(ngModel)]="addUrl.name"
+    />
+  </mat-form-field>
+  <button mat-mini-fab (click)="addLink(url.value, name.value)" class="col-1">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+<mat-error *ngIf="addUrl.url">
+  Cliquez sur l'icone + pour ajouter le lien
+</mat-error>
+
+<div *ngIf="(newUrls && newUrls.length > 0) || addUrl.url">
+  <mat-chip-list>
+    <span *ngIf="newUrls.length === 1; else liens">Lien :</span>
+    <ng-template #liens>Liens :</ng-template>
+
+    <mat-chip
+      [removable]="true"
+      (removed)="removeLink(i)"
+      *ngFor="let url of newUrls; index as i"
+      ><a [href]="url.url" target="_blank" [matTooltip]="url.url">{{
+        url.name ? url.name : "lien"
+      }}</a>
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
+
+    <mat-chip [removable]="false" *ngIf="addUrl.url"
+      ><a [href]="addUrl.url" target="_blank" [matTooltip]="addUrl.url">{{
+        addUrl.name ? addUrl.name : "lien"
+      }}</a>
+      <mat-icon matChipRemove>hourglass_empty</mat-icon>
+    </mat-chip>
+  </mat-chip-list>
+</div>

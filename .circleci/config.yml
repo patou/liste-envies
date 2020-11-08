@@ -1,0 +1,138 @@
+version: 2.1 # use CircleCI 2.0
+jobs: # a collection of steps
+  build-frontend:
+    working_directory: ~/liste-envies
+    docker:
+      - image: circleci/node:12.18.4
+    steps:
+      - checkout
+      - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
+          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+          key: yarn-packages-{{ checksum "liste-envies-front/yarn.lock" }}
+      - run: cd liste-envies-front && yarn install --frozen-lockfile
+      - save_cache: # special step to save the dependency cache
+          key: yarn-packages-{{ checksum "liste-envies-front/yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run: cd liste-envies-front && yarn run build
+      - persist_to_workspace:
+          root: ~/liste-envies
+          paths:
+            - liste-envies-front/dist
+      - store_artifacts:
+          path: liste-envies-front/dist
+  build-backend: # runs not using Workflows must have a `build` job as entry point
+    working_directory: ~/liste-envies
+    docker:
+      - image: circleci/openjdk:8-jdk-stretch
+    steps:
+      - checkout
+      - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
+          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+          key: java-{{ checksum "liste-envies-war/pom.xml" }}
+      - run: cd liste-envies-war && mvn dependency:go-offline # gets the project dependencies
+      - save_cache: # saves the project dependencies
+          paths:
+            - ~/.m2
+          key: java-{{ checksum "liste-envies-war/pom.xml" }}
+      - run: echo ${FIREBASE_SERVICE_TEST_ACCOUNT} > liste-envies-war/src/main/resources/firebase.json
+      - run: cd liste-envies-war && mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=error clean test
+      - run:
+          name: Save test results
+          command: |
+            mkdir -p ~/test-results/junit/
+            find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/test-results/junit/ \;
+          when: always
+      - persist_to_workspace:
+          root: ~/liste-envies
+          paths:
+            - liste-envies-war/target/liste-envies
+      - store_test_results:
+          path: ~/test-results
+      - store_artifacts:
+          path: ~/test-results/junit
+  deploy-test:
+    working_directory: ~/liste-envies
+    docker:
+      - image: circleci/openjdk:8-jdk-stretch
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/liste-envies
+      - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
+          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+          key: java-{{ checksum "liste-envies-war/pom.xml" }}
+      - run:
+          name: Install Gcloud
+          command: |
+            if [ ! -d "~/google-cloud-sdk/bin" ]; then rm -rf ~/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+            source ~/google-cloud-sdk/path.bash.inc
+            gcloud version
+            gcloud --quiet components update app-engine-java
+      - run:
+          name: Deploy Apps
+          command: |
+            source ~/google-cloud-sdk/path.bash.inc
+            cd liste-envies-war
+            echo ${FIREBASE_SERVICE_ACCOUNT_TEST} > src/main/resources/firebase.json
+            echo ${GOOGLE_CLIENT_SECRET_TEST} > client-secret.json;
+            export APP_ID=${CLOUDSDK_PROJECT_TEST};
+            BRANCH=${CIRCLE_BRANCH//[^a-zA-Z0-9]/-}
+            export APP_VERSION=${BRANCH:0:63};
+            echo "Deploy application ${APP_ID} version ${APP_VERSION}"
+            gcloud auth activate-service-account --key-file client-secret.json
+            mvn -B --no-transfer-progress -DskipTests=true -Dapp.deploy.projectId=${APP_ID} -Dapp.deploy.version=${APP_VERSION} -Dapp.deploy.promote=false package appengine:deployAll
+  deploy-prod:
+    working_directory: ~/liste-envies
+    docker:
+      - image: circleci/openjdk:8-jdk-stretch
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/liste-envies
+      - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
+          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+          key: java-{{ checksum "liste-envies-war/pom.xml" }}
+      - run:
+          name: Install Gcloud
+          command: |
+            if [ ! -d "~/google-cloud-sdk/bin" ]; then rm -rf ~/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+            source ~/google-cloud-sdk/path.bash.inc
+            gcloud version
+            gcloud --quiet components update app-engine-java
+      - run:
+          name: Deploy Apps
+          command: |
+            source ~/google-cloud-sdk/path.bash.inc
+            cd liste-envies-war
+            echo ${FIREBASE_SERVICE_ACCOUNT} > src/main/resources/firebase.json
+            echo ${GOOGLE_CLIENT_SECRET} > client-secret.json;
+            export APP_ID=${CLOUDSDK_PROJECT};
+            export APP_VERSION=${MASTER_VERSION:0:63};
+            echo "Deploy application ${APP_ID} version ${APP_VERSION}"
+            gcloud auth activate-service-account --key-file client-secret.json
+            mvn -B --no-transfer-progress -DskipTests=true -Dapp.deploy.projectId=${APP_ID} -Dapp.deploy.version=${APP_VERSION} -Dapp.deploy.promote=false package appengine:deployAll
+
+workflows:
+  version: 2
+  build-test-and-deploy:
+    jobs:
+      - build-frontend
+      - build-backend
+      - deploy-test:
+          requires:
+            - build-frontend
+            - build-backend
+          filters:
+            branches:
+              ignore: master
+      - deploy-prod:
+          requires:
+            - build-frontend
+            - build-backend
+          filters:
+            branches:
+              only:
+                - master
+                - /preprod\/.*/
+                - /beta\/.*/

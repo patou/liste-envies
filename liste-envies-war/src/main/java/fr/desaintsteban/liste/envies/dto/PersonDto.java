@@ -6,6 +6,9 @@ public class PersonDto {
     String name;
 
 
+    String picture;
+
+
 
     public String getEmail() {
         return email;
@@ -23,11 +26,25 @@ public class PersonDto {
         this.name = name;
     }
 
+     public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
     public PersonDto() {
     }
 
     public PersonDto(String email, String name) {
         this.email = email;
         this.name = name;
+    }
+
+    public PersonDto(String email, String name, String picture) {
+        this.email = email;
+        this.name = name;
+        this.picture = picture;
     }
 }

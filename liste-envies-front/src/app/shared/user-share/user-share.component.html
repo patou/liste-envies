@@ -1,0 +1,95 @@
+<div
+  fxLayout="row wrap"
+  fxLayoutAlign="space-between center"
+  fxLayoutGap="10px"
+  class="user-share-add"
+>
+  <mat-form-field appearance="outline" class="col-12">
+    <mat-label>Emails</mat-label>
+    <input
+      matInput="email"
+      type="email"
+      [placeholder]="placeholder"
+      [formControl]="addEmailsControl"
+      [matAutocomplete]="auto"
+    />
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      (optionSelected)="selectedUsers($event)"
+    >
+      <mat-option *ngFor="let user of users" [value]="user">
+        {{ user.email }} - {{ user.name }}
+      </mat-option>
+    </mat-autocomplete>
+    <button mat-mini-fab matSuffix (click)="addUsers()" class="col-1">
+      <mat-icon>person_add</mat-icon>
+    </button>
+    <mat-hint
+      ><mat-checkbox
+        name="addOwnersControl"
+        [formControl]="addOwnersControl"
+        value="true"
+        labelPosition="left"
+        matTooltip="Cette personne recevra les cadeaux avec vous, pourra modifier la liste, et ne pourra pas voir les envies données"
+      >
+        Co-Bénéficiaire
+      </mat-checkbox></mat-hint
+    >
+  </mat-form-field>
+</div>
+<mat-error *ngIf="addEmailsControl.value">
+  Cliquez sur l'icone + pour partager cette liste à cet email
+</mat-error>
+<br />
+<mat-divider></mat-divider>
+<br /><br />
+<div
+  *ngIf="value && value.length > 0"
+  class="mat-elevation-z3 user-share-container"
+>
+  <mat-list>
+    <div mat-subheader>Co-Bénéficiaires</div>
+    <ng-container *ngFor="let owner of value">
+      <ng-container *ngIf="owner.type === 'OWNER'">
+        <ng-container
+          *ngTemplateOutlet="userShareLine; context: { $implicit: owner }"
+        >
+        </ng-container>
+      </ng-container>
+    </ng-container>
+    <mat-divider></mat-divider>
+    <div mat-subheader>Participants</div>
+    <ng-container *ngFor="let participant of value">
+      <ng-container *ngIf="participant.type !== 'OWNER'">
+        <ng-container
+          *ngTemplateOutlet="userShareLine; context: { $implicit: participant }"
+        >
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </mat-list>
+  <ng-template #userShareLine let-userShare>
+    <mat-list-item>
+      <ngx-avatar
+        matListAvatar
+        [gravatarId]="userShare?.email"
+        [matTooltip]="userShare?.name || userShare?.email"
+        [name]="userShare?.name || userShare?.email"
+        [round]="true"
+        matTooltipPosition="below"
+        size="30"
+      >
+      </ngx-avatar>
+      <div mat-line>{{ userShare?.name }}</div>
+      <div mat-line>{{ userShare?.email }}</div>
+      <button
+        mat-icon-button
+        class="button-remove-user"
+        matTooltip="Ne plus partager la liste avec cette personne"
+        (click)="removeUser(userShare)"
+      >
+        <mat-icon aria-label="Supprimer">person_remove</mat-icon>
+      </button>
+    </mat-list-item>
+  </ng-template>
+</div>

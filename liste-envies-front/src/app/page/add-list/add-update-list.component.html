@@ -1,0 +1,297 @@
+<h1 *ngIf="edit; else addList">Editer : {{ this.wishList.title }}</h1>
+<ng-template #addList>
+  <h1>Créer une nouvelle liste</h1>
+</ng-template>
+<form [formGroup]="wishListFormGroup">
+  <mat-horizontal-stepper [linear]="isLinear" #stepper="matHorizontalStepper">
+    <mat-step [stepControl]="nameFormGroup">
+      <ng-template matStepLabel>Entrer un nom pour votre liste</ng-template>
+      <div class="grid grid--between">
+        <div class="row">
+          <div class="col-6">
+            <mat-form-field class="col-12" appearance="outline">
+              <mat-label>Titre</mat-label>
+              <input
+                matInput
+                placeholder="Liste pour ..."
+                name="title"
+                required
+                formControlName="title"
+              />
+            </mat-form-field>
+            <mat-form-field
+              class="col-12 wish-list-url"
+              appearance="outline"
+              floatLabel="always"
+            >
+              <span matPrefix>https://liste-envie.desaintsteban.fr/</span>
+              <mat-label>Url de la liste</mat-label>
+              <input
+                matInput
+                type="text"
+                name="id"
+                required
+                [readonly]="edit"
+                formControlName="name"
+                #urlName
+              />
+            </mat-form-field>
+
+            <mat-form-field class="col-7" appearance="outline">
+              <mat-label>Type d'événements</mat-label>
+              <mat-select
+                [(value)]="wishList.type"
+                placeholder="Pour quel évènement ?"
+                name="type"
+                formControlName="type"
+              >
+                <mat-select-trigger>
+                  <list-type-icon [type]="wishList.type"></list-type-icon>
+                  {{ wishListLabel[wishList.type] }}</mat-select-trigger
+                >
+                <mat-option
+                  *ngFor="let key of wishListTypeLabelOrder"
+                  [value]="key"
+                  selected
+                  ><list-type-icon [type]="key"></list-type-icon>
+                  {{ wishListLabel[key] }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="col-4 col-offset-1" appearance="outline">
+              <mat-label>date de l'événement</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                placeholder="Choisir la date de l'événement"
+                formControlName="date"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker
+                #picker
+                startView="year"
+                [startAt]="startDate"
+              ></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field
+              appearance="outline"
+              class="col-11 col-offset-1 form-field-240px"
+              floatLabel="always"
+            >
+              <mat-label>Description</mat-label>
+              <app-html-editor
+                #description
+                hideToolbar="false"
+                editorHeight="150px"
+                placeholder="Entrez une description pour votre liste, vous pouvez la mettre en forme, ajouter des liens etc..."
+                type="full"
+                formControlName="description"
+              ></app-html-editor>
+              <mat-hint
+                >Vous pouvez donner plus de details sur votre liste.</mat-hint
+              >
+            </mat-form-field>
+          </div>
+        </div>
+        <div>
+          <button mat-button matStepperNext mat-raised-button color="accent">
+            Suivant
+          </button>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="createorUpdateList()"
+            [disabled]="sending"
+            *ngIf="edit"
+          >
+            Mettre à jour la liste
+          </button>
+        </div>
+      </div>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+      <ng-template matStepLabel>Partager la liste à :</ng-template>
+      <div class="grid">
+        <div class="col-6 grid--ca-space-around">
+          <div class="col-12">
+            <mat-label>Mode de partage</mat-label>
+            <mat-radio-group
+              formControlName="privacy"
+              name="privacy"
+              class="grid grid--ca-center privacy-radio-group"
+            >
+              <mat-radio-button value="PRIVATE">
+                Limité / Privé
+              </mat-radio-button>
+              <mat-radio-button value="OPEN">
+                Ouvert / Connecté
+              </mat-radio-button>
+              <mat-radio-button value="PUBLIC">
+                Libre / Publique
+              </mat-radio-button>
+            </mat-radio-group>
+
+            <div [ngSwitch]="wishList.privacy" class="privacy-explain">
+              <div *ngSwitchCase="'PRIVATE'">
+                <img
+                  src="/assets/illu/undraw_security_o890.png"
+                  class="border round privacy-img"
+                />
+                Liste accessible seulement aux prsonnes à qui vous la
+                partagerez.
+                <br />Vous ne verrez pas qui vous offre une envie. Contrairement
+                aux participants qui pourront voir et indiquer qui offre une
+                envie.
+              </div>
+              <div *ngSwitchCase="'OPEN'">
+                <img
+                  src="/assets/illu/undraw_safe_bnk7.png"
+                  class="border round privacy-img"
+                />Il faut être connecté pour voir les envies de la liste (et
+                intéragir avec), la liste est ouverte à tous les membres qui
+                connaissent le lien. <br />
+                Vous ne verrez pas qui vous donne une envie, par contre toutes
+                les personnes connectés (sauf les co-bénéficiaires) voient qui
+                donne une envie.
+              </div>
+              <div *ngSwitchCase="'PUBLIC'">
+                <img
+                  src="/assets/illu/undraw_world_9iqb.png"
+                  class="border round privacy-img"
+                />La liste peut être affichée par toute personne connaissant le
+                lien (sans être connecté). Par contre, Il est nécessaire de se
+                connecter pour interagir avec, et voir si une envie est prise.
+                <br />
+                Toutes les personnes connectées (co-bénéficiaires compris)
+                voient qui offre une envie.
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <mat-checkbox
+              name="forceAnonymous"
+              formControlName="forceAnonymous"
+              labelPosition="left"
+            >
+              Afficher les envies déjà données de manière anonyme
+            </mat-checkbox>
+          </div>
+        </div>
+        <div class="col-6 grid">
+          <mat-form-field appearance="outline" class="col-12 grid">
+            <app-user-share
+              class="col-12"
+              formControlName="users"
+            ></app-user-share>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div>
+        <button mat-button matStepperPrevious>Précédent</button>
+        <button matStepperNext mat-raised-button color="accent">Suivant</button>
+        <button
+          mat-raised-button
+          (click)="createorUpdateList()"
+          [disabled]="sending"
+          *ngIf="edit"
+        >
+          Mettre à jour la liste
+        </button>
+      </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Options de la liste</ng-template>
+
+      <div class="grid--between">
+        <div class="col6 grid--between">
+          <div>
+            <h3>Arrière plan</h3>
+
+            <mat-grid-list cols="6" rowHeight="2:1">
+              <mat-grid-tile *ngFor="let picture of wishListTypePicture">
+                <img
+                  [src]="'/assets/thumb/' + picture.picture"
+                  title="{{ picture.credit }}"
+                  (click)="selectImg(picture)"
+                  class="bordered"
+                  [ngClass]="{ active: picture.picture == wishList.picture }"
+              /></mat-grid-tile>
+            </mat-grid-list>
+            <mat-divider>ou</mat-divider>
+            <mat-form-field class="col-12 field" appearance="outline">
+              <mat-label>Image personnalisé </mat-label>
+              <input
+                matInput
+                placeholder="Image personnalisée d'arrière-plan"
+                formControlName="picture"
+                name="picture"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button mat-button matStepperPrevious [disabled]="sending">
+          Précédent
+        </button>
+        <button mat-button (click)="stepper.reset()" [disabled]="sending">
+          Réinitialiser
+        </button>
+        <button
+          mat-raised-button
+          color="accent"
+          (click)="createorUpdateList()"
+          [disabled]="sending"
+        >
+          <span *ngIf="edit; else addButtonLabel">Mettre à jour la liste</span>
+          <ng-template #addButtonLabel>Créer la liste</ng-template>
+        </button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</form>
+<mat-progress-bar mode="query" *ngIf="sending"></mat-progress-bar>
+
+<mat-divider></mat-divider>
+
+<h4>Aperçu de la liste</h4>
+<div class="browser">
+  <div class="browser-navigation-bar">
+    <i></i><i></i><i></i>
+    <!-- Place your URL into <input> below -->
+    <input
+      value="https://liste-envie.desaintsteban.fr/{{ urlName.value }}"
+      disabled
+    />
+    <!--<span class="labelDemo">En tant que</span>
+    <mat-button-toggle-group
+      #previewAs="matButtonToggleGroup"
+      class="buttonGroupDemo"
+      [value]="previewAs"
+      (change)="onChangePreview($event)"
+    >
+      <mat-button-toggle value="OWNER" checked>
+        <mat-icon>lock</mat-icon> Co-bénéficaires
+      </mat-button-toggle>
+      <mat-button-toggle value="REGISTRER">
+        <mat-icon>lock_open</mat-icon> Participants
+      </mat-button-toggle>
+      <mat-button-toggle value="PUBLIC">
+        <mat-icon>public</mat-icon> Public
+      </mat-button-toggle>
+    </mat-button-toggle-group>-->
+  </div>
+
+  <div class="browser-container">
+    <div class="toolbar">Listes de mes envies</div>
+    <app-list [list]="demoList" [items]="demoWhishs" [demo]="true"></app-list>
+  </div>
+</div>

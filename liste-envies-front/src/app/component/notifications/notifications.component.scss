@@ -1,0 +1,14 @@
+.notification-items {
+  height: auto !important;
+
+  p.comment-line {
+    height: auto !important;
+  }
+
+  h4.notification-text {
+    height: auto !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+  }
+}

@@ -7,7 +7,14 @@ import fr.desaintsteban.liste.envies.model.Wish;
 import fr.desaintsteban.liste.envies.service.WishesService;
 import fr.desaintsteban.liste.envies.util.ServletUtils;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.logging.Logger;
@@ -53,7 +60,20 @@ public class WishRestService {
     public List<WishDto> getWish(@PathParam("name") String name) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         LOGGER.info("List");
-        return WishesService.list(user, name);
+        return WishesService.list(user, name, false);
+    }
+
+    /**
+     * Get archived wish for a list
+     * @param name
+     * @return
+     */
+    @GET
+    @Path("/archived")
+    public List<WishDto> getArchivedWish(@PathParam("name") String name) {
+        final AppUser user = ServletUtils.getUserAuthenticated();
+        LOGGER.info("List archived");
+        return WishesService.listArchived(user, name);
     }
 
     @POST
@@ -71,9 +91,11 @@ public class WishRestService {
     public WishDto addComment(@PathParam("name") String name, @PathParam("id") Long wishId, CommentDto comment) {
         final AppUser user = ServletUtils.getUserAuthenticated();
         if (user != null) {
-            LOGGER.info("add comment from " + user.getName()+"wish id : "+wishId+" Comment : "+comment.getText());
+            LOGGER.info("add comment from " + user.getName() +" wish id : " + wishId + " Comment : " + comment.getText());
             WishDto wishDto = WishesService.addComment(user, wishId, name, comment);
-            LOGGER.info("Updated wish with comments " + wishDto.getLabel());
+            if (wishDto != null) {
+                LOGGER.info("Updated wish with comments " + wishDto.getLabel());
+            }
             return wishDto;
         }
         return null;

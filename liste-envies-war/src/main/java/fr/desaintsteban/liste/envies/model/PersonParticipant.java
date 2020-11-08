@@ -14,8 +14,8 @@ public class PersonParticipant extends Person {
         super(email, true);
     }
 
-    public PersonParticipant(String email, String name, String amount, String message) {
-        super(email, name, true);
+    public PersonParticipant(String email, String name, String picture, String amount, String message) {
+        super(email, name, true, picture);
         this.amount = amount;
         this.message = message;
     }
@@ -43,12 +43,12 @@ public class PersonParticipant extends Person {
     }
 
     public PersonParticipantDto toDecodeDto() {
-        return new PersonParticipantDto(EncodeUtils.decode(email), EncodeUtils.decode(name), EncodeUtils.decode(amount), EncodeUtils.decode(message));
+        return new PersonParticipantDto(EncodeUtils.decode(email), EncodeUtils.decode(name),  EncodeUtils.decode(picture), EncodeUtils.decode(amount), EncodeUtils.decode(message));
     }
 
     public static PersonParticipant fromDto(PersonParticipantDto person) {
         if (person != null) {
-            return new PersonParticipant(EncodeUtils.encode(person.getEmail()), EncodeUtils.encode(person.getName()), EncodeUtils.encode(person.getAmount()), EncodeUtils.encode(person.getMessage()));
+            return new PersonParticipant(EncodeUtils.encode(person.getEmail()), EncodeUtils.encode(person.getName()), EncodeUtils.encode(person.getPicture()), EncodeUtils.encode(person.getAmount()), EncodeUtils.encode(person.getMessage()));
         }
         return null;
     }

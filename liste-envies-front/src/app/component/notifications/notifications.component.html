@@ -1,0 +1,178 @@
+<ng-template #loading>Loading...</ng-template>
+<mat-nav-list (click)="onSelect.emit()">
+  <ng-container *ngFor="let notification of notifications$ | async">
+    <ng-container [ngSwitch]="notification.type">
+      <mat-list-item
+        *ngSwitchCase="Notification_type.ADD_WISH"
+        class="notification-items"
+        [routerLink]="['/', notification.listId]"
+      >
+        <mat-icon fontSet="fa" mat-list-icon fontIcon="fa-plus"></mat-icon>
+        <h4 mat-line class="notification-text">
+          <b>{{ notification.actionUserName }}</b> a ajouté une nouvelle envie
+          <b>{{ notification.message }}</b> à la liste "<u>{{
+            notification.listName
+          }}</u
+          >"
+        </h4>
+        <p
+          mat-line
+          matTooltip="{{ notification.date | date: 'long' }}"
+          class="date"
+        >
+          <mat-icon>date_range</mat-icon>
+          {{ notification.date | amLocal: "fr" | amTimeAgo }}
+        </p>
+        <mat-divider [inset]="true"></mat-divider>
+      </mat-list-item>
+      <mat-list-item
+        *ngSwitchCase="Notification_type.UPDATE_WISH"
+        class="notification-items"
+        [routerLink]="['/', notification.listId]"
+      >
+        <mat-icon fontSet="far" mat-list-icon fontIcon="fa-edit"></mat-icon>
+        <h4 mat-line class="notification-text">
+          L'envie <b>{{ notification.message }}</b> de la liste "<u>{{
+            notification.listName
+          }}</u
+          >" a été mise à jour
+        </h4>
+        <p
+          mat-line
+          matTooltip="{{ notification.date | date: 'long' }}"
+          class="date"
+        >
+          <mat-icon>date_range</mat-icon>
+          {{ notification.date | amLocal: "fr" | amTimeAgo }}
+        </p>
+        <mat-divider [inset]="true"></mat-divider>
+      </mat-list-item>
+      <mat-list-item
+        *ngSwitchCase="Notification_type.DELETE_WISH"
+        class="notification-items"
+      >
+        <mat-icon fontSet="fa" mat-list-icon fontIcon="fa-trash"></mat-icon>
+        <h4 mat-line class="notification-text">
+          L'envie <b>{{ notification.message }}</b> de la liste "<u>{{
+            notification.listName
+          }}</u
+          >" a été supprimée
+        </h4>
+        <p
+          mat-line
+          matTooltip="{{ notification.date | date: 'long' }}"
+          class="date"
+        >
+          <mat-icon>date_range</mat-icon>
+          {{ notification.date | amLocal: "fr" | amTimeAgo }}
+        </p>
+        <mat-divider [inset]="true"></mat-divider>
+      </mat-list-item>
+      <mat-list-item
+        *ngSwitchCase="Notification_type.GIVEN_WISH"
+        class="notification-items"
+        [routerLink]="['/', notification.listId]"
+      >
+        <mat-icon fontSet="fa" mat-list-icon fontIcon="fa-gift"></mat-icon>
+        <h4 mat-line class="notification-text">
+          L'envie <b>{{ notification.message }}</b> de la liste "<u>{{
+            notification.listName
+          }}</u
+          >" sera offerte par <b>{{ notification.actionUserName }}</b>
+        </h4>
+        <p
+          mat-line
+          matTooltip="{{ notification.date | date: 'long' }}"
+          class="date"
+        >
+          <mat-icon>date_range</mat-icon>
+          {{ notification.date | amLocal: "fr" | amTimeAgo }}
+        </p>
+        <mat-divider [inset]="true"></mat-divider>
+      </mat-list-item>
+      <mat-list-item
+        *ngSwitchCase="Notification_type.NEW_LIST"
+        class="notification-items"
+        [routerLink]="['/', notification.listId]"
+      >
+        <mat-icon fontSet="fa" mat-list-icon fontIcon="fa-list"></mat-icon>
+        <h4 mat-line class="notification-text">
+          Une nouvelle liste <i>{{ notification.message }}</i> a été créée par
+          <b>{{ notification.actionUserName }}</b>
+        </h4>
+        <p
+          mat-line
+          matTooltip="{{ notification.date | date: 'long' }}"
+          class="date"
+        >
+          <mat-icon>date_range</mat-icon>
+          {{ notification.date | amLocal: "fr" | amTimeAgo }}
+        </p>
+        <mat-divider [inset]="true"></mat-divider>
+      </mat-list-item>
+      <mat-list-item
+        *ngSwitchCase="Notification_type.ADD_USER"
+        class="notification-items"
+        [routerLink]="['/', notification.listId]"
+      >
+        <mat-icon fontSet="fa" mat-list-icon fontIcon="fa-user-plus"></mat-icon>
+        <h4 mat-line class="notification-text">
+          La liste "<u>{{ notification.listName }}</u
+          >" vous a été partagée par <b>{{ notification.actionUserName }}</b>
+        </h4>
+        <p
+          mat-line
+          matTooltip="{{ notification.date | date: 'long' }}"
+          class="date"
+        >
+          <mat-icon>date_range</mat-icon>
+          {{ notification.date | amLocal: "fr" | amTimeAgo }}
+        </p>
+        <mat-divider [inset]="true"></mat-divider>
+      </mat-list-item>
+      <mat-list-item *ngSwitchCase="Notification_type.ARCHIVE_WISH">
+        <mat-icon fontSet="fa" mat-list-icon fontIcon="fa-archive"></mat-icon>
+        <h4 mat-line class="notification-text">
+          <b>{{ notification.actionUserName }}</b> a archivé une envie
+          <i>{{ notification.message }}</i> de la liste "<u>{{
+            notification.listName
+          }}</u
+          >"
+        </h4>
+        <p
+          mat-line
+          matTooltip="{{ notification.date | date: 'long' }}"
+          class="date"
+        >
+          <mat-icon>date_range</mat-icon>
+          {{ notification.date | amLocal: "fr" | amTimeAgo }}
+        </p>
+        <mat-divider [inset]="true"></mat-divider>
+      </mat-list-item>
+      <mat-list-item
+        *ngSwitchCase="Notification_type.ADD_NOTE"
+        class="notification-items"
+        [routerLink]="['/', notification.listId]"
+      >
+        <mat-icon fontSet="fa" mat-list-icon fontIcon="fa-comment"></mat-icon>
+        <h4 mat-line class="notification-text">
+          <b>{{ notification.actionUserName }}</b> a commenté sur une envie de
+          la liste "<u>{{ notification.listName }}</u
+          >" :
+        </h4>
+        <p mat-line class="comment-line" notification.message>
+          {{ notification.message | stripTags | truncate: 60 }}
+        </p>
+        <p
+          mat-line
+          matTooltip="{{ notification.date | date: 'long' }}"
+          class="date"
+        >
+          <mat-icon>date_range</mat-icon>
+          {{ notification.date | amLocal: "fr" | amTimeAgo }}
+        </p>
+        <mat-divider [inset]="true"></mat-divider>
+      </mat-list-item>
+    </ng-container>
+  </ng-container>
+</mat-nav-list>

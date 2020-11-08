@@ -10,7 +10,8 @@ public enum WishListType {
     WEDDING, // liste de mariage
     LEAVING, // liste pour un départ
     SPECIAL_OCCASION, // Occasion spéciale
-    HOUSE_WARNING, // Pendaison de crémaillère
+    HOUSE_WARMING, // Pendaison de crémaillère
     RETIREMENT, // Retraite
+    CEREMONY, // Cérémonie religieuse (Baptême, Communi)
     OTHER // Autre
 }

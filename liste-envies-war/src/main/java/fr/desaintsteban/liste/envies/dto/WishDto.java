@@ -1,5 +1,6 @@
 package fr.desaintsteban.liste.envies.dto;
 
+import fr.desaintsteban.liste.envies.enums.WishState;
 import fr.desaintsteban.liste.envies.model.Link;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
@@ -17,8 +18,7 @@ public class WishDto {
 
     private PersonDto owner;
     private Boolean suggest = false;
-    private Boolean deleted = false;
-    private Boolean archived = false;
+    private WishState state = WishState.ACTIVE;
     private String label;
 
     private String description;
@@ -83,19 +83,29 @@ public class WishDto {
     }
 
     public Boolean getDeleted() {
-        return deleted;
+        return state == WishState.DELETED;
     }
 
+    @Deprecated
     public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
+
     }
 
     public Boolean getArchived() {
-        return archived;
+        return state == WishState.ARCHIVED;
     }
 
+    @Deprecated
     public void setArchived(Boolean archived) {
-        this.archived = archived;
+
+    }
+
+    public WishState getState() {
+        return state;
+    }
+
+    public void setState(WishState state) {
+        this.state = state;
     }
 
     public String getLabel() {
