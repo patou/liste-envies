@@ -1,309 +1,536 @@
 <page scope="vm" background="vm.wishList.picture">
-    <div class="container-fluid" translate-namespace="WISH_LIST_PAGE">
+  <div class="container-fluid" translate-namespace="WISH_LIST_PAGE">
+    <div class="main main-raised">
+      <div class="row">
+        <div class="col-lg-12">
+          <h1 class="page-header">
+            <icon-wish-list type="{{vm.wishList.type}}"></icon-wish-list>
+            <form class="form-inline" ng-if="vm.editTitle">
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="form-control title-edit"
+                  ng-model="vm.wishList.title"
+                  placeholder="@"
+                />
+              </div>
+              <button
+                type="submit"
+                class="btn btn-success btn-just-icon"
+                ng-click="vm.saveWishList(vm.wishList);"
+                data-toggle="tooltip"
+                data-placement="bottom"
+                translate-attr-title=".BUTTON_EDIT_END"
+              >
+                <span class="fa fa-check" aria-hidden="true"></span>
+                <span class="sr-only" translate>.BUTTON_EDIT_END</span>
+              </button>
+            </form>
+            <span class="title" ng-if="!vm.editTitle">
+              {{vm.wishList.title}}
+              <button
+                type="button"
+                class="btn btn-just-icon btn-warning"
+                tooltip="Editer le titre de la liste"
+                ng-if="vm.wishList.owner"
+                ng-click="vm.editTitle = true"
+                translate-attr-title=".BUTTON_EDIT_LIST"
+              >
+                <span class="fa fa-edit" aria-hidden="true"></span
+                ><span class="sr-only" translate="">.BUTTON_EDIT_LIST</span>
+              </button>
+              <small ng-if="vm.wishList.owners">
+                de
+                <span class="owners" ng-repeat="owner in vm.wishList.owners">
+                  <i class="fa fa-user"></i>
+                  <span title="{{owner.email}}">{{owner.name}}</span
+                  ><span ng-if="!$last">, </span>
+                </span></small
+              >
 
-       <div class="main main-raised">
-           <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">
-                    <icon-wish-list type="{{vm.wishList.type}}"></icon-wish-list>
-                    <form class="form-inline" ng-if="vm.editTitle">
-                        <div class="form-group">
-                            <input type="text" class="form-control title-edit" ng-model="vm.wishList.title"
-                                   placeholder="@">
-                        </div>
-                        <button type="submit" class="btn btn-success btn-just-icon"
-                                ng-click="vm.saveWishList(vm.wishList);"
-                                data-toggle="tooltip" data-placement="bottom"
-                                translate-attr-title=".BUTTON_EDIT_END"
-                        >
-                            <span class="fa fa-check" aria-hidden="true"></span>
-                            <span class="sr-only" translate>.BUTTON_EDIT_END</span>
-                        </button>
-                    </form>
-                    <span class="title" ng-if="!vm.editTitle">
-                    {{vm.wishList.title}}
-                    <button type="button" class="btn btn-just-icon btn-warning" tooltip="Editer le titre de la liste"
-                            ng-if="vm.wishList.owner" ng-click="vm.editTitle = true"
-                            translate-attr-title=".BUTTON_EDIT_LIST"
-                        >
-                        <span class="fa fa-edit" aria-hidden="true"></span><span class="sr-only" translate="">.BUTTON_EDIT_LIST</span>
-                    </button>
-                    <small ng-if="vm.wishList.owners"> de <span class="owners" ng-repeat="owner in vm.wishList.owners"> <i
-                            class="fa fa-user"></i> {{owner.name}} ({{owner.email}})<span
-                            ng-if="!$last">, </span> </span></small>
+              <small ng-if="vm.wishList.date"
+                ><i class="fa fa-calendar"></i>
+                <span
+                  class=""
+                  title="{{vm.wishList.date | date: 'fullDate'}}"
+                  am-time-ago="vm.wishList.date"
+                ></span
+              ></small>
+            </span>
 
-                        <small ng-if="vm.wishList.date"><i class="fa fa-calendar"></i> <span class="" title="{{vm.wishList.date | date: 'fullDate'}}" am-time-ago="vm.wishList.date"></span></small>
+            <button
+              type="button"
+              class="btn pull-right btn-just-icon btn-warning"
+              data-toggle="modal"
+              data-target="#share-list"
+              tooltip="Partager votre liste"
+              ng-if="vm.wishList.owner"
+            >
+              <span class="fa fa-user" aria-hidden="true"></span
+              ><span class="sr-only">Partager</span>
+            </button>
+            <button
+              type="button"
+              class="btn pull-right btn-just-icon btn-warning"
+              data-toggle="modal"
+              data-target="#settings-list"
+              tooltip="Options de votre liste"
+              ng-if="vm.wishList.owner"
+            >
+              <span class="fa fa-cog" aria-hidden="true"></span
+              ><span class="sr-only">Settings</span>
+            </button>
+          </h1>
+        </div>
+      </div>
+      <div
+        class="modal fade"
+        tabindex="-1"
+        role="dialog"
+        id="settings-list"
+        translate-namespace=".UPDATE_LIST"
+        data-backdrop="'static'"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title" translate=".TITLE"></h4>
+            </div>
+            <div class="modal-body">
+              <wish-list-settings wish-list="vm.wishList"></wish-list-settings>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-gray btn-bordered-danger"
+                data-dismiss="modal"
+                translate=".CLOSE"
+              ></button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                ng-click="vm.saveWishList(vm.wishList)"
+                translate=".BUTTON"
+              ></button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal --><!--row row-fluid-->
 
+      <div
+        class="modal fade"
+        tabindex="-1"
+        role="dialog"
+        id="change-url"
+        translate-namespace=".CHANGE_URL"
+        data-backdrop="'static'"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title" translate=".TITLE"></h4>
+            </div>
+            <div class="modal-body">
+              <span class="alert alert-info" translate=".WARNING"></span>
+              <div class="input-group">
+                <span class="input-group-addon" id="basic-addon3"
+                  >{{vm.url}}/</span
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="basic-url"
+                  aria-describedby="basic-addon3"
+                  ng-model="vm.newUrl"
+                />
+              </div>
+              <span
+                class="alert alert-danger"
+                translate=".EXIST"
+                ng-if="vm.renameWishListExist"
+              ></span>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-gray btn-bordered-danger"
+                data-dismiss="modal"
+                translate=".CLOSE"
+              ></button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                ng-click="vm.renameWishList(vm.wishList.name, vm.newUrl)"
+                ng-disabled="vm.doingRenameWishList"
+                translate=".BUTTON"
+              ></button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal --><!--row row-fluid-->
+
+      <div
+        class="modal fade"
+        tabindex="-1"
+        role="dialog"
+        id="share-list"
+        translate-namespace=".SHARE_LIST"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title" translate=".TITLE"></h4>
+            </div>
+            <div class="modal-body">
+              <div class="input-group">
+                <label for="link" translate="LINK"></label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="link"
+                  value="{{vm.url}}/{{vm.wishList.name}}"
+                  readonly
+                />
+                <span class="input-group-btn">
+                  <button
+                    type="button"
+                    class="btn btn-warning"
+                    data-toggle="modal"
+                    data-dismiss="modal"
+                    data-target="#change-url"
+                    tooltip="Modifier l'url"
+                    ng-if="vm.wishList.owner"
+                  >
+                    <span class="fa fa-pencil" aria-hidden="true"></span
+                    ><span class="sr-only">Modifier</span>
+                  </button>
                 </span>
+              </div>
+              <ul class="list-group">
+                <li
+                  class="list-group-item"
+                  ng-repeat="user in vm.wishList.users"
+                  ng-class="{active:user.type == 'OWNER'}"
+                >
+                  <i
+                    class="fa fa-user btn btn-simple btn-sm btn-just-icon btn-gray"
+                    aria-hidden="true"
+                  ></i
+                  >{{user.email}}
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-warning pull-right btn-just-icon"
+                    ng-click="vm.removeUser(user);"
+                    aria-label="Partager votre liste"
+                    ng-if="user.email != vm.main.user.email"
+                  >
+                    <span class="fa fa-remove" aria-hidden="true"></span>
+                  </button>
+                </li>
+              </ul>
 
-
-                    <button type="button" class="btn pull-right btn-just-icon btn-warning" data-toggle="modal"
-                            data-target="#share-list" tooltip="Partager votre liste" ng-if="vm.wishList.owner">
-                        <span class="fa fa-user" aria-hidden="true"></span><span class="sr-only">Partager</span>
-                    </button>
-                    <button type="button" class="btn pull-right btn-just-icon btn-warning" data-toggle="modal"
-                            data-target="#settings-list" tooltip="Options de votre liste" ng-if="vm.wishList.owner">
-                        <span class="fa fa-cog" aria-hidden="true"></span><span class="sr-only">Settings</span>
-                    </button>
-
-                </h1>
-            </div>
-        </div>
-        <div class="modal fade" tabindex="-1" role="dialog" id="settings-list" translate-namespace=".UPDATE_LIST" data-backdrop="'static'">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" translate=".TITLE"></h4>
-                    </div>
-                    <div class="modal-body">
-                        <wish-list-settings wish-list="vm.wishList"></wish-list-settings>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-gray btn-bordered-danger" data-dismiss="modal"  translate=".CLOSE">
-                        </button>
-                        <button type="submit" class="btn btn-primary" ng-click="vm.saveWishList(vm.wishList)" translate=".BUTTON">
-
-                        </button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal --><!--row row-fluid-->
-
-           <div class="modal fade" tabindex="-1" role="dialog" id="change-url" translate-namespace=".CHANGE_URL" data-backdrop="'static'">
-               <div class="modal-dialog" role="document">
-                   <div class="modal-content">
-                       <div class="modal-header">
-                           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                   aria-hidden="true">&times;</span></button>
-                           <h4 class="modal-title" translate=".TITLE"></h4>
-                       </div>
-                       <div class="modal-body">
-                           <span class="alert alert-info" translate=".WARNING"></span>
-                           <div class="input-group">
-                               <span class="input-group-addon" id="basic-addon3">{{vm.url}}/</span>
-                               <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" ng-model="vm.newUrl">
-                           </div>
-                           <span class="alert alert-danger" translate=".EXIST" ng-if="vm.renameWishListExist"></span>
-                       </div>
-                       <div class="modal-footer">
-                           <button type="button" class="btn btn-gray btn-bordered-danger" data-dismiss="modal"  translate=".CLOSE">
-                           </button>
-                           <button type="submit" class="btn btn-primary" ng-click="vm.renameWishList(vm.wishList.name, vm.newUrl)"  ng-disabled="vm.doingRenameWishList" translate=".BUTTON">
-
-                           </button>
-                       </div>
-                   </div><!-- /.modal-content -->
-               </div><!-- /.modal-dialog -->
-           </div><!-- /.modal --><!--row row-fluid-->
-
-           <div class="modal fade" tabindex="-1" role="dialog" id="share-list" translate-namespace=".SHARE_LIST">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" translate=".TITLE"></h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="input-group">
-                            <label for="link" translate="LINK"></label>
-                           <input type="text" class="form-control" id="link" value="{{vm.url}}/{{vm.wishList.name}}" readonly>
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-warning" data-toggle="modal" data-dismiss="modal"
-                                        data-target="#change-url" tooltip="Modifier l'url" ng-if="vm.wishList.owner">
-                                    <span class="fa fa-pencil" aria-hidden="true"></span><span class="sr-only">Modifier</span>
-                                </button>
-                            </span>
-                        </div>
-                        <ul class="list-group">
-                            <li class="list-group-item" ng-repeat="user in vm.wishList.users"
-                                ng-class="{active:user.type == 'OWNER'}">
-                                <i class="fa fa-user btn btn-simple btn-sm  btn-just-icon btn-gray"
-                                   aria-hidden="true"></i>{{user.email}}
-                                <button type="button" class="btn btn-sm btn-warning  pull-right btn-just-icon"
-                                        ng-click="vm.removeUser(user);" aria-label="Partager votre liste"
-                                        ng-if="user.email != vm.main.user.email">
-                                    <span class="fa fa-remove" aria-hidden="true"></span>
-                                </button>
-                            </li>
-                        </ul>
-
-                        <div class="row form-share-to-user">
-                            <div class="col-xs-6">
-                                <div class="form-group label-floating ">
-                                    <label class="control-label" for="new-email" translate=".EMAIL"></label>
-                                    <input type="email" class="form-control col-xs-5" id="new-email"
-                                           ng-model="vm.newUser.email" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-xs-3">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" value="" ng-true-value="'OWNER'"
-                                               ng-false-value="'SHARED'" ng-model="vm.newUser.type">
-                                        <span translate=".OWNER"></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-xs-3">
-                                <button type="submit" class="btn btn-default btn-success btn-sm"
-                                        ng-click="vm.shareUser(vm.newUser);"><span class="fa fa-share"
-                                                                                   aria-hidden="true"></span> Ajouter
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-gray btn-bordered-danger" data-dismiss="modal"  translate=".CLOSE">
-                        </button>
-                        <button type="submit" class="btn btn-primary" ng-click="vm.saveWishList(vm.wishList)"  translate=".BUTTON">
-
-                        </button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal --><!--row row-fluid-->
-        <p ng-bind-html="vm.wishList.description" ng-if="!vm.wishList.owner"></p>
-        <summernote airMode ng-model="vm.wishList.description" ng-if="vm.wishList.owner" config="vm.editorOptions"
-                    ng-change="vm.saveWishList(vm.wishList);"
-                    ng-model-options="{ updateOn: 'default', debounce: 5000 }" lang="fr-FR"></summernote>
-
-        <div class="order-filter row row-fluid well-sm" ng-if="vm.wishes.length > 0">
-            <div class="filter col-xs-12 col-md-5">
-                <div class="form-group">
-                    <label class="control-label">Filtrer</label><br/>
-                    <div class="btn-group" data-toggle="buttons">
-
-
-                        <div ng-if="(vm.wishList.owner && filter.owner) || (!vm.wishList.owner && filter.shared)"
-                             class="btn-group" type="button" class="btn" ng-repeat="filter in vm.filterProperties">
-                            <button type="button" class="btn btn-sm {{filter.class}}"
-                                    ng-class="{'dropdown-toggle' : filter.child}" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false"
-                                    ng-click="vm.filterList(filter.expression);">
-                                {{filter.label}}
-                            </button>
-                            <button type="button" ng-if="filter.child"
-                                    class="btn btn-sm {{filter.class}} dropdown-toggle" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu" ng-if="filter.child">
-                                <li ng-repeat="children in filter.child" role="{{children.role}}"
-                                    class="{{children.class}}">
-                                    <a ng-if="children.role == 'filter'" ng-click="vm.filterChild(children)">{{children.label}}</a>
-                                </li>
-                            </ul>
-                        </div>
-
-
-                    </div>
+              <div class="row form-share-to-user">
+                <div class="col-xs-6">
+                  <div class="form-group label-floating">
+                    <label
+                      class="control-label"
+                      for="new-email"
+                      translate=".EMAIL"
+                    ></label>
+                    <input
+                      type="email"
+                      class="form-control col-xs-5"
+                      id="new-email"
+                      ng-model="vm.newUser.email"
+                      placeholder=""
+                    />
+                  </div>
                 </div>
-            </div>
-            <div class="search col-xs-12 col-md-3">
-                <div class="row ">
-                    <div class="col-xs-11">
-                        <div class="form-group label-floating has-feedback">
-                            <label class="control-label" for="searchWishFilter">Rechercher</label>
-                            <input type="text" class="form-control" id="searchWishFilter" ng-change="vm.searchList();"
-                                   ng-model="vm.search">
-                            <span class="fa fa-search form-control-feedback" aria-hidden="true"></span>
-                        </div>
-                    </div>
-                    <div class="col-xs-1">
-                        <div class="btn btn-white btn-just-icon reset-search-icon btn-bordered-danger"
-                             ng-click="vm.searchList(true);" ng-if="vm.search">
-                            <span class="fa fa-close " aria-hidden="true"></span>
-                        </div>
-                    </div>
+                <div class="col-xs-3">
+                  <div class="checkbox">
+                    <label>
+                      <input
+                        type="checkbox"
+                        value=""
+                        ng-true-value="'OWNER'"
+                        ng-false-value="'SHARED'"
+                        ng-model="vm.newUser.type"
+                      />
+                      <span translate=".OWNER"></span>
+                    </label>
+                  </div>
                 </div>
-
-
-            </div>
-            <div class="order  col-xs-12 col-md-4">
-
-                <div class="form-group">
-                    <label class="control-label">Trier</label><br/>
-                    <div class="btn-group order-btn btn-group-sm" data-toggle="buttons">
-                        <!-- Shared -->
-                        <button ng-if="!vm.wishList.owner" type="button" class="btn btn-link"
-                                ng-class="{dropup:order.reverse}" ng-click="vm.sortList(order);"
-                                ng-repeat="order in vm.orderProperties">
-                            {{order.label}}
-                            <span ng-class="{caret:vm.selectedItems == order}"></span>
-                        </button>
-
-                        <!-- Owners -->
-                        <button ng-if="vm.wishList.owner" type="button" class="btn btn-link"
-                                ng-class="{dropup:order.reverse}" ng-click="vm.sortList(order);"
-                                ng-repeat="order in vm.orderPropertiesOwners">
-                            {{order.label}}
-                            <span ng-class="{caret:vm.selectedItems == order}"></span>
-                        </button>
-
-
-                    </div>
-
-                    <button class="btn btn-default btn-just-icon btn-sm pull-right btn-bordered-success" type="button"
-                            ng-click="vm.refresh();"  data-toggle="tooltip" data-placement="bottom" title="{{::'WISH_LIST_PAGE.REFRESH_LIST' | translate}}"><i class="fa fa-refresh"></i></button>
-                    <button class="btn btn-default btn-just-icon btn-sm pull-right btn-bordered-success" type="button" ng-if="vm.hasFilter"
-                            ng-click="vm.resetFilter();" data-toggle="tooltip" data-placement="bottom" title="{{::'WISH_LIST_PAGE.CLEAR_FILTER'  | translate }}"><i class="fa fa-eraser"></i></button>
+                <div class="col-xs-3">
+                  <button
+                    type="submit"
+                    class="btn btn-default btn-success btn-sm"
+                    ng-click="vm.shareUser(vm.newUser);"
+                  >
+                    <span class="fa fa-share" aria-hidden="true"></span> Ajouter
+                  </button>
                 </div>
+              </div>
             </div>
-        </div>
-       </div>
-
-    <div class="row list-envie" masonry-object="vm.masonry" masonry='{ "transitionDuration" : "0.4s" , "itemSelector" : ".envie-card", "percentPosition": "true" }'>
-        <div class="loading" ng-if="vm.loading">
-            <div class='loader'>
-                <div class='loader--dot'></div>
-                <div class='loader--dot'></div>
-                <div class='loader--dot'></div>
-                <div class='loader--dot'></div>
-                <div class='loader--dot'></div>
-                <div class='loader--dot'></div>
-                <div class='loader--text'></div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-gray btn-bordered-danger"
+                data-dismiss="modal"
+                translate=".CLOSE"
+              ></button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                ng-click="vm.saveWishList(vm.wishList)"
+                translate=".BUTTON"
+              ></button>
             </div>
+          </div>
+          <!-- /.modal-content -->
         </div>
-        <privacy-form masonry-tile class="envie-card envie-card-add col-xs-12 col-sm-6 col-md-4 col-lg-4"
-                      ng-if="vm.wishList.state == 'ANONYMOUS'">
-        </privacy-form>
-        <join-form masonry-tile class="envie-card envie-card-add col-xs-12 col-sm-6 col-md-4 col-lg-4"
-                   ng-if="vm.wishList.privacy == 'OPEN' && vm.wishList.state == 'LOGGED'"
-                   name="{{vm.wishList.name}}"
-                   update="vm.reloadWishList()">
-        </join-form>
-        <wish-card id="envie{{envie.id}}" masonry-tile
-                   class="envie-card col-xs-12 col-sm-6 col-md-4 col-lg-4"
-                   ng-repeat="envie in vm.wishes | filter:vm.filter | filter:vm.search | orderBy:vm.order:vm.reverse"
-                   wish="envie"
-                   owner-list="vm.wishList.owner"
-                   user="vm.main.user"
-                   parent-controller="vm"
-                   list-name = "vm.name"
-                   on-delete="vm.deleteWish(envie)"
-                   can-edit=true
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal --><!--row row-fluid-->
+      <p ng-bind-html="vm.wishList.description" ng-if="!vm.wishList.owner"></p>
+      <summernote
+        airMode
+        ng-model="vm.wishList.description"
+        ng-if="vm.wishList.owner"
+        config="vm.editorOptions"
+        ng-change="vm.saveWishList(vm.wishList);"
+        ng-model-options="{ updateOn: 'default', debounce: 5000 }"
+        lang="fr-FR"
+      ></summernote>
 
-        >
+      <div
+        class="order-filter row row-fluid well-sm"
+        ng-if="vm.wishes.length > 0"
+      >
+        <div class="filter col-xs-12 col-md-5">
+          <div class="form-group">
+            <label class="control-label">Filtrer</label><br />
+            <div class="btn-group" data-toggle="buttons">
+              <div
+                ng-if="(vm.wishList.owner && filter.owner) || (!vm.wishList.owner && filter.shared)"
+                class="btn-group"
+                type="button"
+                class="btn"
+                ng-repeat="filter in vm.filterProperties"
+              >
+                <button
+                  type="button"
+                  class="btn btn-sm {{filter.class}}"
+                  ng-class="{'dropdown-toggle' : filter.child}"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  ng-click="vm.filterList(filter.expression);"
+                >
+                  {{filter.label}}
+                </button>
+                <button
+                  type="button"
+                  ng-if="filter.child"
+                  class="btn btn-sm {{filter.class}} dropdown-toggle"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <span class="caret"></span>
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu" ng-if="filter.child">
+                  <li
+                    ng-repeat="children in filter.child"
+                    role="{{children.role}}"
+                    class="{{children.class}}"
+                  >
+                    <a
+                      ng-if="children.role == 'filter'"
+                      ng-click="vm.filterChild(children)"
+                      >{{children.label}}</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="search col-xs-12 col-md-3">
+          <div class="row">
+            <div class="col-xs-11">
+              <div class="form-group label-floating has-feedback">
+                <label class="control-label" for="searchWishFilter"
+                  >Rechercher</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="searchWishFilter"
+                  ng-change="vm.searchList();"
+                  ng-model="vm.search"
+                />
+                <span
+                  class="fa fa-search form-control-feedback"
+                  aria-hidden="true"
+                ></span>
+              </div>
+            </div>
+            <div class="col-xs-1">
+              <div
+                class="btn btn-white btn-just-icon reset-search-icon btn-bordered-danger"
+                ng-click="vm.searchList(true);"
+                ng-if="vm.search"
+              >
+                <span class="fa fa-close" aria-hidden="true"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="order col-xs-12 col-md-4">
+          <div class="form-group">
+            <label class="control-label">Trier</label><br />
+            <div class="btn-group order-btn btn-group-sm" data-toggle="buttons">
+              <!-- Shared -->
+              <button
+                ng-if="!vm.wishList.owner"
+                type="button"
+                class="btn btn-link"
+                ng-class="{dropup:order.reverse}"
+                ng-click="vm.sortList(order);"
+                ng-repeat="order in vm.orderProperties"
+              >
+                {{order.label}}
+                <span ng-class="{caret:vm.selectedItems == order}"></span>
+              </button>
 
-        </wish-card>
+              <!-- Owners -->
+              <button
+                ng-if="vm.wishList.owner"
+                type="button"
+                class="btn btn-link"
+                ng-class="{dropup:order.reverse}"
+                ng-click="vm.sortList(order);"
+                ng-repeat="order in vm.orderPropertiesOwners"
+              >
+                {{order.label}}
+                <span ng-class="{caret:vm.selectedItems == order}"></span>
+              </button>
+            </div>
 
-        <wish-card masonry-tile
-                   wish="vm.newWish"
-                   owner-list="vm.wishList.owner"
-                   user="vm.main.user"
-                   parent-controller="vm"
-                   list-name = "vm.name"
-                   class="envie-card envie-card-add col-xs-12 col-sm-6 col-md-4 col-lg-4"
-                   can-edit=true
-                   ng-if="vm.wishList.canSuggest || vm.wishList.owner"
-        >
-
-        </wish-card>
+            <button
+              class="btn btn-default btn-just-icon btn-sm pull-right btn-bordered-success"
+              type="button"
+              ng-click="vm.refresh();"
+              data-toggle="tooltip"
+              data-placement="bottom"
+              title="{{::'WISH_LIST_PAGE.REFRESH_LIST' | translate}}"
+            >
+              <i class="fa fa-refresh"></i>
+            </button>
+            <button
+              class="btn btn-default btn-just-icon btn-sm pull-right btn-bordered-success"
+              type="button"
+              ng-if="vm.hasFilter"
+              ng-click="vm.resetFilter();"
+              data-toggle="tooltip"
+              data-placement="bottom"
+              title="{{::'WISH_LIST_PAGE.CLEAR_FILTER'  | translate }}"
+            >
+              <i class="fa fa-eraser"></i>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
-</div>
+    <div
+      class="row list-envie"
+      masonry-object="vm.masonry"
+      masonry='{ "transitionDuration" : "0.4s" , "itemSelector" : ".envie-card", "percentPosition": "true" }'
+    >
+      <div class="loading" ng-if="vm.loading">
+        <div class="loader">
+          <div class="loader--dot"></div>
+          <div class="loader--dot"></div>
+          <div class="loader--dot"></div>
+          <div class="loader--dot"></div>
+          <div class="loader--dot"></div>
+          <div class="loader--dot"></div>
+          <div class="loader--text"></div>
+        </div>
+      </div>
+      <privacy-form
+        masonry-tile
+        class="envie-card envie-card-add col-xs-12 col-sm-6 col-md-4 col-lg-4"
+        ng-if="vm.wishList.state == 'ANONYMOUS'"
+      >
+      </privacy-form>
+      <join-form
+        masonry-tile
+        class="envie-card envie-card-add col-xs-12 col-sm-6 col-md-4 col-lg-4"
+        ng-if="vm.wishList.privacy == 'OPEN' && vm.wishList.state == 'LOGGED'"
+        name="{{vm.wishList.name}}"
+        update="vm.reloadWishList()"
+      >
+      </join-form>
+      <wish-card
+        id="envie{{envie.id}}"
+        masonry-tile
+        class="envie-card col-xs-12 col-sm-6 col-md-4 col-lg-4"
+        ng-repeat="envie in vm.wishes | filter:vm.filter | filter:vm.search | orderBy:vm.order:vm.reverse"
+        wish="envie"
+        owner-list="vm.wishList.owner"
+        user="vm.main.user"
+        parent-controller="vm"
+        list-name="vm.name"
+        on-delete="vm.deleteWish(envie)"
+        can-edit="true"
+      >
+      </wish-card>
+
+      <wish-card
+        masonry-tile
+        wish="vm.newWish"
+        owner-list="vm.wishList.owner"
+        user="vm.main.user"
+        parent-controller="vm"
+        list-name="vm.name"
+        class="envie-card envie-card-add col-xs-12 col-sm-6 col-md-4 col-lg-4"
+        can-edit="true"
+        ng-if="vm.wishList.canSuggest || vm.wishList.owner"
+      >
+      </wish-card>
+    </div>
+  </div>
 </page>

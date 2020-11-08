@@ -109,13 +109,13 @@
     "INPUT_PRICE": "Prix",
     "EDIT": "@:COMMONS.EDIT",
     "EDIT_OTHER_OPTIONS": "Autres options",
-    "EDIT_OPTIONS_RECEIVED": "Reçu",
+    "EDIT_OPTIONS_RECEIVED": "Reçu (archiver)",
     "EDIT_OPTIONS_DELETE": "Supprimer",
     "EDIT_OPTIONS_COPY": "Copier",
     "OFFERED_BY": "Offert par {{name}} &nbsp;&nbsp;&nbsp;",
     "OFFERED": "Déjà offert",
     "PARTICIPATE": "Participer",
-    "GIVEN": "Offert",
+    "GIVEN": "Offert (archiver)",
     "TO_OFFER": "Offrir",
     "COMMENTS": "Commmentaires ({{comment_number  || 0}})",
     "ADD_COMMENTS_LABEL": "Ajouter un commmentaire",
@@ -176,6 +176,7 @@
       "PUBLIC": "La liste peut être affiché sans être connecté par toute personne connaissant le lien. Il est nécessaire de se connecter pour interagir avec, et voir si une envie est prise. <br/> Toutes les personnes connectés (bénéficiaires compris) voient qui donne une envie.",
       "DEFAULT": "Selectionnez la visibilité de la liste"
     },
+    "FORCE_ANONYMOUS": "Afficher de manière anonyme si l'envies est déjà offerte.",
     "DATE": "Date de l'événement",
     "DATE_INFO": "Pour afficher un compte à rebours jusqu'à l'événement"
   },

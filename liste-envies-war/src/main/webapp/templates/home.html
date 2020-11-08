@@ -1,71 +1,159 @@
 <page scope="vm" background="vm.background">
-    <div class="container-fluid" translate-namespace="HOME_PAGE">
-    <div class="main main-raised home-header"><div class="row">
+  <div class="container-fluid" translate-namespace="HOME_PAGE">
+    <div class="main main-raised home-header">
+      <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header" translate>.HOME_TITLE
-
-            </h1>
+          <h1 class="page-header" translate>.HOME_TITLE</h1>
         </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="jumbotron" ng-if="vm.main.isAuthenticated">
+            <p translate translate-values="{userName: vm.main.user.name}">
+              .WELCOME_MESSAGE
+            </p>
+            <button
+              class="btn btn-primary btn-lg"
+              role="button"
+              data-toggle="modal"
+              data-target="#new-list"
+              translate
+            >
+              .BUTTON_CREATE_LIST
+            </button>
+          </div>
+          <div class="jumbotron" ng-if="!vm.main.isAuthenticated">
+            <p translate>.WELCOME_ANONYMOUS_MESSAGE</p>
+            <a
+              ng-href="{{vm.main.loginPath()}}"
+              class="btn btn-primary btn-lg"
+              target="_top"
+              role="button"
+              translate
+              >.BUTTON_CONNEXION</a
+            >
+            <a
+              href="https://accounts.google.com/SignUpWithoutGmail?hl=fr"
+              translate
+              >.CREATE_ACOUNT</a
+            >
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="jumbotron" ng-if="vm.main.isAuthenticated">
-                <p translate translate-values="{userName: vm.main.user.name}">.WELCOME_MESSAGE</p>
-                <button class="btn btn-primary btn-lg" role="button" data-toggle="modal" data-target="#new-list" translate>.BUTTON_CREATE_LIST</button>
-                            </div>
-            <div class="jumbotron" ng-if="!vm.main.isAuthenticated">
-                <p translate>.WELCOME_ANONYMOUS_MESSAGE</p>
-                <a ng-href="{{vm.main.loginPath()}}" class="btn btn-primary btn-lg" target="_top" role="button" translate>.BUTTON_CONNEXION</a>
-                <a href="https://accounts.google.com/SignUpWithoutGmail?hl=fr" translate>.CREATE_ACOUNT</a>
+    <div
+      class="modal fade"
+      tabindex="-1"
+      role="dialog"
+      id="new-list"
+      translate-namespace=".NEW_LIST"
+      data-backdrop="'static'"
+    >
+      <div class="modal-dialog" role="document">
+        <form>
+          <div class="modal-content">
+            <div class="modal-header">
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title" translate=".TITLE"></h4>
             </div>
-        </div>
-    </div></div>
-    <div class="modal fade" tabindex="-1" role="dialog" id="new-list" translate-namespace=".NEW_LIST" data-backdrop="'static'">
-        <div class="modal-dialog" role="document">
-            <form>
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" translate=".TITLE"></h4>
-                </div>
-                <div class="modal-body">
-                        <wish-list-settings wish-list="vm.newlist" background-change="vm.background = picture"></wish-list-settings>
-                        <div class="form-group" ng-if="main.isAdmin">
-                            <label for="email">Bénéficiaire (ou vide si vous)</label>
-                            <input type="email" class="form-control" id="email" ng-model="vm.newlist.owner" placeholder="Email">
-                        </div>
-                        <div class="form-group">
-                            <label for="emails">Partager à :</label>
-                            <textarea class="form-control" id="emails" ng-model="vm.newlist.emails" placeholder="Emails des personnes à qui partager votre liste (un par ligne)"></textarea>
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                    <button type="submit" class="btn btn-primary"  data-dismiss="modal" ng-click="vm.addNewList(vm.newlist, vm.newlist.email || main.user.email)">Créer et ajouter vos envies</button>
-                </div>
-            </div><!-- /.modal-content -->
-            </form>
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+            <div class="modal-body">
+              <wish-list-settings
+                wish-list="vm.newlist"
+                background-change="vm.background = picture"
+              ></wish-list-settings>
+              <div class="form-group" ng-if="main.isAdmin">
+                <label for="email">Bénéficiaire (ou vide si vous)</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  ng-model="vm.newlist.owner"
+                  placeholder="Email"
+                />
+              </div>
+              <div class="form-group">
+                <label for="emails">Partager à :</label>
+                <textarea
+                  class="form-control"
+                  id="emails"
+                  ng-model="vm.newlist.emails"
+                  placeholder="Emails des personnes à qui partager votre liste (un par ligne)"
+                ></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-default"
+                data-dismiss="modal"
+              >
+                Fermer
+              </button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                data-dismiss="modal"
+                ng-click="vm.addNewList(vm.newlist, vm.newlist.email || main.user.email)"
+              >
+                Créer et ajouter vos envies
+              </button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </form>
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
     <div class="list-group list-envies">
-        <div class="loading" ng-if="vm.loading"> <div class='loader'>
-            <div class='loader--dot'></div>
-            <div class='loader--dot'></div>
-            <div class='loader--dot'></div>
-            <div class='loader--dot'></div>
-            <div class='loader--dot'></div>
-            <div class='loader--dot'></div>
-            <div class='loader--text'></div>
-        </div></div>
-        <div class="row">
-            <div class="list-envie-group col-md-4 col-xs-12" ng-repeat="wishlist in vm.wishes">
-                <a class="list-group-item list-envies-item" ng-class="{owner:wishlist.owner}" ng-click="vm.goList(wishlist.name)">
-                    <div ng-src="{{wishList.picture}}" class="backgroundimg" ng-style="{'background-image':wishlist.picture ? 'url('+ vm.getPictureUrl(wishlist.picture) + ')': ''}"></div>
-                    <h2 class="list-group-item-heading"><icon-wish-list type="{{wishlist.type}}"></icon-wish-list> {{wishlist.title}}</h2>
-                    <p class="list-group-item-text"> <span translate>.SEPARATOR_USER</span> <span class="owners" ng-repeat="owner in wishlist.owners"><i class="fa fa-user"></i> {{owner.name}}({{owner.email}})<span ng-if="!$last" >, </span></span>  </p>
-                </a>
-            </div>
+      <div class="loading" ng-if="vm.loading">
+        <div class="loader">
+          <div class="loader--dot"></div>
+          <div class="loader--dot"></div>
+          <div class="loader--dot"></div>
+          <div class="loader--dot"></div>
+          <div class="loader--dot"></div>
+          <div class="loader--dot"></div>
+          <div class="loader--text"></div>
         </div>
+      </div>
+      <div class="row">
+        <div
+          class="list-envie-group col-md-4 col-xs-12"
+          ng-repeat="wishlist in vm.wishes"
+        >
+          <a
+            class="list-group-item list-envies-item"
+            ng-class="{owner:wishlist.owner}"
+            ng-click="vm.goList(wishlist.name)"
+          >
+            <div
+              ng-src="{{wishList.picture}}"
+              class="backgroundimg"
+              ng-style="{'background-image':wishlist.picture ? 'url('+ vm.getPictureUrl(wishlist.picture) + ')': ''}"
+            ></div>
+            <h2 class="list-group-item-heading">
+              <icon-wish-list type="{{wishlist.type}}"></icon-wish-list>
+              {{wishlist.title}}
+            </h2>
+            <p class="list-group-item-text">
+              <span translate>.SEPARATOR_USER</span>
+              <span class="owners" ng-repeat="owner in wishlist.owners"
+                ><i class="fa fa-user"></i>
+                <span title="{{owner.email}}">{{owner.name}}</span
+                ><span ng-if="!$last">, </span></span
+              >
+            </p>
+          </a>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 </page>
