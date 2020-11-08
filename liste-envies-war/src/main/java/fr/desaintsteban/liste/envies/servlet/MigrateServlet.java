@@ -9,9 +9,6 @@ import fr.desaintsteban.liste.envies.model.Person;
 import fr.desaintsteban.liste.envies.model.PersonParticipant;
 import fr.desaintsteban.liste.envies.model.Wish;
 import fr.desaintsteban.liste.envies.model.WishList;
-import fr.desaintsteban.liste.envies.model.deprecated.Envy;
-import fr.desaintsteban.liste.envies.model.deprecated.ListEnvies;
-import fr.desaintsteban.liste.envies.model.deprecated.Note;
 import fr.desaintsteban.liste.envies.service.OfyService;
 import fr.desaintsteban.liste.envies.util.EncodeUtils;
 import fr.desaintsteban.liste.envies.util.NicknameUtils;
@@ -46,43 +43,22 @@ public class MigrateServlet extends HttpServlet {
         Objectify ofy = OfyService.ofy();
 
         loadUsers(ofy);
-
-
         List<WishList> listConverted = new ArrayList<>();
         List<Wish> ConvertedWish = new ArrayList<>();
-        /*
-        List<ListEnvies> list = ofy.load().type(ListEnvies.class).list();
-        for (ListEnvies listEnvy : list) {
-            WishList newWishList = convertListeEnvyToWishList(listEnvy);
-
-            // convert Envies
-            Key<ListEnvies> key = Key.create(ListEnvies.class, listEnvy.getName());
-            Key<WishList> newKey = Key.create(WishList.class, listEnvy.getName());
-            List<Envy> Envies = ofy.load().type(Envy.class).ancestor(key).list();
-
-            for(Envy envy : Envies) {
-                Wish newWish = convertEnvyToWish(newWishList, envy);
-                ConvertedWish.add(newWish);
-            }
-
-            listConverted.add(newWishList);
-        }
-         */
-
         List<WishList> listWishList = ofy.load().type(WishList.class).list();
 
-        for (WishList wishList : listWishList) {
-            //Convert
+        //Convert
+        listWishList.forEach(wishList -> {
             List<Wish> Envies = ofy.load().type(Wish.class).ancestor(wishList.getKey()).list();
             wishList.resetCounts();
-            for(Wish envy : Envies) {
+            for (Wish envy : Envies) {
                 //Convert archived and deleted to state
                 wishList.incrCounts(envy.getState());
                 ConvertedWish.add(envy);
             }
             listConverted.add(wishList);
             out.println(String.format("%s: %d draft, %d active, %d archived, %d deleted", wishList.getName(), wishList.getCounts(WishState.DRAFT), wishList.getCounts(WishState.ACTIVE), wishList.getCounts(WishState.ARCHIVED), wishList.getCounts(WishState.DELETED)));
-        }
+        });
 
         ofy.save().entities(listConverted);
         ofy.save().entities(ConvertedWish);
@@ -94,80 +70,5 @@ public class MigrateServlet extends HttpServlet {
         List<AppUser> ListUsers = ofy.load().type(AppUser.class).list();
 
         users = ListUsers.stream().collect(toMap(AppUser::getEmail, Function.identity()));
-    }
-
-    WishList convertListeEnvyToWishList(ListEnvies listEnvy) {
-        WishList newWishList = new WishList();
-
-        newWishList.setName(listEnvy.getName());
-        newWishList.setTitle(listEnvy.getTitle());
-        newWishList.setDescription(listEnvy.getDescription());
-        newWishList.setUsers(listEnvy.getUsers());
-        newWishList.setPrivacy(SharingPrivacyType.PRIVATE);
-        newWishList.setPicture("img/default.jpg"); //use a default image, for type other
-        newWishList.setType(WishListType.OTHER);
-        return newWishList;
-    }
-
-    Wish convertEnvyToWish(WishList newWishList, Envy envy) {
-        Wish newWish = new Wish(newWishList, envy.getLabel());
-        newWish.setOwner(toPerson(envy.getOwner(), false));
-        newWish.setSuggest(envy.getSuggest());
-        newWish.setArchived(envy.getArchived());
-        newWish.setDeleted(envy.getDeleted());
-        newWish.setDescription(envy.getDescription());
-        newWish.setPrice(envy.getPrice());
-        newWish.setPictures(toList(envy.getPicture()));
-        newWish.setDate(envy.getDate());
-        newWish.setUrls(envy.getUrls());
-        newWish.setRating(envy.getRating());
-        newWish.setUserTake(toParticipant(envy.getUserTake()));
-        newWish.setUserReceived(envy.getUserReceived());
-        newWish.setComments(envy.getNotes().stream().map(Note::toComment).collect(Collectors.toList()));
-        return newWish;
-    }
-
-    private List<PersonParticipant> toParticipant(List<String> userTake) {
-        if (userTake != null) {
-            return userTake.stream().map(EncodeUtils::decode).map(this::toParticipant).collect(Collectors.toList());
-        }
-        return null;
-    }
-
-    Person toPerson(String email, boolean encode) {
-        if (!isNullOrEmpty(email)) {
-            Person person = new Person(encode);
-            person.setEmail(email);
-            AppUser appUser = this.users.get(email);
-            if (appUser != null && !isNullOrEmpty(appUser.getName()))
-                person.setName(appUser.getName());
-            else
-                person.setName(NicknameUtils.getNickname(email));
-            return person;
-        }
-        return null;
-    }
-
-    PersonParticipant toParticipant(String email) {
-        if (!isNullOrEmpty(email)) {
-            PersonParticipant person = new PersonParticipant();
-            person.setEmail(email);
-            AppUser appUser = this.users.get(email);
-            if (appUser != null && !isNullOrEmpty(appUser.getName()))
-                person.setName(appUser.getName());
-            else
-                person.setName(email);
-            return person;
-        }
-        return null;
-    }
-
-    static List<String> toList(String picture) {
-        if (picture != null) {
-            ArrayList<String> list = new ArrayList<>();
-            list.add(picture);
-            return list;
-        }
-        return null;
     }
 }
