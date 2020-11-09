@@ -14,6 +14,7 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { map } from "rxjs/operators";
 import { AUTH_PROVIDERS } from "../../shared/auth_providers";
 import { AuthProvider, Theme } from "ngx-auth-firebaseui";
+import { LoginPopUpService } from "../../service/login-pop-up.service";
 
 @UntilDestroy()
 @Component({
@@ -34,7 +35,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     private breakpointObserver: BreakpointObserver,
     private auth: AuthService,
     private colorManagementService: ColorManagementService,
-    @Inject(AUTH_PROVIDERS) public providers: AuthProvider[]
+    @Inject(AUTH_PROVIDERS) public providers: AuthProvider[],
+    private loginPopUp: LoginPopUpService
   ) {
     this.column$ = this.breakpointObserver
       .observe([
@@ -73,7 +75,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   newList() {}
 
   connect() {
-    this.auth.openLoginPopUp();
+    this.loginPopUp.openLoginPopUp();
   }
 
   ngOnDestroy(): void {}

@@ -6,6 +6,7 @@ import { UserQuery } from "../../state/app/user.query";
 import { Router } from "@angular/router";
 import { AUTH_PROVIDERS } from "../../shared/auth_providers";
 import { AuthProvider, Theme } from "ngx-auth-firebaseui";
+import { LoginPopUpService } from "../../service/login-pop-up.service";
 
 @UntilDestroy()
 @Component({
@@ -19,7 +20,8 @@ export class ConnectComponent implements OnInit {
     private auth: AuthService,
     private user: UserQuery,
     private router: Router,
-    @Inject(AUTH_PROVIDERS) public providers: AuthProvider[]
+    @Inject(AUTH_PROVIDERS) public providers: AuthProvider[],
+    private loginPopUp: LoginPopUpService
   ) {}
 
   ngOnInit() {
@@ -34,6 +36,6 @@ export class ConnectComponent implements OnInit {
   }
 
   connect() {
-    this.auth.openLoginPopUp();
+    this.loginPopUp.openLoginPopUp();
   }
 }

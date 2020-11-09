@@ -13,6 +13,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { AkitaFiltersPlugin } from "akita-filters-plugin";
 import { WishesListStore } from "./wishes-list.store";
 import { UserAPIService } from "../../service/user-api.service";
+import { LoginPopUpService } from "../../service/login-pop-up.service";
 
 @Injectable({ providedIn: "root" })
 export class WishService extends AkitaFiltersPlugin<WishState> {
@@ -25,7 +26,8 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
     private userAPIService: UserAPIService,
     private userQuery: UserQuery,
     private snackBar: MatSnackBar,
-    private wishesListStore: WishesListStore
+    private wishesListStore: WishesListStore,
+    private loginPopUp: LoginPopUpService
   ) {
     // @ts-ignore todo correct error with this parameters typescript error
     super(wishQuery, { filtersStoreName: "WishFilters" });
@@ -96,6 +98,13 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
 
   @action("give wish")
   give(id, wishToGive: Partial<WishItem>) {
+    let user = this.userQuery.getValue().user;
+    if (user === null) {
+      this.loginPopUp.openLoginPopUp(
+        "Vous devez vous connecter ou créer un compte afin d'indiquer que vous souhaitez offrir cette envie"
+      );
+      return;
+    }
     const wish: Partial<WishItem> = {
       listId: wishToGive.listId,
       id,
@@ -103,8 +112,9 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
       given: true,
       userTake: wishToGive.userTake ? [...wishToGive.userTake] : []
     };
+
     wish.userTake.push({
-      name: this.userQuery.getValue().user.displayName
+      name: user.displayName
     });
     if (this.isChanged(id, wish)) {
       this.subscribeAndUpdatedWish(
@@ -136,10 +146,17 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
 
   @action("add comment")
   comment(listId: string, id: number, comment: WishComment, wish: WishItem) {
+    let user = this.userQuery.getValue().user;
+    if (user === null) {
+      this.loginPopUp.openLoginPopUp(
+        "Vous devez vous connecter ou créer un compte afin de pouvoir écrire un commentaire"
+      );
+      return;
+    }
     const newWish = { ...wish };
     const temporaryComment = {
       date: new Date().getUTCSeconds().toString(),
-      from: { name: this.userQuery.getValue().user.displayName },
+      from: { name: user.displayName },
       ...comment
     };
     newWish.comments = wish.comments ? [...wish.comments] : [];

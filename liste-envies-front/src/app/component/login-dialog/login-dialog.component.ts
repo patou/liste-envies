@@ -12,7 +12,7 @@ export class LoginDialogComponent implements OnInit {
   theme: Theme = Theme.RAISED;
   constructor(
     public dialogRef: MatDialogRef<LoginDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: { message?: string },
     @Inject(AUTH_PROVIDERS) public providers: AuthProvider[]
   ) {}
 
