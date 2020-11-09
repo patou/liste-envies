@@ -324,7 +324,7 @@
 
     <mat-label
       color="warn"
-      *ngIf="wishItem.userTake && wishItem.userTake.length > 0"
+      *ngIf="wishItem.userTake?.length > 0"
       disableRipple="true"
       class="userGiven"
     >
