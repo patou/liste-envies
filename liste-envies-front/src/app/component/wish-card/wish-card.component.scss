@@ -281,10 +281,12 @@
   }
 
   .userGiven {
-    display: block;
+    display: inline-flex;
     line-height: 24px;
     font-size: 14px;
     color: $amber-700;
+    align-items: center;
+    vertical-align: middle;
 
     span {
       display: inline-flex;
