@@ -184,9 +184,9 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
 
   @Debounce(100)
   private getWishListInfosDelayed(name: string) {
-    this.getWishListFullInfos(name).subscribe((wishList: WishList) => {
+    /*this.getWishListFullInfos(name).subscribe((wishList: WishList) => {
       this.setWishList(wishList);
-    });
+    });*/
   }
 
   private isChanged(id, wish: Partial<WishItem>) {

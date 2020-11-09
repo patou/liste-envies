@@ -10,6 +10,7 @@ import { NotificationsService } from "./notifications.service";
 import { Notification } from "./notification.model";
 import { resetStores } from "@datorama/akita";
 import { MyWishService } from "../wishes/my-wish/my-wish.service";
+import { Router } from "@angular/router";
 
 @Injectable({ providedIn: "root" })
 export class UserService {
@@ -21,7 +22,8 @@ export class UserService {
     private userQuery: UserQuery,
     private api: UserAPIService,
     private notificationService: NotificationsService,
-    private myWishService: MyWishService
+    private myWishService: MyWishService,
+    private router: Router
   ) {}
 
   login(user: UserInfo, token) {
@@ -37,6 +39,7 @@ export class UserService {
     if (this.pollingNotificationsSubscription$) {
       this.pollingNotificationsSubscription$.unsubscribe();
     }
+    this.router.navigate(["/"]);
   }
 
   private getNotifications() {

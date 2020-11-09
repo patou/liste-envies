@@ -27,8 +27,8 @@ export class WishesListService {
   @Debounce(200)
   get() {
     this.wishesListStore.setLoading(true);
-    this.wishListService.listAll().subscribe(entities => {
-      this.wishesListStore.set(entities);
+    this.wishListService.listAll().subscribe(wishLists => {
+      this.wishesListStore.upsertMany(wishLists);
       this.wishesListStore.setLoading(false);
     });
   }

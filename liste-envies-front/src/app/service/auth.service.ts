@@ -10,7 +10,7 @@ import {
 import { LoginDialogComponent } from "../component/login-dialog/login-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 import { AngularFireAuth } from "@angular/fire/auth";
-import { map, pluck } from "rxjs/operators";
+import { distinct, map, pluck } from "rxjs/operators";
 import { WishesListService } from "../state/wishes/wishes-list.service";
 import { UserService } from "../state/app/user.service";
 import { UserQuery } from "../state/app/user.query";
@@ -71,10 +71,12 @@ export class AuthService implements HttpInterceptor {
   }
 
   private resetCurrentUser() {
-    AuthService.currentUser = null;
-    AuthService.currentToken = null;
-    this.userService.logout();
-    this.wishesList.get();
+    if (AuthService.currentUser != null) {
+      AuthService.currentUser = null;
+      AuthService.currentToken = null;
+      this.userService.logout();
+      this.wishesList.get();
+    }
   }
 
   intercept(
