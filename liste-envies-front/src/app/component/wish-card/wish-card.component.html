@@ -315,7 +315,7 @@
   <mat-card-actions class="wish-footer">
     <mat-label
       color="warn"
-      class="userGiven"
+      class="allreadyGiven"
       *ngIf="wishItem.allreadyGiven"
       disableRipple="true"
     >
@@ -324,7 +324,7 @@
 
     <mat-label
       color="warn"
-      *ngIf="wishItem.userTake"
+      *ngIf="wishItem.userTake && wishItem.userTake.length > 0"
       disableRipple="true"
       class="userGiven"
     >
