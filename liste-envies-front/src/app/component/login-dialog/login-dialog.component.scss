@@ -1,3 +1,5 @@
+@import "variables";
+
 .dialog-header {
   padding-left: 3px;
 
@@ -8,12 +10,6 @@
 
   .dialog-title-close {
     margin-left: auto;
-  }
-
-  .message {
-    padding: 10px;
-    font-size: 24px;
-    font-weight: bold;
   }
 
   .dialog-title-text {
@@ -33,6 +29,17 @@
       vertical-align: text-bottom;
       margin-right: 10px;
     }
+  }
+}
+
+.mat-dialog-content {
+  .message {
+    padding: 30px;
+    font-size: 24px;
+    font-weight: bold;
+    color: $brand-warning;
+    border: 2px solid $brand-warning;
+    background-color: $background-warning;
   }
 }
 

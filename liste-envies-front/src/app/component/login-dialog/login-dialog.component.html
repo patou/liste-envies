@@ -17,8 +17,8 @@
   </div>
 </div>
 <mat-dialog-content>
-  <div class="row">
-    <div class="col-10 col-huge-offset-1 message">
+  <div class="row" *ngIf="data?.message">
+    <div class="col-12 message">
       {{ data?.message }}
     </div>
   </div>
