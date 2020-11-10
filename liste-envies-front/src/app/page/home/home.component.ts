@@ -75,7 +75,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   newList() {}
 
   connect() {
-    this.loginPopUp.openLoginPopUp();
+    this.loginPopUp.openLoginPopUp().subscribe(result => {});
   }
 
   ngOnDestroy(): void {}

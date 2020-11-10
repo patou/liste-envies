@@ -14,6 +14,6 @@ export class LoginPopUpService {
       data: { message }
     });
 
-    dialogRef.afterClosed().subscribe(result => {});
+    return dialogRef.afterClosed();
   }
 }

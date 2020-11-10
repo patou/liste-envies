@@ -36,6 +36,6 @@ export class ConnectComponent implements OnInit {
   }
 
   connect() {
-    this.loginPopUp.openLoginPopUp();
+    this.loginPopUp.openLoginPopUp().subscribe(result => {});
   }
 }

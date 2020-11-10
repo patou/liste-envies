@@ -104,7 +104,7 @@ export class PageNavComponent implements OnInit {
   }
 
   connect() {
-    this.loginPopUp.openLoginPopUp();
+    this.loginPopUp.openLoginPopUp().subscribe(result => {});
   }
 
   logout() {
