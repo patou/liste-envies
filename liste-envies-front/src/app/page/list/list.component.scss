@@ -53,22 +53,20 @@ mat-divider.mat-divider.divider-withDate.mat-divider-horizontal.mat-divider-inse
   .header-wishlist-menu {
     max-height: 3em;
     flex-direction: row-reverse;
-
-    nav.tabs-actif-archive {
-      .tab {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-
-        .tab-icon {
-          font-size: 14px;
-          margin-top: 8px;
-        }
-      }
-    }
   }
+}
 
-  .menu-admin-list-button {
+.tabs-actif-archive {
+  .tab {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .tab-icon {
+      font-size: 14px;
+      margin-top: 8px;
+      margin-right: 15px;
+    }
   }
 }
 

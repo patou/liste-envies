@@ -149,7 +149,12 @@
           (click)="onClickTabGive($event, currentList.isActive)"
           matTooltip="Afficher les envies en cours de la liste offertes ou qui reste à offrir"
         >
-          <mat-icon class="tab-icon">card_giftcard</mat-icon>
+          <mat-icon
+            class="tab-icon"
+            [matBadge]="list?.counts?.ACTIVE"
+            matBadgeSize="small"
+            >card_giftcard</mat-icon
+          >
           A offrir
         </a>
         <a
@@ -161,8 +166,14 @@
           [active]="archiveList.isActive"
           (click)="onClickTabGive($event, archiveList.isActive)"
           matTooltip="Afficher les envies de cette liste qui ont déjà été offertes et qui ont été archivées"
+          *ngIf="list?.counts?.ARCHIVED > 0"
         >
-          <mat-icon class="tab-icon">history</mat-icon>
+          <mat-icon
+            class="tab-icon"
+            [matBadge]="list?.counts?.ARCHIVED"
+            matBadgeSize="small"
+            >history</mat-icon
+          >
           Archivé (Déjà reçu)
         </a>
       </nav>
