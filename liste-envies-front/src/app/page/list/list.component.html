@@ -1,8 +1,5 @@
 <div class="page-all">
-  <div
-    class="page-background"
-    [style.backgroundImage]="listBackgroundImg()"
-  ></div>
+  <div class="page-background" [style.backgroundImage]="backgroundImage"></div>
   <mat-menu #menu="matMenu">
     <button mat-menu-item routerLink="edit" color="accent">
       <mat-icon>edit</mat-icon>
@@ -141,11 +138,10 @@
         <a
           mat-tab-link
           class="tab"
-          [routerLink]="['/', list.name]"
+          [routerLink]="['/', list.name, 'toOffer']"
           routerLinkActive
           #currentList="routerLinkActive"
           [active]="currentList.isActive"
-          [routerLinkActiveOptions]="{ exact: true }"
           (click)="onClickTabGive($event, currentList.isActive)"
           matTooltip="Afficher les envies en cours de la liste offertes ou qui reste à offrir"
         >
@@ -153,8 +149,9 @@
             class="tab-icon"
             [matBadge]="list?.counts?.ACTIVE"
             matBadgeSize="small"
-            >card_giftcard</mat-icon
           >
+            card_giftcard
+          </mat-icon>
           A offrir
         </a>
         <a
@@ -164,7 +161,7 @@
           routerLinkActive
           #archiveList="routerLinkActive"
           [active]="archiveList.isActive"
-          (click)="onClickTabGive($event, archiveList.isActive)"
+          (click)="onClickTabArchive($event, archiveList.isActive)"
           matTooltip="Afficher les envies de cette liste qui ont déjà été offertes et qui ont été archivées"
           *ngIf="list?.counts?.ARCHIVED > 0"
         >
@@ -172,8 +169,9 @@
             class="tab-icon"
             [matBadge]="list?.counts?.ARCHIVED"
             matBadgeSize="small"
-            >history</mat-icon
           >
+            history
+          </mat-icon>
           Archivé (Déjà reçu)
         </a>
       </nav>

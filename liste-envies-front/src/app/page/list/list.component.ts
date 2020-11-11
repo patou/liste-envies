@@ -47,6 +47,8 @@ export class ListComponent implements OnInit, OnChanges {
 
   loading$: Observable<boolean>;
 
+  backgroundImage: string;
+
   @Input()
   list: WishList;
 
@@ -96,11 +98,14 @@ export class ListComponent implements OnInit, OnChanges {
         distinct(),
         tap(wishList => {
           this.list = wishList;
-        }),
-        distinctUntilKeyChanged("picture")
+        })
       )
       .subscribe(() => {
-        this.colorManagementService.setColorFromUrl(this.getUrlImage());
+        let backgroundImageTemp = this.listBackgroundImg();
+        if (backgroundImageTemp !== this.backgroundImage) {
+          this.backgroundImage = backgroundImageTemp;
+          this.colorManagementService.setColorFromUrl(this.getUrlImage());
+        }
       });
 
     this.listItems = this.wishQuery.selectAll();
@@ -178,9 +183,15 @@ export class ListComponent implements OnInit, OnChanges {
   }
 
   onClickTabGive(event, isActive) {
-    if (!isActive) {
-      this.wishService.setLoading();
-    }
+    /*if (!isActive) {
+      this.wishService.displayActive();
+    }*/
+  }
+
+  onClickTabArchive(event, isActive) {
+    /*if (!isActive) {
+      this.wishService.displayArchive();
+    }*/
   }
 
   doNothing(event) {

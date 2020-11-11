@@ -46,7 +46,7 @@ export class WishesListService {
       .pipe(
         tap(newList => {
           this.wishesListStore.upsert(newList.name, newList);
-          this.wishService.setWishList(newList);
+          this.wishService.setWishList(newList, false, false);
         })
       );
   }
@@ -60,28 +60,30 @@ export class WishesListService {
       this.wishesListStore.setActive(null);
       return false;
     }
+    if (this.wishesListQuery.getActiveId() === listName) {
+      return true;
+    }
     this.wishesListStore.setActive(listName);
+    this.wishService.removeFilter("status");
+    this.wishService.resetWishes();
     if (
       this.wishesListQuery.getHasCache() &&
       this.wishesListQuery.hasEntity(listName)
     ) {
       const listActive = this.wishesListQuery.getActive() as WishList;
-
-      if (listActive.owner && !listActive.users) {
-        return this.wishService
-          .getWishListFullInfos(listName)
-          .pipe(tap(fullList => this.wishService.setWishList(fullList)));
-      } else {
-        this.wishService.setWishList(listActive);
+      if (!(listActive.owner && !listActive.users?.length)) {
+        console.log("Set active list infos after ", listActive);
+        this.wishService.setWishList(listActive, true, true);
         return true;
       }
-    } else {
-      return this.wishService.getWishListFullInfos(listName).pipe(
-        tap(fullList => {
-          this.wishService.setWishList(fullList);
-        })
-      );
+      console.log("Do not set active list infos ", listActive);
     }
+    return this.wishService.getWishListFullInfos(listName).pipe(
+      tap(fullList => {
+        console.log("Set Full List infos after ", fullList);
+        this.wishService.setWishList(fullList, true, true);
+      })
+    );
   }
 
   remove(id: ID) {
