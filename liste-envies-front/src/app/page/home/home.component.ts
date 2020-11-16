@@ -15,6 +15,7 @@ import { map } from "rxjs/operators";
 import { AUTH_PROVIDERS } from "../../shared/auth_providers";
 import { AuthProvider, Theme } from "ngx-auth-firebaseui";
 import { LoginPopUpService } from "../../service/login-pop-up.service";
+import { WishesListService } from "../../state/wishes/wishes-list.service";
 
 @UntilDestroy()
 @Component({
@@ -31,7 +32,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   theme: Theme = Theme.RAISED;
 
   constructor(
-    private wishListService: WishesListQuery,
+    private wishesListQuery: WishesListQuery,
+    private wishesListService: WishesListService,
     private breakpointObserver: BreakpointObserver,
     private auth: AuthService,
     private colorManagementService: ColorManagementService,
@@ -68,8 +70,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.colorManagementService.applyDefaultColor();
     this.userAuth = this.auth.user;
-    this.list$ = this.wishListService.selectAll();
-    this.loading$ = this.wishListService.selectLoading();
+    this.list$ = this.wishesListQuery.selectAll();
+    this.loading$ = this.wishesListQuery.selectLoading();
+
+    this.wishesListService.getWishListsIfNotLoaded();
   }
 
   newList() {}
