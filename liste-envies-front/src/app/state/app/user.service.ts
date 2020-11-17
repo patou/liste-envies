@@ -26,10 +26,10 @@ export class UserService {
     private router: Router
   ) {}
 
-  login(user: UserInfo, token) {
+  async login(user: UserInfo, token) {
     const updateUser = this.userStore.update({ user, token });
-    this.pollingNotifications();
-    this.myWishService.loadAll();
+    await this.pollingNotifications();
+    setTimeout(() => this.myWishService.loadAll(), 2000);
     return updateUser;
   }
 
@@ -54,14 +54,22 @@ export class UserService {
   }
 
   private pollingNotifications() {
-    this.pollingNotifications$ = timer(0, 30000).pipe(
-      concatMap<any, Observable<Notification[]>>(() => this.getNotifications())
-    );
-    this.pollingNotificationsSubscription$ = this.pollingNotifications$.subscribe(
-      (notifications: Notification[]) => {
-        this.notificationService.add(notifications);
-      }
-    );
+    let isFirst = true;
+    return new Promise<void>(resolve => {
+      this.pollingNotifications$ = timer(800, 30000).pipe(
+        concatMap<any, Observable<Notification[]>>(() =>
+          this.getNotifications()
+        )
+      );
+      this.pollingNotificationsSubscription$ = this.pollingNotifications$.subscribe(
+        (notifications: Notification[]) => {
+          if (isFirst) {
+            resolve();
+          }
+          this.notificationService.add(notifications);
+        }
+      );
+    });
   }
 
   isFirstCache(): boolean {
