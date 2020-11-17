@@ -6,13 +6,15 @@ import { WishList } from "../../models/WishList";
 import { WishComment, WishItem } from "../../models/WishItem";
 import { Debounce, Throttle } from "lodash-decorators";
 import { WishQuery } from "./wish.query";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { UserQuery } from "../app/user.query";
-import { map } from "rxjs/operators";
+import { filter, map, switchMap, take, tap } from "rxjs/operators";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { AkitaFiltersPlugin } from "akita-filters-plugin";
 import { WishesListStore } from "./wishes-list.store";
 import { UserAPIService } from "../../service/user-api.service";
+import { LoginPopUpService } from "../../service/login-pop-up.service";
+import { UserInfo } from "firebase";
 
 @Injectable({ providedIn: "root" })
 export class WishService extends AkitaFiltersPlugin<WishState> {
@@ -25,7 +27,8 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
     private userAPIService: UserAPIService,
     private userQuery: UserQuery,
     private snackBar: MatSnackBar,
-    private wishesListStore: WishesListStore
+    private wishesListStore: WishesListStore,
+    private loginPopUp: LoginPopUpService
   ) {
     // @ts-ignore todo correct error with this parameters typescript error
     super(wishQuery, { filtersStoreName: "WishFilters" });
@@ -96,28 +99,43 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
 
   @action("give wish")
   give(id, wishToGive: Partial<WishItem>) {
-    const wish: Partial<WishItem> = {
-      listId: wishToGive.listId,
-      id,
-      userGiven: true,
-      given: true,
-      userTake: wishToGive.userTake ? [...wishToGive.userTake] : []
-    };
-    wish.userTake.push({
-      name: this.userQuery.getValue().user.displayName
-    });
-    if (this.isChanged(id, wish)) {
-      this.subscribeAndUpdatedWish(
-        id,
-        this.wishListApiService.give(wish.listId, id).pipe(
-          map<WishItem, WishItem>(newWish => {
-            // todo correct return in serveur
-            wish.userTake = newWish.userTake;
-            return wish;
-          })
+    this.userQuery
+      .select(store => store.user)
+      .pipe(
+        take(1),
+        switchMap(
+          this.connectIfNotConnected(
+            "Vous devez vous connecter ou créer un compte afin d'indiquer que vous souhaitez offrir cette envie"
+          )
         )
-      );
-    }
+      )
+      .subscribe(user => {
+        if (user) {
+          const wish: Partial<WishItem> = {
+            listId: wishToGive.listId,
+            id,
+            userGiven: true,
+            given: true,
+            userTake: wishToGive.userTake ? [...wishToGive.userTake] : []
+          };
+
+          wish.userTake.push({
+            name: user.displayName
+          });
+          if (this.isChanged(id, wish)) {
+            this.subscribeAndUpdatedWish(
+              id,
+              this.wishListApiService.give(wish.listId, id).pipe(
+                map<WishItem, WishItem>(newWish => {
+                  // todo correct return in serveur
+                  wish.userTake = newWish.userTake;
+                  return wish;
+                })
+              )
+            );
+          }
+        }
+      });
   }
 
   @action("delete wish")
@@ -136,20 +154,47 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
 
   @action("add comment")
   comment(listId: string, id: number, comment: WishComment, wish: WishItem) {
-    const newWish = { ...wish };
-    const temporaryComment = {
-      date: new Date().getUTCSeconds().toString(),
-      from: { name: this.userQuery.getValue().user.displayName },
-      ...comment
+    this.userQuery
+      .select(store => store.user)
+      .pipe(
+        take(1),
+        switchMap(
+          this.connectIfNotConnected(
+            "Vous devez vous connecter ou créer un compte afin de pouvoir écrire un commentaire"
+          )
+        )
+      )
+      .subscribe(user => {
+        if (user) {
+          const newWish = { ...wish };
+          const temporaryComment = {
+            date: new Date().getUTCSeconds().toString(),
+            from: {
+              name: user.displayName,
+              email: user.email,
+              picture: user.photoURL
+            },
+            ...comment
+          };
+          newWish.comments = wish.comments ? [...wish.comments] : [];
+          newWish.comments.push(temporaryComment);
+          if (this.isChanged(id, newWish)) {
+            this.subscribeAndUpdatedWish(
+              id,
+              this.wishListApiService.comment(listId, id, comment)
+            );
+          }
+        }
+      });
+  }
+
+  private connectIfNotConnected(message: string) {
+    return (user: UserInfo): Observable<UserInfo> => {
+      if (user === null) {
+        return this.loginPopUp.openLoginPopUp(message);
+      }
+      return of(user);
     };
-    newWish.comments = wish.comments ? [...wish.comments] : [];
-    newWish.comments.push(temporaryComment);
-    if (this.isChanged(id, newWish)) {
-      this.subscribeAndUpdatedWish(
-        id,
-        this.wishListApiService.comment(listId, id, comment)
-      );
-    }
   }
 
   @action("set wishlist")
@@ -184,9 +229,9 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
 
   @Debounce(100)
   private getWishListInfosDelayed(name: string) {
-    this.getWishListFullInfos(name).subscribe((wishList: WishList) => {
+    /*this.getWishListFullInfos(name).subscribe((wishList: WishList) => {
       this.setWishList(wishList);
-    });
+    });*/
   }
 
   private isChanged(id, wish: Partial<WishItem>) {
