@@ -315,7 +315,7 @@
   <mat-card-actions class="wish-footer">
     <mat-label
       color="warn"
-      class="userGiven"
+      class="allreadyGiven"
       *ngIf="wishItem.allreadyGiven"
       disableRipple="true"
     >
@@ -324,11 +324,11 @@
 
     <mat-label
       color="warn"
-      *ngIf="wishItem.userGiven"
+      *ngIf="wishItem.userTake?.length > 0"
       disableRipple="true"
       class="userGiven"
     >
-      Sera offert par
+      <span>Sera offert par</span>
       <span
         *ngFor="let userGiven of wishItem.userTake; let last = last"
         matTooltip="{{ userGiven?.name }} : {{ userGiven?.email }}"
@@ -341,18 +341,18 @@
         ></ngx-avatar>
         {{ userGiven?.name }}{{ !last ? "," : "" }}
       </span>
-      <button
-        mat-stroked-button
-        class="wish-action-button"
-        color="accent"
-        *ngIf="wishItem.given && wishItem.canParticipate"
-        (click)="give(wishItem)"
-        [disabled]="readOnly"
-        [matTooltip]="'Je souhaite joindre ma participation à cette envie'"
-      >
-        Je souhaite participer
-      </button>
     </mat-label>
+    <button
+      mat-stroked-button
+      class="wish-action-button"
+      color="accent"
+      *ngIf="wishItem.given && wishItem.canParticipate && !wishItem.userGiven"
+      (click)="give(wishItem)"
+      [disabled]="readOnly"
+      [matTooltip]="'Je souhaite joindre ma participation à cette envie'"
+    >
+      Je souhaite participer
+    </button>
     <button
       mat-raised-button
       class="wish-action-button"
