@@ -9,6 +9,7 @@ import com.googlecode.objectify.cmd.Saver;
 import fr.desaintsteban.liste.envies.dto.CommentDto;
 import fr.desaintsteban.liste.envies.dto.WishDto;
 import fr.desaintsteban.liste.envies.enums.NotificationType;
+import fr.desaintsteban.liste.envies.enums.SharingPrivacyType;
 import fr.desaintsteban.liste.envies.enums.WishState;
 import fr.desaintsteban.liste.envies.exception.NotAllowedException;
 import fr.desaintsteban.liste.envies.model.AppUser;
@@ -174,7 +175,9 @@ public final class WishesService {
         Objectify ofy = OfyService.ofy();
         final Key<WishList> parent = Key.create(WishList.class, name);
         final WishList wishList = ofy.load().key(parent).safe();
-        if (!wishList.containsOwner(user.getEmail()) && wishList.containsUser(user.getEmail())) {
+        if (!wishList.containsOwner(user.getEmail()) &&
+                (wishList.getPrivacy() != SharingPrivacyType.PRIVATE
+                        || wishList.getPrivacy() == SharingPrivacyType.PRIVATE && wishList.containsUser(user.getEmail()))) {
             return OfyService.ofy().transact(() -> {
                 Objectify ofy1 = OfyService.ofy();
                 Wish saved = ofy1.load().key(Key.create(parent, Wish.class, itemId)).now();

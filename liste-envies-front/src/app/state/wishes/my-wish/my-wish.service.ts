@@ -3,6 +3,7 @@ import { ID } from "@datorama/akita";
 import { MyWishStore } from "./my-wish.store";
 import { WishItem } from "../../../models/WishItem";
 import { UserAPIService } from "../../../service/user-api.service";
+import { Debounce, Delay } from "lodash-decorators";
 
 @Injectable({ providedIn: "root" })
 export class MyWishService {
@@ -23,15 +24,34 @@ export class MyWishService {
     this.myWishStore.remove(id);
   }
 
-  loadAll() {
-    this.userApi.archived("me").subscribe((values: WishItem[]) => {
-      this.add(values);
-      this.myWishStore.update({ ui: { isArchiveLoaded: true } });
-    });
+  async loadAll() {
+    await this.loadGiven();
+    await this.loadArchive();
+  }
 
-    this.userApi.given("me").subscribe((values: WishItem[]) => {
-      this.add(values);
-      this.myWishStore.update({ ui: { isBasketLoaded: true } });
+  private loadGiven(): Promise<void> {
+    return new Promise(resolve => {
+      this.userApi.given("me").subscribe(
+        (values: WishItem[]) => {
+          this.add(values);
+          this.myWishStore.update({ ui: { isBasketLoaded: true } });
+          resolve();
+        },
+        () => resolve()
+      );
+    });
+  }
+
+  private loadArchive() {
+    return new Promise(resolve => {
+      this.userApi.archived("me").subscribe(
+        (values: WishItem[]) => {
+          this.add(values);
+          this.myWishStore.update({ ui: { isArchiveLoaded: true } });
+          resolve();
+        },
+        () => resolve()
+      );
     });
   }
 }

@@ -107,7 +107,9 @@ export class ListComponent implements OnInit, OnChanges {
     this.loading$ = this.wishQuery.selectLoading();
 
     this.userAuth.pipe(skip(1), untilDestroyed(this)).subscribe(value => {
-      this.loadList();
+      if (value) {
+        this.loadList();
+      }
     });
   }
 
