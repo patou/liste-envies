@@ -58,8 +58,9 @@ public class WishListServiceTest {
         helper.setUp();
         closable = OfyService.begin();
         patrice = new AppUser("patrice@desaintsteban.fr", "Patrice");
+        AppUser emmanuel = new AppUser("emmanuel@desaintsteban.fr", "Emmanuel");
         WishListService.createOrUpdate(patrice, new WishList("liste-patrice", "Liste de Patrice", "patrice@desaintsteban.fr", "emmanuel@desaintsteban.fr"));
-        WishListService.createOrUpdate(patrice, new WishList("liste-emmanuel", "Liste de Emmanuel", "emmanuel@desaintsteban.fr"));
+        WishListService.createOrUpdate(emmanuel, new WishList("liste-emmanuel", "Liste de Emmanuel", "emmanuel@desaintsteban.fr"));
     }
 
     @AfterEach

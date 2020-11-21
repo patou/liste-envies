@@ -12,6 +12,7 @@ import fr.desaintsteban.liste.envies.model.UserShare;
 import fr.desaintsteban.liste.envies.model.Wish;
 import fr.desaintsteban.liste.envies.model.WishList;
 import fr.desaintsteban.liste.envies.util.StringUtils;
+import fr.desaintsteban.liste.envies.util.WishRules;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +52,7 @@ public final class WishListService {
 	}
 
 	public static WishList createOrUpdate(final AppUser user, final WishList item) {
-		if (!item.containsOwner(user.getEmail()) || !user.isAdmin()) {
+		if (!WishRules.canAddWish(item, user) && !user.isAdmin()) {
 			throw new NotAllowedException();
 		}
 		if (StringUtils.isNullOrEmpty(item.getTitle())) {
@@ -72,7 +73,7 @@ public final class WishListService {
 		final List<String> userToEmail = item.getUsers().stream().map(UserShare::getEmail).collect(Collectors.toList());
 		WishList updateElement = OfyService.ofy().load().key(Key.create(WishList.class, item.getName())).now();
 		if (updateElement != null) { // Update
-			if (!updateElement.containsOwner(user.getEmail()) || !user.isAdmin()) {
+			if (!WishRules.canAddWish(item, user) && !user.isAdmin()) {
 				throw new NotAllowedException();
 			}
 			updateElement.getUsers().stream()
