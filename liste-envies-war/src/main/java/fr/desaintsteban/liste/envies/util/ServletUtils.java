@@ -58,10 +58,19 @@ public final class ServletUtils {
 	    return fromCustomJson(getString(reader), clazz);
 	}
 
+	/**
+	 * Check si l'utilisateur est connecté
+	 * @return True si l'utilisateur est connecté
+	 */
 	public static boolean isUserConnected() {
 		return AppUserService.hasAppUser() || UserServiceFactory.getUserService().isUserLoggedIn();
 	}
 
+	/**
+	 * Retourne l'utilisateur connecté via le token jwt ou via le service UserService
+	 * @return Utilisateur connecté
+	 * @throws NotLoggedException si l'utilateur n'est pas connecté.
+	 */
 	public static AppUser getUserConnected() {
 		AppUser appUser = AppUserService.getAppUser();
 		if (appUser == null) {

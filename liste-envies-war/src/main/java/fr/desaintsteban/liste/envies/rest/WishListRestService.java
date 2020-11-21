@@ -113,13 +113,16 @@ public class WishListRestService {
     @GET
     @Path("/{name}/join")
     public WishListDto join(@PathParam("name") String wishName) {
-        final AppUser user = ServletUtils.getUserConnected();
+        AppUser user = null;
+        if(ServletUtils.isUserConnected()){
+            user = ServletUtils.getUserConnected();
+        }
         WishList list = WishListService.getOrThrow(wishName);
+        // Sur une liste ouverte, on rejoint la liste dès que l'on visite la liste.
         if (list.getPrivacy() == SharingPrivacyType.OPEN) {
             WishListService.addUser(user, list);
-            return WishRules.applyRules(user, list);
         }
-        throw new NotAllowedException();
+        return WishRules.applyRules(user, list);
     }
 
     @DELETE

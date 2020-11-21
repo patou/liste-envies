@@ -82,45 +82,33 @@ public class WishRestService {
     @Path("/{id}/addComment")
     public WishDto addComment(@PathParam("name") String name, @PathParam("id") Long wishId, CommentDto comment) {
         final AppUser user = ServletUtils.getUserConnected();
-        if (user != null) {
-            LOGGER.info("add comment from " + user.getName() +" wish id : " + wishId + " Comment : " + comment.getText());
-            WishDto wishDto = WishesService.addComment(user, wishId, name, comment);
-            if (wishDto != null) {
-                LOGGER.info("Updated wish with comments " + wishDto.getLabel());
-            }
-            return wishDto;
-        }
-        return null;
-    }
+        LOGGER.info("add comment from " + user.getName() +" wish id : " + wishId + " Comment : " + comment.getText());
+        WishDto wishDto = WishesService.addComment(user, wishId, name, comment);
+        LOGGER.info("Updated wish with comments " + wishDto.getLabel());
+        return wishDto;
+      }
 
     @POST
     @Path("/{id}")
     public WishDto updateWish(@PathParam("name") String name, WishDto wishDto) {
         final AppUser user = ServletUtils.getUserConnected();
-        if (user != null) {
-            LOGGER.info("Put " + wishDto.getLabel());
-            return WishesService.createOrUpdate(user, name, new Wish(wishDto));
-        }
-        return wishDto;
+        LOGGER.info("Put " + wishDto.getLabel());
+        return WishesService.createOrUpdate(user, name, new Wish(wishDto));
     }
 
     @DELETE
     @Path("/{id}")
     public void deleteWish(@PathParam("name") String name, @PathParam("id") Long id){
         final AppUser user = ServletUtils.getUserConnected();
-        if(user != null){
-            LOGGER.info("Delete " + id);
-            WishesService.delete(user, name, id);
-        }
+        LOGGER.info("Delete " + id);
+        WishesService.delete(user, name, id);
     }
 
     @PUT
     @Path("/archive/{id}")
     public void archiveWish(@PathParam("name") String name, @PathParam("id") Long id){
         final AppUser user = ServletUtils.getUserConnected();
-        if(user != null){
-            LOGGER.info("Archive " + id);
-            WishesService.archive(user, name, id);
-        }
+        LOGGER.info("Archive " + id);
+        WishesService.archive(user, name, id);
     }
 }
