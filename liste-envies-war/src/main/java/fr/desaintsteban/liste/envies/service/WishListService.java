@@ -5,6 +5,8 @@ import com.googlecode.objectify.cmd.Deleter;
 import com.googlecode.objectify.cmd.QueryKeys;
 import com.googlecode.objectify.cmd.Saver;
 import fr.desaintsteban.liste.envies.enums.WishListStatus;
+import fr.desaintsteban.liste.envies.exception.NotAcceptableException;
+import fr.desaintsteban.liste.envies.exception.NotAllowedException;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.UserShare;
 import fr.desaintsteban.liste.envies.model.Wish;
@@ -36,15 +38,22 @@ public final class WishListService {
     	return OfyService.ofy().load().type(WishList.class).ids(names);
 	}
 
-	public static void delete(String email) {
-		OfyService.ofy().delete().key(Key.create(WishList.class, email)).now();
+	public static void delete(String listName) {
+		OfyService.ofy().delete().key(Key.create(WishList.class, listName)).now();
 	}
 
-	public static WishList get(String email) {
-		return OfyService.ofy().load().key(Key.create(WishList.class, email)).now();
+	public static WishList get(String listName) {
+		return OfyService.ofy().load().key(Key.create(WishList.class, listName)).now();
+	}
+
+	public static WishList getOrThrow(String listName) {
+		return OfyService.ofy().load().key(Key.create(WishList.class, listName)).safe();
 	}
 
 	public static WishList createOrUpdate(final AppUser user, final WishList item) {
+		if (!item.containsOwner(user.getEmail()) || !user.isAdmin()) {
+			throw new NotAllowedException();
+		}
 		if (StringUtils.isNullOrEmpty(item.getTitle())) {
 			String title = "Liste de " + user.getName();
 			item.setTitle(title);
@@ -63,6 +72,9 @@ public final class WishListService {
 		final List<String> userToEmail = item.getUsers().stream().map(UserShare::getEmail).collect(Collectors.toList());
 		WishList updateElement = OfyService.ofy().load().key(Key.create(WishList.class, item.getName())).now();
 		if (updateElement != null) { // Update
+			if (!updateElement.containsOwner(user.getEmail()) || !user.isAdmin()) {
+				throw new NotAllowedException();
+			}
 			updateElement.getUsers().stream()
 					.map(UserShare::getEmail)
 					.filter(email -> email.equals(user.getEmail()))
@@ -83,7 +95,7 @@ public final class WishListService {
 	}
 
 	public static List<Key<WishList>> userListKeys(String email) {
-		QueryKeys<WishList> keys = OfyService.ofy().load().type(WishList.class)/*.filter("users.type =", UserShareType.SHARED)*/.filter("users.email =", email).keys()/*.list()*/;
+		QueryKeys<WishList> keys = OfyService.ofy().load().type(WishList.class).filter("users.email =", email).keys();
 		return keys.list();
 	}
 
@@ -91,11 +103,11 @@ public final class WishListService {
 		Key<WishList> newKey = Key.create(WishList.class, newName);
 		WishList newList = OfyService.ofy().load().key(newKey).now();
 		if (newList != null)
-			throw new Exception("Already exist");
+			throw new NotAcceptableException("Already exist");
     	Key<WishList> key = Key.create(WishList.class, name);
 		WishList list = OfyService.ofy().load().key(key).now();
 		if (!list.containsOwner(user.getEmail()))
-			throw new Exception("Not allowed");
+			throw new NotAllowedException();
 		List<Wish> wishes = OfyService.ofy().load().type(Wish.class).ancestor(key).list();
 		List<Key<Wish>> oldWishesKey = new ArrayList<>();
 		list.setName(newName);
@@ -118,7 +130,7 @@ public final class WishListService {
 		Key<WishList> key = Key.create(WishList.class, name);
 		WishList list = OfyService.ofy().load().key(key).now();
 		if (!list.containsOwner(user.getEmail()))
-			throw new Exception("Not allowed");
+			throw new NotAllowedException();
 		List<Wish> wishes = OfyService.ofy().load().type(Wish.class).ancestor(key).list();
 		list.setStatus(WishListStatus.ARCHIVED);
 		wishes.forEach(wish -> wish.setArchived(true));

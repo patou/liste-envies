@@ -59,7 +59,7 @@ public class WishRulesTest {
     }
 
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void filterWishAllSuggest() {
         List<WishDto> wishList = createDefaultListOfWish();
 
@@ -68,7 +68,7 @@ public class WishRulesTest {
         assertThat(cleaned).isNotNull().hasSize(2);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void filterWishNone() {
         List<WishDto> wishList = createDefaultListOfWish();
 
@@ -77,7 +77,7 @@ public class WishRulesTest {
         assertThat(cleaned).isNotNull().hasSize(0);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testComputeWishListState() {
         WishList wishlist = createDefaultWishList();
 
@@ -89,7 +89,7 @@ public class WishRulesTest {
 
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testComputeWishOptionType() {
         WishList wishlist = createDefaultWishList();
 
@@ -115,7 +115,7 @@ public class WishRulesTest {
         assertEquals(WishOptionType.ANONYMOUS, WishRules.computeWishOptionsType(null, wishlist));
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testComputePermissionWishList() {
         WishList wishlist = createDefaultWishList();
         WishListDto dto = new WishListDto();
@@ -137,12 +137,91 @@ public class WishRulesTest {
         assertFalse(dto.getCanSuggest());
     }
 
+    @Test
+    public void testCanGive() {
+        WishList wishlist;
+        AppUser owner = new AppUser("patrice@desaintsteban.fr");
+        AppUser participant = new AppUser("emmanuel@desaintsteban.fr");
+        AppUser other = new AppUser("emeline@desaintsteban.fr");
+        AppUser anonyme = new AppUser(null, "Anonyme");
+
+        //Private
+
+        wishlist = createDefaultWishList(SharingPrivacyType.PRIVATE);
+
+        assertFalse(WishRules.canGive(wishlist, owner));
+        assertTrue(WishRules.canGive(wishlist, participant));
+        assertFalse(WishRules.canGive(wishlist, other));
+        assertFalse(WishRules.canGive(wishlist, anonyme));
+
+        //Open
+
+        wishlist = createDefaultWishList(SharingPrivacyType.OPEN);
+
+        assertFalse(WishRules.canGive(wishlist, owner));
+        assertTrue(WishRules.canGive(wishlist, participant));
+        assertTrue(WishRules.canGive(wishlist, other, false));
+        assertFalse(WishRules.canGive(wishlist, anonyme));
+
+        //Public
+
+        wishlist = createDefaultWishList(SharingPrivacyType.PUBLIC);
+
+        assertFalse(WishRules.canGive(wishlist, owner));
+        assertTrue(WishRules.canGive(wishlist, participant));
+        assertTrue(WishRules.canGive(wishlist, other));
+        assertFalse(WishRules.canGive(wishlist, anonyme));
+    }
+
+
+    @Test
+    public void testCanAddWish() {
+        WishList wishlist;
+        AppUser owner = new AppUser("patrice@desaintsteban.fr");
+        AppUser participant = new AppUser("emmanuel@desaintsteban.fr");
+        AppUser other = new AppUser("emeline@desaintsteban.fr");
+        AppUser anonyme = new AppUser(null, "Anonyme");
+
+        //Private
+
+        wishlist = createDefaultWishList(SharingPrivacyType.PRIVATE);
+
+        assertTrue(WishRules.canAddWish(wishlist, owner));
+        assertTrue(WishRules.canAddWish(wishlist, participant));
+        assertFalse(WishRules.canAddWish(wishlist, other));
+        assertFalse(WishRules.canAddWish(wishlist, anonyme));
+
+        //Open
+
+        wishlist = createDefaultWishList(SharingPrivacyType.OPEN);
+
+        assertTrue(WishRules.canAddWish(wishlist, owner));
+        assertTrue(WishRules.canAddWish(wishlist, participant));
+        assertTrue(WishRules.canAddWish(wishlist, other, false));
+        assertFalse(WishRules.canAddWish(wishlist, anonyme));
+
+        //Public
+
+        wishlist = createDefaultWishList(SharingPrivacyType.PUBLIC);
+
+        assertTrue(WishRules.canAddWish(wishlist, owner));
+        assertTrue(WishRules.canAddWish(wishlist, participant));
+        assertTrue(WishRules.canAddWish(wishlist, other));
+        assertFalse(WishRules.canAddWish(wishlist, anonyme));
+    }
+
     private WishList createDefaultWishList() {
         WishList list = new WishList();
         List<UserShare> users = new ArrayList<>();
         users.add(new UserShare("patrice@desaintsteban.fr", UserShareType.OWNER));
         users.add(new UserShare("emmanuel@desaintsteban.fr", UserShareType.SHARED));
         list.setUsers(users);
+        return list;
+    }
+
+    private WishList createDefaultWishList(SharingPrivacyType privacyType) {
+        WishList list = createDefaultWishList();
+        list.setPrivacy(privacyType);
         return list;
     }
 

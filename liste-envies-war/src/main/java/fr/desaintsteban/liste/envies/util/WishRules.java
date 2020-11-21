@@ -34,14 +34,17 @@ import static java.util.stream.Collectors.toSet;
 public class WishRules {
 
     public static boolean canGive(WishList wishList, AppUser user) {
-        if (wishList != null && user != null && wishList.getPrivacy() != null && !wishList.containsOwner(user.getEmail())) {
+        return canGive(wishList, user, true);
+    }
+    public static boolean canGive(WishList wishList, AppUser user, boolean autoJoin) {
+        if (wishList != null && user.getEmail() != null && wishList.getPrivacy() != null && !wishList.containsOwner(user.getEmail())) {
             switch (wishList.getPrivacy()) {
                 case PRIVATE:
                     // En mode privé, on ne peut participer que si l'on fait partis de la liste
                     return wishList.containsUser(user.getEmail());
                 case OPEN:
                     //Si on est pas dans la liste des utilisateurs on est automatiquement ajouté
-                    if (!wishList.containsUser(user.getEmail())) {
+                    if (!wishList.containsUser(user.getEmail()) && autoJoin) {
                         WishListService.addUser(user, wishList);
                     }
                 case PUBLIC:
@@ -355,5 +358,26 @@ public class WishRules {
                 break;
         }
         return wish;
+    }
+    public static boolean canAddWish(WishList wishList, AppUser user) {
+        return canAddWish(wishList, user, true);
+    }
+    public static boolean canAddWish(WishList wishList, AppUser user, boolean autoJoin) {
+        if (wishList != null && user.getEmail() != null && wishList.getPrivacy() != null) {
+            switch (wishList.getPrivacy()) {
+                case PRIVATE:
+                    // En mode privé, on ne peut ajouter une envie ou une suggestion que si l'on fait partis de la liste
+                    return wishList.containsUser(user.getEmail());
+                case OPEN:
+                    //Si on est pas dans la liste des utilisateurs on est automatiquement ajouté
+                    if (!wishList.containsUser(user.getEmail()) && autoJoin) {
+                        WishListService.addUser(user, wishList);
+                    }
+                case PUBLIC:
+                    //En mode ouvert ou public on peut ajouter une envie
+                    return true;
+            }
+        }
+        return false;
     }
 }

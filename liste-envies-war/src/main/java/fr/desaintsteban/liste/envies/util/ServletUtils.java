@@ -5,6 +5,7 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import fr.desaintsteban.liste.envies.exception.NotLoggedException;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.service.AppUserService;
 
@@ -57,13 +58,21 @@ public final class ServletUtils {
 	    return fromCustomJson(getString(reader), clazz);
 	}
 
-	public static AppUser getUserAuthenticated() {
+	public static boolean isUserConnected() {
+		return AppUserService.hasAppUser() || UserServiceFactory.getUserService().isUserLoggedIn();
+	}
+
+	public static AppUser getUserConnected() {
 		AppUser appUser = AppUserService.getAppUser();
 		if (appUser == null) {
 			final UserService userService = UserServiceFactory.getUserService();
 			final User user = userService.getCurrentUser();
-			if (user != null)
+			if (user != null) {
 				return AppUserService.getAppUser(user);
+			}
+			else {
+				throw new NotLoggedException();
+			}
 		}
 		return appUser;
 	}
