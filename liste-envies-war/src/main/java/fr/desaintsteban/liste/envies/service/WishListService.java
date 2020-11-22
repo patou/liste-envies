@@ -101,7 +101,7 @@ public final class WishListService {
 		return keys.list();
 	}
 
-	public static void rename(AppUser user, String name, String newName) throws Exception {
+	public static void rename(AppUser user, String name, String newName) {
 		Key<WishList> newKey = Key.create(WishList.class, newName);
 		WishList newList = OfyService.ofy().load().key(newKey).now();
 		if (newList != null)
@@ -128,7 +128,7 @@ public final class WishListService {
 	}
 
 
-	public static void archive(AppUser user, String name) throws Exception {
+	public static void archive(AppUser user, String name) {
 		Key<WishList> key = Key.create(WishList.class, name);
 		WishList list = OfyService.ofy().load().key(key).now();
 		if (!list.containsOwner(user.getEmail()))

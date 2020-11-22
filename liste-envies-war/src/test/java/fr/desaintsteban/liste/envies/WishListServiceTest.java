@@ -10,6 +10,7 @@ import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cache.AsyncCacheFilter;
 import fr.desaintsteban.liste.envies.exception.NotAcceptableException;
+import fr.desaintsteban.liste.envies.exception.NotAllowedException;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.WishList;
 import fr.desaintsteban.liste.envies.model.Notification;
@@ -77,7 +78,7 @@ public class WishListServiceTest {
         }
     }
     @Test
-    public void testGet() throws Exception {
+    public void testGet() {
         WishList wishList = WishListService.get("liste-patrice");
 
         assertThat(wishList.getName()).isEqualTo("liste-patrice");
@@ -88,24 +89,35 @@ public class WishListServiceTest {
     }
 
     @Test
-    public void testList() throws Exception {
+    public void testList() {
         List<WishList> list = WishListService.list();
         assertThat(extractProperty("name").from(list)).hasSize(2).contains("liste-patrice", "liste-emmanuel");
     }
 
     @Test
-    public void testListEmails() throws Exception {
+    public void testListEmails() {
         List<WishList> list = WishListService.list("patrice@desaintsteban.fr");
         assertThat(extractProperty("name").from(list)).hasSize(1).contains("liste-patrice");
     }
 
     @Test
-    public void testCreate() throws Exception {
-        WishListService.createOrUpdate(patrice, new WishList("liste-clemence", "Clemence", "clemence@desaintsteban.fr", "patrice@desaintsteban.fr", "emmanuel@desaintsteban.fr"));
+    public void testCreate() {
+        WishListService.createOrUpdate(patrice, new WishList("liste-patrice-2", "Patrice", "patrice@desaintsteban.fr", "clemence@desaintsteban.fr", "emmanuel@desaintsteban.fr"));
+        assertThrows(NotAllowedException.class, () -> {
+            WishListService.createOrUpdate(patrice, new WishList("liste-clemence", "Clemence", "clemence@desaintsteban.fr", "patrice@desaintsteban.fr", "emmanuel@desaintsteban.fr"));
+        });
     }
 
     @Test
-    public void testDelete() throws Exception {
+    public void testUpdate() {
+        WishListService.createOrUpdate(patrice, new WishList("liste-patrice", "Liste de Patrice 2", "patrice@desaintsteban.fr", "emmanuel@desaintsteban.fr"));
+        assertThrows(NotAllowedException.class, () -> {
+            WishListService.createOrUpdate(patrice, new WishList("liste-emmanuel", "Emmanuel", "emmanuel@desaintsteban.fr", "patrice@desaintsteban.fr", "emmanuel@desaintsteban.fr"));
+        });
+    }
+
+    @Test
+    public void testDelete() {
         WishListService.delete("liste-patrice");
 
         WishList wishList = WishListService.get("liste-patrice");
@@ -121,7 +133,7 @@ public class WishListServiceTest {
     }
 
     @Test()
-    public void testRenameExist() throws Exception {
+    public void testRenameExist() {
         assertThrows(NotAcceptableException.class, () -> {
             WishListService.rename(patrice, "liste-patrice", "liste-emmanuel");
         });
