@@ -66,34 +66,6 @@
         <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
 
-
-	<servlet>
-		<servlet-name>GetUser</servlet-name>
-		<servlet-class>fr.desaintsteban.liste.envies.servlet.GetUserServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>GetUser</servlet-name>
-		<url-pattern>/api/user</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>Login</servlet-name>
-		<servlet-class>fr.desaintsteban.liste.envies.servlet.LoginServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Login</servlet-name>
-		<url-pattern>/user/login</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>Logout</servlet-name>
-		<servlet-class>fr.desaintsteban.liste.envies.servlet.LogoutServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Logout</servlet-name>
-		<url-pattern>/user/logout</url-pattern>
-	</servlet-mapping>
-
     <servlet>
         <servlet-name>MigrateServlet</servlet-name>
         <servlet-class>fr.desaintsteban.liste.envies.servlet.MigrateServlet</servlet-class>
