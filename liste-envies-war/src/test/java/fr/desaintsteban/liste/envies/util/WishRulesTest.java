@@ -181,33 +181,34 @@ public class WishRulesTest {
         AppUser participant = new AppUser("emmanuel@desaintsteban.fr");
         AppUser other = new AppUser("emeline@desaintsteban.fr");
         AppUser anonyme = new AppUser(null, "Anonyme");
+        Wish wish = new Wish();
 
         //Private
 
         wishlist = createDefaultWishList(SharingPrivacyType.PRIVATE);
 
-        assertTrue(WishRules.canAddWish(wishlist, owner));
-        assertTrue(WishRules.canAddWish(wishlist, participant));
-        assertFalse(WishRules.canAddWish(wishlist, other));
-        assertFalse(WishRules.canAddWish(wishlist, anonyme));
+        assertTrue(WishRules.canAddWish(wishlist, wish, owner));
+        assertTrue(WishRules.canAddWish(wishlist, wish, participant));
+        assertFalse(WishRules.canAddWish(wishlist, wish, other));
+        assertFalse(WishRules.canAddWish(wishlist, wish, anonyme));
 
         //Open
 
         wishlist = createDefaultWishList(SharingPrivacyType.OPEN);
 
-        assertTrue(WishRules.canAddWish(wishlist, owner));
-        assertTrue(WishRules.canAddWish(wishlist, participant));
-        assertTrue(WishRules.canAddWish(wishlist, other, false));
-        assertFalse(WishRules.canAddWish(wishlist, anonyme));
+        assertTrue(WishRules.canAddWish(wishlist, wish, owner));
+        assertTrue(WishRules.canAddWish(wishlist, wish, participant));
+        assertTrue(WishRules.canAddWish(wishlist, wish, other, false));
+        assertFalse(WishRules.canAddWish(wishlist, wish, anonyme));
 
         //Public
 
         wishlist = createDefaultWishList(SharingPrivacyType.PUBLIC);
 
-        assertTrue(WishRules.canAddWish(wishlist, owner));
-        assertTrue(WishRules.canAddWish(wishlist, participant));
-        assertTrue(WishRules.canAddWish(wishlist, other));
-        assertFalse(WishRules.canAddWish(wishlist, anonyme));
+        assertTrue(WishRules.canAddWish(wishlist, wish, owner));
+        assertTrue(WishRules.canAddWish(wishlist, wish, participant));
+        assertTrue(WishRules.canAddWish(wishlist, wish, other));
+        assertFalse(WishRules.canAddWish(wishlist, wish, anonyme));
     }
 
     private WishList createDefaultWishList() {

@@ -4,10 +4,12 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalMemcacheServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
+import com.googlecode.objectify.NotFoundException;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cache.AsyncCacheFilter;
+import fr.desaintsteban.liste.envies.exception.NotAcceptableException;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.WishList;
 import fr.desaintsteban.liste.envies.model.Notification;
@@ -17,6 +19,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.Closeable;
@@ -79,6 +82,9 @@ public class WishListServiceTest {
 
         assertThat(wishList.getName()).isEqualTo("liste-patrice");
         assertThat(wishList.getTitle()).isEqualTo("Liste de Patrice");
+        assertThrows(NotFoundException.class, () -> {
+            WishListService.getOrThrow("test");
+        });
     }
 
     @Test
@@ -116,7 +122,7 @@ public class WishListServiceTest {
 
     @Test()
     public void testRenameExist() throws Exception {
-        assertThrows(Exception.class, () -> {
+        assertThrows(NotAcceptableException.class, () -> {
             WishListService.rename(patrice, "liste-patrice", "liste-emmanuel");
         });
     }

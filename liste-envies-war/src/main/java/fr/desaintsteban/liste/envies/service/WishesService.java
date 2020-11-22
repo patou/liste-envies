@@ -232,7 +232,7 @@ public final class WishesService {
         Objectify ofy = OfyService.ofy();
         final Key<WishList> parent = Key.create(WishList.class, name);
         final WishList wishList = ofy.load().key(parent).safe();
-        if (!WishRules.canAddWish(wishList, user)) {
+        if (!WishRules.canAddWish(wishList,item, user)) {
             throw new NotAllowedException();
         }
         return OfyService.ofy().transact(() -> {
@@ -242,6 +242,10 @@ public final class WishesService {
             item.setList(parent);
             if (item.getId() != null) {
                 Wish saved = ofy1.load().key(Key.create(parent, Wish.class, item.getId())).now();
+                // On verifie si on a le droit de modifier l'envie
+                if (!WishRules.canUpdateWish(wishList, saved, user)) {
+                    throw new NotAllowedException();
+                }
                 item.setUserTake(saved.getUserTake());
                 item.setComments(saved.getComments());
                 item.setOwner(saved.getOwner());

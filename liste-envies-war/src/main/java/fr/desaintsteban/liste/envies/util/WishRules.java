@@ -11,6 +11,7 @@ import fr.desaintsteban.liste.envies.enums.WishListState;
 import fr.desaintsteban.liste.envies.enums.WishListStatus;
 import fr.desaintsteban.liste.envies.enums.WishOptionType;
 import fr.desaintsteban.liste.envies.model.AppUser;
+import fr.desaintsteban.liste.envies.model.Person;
 import fr.desaintsteban.liste.envies.model.UserShare;
 import fr.desaintsteban.liste.envies.model.Wish;
 import fr.desaintsteban.liste.envies.model.WishList;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -359,11 +361,26 @@ public class WishRules {
         }
         return wish;
     }
-    public static boolean canAddWish(WishList wishList, AppUser user) {
-        return canAddWish(wishList, user, true);
+
+    /**
+     * On peut ajouter une envie, si l'on est bénéficiaire ou participant de la liste.
+     * Si la liste est ouverte ou publique toutes personnes connecté peut ajouter une suggestion.
+     * @param wishList
+     * @param user
+     * @return
+     */
+    public static boolean canAddWish(WishList wishList, Wish wish, AppUser user) {
+        return canAddWish(wishList, wish, user, true);
     }
-    public static boolean canAddWish(WishList wishList, AppUser user, boolean autoJoin) {
+
+    public static boolean canAddWish(WishList wishList, Wish wish, AppUser user, boolean autoJoin) {
         if (wishList != null && user.getEmail() != null && wishList.getPrivacy() != null) {
+            if (wish.getOwner() == null) {
+                wish.setOwner(new Person(user, false));
+            }
+            if (wishList.containsOwner(user.getEmail())) {
+                return true;
+            }
             switch (wishList.getPrivacy()) {
                 case PRIVATE:
                     // En mode privé, on ne peut ajouter une envie ou une suggestion que si l'on fait partis de la liste
@@ -376,6 +393,26 @@ public class WishRules {
                 case PUBLIC:
                     //En mode ouvert ou public on peut ajouter une envie
                     return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * On peut modifier une envie si on est le propriétaire de l'envie,
+     * ou que l'envie a été crée par un co-bénéficaire si l'on est aussi un des bénéficaire
+     * @param wishList
+     * @param wish
+     * @param user
+     * @return
+     */
+    public static boolean canUpdateWish(WishList wishList, Wish wish, AppUser user) {
+        if (wishList != null && user.getEmail() != null && wishList.getPrivacy() != null) {
+            // On peut modifier une envie que l'on a créer
+            if (Objects.equals(user.getEmail(), wish.getOwner().getEmail())
+                    // Ou une envie créé par un co-bénéficaire de la liste si on est co-bénéficaire.
+                    || (wishList.containsOwner(user.getEmail()) && wishList.containsOwner(wish.getOwner().getEmail()))) {
+                return true;
             }
         }
         return false;

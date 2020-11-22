@@ -52,7 +52,7 @@ public final class WishListService {
 	}
 
 	public static WishList createOrUpdate(final AppUser user, final WishList item) {
-		if (!WishRules.canAddWish(item, user) && !user.isAdmin()) {
+		if (!item.containsOwner(user.getEmail()) && !user.isAdmin()) {
 			throw new NotAllowedException();
 		}
 		if (StringUtils.isNullOrEmpty(item.getTitle())) {
@@ -73,7 +73,8 @@ public final class WishListService {
 		final List<String> userToEmail = item.getUsers().stream().map(UserShare::getEmail).collect(Collectors.toList());
 		WishList updateElement = OfyService.ofy().load().key(Key.create(WishList.class, item.getName())).now();
 		if (updateElement != null) { // Update
-			if (!WishRules.canAddWish(item, user) && !user.isAdmin()) {
+			// On vérifie que l'on a le droit de modifier la liste
+			if (!updateElement.containsOwner(user.getEmail()) && !user.isAdmin()) {
 				throw new NotAllowedException();
 			}
 			updateElement.getUsers().stream()
