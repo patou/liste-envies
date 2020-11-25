@@ -43,7 +43,7 @@ public final class WishesService {
         Key<WishList> key = Key.create(WishList.class, name);
         LoadResult<WishList> loadResult = ofy.load().key(key); //Chargement asynchrone
         List<Wish> list = ofy.load().type(Wish.class).ancestor(key).filter("state IN",states).list();
-        WishList wishList = loadResult.now();
+        WishList wishList = loadResult.safe();
         return WishRules.applyRules(user, wishList, list);
     }
 

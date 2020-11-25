@@ -53,7 +53,10 @@ public class WishRestService {
 
     @GET
     public List<WishDto> getWish(@PathParam("name") String name) {
-        final AppUser user = ServletUtils.getUserConnected();
+        AppUser user = null;
+        if(ServletUtils.isUserConnected()) {
+            user = ServletUtils.getUserConnected();
+        }
         LOGGER.info("List");
         return WishesService.list(user, name, WishState.ACTIVE);
     }
