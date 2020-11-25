@@ -106,7 +106,10 @@ public class WishListRestService {
     public WishListDto getOneWishListForUser(@PathParam("name") String wishName) {
         LOGGER.info("Get " + wishName);
         WishList wishList = WishListService.getOrThrow(wishName);
-        final AppUser user = ServletUtils.getUserConnected();
+        AppUser user = null;
+        if(ServletUtils.isUserConnected()) {
+            user = ServletUtils.getUserConnected();
+        }
         return WishRules.applyRules(user, wishList);
     }
 
