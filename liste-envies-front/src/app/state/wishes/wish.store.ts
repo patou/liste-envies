@@ -34,13 +34,22 @@ export class WishStore extends EntityStore<WishState> {
     });
   }
 
+  @action("set to reload")
+  setReload() {
+    this.update(state => {
+      state = _.merge({}, state, {
+        ui: { loaded: { full: false, toOffer: false, archive: false } }
+      });
+      return state;
+    });
+  }
+
   @action("loaded toOffer")
   setLoadedToFull(isFull: boolean) {
     this.update(state => {
       state = _.merge({}, state, {
         ui: { loaded: { full: isFull } }
       });
-      console.log("setLoaded to offer : ", state);
       return state;
     });
   }
@@ -51,7 +60,6 @@ export class WishStore extends EntityStore<WishState> {
       state = _.merge({}, state, {
         ui: { loaded: { toOffer: true } }
       });
-      console.log("setLoaded to offer : ", state);
       return state;
     });
   }
@@ -61,7 +69,6 @@ export class WishStore extends EntityStore<WishState> {
       state = _.merge({}, state, {
         ui: { loaded: { archive: true } }
       });
-      console.log("setLoaded to archive : ", state);
       return state;
     });
   }

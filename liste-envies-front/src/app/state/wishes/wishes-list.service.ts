@@ -72,18 +72,11 @@ export class WishesListService {
     ) {
       const listActive = this.wishesListQuery.getActive() as WishList;
       if (!(listActive.owner && !listActive.users?.length)) {
-        console.log("Set active list infos after ", listActive);
         this.wishService.setWishList(listActive, true, true);
         return true;
       }
-      console.log("Do not set active list infos ", listActive);
     }
-    return this.wishService.getWishListFullInfos(listName).pipe(
-      tap(fullList => {
-        console.log("Set Full List infos after ", fullList);
-        this.wishService.setWishList(fullList, true, true);
-      })
-    );
+    return this.wishService.getWishListFullInfos(listName);
   }
 
   remove(id: ID) {

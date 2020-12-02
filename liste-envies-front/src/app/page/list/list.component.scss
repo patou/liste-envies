@@ -67,6 +67,10 @@ mat-divider.mat-divider.divider-withDate.mat-divider-horizontal.mat-divider-inse
       margin-top: 8px;
       margin-right: 15px;
     }
+
+    &.refresh-button {
+      margin-left: auto;
+    }
   }
 }
 

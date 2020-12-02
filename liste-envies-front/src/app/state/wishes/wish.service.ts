@@ -53,7 +53,6 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
 
   get(name: string, loading: boolean = true) {
     if (!this.wishQuery.isToOfferListLoaded()) {
-      console.log("Load items !");
       this.wishStore.setLoading(loading);
       this.wishListApiService
         .wishes(name)
@@ -63,12 +62,22 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
             this.wishStore.upsertMany(wishes);
             this.wishStore.setLoadedToOffer();
             this.draft.destroy();
-            console.log("Items LOADED !", wishes);
           })
         )
         .subscribe();
     }
     this.displayActive();
+  }
+
+  refresh(type: string, listId: string) {
+    this.wishStore.setReload();
+    if (type === "toOffer") {
+      this.get(listId, false);
+    } else {
+      this.getArchived(listId, false);
+    }
+
+    this.getWishListFullInfos(listId).subscribe();
   }
 
   displayActive() {
@@ -84,7 +93,6 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
 
   getArchived(name: string, loading: boolean = true) {
     if (!this.wishQuery.isArchiveListLoaded()) {
-      console.log("Load items !");
       this.wishStore.setLoading(loading);
       this.wishListApiService
         .wishesArchived(name)
@@ -92,9 +100,8 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
           withTransaction(wishes => {
             this.wishStore.setLoading(false);
             this.wishStore.upsertMany(wishes);
-            this.wishStore.setLoadedToOffer();
+            this.wishStore.setLoadedArchive();
             this.draft.destroy();
-            console.log("Items LOADED !", wishes);
           })
         )
         .subscribe();
@@ -124,7 +131,11 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
   }
 
   public getWishListFullInfos(name: string): Observable<WishList> {
-    return this.wishListApiService.wishList(name);
+    return this.wishListApiService.wishList(name).pipe(
+      tap(fullList => {
+        this.setWishList(fullList, true, true);
+      })
+    );
   }
 
   add(listId: string, wish: WishItem) {
@@ -247,8 +258,6 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
   @action("set wishlist")
   @transaction()
   setWishList(wishList: WishList, initialSet: boolean, isFull: boolean) {
-    // todo verify if their are a more complete data before update it.
-
     this.wishesListStore.upsert(wishList.name, wishList);
 
     this.wishStore.update({
@@ -290,12 +299,7 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
     this.wishStore.reset();
   }
 
-  @Debounce(100)
-  private getWishListInfosDelayed(name: string) {
-    /*this.getWishListFullInfos(name).subscribe((wishList: WishList) => {
-      this.setWishList(wishList);
-    });*/
-  }
+
 
   private isChanged(id, wish: Partial<WishItem>) {
     this.draft.setHead(id);
@@ -312,7 +316,6 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
         this.draft.setHead(id);
       },
       error => {
-        console.error("error update wish", id, error);
         this.draft.reset(id);
         this.wishStore.setError(error);
         this.snackBar.open("Erreur lors la mise à jour de l'envie");

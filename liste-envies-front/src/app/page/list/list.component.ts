@@ -113,15 +113,17 @@ export class ListComponent implements OnInit, OnChanges {
 
     this.userAuth.pipe(skip(1), untilDestroyed(this)).subscribe(value => {
       if (value) {
-        this.loadList();
+        this.refreshList();
       }
     });
   }
 
-  private loadList() {
+  public refreshList() {
     if (this.demo) return;
-
-    this.wishService.get(this.route.snapshot.params["listId"], false);
+    this.wishService.refresh(
+      this.route.snapshot.url.join(""),
+      this.route.snapshot.params["listId"]
+    );
   }
 
   addWish() {
