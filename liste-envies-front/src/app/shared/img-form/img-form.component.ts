@@ -71,8 +71,6 @@ export class ImgFormComponent implements OnInit {
   }
 
   pondHandleAddFile(event: any) {
-    console.log("pound Handle add file", event);
-
     this.addImg(event.file.getFileEncodeDataURL());
     if (!event.error && !event.status) {
       this.myPond.removeFile(event.file.id);

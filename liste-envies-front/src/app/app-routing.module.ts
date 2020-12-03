@@ -55,11 +55,10 @@ const routes: Routes = [
       {
         path: ":listId",
         resolve: {
-          whishList: WishListResolver,
-          whishesItems: WishListItemsResolver
+          whishList: WishListResolver
         },
         children: [
-          { path: "", component: ListComponent },
+          { path: "", redirectTo: "toOffer", pathMatch: "full" },
           {
             path: "edit",
             resolve: {
@@ -75,6 +74,13 @@ const routes: Routes = [
             },
             component: ListComponent,
             canActivate: [IsConnectedGuard]
+          },
+          {
+            path: "toOffer",
+            resolve: {
+              whishesItems: WishListItemsResolver
+            },
+            component: ListComponent
           }
         ]
       }

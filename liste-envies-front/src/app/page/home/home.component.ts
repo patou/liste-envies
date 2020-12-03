@@ -14,6 +14,8 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { map } from "rxjs/operators";
 import { AUTH_PROVIDERS } from "../../shared/auth_providers";
 import { AuthProvider, Theme } from "ngx-auth-firebaseui";
+import { LoginPopUpService } from "../../service/login-pop-up.service";
+import { WishesListService } from "../../state/wishes/wishes-list.service";
 
 @UntilDestroy()
 @Component({
@@ -30,11 +32,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   theme: Theme = Theme.RAISED;
 
   constructor(
-    private wishListService: WishesListQuery,
+    private wishesListQuery: WishesListQuery,
+    private wishesListService: WishesListService,
     private breakpointObserver: BreakpointObserver,
     private auth: AuthService,
     private colorManagementService: ColorManagementService,
-    @Inject(AUTH_PROVIDERS) public providers: AuthProvider[]
+    @Inject(AUTH_PROVIDERS) public providers: AuthProvider[],
+    private loginPopUp: LoginPopUpService
   ) {
     this.column$ = this.breakpointObserver
       .observe([
@@ -66,14 +70,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.colorManagementService.applyDefaultColor();
     this.userAuth = this.auth.user;
-    this.list$ = this.wishListService.selectAll();
-    this.loading$ = this.wishListService.selectLoading();
+    this.list$ = this.wishesListQuery.selectAll();
+    this.loading$ = this.wishesListQuery.selectLoading();
+
+    this.wishesListService.getWishListsIfNotLoaded();
   }
 
   newList() {}
 
   connect() {
-    this.auth.openLoginPopUp();
+    this.loginPopUp.openLoginPopUp().subscribe(result => {});
   }
 
   ngOnDestroy(): void {}
