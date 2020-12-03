@@ -56,7 +56,6 @@ export class ReceivedComponent implements OnInit {
   }
 
   private loadList() {
-    console.log("loadlist");
     this.wishService.getReceived(false);
   }
 }
