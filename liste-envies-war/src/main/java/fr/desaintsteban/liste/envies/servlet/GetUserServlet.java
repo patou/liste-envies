@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class GetUserServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.setContentType("application/json");
-		AppUser userAuthenticated = ServletUtils.getUserAuthenticated();
+		AppUser userAuthenticated = ServletUtils.getUserConnected();
 		if (userAuthenticated == null) {
 			return;
 		}
