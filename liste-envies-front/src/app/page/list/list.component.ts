@@ -47,6 +47,8 @@ export class ListComponent implements OnInit, OnChanges {
 
   loading$: Observable<boolean>;
 
+  backgroundImage: string;
+
   @Input()
   list: WishList;
 
@@ -96,25 +98,32 @@ export class ListComponent implements OnInit, OnChanges {
         distinct(),
         tap(wishList => {
           this.list = wishList;
-        }),
-        distinctUntilKeyChanged("picture")
+        })
       )
       .subscribe(() => {
-        this.colorManagementService.setColorFromUrl(this.getUrlImage());
+        let backgroundImageTemp = this.listBackgroundImg();
+        if (backgroundImageTemp !== this.backgroundImage) {
+          this.backgroundImage = backgroundImageTemp;
+          this.colorManagementService.setColorFromUrl(this.getUrlImage());
+        }
       });
 
     this.listItems = this.wishQuery.selectAll();
     this.loading$ = this.wishQuery.selectLoading();
 
     this.userAuth.pipe(skip(1), untilDestroyed(this)).subscribe(value => {
-      this.loadList();
+      if (value) {
+        this.refreshList();
+      }
     });
   }
 
-  private loadList() {
+  public refreshList() {
     if (this.demo) return;
-
-    this.wishService.get(this.route.snapshot.params["listId"], false);
+    this.wishService.refresh(
+      this.route.snapshot.url.join(""),
+      this.route.snapshot.params["listId"]
+    );
   }
 
   addWish() {
@@ -176,9 +185,15 @@ export class ListComponent implements OnInit, OnChanges {
   }
 
   onClickTabGive(event, isActive) {
-    if (!isActive) {
-      this.wishService.setLoading();
-    }
+    /*if (!isActive) {
+      this.wishService.displayActive();
+    }*/
+  }
+
+  onClickTabArchive(event, isActive) {
+    /*if (!isActive) {
+      this.wishService.displayArchive();
+    }*/
   }
 
   doNothing(event) {

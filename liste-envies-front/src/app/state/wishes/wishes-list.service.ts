@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { ID, SelectOptions } from "@datorama/akita";
 import { WishesListState, WishesListStore } from "./wishes-list.store";
 import { WishListApiService } from "../../service/wish-list-api.service";
-import { Debounce } from "lodash-decorators";
+import { throttle } from "lodash-decorators";
 import { WishList } from "../../models/WishList";
 import { WishService } from "./wish.service";
 import { WishesListQuery } from "./wishes-list.query";
@@ -24,13 +24,20 @@ export class WishesListService {
     );
   }
 
-  @Debounce(200)
-  get() {
+  @throttle(200)
+  updateAllWishlist() {
     this.wishesListStore.setLoading(true);
-    this.wishListService.listAll().subscribe(entities => {
-      this.wishesListStore.set(entities);
+    this.wishListService.listAll().subscribe(wishLists => {
+      this.wishesListStore.upsertMany(wishLists);
       this.wishesListStore.setLoading(false);
+      this.wishesListStore.setHasCache(true);
     });
+  }
+
+  getWishListsIfNotLoaded() {
+    if (!this.wishesListQuery.getHasCache()) {
+      this.updateAllWishlist();
+    }
   }
 
   createOrReplace(wishesList: WishList): Observable<WishList> {
@@ -39,7 +46,7 @@ export class WishesListService {
       .pipe(
         tap(newList => {
           this.wishesListStore.upsert(newList.name, newList);
-          this.wishService.setWishList(newList);
+          this.wishService.setWishList(newList, false, false);
         })
       );
   }
@@ -53,28 +60,23 @@ export class WishesListService {
       this.wishesListStore.setActive(null);
       return false;
     }
+    if (this.wishesListQuery.getActiveId() === listName) {
+      return true;
+    }
     this.wishesListStore.setActive(listName);
+    this.wishService.removeFilter("status");
+    this.wishService.resetWishes();
     if (
       this.wishesListQuery.getHasCache() &&
       this.wishesListQuery.hasEntity(listName)
     ) {
       const listActive = this.wishesListQuery.getActive() as WishList;
-
-      if (listActive.owner && !listActive.users) {
-        return this.wishService
-          .getWishListFullInfos(listName)
-          .pipe(tap(fullList => this.wishService.setWishList(fullList)));
-      } else {
-        this.wishService.setWishList(listActive);
+      if (!(listActive.owner && !listActive.users?.length)) {
+        this.wishService.setWishList(listActive, true, true);
         return true;
       }
-    } else {
-      return this.wishService.getWishListFullInfos(listName).pipe(
-        tap(fullList => {
-          this.wishService.setWishList(fullList);
-        })
-      );
     }
+    return this.wishService.getWishListFullInfos(listName);
   }
 
   remove(id: ID) {

@@ -10,7 +10,7 @@ import {
 import { LoginDialogComponent } from "../component/login-dialog/login-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 import { AngularFireAuth } from "@angular/fire/auth";
-import { map, pluck } from "rxjs/operators";
+import { distinct, map, pluck } from "rxjs/operators";
 import { WishesListService } from "../state/wishes/wishes-list.service";
 import { UserService } from "../state/app/user.service";
 import { UserQuery } from "../state/app/user.query";
@@ -33,48 +33,52 @@ export class AuthService implements HttpInterceptor {
   ) {
     this.user = this.userQuery.select().pipe(pluck<UserState, User>("user"));
 
-    this.firebaseAuth.authState.subscribe(
-      (user: User) => {
-        if (user) {
-          if (
-            (AuthService.currentUser &&
-              user.uid !== AuthService.currentUser.uid) ||
-            !AuthService.currentUser
-          ) {
-            user.getIdToken().then((token: string) => {
-              AuthService.currentToken = token;
-              // emit change user only when the token id was getting.
-              const user1: UserInfo = {
-                displayName: AuthService.currentUser.displayName,
-                email: AuthService.currentUser.email,
-                phoneNumber: AuthService.currentUser.email,
-                photoURL: AuthService.currentUser.photoURL,
-                providerId: AuthService.currentUser.providerId,
-                uid: AuthService.currentUser.uid
-              };
+    this.firebaseAuth.authState
+      .pipe(distinct((user: User) => user?.uid))
+      .subscribe(
+        (user: User) => {
+          if (user) {
+            if (
+              (AuthService.currentUser &&
+                user.uid !== AuthService.currentUser.uid) ||
+              !AuthService.currentUser
+            ) {
+              user.getIdToken().then((token: string) => {
+                AuthService.currentToken = token;
+                // emit change user only when the token id was getting.
+                const user1: UserInfo = {
+                  displayName: AuthService.currentUser.displayName,
+                  email: AuthService.currentUser.email,
+                  phoneNumber: AuthService.currentUser.email,
+                  photoURL: AuthService.currentUser.photoURL,
+                  providerId: AuthService.currentUser.providerId,
+                  uid: AuthService.currentUser.uid
+                };
 
-              this.userService.login(user1, token);
-              this.wishesList.get();
-            });
+                this.userService.login(user1, token);
+                this.wishesList.updateAllWishlist();
+              });
+            }
+
+            AuthService.currentUser = user;
+          } else {
+            this.resetCurrentUser();
           }
-
-          AuthService.currentUser = user;
-        } else {
+        },
+        error => {
+          console.error("error with login :", error);
           this.resetCurrentUser();
         }
-      },
-      error => {
-        console.error("error with loggin :", error);
-        this.resetCurrentUser();
-      }
-    );
+      );
   }
 
   private resetCurrentUser() {
-    AuthService.currentUser = null;
-    AuthService.currentToken = null;
-    this.userService.logout();
-    this.wishesList.get();
+    if (AuthService.currentUser != null) {
+      AuthService.currentUser = null;
+      AuthService.currentToken = null;
+      this.userService.logout();
+      this.wishesList.updateAllWishlist();
+    }
   }
 
   intercept(

@@ -96,6 +96,10 @@ public final class AppUserService {
         return appUserThreadLocal.get();
     }
 
+    public static boolean hasAppUser() {
+        return appUserThreadLocal.get() != null;
+    }
+
     public static List<AppUser> list() {
         List<AppUser> list = OfyService.ofy().load().type(AppUser.class).list();
         return list;
@@ -111,6 +115,10 @@ public final class AppUserService {
 
     public static AppUser get(String email) {
         return OfyService.ofy().load().key(Key.create(AppUser.class, email)).now();
+    }
+
+    public static AppUser getOrThrow(String email) {
+        return OfyService.ofy().load().key(Key.create(AppUser.class, email)).safe();
     }
 
     public static AppUser createOrUpdate(final AppUser item) {
