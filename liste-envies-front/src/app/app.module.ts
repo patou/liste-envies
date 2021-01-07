@@ -16,7 +16,7 @@ import { AddUpdateListComponent } from "./page/add-list/add-update-list.componen
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AuthService } from "./service/auth.service";
 import { LoginDialogComponent } from "./component/login-dialog/login-dialog.component";
-import { WishListResolver } from "./service/wishListResolve";
+import { WishListGuard } from "./service/wishListResolve";
 import { HttpRestModule } from "ngx-http-annotations";
 import { PageNavComponent } from "./component/page-nav/page-nav.component";
 import { LayoutModule } from "@angular/cdk/layout";
@@ -89,7 +89,7 @@ if (environment.production) {
       multi: true
     },
     WishListApiService,
-    WishListResolver,
+    WishListGuard,
     WishListItemsResolver,
     WishListItemsArchivedResolver,
     WishListItemsReceivedResolver,

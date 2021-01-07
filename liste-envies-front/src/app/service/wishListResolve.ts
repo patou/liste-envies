@@ -1,24 +1,21 @@
 import { Injectable } from "@angular/core";
 import {
   ActivatedRouteSnapshot,
-  Resolve,
+  CanActivate,
+  CanDeactivate,
   Router,
-  RouterStateSnapshot
+  RouterStateSnapshot,
+  UrlTree
 } from "@angular/router";
-
-import { WishListApiService } from "./wish-list-api.service";
 import { Observable } from "rxjs";
-import { WishList } from "../models/WishList";
 import { WishService } from "../state/wishes/wish.service";
 import { WishQuery } from "../state/wishes/wish.query";
-import { WishState } from "../state/wishes/wish.store";
-import { WishesListQuery } from "../state/wishes/wishes-list.query";
 import { WishesListService } from "../state/wishes/wishes-list.service";
-import { pluck } from "rxjs/operators";
-import { debounce } from "lodash-decorators";
+import { ListComponent } from "../page/list/list.component";
 
 @Injectable()
-export class WishListResolver implements Resolve<boolean | WishList> {
+export class WishListGuard
+  implements CanActivate, CanDeactivate<ListComponent> {
   constructor(
     private router: Router,
     private wishService: WishService,
@@ -26,16 +23,33 @@ export class WishListResolver implements Resolve<boolean | WishList> {
     private wishListService: WishesListService
   ) {}
 
-  resolve(
+  canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): boolean | Observable<WishList> {
-    return this.setActive(route);
+  ):
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree>
+    | boolean
+    | UrlTree {
+    return this.canLoadWishList(route);
   }
 
-  private setActive(
+  canDeactivate(
+    component: ListComponent,
+    currentRoute: ActivatedRouteSnapshot,
+    currentState: RouterStateSnapshot,
+    nextState?: RouterStateSnapshot
+  ):
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree>
+    | boolean
+    | UrlTree {
+    return this.wishListService.removeActive();
+  }
+
+  private canLoadWishList(
     route: ActivatedRouteSnapshot
-  ): boolean | Observable<WishList> {
-    return this.wishListService.setActive(route.params.listId);
+  ): Observable<boolean | UrlTree> {
+    return this.wishListService.setActiveOrLoad(route.params.listId);
   }
 }

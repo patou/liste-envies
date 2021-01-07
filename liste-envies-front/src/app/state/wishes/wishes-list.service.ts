@@ -7,8 +7,10 @@ import { WishList } from "../../models/WishList";
 import { WishService } from "./wish.service";
 import { WishesListQuery } from "./wishes-list.query";
 import { AkitaFiltersPlugin, searchFilterIn } from "akita-filters-plugin";
-import { tap } from "rxjs/operators";
-import { Observable } from "rxjs";
+import { catchError, map, tap } from "rxjs/operators";
+import { Observable, of } from "rxjs";
+import { Router, UrlTree } from "@angular/router";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Injectable({ providedIn: "root" })
 export class WishesListService {
@@ -17,7 +19,8 @@ export class WishesListService {
     private wishesListStore: WishesListStore,
     private wishListService: WishListApiService,
     private wishService: WishService,
-    private wishesListQuery: WishesListQuery
+    private wishesListQuery: WishesListQuery,
+    private router: Router
   ) {
     this.filters = new AkitaFiltersPlugin<WishesListState>(
       this.wishesListQuery
@@ -55,13 +58,18 @@ export class WishesListService {
     this.wishesListStore.update(id, wishesList);
   }
 
-  setActive(listName: string): boolean | Observable<WishList> {
+  removeActive() {
+    this.wishesListStore.setActive(null);
+    return true;
+  }
+
+  setActiveOrLoad(listName: string): Observable<boolean | UrlTree> {
     if (!listName) {
       this.wishesListStore.setActive(null);
-      return false;
+      return of(this.router.createUrlTree(["/"]));
     }
     if (this.wishesListQuery.getActiveId() === listName) {
-      return true;
+      return of(true);
     }
     this.wishesListStore.setActive(listName);
     this.wishService.removeFilter("status");
@@ -73,10 +81,25 @@ export class WishesListService {
       const listActive = this.wishesListQuery.getActive() as WishList;
       if (!(listActive.owner && !listActive.users?.length)) {
         this.wishService.setWishList(listActive, true, true);
-        return true;
+        return of(true);
       }
     }
-    return this.wishService.getWishListFullInfos(listName);
+    return this.wishService.getWishListFullInfos(listName).pipe(
+      map(wishList => !!wishList),
+      catchError((error, caught) => {
+        console.error("Error catch ", error);
+        if (error instanceof HttpErrorResponse) {
+          switch (error.status) {
+            case 404:
+              return of(this.router.createUrlTree(["/", "notExist"]));
+            case 403:
+              return of(this.router.createUrlTree(["/", "connect"]));
+            default:
+              return of(this.router.createUrlTree(["/"]));
+          }
+        }
+      })
+    );
   }
 
   remove(id: ID) {

@@ -4,7 +4,7 @@ import { PageComponent } from "./component/page/page.component";
 import { HomeComponent } from "./page/home/home.component";
 import { ListComponent } from "./page/list/list.component";
 import { AddUpdateListComponent } from "./page/add-list/add-update-list.component";
-import { WishListResolver } from "./service/wishListResolve";
+import { WishListGuard } from "./service/wishListResolve";
 import { WishListItemsResolver } from "./service/wishListItemsResolve";
 import { IsConnectedGuard } from "./service/is-connected.guard";
 import { ConnectComponent } from "./page/connect/connect.component";
@@ -21,18 +21,12 @@ const routes: Routes = [
     children: [
       {
         path: "",
-        component: HomeComponent,
-        resolve: {
-          whishList: WishListResolver
-        }
+        component: HomeComponent
       },
       {
         path: "addList",
         component: AddUpdateListComponent,
-        canActivate: [IsConnectedGuard],
-        resolve: {
-          whishList: WishListResolver
-        }
+        canActivate: [IsConnectedGuard]
       },
       {
         path: "about",
@@ -45,6 +39,10 @@ const routes: Routes = [
         component: ConnectComponent
       },
       {
+        path: "notExist",
+        component: ConnectComponent
+      },
+      {
         path: "received",
         component: ReceivedComponent,
         canActivate: [IsConnectedGuard],
@@ -54,16 +52,12 @@ const routes: Routes = [
       },
       {
         path: ":listId",
-        resolve: {
-          whishList: WishListResolver
-        },
+        canActivate: [WishListGuard],
+        canDeactivate: [WishListGuard],
         children: [
           { path: "", redirectTo: "toOffer", pathMatch: "full" },
           {
             path: "edit",
-            resolve: {
-              whishList: WishListResolver
-            },
             component: AddUpdateListComponent,
             canActivate: [IsConnectedGuard, IsOwnerGuard]
           },
