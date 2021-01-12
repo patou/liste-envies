@@ -76,8 +76,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.wishesListService.getWishListsIfNotLoaded();
   }
 
-  newList() {}
-
   connect() {
     this.loginPopUp.openLoginPopUp().subscribe(result => {});
   }

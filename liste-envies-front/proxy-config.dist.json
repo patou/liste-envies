@@ -5,8 +5,14 @@
     "changeOrigin": true,
     "logLevel": "debug"
   },
-  "/api": {
+  "/api3": {
     "target": "http://dev-dot-test-liste-envies.appspot.com",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api": {
+    "target": "http://feature-intercept-http-errors-dot-test-liste-envies.appspot.com",
     "secure": true,
     "changeOrigin": true,
     "logLevel": "debug"

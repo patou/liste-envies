@@ -91,7 +91,12 @@ export class WishesListService {
         if (error instanceof HttpErrorResponse) {
           switch (error.status) {
             case 404:
-              return of(this.router.createUrlTree(["/", "notExist"]));
+              return of(
+                this.router.createUrlTree(["/", "notExist"], {
+                  queryParams: { name: listName },
+                  state: { name: listName }
+                })
+              );
             case 403:
               return of(this.router.createUrlTree(["/", "connect"]));
             default:

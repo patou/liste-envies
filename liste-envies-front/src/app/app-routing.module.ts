@@ -40,7 +40,10 @@ const routes: Routes = [
       },
       {
         path: "notExist",
-        component: ConnectComponent
+        loadChildren: () =>
+          import("app/page/not-exists/not-exists.module").then(
+            m => m.NotExistsModule
+          )
       },
       {
         path: "received",
