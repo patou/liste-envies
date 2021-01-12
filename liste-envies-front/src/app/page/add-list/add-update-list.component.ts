@@ -18,7 +18,7 @@ import {
   WishListTypeLabelOrder,
   WishListTypePicture
 } from "../../models/const";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { debounceTime } from "rxjs/operators";
 import { merge } from "rxjs";
@@ -69,7 +69,8 @@ export class AddUpdateListComponent implements OnInit {
     private wishQuery: WishQuery,
     private user: UserQuery,
     private router: Router,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private route: ActivatedRoute
   ) {}
 
   get wishListTypePicture(): any[] {
@@ -120,6 +121,12 @@ export class AddUpdateListComponent implements OnInit {
       }
 
       this.wishListFormGroup.setValue(this.wishList);
+
+      if (this.route.snapshot?.queryParamMap.has("name")) {
+        const name = this.route.snapshot.queryParamMap.get("name");
+        this.wishListFormGroup.get("title").setValue(name);
+        this.wishListFormGroup.get("name").setValue(name);
+      }
 
       const subscribeTitle = this.wishListFormGroup
         .get("title")
