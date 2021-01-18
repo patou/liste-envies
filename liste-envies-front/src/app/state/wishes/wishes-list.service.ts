@@ -78,21 +78,18 @@ export class WishesListService {
   setActiveOrLoad(listName: string): Observable<boolean | UrlTree> {
     if (!listName) {
       this.wishesListStore.setActive(null);
+      this.resetFiltersAndWishes();
       return of(this.router.createUrlTree(["/"]));
     }
     if (this.wishesListQuery.getActiveId() === listName) {
       return of(true);
     }
     this.wishesListStore.setActive(listName);
-    this.wishService.removeFilter("status");
-    this.wishService.resetWishes();
+    this.resetFiltersAndWishes();
 
-    if (
-      this.wishesListQuery.getHasCache() &&
-      this.wishesListQuery.hasEntity(listName)
-    ) {
+    if (this.isAlreadyLoaded(listName)) {
       const listActive = this.wishesListQuery.getActive() as WishList;
-      if (!(listActive.owner && !listActive.users?.length)) {
+      if (this.hasWishListAllInformationsLoaded(listActive)) {
         this.wishService.setWishList(listActive, true, true);
         return of(true);
       }
@@ -102,6 +99,22 @@ export class WishesListService {
       retryWhen(this.connectAndRetryIfNotConnected()),
       map(wishList => !!wishList),
       catchError(this.catchHttpErrorsAndRedirect(listName))
+    );
+  }
+
+  private hasWishListAllInformationsLoaded(listActive: WishList) {
+    return !(listActive.owner && !listActive.users?.length);
+  }
+
+  private resetFiltersAndWishes() {
+    this.wishService.removeFilter("status");
+    this.wishService.resetWishes();
+  }
+
+  private isAlreadyLoaded(listName: string) {
+    return (
+      this.wishesListQuery.getHasCache() &&
+      this.wishesListQuery.hasEntity(listName)
     );
   }
 
@@ -146,23 +159,31 @@ export class WishesListService {
       if (errors)
         return errors.pipe(
           // throw error, if it was not 403 errors.
-          tap(val => {
-            if (val !== 401) {
-              throw val;
-            }
-          }),
+          tap(this.throwIfNot401HttpError()),
           //display pop-up connection
           switchMap(val => {
             return this.loginPopUp.openLoginPopUp(
               "Vous devez être connecté pour avoir accès à cette page"
             );
           }),
-          tap(val => {
-            if (!val) {
-              throw 401;
-            }
-          })
+          tap(this.throw401ErrorIfCancelLogin())
         );
+    };
+  }
+
+  private throw401ErrorIfCancelLogin() {
+    return val => {
+      if (!val) {
+        throw 401;
+      }
+    };
+  }
+
+  private throwIfNot401HttpError() {
+    return val => {
+      if (val !== 401) {
+        throw val;
+      }
     };
   }
 
