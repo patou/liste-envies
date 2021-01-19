@@ -1,4 +1,4 @@
-import { LOCALE_ID, NgModule } from "@angular/core";
+import { APP_INITIALIZER, LOCALE_ID, NgModule } from "@angular/core";
 import { registerLocaleData } from "@angular/common";
 import localeFr from "@angular/common/locales/fr";
 
@@ -50,6 +50,10 @@ registerLocaleData(localeFr, "fr");
 
 if (environment.production) {
   enableAkitaProdMode();
+}
+
+export function waitFirebaseLoaded(authService: AuthService) {
+  return () => authService.init();
 }
 
 @NgModule({
@@ -105,6 +109,12 @@ if (environment.production) {
     {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
       useValue: { duration: 2500, horizontalPosition: "right" }
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: waitFirebaseLoaded,
+      multi: true,
+      deps: [AuthService]
     }
   ],
   bootstrap: [AppComponent]
