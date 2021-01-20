@@ -1,25 +1,8 @@
 {
-  "/api2": {
-    "target": "http://liste-envies.desaintsteban.fr",
-    "secure": false,
-    "changeOrigin": true,
-    "logLevel": "debug"
-  },
-  "/api3": {
-    "target": "http://dev-dot-test-liste-envies.appspot.com",
-    "secure": true,
-    "changeOrigin": true,
-    "logLevel": "debug"
-  },
   "/api": {
-    "target": "http://feature-intercept-http-errors-dot-test-liste-envies.appspot.com",
+    "target": "http://test-liste-envies.appspot.com",
     "secure": true,
     "changeOrigin": true,
     "logLevel": "debug"
   },
-  "/user": {
-    "target": "http://dev-dot-test-liste-envies.appspot.com",
-    "secure": false,
-    "changeOrigin": true
-  }
 }
