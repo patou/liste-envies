@@ -20,7 +20,7 @@ import {
 } from "../../models/const";
 import { ActivatedRoute, Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { debounceTime } from "rxjs/operators";
+import { debounceTime, filter } from "rxjs/operators";
 import { merge } from "rxjs";
 
 import { WishesListQuery } from "../../state/wishes/wishes-list.query";
@@ -122,12 +122,6 @@ export class AddUpdateListComponent implements OnInit {
 
       this.wishListFormGroup.setValue(this.wishList);
 
-      if (this.route.snapshot?.queryParamMap.has("name")) {
-        const name = this.route.snapshot.queryParamMap.get("name");
-        this.wishListFormGroup.get("title").setValue(name);
-        this.wishListFormGroup.get("name").setValue(name);
-      }
-
       const subscribeTitle = this.wishListFormGroup
         .get("title")
         .valueChanges.pipe(
@@ -188,6 +182,15 @@ export class AddUpdateListComponent implements OnInit {
       .subscribe(value => this.onChanges(value));
 
     this.changesdemoWish();
+
+    this.route.queryParams
+      .pipe(filter(params => !!params.name))
+      .subscribe(params => {
+        this.wishListFormGroup.get("title").setValue(params.name);
+        this.wishListFormGroup
+          .get("name")
+          .setValue(this.formatUrlName(params.name));
+      });
   }
 
   changeName(name) {

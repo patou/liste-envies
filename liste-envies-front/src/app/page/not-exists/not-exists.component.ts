@@ -27,11 +27,6 @@ export class NotExistsComponent implements OnInit {
 
   ngOnInit(): void {
     this.userAuth = this.auth.user;
-    console.log(
-      "get Current Navigation : ",
-      this.router.getCurrentNavigation(),
-      this.route.snapshot
-    );
     this.name = this.route.snapshot?.queryParamMap.get("name");
   }
 
