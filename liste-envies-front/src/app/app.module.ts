@@ -1,4 +1,4 @@
-import { LOCALE_ID, NgModule } from "@angular/core";
+import { APP_INITIALIZER, LOCALE_ID, NgModule } from "@angular/core";
 import { registerLocaleData } from "@angular/common";
 import localeFr from "@angular/common/locales/fr";
 
@@ -16,7 +16,7 @@ import { AddUpdateListComponent } from "./page/add-list/add-update-list.componen
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AuthService } from "./service/auth.service";
 import { LoginDialogComponent } from "./component/login-dialog/login-dialog.component";
-import { WishListResolver } from "./service/wishListResolve";
+import { WishListGuard } from "./service/wishListResolve";
 import { HttpRestModule } from "ngx-http-annotations";
 import { PageNavComponent } from "./component/page-nav/page-nav.component";
 import { LayoutModule } from "@angular/cdk/layout";
@@ -50,6 +50,10 @@ registerLocaleData(localeFr, "fr");
 
 if (environment.production) {
   enableAkitaProdMode();
+}
+
+export function waitFirebaseLoaded(authService: AuthService) {
+  return () => authService.init();
 }
 
 @NgModule({
@@ -89,7 +93,7 @@ if (environment.production) {
       multi: true
     },
     WishListApiService,
-    WishListResolver,
+    WishListGuard,
     WishListItemsResolver,
     WishListItemsArchivedResolver,
     WishListItemsReceivedResolver,
@@ -105,6 +109,12 @@ if (environment.production) {
     {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
       useValue: { duration: 2500, horizontalPosition: "right" }
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: waitFirebaseLoaded,
+      multi: true,
+      deps: [AuthService]
     }
   ],
   bootstrap: [AppComponent]

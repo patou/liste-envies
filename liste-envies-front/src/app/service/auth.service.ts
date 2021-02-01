@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { AsyncSubject, Observable } from "rxjs";
 import { User, UserInfo } from "firebase";
 import {
   HttpEvent,
@@ -7,14 +7,12 @@ import {
   HttpInterceptor,
   HttpRequest
 } from "@angular/common/http";
-import { LoginDialogComponent } from "../component/login-dialog/login-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 import { AngularFireAuth } from "@angular/fire/auth";
-import { distinct, map, pluck } from "rxjs/operators";
+import { distinct, map, pluck, tap } from "rxjs/operators";
 import { WishesListService } from "../state/wishes/wishes-list.service";
 import { UserService } from "../state/app/user.service";
 import { UserQuery } from "../state/app/user.query";
-import { WishList } from "../models/WishList";
 import { UserState } from "../state/app/user.store";
 
 @Injectable()
@@ -23,6 +21,10 @@ export class AuthService implements HttpInterceptor {
   public static currentToken: string;
 
   public user: Observable<User>;
+  private firebaseAuthInit$: AsyncSubject<boolean> = new AsyncSubject<
+    boolean
+  >();
+  private _init: boolean = false;
 
   constructor(
     private firebaseAuth: AngularFireAuth,
@@ -33,31 +35,24 @@ export class AuthService implements HttpInterceptor {
   ) {
     this.user = this.userQuery.select().pipe(pluck<UserState, User>("user"));
 
+    this.subscribeToAuthState();
+  }
+
+  init(): boolean | Promise<boolean> {
+    return this._init ? true : this.subscribeToAuthState();
+  }
+
+  private subscribeToAuthState(): Promise<boolean> {
     this.firebaseAuth.authState
-      .pipe(distinct((user: User) => user?.uid))
+      .pipe(
+        distinct((user: User) => user?.uid),
+        tap(this.emitInitEventForFirstTime())
+      )
       .subscribe(
         (user: User) => {
           if (user) {
-            if (
-              (AuthService.currentUser &&
-                user.uid !== AuthService.currentUser.uid) ||
-              !AuthService.currentUser
-            ) {
-              user.getIdToken().then((token: string) => {
-                AuthService.currentToken = token;
-                // emit change user only when the token id was getting.
-                const user1: UserInfo = {
-                  displayName: AuthService.currentUser.displayName,
-                  email: AuthService.currentUser.email,
-                  phoneNumber: AuthService.currentUser.email,
-                  photoURL: AuthService.currentUser.photoURL,
-                  providerId: AuthService.currentUser.providerId,
-                  uid: AuthService.currentUser.uid
-                };
-
-                this.userService.login(user1, token);
-                this.wishesList.updateAllWishlist();
-              });
+            if (this.isADifferentUserOrIsNotInitialised(user)) {
+              this.initUser(user);
             }
 
             AuthService.currentUser = user;
@@ -70,6 +65,42 @@ export class AuthService implements HttpInterceptor {
           this.resetCurrentUser();
         }
       );
+    return this.firebaseAuthInit$.toPromise();
+  }
+
+  private emitInitEventForFirstTime() {
+    return () => {
+      if (!this._init) {
+        console.log("Alread init");
+        this.firebaseAuthInit$.next(true);
+        this.firebaseAuthInit$.complete();
+        this._init = true;
+      }
+    };
+  }
+
+  private isADifferentUserOrIsNotInitialised(user: firebase.User) {
+    return (
+      (AuthService.currentUser && user.uid !== AuthService.currentUser.uid) ||
+      !AuthService.currentUser
+    );
+  }
+
+  private initUser(user: firebase.User) {
+    user.getIdToken().then((token: string) => {
+      AuthService.currentToken = token;
+      const currentUserInfo: UserInfo = {
+        displayName: AuthService.currentUser.displayName,
+        email: AuthService.currentUser.email,
+        phoneNumber: AuthService.currentUser.email,
+        photoURL: AuthService.currentUser.photoURL,
+        providerId: AuthService.currentUser.providerId,
+        uid: AuthService.currentUser.uid
+      };
+
+      this.userService.login(currentUserInfo, token);
+      this.wishesList.updateAllWishlist();
+    });
   }
 
   private resetCurrentUser() {
@@ -99,19 +130,6 @@ export class AuthService implements HttpInterceptor {
       headers: httpHeaders
     });
     return next.handle(newReq);
-  }
-
-  openLoginPopUp() {
-    const dialogRef = this.dialog.open(LoginDialogComponent, {
-      width: "80%",
-      data: {}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {});
-  }
-
-  notifications(): Observable<Notification[]> {
-    return null;
   }
 
   logout() {
