@@ -183,7 +183,8 @@ public class WishRulesTest {
         AppUser anonyme = new AppUser(null, "Anonyme");
         Wish wish = new Wish();
 
-        //Private        wishlist = createDefaultWishList(SharingPrivacyType.PRIVATE);
+        //Private
+        wishlist = createDefaultWishList(SharingPrivacyType.PRIVATE);
 
         assertTrue(WishRules.canAddWish(wishlist, wish, owner));
         assertTrue(WishRules.canAddWish(wishlist, wish, participant));

@@ -30,12 +30,7 @@ public final class WishesService {
     private WishesService() {}
 
     public static List<WishDto> list(AppUser user, String name) {
-        return WishesService.list(user, name, false);
-    }
-
-    @Deprecated
-    public static List<WishDto> list(AppUser user, String name, Boolean archive) {
-        return list(user, name, archive ? WishState.ARCHIVED : WishState.ACTIVE);
+        return WishesService.list(user, name, WishState.ACTIVE);
     }
 
     public static List<WishDto> list(AppUser user, String name, WishState ...states) {

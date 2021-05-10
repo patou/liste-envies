@@ -115,7 +115,7 @@ public class WishServiceTest {
 
     @org.junit.jupiter.api.Test
     public void testList() throws Exception {
-        List<WishDto> list = WishesService.list(patrice, "liste-patrice", false);
+        List<WishDto> list = WishesService.list(patrice, "liste-patrice", WishState.ACTIVE);
         assertThat(extractProperty("label").from(list)).hasSize(2).contains("Livre", "DVD");
         assertThat(extractProperty("userTake").from(list)).hasSize(2).doesNotContain("emmanuel@desaintsteban.fr");
     }
@@ -124,7 +124,7 @@ public class WishServiceTest {
     @org.junit.jupiter.api.Test
     public void testListWithArchived() throws Exception {
         WishesService.archive(patrice, "liste-patrice", livreId);
-        List<WishDto> list = WishesService.list(patrice, "liste-patrice", false);
+        List<WishDto> list = WishesService.list(patrice, "liste-patrice", WishState.ACTIVE);
         assertThat(extractProperty("label").from(list)).hasSize(1).contains("DVD");
     }
 
@@ -146,7 +146,7 @@ public class WishServiceTest {
 
     @org.junit.jupiter.api.Test
     public void testListOther() throws Exception {
-        List<WishDto> list = WishesService.list(emmanuel, "liste-patrice", false);
+        List<WishDto> list = WishesService.list(emmanuel, "liste-patrice", WishState.ACTIVE);
         assertThat(extractProperty("label").from(list)).hasSize(2).contains("Livre", "DVD");
         //assertThat(list).hasSize(2).onProperty("userTake"). contains(EncodeUtils.encode("emmanuel@desaintsteban.fr"));
     }
