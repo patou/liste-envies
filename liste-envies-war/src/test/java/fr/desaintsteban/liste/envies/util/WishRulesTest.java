@@ -184,7 +184,6 @@ public class WishRulesTest {
         Wish wish = new Wish();
 
         //Private
-
         wishlist = createDefaultWishList(SharingPrivacyType.PRIVATE);
 
         assertTrue(WishRules.canAddWish(wishlist, wish, owner));

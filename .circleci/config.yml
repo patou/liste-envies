@@ -24,7 +24,7 @@ jobs: # a collection of steps
   build-backend: # runs not using Workflows must have a `build` job as entry point
     working_directory: ~/liste-envies
     docker:
-      - image: circleci/openjdk:8-jdk-stretch
+      - image: cimg/openjdk:11.0
     steps:
       - checkout
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
@@ -54,7 +54,7 @@ jobs: # a collection of steps
   deploy-test:
     working_directory: ~/liste-envies
     docker:
-      - image: circleci/openjdk:8-jdk-stretch
+      - image: cimg/openjdk:11.0
     steps:
       - checkout
       - attach_workspace:
@@ -85,7 +85,7 @@ jobs: # a collection of steps
   deploy-prod:
     working_directory: ~/liste-envies
     docker:
-      - image: circleci/openjdk:8-jdk-stretch
+      - image: cimg/openjdk:11.0
     steps:
       - checkout
       - attach_workspace:
