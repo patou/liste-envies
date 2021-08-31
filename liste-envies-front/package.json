@@ -37,7 +37,7 @@
     "@angular/router": "^10.1.2",
     "@datorama/akita": "^5.2.3",
     "@datorama/akita-ng-forms-manager": "^5.0.2",
-    "@firebase/app-types": "^0.6.1",
+    "@firebase/app-types": "^0.6.3",
     "@ngneat/until-destroy": "^8.0.3",
     "akita-filters-plugin": "^4.0.0",
     "core-js": "^3.6.5",
