@@ -3058,14 +3058,15 @@ browserify-zlib@^0.2.0:
     pako "~1.0.5"
 
 browserslist@^4.0.0, browserslist@^4.12.0, browserslist@^4.8.5, browserslist@^4.9.1:
-  version "4.14.3"
-  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.14.3.tgz#381f9e7f13794b2eb17e1761b4f118e8ae665a53"
-  integrity sha512-GcZPC5+YqyPO4SFnz48/B0YaCwS47Q9iPChRGi6t7HhflKBcINzFrJvRfC+jp30sRMKxF+d4EHGs27Z0XP1NaQ==
+  version "4.17.1"
+  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.17.1.tgz#a98d104f54af441290b7d592626dd541fa642eb9"
+  integrity sha512-aLD0ZMDSnF4lUt4ZDNgqi5BUn9BZ7YdQdI/cYlILrhdSSZJLU9aNZoD5/NBmM4SK34APB2e83MOsRt1EnkuyaQ==
   dependencies:
-    caniuse-lite "^1.0.30001131"
-    electron-to-chromium "^1.3.570"
-    escalade "^3.1.0"
-    node-releases "^1.1.61"
+    caniuse-lite "^1.0.30001259"
+    electron-to-chromium "^1.3.846"
+    escalade "^3.1.1"
+    nanocolors "^0.1.5"
+    node-releases "^1.1.76"
 
 browserstack@^1.5.1:
   version "1.5.3"
@@ -3272,10 +3273,10 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001032, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001131:
-  version "1.0.30001132"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001132.tgz#309279274f10d3aa736aa91fa269fcc8d0cd7ef9"
-  integrity sha512-zk5FXbnsmHa0Ktc/NOZJRr+ilXva+2KFJuRiQfnjkxJfV/7DYP5C27lSQF++/veCUzVWE5xecZnSBJjf6fSwJA==
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001032, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001259:
+  version "1.0.30001259"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001259.tgz#ae21691d3da9c4be6144403ac40f71d9f6efd790"
+  integrity sha512-V7mQTFhjITxuk9zBpI6nYsiTXhcPe05l+364nZjK7MFK/E7ibvYBSAXr4YcA6oPR8j3ZLM/LN+lUqUVAQEUZFg==
 
 canonical-path@1.0.0:
   version "1.0.0"
@@ -4593,10 +4594,10 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
-electron-to-chromium@^1.3.570:
-  version "1.3.570"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.570.tgz#3f5141cc39b4e3892a276b4889980dabf1d29c7f"
-  integrity sha512-Y6OCoVQgFQBP5py6A/06+yWxUZHDlNr/gNDGatjH8AZqXl8X0tE4LfjLJsXGz/JmWJz8a6K7bR1k+QzZ+k//fg==
+electron-to-chromium@^1.3.846:
+  version "1.3.848"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.848.tgz#94cc196e496f33c0d71cd98561448f10018584cc"
+  integrity sha512-wchRyBcdcmibioggdO7CbMT5QQ4lXlN/g7Mkpf1K2zINidnqij6EVu94UIZ+h5nB2S9XD4bykqFv9LonAWLFyw==
 
 elliptic@^6.5.3:
   version "6.5.3"
@@ -4853,10 +4854,10 @@ es6-symbol@^3.1.1, es6-symbol@~3.1.1, es6-symbol@~3.1.3:
     d "^1.0.1"
     ext "^1.1.2"
 
-escalade@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/escalade/-/escalade-3.1.0.tgz#e8e2d7c7a8b76f6ee64c2181d6b8151441602d4e"
-  integrity sha512-mAk+hPSO8fLDkhV7V0dXazH5pDc6MrjBTPyD3VeKzxnVFjH1MIxbCdqGZB9O8+EwWakZs3ZCbDS4IpRt79V1ig==
+escalade@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/escalade/-/escalade-3.1.1.tgz#d8cfdc7000965c5a0174b4a82eaa5c0552742e40"
+  integrity sha512-k0er2gUkLf8O0zKJiAhmkTnJlTvINGv7ygDNPbeIsX/TJjGJZHuh9B2UxbsaEkmlEo9MfhrSzmhIlhRlI2GXnw==
 
 escape-html@~1.0.3:
   version "1.0.3"
@@ -8038,6 +8039,11 @@ nan@^2.12.1, nan@^2.13.2:
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.1.tgz#d7be34dfa3105b91494c3147089315eff8874b01"
   integrity sha512-isWHgVjnFjh2x2yuJ/tj3JbwoHu3UC2dX5G/88Cm24yB6YopVgxvBObDY7n5xW6ExmFhJpSEQqFPvq9zaXc8Jw==
 
+nanocolors@^0.1.5:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/nanocolors/-/nanocolors-0.1.7.tgz#211144a13c134b97ed7f748355236fad2c5dd92b"
+  integrity sha512-8MANP9oq4yChumsERNZJdD6HLM2C7ZuTurIW6li1h5FXnbHt8Er7B58pamrJ8Z/3Qo3Qf2W2d8gkaLRneNKvkA==
+
 nanomatch@^1.2.9:
   version "1.2.13"
   resolved "https://registry.yarnpkg.com/nanomatch/-/nanomatch-1.2.13.tgz#b87a8aa4fc0de8fe6be88895b38983ff265bd119"
@@ -8221,10 +8227,10 @@ node-libs-browser@^2.2.1:
     util "^0.11.0"
     vm-browserify "^1.0.1"
 
-node-releases@^1.1.61:
-  version "1.1.61"
-  resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.61.tgz#707b0fca9ce4e11783612ba4a2fcba09047af16e"
-  integrity sha512-DD5vebQLg8jLCOzwupn954fbIiZht05DAZs0k2u8NStSe6h9XdsuIQL8hSRKYiU8WUQRznmSDrKGbv3ObOmC7g==
+node-releases@^1.1.76:
+  version "1.1.76"
+  resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.76.tgz#df245b062b0cafbd5282ab6792f7dccc2d97f36e"
+  integrity sha512-9/IECtNr8dXNmPWmFXepT0/7o5eolGesHUa3mtr0KlgnCvnZxwh2qensKL42JJY2vQKC3nIBXetFAqR+PW1CmA==
 
 node-sass@^4.14.1:
   version "4.14.1"
