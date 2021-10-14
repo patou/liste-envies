@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { WishListNavItemComponent } from "./wish-list-nav-item.component";
 
@@ -6,11 +6,13 @@ describe("WhishListItemComponent", () => {
   let component: WishListNavItemComponent;
   let fixture: ComponentFixture<WishListNavItemComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [WishListNavItemComponent]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [WishListNavItemComponent]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(WishListNavItemComponent);

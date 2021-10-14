@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { ArchiveComponent } from "./list.component";
 import { TestingModule } from "../testing/testing.module";
@@ -9,13 +9,17 @@ describe("ListComponent", () => {
   let component: ArchiveComponent;
   let fixture: ComponentFixture<ArchiveComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ArchiveComponent],
-      providers: [{ provide: WishListService, useClass: WishListServiceTest }],
-      imports: [TestingModule]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ArchiveComponent],
+        providers: [
+          { provide: WishListService, useClass: WishListServiceTest }
+        ],
+        imports: [TestingModule]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ArchiveComponent);
