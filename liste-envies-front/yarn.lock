@@ -1414,10 +1414,10 @@
   resolved "https://registry.yarnpkg.com/@firebase/firestore-types/-/firestore-types-1.13.0.tgz#4ab9c40e1e66e8193a929460d64507acd07d9230"
   integrity sha512-QF5CAuYOHE6Zbsn1uEg6wkl836iP+i6C0C/Zs3kF60eebxZvTWp8JSZk19Ar+jj4w+ye8/7H5olu5CqDNjWpEA==
 
-"@firebase/firestore@1.17.0":
-  version "1.17.0"
-  resolved "https://registry.yarnpkg.com/@firebase/firestore/-/firestore-1.17.0.tgz#f452b6387749d74a66173c74654fdf915a1241d4"
-  integrity sha512-ZELQC7nC0Ueexxy/K9zk0lqFuGs7LatEK9Ybr2BwH6KbkvNUovToTiaRUhSOv5IDxjrEu2k6sY1xwnxE4qpqMA==
+"@firebase/firestore@1.17.2":
+  version "1.17.2"
+  resolved "https://registry.yarnpkg.com/@firebase/firestore/-/firestore-1.17.2.tgz#933db08ff741c4c46d65953fb836b85ebc52ae48"
+  integrity sha512-B0x0/AlKz4VkIkRW7vzPQvl4FGi2ClCDrTDCh3W5kryuIEMPLdyboglqA8JtaOGklcRYO8gpRwZGmw0EVzmyVg==
   dependencies:
     "@firebase/component" "0.1.19"
     "@firebase/firestore-types" "1.13.0"
@@ -1434,15 +1434,15 @@
   resolved "https://registry.yarnpkg.com/@firebase/functions-types/-/functions-types-0.3.17.tgz#348bf5528b238eeeeeae1d52e8ca547b21d33a94"
   integrity sha512-DGR4i3VI55KnYk4IxrIw7+VG7Q3gA65azHnZxo98Il8IvYLr2UTBlSh72dTLlDf25NW51HqvJgYJDKvSaAeyHQ==
 
-"@firebase/functions@0.4.51":
-  version "0.4.51"
-  resolved "https://registry.yarnpkg.com/@firebase/functions/-/functions-0.4.51.tgz#97be571cfe3b9ee3bf289b9dc5194e3ae49a4819"
-  integrity sha512-PPx8eZcr4eoU9BITOUGUVurs4WZu8Thj3uCWx766dU3mV1W/7kRgtiptmW0XJUB18FZ1PT3+Hadd6V6vjtLgYw==
+"@firebase/functions@0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@firebase/functions/-/functions-0.5.1.tgz#fa0568bdcdf7dfa7e5f4f66c1e06e376dc7e25b6"
+  integrity sha512-yyjPZXXvzFPjkGRSqFVS5Hc2Y7Y48GyyMH+M3i7hLGe69r/59w6wzgXKqTiSYmyE1pxfjxU4a1YqBDHNkQkrYQ==
   dependencies:
     "@firebase/component" "0.1.19"
     "@firebase/functions-types" "0.3.17"
     "@firebase/messaging-types" "0.5.0"
-    isomorphic-fetch "2.2.1"
+    node-fetch "2.6.1"
     tslib "^1.11.1"
 
 "@firebase/installations-types@0.3.4":
@@ -5419,18 +5419,18 @@ findit2@^2.2.3:
   resolved "https://registry.yarnpkg.com/findit2/-/findit2-2.2.3.tgz#58a466697df8a6205cdfdbf395536b8bd777a5f6"
   integrity sha1-WKRmaX34piBc39vzlVNri9d3pfY=
 
-firebase@~7.21.0:
-  version "7.21.0"
-  resolved "https://registry.yarnpkg.com/firebase/-/firebase-7.21.0.tgz#bb64f99fad2e1fe755e321a42b1377da537081e5"
-  integrity sha512-aERVRK3oxll+lzcDUzOFjww39G1h1dRlEdCqZEl5NL/3CC4GcVhX64At1RdDKcNoW/5jAtHaIvKFaNgC2B91EA==
+firebase@~7.22.0:
+  version "7.22.1"
+  resolved "https://registry.yarnpkg.com/firebase/-/firebase-7.22.1.tgz#e32e00769c9baa21099cc3c47a37ec81375e42be"
+  integrity sha512-pMx+Wg6Bl74PNdWxjGLrFxLqtmIB/Ggl8oYQZLl1baa9xPcb9rxut5ZgDcLZlFERBL6vNRhLEszv/+3H827m9A==
   dependencies:
     "@firebase/analytics" "0.5.0"
     "@firebase/app" "0.6.11"
     "@firebase/app-types" "0.6.1"
     "@firebase/auth" "0.14.9"
     "@firebase/database" "0.6.13"
-    "@firebase/firestore" "1.17.0"
-    "@firebase/functions" "0.4.51"
+    "@firebase/firestore" "1.17.2"
+    "@firebase/functions" "0.5.1"
     "@firebase/installations" "0.4.17"
     "@firebase/messaging" "0.7.1"
     "@firebase/performance" "0.4.1"
@@ -6752,7 +6752,7 @@ is-retina@^1.0.3:
   resolved "https://registry.yarnpkg.com/is-retina/-/is-retina-1.0.3.tgz#d7401b286bea2ae37f62477588de504d0b8647e3"
   integrity sha1-10AbKGvqKuN/Ykd1iN5QTQuGR+M=
 
-is-stream@^1.0.1, is-stream@^1.1.0:
+is-stream@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/is-stream/-/is-stream-1.1.0.tgz#12d4a3dd4e68e0b79ceb8dbc84173ae80d91ca44"
   integrity sha1-EtSj3U5o4Lec6428hBc66A2RykQ=
@@ -6846,14 +6846,6 @@ isobject@^3.0.0, isobject@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
-
-isomorphic-fetch@2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/isomorphic-fetch/-/isomorphic-fetch-2.2.1.tgz#611ae1acf14f5e81f729507472819fe9733558a9"
-  integrity sha1-YRrhrPFPXoH3KVB0coGf6XM1WKk=
-  dependencies:
-    node-fetch "^1.0.1"
-    whatwg-fetch ">=0.10.0"
 
 isstream@~0.1.2:
   version "0.1.2"
@@ -8160,14 +8152,6 @@ node-fetch@2.6.1, node-fetch@^2.3.0:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
   integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
-
-node-fetch@^1.0.1:
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-1.7.3.tgz#980f6f72d85211a5347c6b2bc18c5b84c3eb47ef"
-  integrity sha512-NhZ4CsKx7cYm2vSrBAr2PvFOe6sWDf0UYLRqA6svUYg7+/TSfVAu49jYC4BvQ4Sms9SZgdqGBgroqfDhJdTyKQ==
-  dependencies:
-    encoding "^0.1.11"
-    is-stream "^1.0.1"
 
 node-forge@^0.10.0:
   version "0.10.0"
@@ -12268,11 +12252,6 @@ whatwg-fetch@2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.4.tgz#dde6a5df315f9d39991aa17621853d720b85566f"
   integrity sha512-dcQ1GWpOD/eEQ97k66aiEVpNnapVj90/+R+SXTPYGHpYBBypfKJEQjLrvMZ7YXbKm21gXd4NcuxUTjiv1YtLng==
-
-whatwg-fetch@>=0.10.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.0.0.tgz#fc804e458cc460009b1a2b966bc8817d2578aefb"
-  integrity sha512-9GSJUgz1D4MfyKU7KRqwOjXCXTqWdFNvEr7eUBYchQiVc744mqK/MzXPNR2WsPkmkOa4ywfg8C2n8h+13Bey1Q==
 
 whatwg-mimetype@^2.3.0:
   version "2.3.0"

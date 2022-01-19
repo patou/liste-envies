@@ -47,7 +47,7 @@
     "filepond-plugin-image-exif-orientation": "^1.0.9",
     "filepond-plugin-image-resize": "^2.0.7",
     "filepond-plugin-image-transform": "^3.7.4",
-    "firebase": "~7.21.0",
+    "firebase": "~7.22.0",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.20",
     "lodash-decorators": "^6.0.1",
