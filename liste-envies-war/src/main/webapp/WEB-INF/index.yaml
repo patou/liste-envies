@@ -5,12 +5,12 @@ indexes:
         name: user
       - direction: desc
         name: date
-  - kind: Envy
+  - kind: Wish
     properties:
       - direction: asc
-        name: userTake
+        name: userTake.email
       - direction: asc
-        name: archived
+        name: state
   - kind: WishList
     properties:
       - name: users.email
