@@ -1,7 +1,7 @@
 <div class="page-all">
   <div class="page-background" [style.backgroundImage]="backgroundImage"></div>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item routerLink="edit" color="accent">
+    <button mat-menu-item [routerLink]="['/', list.name, 'edit']" color="accent">
       <mat-icon>edit</mat-icon>
       <span>Modifier la liste</span>
     </button>
