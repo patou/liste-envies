@@ -63,11 +63,11 @@ jobs: # a collection of steps
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: java-{{ checksum "liste-envies-war/pom.xml" }}
       - run:
-        name: Install Python 3
-        command: |
-          sudo apt-get update
-          sudo apt-get install -y python3 python3-distutils curl
-          sudo ln -sf /usr/bin/python3 /usr/bin/python
+          name: Install Python 3
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y python3 python3-distutils curl
+            sudo ln -sf /usr/bin/python3 /usr/bin/python
       - run:
           name: Install Gcloud
           command: |
@@ -100,11 +100,11 @@ jobs: # a collection of steps
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: java-{{ checksum "liste-envies-war/pom.xml" }}
       - run:
-        name: Install Python 3
-        command: |
-          sudo apt-get update
-          sudo apt-get install -y python3 python3-distutils curl
-          sudo ln -sf /usr/bin/python3 /usr/bin/python
+          name: Install Python 3
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y python3 python3-distutils curl
+            sudo ln -sf /usr/bin/python3 /usr/bin/python
       - run:
           name: Install Gcloud
           command: |
