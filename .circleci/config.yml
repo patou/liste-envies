@@ -54,7 +54,7 @@ jobs: # a collection of steps
   deploy-test:
     working_directory: ~/liste-envies
     docker:
-      - image: circleci/openjdk:8-jdk-stretch
+      - image: cimg/openjdk:8.0
     steps:
       - checkout
       - attach_workspace:
@@ -62,6 +62,9 @@ jobs: # a collection of steps
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: java-{{ checksum "liste-envies-war/pom.xml" }}
+      - run: 
+          name: Update Kubernetes Key
+          command: curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/kubernetes-apt-keyring.gpg        
       - run:
           name: Install Python 3
           command: |
@@ -90,7 +93,7 @@ jobs: # a collection of steps
   deploy-prod:
     working_directory: ~/liste-envies
     docker:
-      - image: circleci/openjdk:8-jdk-stretch
+      - image: cimg/openjdk:8.0
     steps:
       - checkout
       - attach_workspace:
@@ -98,6 +101,9 @@ jobs: # a collection of steps
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: java-{{ checksum "liste-envies-war/pom.xml" }}
+      - run: 
+          name: Update Kubernetes Key
+          command: curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/kubernetes-apt-keyring.gpg        
       - run:
           name: Install Python 3
           command: |
