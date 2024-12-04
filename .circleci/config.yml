@@ -67,7 +67,11 @@ jobs: # a collection of steps
           command: curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/kubernetes-apt-keyring.gpg  
       - run:
           name: Install deps
-          command: sudo apt-get update && sudo apt-get install apt-transport-https ca-certificates gnupg curl      
+          command: | 
+            sudo sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list
+            sudo sed -i '/security.debian.org/s/^/#/' /etc/apt/sources.list
+            sudo apt-get update && sudo apt-get install apt-transport-https ca-certificates gnupg curl
+            sudo ln -sf /etc/ssl/certs/java/cacerts /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/security/cacerts
       - run:
           name: Install Python 3
           command: |
