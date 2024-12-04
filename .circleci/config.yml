@@ -64,11 +64,13 @@ jobs: # a collection of steps
           key: java-{{ checksum "liste-envies-war/pom.xml" }}
       - run: 
           name: Update Kubernetes Key
-          command: curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/kubernetes-apt-keyring.gpg        
+          command: curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/kubernetes-apt-keyring.gpg  
+      - run:
+          name: Install deps
+          command: sudo apt-get update && sudo apt-get install apt-transport-https ca-certificates gnupg curl      
       - run:
           name: Install Python 3
           command: |
-            sudo apt-get update
             sudo apt-get install -y python3 python3-distutils
             sudo ln -sf /usr/bin/python3 /usr/bin/python
       - run:
