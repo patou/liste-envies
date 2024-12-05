@@ -72,9 +72,11 @@ jobs: # a collection of steps
             sudo sed -i '/security.debian.org/s/^/#/' /etc/apt/sources.list
             sudo apt-get update && sudo apt-get install apt-transport-https ca-certificates gnupg
       - run:
-          name: Fix Java Certs Issue
+          name: Recreate Java Keystore
           command: |
-            sudo rm -rf /etc/ssl/certs/java/cacerts
+            sudo rm -f /etc/ssl/certs/java/cacerts
+            sudo keytool -genkeypair -alias temp -keyalg RSA -keystore /etc/ssl/certs/java/cacerts -storepass changeit -dname "CN=temp"
+            sudo rm -f /etc/ssl/certs/java/cacerts
             sudo ln -sf /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/java/cacerts
       - run:
           name: Reinstall CA Certificates for Java
