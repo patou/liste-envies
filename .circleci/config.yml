@@ -78,7 +78,7 @@ jobs: # a collection of steps
               sudo rm -rf /etc/ssl/certs/java/cacerts
             fi
             # Créer un nouveau keystore temporaire
-            sudo keytool -genkeypair -alias temp -keyalg RSA -keystore /etc/ssl/certs/java/cacerts -storepass changeit -dname "CN=temp"
+            sudo keytool -genkeypair -alias temp -keyalg RSA -keystore /etc/ssl/certs/java/cacerts -storepass changeit -keypass changeit -dname "CN=temp"
             # Supprimer le keystore temporaire
             sudo rm -f /etc/ssl/certs/java/cacerts
             # Créer un lien symbolique vers les certificats système
