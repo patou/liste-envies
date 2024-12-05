@@ -54,7 +54,7 @@ jobs: # a collection of steps
   deploy-test:
     working_directory: ~/liste-envies
     docker:
-      - image: cimg/openjdk:8.0
+      - image: cimg/openjdk:11.0
     steps:
       - checkout
       - attach_workspace:
