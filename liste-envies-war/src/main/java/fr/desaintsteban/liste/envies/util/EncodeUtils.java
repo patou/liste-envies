@@ -1,33 +1,32 @@
 package fr.desaintsteban.liste.envies.util;
 
-import javax.xml.bind.DatatypeConverter;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 /**
- * Encode en base64 les textes pour empécher de les lires dans la base de donnée
+ * Encode en base64 les textes pour empêcher de les lire dans la base de donnée
  */
 public class EncodeUtils {
 
     public static String encode(String string, boolean encode) {
-        return encode ? encode(string): string;
+        return encode ? encode(string) : string;
     }
 
     public static String encode(String string) {
         if (string != null) {
             byte[] message = string.getBytes(StandardCharsets.UTF_8);
-            String encoded = DatatypeConverter.printBase64Binary(message);
-            return encoded;
+            return Base64.getEncoder().encodeToString(message);
         }
         return null;
     }
 
     public static String decode(String string, boolean decode) {
-        return decode ? decode(string): string;
+        return decode ? decode(string) : string;
     }
 
     public static String decode(String string) {
         if (string != null) {
-            byte[] decoded = DatatypeConverter.parseBase64Binary(string);
+            byte[] decoded = Base64.getDecoder().decode(string);
             return new String(decoded, StandardCharsets.UTF_8);
         }
         return null;

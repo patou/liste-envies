@@ -12,7 +12,7 @@ import fr.desaintsteban.liste.envies.dto.CommentDto;
 import fr.desaintsteban.liste.envies.dto.WishDto;
 import fr.desaintsteban.liste.envies.enums.WishState;
 import fr.desaintsteban.liste.envies.util.StringUtils;
-import org.codehaus.jackson.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.jdo.annotations.Embedded;
 import java.util.ArrayList;

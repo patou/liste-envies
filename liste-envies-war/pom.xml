@@ -67,6 +67,12 @@
             <artifactId>jersey-media-json-jackson</artifactId>
             <version>${jersey.version}</version>
         </dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>5.0.0</version> <!-- ou une version plus récente -->
+            <scope>provided</scope>
+        </dependency>
 
         <!-- ================ Big Query ==================================== -->
 

@@ -11,18 +11,12 @@ import fr.desaintsteban.liste.envies.service.NotificationsService;
 import fr.desaintsteban.liste.envies.service.WishesService;
 import fr.desaintsteban.liste.envies.util.ServletUtils;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-
 import static java.util.stream.Collectors.toList;
 
 @Path("/utilisateur")
@@ -36,8 +30,9 @@ public class AppUserRestService {
         final AppUser user = ServletUtils.getUserConnected();
         LOGGER.info("List appuser");
         List<AppUser> list = AppUserService.list();
-        List<AppUserDto> convertList = list.stream().map(appUser -> new AppUserDto(appUser.getEmail(), appUser.getName(),   appUser.getPicture(),  appUser.getBirthday(), appUser.isNewUser())).collect(toList());
-        return convertList;
+        return list.stream()
+                .map(appUser -> new AppUserDto(appUser.getEmail(), appUser.getName(), appUser.getPicture(), appUser.getBirthday(), appUser.isNewUser()))
+                .collect(toList());
     }
 
     @GET
@@ -53,7 +48,8 @@ public class AppUserRestService {
         final AppUser user = ServletUtils.getUserConnected();
         if (user.isAdmin()) {
             LOGGER.info("Put " + appUser.getEmail());
-            AppUser orUpdate = AppUserService.createOrUpdate(new AppUser(appUser.getEmail(), appUser.getName(), appUser.getBirthday()));
+            AppUser orUpdate = AppUserService.createOrUpdate(
+                    new AppUser(appUser.getEmail(), appUser.getName(), appUser.getBirthday()));
             return new AppUserDto(orUpdate.getEmail(), orUpdate.getName(), orUpdate.getPicture(), orUpdate.getBirthday(), orUpdate.isNewUser());
         }
         throw new NotAllowedException();
@@ -67,26 +63,26 @@ public class AppUserRestService {
         return new AppUserDto(appUser.getEmail(), appUser.getName(), appUser.getPicture(), appUser.getBirthday(), appUser.isNewUser());
     }
 
-
     @GET
     @Path("/{email}/notifications")
     public List<NotificationDto> getUserNotifications(@PathParam("email") String email) {
-        List<NotificationDto> listNotification = new ArrayList<>();
         final AppUser user = ServletUtils.getUserConnected();
         List<Notification> notifs = NotificationsService.list(user);
-        if (notifs.isEmpty()) return listNotification;
-        listNotification = notifs.stream().map(Notification::toDto).collect(toList());
-        return listNotification;
+        if (notifs.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return notifs.stream().map(Notification::toDto).collect(toList());
     }
-
 
     @DELETE
     @Path("/{email}")
-    public void deleteUser(@PathParam("email") String email){
+    public void deleteUser(@PathParam("email") String email) {
         final AppUser user = ServletUtils.getUserConnected();
-        if(user.isAdmin()){
+        if (user.isAdmin()) {
             LOGGER.info("Delete " + email);
             AppUserService.delete(email);
+        } else {
+            throw new NotAllowedException();
         }
     }
 
@@ -94,10 +90,9 @@ public class AppUserRestService {
     @Path("/{email}/archived")
     public List<WishDto> getArchivedWished(@PathParam("email") String email) {
         final AppUser user = ServletUtils.getUserConnected();
-        LOGGER.info("List archive from " +  email);
+        LOGGER.info("List archive from " + email);
         return WishesService.archived(user);
     }
-
 
     @GET
     @Path("/{email}/given")

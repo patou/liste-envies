@@ -8,120 +8,87 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import fr.desaintsteban.liste.envies.service.AppUserService;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * AuthFilter, this filter validate the firebase auth token, create or load the AppUser.
+ * AuthFilter: Validates Firebase auth token and manages AppUser.
  */
 public class AuthFilter implements Filter {
+
     private static final Logger LOGGER = Logger.getLogger(AuthFilter.class.getName());
-    private static boolean initFirebase = false;
-	/**
-	 * @throws IOException */
-	@Override
-	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws ServletException, IOException {
-		HttpServletRequest request = ((HttpServletRequest) servletRequest);
-        HttpServletResponse response = ((HttpServletResponse) servletResponse);
+    private static boolean firebaseInitialized = false;
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+            throws IOException, ServletException {
+
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
         String authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader != null) {
-            if (!authorizationHeader.startsWith("Bearer")) {
-                AppUserService.removeAppUser();
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authorization Header must be valid");
-                return;
-            }
-            // todo validate the token
+
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String token = authorizationHeader.substring("Bearer".length()).trim();
             try {
+                // Decode and validate JWT token
                 DecodedJWT jwt = JWT.decode(token);
-                AppUserService.getAppUserFromJwt(jwt);
-            } catch (JWTDecodeException exception){
-                //Invalid token
+                AppUserService.getAppUserFromJwt(jwt); // Load or create AppUser
+            } catch (JWTDecodeException e) {
+                LOGGER.log(Level.WARNING, "Invalid JWT token", e);
                 AppUserService.removeAppUser();
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authorization Header must be valid");
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Authorization Token");
                 return;
             }
-
-
-            // Extract the token
-            /*String token = authorizationHeader.substring("Bearer".length()).trim();
-
-            RSAPublicKey publicKey = //Get the key instance
-            RSAPrivateKey privateKey = //Get the key instance
-            try {
-                JCEMapper.Algorithm algorithm = Algorithm.RSA256(publicKey, privateKey);
-                JWTVerifier verifier = JWT.require(algorithm)
-                        .withIssuer("auth0")
-                        .build(); //Reusable verifier instance
-                DecodedJWT jwt = verifier.verify(token);
-            } catch (JWTVerificationException exception){
-                //Invalid signature/claims
-            }*/
-            /*FirebaseToken decodedToken;
-            try {
-                //TODO: Valider le token seulement sur l'url pour récupérer les infos d'un utilisateur.
-                LOGGER.info("Validate token");
-                decodedToken = FirebaseAuth.getInstance().verifyIdTokenAsync(token, false).get();
-                AppUserService.getAppUser(decodedToken);
-            } catch (InterruptedException e) {
-                LOGGER.log(Level.FINER, "Interrupted verify id token", e);
-                e.printStackTrace();
-                response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, "Timeout");
-                return;
-            } catch (ExecutionException e) {
-                LOGGER.log(Level.FINE, "Forbidden access data", e);
-                e.printStackTrace();
-                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Forbidden");
-                return;
-            }*/
         } else {
-            // logout if no auth
+            LOGGER.info("No Authorization header provided, logging out user.");
             AppUserService.removeAppUser();
         }
 
         filterChain.doFilter(servletRequest, servletResponse);
-   }
-
-	@SuppressWarnings("RedundantThrows")
-    @Override
-	public void init(FilterConfig filterConfig) throws ServletException {
-        LOGGER.info("AuthFilter init");
-        FirebaseOptions options;
-		try {
-            InputStream serviceAccount = this.getClass().getResourceAsStream("/firebase.json");
-            LOGGER.info("AuthFilter init after read json");
-			options = new FirebaseOptions.Builder()
-            .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-            .setDatabaseUrl("https://"+filterConfig.getInitParameter("firebaseId")+".firebaseio.com/")
-            .build();
-            if(FirebaseApp.getApps().isEmpty()) { //<--- check with this line
-                FirebaseApp.initializeApp(options);
-                LOGGER.info("Initialize firebase app");
-                initFirebase = true;
-            } else {
-                LOGGER.info("firebase app is already initialized");
-                initFirebase = false;
-            }
-
-
-		} catch (IOException e) {
-            LOGGER.log(Level.FINEST, "can't Initialize firebase app", e);
-            e.printStackTrace();
-		}
     }
 
-	@Override
-	public void destroy() {
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        LOGGER.info("Initializing AuthFilter...");
+        try (InputStream serviceAccount = this.getClass().getResourceAsStream("/firebase.json")) {
 
-	}
+            if (serviceAccount == null) {
+                throw new IOException("Firebase configuration file 'firebase.json' not found");
+            }
+
+            FirebaseOptions options = FirebaseOptions.builder()
+                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                    .setDatabaseUrl("https://" + filterConfig.getInitParameter("firebaseId") + ".firebaseio.com/")
+                    .build();
+
+            synchronized (AuthFilter.class) { // Ensure thread-safe initialization
+                if (FirebaseApp.getApps().isEmpty()) {
+                    FirebaseApp.initializeApp(options);
+                    LOGGER.info("Firebase app initialized successfully.");
+                    firebaseInitialized = true;
+                } else {
+                    LOGGER.info("Firebase app is already initialized.");
+                }
+            }
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Failed to initialize Firebase", e);
+            throw new ServletException("Firebase initialization failed", e);
+        }
+    }
+
+    @Override
+    public void destroy() {
+        LOGGER.info("AuthFilter destroyed.");
+    }
 }
