@@ -84,6 +84,21 @@ jobs: # a collection of steps
             # Créer un lien symbolique vers les certificats système
             sudo ln -sf /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/java/cacerts
       - run:
+          name: Reinstall Cacerts
+          command: |
+            # Supprimer toute trace de fichiers problématiques
+            if [ -e /etc/ssl/certs/java/cacerts ]; then
+                sudo rm -rf /etc/ssl/certs/java/cacerts
+            fi
+            # Réinstaller ca-certificates-java et OpenJDK
+            sudo apt-get update && sudo apt-get install --reinstall -y ca-certificates-java openjdk-11-jre-headless
+            # Forcer la régénération du keystore
+            sudo /var/lib/dpkg/info/ca-certificates-java.postinst configure
+            # Vérifier que le keystore est valide
+            sudo keytool -list -keystore /etc/ssl/certs/java/cacerts -storepass changeit
+            # Régler les permissions
+            sudo chmod 644 /etc/ssl/certs/java/cacerts
+      - run:
           name: Install Python 3
           command: |
             sudo apt-get install -y python3 python3-distutils
