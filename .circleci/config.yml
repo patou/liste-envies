@@ -84,10 +84,6 @@ jobs: # a collection of steps
             # Créer un lien symbolique vers les certificats système
             sudo ln -sf /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/java/cacerts
       - run:
-          name: Reinstall CA Certificates for Java
-          command: |
-            sudo apt-get install --reinstall -y ca-certificates-java
-      - run:
           name: Install Python 3
           command: |
             sudo apt-get install -y python3 python3-distutils
