@@ -70,8 +70,7 @@
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <version>5.0.0</version> <!-- ou une version plus récente -->
-            <scope>provided</scope>
+            <version>5.0.0</version>
         </dependency>
 
         <!-- ================ Big Query ==================================== -->
