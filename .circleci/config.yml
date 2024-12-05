@@ -54,7 +54,7 @@ jobs: # a collection of steps
   deploy-test:
     working_directory: ~/liste-envies
     docker:
-      - image: cimg/openjdk:11.0
+      - image: cimg/openjdk:8.0
     steps:
       - checkout
       - attach_workspace:
@@ -70,7 +70,16 @@ jobs: # a collection of steps
           command: | 
             sudo sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list
             sudo sed -i '/security.debian.org/s/^/#/' /etc/apt/sources.list
-            sudo apt-get update && sudo apt-get install apt-transport-https ca-certificates gnupg curl
+            sudo apt-get update && sudo apt-get install apt-transport-https ca-certificates gnupg
+      - run:
+          name: Fix Java Certs Issue
+          command: |
+            sudo rm -rf /etc/ssl/certs/java/cacerts
+            sudo ln -sf /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/java/cacerts
+      - run:
+          name: Reinstall CA Certificates for Java
+          command: |
+            sudo apt-get install --reinstall -y ca-certificates-java
       - run:
           name: Install Python 3
           command: |
