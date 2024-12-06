@@ -8,7 +8,7 @@
     <artifactId>liste-envies</artifactId>
 
     <properties>
-        <appengine.app.version>2017</appengine.app.version>
+        <appengine.app.version>2024</appengine.app.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -22,17 +22,17 @@
 
     <dependencies>
         <!-- Compile/runtime dependencies -->
-        <dependency>
-            <groupId>com.google.appengine</groupId>
-            <artifactId>appengine-api-1.0-sdk</artifactId>
-            <version>${appengine.target.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
-            <scope>provided</scope>
-        </dependency>
+    <dependency>
+        <groupId>com.google.appengine</groupId>
+        <artifactId>appengine-api-1.0-sdk</artifactId>
+        <version>2.0.31</version><!-- or later-->
+    </dependency>
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <version>6.0.0</version>
+      <scope>provided</scope>
+    </dependency>
         <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
@@ -66,11 +66,6 @@
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-jackson</artifactId>
             <version>${jersey.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-            <version>5.0.0</version>
         </dependency>
 
         <!-- ================ Big Query ==================================== -->
@@ -186,6 +181,9 @@
                 <groupId>com.google.cloud.tools</groupId>
                 <artifactId>appengine-maven-plugin</artifactId>
                 <version>2.8.1</version>
+                <configuration>
+                    <services>src/main/webapp</services>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
