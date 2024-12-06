@@ -2,7 +2,11 @@
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
     <threadsafe>true</threadsafe>
     <sessions-enabled>true</sessions-enabled>
-    <runtime>java8</runtime>
+    <runtime>java21</runtime>
+    <app-engine-apis>true</app-engine-apis>
+    <system-properties>   <!-- run your apps on EE8 -->
+        <property name="appengine.use.EE8" value="true"/>
+    </system-properties>
 
     <static-files>
       <include path="/assets/**.*" />
