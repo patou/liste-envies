@@ -4,9 +4,6 @@
     <sessions-enabled>true</sessions-enabled>
     <runtime>java21</runtime>
     <app-engine-apis>true</app-engine-apis>
-    <system-properties>   <!-- run your apps on EE8 -->
-        <property name="appengine.use.EE8" value="true"/>
-    </system-properties>
 
     <static-files>
       <include path="/assets/**.*" />
@@ -20,6 +17,7 @@
         <include path="/index.html" />
     </resource-files>
     <system-properties>
+        <property name="appengine.use.EE8" value="true"/>
         <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
     </system-properties>
 </appengine-web-app>
