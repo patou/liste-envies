@@ -63,6 +63,39 @@ jobs: # a collection of steps
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: java-{{ checksum "liste-envies-war/pom.xml" }}
       - run:
+          name: Install deps
+          command: |
+            sudo sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list
+            sudo sed -i '/security.debian.org/s/^/#/' /etc/apt/sources.list
+            sudo apt-get update && sudo apt-get install apt-transport-https ca-certificates gnupg
+      - run:
+          name: Recreate Java Keystore
+          command: |
+            if [ -d /etc/ssl/certs/java/cacerts ]; then
+              sudo rm -rf /etc/ssl/certs/java/cacerts
+            fi
+            # Créer un nouveau keystore temporaire
+            sudo keytool -genkeypair -alias temp -keyalg RSA -keystore /etc/ssl/certs/java/cacerts -storepass changeit -keypass changeit -dname "CN=temp"
+            # Supprimer le keystore temporaire
+            sudo rm -f /etc/ssl/certs/java/cacerts
+            # Créer un lien symbolique vers les certificats système
+            sudo ln -sf /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/java/cacerts
+      - run:
+          name: Reinstall Cacerts
+          command: |
+            # Supprimer toute trace de fichiers problématiques
+            if [ -e /etc/ssl/certs/java/cacerts ]; then
+                sudo rm -rf /etc/ssl/certs/java/cacerts
+            fi
+            # Réinstaller ca-certificates-java et OpenJDK
+            sudo apt-get update && sudo apt-get install --reinstall -y ca-certificates-java openjdk-11-jre-headless
+            # Forcer la régénération du keystore
+            sudo /var/lib/dpkg/info/ca-certificates-java.postinst configure
+            # Vérifier que le keystore est valide
+            sudo keytool -list -keystore /etc/ssl/certs/java/cacerts -storepass changeit
+            # Régler les permissions
+            sudo chmod 644 /etc/ssl/certs/java/cacerts
+      - run:
           name: Install Gcloud
           command: |
             curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
@@ -92,6 +125,39 @@ jobs: # a collection of steps
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: java-{{ checksum "liste-envies-war/pom.xml" }}
+      - run:
+          name: Install deps
+          command: |
+            sudo sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list
+            sudo sed -i '/security.debian.org/s/^/#/' /etc/apt/sources.list
+            sudo apt-get update && sudo apt-get install apt-transport-https ca-certificates gnupg
+      - run:
+          name: Recreate Java Keystore
+          command: |
+            if [ -d /etc/ssl/certs/java/cacerts ]; then
+              sudo rm -rf /etc/ssl/certs/java/cacerts
+            fi
+            # Créer un nouveau keystore temporaire
+            sudo keytool -genkeypair -alias temp -keyalg RSA -keystore /etc/ssl/certs/java/cacerts -storepass changeit -keypass changeit -dname "CN=temp"
+            # Supprimer le keystore temporaire
+            sudo rm -f /etc/ssl/certs/java/cacerts
+            # Créer un lien symbolique vers les certificats système
+            sudo ln -sf /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/java/cacerts
+      - run:
+          name: Reinstall Cacerts
+          command: |
+            # Supprimer toute trace de fichiers problématiques
+            if [ -e /etc/ssl/certs/java/cacerts ]; then
+                sudo rm -rf /etc/ssl/certs/java/cacerts
+            fi
+            # Réinstaller ca-certificates-java et OpenJDK
+            sudo apt-get update && sudo apt-get install --reinstall -y ca-certificates-java openjdk-11-jre-headless
+            # Forcer la régénération du keystore
+            sudo /var/lib/dpkg/info/ca-certificates-java.postinst configure
+            # Vérifier que le keystore est valide
+            sudo keytool -list -keystore /etc/ssl/certs/java/cacerts -storepass changeit
+            # Régler les permissions
+            sudo chmod 644 /etc/ssl/certs/java/cacerts
       - run:
           name: Install Gcloud
           command: |
