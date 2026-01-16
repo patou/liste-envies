@@ -7,9 +7,7 @@ import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.NotFoundException;
 import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
-import com.googlecode.objectify.cache.AsyncCacheFilter;
 import fr.desaintsteban.liste.envies.dto.PersonDto;
 import fr.desaintsteban.liste.envies.dto.WishDto;
 import fr.desaintsteban.liste.envies.dto.CommentDto;
@@ -52,17 +50,10 @@ public class WishServiceTest {
     private AppUser clemence;
 
     @BeforeAll
-    public static void setUpBeforeClass()
-    {
-        //ObjectifyService.reset();
+    public static void setUpBeforeClass() {
+        System.setProperty("GOOGLE_CLOUD_PROJECT", "test-project"); // ObjectifyService.reset();
         // Reset the Factory so that all translators work properly.
-        ObjectifyService.setFactory(new ObjectifyFactory() {
-            @Override
-            public Objectify begin()
-            {
-                return super.begin().cache(false);
-            }
-        });
+        ObjectifyService.init();
         ObjectifyService.factory().register(AppUser.class);
         ObjectifyService.factory().register(Wish.class);
         ObjectifyService.factory().register(WishList.class);
@@ -78,8 +69,10 @@ public class WishServiceTest {
         emmanuel = new AppUser("emmanuel@desaintsteban.fr", "Emmanuel");
         AppUserService.createOrUpdate(emmanuel);
         clemence = AppUserService.createOrUpdate(new AppUser("clemence@desaintsteban.fr", "Clemence"));
-        listePatrice = WishListService.createOrUpdate(patrice, new WishList("liste-patrice", "Liste de Patrice", patrice.getEmail(), emmanuel.getEmail()));
-        listeEmmanuel = WishListService.createOrUpdate(emmanuel, new WishList("liste-emmanuel", "Liste d'Emmanuel", emmanuel.getEmail(), patrice.getEmail(), clemence.getEmail()));
+        listePatrice = WishListService.createOrUpdate(patrice,
+                new WishList("liste-patrice", "Liste de Patrice", patrice.getEmail(), emmanuel.getEmail()));
+        listeEmmanuel = WishListService.createOrUpdate(emmanuel, new WishList("liste-emmanuel", "Liste d'Emmanuel",
+                emmanuel.getEmail(), patrice.getEmail(), clemence.getEmail()));
 
         WishDto itemLivre = WishesService.createOrUpdate(patrice, "liste-patrice", new Wish(listePatrice, "Livre"));
         livreId = itemLivre.getId();
@@ -91,7 +84,7 @@ public class WishServiceTest {
     @AfterEach
     public void tearDown() {
         helper.tearDown();
-        AsyncCacheFilter.complete();
+        // AsyncCacheFilter.complete();
         try {
             closable.close();
         } catch (IOException e) {
@@ -120,7 +113,6 @@ public class WishServiceTest {
         assertThat(extractProperty("userTake").from(list)).hasSize(2).doesNotContain("emmanuel@desaintsteban.fr");
     }
 
-
     @org.junit.jupiter.api.Test
     public void testListWithArchived() throws Exception {
         WishesService.archive(patrice, "liste-patrice", livreId);
@@ -128,13 +120,11 @@ public class WishServiceTest {
         assertThat(extractProperty("label").from(list)).hasSize(1).contains("DVD");
     }
 
-
     @org.junit.jupiter.api.Test
     public void testListGived() throws Exception {
         List<WishDto> list = WishesService.given(emmanuel);
         assertThat(extractProperty("label").from(list)).hasSize(1).contains("Livre");
     }
-
 
     @org.junit.jupiter.api.Test
     public void testListArchived() throws Exception {
@@ -148,7 +138,8 @@ public class WishServiceTest {
     public void testListOther() throws Exception {
         List<WishDto> list = WishesService.list(emmanuel, "liste-patrice", false);
         assertThat(extractProperty("label").from(list)).hasSize(2).contains("Livre", "DVD");
-        //assertThat(list).hasSize(2).onProperty("userTake"). contains(EncodeUtils.encode("emmanuel@desaintsteban.fr"));
+        // assertThat(list).hasSize(2).onProperty("userTake").
+        // contains(EncodeUtils.encode("emmanuel@desaintsteban.fr"));
     }
 
     @org.junit.jupiter.api.Test
@@ -166,10 +157,10 @@ public class WishServiceTest {
         WishDto initdto = new WishDto();
         initdto.setLabel("Test");
         CommentDto c1 = new CommentDto();
-        c1.setFrom(new PersonDto("emmanuel@desaintsteban.fr","Emmanuel"));
+        c1.setFrom(new PersonDto("emmanuel@desaintsteban.fr", "Emmanuel"));
         c1.setText("Commentaire");
         CommentDto c2 = new CommentDto();
-        c2.setFrom(new PersonDto("clemence@desaintsteban.fr","Clémence"));
+        c2.setFrom(new PersonDto("clemence@desaintsteban.fr", "Clémence"));
         c2.setText("Commentaire2");
         Wish envie = new Wish(initdto);
 
@@ -180,7 +171,8 @@ public class WishServiceTest {
         WishDto dto = WishesService.get(patrice, "liste-emmanuel", saved.getId());
 
         assertThat(dto.getLabel()).isEqualTo(initdto.getLabel());
-        assertThat(extractProperty("from.email").from(dto.getComments())).contains("patrice@desaintsteban.fr", "clemence@desaintsteban.fr");
+        assertThat(extractProperty("from.email").from(dto.getComments())).contains("patrice@desaintsteban.fr",
+                "clemence@desaintsteban.fr");
         assertThat(extractProperty("text").from(dto.getComments())).contains("Commentaire", "Commentaire2");
     }
 
@@ -195,7 +187,8 @@ public class WishServiceTest {
     @Test
     public void testStateArchived() throws Exception {
         WishesService.archive(patrice, "liste-patrice", livreId);
-        Wish envie = OfyService.ofy().load().key(Key.create(Key.create(WishList.class, "liste-patrice"), Wish.class, livreId)).now();
+        Wish envie = OfyService.ofy().load()
+                .key(Key.create(Key.create(WishList.class, "liste-patrice"), Wish.class, livreId)).now();
 
         assertThat(envie.getState()).isEqualTo(WishState.ARCHIVED);
         assertThat(envie.getStateDate()).isEqualToIgnoringMinutes(new Date());

@@ -1,6 +1,6 @@
 package fr.desaintsteban.liste.envies.dto;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
 

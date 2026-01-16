@@ -4,10 +4,7 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalMemcacheServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
-import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
-import com.googlecode.objectify.cache.AsyncCacheFilter;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.service.AppUserService;
 import fr.desaintsteban.liste.envies.service.OfyService;
@@ -23,7 +20,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.extractProperty;
 
-public class   AppUserServiceTest {
+public class AppUserServiceTest {
     private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
             new LocalDatastoreServiceTestConfig().setApplyAllHighRepJobPolicy(),
             new LocalMemcacheServiceTestConfig(),
@@ -31,18 +28,12 @@ public class   AppUserServiceTest {
     private Closeable closable;
 
     @BeforeAll
-    public static void setUpBeforeClass()
-    {
+    public static void setUpBeforeClass() {
+        System.setProperty("GOOGLE_CLOUD_PROJECT", "test-project");
 
-        //ObjectifyService.reset();
+        // ObjectifyService.reset();
         // Reset the Factory so that all translators work properly.
-        ObjectifyService.setFactory(new ObjectifyFactory() {
-            @Override
-            public Objectify begin()
-            {
-                return super.begin().cache(false);
-            }
-        });
+        ObjectifyService.init();
         ObjectifyService.factory().register(AppUser.class);
 
     }
@@ -58,13 +49,14 @@ public class   AppUserServiceTest {
     @AfterEach
     public void tearDown() {
         helper.tearDown();
-        AsyncCacheFilter.complete();
+        // AsyncCacheFilter.complete();
         try {
             closable.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     @Test
     public void testGet() throws Exception {
         AppUser appUser = AppUserService.get("patrice@desaintsteban.fr");
@@ -76,7 +68,8 @@ public class   AppUserServiceTest {
     @Test
     public void testList() throws Exception {
         List<AppUser> list = AppUserService.list();
-        assertThat(extractProperty("email").from(list)).hasSize(2).contains("patrice@desaintsteban.fr", "emmanuel@desaintsteban.fr");
+        assertThat(extractProperty("email").from(list)).hasSize(2).contains("patrice@desaintsteban.fr",
+                "emmanuel@desaintsteban.fr");
     }
 
     @Test

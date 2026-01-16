@@ -5,7 +5,7 @@ import fr.desaintsteban.liste.envies.enums.WishListState;
 import fr.desaintsteban.liste.envies.enums.WishListStatus;
 import fr.desaintsteban.liste.envies.enums.WishListType;
 import fr.desaintsteban.liste.envies.enums.WishState;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
 import java.util.HashMap;

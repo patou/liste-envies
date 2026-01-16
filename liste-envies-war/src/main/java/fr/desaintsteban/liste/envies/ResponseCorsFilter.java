@@ -1,29 +1,25 @@
 package fr.desaintsteban.liste.envies;
 
-import com.sun.jersey.spi.container.ContainerRequest;
-import com.sun.jersey.spi.container.ContainerResponse;
-import com.sun.jersey.spi.container.ContainerResponseFilter;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.container.ContainerResponseContext;
+import jakarta.ws.rs.container.ContainerResponseFilter;
+import jakarta.ws.rs.ext.Provider;
+import java.io.IOException;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
-
+@Provider
 public class ResponseCorsFilter implements ContainerResponseFilter {
 
     @Override
-    public ContainerResponse filter(ContainerRequest req, ContainerResponse contResp) {
+    public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
 
-        ResponseBuilder resp = Response.fromResponse(contResp.getResponse());
-        resp.header("Access-Control-Allow-Origin", "*")
-                .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        responseContext.getHeaders().add("Access-Control-Allow-Origin", "*");
+        responseContext.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
 
-        String reqHead = req.getHeaderValue("Access-Control-Request-Headers");
+        String reqHead = requestContext.getHeaderString("Access-Control-Request-Headers");
 
         if (null != reqHead && !reqHead.equals("")) {
-            resp.header("Access-Control-Allow-Headers", reqHead);
+            responseContext.getHeaders().add("Access-Control-Allow-Headers", reqHead);
         }
-
-        contResp.setResponse(resp.build());
-        return contResp;
     }
 
 }

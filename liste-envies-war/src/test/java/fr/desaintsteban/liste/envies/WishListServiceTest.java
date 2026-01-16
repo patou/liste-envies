@@ -5,10 +5,7 @@ import com.google.appengine.tools.development.testing.LocalMemcacheServiceTestCo
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
 import com.googlecode.objectify.NotFoundException;
-import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
-import com.googlecode.objectify.cache.AsyncCacheFilter;
 import fr.desaintsteban.liste.envies.exception.NotAcceptableException;
 import fr.desaintsteban.liste.envies.exception.NotAllowedException;
 import fr.desaintsteban.liste.envies.model.AppUser;
@@ -39,18 +36,12 @@ public class WishListServiceTest {
     private AppUser patrice;
 
     @BeforeAll
-    public static void setUpBeforeClass()
-    {
+    public static void setUpBeforeClass() {
+        System.setProperty("GOOGLE_CLOUD_PROJECT", "test-project");
 
-        //ObjectifyService.reset();
+        // ObjectifyService.reset();
         // Reset the Factory so that all translators work properly.
-        ObjectifyService.setFactory(new ObjectifyFactory() {
-            @Override
-            public Objectify begin()
-            {
-                return super.begin().cache(false);
-            }
-        });
+        ObjectifyService.init();
         ObjectifyService.factory().register(WishList.class);
         ObjectifyService.factory().register(AppUser.class);
         ObjectifyService.factory().register(Notification.class);
@@ -63,20 +54,23 @@ public class WishListServiceTest {
         closable = OfyService.begin();
         patrice = new AppUser("patrice@desaintsteban.fr", "Patrice");
         AppUser emmanuel = new AppUser("emmanuel@desaintsteban.fr", "Emmanuel");
-        WishListService.createOrUpdate(patrice, new WishList("liste-patrice", "Liste de Patrice", "patrice@desaintsteban.fr", "emmanuel@desaintsteban.fr"));
-        WishListService.createOrUpdate(emmanuel, new WishList("liste-emmanuel", "Liste de Emmanuel", "emmanuel@desaintsteban.fr"));
+        WishListService.createOrUpdate(patrice, new WishList("liste-patrice", "Liste de Patrice",
+                "patrice@desaintsteban.fr", "emmanuel@desaintsteban.fr"));
+        WishListService.createOrUpdate(emmanuel,
+                new WishList("liste-emmanuel", "Liste de Emmanuel", "emmanuel@desaintsteban.fr"));
     }
 
     @AfterEach
     public void tearDown() {
         helper.tearDown();
-        AsyncCacheFilter.complete();
+        // AsyncCacheFilter.complete();
         try {
             closable.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     @Test
     public void testGet() {
         WishList wishList = WishListService.get("liste-patrice");
@@ -102,17 +96,21 @@ public class WishListServiceTest {
 
     @Test
     public void testCreate() {
-        WishListService.createOrUpdate(patrice, new WishList("liste-patrice-2", "Patrice", "patrice@desaintsteban.fr", "clemence@desaintsteban.fr", "emmanuel@desaintsteban.fr"));
+        WishListService.createOrUpdate(patrice, new WishList("liste-patrice-2", "Patrice", "patrice@desaintsteban.fr",
+                "clemence@desaintsteban.fr", "emmanuel@desaintsteban.fr"));
         assertThrows(NotAllowedException.class, () -> {
-            WishListService.createOrUpdate(patrice, new WishList("liste-clemence", "Clemence", "clemence@desaintsteban.fr", "patrice@desaintsteban.fr", "emmanuel@desaintsteban.fr"));
+            WishListService.createOrUpdate(patrice, new WishList("liste-clemence", "Clemence",
+                    "clemence@desaintsteban.fr", "patrice@desaintsteban.fr", "emmanuel@desaintsteban.fr"));
         });
     }
 
     @Test
     public void testUpdate() {
-        WishListService.createOrUpdate(patrice, new WishList("liste-patrice", "Liste de Patrice 2", "patrice@desaintsteban.fr", "emmanuel@desaintsteban.fr"));
+        WishListService.createOrUpdate(patrice, new WishList("liste-patrice", "Liste de Patrice 2",
+                "patrice@desaintsteban.fr", "emmanuel@desaintsteban.fr"));
         assertThrows(NotAllowedException.class, () -> {
-            WishListService.createOrUpdate(patrice, new WishList("liste-emmanuel", "Emmanuel", "emmanuel@desaintsteban.fr", "patrice@desaintsteban.fr", "emmanuel@desaintsteban.fr"));
+            WishListService.createOrUpdate(patrice, new WishList("liste-emmanuel", "Emmanuel",
+                    "emmanuel@desaintsteban.fr", "patrice@desaintsteban.fr", "emmanuel@desaintsteban.fr"));
         });
     }
 
