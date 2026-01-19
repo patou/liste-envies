@@ -83,27 +83,45 @@
         <dependency>
             <groupId>com.google.api-client</groupId>
             <artifactId>google-api-client-appengine</artifactId>
-            <version>1.19.0</version>
+            <version>2.2.0</version>
         </dependency>
+        <!-- Updated to compatible version of http-client -->
         <dependency>
             <groupId>com.google.http-client</groupId>
             <artifactId>google-http-client-jackson2</artifactId>
-            <version>1.17.0-rc</version>
+            <version>1.43.3</version>
+        </dependency>
+        <!-- Explicit Jackson 2.15 to ensure JacksonFeature is available -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.15.2</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.10.0.pr3</version>
+            <version>2.15.2</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>2.10.0.pr3</version>
+            <version>2.15.2</version>
+        </dependency>
+        <!-- Jackson (Managed by Jersey, or use newer Compatible version) -->
+        <!-- Removed explicit 2.10.0 dependencies to avoid conflicts with Jersey 3.x -->
+        <!-- Jersey 3.1.x pulls in Jackson 2.15+ typically -->
+
+        <!-- JAXB Support (Required for Java 11+) -->
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>4.0.0</version>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.10.0.pr3</version>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>4.0.0</version>
+            <scope>runtime</scope>
         </dependency>
 
         <!-- Firebase Dependencies -->

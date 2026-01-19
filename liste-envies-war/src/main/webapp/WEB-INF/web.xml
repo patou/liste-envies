@@ -8,9 +8,13 @@
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 
+    <listener>
+        <listener-class>fr.desaintsteban.liste.envies.listener.ObjectifyWebListener</listener-class>
+    </listener>
+
     <filter>
         <filter-name>ObjectifyFilter</filter-name>
-        <filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
+        <filter-class>fr.desaintsteban.liste.envies.filter.JakartaObjectifyFilter</filter-class>
     </filter>
 
     <filter>
