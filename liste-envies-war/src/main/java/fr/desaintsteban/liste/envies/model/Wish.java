@@ -60,7 +60,6 @@ public class Wish {
     private int rating;
     private List<Link> urls;
     private List<PersonParticipant> userTake;
-    @Index(IfNotNull.class)
     private List<String> userReceived;
 
     private List<Comment> comments;

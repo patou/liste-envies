@@ -25,32 +25,36 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.extractProperty;
+
+import com.google.cloud.datastore.testing.LocalDatastoreHelper;
 
 public class WishListServiceTest {
-    private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
-            new LocalDatastoreServiceTestConfig().setApplyAllHighRepJobPolicy(),
-            new LocalMemcacheServiceTestConfig(),
-            new LocalTaskQueueTestConfig());
+    private static LocalDatastoreHelper datastoreHelper;
     private Closeable closable;
     private AppUser patrice;
 
     @BeforeAll
-    public static void setUpBeforeClass() {
+    public static void setUpBeforeClass() throws IOException, InterruptedException {
         System.setProperty("GOOGLE_CLOUD_PROJECT", "test-project");
 
+        // Start local Datastore emulator
+        datastoreHelper = LocalDatastoreHelper.create(1.0);
+        datastoreHelper.start();
+
+        // Configure Objectify to use the local emulator
+        System.setProperty("DATASTORE_EMULATOR_HOST", "localhost:" + datastoreHelper.getPort());
+        System.setProperty("DATASTORE_PROJECT_ID", "test-project");
+
         // ObjectifyService.reset();
-        // Reset the Factory so that all translators work properly.
         ObjectifyService.init();
         ObjectifyService.factory().register(WishList.class);
         ObjectifyService.factory().register(AppUser.class);
         ObjectifyService.factory().register(Notification.class);
-
     }
 
     @BeforeEach
-    public void setUp() {
-        helper.setUp();
+    public void setUp() throws IOException {
+        datastoreHelper.reset();
         closable = OfyService.begin();
         patrice = new AppUser("patrice@desaintsteban.fr", "Patrice");
         AppUser emmanuel = new AppUser("emmanuel@desaintsteban.fr", "Emmanuel");
@@ -61,13 +65,19 @@ public class WishListServiceTest {
     }
 
     @AfterEach
-    public void tearDown() {
-        helper.tearDown();
-        // AsyncCacheFilter.complete();
+    public void tearDown() throws IOException, InterruptedException, java.util.concurrent.TimeoutException {
         try {
             closable.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @org.junit.jupiter.api.AfterAll
+    public static void tearDownAfterClass()
+            throws IOException, InterruptedException, java.util.concurrent.TimeoutException {
+        if (datastoreHelper != null) {
+            datastoreHelper.stop();
         }
     }
 
@@ -85,13 +95,13 @@ public class WishListServiceTest {
     @Test
     public void testList() {
         List<WishList> list = WishListService.list();
-        assertThat(extractProperty("name").from(list)).hasSize(2).contains("liste-patrice", "liste-emmanuel");
+        assertThat(list).extracting("name").hasSize(2).contains("liste-patrice", "liste-emmanuel");
     }
 
     @Test
     public void testListEmails() {
         List<WishList> list = WishListService.list("patrice@desaintsteban.fr");
-        assertThat(extractProperty("name").from(list)).hasSize(1).contains("liste-patrice");
+        assertThat(list).extracting("name").hasSize(1).contains("liste-patrice");
     }
 
     @Test
