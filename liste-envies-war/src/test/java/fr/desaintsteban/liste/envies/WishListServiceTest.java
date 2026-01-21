@@ -9,6 +9,7 @@ import com.googlecode.objectify.ObjectifyService;
 import fr.desaintsteban.liste.envies.exception.NotAcceptableException;
 import fr.desaintsteban.liste.envies.exception.NotAllowedException;
 import fr.desaintsteban.liste.envies.model.AppUser;
+import fr.desaintsteban.liste.envies.model.Wish;
 import fr.desaintsteban.liste.envies.model.WishList;
 import fr.desaintsteban.liste.envies.model.Notification;
 import fr.desaintsteban.liste.envies.service.WishListService;
@@ -49,6 +50,7 @@ public class WishListServiceTest {
         ObjectifyService.init();
         ObjectifyService.factory().register(WishList.class);
         ObjectifyService.factory().register(AppUser.class);
+        ObjectifyService.factory().register(Wish.class);
         ObjectifyService.factory().register(Notification.class);
     }
 
