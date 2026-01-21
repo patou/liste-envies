@@ -60,6 +60,7 @@ public class Wish {
     private int rating;
     private List<Link> urls;
     private List<PersonParticipant> userTake;
+    @Index
     private List<String> userReceived;
 
     private List<Comment> comments;
