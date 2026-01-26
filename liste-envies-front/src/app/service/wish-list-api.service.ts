@@ -91,6 +91,15 @@ export class WishListApiService {
     return null;
   }
 
+  @DELETE
+  @Path("wishes/:name/give/:id")
+  cancelGive(
+    @PathParam("name") name: string,
+    @PathParam("id") id: number
+  ): Observable<WishItem> {
+    return null;
+  }
+
   @PUT
   @Path("wishes/:name/archive/:id")
   archive(

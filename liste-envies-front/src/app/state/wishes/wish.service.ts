@@ -169,31 +169,26 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
       )
       .subscribe(user => {
         if (user) {
-          const wish: Partial<WishItem> = {
-            listId: wishToGive.listId,
-            id,
-            userGiven: true,
-            given: true,
-            userTake: wishToGive.userTake ? [...wishToGive.userTake] : []
-          };
-
-          wish.userTake.push({
-            name: user.displayName
-          });
-          if (this.isChanged(id, wish)) {
+          if (this.isChanged(id, wishToGive)) {
             this.subscribeAndUpdatedWish(
               id,
-              this.wishListApiService.give(wish.listId, id).pipe(
+              this.wishListApiService.give(wishToGive.listId, id).pipe(
                 map<WishItem, WishItem>(newWish => {
-                  // todo correct return in serveur
-                  wish.userTake = newWish.userTake;
-                  return wish;
+                  return newWish;
                 })
               )
             );
           }
         }
       });
+  }
+
+  @action("cancel give")
+  cancelGive(id: number, wishToCancel: Partial<WishItem>) {
+    this.subscribeAndUpdatedWish(
+      id,
+      this.wishListApiService.cancelGive(wishToCancel.listId, id)
+    );
   }
 
   @action("delete wish")
@@ -299,8 +294,6 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
     this.wishStore.reset();
   }
 
-
-
   private isChanged(id, wish: Partial<WishItem>) {
     this.draft.setHead(id);
     wish.draft = true;
@@ -316,6 +309,7 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
         this.draft.setHead(id);
       },
       error => {
+        console.error(error);
         this.draft.reset(id);
         this.wishStore.setError(error);
         this.snackBar.open("Erreur lors la mise à jour de l'envie");
