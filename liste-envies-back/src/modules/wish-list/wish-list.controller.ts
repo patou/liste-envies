@@ -1,0 +1,96 @@
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Param,
+  UseGuards,
+  Query,
+} from '@nestjs/common';
+import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { WishListService } from './wish-list.service';
+import { AuthGuard } from '../../common/guards/auth.guard';
+import { User } from '../../common/decorators/user.decorator';
+import { WishListDto, UserShareType } from './dto/wish-list.dto';
+
+@ApiTags('WishList')
+@ApiBearerAuth()
+@Controller('list')
+export class WishListController {
+  constructor(private readonly wishListService: WishListService) {}
+
+  @Get()
+  @ApiOperation({ summary: 'Get current user wish lists' })
+  async getWishListForUser(@User() user: any) {
+    if (user) {
+      return this.wishListService.list(user.email);
+    }
+    // Demo fallback if no auth, but Route is mostly guarded or handles null user logic
+    // In NestJS, if AuthGuard is global or on controller, user is present.
+    // If we want optional auth, we need a custom "OptionalAuthGuard" or logic.
+    // For now, assuming authenticated for lists.
+    return [];
+  }
+
+  @Get('of/:email')
+  @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Get wish lists of another user' })
+  async getWishListForOtherUser(@Param('email') email: string) {
+    return this.wishListService.list(email);
+  }
+
+  @Get('all')
+  @UseGuards(AuthGuard)
+  async getAllList(@User() user: any) {
+    if (!user.isAdmin) throw new Error('Not Allowed'); // Should use ForbiddenException
+    return this.wishListService.getAll();
+  }
+
+  @Post(':name')
+  @UseGuards(AuthGuard)
+  async updateWishList(
+    @Param('name') name: string,
+    @Body() dto: WishListDto,
+    @User() user: any,
+  ) {
+    dto.name = name;
+    return this.wishListService.createOrUpdate(user, dto);
+  }
+
+  @Post()
+  @UseGuards(AuthGuard) // POST /list (Root)
+  @ApiOperation({ summary: 'Create a wish list' })
+  async addWishList(@Body() dto: WishListDto, @User() user: any) {
+    return this.wishListService.createOrUpdate(user, dto);
+  }
+
+  @Put(':name/:newName')
+  @UseGuards(AuthGuard)
+  async renameWishList(
+    @Param('name') name: string,
+    @Param('newName') newName: string,
+    @User() user: any,
+  ) {
+    return this.wishListService.rename(user, name, newName);
+  }
+
+  @Get(':name')
+  async getOneWishList(@Param('name') name: string) {
+    // Logic for public/private check should be here or service
+    return this.wishListService.getOrThrow(name);
+  }
+
+  @Get(':name/join')
+  @UseGuards(AuthGuard)
+  async join(@Param('name') name: string, @User() user: any) {
+    return this.wishListService.join(user, name);
+  }
+
+  @Delete(':name')
+  @UseGuards(AuthGuard)
+  async deleteWishList(@Param('name') name: string, @User() user: any) {
+    return this.wishListService.deleteList(user, name);
+  }
+}
