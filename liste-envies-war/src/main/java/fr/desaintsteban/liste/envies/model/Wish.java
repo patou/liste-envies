@@ -125,7 +125,7 @@ public class Wish {
         wish.setAllreadyGiven(getAllreadyGiven());
 
         if (!filter) { // Do not add this, if you doesn't want to have this information. For filter it.
-            if (getUserTake() != null || !getUserTake().isEmpty()) {
+            if (getUserTake() != null && !getUserTake().isEmpty()) {
                 wish.setUserTake(
                         getUserTake().stream().map(PersonParticipant::toDecodeDto).collect(Collectors.toList()));
                 wish.setGiven(true);
