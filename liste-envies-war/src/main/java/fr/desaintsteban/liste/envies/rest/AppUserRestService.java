@@ -3,6 +3,7 @@ package fr.desaintsteban.liste.envies.rest;
 import fr.desaintsteban.liste.envies.dto.AppUserDto;
 import fr.desaintsteban.liste.envies.dto.NotificationDto;
 import fr.desaintsteban.liste.envies.dto.WishDto;
+import fr.desaintsteban.liste.envies.exception.NotAllowedException;
 import fr.desaintsteban.liste.envies.model.AppUser;
 import fr.desaintsteban.liste.envies.model.Notification;
 import fr.desaintsteban.liste.envies.service.AppUserService;
@@ -32,36 +33,30 @@ public class AppUserRestService {
 
     @GET
     public List<AppUserDto> getAppUsers() {
-        final AppUser user = ServletUtils.getUserAuthenticated();
-        if(user != null){
-            LOGGER.info("List appuser");
-            List<AppUser> list = AppUserService.list();
-            List<AppUserDto> convertList = list.stream().map(appUser -> new AppUserDto(appUser.getEmail(), appUser.getName(),   appUser.getPicture(),  appUser.getBirthday(), appUser.isNewUser())).collect(toList());
-            return convertList;
-        }
-        return null;
+        final AppUser user = ServletUtils.getUserConnected();
+        LOGGER.info("List appuser");
+        List<AppUser> list = AppUserService.list();
+        List<AppUserDto> convertList = list.stream().map(appUser -> new AppUserDto(appUser.getEmail(), appUser.getName(),   appUser.getPicture(),  appUser.getBirthday(), appUser.isNewUser())).collect(toList());
+        return convertList;
     }
 
     @GET
     @Path("/my")
     public AppUserDto getMyAccount() {
-        AppUser appUser = ServletUtils.getUserAuthenticated();
-        if (appUser != null) {
-            return new AppUserDto(appUser.getEmail(), appUser.getName(), appUser.getPicture(), appUser.getBirthday(), appUser.isNewUser());
-        }
-        return null;
+        AppUser appUser = ServletUtils.getUserConnected();
+        return new AppUserDto(appUser.getEmail(), appUser.getName(), appUser.getPicture(), appUser.getBirthday(), appUser.isNewUser());
     }
 
     @POST
     @Path("/{email}")
     public AppUserDto addUser(@PathParam("email") String email, AppUserDto appUser) {
-        final AppUser user = ServletUtils.getUserAuthenticated();
-        if (user != null) {
+        final AppUser user = ServletUtils.getUserConnected();
+        if (user.isAdmin()) {
             LOGGER.info("Put " + appUser.getEmail());
             AppUser orUpdate = AppUserService.createOrUpdate(new AppUser(appUser.getEmail(), appUser.getName(), appUser.getBirthday()));
-            return new AppUserDto(orUpdate.getEmail(), orUpdate.getName(),  orUpdate.getPicture(), orUpdate.getBirthday(), orUpdate.isNewUser());
+            return new AppUserDto(orUpdate.getEmail(), orUpdate.getName(), orUpdate.getPicture(), orUpdate.getBirthday(), orUpdate.isNewUser());
         }
-        return null;
+        throw new NotAllowedException();
     }
 
     @GET
@@ -77,12 +72,9 @@ public class AppUserRestService {
     @Path("/{email}/notifications")
     public List<NotificationDto> getUserNotifications(@PathParam("email") String email) {
         List<NotificationDto> listNotification = new ArrayList<>();
-        final AppUser user = ServletUtils.getUserAuthenticated();
-        if (user == null)  return listNotification;
-
+        final AppUser user = ServletUtils.getUserConnected();
         List<Notification> notifs = NotificationsService.list(user);
         if (notifs.isEmpty()) return listNotification;
-
         listNotification = notifs.stream().map(Notification::toDto).collect(toList());
         return listNotification;
     }
@@ -91,8 +83,8 @@ public class AppUserRestService {
     @DELETE
     @Path("/{email}")
     public void deleteUser(@PathParam("email") String email){
-        final AppUser user = ServletUtils.getUserAuthenticated();
-        if(user != null && user.isAdmin()){
+        final AppUser user = ServletUtils.getUserConnected();
+        if(user.isAdmin()){
             LOGGER.info("Delete " + email);
             AppUserService.delete(email);
         }
@@ -101,23 +93,17 @@ public class AppUserRestService {
     @GET
     @Path("/{email}/archived")
     public List<WishDto> getArchivedWished(@PathParam("email") String email) {
-        final AppUser user = ServletUtils.getUserAuthenticated();
-        if(user != null){
-            LOGGER.info("List archive from " +  email);
-            return WishesService.archived(user);
-        }
-        return null;
+        final AppUser user = ServletUtils.getUserConnected();
+        LOGGER.info("List archive from " +  email);
+        return WishesService.archived(user);
     }
 
 
     @GET
     @Path("/{email}/given")
     public List<WishDto> getGivenWished(@PathParam("email") String email) {
-        final AppUser user = ServletUtils.getUserAuthenticated();
-        if(user != null){
-            LOGGER.info("List given of " + email);
-            return WishesService.given(user);
-        }
-        return null;
+        final AppUser user = ServletUtils.getUserConnected();
+        LOGGER.info("List given of " + email);
+        return WishesService.given(user);
     }
 }

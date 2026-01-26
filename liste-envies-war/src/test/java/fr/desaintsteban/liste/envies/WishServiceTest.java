@@ -5,6 +5,7 @@ import com.google.appengine.tools.development.testing.LocalMemcacheServiceTestCo
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.NotFoundException;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
@@ -33,6 +34,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.extractProperty;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SuppressWarnings("ConstantConditions")
 public class WishServiceTest {
@@ -187,7 +189,7 @@ public class WishServiceTest {
         WishListService.rename(patrice, "liste-patrice", "patrice");
 
         assertThat(extractProperty("id").from(WishesService.list(patrice, "patrice"))).contains(livreId, dvdId);
-        assertThat(WishesService.list(patrice, "liste-patrice")).isEmpty();
+        assertThrows(NotFoundException.class, () -> WishesService.list(patrice, "liste-patrice"));
     }
 
     @Test

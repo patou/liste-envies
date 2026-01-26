@@ -15,6 +15,7 @@ import { Debounce as DebounceDecorator } from "lodash-decorators";
 import { ID } from "@datorama/akita";
 import { MyWishQuery } from "../../state/wishes/my-wish/my-wish.query";
 import { LinkMenuItem } from "ngx-auth-firebaseui";
+import { LoginPopUpService } from "../../service/login-pop-up.service";
 
 @UntilDestroy()
 @Component({
@@ -65,7 +66,8 @@ export class PageNavComponent implements OnInit {
     private auth: AuthService,
     private notificationsQuery: NotificationsQuery,
     private router: Router,
-    private myWishQuery: MyWishQuery
+    private myWishQuery: MyWishQuery,
+    private loginPopUp: LoginPopUpService
   ) {}
 
   ngOnInit() {
@@ -102,7 +104,7 @@ export class PageNavComponent implements OnInit {
   }
 
   connect() {
-    this.auth.openLoginPopUp();
+    this.loginPopUp.openLoginPopUp().subscribe(result => {});
   }
 
   logout() {

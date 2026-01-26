@@ -17,6 +17,11 @@
   </div>
 </div>
 <mat-dialog-content>
+  <div class="row" *ngIf="data?.message">
+    <div class="col-12 message">
+      {{ data?.message }}
+    </div>
+  </div>
   <div class="row">
     <div class="col-6">
       <p class="login-dialog-connexion">

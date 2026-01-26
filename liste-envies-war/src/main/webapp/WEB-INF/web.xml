@@ -48,7 +48,7 @@
         <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
         <init-param>
             <param-name>com.sun.jersey.config.property.packages</param-name>
-            <param-value>fr.desaintsteban.liste.envies.rest</param-value>
+            <param-value>fr.desaintsteban.liste.envies.rest,fr.desaintsteban.liste.envies.exception</param-value>
         </init-param>
         <init-param>
             <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
@@ -65,34 +65,6 @@
         <servlet-name>jersey-servlet</servlet-name>
         <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
-
-
-	<servlet>
-		<servlet-name>GetUser</servlet-name>
-		<servlet-class>fr.desaintsteban.liste.envies.servlet.GetUserServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>GetUser</servlet-name>
-		<url-pattern>/api/user</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>Login</servlet-name>
-		<servlet-class>fr.desaintsteban.liste.envies.servlet.LoginServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Login</servlet-name>
-		<url-pattern>/user/login</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>Logout</servlet-name>
-		<servlet-class>fr.desaintsteban.liste.envies.servlet.LogoutServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Logout</servlet-name>
-		<url-pattern>/user/logout</url-pattern>
-	</servlet-mapping>
 
     <servlet>
         <servlet-name>MigrateServlet</servlet-name>

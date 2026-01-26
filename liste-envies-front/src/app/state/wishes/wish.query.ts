@@ -27,4 +27,16 @@ export class WishQuery extends QueryEntity<WishState> {
   selectWish() {
     return this.select().pipe(pluck<WishState, WishList>("wishList"));
   }
+
+  isFullWishListLoaded(): boolean {
+    return this.getValue().ui.loaded.full;
+  }
+
+  isToOfferListLoaded(): boolean {
+    return this.getValue().ui.loaded.toOffer;
+  }
+
+  isArchiveListLoaded(): boolean {
+    return this.getValue().ui.loaded.archive;
+  }
 }

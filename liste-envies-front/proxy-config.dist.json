@@ -1,13 +1,8 @@
 {
   "/api": {
-    "target": "https://ng5-dot-test-liste-envies.appspot.com",
+    "target": "http://test-liste-envies.appspot.com",
     "secure": true,
     "changeOrigin": true,
     "logLevel": "debug"
   },
-  "/user": {
-    "target": "http://ng5.test-liste-envies.appspot.com",
-    "secure": false,
-    "changeOrigin": true
-  }
 }
