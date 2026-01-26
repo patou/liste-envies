@@ -169,14 +169,21 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
       )
       .subscribe(user => {
         if (user) {
-          if (this.isChanged(id, wishToGive)) {
+          const wish: Partial<WishItem> = {
+            listId: wishToGive.listId,
+            id,
+            userGiven: true,
+            given: true,
+            userTake: wishToGive.userTake ? [...wishToGive.userTake] : []
+          };
+
+          wish.userTake.push({
+            name: user.displayName
+          });
+          if (this.isChanged(id, wish)) {
             this.subscribeAndUpdatedWish(
               id,
-              this.wishListApiService.give(wishToGive.listId, id).pipe(
-                map<WishItem, WishItem>(newWish => {
-                  return newWish;
-                })
-              )
+              this.wishListApiService.give(wish.listId, id)
             );
           }
         }
@@ -185,10 +192,23 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
 
   @action("cancel give")
   cancelGive(id: number, wishToCancel: Partial<WishItem>) {
-    this.subscribeAndUpdatedWish(
-      id,
-      this.wishListApiService.cancelGive(wishToCancel.listId, id)
+    const userEmail = this.userQuery.getValue().user?.email;
+    const userTakeFiltered = (wishToCancel.userTake || []).filter(
+      ut => ut.email !== userEmail
     );
+    const wish: Partial<WishItem> = {
+      listId: wishToCancel.listId,
+      id,
+      userGiven: false,
+      given: userTakeFiltered.length > 0,
+      userTake: userTakeFiltered
+    };
+    if (this.isChanged(id, wish)) {
+      this.subscribeAndUpdatedWish(
+        id,
+        this.wishListApiService.cancelGive(wishToCancel.listId, id)
+      );
+    }
   }
 
   @action("delete wish")
@@ -309,7 +329,6 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
         this.draft.setHead(id);
       },
       error => {
-        console.error(error);
         this.draft.reset(id);
         this.wishStore.setError(error);
         this.snackBar.open("Erreur lors la mise à jour de l'envie");

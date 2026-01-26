@@ -357,11 +357,7 @@
       mat-stroked-button
       class="wish-action-button"
       color="warn"
-      *ngIf="
-        wishItem.userTake?.length > 0 &&
-        wishItem.canParticipate &&
-        wishItem.userGiven
-      "
+      *ngIf="wishItem.canParticipate && wishItem.userGiven"
       (click)="cancelGive(wishItem)"
       [disabled]="readOnly"
       matTooltip="Annulez ma participation à cette envie"
