@@ -14,7 +14,6 @@ import fr.desaintsteban.liste.envies.enums.WishListStatus;
 import fr.desaintsteban.liste.envies.enums.WishListType;
 import fr.desaintsteban.liste.envies.enums.WishState;
 
-import javax.jdo.annotations.Embedded;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -43,12 +42,11 @@ public class WishList {
     @AlsoLoad("forceAnonymus")
     private Boolean forceAnonymous = false;
 
-    @Embedded
     @Index
-    private HashMap<WishState, Integer> counts = new HashMap<>(); //Compte le nombre d'envies dans chaque état
+    private HashMap<WishState, Integer> counts = new HashMap<>(); // Compte le nombre d'envies dans chaque état
 
     @Index
-    private WishListStatus status =  WishListStatus.ACTIVE; // status
+    private WishListStatus status = WishListStatus.ACTIVE; // status
 
     public WishList() {
         this.privacy = SharingPrivacyType.PRIVATE;
@@ -71,7 +69,7 @@ public class WishList {
     }
 
     public WishList(String name, String title, String description, String picture, WishListType type,
-                    Date date, SharingPrivacyType privacy, String owner, String... shared) {
+            Date date, SharingPrivacyType privacy, String owner, String... shared) {
         this.name = name;
         this.title = title;
         this.description = description;
@@ -87,18 +85,19 @@ public class WishList {
         }
     }
 
-
     public WishList(WishListDto dto) {
         setName(dto.getName());
         setTitle(dto.getTitle());
         setDescription(dto.getDescription());
-        List<UserShare> users = dto.getUsers().stream().map(userShareDto -> new UserShare(userShareDto.getEmail(), userShareDto.getType())).collect(Collectors.toList());
+        List<UserShare> users = dto.getUsers().stream()
+                .map(userShareDto -> new UserShare(userShareDto.getEmail(), userShareDto.getType()))
+                .collect(Collectors.toList());
         setUsers(users);
         setPicture(dto.getPicture());
         setType(dto.getType());
         setDate(dto.getDate());
         setPrivacy(dto.getPrivacy());
-        setForceAnonymous(dto.getForceAnonymous() );
+        setForceAnonymous(dto.getForceAnonymous());
         setStatus(dto.getStatus());
     }
 
@@ -150,7 +149,6 @@ public class WishList {
         this.users = users;
     }
 
-
     public String getPicture() {
         return picture;
     }
@@ -192,7 +190,8 @@ public class WishList {
     }
 
     public boolean containsOwner(String email) {
-        return (users != null) && users.stream().anyMatch(user -> user.getType() == UserShareType.OWNER && user.getEmail().equals(email));
+        return (users != null) && users.stream()
+                .anyMatch(user -> user.getType() == UserShareType.OWNER && user.getEmail().equals(email));
     }
 
     public boolean containsUser(String email) {
@@ -204,7 +203,8 @@ public class WishList {
     }
 
     public void addUser(AppUser user) {
-        if (users == null) users = new ArrayList<>();
+        if (users == null)
+            users = new ArrayList<>();
         users.add(new UserShare(user.getEmail(), UserShareType.SHARED));
     }
 

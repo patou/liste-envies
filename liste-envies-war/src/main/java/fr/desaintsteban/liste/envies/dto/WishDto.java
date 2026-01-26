@@ -2,7 +2,7 @@ package fr.desaintsteban.liste.envies.dto;
 
 import fr.desaintsteban.liste.envies.enums.WishState;
 import fr.desaintsteban.liste.envies.model.Link;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
 import java.util.List;

@@ -12,9 +12,8 @@ import fr.desaintsteban.liste.envies.dto.CommentDto;
 import fr.desaintsteban.liste.envies.dto.WishDto;
 import fr.desaintsteban.liste.envies.enums.WishState;
 import fr.desaintsteban.liste.envies.util.StringUtils;
-import org.codehaus.jackson.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.jdo.annotations.Embedded;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -58,17 +57,13 @@ public class Wish {
     private List<String> pictures;
     private Date date;
 
-
     private int rating;
-    @Embedded
     private List<Link> urls;
     private List<PersonParticipant> userTake;
-    @Index(IfNotNull.class)
+    @Index
     private List<String> userReceived;
 
-    @Embedded
     private List<Comment> comments;
-
 
     public Wish() {
         this.comments = new ArrayList<>();
@@ -81,7 +76,6 @@ public class Wish {
         this.comments = new ArrayList<>();
         this.rating = 0;
     }
-
 
     public Wish(WishDto wish) {
         setId(wish.getId());
@@ -97,7 +91,8 @@ public class Wish {
         setRating(wish.getRating());
         setAllreadyGiven(wish.getAllreadyGiven());
         if (wish.getUserTake() != null) {
-            List<PersonParticipant> userTake = wish.getUserTake().stream().map(PersonParticipant::fromDto).collect(Collectors.toList());
+            List<PersonParticipant> userTake = wish.getUserTake().stream().map(PersonParticipant::fromDto)
+                    .collect(Collectors.toList());
             setUserTake(userTake);
         }
         this.comments = new ArrayList<>();
@@ -110,6 +105,7 @@ public class Wish {
     public WishDto toDtoNoFiltered() {
         return this.toDto(false);
     }
+
     public WishDto toDto(boolean filter) {
         WishDto wish = new WishDto();
         wish.setId(getId());
@@ -130,15 +126,16 @@ public class Wish {
 
         if (!filter) { // Do not add this, if you doesn't want to have this information. For filter it.
             if (getUserTake() != null) {
-                wish.setUserTake(getUserTake().stream().map(PersonParticipant::toDecodeDto).collect(Collectors.toList()));
+                wish.setUserTake(
+                        getUserTake().stream().map(PersonParticipant::toDecodeDto).collect(Collectors.toList()));
                 wish.setGiven(true);
-            }
-            else {
+            } else {
                 wish.setUserTake(Collections.emptyList());
                 wish.setGiven(false);
             }
             if (this.comments != null && !this.comments.isEmpty()) {
-                List<CommentDto> listCommentDto = this.comments.stream().map(Comment::toDto).collect(Collectors.toList());
+                List<CommentDto> listCommentDto = this.comments.stream().map(Comment::toDto)
+                        .collect(Collectors.toList());
                 wish.setComments(listCommentDto);
             }
         }
@@ -148,6 +145,7 @@ public class Wish {
 
     /**
      * Clean all links with url null
+     * 
      * @param links
      * @return
      */
@@ -346,10 +344,12 @@ public class Wish {
     }
 
     void convertArchivedToState(@AlsoLoad("archived") Boolean archived) {
-        if (archived) state = WishState.ARCHIVED;
+        if (archived)
+            state = WishState.ARCHIVED;
     }
 
     void convertDeletedToState(@AlsoLoad("deleted") Boolean deleted) {
-        if (deleted) state = WishState.DELETED;
+        if (deleted)
+            state = WishState.DELETED;
     }
 }

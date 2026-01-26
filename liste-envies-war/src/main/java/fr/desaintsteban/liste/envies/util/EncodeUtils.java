@@ -1,6 +1,6 @@
 package fr.desaintsteban.liste.envies.util;
 
-import javax.xml.bind.DatatypeConverter;
+import java.util.Base64;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -9,25 +9,25 @@ import java.nio.charset.StandardCharsets;
 public class EncodeUtils {
 
     public static String encode(String string, boolean encode) {
-        return encode ? encode(string): string;
+        return encode ? encode(string) : string;
     }
 
     public static String encode(String string) {
         if (string != null) {
             byte[] message = string.getBytes(StandardCharsets.UTF_8);
-            String encoded = DatatypeConverter.printBase64Binary(message);
+            String encoded = Base64.getEncoder().encodeToString(message);
             return encoded;
         }
         return null;
     }
 
     public static String decode(String string, boolean decode) {
-        return decode ? decode(string): string;
+        return decode ? decode(string) : string;
     }
 
     public static String decode(String string) {
         if (string != null) {
-            byte[] decoded = DatatypeConverter.parseBase64Binary(string);
+            byte[] decoded = Base64.getDecoder().decode(string);
             return new String(decoded, StandardCharsets.UTF_8);
         }
         return null;
