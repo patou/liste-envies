@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
 import {
   ActivatedRouteSnapshot,
-  CanActivate,
-  CanDeactivate,
   Router,
   RouterStateSnapshot,
   UrlTree
@@ -14,8 +12,7 @@ import { WishesListService } from "../state/wishes/wishes-list.service";
 import { ListComponent } from "../page/list/list.component";
 
 @Injectable()
-export class WishListGuard
-  implements CanActivate, CanDeactivate<ListComponent> {
+export class WishListGuard {
   constructor(
     private router: Router,
     private wishService: WishService,

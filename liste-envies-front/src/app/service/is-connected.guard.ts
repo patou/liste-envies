@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import {
-  CanActivate,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   Router,
@@ -14,7 +13,7 @@ import { User } from "firebase";
 @Injectable({
   providedIn: "root"
 })
-export class IsConnectedGuard implements CanActivate {
+export class IsConnectedGuard {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(
