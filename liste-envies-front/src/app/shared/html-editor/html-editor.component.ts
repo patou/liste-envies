@@ -11,7 +11,7 @@ import {
   Self,
   ViewEncapsulation
 } from "@angular/core";
-import { MatFormFieldControl } from "@angular/material/form-field";
+import { MatLegacyFormFieldControl as MatFormFieldControl } from "@angular/material/legacy-form-field";
 import {
   ControlValueAccessor,
   UntypedFormBuilder,

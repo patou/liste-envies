@@ -15,8 +15,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "../../service/auth.service";
 import * as firebase from "firebase";
 import { WishEditComponent } from "../../component/wish-edit/wish-edit.component";
-import { MatDialog } from "@angular/material/dialog";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatLegacyDialog as MatDialog } from "@angular/material/legacy-dialog";
+import { MatLegacySnackBar as MatSnackBar } from "@angular/material/legacy-snack-bar";
 import { WishQuery } from "../../state/wishes/wish.query";
 import {
   distinct,
