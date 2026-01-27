@@ -3,128 +3,89 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { WishComment, WishItem } from "../models/WishItem";
 import { WishList } from "../models/WishList";
-import {
-  Body,
-  GET,
-  Path,
-  PathParam,
-  POST,
-  PUT,
-  DELETE
-} from "ngx-http-annotations";
 
 @Injectable()
-@Path("/api/")
 export class WishListApiService {
+  private readonly basePath = "/api";
+
   constructor(private http: HttpClient) {}
 
-  @GET
-  @Path("list/")
   listAll(): Observable<WishList[]> {
-    return null;
+    return this.http.get<WishList[]>(`${this.basePath}/list/`);
   }
 
-  @POST
-  @Path("list/:name")
-  createOrUpdateList(
-    @PathParam("name") name: string,
-    @Body wishList: WishList
-  ): Observable<WishList> {
-    return null;
+  createOrUpdateList(name: string, wishList: WishList): Observable<WishList> {
+    return this.http.post<WishList>(`${this.basePath}/list/${name}`, wishList);
   }
 
-  @GET
-  @Path("list/:name")
-  wishList(@PathParam("name") name: string): Observable<WishList> {
-    return null;
+  wishList(name: string): Observable<WishList> {
+    return this.http.get<WishList>(`${this.basePath}/list/${name}`);
   }
 
-  @PUT
-  @Path("list/:name/archive")
-  archiveWishList(@PathParam("name") name: string): Observable<WishList> {
-    return null;
+  archiveWishList(name: string): Observable<WishList> {
+    return this.http.put<WishList>(
+      `${this.basePath}/list/${name}/archive`,
+      null
+    );
   }
 
-  @GET
-  @Path("wishes/:name")
-  wishes(@PathParam("name") name: string): Observable<WishItem[]> {
-    return null;
+  wishes(name: string): Observable<WishItem[]> {
+    return this.http.get<WishItem[]>(`${this.basePath}/wishes/${name}`);
   }
 
-  @GET
-  @Path("wishes/:name/archived")
-  wishesArchived(@PathParam("name") name: string): Observable<WishItem[]> {
-    return null;
+  wishesArchived(name: string): Observable<WishItem[]> {
+    return this.http.get<WishItem[]>(
+      `${this.basePath}/wishes/${name}/archived`
+    );
   }
 
-  @GET
-  @Path("wishes/received")
   wishesReceived(): Observable<WishItem[]> {
-    return null;
+    return this.http.get<WishItem[]>(`${this.basePath}/wishes/received`);
   }
 
-  @POST
-  @Path("wishes/:name")
-  createWish(
-    @PathParam("name") name: string,
-    @Body wish: WishItem
-  ): Observable<WishItem> {
-    return null;
+  createWish(name: string, wish: WishItem): Observable<WishItem> {
+    return this.http.post<WishItem>(`${this.basePath}/wishes/${name}`, wish);
   }
 
-  @POST
-  @Path("wishes/:name/:id")
-  updateWish(
-    @PathParam("name") name: string,
-    @PathParam("id") id: number,
-    @Body wish: WishItem
-  ): Observable<WishItem> {
-    return null;
+  updateWish(name: string, id: number, wish: WishItem): Observable<WishItem> {
+    return this.http.post<WishItem>(
+      `${this.basePath}/wishes/${name}/${id}`,
+      wish
+    );
   }
 
-  @PUT
-  @Path("wishes/:name/give/:id")
-  give(
-    @PathParam("name") name: string,
-    @PathParam("id") id: number
-  ): Observable<WishItem> {
-    return null;
+  give(name: string, id: number): Observable<WishItem> {
+    return this.http.put<WishItem>(
+      `${this.basePath}/wishes/${name}/give/${id}`,
+      null
+    );
   }
 
-  @DELETE
-  @Path("wishes/:name/give/:id")
-  cancelGive(
-    @PathParam("name") name: string,
-    @PathParam("id") id: number
-  ): Observable<WishItem> {
-    return null;
+  cancelGive(name: string, id: number): Observable<WishItem> {
+    return this.http.delete<WishItem>(
+      `${this.basePath}/wishes/${name}/give/${id}`
+    );
   }
 
-  @PUT
-  @Path("wishes/:name/archive/:id")
-  archive(
-    @PathParam("name") name: string,
-    @PathParam("id") id: number
-  ): Observable<WishItem> {
-    return null;
+  archive(name: string, id: number): Observable<WishItem> {
+    return this.http.put<WishItem>(
+      `${this.basePath}/wishes/${name}/archive/${id}`,
+      null
+    );
   }
 
-  @DELETE
-  @Path("wishes/:name/:id")
-  delete(
-    @PathParam("name") name: string,
-    @PathParam("id") id: number
-  ): Observable<WishItem> {
-    return null;
+  delete(name: string, id: number): Observable<WishItem> {
+    return this.http.delete<WishItem>(`${this.basePath}/wishes/${name}/${id}`);
   }
 
-  @POST
-  @Path("wishes/:name/:id/addComment")
   comment(
-    @PathParam("name") listId: string,
-    @PathParam("id") id: number,
-    @Body note: Partial<WishComment>
+    listId: string,
+    id: number,
+    note: Partial<WishComment>
   ): Observable<WishItem> {
-    return null;
+    return this.http.post<WishItem>(
+      `${this.basePath}/wishes/${listId}/${id}/addComment`,
+      note
+    );
   }
 }

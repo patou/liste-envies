@@ -14,7 +14,7 @@
     fxLayoutAlign="start start"
   >
     <ng-container *ngFor="let owner of wishlist.owners; let last = last">
-      <ngx-avatar
+      <app-avatar
         [gravatarId]="owner.email"
         [matTooltip]="owner.name"
         [name]="owner.name"
@@ -23,7 +23,7 @@
         matTooltipPosition="above"
         size="15"
       >
-      </ngx-avatar>
+      </app-avatar>
     </ng-container>
   </p>
   <span class="notification-list" *ngIf="notifsCount$ | async as notifsCount">

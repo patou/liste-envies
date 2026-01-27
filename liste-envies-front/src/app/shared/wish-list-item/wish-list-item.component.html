@@ -45,7 +45,7 @@
   >
     <span>de</span>
     <ng-container *ngFor="let owner of wishlist.owners; let last = last">
-      <ngx-avatar
+      <app-avatar
         [gravatarId]="owner.email"
         [matTooltip]="owner.name"
         [name]="owner.name || owner.email"
@@ -54,7 +54,7 @@
         matTooltipPosition="above"
         size="15"
       >
-      </ngx-avatar>
+      </app-avatar>
       <span
         [matTooltip]="owner.email"
         [title]="owner.email"

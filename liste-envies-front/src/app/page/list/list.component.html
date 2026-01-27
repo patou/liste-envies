@@ -67,7 +67,7 @@
           <p class="owners-list" *ngIf="list?.owners && list?.owners?.length">
             de
             <ng-container *ngFor="let owner of list?.owners; let last = last">
-              <ngx-avatar
+              <app-avatar
                 [gravatarId]="owner?.email"
                 [matTooltip]="owner?.name || owner?.email"
                 [name]="owner?.name"
@@ -76,7 +76,7 @@
                 matTooltipPosition="below"
                 size="15"
               >
-              </ngx-avatar>
+              </app-avatar>
               <span
                 [matTooltip]="owner.email"
                 [title]="owner.email"

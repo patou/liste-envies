@@ -70,7 +70,7 @@
   </mat-list>
   <ng-template #userShareLine let-userShare>
     <mat-list-item>
-      <ngx-avatar
+      <app-avatar
         matListAvatar
         [gravatarId]="userShare?.email"
         [matTooltip]="userShare?.name || userShare?.email"
@@ -79,7 +79,7 @@
         matTooltipPosition="below"
         size="30"
       >
-      </ngx-avatar>
+      </app-avatar>
       <div mat-line>{{ userShare?.name }}</div>
       <div mat-line>{{ userShare?.email }}</div>
       <button
