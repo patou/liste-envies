@@ -1,7 +1,7 @@
 import { TestBed } from "@angular/core/testing";
 
 import { LoginPopUpService } from "./login-pop-up.service";
-import { MatDialog } from "@angular/material/dialog";
+import { MatLegacyDialog as MatDialog } from "@angular/material/legacy-dialog";
 
 describe("LoginPopUpService", () => {
   let service: LoginPopUpService;

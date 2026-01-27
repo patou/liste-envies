@@ -24,7 +24,7 @@ import {
   take,
   tap
 } from "rxjs/operators";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatLegacySnackBar as MatSnackBar } from "@angular/material/legacy-snack-bar";
 import { AkitaFiltersPlugin } from "akita-filters-plugin";
 import { WishesListStore } from "./wishes-list.store";
 import { UserAPIService } from "../../service/user-api.service";
