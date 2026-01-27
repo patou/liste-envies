@@ -21,7 +21,6 @@ import {
 } from "ngx-swiper-wrapper";
 import { AuthService } from "../service/auth.service";
 
-
 import { AvatarModule } from "ngx-avatar";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { LatinizePipe, NgPipesModule } from "ng-pipes";
@@ -45,11 +44,11 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   pagination: false
 };
 
-import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
-import FilePondPluginFileEncode from "filepond-plugin-file-encode";
-import FilePondPluginImageResize from "filepond-plugin-image-resize";
-import FilePondPluginImageTransform from "filepond-plugin-image-transform";
-import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+import * as FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
+import * as FilePondPluginFileEncode from "filepond-plugin-file-encode";
+import * as FilePondPluginImageResize from "filepond-plugin-image-resize";
+import * as FilePondPluginImageTransform from "filepond-plugin-image-transform";
+import * as FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 import { WishListNavItemComponent } from "./wish-list-nav-item/wish-list-nav-item.component";
 import { SideOfWishComponent } from "../component/side_of_wish/side-of-wish.component";
 import { AppModule } from "../app.module";

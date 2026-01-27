@@ -33,7 +33,7 @@ export class ColorManagementService {
 
   setColorFromUrl(url: string) {
     // Using builder
-    Vibrant.from(url, { quality: 1 })
+    Vibrant.from(url)
       .getPalette()
       .then(
         palette => {

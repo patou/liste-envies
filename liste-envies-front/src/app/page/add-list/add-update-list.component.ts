@@ -25,7 +25,7 @@ import { merge } from "rxjs";
 
 import { WishesListQuery } from "../../state/wishes/wishes-list.query";
 import { WishQuery } from "../../state/wishes/wish.query";
-import * as moment from "moment";
+import moment from "moment";
 
 @UntilDestroy()
 @Component({
