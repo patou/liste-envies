@@ -134,7 +134,6 @@
       }
     }
   },
-  "defaultProject": "liste-envies-front",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",

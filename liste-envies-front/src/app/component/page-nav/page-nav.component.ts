@@ -7,7 +7,7 @@ import { Observable } from "rxjs";
 import { WishesListQuery } from "../../state/wishes/wishes-list.query";
 import { WishList } from "../../models/WishList";
 import { NotificationsQuery } from "../../state/app/notifications.query";
-import { FormControl } from "@angular/forms";
+import { UntypedFormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 import { WishesListService } from "../../state/wishes/wishes-list.service";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
@@ -47,7 +47,7 @@ export class PageNavComponent implements OnInit {
   public archiveCount$: Observable<number>;
   public trashCount$: Observable<number>;
 
-  public selectListControl = new FormControl("");
+  public selectListControl = new UntypedFormControl("");
   public isOpened: boolean = false;
   public openedRightSideNav: boolean = false;
   public selectedTabsRightSidebar: number = 0;

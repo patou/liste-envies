@@ -12,7 +12,11 @@ import {
   ViewEncapsulation
 } from "@angular/core";
 import { MatFormFieldControl } from "@angular/material/form-field";
-import { ControlValueAccessor, FormBuilder, NgControl } from "@angular/forms";
+import {
+  ControlValueAccessor,
+  UntypedFormBuilder,
+  NgControl
+} from "@angular/forms";
 import { Subject } from "rxjs";
 import { FocusMonitor } from "@angular/cdk/a11y";
 import { coerceBooleanProperty } from "@angular/cdk/coercion";
@@ -174,7 +178,7 @@ export class HtmlEditorComponent
 
   constructor(
     @Optional() @Self() public ngControl: NgControl,
-    fb: FormBuilder,
+    fb: UntypedFormBuilder,
     private fm: FocusMonitor,
     private elRef: ElementRef<HTMLElement>
   ) {

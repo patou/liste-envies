@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators
 } from "@angular/forms";
 import { UserShare, WishList } from "../../models/WishList";
@@ -35,9 +35,9 @@ import * as moment from "moment";
 })
 export class AddUpdateListComponent implements OnInit {
   isLinear = false;
-  nameFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-  addUsers = new FormControl([]);
+  nameFormGroup: UntypedFormGroup;
+  secondFormGroup: UntypedFormGroup;
+  addUsers = new UntypedFormControl([]);
   wishList: WishList = {
     title: "",
     name: "",
@@ -57,11 +57,11 @@ export class AddUpdateListComponent implements OnInit {
   demoWhishs: Subject<WishItem[]> = new Subject<WishItem[]>();
   startDate = moment().month(1);
   public sending: boolean;
-  public wishListFormGroup: FormGroup;
+  public wishListFormGroup: UntypedFormGroup;
   public edit: boolean = false;
 
   constructor(
-    private _formBuilder: FormBuilder,
+    private _formBuilder: UntypedFormBuilder,
     private latinize: LatinizePipe,
     private demoService: DemoService,
     private wishListService: WishesListService,

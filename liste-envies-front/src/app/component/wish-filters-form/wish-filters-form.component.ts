@@ -4,7 +4,7 @@ import {
   OnInit,
   ViewEncapsulation
 } from "@angular/core";
-import { FormControl, FormGroup } from "@angular/forms";
+import { UntypedFormControl, UntypedFormGroup } from "@angular/forms";
 import { WishService } from "../../state/wishes/wish.service";
 import { AkitaFilter, searchFilter } from "akita-filters-plugin";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
@@ -21,11 +21,11 @@ import { WishState } from "../../state/wishes/wish.store";
   encapsulation: ViewEncapsulation.None
 })
 export class WishFiltersFormComponent implements OnInit {
-  filtersForm = new FormGroup({
-    search: new FormControl("", { updateOn: "blur" }),
-    type: new FormControl("all"),
-    sort: new FormControl("+date"),
-    comment: new FormControl("")
+  filtersForm = new UntypedFormGroup({
+    search: new UntypedFormControl("", { updateOn: "blur" }),
+    type: new UntypedFormControl("all"),
+    sort: new UntypedFormControl("+date"),
+    comment: new UntypedFormControl("")
     /*categoryControl: new FormControl(),
     size: new FormControl(),
     fastDeliveryControl: new FormControl()*/

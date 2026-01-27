@@ -14,8 +14,8 @@ import { MatFormFieldControl } from "@angular/material/form-field";
 import { MatTableDataSource } from "@angular/material/table";
 import {
   ControlValueAccessor,
-  FormBuilder,
-  FormControl,
+  UntypedFormBuilder,
+  UntypedFormControl,
   NgControl,
   Validators
 } from "@angular/forms";
@@ -53,8 +53,11 @@ export class UserShareComponent
   @HostBinding() id = `html-editor-input-${UserShareComponent.nextId++}`;
   readonly stateChanges: Subject<void> = new Subject<void>();
   describedBy = "";
-  addEmailsControl: FormControl = new FormControl("", Validators.email);
-  addOwnersControl: FormControl = new FormControl(false);
+  addEmailsControl: UntypedFormControl = new UntypedFormControl(
+    "",
+    Validators.email
+  );
+  addOwnersControl: UntypedFormControl = new UntypedFormControl(false);
   displayedColumns: string[] = ["infos", "type", "action"];
   users: UserShare[] = [];
   public datasource: MatTableDataSource<UserShare> = new MatTableDataSource(
@@ -63,7 +66,7 @@ export class UserShareComponent
 
   constructor(
     @Optional() @Self() public ngControl: NgControl,
-    fb: FormBuilder,
+    fb: UntypedFormBuilder,
     private fm: FocusMonitor,
     private elRef: ElementRef<HTMLElement>,
     private wishlistQuery: WishesListQuery
