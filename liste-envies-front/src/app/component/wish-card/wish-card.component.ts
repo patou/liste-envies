@@ -11,7 +11,7 @@ import {
 import { WishItem } from "../../models/WishItem";
 import { SwiperConfigInterface } from "ngx-swiper-wrapper";
 import { WishEditComponent } from "../wish-edit/wish-edit.component";
-import { MatLegacyDialog as MatDialog } from "@angular/material/legacy-dialog";
+import { MatDialog } from "@angular/material/dialog";
 import {
   animate,
   style,

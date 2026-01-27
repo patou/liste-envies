@@ -1,10 +1,10 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { NotExistsComponent } from "./not-exists.component";
-import { MatLegacyCardModule as MatCardModule } from "@angular/material/legacy-card";
+import { MatCardModule } from "@angular/material/card";
 import { NgxAuthFirebaseUIModule } from "ngx-auth-firebaseui";
 import { MatDividerModule } from "@angular/material/divider";
-import { MatLegacyButtonModule as MatButtonModule } from "@angular/material/legacy-button";
+import { MatButtonModule } from "@angular/material/button";
 import { RouterModule, Routes } from "@angular/router";
 
 const routes: Routes = [

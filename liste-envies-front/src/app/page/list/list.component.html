@@ -114,7 +114,7 @@
     </mat-expansion-panel-header>
 
     <div (click)="doNothing($event)">
-      <mat-card *ngIf="list.date" class="dateList">
+      <mat-card appearance="outlined" *ngIf="list.date" class="dateList">
         <mat-card-header>
           <mat-card-title>{{
             list.date | amDateFormat: "dddd D"

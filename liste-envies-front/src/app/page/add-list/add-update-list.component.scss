@@ -1,14 +1,15 @@
 .wish-list-url {
+  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
   .mat-form-field-label-wrapper {
     top: -5px;
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
   ::ng-deep .mat-form-field-prefix {
     top: 0;
   }
 }
 
-.privacy-radio-group .mat-radio-button {
+.privacy-radio-group .mat-mdc-radio-button {
   margin-left: 5px;
 }
 
@@ -23,6 +24,7 @@
   margin-right: 10px;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of radio that may no longer apply for the MDC version. */
 mat-radio-group.privacy-radio-group {
   display: flex;
   justify-content: space-between;

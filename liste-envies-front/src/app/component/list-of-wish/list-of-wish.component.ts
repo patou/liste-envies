@@ -9,7 +9,7 @@ import {
 import { WishItem } from "../../models/WishItem";
 import { transition, trigger, useAnimation } from "@angular/animations";
 import { bounceInLeft, fadeInUp } from "ng-animate";
-import { MatLegacyDialog as MatDialog } from "@angular/material/legacy-dialog";
+import { MatDialog } from "@angular/material/dialog";
 import { WishListApiService } from "../../service/wish-list-api.service";
 import { Observable } from "rxjs";
 import { WishQuery } from "../../state/wishes/wish.query";
