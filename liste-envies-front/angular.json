@@ -88,21 +88,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "liste-envies-front:build"
+            "buildTarget": "liste-envies-front:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "liste-envies-front:build:production"
+              "buildTarget": "liste-envies-front:build:production"
             },
             "hmr": {
-              "browserTarget": "liste-envies-front:build:hmr"
+              "buildTarget": "liste-envies-front:build:hmr"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "liste-envies-front:build"
+            "buildTarget": "liste-envies-front:build"
           }
         },
         "test": {
