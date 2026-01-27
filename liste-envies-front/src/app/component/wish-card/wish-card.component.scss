@@ -573,7 +573,7 @@ div.material-icons.form-control-feedback {
 // Variables
 @import "wire.css/src/scss/_config";
 // Mixins
-@import "~wire.css/src/scss/base/mixins";
+@import "wire.css/src/scss/base/_mixins";
 
 @include mq(medium) {
   .wish-card {

@@ -16,16 +16,16 @@
 @import "wire.css/src/scss/_config";
 
 // Reset (Normalize)
-@import "~wire.css/src/scss/base/normalize";
+@import "wire.css/src/scss/base/_normalize";
 
 // Mixins
-@import "~wire.css/src/scss/base/mixins";
+@import "wire.css/src/scss/base/_mixins";
 
 // Helpers
-@import "~wire.css/src/scss/base/helpers";
+@import "wire.css/src/scss/base/_helpers";
 
 // Global
-@import "~wire.css/src/scss/base/global";
+@import "wire.css/src/scss/base/_global";
 
 // Components
 @import "~wire.css/src/scss/components/grid";
