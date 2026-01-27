@@ -28,7 +28,7 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MomentModule } from "ngx-moment";
 import "moment/locale/fr";
 import { WishListItemsResolver } from "./service/wishListItemsResolve";
-import { AkitaNgDevtools } from "@datorama/akita-ngdevtools";
+// import { AkitaNgDevtools } from "@datorama/akita-ngdevtools";
 import { environment } from "../environments/environment";
 import { akitaConfig, enableAkitaProdMode } from "@datorama/akita";
 import { NotificationsComponent } from "./component/notifications/notifications.component";
@@ -82,7 +82,7 @@ export function waitFirebaseLoaded(authService: AuthService) {
     MatListModule,
     MomentModule,
     ReactiveFormsModule,
-    environment.production ? [] : AkitaNgDevtools.forRoot(),
+    // environment.production ? [] : AkitaNgDevtools.forRoot(),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore())

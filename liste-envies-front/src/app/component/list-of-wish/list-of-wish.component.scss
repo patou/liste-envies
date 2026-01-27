@@ -49,7 +49,7 @@
 }
 // responsive
 @import "wire.css/src/scss/_config";
-@import "~wire.css/src/scss/base/mixins";
+@import "wire.css/src/scss/base/_mixins";
 
 @include mq(small) {
   .wishitems-columns {
