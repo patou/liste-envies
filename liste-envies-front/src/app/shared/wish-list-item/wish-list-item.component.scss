@@ -1,14 +1,14 @@
-@import "~@angular/material/theming";
+@use '~@angular/material' as mat;
 @import "variables";
 
 .wish-list-item {
   position: relative;
   display: inline-block;
-  @include mat-elevation-transition;
-  @include mat-elevation(2);
+  @include mat.elevation-transition;
+  @include mat.elevation(2);
 
   &:hover {
-    @include mat-elevation(8);
+    @include mat.elevation(8);
     color: $theme-primary;
     transition: 0.5s ease-in-out all;
   }

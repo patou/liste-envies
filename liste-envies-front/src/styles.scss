@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+@use '~@angular/material' as mat;
 @import "styles/variables";
-@import "~@angular/material/theming";
-@include mat-core();
+@include mat.core();
 
 // Variables
 @import "~wire.css/src/scss/config";
@@ -90,15 +90,19 @@ $dynamic-theme-accent: (
   )
 );
 
-$my-theme-primary: mat-palette($dynamic-theme-primary);
-$my-theme-accent: mat-palette($dynamic-theme-accent);
-$my-theme-warn: mat-palette($mat-deep-orange, A200);
+$my-theme-primary: mat.define-palette($dynamic-theme-primary);
+$my-theme-accent: mat.define-palette($dynamic-theme-accent);
+$my-theme-warn: mat.define-palette(mat.$deep-orange-palette, A200);
 
 // create theme (use mat-dark-theme for themes with dark backgrounds)
-$my-theme: mat-light-theme($my-theme-primary, $my-theme-accent, $my-theme-warn);
+$my-theme: mat.define-light-theme(
+  $my-theme-primary,
+  $my-theme-accent,
+  $my-theme-warn
+);
 
 // mat-palette accepts $palette-name, main, lighter and darker variants
-@include angular-material-theme($my-theme);
+@include mat.all-component-themes($my-theme);
 body {
   font-family: Roboto, Arial, sans-serif;
   margin: 0;
