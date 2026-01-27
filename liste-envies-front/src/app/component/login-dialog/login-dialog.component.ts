@@ -1,8 +1,5 @@
 import { Component, Inject, OnInit } from "@angular/core";
-import {
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
-  MatLegacyDialogRef as MatDialogRef
-} from "@angular/material/legacy-dialog";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { AUTH_PROVIDERS } from "../../shared/auth_providers";
 import { AuthProvider, Theme } from "ngx-auth-firebaseui";
 

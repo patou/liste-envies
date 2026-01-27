@@ -19,7 +19,7 @@ import { Observable, of, timer } from "rxjs";
 import { Router, UrlTree } from "@angular/router";
 import { HttpErrorResponse } from "@angular/common/http";
 import { LoginPopUpService } from "../../service/login-pop-up.service";
-import { MatLegacySnackBar as MatSnackBar } from "@angular/material/legacy-snack-bar";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Injectable({ providedIn: "root" })
 export class WishesListService {

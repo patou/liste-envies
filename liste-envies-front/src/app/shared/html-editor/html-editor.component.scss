@@ -2346,6 +2346,8 @@
   }
 }
 
+/*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.
+ */
 .form-field-240px .mat-form-field-infix {
   height: 240px !important;
   min-height: 240px !important;

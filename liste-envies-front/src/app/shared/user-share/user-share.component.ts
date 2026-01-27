@@ -9,9 +9,9 @@ import {
   Self,
   ViewEncapsulation
 } from "@angular/core";
-import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from "@angular/material/legacy-autocomplete";
-import { MatLegacyFormFieldControl as MatFormFieldControl } from "@angular/material/legacy-form-field";
-import { MatLegacyTableDataSource as MatTableDataSource } from "@angular/material/legacy-table";
+import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
+import { MatFormFieldControl } from "@angular/material/form-field";
+import { MatTableDataSource } from "@angular/material/table";
 import {
   ControlValueAccessor,
   UntypedFormBuilder,

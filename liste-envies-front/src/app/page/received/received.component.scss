@@ -1,4 +1,5 @@
-mat-card.header-page-card.mat-card {
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
+mat-card.header-page-card.mat-mdc-card {
   text-align: left;
 }
 
@@ -6,6 +7,7 @@ mat-divider.mat-divider.divider-withDate.mat-divider-horizontal.mat-divider-inse
   width: 88%;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
 mat-card-title {
   margin-bottom: 0px;
   h1.title-list {
@@ -24,25 +26,28 @@ mat-card-title {
   }
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
 mat-card.dateList {
   display: inline;
   float: right;
   position: relative;
 
-  &.mat-card {
+  &.mat-mdc-card {
     padding: 0;
     margin: 0;
   }
-
-  mat-card-title.mat-card-title {
+  /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
+  mat-card-title.mat-mdc-card-title {
     background: #f7747440;
     padding: 5px 5px;
     margin: 8px 0 !important;
     border-radius: 2px;
     text-transform: capitalize;
   }
-
-  mat-card-subtitle.mat-card-subtitle {
+  /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
+  mat-card-subtitle.mat-mdc-card-subtitle {
     margin-bottom: 2px;
     text-transform: uppercase;
     padding-top: 3px;

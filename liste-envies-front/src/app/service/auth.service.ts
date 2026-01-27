@@ -7,7 +7,7 @@ import {
   HttpInterceptor,
   HttpRequest
 } from "@angular/common/http";
-import { MatLegacyDialog as MatDialog } from "@angular/material/legacy-dialog";
+import { MatDialog } from "@angular/material/dialog";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { distinct, map, pluck, tap } from "rxjs/operators";
 import { WishesListService } from "../state/wishes/wishes-list.service";

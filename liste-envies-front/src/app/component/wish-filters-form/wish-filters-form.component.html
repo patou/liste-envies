@@ -73,14 +73,14 @@
   </mat-form-field>
 </form>
 <div>
-  <mat-chip-list>
-    <mat-chip
+  <mat-chip-listbox>
+    <mat-chip-option
       removable="true"
       (removed)="removeFilter(filter.id)"
       *ngFor="let filter of filters | async"
       matTooltip="Supprimer ce filtre"
       >{{ filter.name }}
       <mat-icon matChipRemove>cancel</mat-icon>
-    </mat-chip>
-  </mat-chip-list>
+    </mat-chip-option>
+  </mat-chip-listbox>
 </div>

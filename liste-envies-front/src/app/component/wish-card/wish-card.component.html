@@ -1,4 +1,5 @@
 <mat-card
+  appearance="outlined"
   class="wish-card flip-front"
   [ngClass]="{ active: isActive$ | async, draft: wishItem.draft }"
   fxLayout="column"
@@ -99,7 +100,9 @@
     class="card-image"
   >
     <div class="swiper-fraction">
-      <mat-chip>{{ index + 1 }} / {{ wishItem.pictures.length }}</mat-chip>
+      <mat-chip-option
+        >{{ index + 1 }} / {{ wishItem.pictures.length }}</mat-chip-option
+      >
     </div>
     <div class="swiper-pagination"></div>
     <swiper [config]="SWIPER_CONFIG" [(index)]="index">
@@ -133,8 +136,8 @@
     class="wish-content"
   >
     <div fxLayout="row" fxLayoutAlign="space-between stretch">
-      <mat-chip-list>
-        <mat-chip
+      <mat-chip-listbox>
+        <mat-chip-option
           *ngIf="wishItem.price"
           color="primary"
           selected
@@ -143,8 +146,8 @@
         >
           {{ wishItem.price | truncate: 37:"..." }}
           <mat-icon matChipRemove>euro_symbol</mat-icon>
-        </mat-chip>
-      </mat-chip-list>
+        </mat-chip-option>
+      </mat-chip-listbox>
       <app-rating
         *ngIf="wishItem.rating"
         [value]="wishItem.rating"
@@ -155,7 +158,7 @@
     <read-more [content]="wishItem.description" maxHeight="100"></read-more>
 
     <div *ngIf="wishItem.urls && wishItem.urls.length > 0">
-      <mat-chip-list>
+      <mat-chip-listbox>
         <span *ngIf="wishItem.urls.length === 1; else liens">Lien :</span>
         <ng-template #liens>Liens :</ng-template>
         <a
@@ -168,14 +171,14 @@
               : 'Acheter sur : ' + url.url
           "
         >
-          <mat-chip selectable class="link-chips"
+          <mat-chip-option selectable class="link-chips"
             >{{
               !url.name ? "lien pour acheter" : (url.name | truncate: 46:"...")
             }}
             <mat-icon matChipRemove>open_in_new</mat-icon>
-          </mat-chip>
+          </mat-chip-option>
         </a>
-      </mat-chip-list>
+      </mat-chip-listbox>
     </div>
 
     <br />
