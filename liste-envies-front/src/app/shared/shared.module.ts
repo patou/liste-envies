@@ -16,8 +16,7 @@ import { ListTypeIcon } from "./list-type-icon/list-type-icon.component";
 
 import { AuthService } from "../service/auth.service";
 
-import { AvatarModule } from "ngx-avatar";
-import { LatinizePipe, NgPipesModule } from "ng-pipes";
+import { LatinizePipe } from "./pipes/latinize.pipe";
 import { WishListItemComponent } from "./wish-list-item/wish-list-item.component";
 import { RouterModule } from "@angular/router";
 import { provideFirebaseApp, initializeApp } from "@angular/fire/app";
@@ -57,14 +56,13 @@ registerPlugin(
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    NgPipesModule,
     BrowserAnimationsModule,
     MaterialModule,
     QuillModule.forRoot(),
     FilePondModule,
-    AvatarModule,
     RouterModule,
-    MomentModule
+    MomentModule,
+    LatinizePipe
   ],
   declarations: [
     RatingComponent,
@@ -88,7 +86,6 @@ registerPlugin(
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    NgPipesModule,
     BrowserAnimationsModule,
     MaterialModule,
     QuillModule,
@@ -97,8 +94,8 @@ registerPlugin(
     HtmlEditorComponent,
     LinksFormComponent,
     ImgFormComponent,
-    AvatarModule,
     FilePondModule,
+    LatinizePipe,
     ListTypeIcon,
     WishListItemComponent,
     ReadMoreComponent,

@@ -17,7 +17,6 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AuthService } from "./service/auth.service";
 import { LoginDialogComponent } from "./component/login-dialog/login-dialog.component";
 import { WishListGuard } from "./service/wishListResolve";
-import { HttpRestModule } from "ngx-http-annotations";
 import { PageNavComponent } from "./component/page-nav/page-nav.component";
 import { LayoutModule } from "@angular/cdk/layout";
 import { MatButtonModule } from "@angular/material/button";
@@ -75,7 +74,6 @@ export function waitFirebaseLoaded(authService: AuthService) {
   imports: [
     AppRoutingModule,
     SharedModule,
-    HttpRestModule,
     LayoutModule,
     MatToolbarModule,
     MatButtonModule,

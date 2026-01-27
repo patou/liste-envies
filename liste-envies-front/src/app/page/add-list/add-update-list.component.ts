@@ -6,7 +6,7 @@ import {
   Validators
 } from "@angular/forms";
 import { UserShare, WishList } from "../../models/WishList";
-import { LatinizePipe } from "ng-pipes";
+import { LatinizePipe } from "../../shared/pipes/latinize.pipe";
 import { Subject } from "rxjs";
 import { WishItem } from "../../models/WishItem";
 import { DemoService } from "../../state/wishes/demo/demo.service";
