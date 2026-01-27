@@ -30,7 +30,7 @@ export class MyWishService {
   }
 
   private loadGiven(): Promise<void> {
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       this.userApi.given("me").subscribe(
         (values: WishItem[]) => {
           this.add(values);
@@ -43,7 +43,7 @@ export class MyWishService {
   }
 
   private loadArchive() {
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       this.userApi.archived("me").subscribe(
         (values: WishItem[]) => {
           this.add(values);

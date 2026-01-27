@@ -38,8 +38,9 @@ import { ConnectComponent } from "./page/connect/connect.component";
 import { WishListItemsArchivedResolver } from "./service/wishListItemsArchivedResolve";
 import { ReceivedComponent } from "./page/received/received.component";
 import { WishListItemsReceivedResolver } from "./service/wishListItemsReceivedResolve";
-import { AuthProvider, NgxAuthFirebaseUIModule } from "ngx-auth-firebaseui";
-import { AUTH_PROVIDERS } from "./shared/auth_providers";
+import { provideFirebaseApp, initializeApp } from "@angular/fire/app";
+import { provideAuth, getAuth } from "@angular/fire/auth";
+import { provideFirestore, getFirestore } from "@angular/fire/firestore";
 
 akitaConfig({
   resettable: true
@@ -84,7 +85,9 @@ export function waitFirebaseLoaded(authService: AuthService) {
     MomentModule,
     ReactiveFormsModule,
     environment.production ? [] : AkitaNgDevtools.forRoot(),
-    NgxAuthFirebaseUIModule.forRoot(environment.firebaseConfig)
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore())
   ],
   providers: [
     {
@@ -98,14 +101,6 @@ export function waitFirebaseLoaded(authService: AuthService) {
     WishListItemsArchivedResolver,
     WishListItemsReceivedResolver,
     { provide: LOCALE_ID, useValue: "fr" },
-    {
-      provide: AUTH_PROVIDERS,
-      useValue: [
-        AuthProvider.Google,
-        AuthProvider.Facebook,
-        AuthProvider.EmailAndPassword
-      ]
-    },
     {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
       useValue: { duration: 2500, horizontalPosition: "right" }

@@ -29,7 +29,7 @@ import { AkitaFiltersPlugin } from "akita-filters-plugin";
 import { WishesListStore } from "./wishes-list.store";
 import { UserAPIService } from "../../service/user-api.service";
 import { LoginPopUpService } from "../../service/login-pop-up.service";
-import { UserInfo } from "firebase";
+import type { UserInfo } from "firebase/auth";
 
 @Injectable({ providedIn: "root" })
 export class WishService extends AkitaFiltersPlugin<WishState> {

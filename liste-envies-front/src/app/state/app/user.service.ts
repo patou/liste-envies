@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { createInitialState, UserStore } from "./user.store";
-import { UserInfo } from "firebase";
+import type { UserInfo } from "firebase/auth";
 import { UserAPIService } from "../../service/user-api.service";
 import { UserQuery } from "./user.query";
 import { EMPTY, timer, Observable } from "rxjs";

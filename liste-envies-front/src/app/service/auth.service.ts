@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { AsyncSubject, Observable } from "rxjs";
-import { User, UserInfo } from "firebase";
+import { User } from "@angular/fire/auth";
+import type { User as FirebaseUser, UserInfo } from "firebase/auth";
 import {
   HttpEvent,
   HttpHandler,
@@ -8,8 +9,8 @@ import {
   HttpRequest
 } from "@angular/common/http";
 import { MatDialog } from "@angular/material/dialog";
-import { AngularFireAuth } from "@angular/fire/auth";
-import { distinct, map, pluck, tap } from "rxjs/operators";
+import { Auth, user, signOut } from "@angular/fire/auth";
+import { distinct, map, tap } from "rxjs/operators";
 import { WishesListService } from "../state/wishes/wishes-list.service";
 import { UserService } from "../state/app/user.service";
 import { UserQuery } from "../state/app/user.query";
@@ -17,23 +18,25 @@ import { UserState } from "../state/app/user.store";
 
 @Injectable()
 export class AuthService implements HttpInterceptor {
-  public static currentUser: User;
+  public static currentUser: FirebaseUser;
   public static currentToken: string;
 
-  public user: Observable<User>;
+  public user: Observable<FirebaseUser | null>;
   private firebaseAuthInit$: AsyncSubject<boolean> = new AsyncSubject<
     boolean
   >();
   private _init: boolean = false;
 
   constructor(
-    private firebaseAuth: AngularFireAuth,
+    private auth: Auth,
     public dialog: MatDialog,
     private wishesList: WishesListService,
     private userService: UserService,
     private userQuery: UserQuery
   ) {
-    this.user = this.userQuery.select().pipe(pluck<UserState, User>("user"));
+    this.user = this.userQuery
+      .select()
+      .pipe(map((state: UserState) => state.user as FirebaseUser | null));
 
     this.subscribeToAuthState();
   }
@@ -43,13 +46,13 @@ export class AuthService implements HttpInterceptor {
   }
 
   private subscribeToAuthState(): Promise<boolean> {
-    this.firebaseAuth.authState
+    user(this.auth)
       .pipe(
-        distinct((user: User) => user?.uid),
+        distinct((user: FirebaseUser | null) => user?.uid),
         tap(this.emitInitEventForFirstTime())
       )
       .subscribe(
-        (user: User) => {
+        (user: FirebaseUser | null) => {
           if (user) {
             if (this.isADifferentUserOrIsNotInitialised(user)) {
               this.initUser(user);
@@ -79,14 +82,14 @@ export class AuthService implements HttpInterceptor {
     };
   }
 
-  private isADifferentUserOrIsNotInitialised(user: firebase.User) {
+  private isADifferentUserOrIsNotInitialised(user: FirebaseUser) {
     return (
       (AuthService.currentUser && user.uid !== AuthService.currentUser.uid) ||
       !AuthService.currentUser
     );
   }
 
-  private initUser(user: firebase.User) {
+  private initUser(user: FirebaseUser) {
     user.getIdToken().then((token: string) => {
       AuthService.currentToken = token;
       const currentUserInfo: UserInfo = {
@@ -133,10 +136,10 @@ export class AuthService implements HttpInterceptor {
   }
 
   logout() {
-    this.firebaseAuth.signOut();
+    signOut(this.auth);
   }
 
   isConnected(): Observable<boolean> {
-    return this.firebaseAuth.authState.pipe(map<User, boolean>(user => !!user));
+    return user(this.auth).pipe(map((user: FirebaseUser | null) => !!user));
   }
 }

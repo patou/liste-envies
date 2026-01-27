@@ -8,7 +8,7 @@ import {
 import { Observable } from "rxjs";
 import { AuthService } from "./auth.service";
 import { map } from "rxjs/operators";
-import { User } from "firebase";
+import type { User } from "firebase/auth";
 
 @Injectable({
   providedIn: "root"

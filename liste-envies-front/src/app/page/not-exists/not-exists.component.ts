@@ -1,9 +1,7 @@
-import { Component, Inject, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../../service/auth.service";
 import { Observable } from "rxjs";
-import * as firebase from "firebase";
-import { AuthProvider, Theme } from "ngx-auth-firebaseui";
-import { AUTH_PROVIDERS } from "../../shared/auth_providers";
+import type { User } from "firebase/auth";
 import { LoginPopUpService } from "../../service/login-pop-up.service";
 import { ActivatedRoute, Router } from "@angular/router";
 
@@ -13,13 +11,11 @@ import { ActivatedRoute, Router } from "@angular/router";
   styleUrls: ["./not-exists.component.scss"]
 })
 export class NotExistsComponent implements OnInit {
-  public userAuth: Observable<firebase.User>;
-  theme: Theme = Theme.RAISED;
+  public userAuth: Observable<User | null>;
   name: string;
 
   constructor(
     private auth: AuthService,
-    @Inject(AUTH_PROVIDERS) public providers: AuthProvider[],
     private loginPopUp: LoginPopUpService,
     private router: Router,
     private route: ActivatedRoute

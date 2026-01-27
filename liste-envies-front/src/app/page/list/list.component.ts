@@ -13,7 +13,7 @@ import { WishList } from "../../models/WishList";
 import { WishItem } from "../../models/WishItem";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "../../service/auth.service";
-import * as firebase from "firebase";
+import type { User } from "firebase/auth";
 import { WishEditComponent } from "../../component/wish-edit/wish-edit.component";
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -58,7 +58,7 @@ export class ListComponent implements OnInit, OnChanges {
   @Input()
   demo = false;
 
-  public userAuth: Observable<firebase.User>;
+  public userAuth: Observable<User | null>;
   expandedHeader: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
     .pipe(map(result => !result.matches));

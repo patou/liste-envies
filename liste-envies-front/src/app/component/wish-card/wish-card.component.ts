@@ -9,7 +9,6 @@ import {
   ViewChild
 } from "@angular/core";
 import { WishItem } from "../../models/WishItem";
-import { SwiperConfigInterface } from "ngx-swiper-wrapper";
 import { WishEditComponent } from "../wish-edit/wish-edit.component";
 import { MatDialog } from "@angular/material/dialog";
 import {
@@ -51,26 +50,6 @@ export class WishCardComponent implements OnInit, OnChanges, OnDestroy {
   @Input() readOnly: boolean;
   //@Input() public wishID: number;
   edit = false;
-
-  public SWIPER_CONFIG: SwiperConfigInterface = {
-    direction: "horizontal",
-    slidesPerView: 1,
-    navigation: true,
-    lazy: true,
-    grabCursor: true,
-    centeredSlides: true,
-    spaceBetween: 15,
-    watchOverflow: false,
-    centerInsufficientSlides: true,
-    pagination: {
-      el: ".swiper-pagination",
-      type: "progressbar"
-    },
-    scrollbar: {
-      el: ".swiper-scrollbar",
-      draggable: true
-    }
-  };
 
   public index: number = 0;
 

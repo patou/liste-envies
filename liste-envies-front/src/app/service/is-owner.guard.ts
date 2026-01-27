@@ -8,7 +8,7 @@ import {
 import { Observable } from "rxjs";
 import { AuthService } from "./auth.service";
 import { map, take } from "rxjs/operators";
-import { User } from "firebase";
+import type { User } from "firebase/auth";
 import { WishesListQuery } from "../state/wishes/wishes-list.query";
 import { filterNil } from "@datorama/akita";
 import { WishList } from "../models/WishList";

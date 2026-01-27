@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ID, Order, QueryConfig, QueryEntity } from "@datorama/akita";
 import { WishStore, WishState } from "./wish.store";
-import { distinct, map, pluck } from "rxjs/operators";
+import { distinct, map } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { WishList } from "../../models/WishList";
 
@@ -25,7 +25,7 @@ export class WishQuery extends QueryEntity<WishState> {
   }
 
   selectWish() {
-    return this.select().pipe(pluck<WishState, WishList>("wishList"));
+    return this.select().pipe(map((state: WishState) => state.wishList));
   }
 
   isFullWishListLoaded(): boolean {

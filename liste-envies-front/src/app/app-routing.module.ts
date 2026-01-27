@@ -31,7 +31,7 @@ const routes: Routes = [
       {
         path: "about",
         loadChildren: () =>
-          import("app/page/about/about.module").then(m => m.AboutModule)
+          import("./page/about/about.module").then(m => m.AboutModule)
       },
       {
         path: "connect",
@@ -41,7 +41,7 @@ const routes: Routes = [
       {
         path: "notExist",
         loadChildren: () =>
-          import("app/page/not-exists/not-exists.module").then(
+          import("./page/not-exists/not-exists.module").then(
             m => m.NotExistsModule
           )
       },
