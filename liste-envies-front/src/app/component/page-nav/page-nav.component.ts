@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { map, tap, debounceTime } from "rxjs/operators";
 import { AuthService } from "../../service/auth.service";
-import * as firebase from "firebase";
+import type { User } from "firebase/auth";
 import { Observable } from "rxjs";
 import { WishesListQuery } from "../../state/wishes/wishes-list.query";
 import { WishList } from "../../models/WishList";
@@ -14,8 +14,13 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Debounce as DebounceDecorator } from "lodash-decorators";
 import { ID } from "@datorama/akita";
 import { MyWishQuery } from "../../state/wishes/my-wish/my-wish.query";
-import { LinkMenuItem } from "ngx-auth-firebaseui";
 import { LoginPopUpService } from "../../service/login-pop-up.service";
+
+interface LinkMenuItem {
+  icon?: string;
+  text?: string;
+  callback?: () => void;
+}
 
 @UntilDestroy()
 @Component({
@@ -34,7 +39,7 @@ export class PageNavComponent implements OnInit {
 
   isHandset: boolean;
 
-  public userAuth$: Observable<firebase.User>;
+  public userAuth$: Observable<User | null>;
 
   public myList$: Observable<WishList[]>;
   public otherList$: Observable<WishList[]>;

@@ -25,7 +25,7 @@ import { merge } from "rxjs";
 
 import { WishesListQuery } from "../../state/wishes/wishes-list.query";
 import { WishQuery } from "../../state/wishes/wish.query";
-import * as moment from "moment";
+import moment from "moment";
 
 @UntilDestroy()
 @Component({
@@ -55,7 +55,7 @@ export class AddUpdateListComponent implements OnInit {
   wishListTypeLabelOrder = WishListTypeLabelOrder;
   previewAs: "OWNER" | "REGISTRER" | "PUBLIC" = "OWNER";
   demoWhishs: Subject<WishItem[]> = new Subject<WishItem[]>();
-  startDate = moment().month(1);
+  startDate = moment({ month: 1 });
   public sending: boolean;
   public wishListFormGroup: UntypedFormGroup;
   public edit: boolean = false;

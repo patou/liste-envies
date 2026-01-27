@@ -9,7 +9,7 @@ import { Observable } from "rxjs";
 import { WishItem } from "../../models/WishItem";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "../../service/auth.service";
-import * as firebase from "firebase";
+import type { User } from "firebase/auth";
 import { WishQuery } from "../../state/wishes/wish.query";
 import { WishService } from "../../state/wishes/wish.service";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
@@ -30,7 +30,7 @@ export class ReceivedComponent implements OnInit {
   @Input()
   items: Observable<WishItem[]>;
 
-  public userAuth: Observable<firebase.User>;
+  public userAuth: Observable<User | null>;
 
   constructor(
     private wishService: WishService,

@@ -103,7 +103,7 @@ mat-card.dateList {
 }
 
 // responsive
-@import "~wire.css/src/scss/config";
+@import "~wire.css/src/scss/_config";
 @import "~wire.css/src/scss/base/mixins";
 
 @include mq(small) {
