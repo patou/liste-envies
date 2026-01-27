@@ -36,3 +36,7 @@ yarn-error.log
 liste-envies-front/dist/
 liste-envies-front/node_modules/
 liste-envies-front/documentation/
+
+liste-envies-back/dist/
+liste-envies-back/node_modules/
+liste-envies-back/documentation/
