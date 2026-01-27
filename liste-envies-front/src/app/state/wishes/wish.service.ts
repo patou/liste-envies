@@ -183,17 +183,32 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
           if (this.isChanged(id, wish)) {
             this.subscribeAndUpdatedWish(
               id,
-              this.wishListApiService.give(wish.listId, id).pipe(
-                map<WishItem, WishItem>(newWish => {
-                  // todo correct return in serveur
-                  wish.userTake = newWish.userTake;
-                  return wish;
-                })
-              )
+              this.wishListApiService.give(wish.listId, id)
             );
           }
         }
       });
+  }
+
+  @action("cancel give")
+  cancelGive(id: number, wishToCancel: Partial<WishItem>) {
+    const userEmail = this.userQuery.getValue().user?.email;
+    const userTakeFiltered = (wishToCancel.userTake || []).filter(
+      ut => ut.email !== userEmail
+    );
+    const wish: Partial<WishItem> = {
+      listId: wishToCancel.listId,
+      id,
+      userGiven: false,
+      given: userTakeFiltered.length > 0,
+      userTake: userTakeFiltered
+    };
+    if (this.isChanged(id, wish)) {
+      this.subscribeAndUpdatedWish(
+        id,
+        this.wishListApiService.cancelGive(wishToCancel.listId, id)
+      );
+    }
   }
 
   @action("delete wish")
@@ -298,8 +313,6 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
   resetWishes() {
     this.wishStore.reset();
   }
-
-
 
   private isChanged(id, wish: Partial<WishItem>) {
     this.draft.setHead(id);

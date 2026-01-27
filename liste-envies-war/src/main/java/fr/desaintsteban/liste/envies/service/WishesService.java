@@ -169,7 +169,7 @@ public final class WishesService {
                 saver.entity(saved);
                 NotificationsService.notify(NotificationType.GIVEN_WISH, user, wishList, true, saved.getLabel(),
                         itemId);
-                return saved.toDto();
+                return WishRules.applyRules(user, wishList, saved);
             });
         }
         throw new NotAllowedException();

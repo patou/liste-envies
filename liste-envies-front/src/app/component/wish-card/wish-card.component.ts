@@ -146,6 +146,10 @@ export class WishCardComponent implements OnInit, OnChanges, OnDestroy {
     this.wishService.give(wishItem.id, wishItem);
   }
 
+  cancelGive(wishItem: WishItem) {
+    this.wishService.cancelGive(wishItem.id, wishItem);
+  }
+
   archive(wishItem: WishItem) {
     this.wishService.archive(wishItem.id, wishItem);
   }

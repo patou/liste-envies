@@ -354,6 +354,17 @@
       Je souhaite participer
     </button>
     <button
+      mat-stroked-button
+      class="wish-action-button"
+      color="warn"
+      *ngIf="wishItem.canParticipate && wishItem.userGiven"
+      (click)="cancelGive(wishItem)"
+      [disabled]="readOnly"
+      matTooltip="Annulez ma participation à cette envie"
+    >
+      Annuler ma participation
+    </button>
+    <button
       mat-raised-button
       class="wish-action-button"
       color="accent"
