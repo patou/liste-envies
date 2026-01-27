@@ -8,7 +8,14 @@ import { WishesModule } from './modules/wishes/wishes.module';
 import { ToolsController } from './modules/tools/tools.controller';
 
 @Module({
-  imports: [ConfigModule.forRoot(), UsersModule, WishListModule, WishesModule],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: '../.env',
+    }),
+    UsersModule,
+    WishListModule,
+    WishesModule,
+  ],
   controllers: [AppController, ToolsController],
   providers: [AppService],
 })

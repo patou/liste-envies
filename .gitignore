@@ -32,6 +32,11 @@ modules/.vscode
 npm-debug.log
 yarn-error.log
 
+# Environment variables
+.env
+.env.*
+!.env.example
+
 # Front files
 liste-envies-front/dist/
 liste-envies-front/node_modules/

@@ -1,12 +1,26 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
 
 @ApiTags('Tools')
 @Controller('tools')
 export class ToolsController {
+  constructor(private configService: ConfigService) {}
+
   @Get('login')
   @ApiOperation({ summary: 'Helper page to get Firebase ID Token' })
   getLoginPage(): string {
+    const firebaseConfig = {
+      apiKey: this.configService.get<string>('FIREBASE_API_KEY'),
+      authDomain: this.configService.get<string>('FIREBASE_AUTH_DOMAIN'),
+      projectId: this.configService.get<string>('FIREBASE_PROJECT_ID'),
+      storageBucket: this.configService.get<string>('FIREBASE_STORAGE_BUCKET'),
+      messagingSenderId: this.configService.get<string>(
+        'FIREBASE_MESSAGING_SENDER_ID',
+      ),
+      appId: this.configService.get<string>('FIREBASE_APP_ID'),
+    };
+
     return `
             <!DOCTYPE html>
             <html>
@@ -42,14 +56,7 @@ export class ToolsController {
                     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
                     import { getAuth, GoogleAuthProvider, signInWithPopup } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
-                    const firebaseConfig = {
-                        apiKey: "AIzaSyAnVr5QyMUxWmQ3Pu_EpKPuDRuT851MqzI",
-                        authDomain: "test-liste-envies.firebaseapp.com",
-                        projectId: "test-liste-envies",
-                        storageBucket: "test-liste-envies.appspot.com",
-                        messagingSenderId: "424684618174",
-                        appId: "1:424684618174:web:..." // Optional if needed, usually not strictly required for Auth only
-                    };
+                    const firebaseConfig = ${JSON.stringify(firebaseConfig)};
 
                     const app = initializeApp(firebaseConfig);
                     const auth = getAuth(app);
