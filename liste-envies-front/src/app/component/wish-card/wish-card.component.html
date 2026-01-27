@@ -83,13 +83,13 @@
         class="owner"
         matTooltip="{{ wishItem?.owner?.name }} : {{ wishItem?.owner?.email }}"
       >
-        <ngx-avatar
+        <app-avatar
           [name]="wishItem?.owner?.name || wishItem?.owner?.email"
           [gravatarId]="wishItem?.owner?.email"
           size="15"
           [round]="true"
         >
-        </ngx-avatar>
+        </app-avatar>
         <span class="ownerName">{{ wishItem?.owner?.name }}</span>
       </div>
     </div>
@@ -218,14 +218,14 @@
             class="comment_item"
             [ngClass]="{ even: even, odd: odd }"
           >
-            <ngx-avatar
+            <app-avatar
               matListAvatar
               [name]="comment.from?.name || comment.from?.email"
               [gravatarId]="comment.from?.email"
               size="40"
               [round]="true"
               [matTooltip]="comment?.from?.name"
-            ></ngx-avatar>
+            ></app-avatar>
             <p matLine>
               de
               <span [matTooltip]="comment?.from?.email">
@@ -336,12 +336,12 @@
         *ngFor="let userGiven of wishItem.userTake; let last = last"
         matTooltip="{{ userGiven?.name }} : {{ userGiven?.email }}"
       >
-        <ngx-avatar
+        <app-avatar
           [name]="userGiven?.name || userGiven?.email"
           [gravatarId]="userGiven?.email"
           size="15"
           [round]="true"
-        ></ngx-avatar>
+        ></app-avatar>
         {{ userGiven?.name }}{{ !last ? "," : "" }}
       </span>
     </mat-label>

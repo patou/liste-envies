@@ -81,13 +81,13 @@ export function waitFirebaseLoaded(authService: AuthService) {
     MatIconModule,
     MatListModule,
     MomentModule,
-    ReactiveFormsModule,
-    // environment.production ? [] : AkitaNgDevtools.forRoot(),
-    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore())
+    ReactiveFormsModule
+    // environment.production ? [] : AkitaNgDevtools.forRoot()
   ],
   providers: [
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthService,
