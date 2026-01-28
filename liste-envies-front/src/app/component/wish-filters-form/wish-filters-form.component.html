@@ -1,11 +1,6 @@
 <form
-  fxLayout="row nowrap"
-  fxLayout.lt-lg="row wrap"
-  fxLayoutAlign="space-between center"
-  fxLayoutGap="10px"
-  fxLayoutGap.lt-md="2px"
+  class="form-filters layout-row space-between-center gap-10 layout-row-lt-lg gap-2-lt-md"
   [formGroup]="filtersForm"
-  class="form-filters"
 >
   <mat-button-toggle-group
     #typeWishToogle="matButtonToggleGroup"

@@ -1,18 +1,15 @@
 <mat-card
   appearance="outlined"
-  class="wish-card flip-front"
+  class="wish-card flip-front layout-column space-between-stretch"
   [ngClass]="{ active: isActive$ | async, draft: wishItem.draft }"
-  fxLayout="column"
-  fxLayoutAlign="space-between stretch"
   [@animateWishCard]="animateWishCard"
 >
   <mat-progress-bar mode="query" *ngIf="wishItem.draft"></mat-progress-bar>
 
-  <mat-card-header fxLayout="column" fxLayoutAlign="space-between stretch">
+  <mat-card-header class="layout-column space-between-stretch">
     <div
       [class]="headerClass(wishItem)"
-      fxLayout="row"
-      fxLayoutAlign="space-between center"
+      class="layout-row space-between-center"
     >
       <span
         class="col-9 wish-title"
@@ -70,11 +67,7 @@
         </mat-menu>
       </span>
     </div>
-    <div
-      fxLayout="row"
-      fxLayoutAlign="space-between stretch"
-      class="wish-subtitle"
-    >
+    <div class="wish-subtitle layout-row space-between-stretch">
       <span matTooltip="{{ wishItem.date | date: 'long' }}" class="date"
         ><mat-icon>date_range</mat-icon>
         {{ wishItem.date | amLocal: "fr" | amTimeAgo }}</span
@@ -130,12 +123,8 @@
     </div>
   </ng-template>
 
-  <mat-card-content
-    fxLayout="column"
-    fxLayoutAlign="space-between stretch"
-    class="wish-content"
-  >
-    <div fxLayout="row" fxLayoutAlign="space-between stretch">
+  <mat-card-content class="wish-content layout-column space-between-stretch">
+    <div class="layout-row space-between-stretch">
       <mat-chip-listbox>
         <mat-chip-option
           *ngIf="wishItem.price"

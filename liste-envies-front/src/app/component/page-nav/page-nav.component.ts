@@ -39,6 +39,7 @@ export class PageNavComponent implements OnInit {
 
   isHandset: boolean;
 
+  public user$: Observable<User | null>;
   public userAuth$: Observable<User | null>;
 
   public myList$: Observable<WishList[]>;
@@ -76,6 +77,7 @@ export class PageNavComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.user$ = this.auth.user;
     this.userAuth$ = this.auth.user;
     this.myList$ = this.wishListService.selectAllByFilters({
       filterBy: list => list.owner
@@ -113,6 +115,10 @@ export class PageNavComponent implements OnInit {
   }
 
   logout() {
+    this.auth.logout();
+  }
+
+  signOut() {
     this.auth.logout();
   }
 

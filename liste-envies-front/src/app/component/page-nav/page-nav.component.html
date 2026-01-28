@@ -94,7 +94,7 @@
       </mat-accordion>
     </div>
     <ng-template #loading>
-      <div fxLayout="column" fxLayoutAlign="center center">
+      <div class="layout-column center-center">
         <mat-spinner></mat-spinner>
       </div>
     </ng-template>
@@ -232,13 +232,32 @@
               >delete</mat-icon
             >
           </button>-->
-          <ngx-auth-firebaseui-avatar
-            [links]="links"
-            layout="simple"
-            textProfile="Modifier mes infos"
-            textSignOut="Déconnexion"
-            [canDeleteAccount]="false"
-          ></ngx-auth-firebaseui-avatar>
+          <button
+            mat-icon-button
+            [matMenuTriggerFor]="userMenu"
+            *ngIf="user$ | async as user"
+          >
+            <app-avatar
+              [name]="user.displayName || user.email"
+              [gravatarId]="user.email"
+              [src]="user.photoURL"
+              size="30"
+              [round]="true"
+            >
+            </app-avatar>
+          </button>
+          <mat-menu #userMenu="matMenu">
+            <div mat-menu-item disabled class="user-info">
+              <strong>{{
+                (user$ | async)?.displayName || (user$ | async)?.email
+              }}</strong>
+            </div>
+            <mat-divider></mat-divider>
+            <button mat-menu-item (click)="signOut()">
+              <mat-icon>logout</mat-icon>
+              <span>Déconnexion</span>
+            </button>
+          </mat-menu>
         </div>
         <ng-template #showLogin>
           <button mat-button (click)="connect()">
