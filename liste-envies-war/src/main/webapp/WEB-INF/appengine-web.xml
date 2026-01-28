@@ -10,6 +10,7 @@
       <include path="*.map" />
       <include path="*.ico" />
       <include path="*.html" />
+      <include path="*.css" />
 	</static-files>
     <resource-files>
         <include path="/**.json" />
