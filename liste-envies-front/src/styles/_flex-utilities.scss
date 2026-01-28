@@ -1,0 +1,87 @@
+/**
+ * Flex Layout Utilities
+ * Classes utilitaires pour remplacer Angular Flex Layout
+ * Utilise les propriétés CSS natives (flexbox, gap)
+ */
+
+/* ========== LAYOUT DIRECTIONS ========== */
+.layout-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.layout-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.layout-row-wrap {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+/* ========== ALIGNMENTS ========== */
+.space-between-center {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.space-between-stretch {
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.center-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.start-start {
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+/* ========== GAPS ========== */
+.gap-2 {
+  gap: 2px;
+}
+
+.gap-5 {
+  gap: 5px;
+}
+
+.gap-10 {
+  gap: 10px;
+}
+
+/* ========== FLEX PROPERTIES ========== */
+.flex-grow {
+  flex: 1 1 auto;
+}
+
+.flex-70 {
+  flex: 0 0 70%;
+}
+
+/* ========== RESPONSIVE VARIANTS ========== */
+/* Breakpoints small & medium : layout-row-lt-lg devient row wrap */
+@include mq(small) {
+  .layout-row-lt-lg {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .gap-2-lt-md {
+    gap: 2px;
+  }
+}
+
+@include mq(medium) {
+  .layout-row-lt-lg {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}

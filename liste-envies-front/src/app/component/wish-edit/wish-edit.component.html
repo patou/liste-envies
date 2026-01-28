@@ -13,7 +13,7 @@
     <mat-hint align="end">{{ title.value?.length || 0 }}/30</mat-hint>
   </mat-form-field>
 
-  <div fxLayout="row" fxLayoutAlign="space-between center">
+  <div class="layout-row space-between-center">
     <mat-form-field appearance="outline" class="col-4">
       <mat-label>Prix</mat-label>
       <input matInput #price [(ngModel)]="wishItem.price" name="price" />
@@ -67,7 +67,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <div fxFlex></div>
+  <div class="flex-grow"></div>
   <button mat-button (click)="cancelEditWish()">Annuler</button>
   <button mat-raised-button color="primary" (click)="updateEditWish()">
     {{ isAddWhish ? "Ajouter" : "Modifier" }}

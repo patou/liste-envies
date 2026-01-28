@@ -8,7 +8,7 @@
       mat-icon-button
       mat-dialog-close
       class="close-btn"
-      matTooltip="Close"
+      matTooltip="Fermer"
       matTooltipPosition="left"
       (click)="successCallback(false)"
     >
@@ -16,64 +16,319 @@
     </button>
   </div>
 </div>
+
 <mat-dialog-content>
   <div class="row" *ngIf="data?.message">
     <div class="col-12 message">
       {{ data?.message }}
     </div>
   </div>
-  <div class="row">
-    <div class="col-12">
-      <p class="login-dialog-connexion">
-        Connectez-vous ou créez un compte avec l'un des fournisseurs suivants :
+
+  <div class="auth-content layout-row">
+    <!-- Section formulaires (gauche) -->
+    <div class="auth-forms">
+      <p class="intro-text">
+        Si vous n'avez pas de compte, vous pouvez en créer un ci-dessous ou
+        utiliser un compte social (exemple Google ou Facebook). Sinon entrez
+        votre login et mot de passe pour vous connecter via votre compte "liste
+        d'envies".
       </p>
-      <div class="auth-providers">
+
+      <mat-tab-group (selectedTabChange)="onTabChange()">
+        <!-- Onglet Connexion -->
+        <mat-tab label="Se connecter">
+          <div class="tab-content">
+            <h3 *ngIf="!isResetMode">Connectez-vous</h3>
+            <h3 *ngIf="isResetMode">Réinitialisation du mot de passe</h3>
+
+            <form
+              [formGroup]="loginForm"
+              (ngSubmit)="isResetMode ? onResetPassword() : onLogin()"
+            >
+              <!-- Email -->
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Email</mat-label>
+                <input
+                  matInput
+                  type="email"
+                  formControlName="email"
+                  placeholder="email@exemple.com"
+                  [attr.aria-describedby]="emailError ? 'email-error' : null"
+                />
+                <mat-icon matPrefix>email</mat-icon>
+                <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+                  L'email est requis
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    loginForm.get('email')?.hasError('email') &&
+                    !loginForm.get('email')?.hasError('required')
+                  "
+                >
+                  Email invalide
+                </mat-error>
+                <mat-error *ngIf="emailError" id="email-error">
+                  {{ emailError }}
+                </mat-error>
+              </mat-form-field>
+
+              <!-- Mot de passe (masqué en mode reset) -->
+              <mat-form-field
+                appearance="outline"
+                class="full-width"
+                *ngIf="!isResetMode"
+              >
+                <mat-label>Mot de passe</mat-label>
+                <input
+                  matInput
+                  [type]="hidePassword ? 'password' : 'text'"
+                  formControlName="password"
+                  placeholder="Mot de passe"
+                  [attr.aria-describedby]="
+                    passwordError ? 'password-error' : null
+                  "
+                />
+                <mat-icon matPrefix>lock</mat-icon>
+                <button
+                  mat-icon-button
+                  matSuffix
+                  type="button"
+                  (click)="hidePassword = !hidePassword"
+                  [attr.aria-label]="'Afficher/masquer le mot de passe'"
+                >
+                  <mat-icon>{{
+                    hidePassword ? "visibility_off" : "visibility"
+                  }}</mat-icon>
+                </button>
+                <mat-hint align="end">0/60</mat-hint>
+                <mat-error
+                  *ngIf="loginForm.get('password')?.hasError('required')"
+                >
+                  Le mot de passe est requis
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    loginForm.get('password')?.hasError('minlength') &&
+                    !loginForm.get('password')?.hasError('required')
+                  "
+                >
+                  Le mot de passe doit contenir au moins 6 caractères
+                </mat-error>
+                <mat-error *ngIf="passwordError" id="password-error">
+                  {{ passwordError }}
+                </mat-error>
+              </mat-form-field>
+
+              <!-- Lien mot de passe oublié -->
+              <div class="forgot-password" *ngIf="!isResetMode">
+                <a (click)="switchToResetMode()" class="link-button"
+                  >Mot de passe oublié ?</a
+                >
+              </div>
+
+              <div class="forgot-password" *ngIf="isResetMode">
+                <a (click)="switchToLoginMode()" class="link-button"
+                  >Retour à la connexion</a
+                >
+              </div>
+
+              <!-- Bouton de soumission -->
+              <button
+                mat-raised-button
+                color="primary"
+                type="submit"
+                class="submit-button"
+                [disabled]="loginForm.invalid || isLoading"
+              >
+                <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+                <span *ngIf="!isLoading">{{
+                  isResetMode ? "Réinitialiser" : "Se connecter"
+                }}</span>
+              </button>
+            </form>
+          </div>
+        </mat-tab>
+
+        <!-- Onglet Créer un compte -->
+        <mat-tab label="Créer un compte">
+          <div class="tab-content">
+            <h3>Enregistrement</h3>
+
+            <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+              <!-- Nom -->
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Nom</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  formControlName="name"
+                  placeholder="Votre nom"
+                  maxlength="50"
+                  [attr.aria-describedby]="nameError ? 'name-error' : null"
+                />
+                <mat-icon matPrefix>person</mat-icon>
+                <mat-hint align="end"
+                  >{{
+                    registerForm.get("name")?.value?.length || 0
+                  }}/50</mat-hint
+                >
+                <mat-error
+                  *ngIf="registerForm.get('name')?.hasError('required')"
+                >
+                  Le nom est requis
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    registerForm.get('name')?.hasError('minlength') &&
+                    !registerForm.get('name')?.hasError('required')
+                  "
+                >
+                  Le nom est trop court !
+                </mat-error>
+                <mat-error
+                  *ngIf="registerForm.get('name')?.hasError('maxlength')"
+                >
+                  Le nom est trop long !
+                </mat-error>
+                <mat-error *ngIf="nameError" id="name-error">
+                  {{ nameError }}
+                </mat-error>
+              </mat-form-field>
+
+              <!-- Email -->
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Email</mat-label>
+                <input
+                  matInput
+                  type="email"
+                  formControlName="email"
+                  placeholder="email@exemple.com"
+                  [attr.aria-describedby]="
+                    emailError ? 'register-email-error' : null
+                  "
+                />
+                <mat-icon matPrefix>email</mat-icon>
+                <mat-error
+                  *ngIf="registerForm.get('email')?.hasError('required')"
+                >
+                  L'email est requis
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    registerForm.get('email')?.hasError('email') &&
+                    !registerForm.get('email')?.hasError('required')
+                  "
+                >
+                  Email invalide
+                </mat-error>
+                <mat-error *ngIf="emailError" id="register-email-error">
+                  {{ emailError }}
+                </mat-error>
+              </mat-form-field>
+
+              <!-- Mot de passe -->
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Mot de passe</mat-label>
+                <input
+                  matInput
+                  [type]="hideRegisterPassword ? 'password' : 'text'"
+                  formControlName="password"
+                  placeholder="Mot de passe"
+                  maxlength="60"
+                  [attr.aria-describedby]="
+                    passwordError ? 'register-password-error' : null
+                  "
+                />
+                <mat-icon matPrefix>lock</mat-icon>
+                <button
+                  mat-icon-button
+                  matSuffix
+                  type="button"
+                  (click)="hideRegisterPassword = !hideRegisterPassword"
+                  [attr.aria-label]="'Afficher/masquer le mot de passe'"
+                >
+                  <mat-icon>{{
+                    hideRegisterPassword ? "visibility_off" : "visibility"
+                  }}</mat-icon>
+                </button>
+                <mat-hint align="end"
+                  >{{
+                    registerForm.get("password")?.value?.length || 0
+                  }}/60</mat-hint
+                >
+                <mat-error
+                  *ngIf="registerForm.get('password')?.hasError('required')"
+                >
+                  Le mot de passe est requis
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    registerForm.get('password')?.hasError('minlength') &&
+                    !registerForm.get('password')?.hasError('required')
+                  "
+                >
+                  Le mot de passe doit contenir au moins 6 caractères
+                </mat-error>
+                <mat-error *ngIf="passwordError" id="register-password-error">
+                  {{ passwordError }}
+                </mat-error>
+              </mat-form-field>
+
+              <!-- Bouton de soumission -->
+              <button
+                mat-raised-button
+                color="primary"
+                type="submit"
+                class="submit-button"
+                [disabled]="registerForm.invalid || isLoading"
+              >
+                <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+                <span *ngIf="!isLoading">Créer</span>
+              </button>
+            </form>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+
+    <!-- Séparateur vertical -->
+    <mat-divider [vertical]="true" class="divider-vertical"></mat-divider>
+
+    <!-- Section boutons sociaux (droite) -->
+    <div class="auth-social">
+      <p class="social-text">
+        Vous pouvez aussi vous connecter ou vous inscrire à partir de vos
+        comptes suivants :
+      </p>
+
+      <div class="social-buttons">
         <button
           mat-raised-button
           color="primary"
           (click)="signInWithGoogle()"
           class="provider-button"
+          [disabled]="isLoading"
         >
           <mat-icon>login</mat-icon>
-          Se connecter avec Google
+          Google
         </button>
+
         <button
           mat-raised-button
           color="accent"
           (click)="signInWithFacebook()"
           class="provider-button"
+          [disabled]="isLoading"
         >
           <mat-icon>login</mat-icon>
-          Se connecter avec Facebook
+          Facebook
         </button>
       </div>
-      <p class="login-dialog-subdescription">
+
+      <p class="social-note">
         Si vous aviez déjà un compte sur la version 1 de liste d'envies, vous
         devez utiliser la connexion via votre compte Google.
       </p>
     </div>
   </div>
 </mat-dialog-content>
-
-<!--
-signInTabText="Se connecter"
-                      signInCardTitleText="Connectez-vous"
-
-forgotPasswordButtonText="Mot de passe oublié ?"
-                      nameText="Nom"
-                      nameErrorRequiredText="Le nom est requis"
-                      nameErrorMinLengthText="Le nom est trop court !"
-                      nameErrorMaxLengthText="Le nom est trop long !"
-registerTabText="Créer un compte"
-                      registerCardTitleText="Enregistrement"
-                      registerButtonText="Créer"
-                      guestButtonText="continuer en tant qu'invité"
-                      resetPasswordTabText="Réinitialisation du mot de passe par email"
-                      resetPasswordInputText="Réinitialisation du mot de passe par email"
-                      resetPasswordErrorRequiredText="Un email est requis pour réinitialiser le mot de passe !"
-                      resetPasswordErrorPatternText="S'il vous plaît, mettez une adresse email valide"
-                      resetPasswordActionButtonText="Réinitialiser"
-                      resetPasswordInstructionsText="Réinitialisation demandée. Suivez les instructions du courrier électronique qui vous a été envoyé."
-                      emailConfirmationTitle="Confirmez votre adresse email !"
-                      emailConfirmationText="Un email de confirmation vous a été envoyé.\n   Vérifiez votre boîte de réception et cliquez sur le lien Confirmer mon adresse e-mail pour confirmer votre adresse email."
--->

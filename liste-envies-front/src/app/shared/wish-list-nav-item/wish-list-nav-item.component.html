@@ -7,12 +7,7 @@
   <div class="menu-wishlist-content"></div>
   <list-type-icon mat-list-icon [type]="wishlist.type"></list-type-icon>
   <h4 mat-line>{{ wishlist.title }}</h4>
-  <p
-    mat-line
-    class="wish-list-item-text"
-    fxLayout="row wrap"
-    fxLayoutAlign="start start"
-  >
+  <p mat-line class="wish-list-item-text layout-row-wrap start-start">
     <ng-container *ngFor="let owner of wishlist.owners; let last = last">
       <app-avatar
         [gravatarId]="owner.email"
