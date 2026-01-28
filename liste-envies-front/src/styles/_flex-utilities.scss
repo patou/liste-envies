@@ -42,6 +42,11 @@
   align-items: flex-start;
 }
 
+.start-center {
+  justify-content: flex-start;
+  align-items: center;
+}
+
 /* ========== GAPS ========== */
 .gap-2 {
   gap: 2px;
