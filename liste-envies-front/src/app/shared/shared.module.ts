@@ -2,7 +2,10 @@ import { environment } from "../../environments/environment";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { HttpClientModule } from "@angular/common/http";
+import {
+  provideHttpClient,
+  withInterceptorsFromDi
+} from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { MaterialModule } from "./shared/material.module";
@@ -53,23 +56,6 @@ registerPlugin(
 );
 
 @NgModule({
-  imports: [
-    CommonModule,
-    BrowserModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    MaterialModule,
-    QuillModule.forRoot(),
-    FilePondModule,
-    RouterModule,
-    MomentModule,
-    LatinizePipe,
-    StripTagsPipe,
-    TruncatePipe,
-    AvatarComponent
-  ],
   declarations: [
     RatingComponent,
     FlipCardComponent,
@@ -89,7 +75,6 @@ registerPlugin(
   exports: [
     CommonModule,
     BrowserModule,
-    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
@@ -115,6 +100,26 @@ registerPlugin(
     WishCardComponent,
     WishListNavItemComponent
   ],
-  providers: [AuthService, LatinizePipe]
+  imports: [
+    CommonModule,
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    QuillModule.forRoot(),
+    FilePondModule,
+    RouterModule,
+    MomentModule,
+    LatinizePipe,
+    StripTagsPipe,
+    TruncatePipe,
+    AvatarComponent
+  ],
+  providers: [
+    AuthService,
+    LatinizePipe,
+    provideHttpClient(withInterceptorsFromDi())
+  ]
 })
 export class SharedModule {}
