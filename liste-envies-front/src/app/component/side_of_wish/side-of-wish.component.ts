@@ -21,7 +21,8 @@ import { MyWishQuery } from "../../state/wishes/my-wish/my-wish.query";
   animations: [
     trigger("animateColumn", [transition("* => *", useAnimation(fadeInUp))]),
     trigger("animateItems", [transition("* => *", useAnimation(bounceInLeft))])
-  ]
+  ],
+  standalone: false
 })
 export class SideOfWishComponent implements OnInit {
   animateItems: any;

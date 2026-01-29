@@ -11,7 +11,8 @@ import {
 @Component({
   selector: "app-notifications",
   templateUrl: "./notifications.component.html",
-  styleUrls: ["./notifications.component.scss"]
+  styleUrls: ["./notifications.component.scss"],
+  standalone: false
 })
 export class NotificationsComponent implements OnInit {
   Notification_type = Notification_type;

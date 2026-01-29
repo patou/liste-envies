@@ -100,7 +100,8 @@ import { Subject } from "rxjs";
       }
     `
   ],
-  providers: [{ provide: MatFormFieldControl, useExisting: RatingComponent }]
+  providers: [{ provide: MatFormFieldControl, useExisting: RatingComponent }],
+  standalone: false
 })
 export class RatingComponent implements MatFormFieldControl<number>, OnInit {
   static nextId = 0;

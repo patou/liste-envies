@@ -31,7 +31,8 @@ import moment from "moment";
 @Component({
   selector: "app-add-update-list",
   templateUrl: "./add-update-list.component.html",
-  styleUrls: ["./add-update-list.component.scss"]
+  styleUrls: ["./add-update-list.component.scss"],
+  standalone: false
 })
 export class AddUpdateListComponent implements OnInit {
   isLinear = false;

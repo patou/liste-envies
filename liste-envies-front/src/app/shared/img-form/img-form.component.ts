@@ -10,7 +10,8 @@ import {
 @Component({
   selector: "app-img-form",
   templateUrl: "./img-form.component.html",
-  styleUrls: ["./img-form.component.scss"]
+  styleUrls: ["./img-form.component.scss"],
+  standalone: false
 })
 export class ImgFormComponent implements OnInit {
   @Input()

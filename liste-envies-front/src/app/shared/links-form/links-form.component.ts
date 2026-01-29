@@ -4,7 +4,8 @@ import { UrlsEntity } from "../../models/WishItem";
 @Component({
   selector: "app-links-form",
   templateUrl: "./links-form.component.html",
-  styleUrls: ["./links-form.component.scss"]
+  styleUrls: ["./links-form.component.scss"],
+  standalone: false
 })
 export class LinksFormComponent implements OnInit {
   @Input()

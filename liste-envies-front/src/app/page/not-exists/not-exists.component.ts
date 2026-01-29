@@ -8,7 +8,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 @Component({
   selector: "app-not-exists",
   templateUrl: "./not-exists.component.html",
-  styleUrls: ["./not-exists.component.scss"]
+  styleUrls: ["./not-exists.component.scss"],
+  standalone: false
 })
 export class NotExistsComponent implements OnInit {
   public userAuth: Observable<User | null>;

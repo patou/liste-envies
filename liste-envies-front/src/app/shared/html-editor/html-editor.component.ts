@@ -33,7 +33,8 @@ export enum HtmlEditorType {
   encapsulation: ViewEncapsulation.None,
   providers: [
     { provide: MatFormFieldControl, useExisting: HtmlEditorComponent }
-  ]
+  ],
+  standalone: false
 })
 export class HtmlEditorComponent
   implements

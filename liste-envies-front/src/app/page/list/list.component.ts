@@ -38,7 +38,8 @@ import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
   selector: "app-list",
   templateUrl: "./list.component.html",
   styleUrls: ["./list.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class ListComponent implements OnInit, OnChanges {
   listItems: Observable<WishItem[]>;

@@ -26,7 +26,8 @@ declare var Macy;
   animations: [
     trigger("animateColumn", [transition("* => *", useAnimation(fadeInUp))]),
     trigger("animateItems", [transition("* => *", useAnimation(bounceInLeft))])
-  ]
+  ],
+  standalone: false
 })
 export class ListOfWishComponent implements OnInit, OnChanges {
   animateItems: any;

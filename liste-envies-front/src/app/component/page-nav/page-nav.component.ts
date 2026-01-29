@@ -27,7 +27,8 @@ interface LinkMenuItem {
   selector: "app-page-nav",
   templateUrl: "./page-nav.component.html",
   styleUrls: ["./page-nav.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class PageNavComponent implements OnInit {
   isHandset$: Observable<boolean> = this.breakpointObserver
