@@ -14,13 +14,37 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { map } from "rxjs/operators";
 import { LoginPopUpService } from "../../service/login-pop-up.service";
 import { WishesListService } from "../../state/wishes/wishes-list.service";
+import { MatCard } from "@angular/material/card";
+import { MatAnchor, MatButton, MatFabButton } from "@angular/material/button";
+import { RouterLink } from "@angular/router";
+import { MatDivider } from "@angular/material/list";
+import { MatIcon } from "@angular/material/icon";
+import { MatTooltip } from "@angular/material/tooltip";
+import { MatGridList, MatGridTile } from "@angular/material/grid-list";
+import { WishListItemComponent } from "../../shared/wish-list-item/wish-list-item.component";
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { AsyncPipe } from "@angular/common";
 
 @UntilDestroy()
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.scss"],
-  standalone: false
+  imports: [
+    MatCard,
+    MatAnchor,
+    RouterLink,
+    MatDivider,
+    MatButton,
+    MatIcon,
+    MatFabButton,
+    MatTooltip,
+    MatGridList,
+    MatGridTile,
+    WishListItemComponent,
+    MatProgressSpinner,
+    AsyncPipe
+  ]
 })
 export class HomeComponent implements OnInit, OnDestroy {
   public userAuth: Observable<User | null>;

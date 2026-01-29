@@ -11,13 +11,16 @@ import {
   FacebookAuthProvider,
   signInWithPopup
 } from "@angular/fire/auth";
+import { MatCard } from "@angular/material/card";
+import { MatAnchor, MatButton } from "@angular/material/button";
+import { MatIcon } from "@angular/material/icon";
 
 @UntilDestroy()
 @Component({
   selector: "app-connect",
   templateUrl: "./connect.component.html",
   styleUrls: ["./connect.component.scss"],
-  standalone: false
+  imports: [MatCard, MatAnchor, MatButton, MatIcon]
 })
 export class ConnectComponent implements OnInit {
   constructor(

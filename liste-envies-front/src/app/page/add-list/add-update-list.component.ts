@@ -3,7 +3,9 @@ import {
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
-  Validators
+  Validators,
+  FormsModule,
+  ReactiveFormsModule
 } from "@angular/forms";
 import { UserShare, WishList } from "../../models/WishList";
 import { LatinizePipe } from "../../shared/pipes/latinize.pipe";
@@ -26,13 +28,79 @@ import { merge } from "rxjs";
 import { WishesListQuery } from "../../state/wishes/wishes-list.query";
 import { WishQuery } from "../../state/wishes/wish.query";
 import moment from "moment";
+import {
+  MatStepper,
+  MatStep,
+  MatStepLabel,
+  MatStepperNext,
+  MatStepperPrevious
+} from "@angular/material/stepper";
+import {
+  MatFormField,
+  MatLabel,
+  MatInput,
+  MatPrefix,
+  MatSuffix,
+  MatHint
+} from "@angular/material/input";
+import { MatSelect, MatSelectTrigger } from "@angular/material/select";
+import { ListTypeIcon } from "../../shared/list-type-icon/list-type-icon.component";
+import { MatOption } from "@angular/material/autocomplete";
+import {
+  MatDatepickerInput,
+  MatDatepickerToggle,
+  MatDatepicker
+} from "@angular/material/datepicker";
+import { HtmlEditorComponent } from "../../shared/html-editor/html-editor.component";
+import { MatButton } from "@angular/material/button";
+import { MatRadioGroup, MatRadioButton } from "@angular/material/radio";
+import { MatCheckbox } from "@angular/material/checkbox";
+import { UserShareComponent } from "../../shared/user-share/user-share.component";
+import { MatGridList, MatGridTile } from "@angular/material/grid-list";
+import { NgClass } from "@angular/common";
+import { MatDivider } from "@angular/material/list";
+import { MatProgressBar } from "@angular/material/progress-bar";
+import { ListComponent } from "../list/list.component";
 
 @UntilDestroy()
 @Component({
   selector: "app-add-update-list",
   templateUrl: "./add-update-list.component.html",
   styleUrls: ["./add-update-list.component.scss"],
-  standalone: false
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatStepper,
+    MatStep,
+    MatStepLabel,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatPrefix,
+    MatSelect,
+    MatSelectTrigger,
+    ListTypeIcon,
+    MatOption,
+    MatDatepickerInput,
+    MatDatepickerToggle,
+    MatSuffix,
+    MatDatepicker,
+    HtmlEditorComponent,
+    MatHint,
+    MatButton,
+    MatStepperNext,
+    MatRadioGroup,
+    MatRadioButton,
+    MatCheckbox,
+    UserShareComponent,
+    MatStepperPrevious,
+    MatGridList,
+    MatGridTile,
+    NgClass,
+    MatDivider,
+    MatProgressBar,
+    ListComponent
+  ]
 })
 export class AddUpdateListComponent implements OnInit {
   isLinear = false;

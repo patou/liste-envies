@@ -11,6 +11,10 @@ import { FocusMonitor } from "@angular/cdk/a11y";
 import { coerceBooleanProperty } from "@angular/cdk/coercion";
 import { MatFormFieldControl } from "@angular/material/form-field";
 import { Subject } from "rxjs";
+import { NgClass, NgTemplateOutlet } from "@angular/common";
+import { MatIconButton } from "@angular/material/button";
+import { MatIcon } from "@angular/material/icon";
+import { MatTooltip } from "@angular/material/tooltip";
 
 @Component({
   selector: "app-rating",
@@ -101,7 +105,7 @@ import { Subject } from "rxjs";
     `
   ],
   providers: [{ provide: MatFormFieldControl, useExisting: RatingComponent }],
-  standalone: false
+  imports: [NgClass, MatIconButton, NgTemplateOutlet, MatIcon, MatTooltip]
 })
 export class RatingComponent implements MatFormFieldControl<number>, OnInit {
   static nextId = 0;

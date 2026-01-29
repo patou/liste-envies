@@ -6,12 +6,38 @@ import {
   Output,
   ViewChild
 } from "@angular/core";
+import {
+  MatFormField,
+  MatLabel,
+  MatInput,
+  MatSuffix,
+  MatError,
+  MatHint
+} from "@angular/material/input";
+import { FormsModule } from "@angular/forms";
+import { MatIcon } from "@angular/material/icon";
+import { MatMiniFabButton } from "@angular/material/button";
+import { FilePondModule } from "ngx-filepond";
+import { MatGridList, MatGridTile } from "@angular/material/grid-list";
 
 @Component({
   selector: "app-img-form",
   templateUrl: "./img-form.component.html",
   styleUrls: ["./img-form.component.scss"],
-  standalone: false
+  imports: [
+    MatFormField,
+    MatLabel,
+    MatInput,
+    FormsModule,
+    MatIcon,
+    MatSuffix,
+    MatMiniFabButton,
+    MatError,
+    FilePondModule,
+    MatHint,
+    MatGridList,
+    MatGridTile
+  ]
 })
 export class ImgFormComponent implements OnInit {
   @Input()

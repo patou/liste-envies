@@ -9,7 +9,12 @@ import {
   Self,
   ViewEncapsulation
 } from "@angular/core";
-import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
+import {
+  MatAutocompleteSelectedEvent,
+  MatAutocompleteTrigger,
+  MatAutocomplete,
+  MatOption
+} from "@angular/material/autocomplete";
 import { MatFormFieldControl } from "@angular/material/form-field";
 import { MatTableDataSource } from "@angular/material/table";
 import {
@@ -17,7 +22,9 @@ import {
   UntypedFormBuilder,
   UntypedFormControl,
   NgControl,
-  Validators
+  Validators,
+  FormsModule,
+  ReactiveFormsModule
 } from "@angular/forms";
 import { UserShare, WishList } from "../../models/WishList";
 import { coerceBooleanProperty } from "@angular/cdk/coercion";
@@ -26,6 +33,27 @@ import { Subject } from "rxjs";
 import { WishesListQuery } from "../../state/wishes/wishes-list.query";
 import * as _ from "lodash";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import {
+  MatFormField,
+  MatLabel,
+  MatInput,
+  MatSuffix,
+  MatHint,
+  MatError
+} from "@angular/material/input";
+import { MatMiniFabButton, MatIconButton } from "@angular/material/button";
+import { MatIcon } from "@angular/material/icon";
+import { MatCheckbox } from "@angular/material/checkbox";
+import { MatTooltip } from "@angular/material/tooltip";
+import {
+  MatDivider,
+  MatList,
+  MatListSubheaderCssMatStyler,
+  MatListItem
+} from "@angular/material/list";
+import { NgTemplateOutlet } from "@angular/common";
+import { AvatarComponent } from "../avatar/avatar.component";
+import { MatLine } from "@angular/material/grid-list";
 
 @UntilDestroy()
 @Component({
@@ -36,7 +64,31 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
   providers: [
     { provide: MatFormFieldControl, useExisting: UserShareComponent }
   ],
-  standalone: false
+  imports: [
+    MatFormField,
+    MatLabel,
+    MatInput,
+    FormsModule,
+    MatAutocompleteTrigger,
+    ReactiveFormsModule,
+    MatAutocomplete,
+    MatOption,
+    MatMiniFabButton,
+    MatSuffix,
+    MatIcon,
+    MatHint,
+    MatCheckbox,
+    MatTooltip,
+    MatError,
+    MatDivider,
+    MatList,
+    MatListSubheaderCssMatStyler,
+    NgTemplateOutlet,
+    MatListItem,
+    AvatarComponent,
+    MatLine,
+    MatIconButton
+  ]
 })
 export class UserShareComponent
   implements
