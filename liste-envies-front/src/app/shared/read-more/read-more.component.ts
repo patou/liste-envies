@@ -11,6 +11,7 @@ import {
   ViewChild
 } from "@angular/core";
 import { debounce } from "lodash-decorators";
+import { MatButton } from "@angular/material/button";
 
 @Component({
   selector: "read-more",
@@ -70,7 +71,7 @@ import { debounce } from "lodash-decorators";
     `
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false
+  imports: [MatButton]
 })
 export class ReadMoreComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() public maxHeight: number = 120;

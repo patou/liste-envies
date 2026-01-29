@@ -15,6 +15,8 @@ import { Observable } from "rxjs";
 import { WishQuery } from "../../state/wishes/wish.query";
 import { DemoQuery } from "../../state/wishes/demo/demo.query";
 import { WishService } from "../../state/wishes/wish.service";
+import { WishCardComponent } from "../wish-card/wish-card.component";
+import { AsyncPipe } from "@angular/common";
 
 declare var Macy;
 
@@ -27,7 +29,7 @@ declare var Macy;
     trigger("animateColumn", [transition("* => *", useAnimation(fadeInUp))]),
     trigger("animateItems", [transition("* => *", useAnimation(bounceInLeft))])
   ],
-  standalone: false
+  imports: [WishCardComponent, AsyncPipe]
 })
 export class ListOfWishComponent implements OnInit, OnChanges {
   animateItems: any;

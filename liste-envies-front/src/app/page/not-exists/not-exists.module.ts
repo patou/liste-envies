@@ -14,13 +14,13 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [NotExistsComponent],
   imports: [
     CommonModule,
     MatCardModule,
     MatDividerModule,
     MatButtonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    NotExistsComponent
   ],
   exports: [RouterModule]
 })

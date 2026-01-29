@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { MatIcon } from "@angular/material/icon";
 
 @Component({
   selector: "list-type-icon",
@@ -212,7 +213,7 @@ import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
     `
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false
+  imports: [MatIcon]
 })
 export class ListTypeIcon {
   @Input("type")

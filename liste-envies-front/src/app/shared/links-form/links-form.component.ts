@@ -1,11 +1,40 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { UrlsEntity } from "../../models/WishItem";
+import {
+  MatFormField,
+  MatLabel,
+  MatInput,
+  MatSuffix,
+  MatError
+} from "@angular/material/input";
+import { FormsModule } from "@angular/forms";
+import { MatIcon } from "@angular/material/icon";
+import { MatMiniFabButton } from "@angular/material/button";
+import {
+  MatChipListbox,
+  MatChipOption,
+  MatChipRemove
+} from "@angular/material/chips";
+import { MatTooltip } from "@angular/material/tooltip";
 
 @Component({
   selector: "app-links-form",
   templateUrl: "./links-form.component.html",
   styleUrls: ["./links-form.component.scss"],
-  standalone: false
+  imports: [
+    MatFormField,
+    MatLabel,
+    MatInput,
+    FormsModule,
+    MatIcon,
+    MatSuffix,
+    MatMiniFabButton,
+    MatError,
+    MatChipListbox,
+    MatChipOption,
+    MatTooltip,
+    MatChipRemove
+  ]
 })
 export class LinksFormComponent implements OnInit {
   @Input()

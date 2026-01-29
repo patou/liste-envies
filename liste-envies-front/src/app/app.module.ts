@@ -57,8 +57,19 @@ export function waitFirebaseLoaded(authService: AuthService) {
 }
 
 @NgModule({
-  declarations: [
-    AppComponent,
+  declarations: [AppComponent],
+  imports: [
+    AppRoutingModule,
+    SharedModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    MomentModule,
+    ReactiveFormsModule,
+    // environment.production ? [] : AkitaNgDevtools.forRoot()
     PageComponent,
     HomeComponent,
     ListComponent,
@@ -70,19 +81,6 @@ export function waitFirebaseLoaded(authService: AuthService) {
     NotificationsComponent,
     ConnectComponent,
     ReceivedComponent
-  ],
-  imports: [
-    AppRoutingModule,
-    SharedModule,
-    LayoutModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
-    MomentModule,
-    ReactiveFormsModule
-    // environment.production ? [] : AkitaNgDevtools.forRoot()
   ],
   providers: [
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),

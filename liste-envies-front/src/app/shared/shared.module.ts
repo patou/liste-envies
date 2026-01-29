@@ -56,22 +56,6 @@ registerPlugin(
 );
 
 @NgModule({
-  declarations: [
-    RatingComponent,
-    FlipCardComponent,
-    HtmlEditorComponent,
-    LinksFormComponent,
-    ImgFormComponent,
-    WishListItemComponent,
-    WishListNavItemComponent,
-    ListTypeIcon,
-    ReadMoreComponent,
-    PageFooterComponent,
-    WishFiltersFormComponent,
-    SideOfWishComponent,
-    WishCardComponent,
-    UserShareComponent
-  ],
   exports: [
     CommonModule,
     BrowserModule,
@@ -114,7 +98,21 @@ registerPlugin(
     LatinizePipe,
     StripTagsPipe,
     TruncatePipe,
-    AvatarComponent
+    AvatarComponent,
+    RatingComponent,
+    FlipCardComponent,
+    HtmlEditorComponent,
+    LinksFormComponent,
+    ImgFormComponent,
+    WishListItemComponent,
+    WishListNavItemComponent,
+    ListTypeIcon,
+    ReadMoreComponent,
+    PageFooterComponent,
+    WishFiltersFormComponent,
+    SideOfWishComponent,
+    WishCardComponent,
+    UserShareComponent
   ],
   providers: [
     AuthService,

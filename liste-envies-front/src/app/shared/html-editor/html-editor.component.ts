@@ -15,11 +15,14 @@ import { MatFormFieldControl } from "@angular/material/form-field";
 import {
   ControlValueAccessor,
   UntypedFormBuilder,
-  NgControl
+  NgControl,
+  FormsModule
 } from "@angular/forms";
 import { Subject } from "rxjs";
 import { FocusMonitor } from "@angular/cdk/a11y";
 import { coerceBooleanProperty } from "@angular/cdk/coercion";
+import { QuillEditorComponent } from "ngx-quill";
+import { NgClass } from "@angular/common";
 
 export enum HtmlEditorType {
   FULL = "full",
@@ -34,7 +37,7 @@ export enum HtmlEditorType {
   providers: [
     { provide: MatFormFieldControl, useExisting: HtmlEditorComponent }
   ],
-  standalone: false
+  imports: [QuillEditorComponent, NgClass, FormsModule]
 })
 export class HtmlEditorComponent
   implements
