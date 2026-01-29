@@ -74,9 +74,6 @@ mat-divider.mat-divider.divider-withDate.mat-divider-horizontal.mat-divider-inse
   }
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
-/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
-/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
 mat-card.dateList {
   display: inline;
   float: right;
@@ -86,7 +83,6 @@ mat-card.dateList {
     padding: 0;
     margin: 0;
   }
-  /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
   mat-card-title.mat-mdc-card-title {
     background: #f7747440;
     padding: 5px 5px;
@@ -94,7 +90,6 @@ mat-card.dateList {
     border-radius: 2px;
     text-transform: capitalize;
   }
-  /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
   mat-card-subtitle.mat-mdc-card-subtitle {
     margin-bottom: 2px;
     text-transform: uppercase;
