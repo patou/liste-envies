@@ -12,9 +12,11 @@
       #auto="matAutocomplete"
       (optionSelected)="selectedUsers($event)"
     >
-      <mat-option *ngFor="let user of users" [value]="user">
+      @for (user of users; track user) {
+      <mat-option [value]="user">
         {{ user.email }} - {{ user.name }}
       </mat-option>
+      }
     </mat-autocomplete>
     <button mat-mini-fab matSuffix (click)="addUsers()" class="col-1">
       <mat-icon>person_add</mat-icon>
@@ -32,36 +34,33 @@
     >
   </mat-form-field>
 </div>
-<mat-error *ngIf="addEmailsControl.value">
+@if (addEmailsControl.value) {
+<mat-error>
   Cliquez sur l'icone + pour partager cette liste à cet email
 </mat-error>
+}
 <br />
 <mat-divider></mat-divider>
 <br /><br />
-<div
-  *ngIf="value && value.length > 0"
-  class="mat-elevation-z3 user-share-container"
->
+@if (value && value.length > 0) {
+<div class="mat-elevation-z3 user-share-container">
   <mat-list>
     <div mat-subheader>Co-Bénéficiaires</div>
-    <ng-container *ngFor="let owner of value">
-      <ng-container *ngIf="owner.type === 'OWNER'">
-        <ng-container
-          *ngTemplateOutlet="userShareLine; context: { $implicit: owner }"
-        >
-        </ng-container>
-      </ng-container>
+    @for (owner of value; track owner) { @if (owner.type === 'OWNER') {
+    <ng-container
+      *ngTemplateOutlet="userShareLine; context: { $implicit: owner }"
+    >
     </ng-container>
+    } }
     <mat-divider></mat-divider>
     <div mat-subheader>Participants</div>
-    <ng-container *ngFor="let participant of value">
-      <ng-container *ngIf="participant.type !== 'OWNER'">
-        <ng-container
-          *ngTemplateOutlet="userShareLine; context: { $implicit: participant }"
-        >
-        </ng-container>
-      </ng-container>
+    @for (participant of value; track participant) { @if (participant.type !==
+    'OWNER') {
+    <ng-container
+      *ngTemplateOutlet="userShareLine; context: { $implicit: participant }"
+    >
     </ng-container>
+    } }
   </mat-list>
   <ng-template #userShareLine let-userShare>
     <mat-list-item>
@@ -88,3 +87,4 @@
     </mat-list-item>
   </ng-template>
 </div>
+}

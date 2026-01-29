@@ -59,7 +59,7 @@ export class ListOfWishComponent implements OnInit, OnChanges {
     return item.id;
   }
 
-  trackColumn(index: number, item: WishItem) {
+  trackColumn(index: number, item: Observable<WishItem[]>) {
     return index;
   }
 
