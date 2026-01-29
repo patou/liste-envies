@@ -19,7 +19,8 @@ import { WishesListService } from "../../state/wishes/wishes-list.service";
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
-  styleUrls: ["./home.component.scss"]
+  styleUrls: ["./home.component.scss"],
+  standalone: false
 })
 export class HomeComponent implements OnInit, OnDestroy {
   public userAuth: Observable<User | null>;

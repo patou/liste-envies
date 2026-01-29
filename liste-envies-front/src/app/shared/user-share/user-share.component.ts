@@ -33,7 +33,10 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
   templateUrl: "./user-share.component.html",
   styleUrls: ["./user-share.component.scss"],
   encapsulation: ViewEncapsulation.None,
-  providers: [{ provide: MatFormFieldControl, useExisting: UserShareComponent }]
+  providers: [
+    { provide: MatFormFieldControl, useExisting: UserShareComponent }
+  ],
+  standalone: false
 })
 export class UserShareComponent
   implements

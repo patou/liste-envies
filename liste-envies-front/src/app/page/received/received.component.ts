@@ -20,7 +20,8 @@ import { ColorManagementService } from "../../service/color-management.service";
   selector: "app-archive",
   templateUrl: "./received.component.html",
   styleUrls: ["./received.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class ReceivedComponent implements OnInit {
   listItems: Observable<WishItem[]>;

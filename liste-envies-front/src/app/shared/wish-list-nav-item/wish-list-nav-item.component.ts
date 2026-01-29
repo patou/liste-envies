@@ -12,7 +12,8 @@ import { Observable } from "rxjs";
   selector: "wish-list-nav-item",
   templateUrl: "./wish-list-nav-item.component.html",
   styleUrls: ["./wish-list-nav-item.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class WishListNavItemComponent implements OnInit {
   @Input()

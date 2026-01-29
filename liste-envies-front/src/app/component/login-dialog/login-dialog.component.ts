@@ -17,7 +17,8 @@ import { FirebaseAuthErrorService } from "../../service/firebase-auth-error.serv
 @Component({
   selector: "app-login-dialog",
   templateUrl: "./login-dialog.component.html",
-  styleUrls: ["./login-dialog.component.scss"]
+  styleUrls: ["./login-dialog.component.scss"],
+  standalone: false
 })
 export class LoginDialogComponent implements OnInit {
   loginForm: FormGroup;

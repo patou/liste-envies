@@ -18,7 +18,8 @@ import { WishState } from "../../state/wishes/wish.store";
   templateUrl: "./wish-filters-form.component.html",
   styleUrls: ["./wish-filters-form.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  standalone: false
 })
 export class WishFiltersFormComponent implements OnInit {
   filtersForm = new UntypedFormGroup({

@@ -69,7 +69,8 @@ import { debounce } from "lodash-decorators";
       }
     `
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class ReadMoreComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() public maxHeight: number = 120;

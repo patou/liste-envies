@@ -39,7 +39,8 @@ import { Observable } from "rxjs";
         )
       ])
     ])
-  ]
+  ],
+  standalone: false
 })
 export class WishCardComponent implements OnInit, OnChanges, OnDestroy {
   animateWishCard: any;

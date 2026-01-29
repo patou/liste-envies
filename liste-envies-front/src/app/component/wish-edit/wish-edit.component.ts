@@ -5,7 +5,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 @Component({
   selector: "app-wish-edit",
   templateUrl: "./wish-edit.component.html",
-  styleUrls: ["./wish-edit.component.scss"]
+  styleUrls: ["./wish-edit.component.scss"],
+  standalone: false
 })
 export class WishEditComponent implements OnInit {
   public wishItem: WishItem;

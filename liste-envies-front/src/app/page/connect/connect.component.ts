@@ -16,7 +16,8 @@ import {
 @Component({
   selector: "app-connect",
   templateUrl: "./connect.component.html",
-  styleUrls: ["./connect.component.scss"]
+  styleUrls: ["./connect.component.scss"],
+  standalone: false
 })
 export class ConnectComponent implements OnInit {
   constructor(
