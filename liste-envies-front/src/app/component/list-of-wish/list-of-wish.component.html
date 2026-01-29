@@ -1,12 +1,9 @@
 <div class="row list-of-wish">
-  <div
-    class="col-4 wishitems-columns"
-    *ngFor="let colItems of columns; trackBy: trackColumn"
-  >
-    <app-wish-card
-      [wishItem]="wishItem"
-      [readOnly]="demo"
-      *ngFor="let wishItem of colItems | async; trackBy: trackByFn"
-    ></app-wish-card>
+  @for (colItems of columns; track trackColumn($index, colItems)) {
+  <div class="col-4 wishitems-columns">
+    @for (wishItem of colItems | async; track trackByFn($index, wishItem)) {
+    <app-wish-card [wishItem]="wishItem" [readOnly]="demo"></app-wish-card>
+    }
   </div>
+  }
 </div>

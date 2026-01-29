@@ -18,11 +18,13 @@
 </div>
 
 <mat-dialog-content>
-  <div class="row" *ngIf="data?.message">
+  @if (data?.message) {
+  <div class="row">
     <div class="col-12 message">
       {{ data?.message }}
     </div>
   </div>
+  }
 
   <div class="auth-content layout-row">
     <!-- Section formulaires (gauche) -->
@@ -38,8 +40,11 @@
         <!-- Onglet Connexion -->
         <mat-tab label="Se connecter">
           <div class="tab-content">
-            <h3 *ngIf="!isResetMode">Connectez-vous</h3>
-            <h3 *ngIf="isResetMode">Réinitialisation du mot de passe</h3>
+            @if (!isResetMode) {
+            <h3>Connectez-vous</h3>
+            } @if (isResetMode) {
+            <h3>Réinitialisation du mot de passe</h3>
+            }
 
             <form
               [formGroup]="loginForm"
@@ -56,28 +61,21 @@
                   [attr.aria-describedby]="emailError ? 'email-error' : null"
                 />
                 <mat-icon matPrefix>email</mat-icon>
-                <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
-                  L'email est requis
-                </mat-error>
-                <mat-error
-                  *ngIf="
-                    loginForm.get('email')?.hasError('email') &&
-                    !loginForm.get('email')?.hasError('required')
-                  "
-                >
-                  Email invalide
-                </mat-error>
-                <mat-error *ngIf="emailError" id="email-error">
+                @if (loginForm.get('email')?.hasError('required')) {
+                <mat-error> L'email est requis </mat-error>
+                } @if ( loginForm.get('email')?.hasError('email') &&
+                !loginForm.get('email')?.hasError('required') ) {
+                <mat-error> Email invalide </mat-error>
+                } @if (emailError) {
+                <mat-error id="email-error">
                   {{ emailError }}
                 </mat-error>
+                }
               </mat-form-field>
 
               <!-- Mot de passe (masqué en mode reset) -->
-              <mat-form-field
-                appearance="outline"
-                class="full-width"
-                *ngIf="!isResetMode"
-              >
+              @if (!isResetMode) {
+              <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Mot de passe</mat-label>
                 <input
                   matInput
@@ -101,36 +99,35 @@
                   }}</mat-icon>
                 </button>
                 <mat-hint align="end">0/60</mat-hint>
-                <mat-error
-                  *ngIf="loginForm.get('password')?.hasError('required')"
-                >
-                  Le mot de passe est requis
-                </mat-error>
-                <mat-error
-                  *ngIf="
-                    loginForm.get('password')?.hasError('minlength') &&
-                    !loginForm.get('password')?.hasError('required')
-                  "
-                >
+                @if (loginForm.get('password')?.hasError('required')) {
+                <mat-error> Le mot de passe est requis </mat-error>
+                } @if ( loginForm.get('password')?.hasError('minlength') &&
+                !loginForm.get('password')?.hasError('required') ) {
+                <mat-error>
                   Le mot de passe doit contenir au moins 6 caractères
                 </mat-error>
-                <mat-error *ngIf="passwordError" id="password-error">
+                } @if (passwordError) {
+                <mat-error id="password-error">
                   {{ passwordError }}
                 </mat-error>
+                }
               </mat-form-field>
+              }
 
               <!-- Lien mot de passe oublié -->
-              <div class="forgot-password" *ngIf="!isResetMode">
+              @if (!isResetMode) {
+              <div class="forgot-password">
                 <a (click)="switchToResetMode()" class="link-button"
                   >Mot de passe oublié ?</a
                 >
               </div>
-
-              <div class="forgot-password" *ngIf="isResetMode">
+              } @if (isResetMode) {
+              <div class="forgot-password">
                 <a (click)="switchToLoginMode()" class="link-button"
                   >Retour à la connexion</a
                 >
               </div>
+              }
 
               <!-- Bouton de soumission -->
               <button
@@ -140,10 +137,13 @@
                 class="submit-button"
                 [disabled]="loginForm.invalid || isLoading"
               >
-                <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
-                <span *ngIf="!isLoading">{{
+                @if (isLoading) {
+                <mat-spinner diameter="20"></mat-spinner>
+                } @if (!isLoading) {
+                <span>{{
                   isResetMode ? "Réinitialiser" : "Se connecter"
                 }}</span>
+                }
               </button>
             </form>
           </div>
@@ -172,27 +172,18 @@
                     registerForm.get("name")?.value?.length || 0
                   }}/50</mat-hint
                 >
-                <mat-error
-                  *ngIf="registerForm.get('name')?.hasError('required')"
-                >
-                  Le nom est requis
-                </mat-error>
-                <mat-error
-                  *ngIf="
-                    registerForm.get('name')?.hasError('minlength') &&
-                    !registerForm.get('name')?.hasError('required')
-                  "
-                >
-                  Le nom est trop court !
-                </mat-error>
-                <mat-error
-                  *ngIf="registerForm.get('name')?.hasError('maxlength')"
-                >
-                  Le nom est trop long !
-                </mat-error>
-                <mat-error *ngIf="nameError" id="name-error">
+                @if (registerForm.get('name')?.hasError('required')) {
+                <mat-error> Le nom est requis </mat-error>
+                } @if ( registerForm.get('name')?.hasError('minlength') &&
+                !registerForm.get('name')?.hasError('required') ) {
+                <mat-error> Le nom est trop court ! </mat-error>
+                } @if (registerForm.get('name')?.hasError('maxlength')) {
+                <mat-error> Le nom est trop long ! </mat-error>
+                } @if (nameError) {
+                <mat-error id="name-error">
                   {{ nameError }}
                 </mat-error>
+                }
               </mat-form-field>
 
               <!-- Email -->
@@ -208,22 +199,16 @@
                   "
                 />
                 <mat-icon matPrefix>email</mat-icon>
-                <mat-error
-                  *ngIf="registerForm.get('email')?.hasError('required')"
-                >
-                  L'email est requis
-                </mat-error>
-                <mat-error
-                  *ngIf="
-                    registerForm.get('email')?.hasError('email') &&
-                    !registerForm.get('email')?.hasError('required')
-                  "
-                >
-                  Email invalide
-                </mat-error>
-                <mat-error *ngIf="emailError" id="register-email-error">
+                @if (registerForm.get('email')?.hasError('required')) {
+                <mat-error> L'email est requis </mat-error>
+                } @if ( registerForm.get('email')?.hasError('email') &&
+                !registerForm.get('email')?.hasError('required') ) {
+                <mat-error> Email invalide </mat-error>
+                } @if (emailError) {
+                <mat-error id="register-email-error">
                   {{ emailError }}
                 </mat-error>
+                }
               </mat-form-field>
 
               <!-- Mot de passe -->
@@ -256,22 +241,18 @@
                     registerForm.get("password")?.value?.length || 0
                   }}/60</mat-hint
                 >
-                <mat-error
-                  *ngIf="registerForm.get('password')?.hasError('required')"
-                >
-                  Le mot de passe est requis
-                </mat-error>
-                <mat-error
-                  *ngIf="
-                    registerForm.get('password')?.hasError('minlength') &&
-                    !registerForm.get('password')?.hasError('required')
-                  "
-                >
+                @if (registerForm.get('password')?.hasError('required')) {
+                <mat-error> Le mot de passe est requis </mat-error>
+                } @if ( registerForm.get('password')?.hasError('minlength') &&
+                !registerForm.get('password')?.hasError('required') ) {
+                <mat-error>
                   Le mot de passe doit contenir au moins 6 caractères
                 </mat-error>
-                <mat-error *ngIf="passwordError" id="register-password-error">
+                } @if (passwordError) {
+                <mat-error id="register-password-error">
                   {{ passwordError }}
                 </mat-error>
+                }
               </mat-form-field>
 
               <!-- Bouton de soumission -->
@@ -282,8 +263,11 @@
                 class="submit-button"
                 [disabled]="registerForm.invalid || isLoading"
               >
-                <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
-                <span *ngIf="!isLoading">Créer</span>
+                @if (isLoading) {
+                <mat-spinner diameter="20"></mat-spinner>
+                } @if (!isLoading) {
+                <span>Créer</span>
+                }
               </button>
             </form>
           </div>

@@ -1,7 +1,8 @@
-<h1 *ngIf="edit; else addList">Editer : {{ this.wishList.title }}</h1>
-<ng-template #addList>
-  <h1>Créer une nouvelle liste</h1>
-</ng-template>
+@if (edit) {
+<h1>Editer : {{ this.wishList.title }}</h1>
+} @else {
+<h1>Créer une nouvelle liste</h1>
+}
 <form [formGroup]="wishListFormGroup">
   <mat-horizontal-stepper [linear]="isLinear" #stepper="matHorizontalStepper">
     <mat-step [stepControl]="nameFormGroup">
@@ -49,13 +50,12 @@
                   <list-type-icon [type]="wishList.type"></list-type-icon>
                   {{ wishListLabel[wishList.type] }}</mat-select-trigger
                 >
-                <mat-option
-                  *ngFor="let key of wishListTypeLabelOrder"
-                  [value]="key"
-                  selected
+                @for (key of wishListTypeLabelOrder; track key) {
+                <mat-option [value]="key" selected
                   ><list-type-icon [type]="key"></list-type-icon>
                   {{ wishListLabel[key] }}</mat-option
                 >
+                }
               </mat-select>
             </mat-form-field>
             <mat-form-field class="col-4 col-offset-1" appearance="outline">
@@ -102,15 +102,16 @@
           <button mat-button matStepperNext mat-raised-button color="accent">
             Suivant
           </button>
+          @if (edit) {
           <button
             mat-raised-button
             color="primary"
             (click)="createorUpdateList()"
             [disabled]="sending"
-            *ngIf="edit"
           >
             Mettre à jour la liste
           </button>
+          }
         </div>
       </div>
     </mat-step>
@@ -136,8 +137,9 @@
               </mat-radio-button>
             </mat-radio-group>
 
-            <div [ngSwitch]="wishList.privacy" class="privacy-explain">
-              <div *ngSwitchCase="'PRIVATE'">
+            <div class="privacy-explain">
+              @switch (wishList.privacy) { @case ('PRIVATE') {
+              <div>
                 <img
                   src="/assets/illu/undraw_security_o890.png"
                   class="border round privacy-img"
@@ -148,7 +150,8 @@
                 aux participants qui pourront voir et indiquer qui offre une
                 envie.
               </div>
-              <div *ngSwitchCase="'OPEN'">
+              } @case ('OPEN') {
+              <div>
                 <img
                   src="/assets/illu/undraw_safe_bnk7.png"
                   class="border round privacy-img"
@@ -159,7 +162,8 @@
                 les personnes connectés (sauf les co-bénéficiaires) voient qui
                 donne une envie.
               </div>
-              <div *ngSwitchCase="'PUBLIC'">
+              } @case ('PUBLIC') {
+              <div>
                 <img
                   src="/assets/illu/undraw_world_9iqb.png"
                   class="border round privacy-img"
@@ -170,6 +174,7 @@
                 Toutes les personnes connectées (co-bénéficiaires compris)
                 voient qui offre une envie.
               </div>
+              } }
             </div>
           </div>
 
@@ -196,14 +201,15 @@
       <div>
         <button mat-button matStepperPrevious>Précédent</button>
         <button matStepperNext mat-raised-button color="accent">Suivant</button>
+        @if (edit) {
         <button
           mat-raised-button
           (click)="createorUpdateList()"
           [disabled]="sending"
-          *ngIf="edit"
         >
           Mettre à jour la liste
         </button>
+        }
       </div>
     </mat-step>
     <mat-step>
@@ -215,7 +221,8 @@
             <h3>Arrière plan</h3>
 
             <mat-grid-list cols="6" rowHeight="2:1">
-              <mat-grid-tile *ngFor="let picture of wishListTypePicture">
+              @for (picture of wishListTypePicture; track picture) {
+              <mat-grid-tile>
                 <img
                   [src]="'/assets/thumb/' + picture.picture"
                   title="{{ picture.credit }}"
@@ -223,6 +230,7 @@
                   class="bordered"
                   [ngClass]="{ active: picture.picture == wishList.picture }"
               /></mat-grid-tile>
+              }
             </mat-grid-list>
             <mat-divider>ou</mat-divider>
             <mat-form-field class="col-12 field" appearance="outline">
@@ -251,14 +259,17 @@
           (click)="createorUpdateList()"
           [disabled]="sending"
         >
-          <span *ngIf="edit; else addButtonLabel">Mettre à jour la liste</span>
-          <ng-template #addButtonLabel>Créer la liste</ng-template>
+          @if (edit) {
+          <span>Mettre à jour la liste</span>
+          } @else { Créer la liste }
         </button>
       </div>
     </mat-step>
   </mat-horizontal-stepper>
 </form>
-<mat-progress-bar mode="query" *ngIf="sending"></mat-progress-bar>
+@if (sending) {
+<mat-progress-bar mode="query"></mat-progress-bar>
+}
 
 <mat-divider></mat-divider>
 
@@ -272,22 +283,22 @@
       disabled
     />
     <!--<span class="labelDemo">En tant que</span>
-    <mat-button-toggle-group
-      #previewAs="matButtonToggleGroup"
-      class="buttonGroupDemo"
-      [value]="previewAs"
-      (change)="onChangePreview($event)"
-    >
-      <mat-button-toggle value="OWNER" checked>
-        <mat-icon>lock</mat-icon> Co-bénéficaires
-      </mat-button-toggle>
-      <mat-button-toggle value="REGISTRER">
-        <mat-icon>lock_open</mat-icon> Participants
-      </mat-button-toggle>
-      <mat-button-toggle value="PUBLIC">
-        <mat-icon>public</mat-icon> Public
-      </mat-button-toggle>
-    </mat-button-toggle-group>-->
+              <mat-button-toggle-group
+                #previewAs="matButtonToggleGroup"
+                class="buttonGroupDemo"
+                [value]="previewAs"
+                (change)="onChangePreview($event)"
+                >
+                <mat-button-toggle value="OWNER" checked>
+                  <mat-icon>lock</mat-icon> Co-bénéficaires
+                </mat-button-toggle>
+                <mat-button-toggle value="REGISTRER">
+                  <mat-icon>lock_open</mat-icon> Participants
+                </mat-button-toggle>
+                <mat-button-toggle value="PUBLIC">
+                  <mat-icon>public</mat-icon> Public
+                </mat-button-toggle>
+              </mat-button-toggle-group>-->
   </div>
 
   <div class="browser-container">

@@ -28,9 +28,9 @@
     </button>
   </div>
 </div>
-<mat-error *ngIf="name.value">
-  Cliquez sur l'icone + pour ajouter l'image
-</mat-error>
+@if (name.value) {
+<mat-error> Cliquez sur l'icone + pour ajouter l'image </mat-error>
+}
 <div>
   <mat-label>Ou envoyer votre propre image</mat-label>
   <file-pond
@@ -47,14 +47,15 @@
   >
 </div>
 
-<div *ngIf="(newImages && newImages.length > 0) || addImage">
+@if ((newImages && newImages.length > 0) || addImage) {
+<div>
   <mat-grid-list cols="4" rowHeight="2:1" gutterSize="3" class="list-img">
-    <mat-grid-tile
-      *ngFor="let img of newImages; index as i"
-      (click)="removeImg(i)"
-    >
+    @for (img of newImages; track img; let i = $index) {
+    <mat-grid-tile (click)="removeImg(i)">
       <img [src]="img" class="border fixed" />
       <mat-icon class="remove-img">cancel</mat-icon>
     </mat-grid-tile>
+    }
   </mat-grid-list>
 </div>
+}

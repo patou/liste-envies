@@ -25,10 +25,10 @@
     </button>
   </mat-menu>
 
+  @if (list) {
   <mat-expansion-panel
     #headerList
     class="header-page-card"
-    *ngIf="list"
     [expanded]="expandedHeader | async"
     (opened)="headerOpened = true"
     (closed)="headerOpened = false"
@@ -53,42 +53,44 @@
         <div class="header-wishlist-title_block">
           <h1 class="title-list">
             {{ list.title }}
+            @if (!demo && list.owner) {
             <a
               mat-icon-button
               [routerLink]="['/', list.name, 'edit']"
               color="accent"
               class="hidden-small icon-edit"
               (click)="doNothing($event)"
-              *ngIf="!demo && list.owner"
             >
               <mat-icon class="mat-18">edit</mat-icon>
             </a>
+            }
           </h1>
-          <p class="owners-list" *ngIf="list?.owners && list?.owners?.length">
-            de
-            <ng-container *ngFor="let owner of list?.owners; let last = last">
-              <app-avatar
-                [gravatarId]="owner?.email"
-                [matTooltip]="owner?.name || owner?.email"
-                [name]="owner?.name"
-                [round]="true"
-                [src]="owner?.photoURL ? owner?.photoURL : ''"
-                matTooltipPosition="below"
-                size="15"
-              >
-              </app-avatar>
-              <span
-                [matTooltip]="owner.email"
-                [title]="owner.email"
-                class="owners hidden-small hidden-medium"
-                matTooltipPosition="below"
-                >{{ owner.name }}</span
-              >{{ last ? "" : ", " }}
-            </ng-container>
+          @if (list?.owners && list?.owners?.length) {
+          <p class="owners-list">
+            de @for (owner of list?.owners; track owner; let last = $last) {
+            <app-avatar
+              [gravatarId]="owner?.email"
+              [matTooltip]="owner?.name || owner?.email"
+              [name]="owner?.name"
+              [round]="true"
+              [src]="owner?.photoURL ? owner?.photoURL : ''"
+              matTooltipPosition="below"
+              size="15"
+            >
+            </app-avatar>
+            <span
+              [matTooltip]="owner.email"
+              [title]="owner.email"
+              class="owners hidden-small hidden-medium"
+              matTooltipPosition="below"
+              >{{ owner.name }}</span
+            >{{ last ? "" : ", " }}
+            }
           </p>
+          }
         </div>
       </mat-panel-title>
-
+      @if (!demo && list.owner) {
       <button
         mat-icon-button
         [matMenuTriggerFor]="menu"
@@ -96,10 +98,10 @@
         class="menu-admin-list-button"
         matTooltip="Administrer la liste"
         (click)="doNothing($event)"
-        *ngIf="!demo && list.owner"
       >
         <mat-icon>more_vert</mat-icon>
       </button>
+      }
       <button
         mat-icon-button
         aria-label="Menu action"
@@ -112,9 +114,9 @@
         }}</mat-icon>
       </button>
     </mat-expansion-panel-header>
-
     <div (click)="doNothing($event)">
-      <mat-card appearance="outlined" *ngIf="list.date" class="dateList">
+      @if (list.date) {
+      <mat-card appearance="outlined" class="dateList">
         <mat-card-header>
           <mat-card-title>{{
             list.date | amDateFormat: "dddd D"
@@ -127,7 +129,7 @@
           {{ list.date | amTimeAgo }}
         </mat-card-content>
       </mat-card>
-
+      }
       <read-more
         [content]="list.description"
         maxHeight="200"
@@ -158,6 +160,7 @@
           </mat-icon>
           A offrir
         </a>
+        @if (list?.counts?.ARCHIVED > 0) {
         <a
           mat-tab-link
           class="tab"
@@ -167,7 +170,6 @@
           [active]="archiveList.isActive"
           (click)="onClickTabArchive($event, archiveList.isActive)"
           matTooltip="Afficher les envies de cette liste qui ont déjà été offertes et qui ont été archivées"
-          *ngIf="list?.counts?.ARCHIVED > 0"
         >
           <mat-icon
             class="tab-icon"
@@ -178,7 +180,7 @@
           </mat-icon>
           Archivé (Déjà reçu)
         </a>
-
+        }
         <a
           mat-tab-link
           class="tab refresh-button"
@@ -191,13 +193,19 @@
       </nav>
     </div>
   </mat-expansion-panel>
-  <div *ngIf="!(loading$ | async); else loading">
+  } @if (!(loading$ | async)) {
+  <div>
     <app-list-of-wish
       [list]="listItems"
       [demo]="demo"
       class="col-12"
     ></app-list-of-wish>
   </div>
+  } @else {
+  <div class="layout-column center-center">
+    <mat-spinner></mat-spinner>
+  </div>
+  }
 
   <span class="done">
     <button
@@ -211,8 +219,3 @@
     </button>
   </span>
 </div>
-<ng-template #loading>
-  <div class="layout-column center-center">
-    <mat-spinner></mat-spinner>
-  </div>
-</ng-template>

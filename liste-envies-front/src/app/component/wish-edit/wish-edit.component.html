@@ -1,6 +1,8 @@
 <h1 mat-dialog-title>
   {{ wishItem.label || "Ajouter une nouvelle envie" }}
-  <span *ngIf="wishItem?.owner">par {{ wishItem?.owner?.name }}</span>
+  @if (wishItem?.owner) {
+  <span>par {{ wishItem?.owner?.name }}</span>
+  }
 </h1>
 <mat-dialog-content class="example-form">
   <mat-form-field

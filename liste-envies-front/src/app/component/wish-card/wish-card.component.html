@@ -4,7 +4,9 @@
   [ngClass]="{ active: isActive$ | async, draft: wishItem.draft }"
   [@animateWishCard]="animateWishCard"
 >
-  <mat-progress-bar mode="query" *ngIf="wishItem.draft"></mat-progress-bar>
+  @if (wishItem.draft) {
+  <mat-progress-bar mode="query"></mat-progress-bar>
+  }
 
   <mat-card-header class="layout-column space-between-stretch">
     <div
@@ -21,17 +23,14 @@
         >{{ wishItem.label }}</span
       >
       <span>
-        <button
-          mat-icon-button
-          class="col-1 push-right"
-          *ngIf="wishItem.suggest"
-          disabled
-        >
+        @if (wishItem.suggest) {
+        <button mat-icon-button class="col-1 push-right" disabled>
           <mat-icon
             matTooltip="Suggestion : cette envie n'est pas visible par les co-bénéficiaires de la liste"
             >wb_incandescent</mat-icon
           >
         </button>
+        }
         <button
           mat-icon-button
           [matMenuTriggerFor]="menu"
@@ -40,26 +39,27 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu" xPosition="before">
+          @if (wishItem.canEdit) {
           <button
             mat-menu-item
             disabled
-            *ngIf="wishItem.canEdit"
             [disabled]="readOnly"
             (click)="archive(wishItem)"
           >
             <mat-icon>archive</mat-icon>
             <span>Archiver</span>
           </button>
+          } @if (wishItem.canEdit) {
           <button
             mat-menu-item
             disabled
-            *ngIf="wishItem.canEdit"
             [disabled]="readOnly"
             (click)="remove(wishItem)"
           >
             <mat-icon>delete</mat-icon>
             <span>Supprimer</span>
           </button>
+          }
           <button mat-menu-item disabled>
             <mat-icon>file_copy</mat-icon>
             <span>Copier</span>
@@ -88,10 +88,8 @@
     </div>
     <mat-divider inset="true"></mat-divider>
   </mat-card-header>
-  <div
-    *ngIf="wishItem.pictures && wishItem.pictures.length > 1; else oneImg"
-    class="card-image"
-  >
+  @if (wishItem.pictures && wishItem.pictures.length > 1) {
+  <div class="card-image">
     <div class="swiper-fraction">
       <mat-chip-option
         >{{ index + 1 }} / {{ wishItem.pictures.length }}</mat-chip-option
@@ -99,7 +97,8 @@
     </div>
     <div class="swiper-pagination"></div>
     <swiper [config]="SWIPER_CONFIG" [(index)]="index">
-      <div class="swiper-slide" *ngFor="let picture of wishItem.pictures">
+      @for (picture of wishItem.pictures; track picture) {
+      <div class="swiper-slide">
         <img
           data-src="{{ picture }}"
           alt="{{ wishItem.label }}"
@@ -107,27 +106,25 @@
         />
         <div class="swiper-lazy-preloader"></div>
       </div>
+      }
     </swiper>
     <div class="scrollbar"></div>
   </div>
-  <ng-template #oneImg>
-    <div
-      class="swiper-slide"
-      *ngIf="wishItem.pictures && wishItem.pictures.length == 1"
-    >
-      <img
-        data-src="{{ wishItem.pictures[0] }}"
-        alt="{{ wishItem.label }}"
-        class="swiper-lazy border"
-      />
-    </div>
-  </ng-template>
+  } @else { @if (wishItem.pictures && wishItem.pictures.length == 1) {
+  <div class="swiper-slide">
+    <img
+      data-src="{{ wishItem.pictures[0] }}"
+      alt="{{ wishItem.label }}"
+      class="swiper-lazy border"
+    />
+  </div>
+  } }
 
   <mat-card-content class="wish-content layout-column space-between-stretch">
     <div class="layout-row space-between-stretch">
       <mat-chip-listbox>
+        @if (wishItem.price) {
         <mat-chip-option
-          *ngIf="wishItem.price"
           color="primary"
           selected
           class="wish-price"
@@ -136,23 +133,23 @@
           {{ wishItem.price | truncate: 37:"..." }}
           <mat-icon matChipRemove>euro_symbol</mat-icon>
         </mat-chip-option>
+        }
       </mat-chip-listbox>
-      <app-rating
-        *ngIf="wishItem.rating"
-        [value]="wishItem.rating"
-        [readonly]="true"
-      ></app-rating>
+      @if (wishItem.rating) {
+      <app-rating [value]="wishItem.rating" [readonly]="true"></app-rating>
+      }
     </div>
 
     <read-more [content]="wishItem.description" maxHeight="100"></read-more>
 
-    <div *ngIf="wishItem.urls && wishItem.urls.length > 0">
+    @if (wishItem.urls && wishItem.urls.length > 0) {
+    <div>
       <mat-chip-listbox>
-        <span *ngIf="wishItem.urls.length === 1; else liens">Lien :</span>
-        <ng-template #liens>Liens :</ng-template>
+        @if (wishItem.urls.length === 1) {
+        <span>Lien :</span>
+        } @else { Liens : } @for (url of wishItem.urls; track url) {
         <a
           [href]="url.url"
-          *ngFor="let url of wishItem.urls"
           target="_blank"
           [matTooltip]="
             url?.name
@@ -167,12 +164,14 @@
             <mat-icon matChipRemove>open_in_new</mat-icon>
           </mat-chip-option>
         </a>
+        }
       </mat-chip-listbox>
     </div>
+    }
 
     <br />
+    @if (wishItem.canParticipate) {
     <mat-expansion-panel
-      *ngIf="wishItem.canParticipate"
       (opened)="commentExpanded = true"
       (closed)="commentExpanded = false"
       [expanded]="commentExpanded"
@@ -196,85 +195,59 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-list>
-        <ng-container *ngIf="wishItem.comments && wishItem.comments.length > 0">
-          <mat-list-item
-            *ngFor="
-              let comment of wishItem.comments;
-              let even = even;
-              let odd = odd;
-              let last = last
-            "
-            class="comment_item"
-            [ngClass]="{ even: even, odd: odd }"
-          >
-            <app-avatar
-              matListAvatar
-              [name]="comment.from?.name || comment.from?.email"
-              [gravatarId]="comment.from?.email"
-              size="40"
-              [round]="true"
-              [matTooltip]="comment?.from?.name"
-            ></app-avatar>
-            <p matLine>
-              de
-              <span [matTooltip]="comment?.from?.email">
-                <mat-icon inline="true">person</mat-icon>
-                <b>{{ comment?.from?.name }}</b></span
-              >
-              il y
-              <span
-                title="{{ comment?.date | date: 'long' }}"
-                [matTooltip]="comment?.date | date: 'long'"
-              >
-                <mat-icon inline="true">date_range</mat-icon>
-                {{ comment?.date | amLocal: "fr" | amTimeAgo }}
-              </span>
-            </p>
-            <h6 matLine><span [innerHTML]="comment?.text"></span></h6>
-            <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
-          </mat-list-item>
-
-          <mat-divider inset="true"></mat-divider>
-        </ng-container>
+        @if (wishItem.comments && wishItem.comments.length > 0) { @for ( comment
+        of wishItem.comments; track comment; let even = $even; let odd = $odd;
+        let last = $last) {
+        <mat-list-item
+          class="comment_item"
+          [ngClass]="{ even: even, odd: odd }"
+        >
+          <app-avatar
+            matListAvatar
+            [name]="comment.from?.name || comment.from?.email"
+            [gravatarId]="comment.from?.email"
+            size="40"
+            [round]="true"
+            [matTooltip]="comment?.from?.name"
+          ></app-avatar>
+          <p matLine>
+            de
+            <span [matTooltip]="comment?.from?.email">
+              <mat-icon inline="true">person</mat-icon>
+              <b>{{ comment?.from?.name }}</b></span
+            >
+            il y
+            <span
+              title="{{ comment?.date | date: 'long' }}"
+              [matTooltip]="comment?.date | date: 'long'"
+            >
+              <mat-icon inline="true">date_range</mat-icon>
+              {{ comment?.date | amLocal: "fr" | amTimeAgo }}
+            </span>
+          </p>
+          <h6 matLine><span [innerHTML]="comment?.text"></span></h6>
+          @if (!last) {
+          <mat-divider [inset]="true"></mat-divider>
+          }
+        </mat-list-item>
+        }
+        <mat-divider inset="true"></mat-divider>
+        }
       </mat-list>
       <ng-template matExpansionPanelContent>
-        <mat-action-row *ngIf="wishItem.canParticipate" class="add_comment">
+        @if (wishItem.canParticipate) {
+        <mat-action-row class="add_comment">
           <!-- <div> -->
           <mat-form-field appearance="fill">
             <mat-label>Ajouter un commentaire</mat-label>
             <!--
-              <textarea
-
-
-
-
-                matInput
-
-
-
-
-
-                placeholder="Entrez votre commentaire"
-
-
-
-
-
-                #addComment
-
-
-
-
-
-                (submit)="sendComment(addComment.value)"
-
-
-
-
-
-              ></textarea>
-            -->
-
+                          <textarea
+                            matInput
+                            placeholder="Entrez votre commentaire"
+                            #addComment
+                            (submit)="sendComment(addComment.value)"
+                          ></textarea>
+                          -->
             <app-html-editor
               [content]="addComment"
               (contentChange)="addComment = $event"
@@ -300,31 +273,22 @@
           </mat-form-field>
           <!-- </div> -->
         </mat-action-row>
+        }
       </ng-template>
     </mat-expansion-panel>
+    }
   </mat-card-content>
 
   <mat-card-actions class="wish-footer">
-    <mat-label
-      color="warn"
-      class="allreadyGiven"
-      *ngIf="wishItem.allreadyGiven"
-      disableRipple="true"
-    >
+    @if (wishItem.allreadyGiven) {
+    <mat-label color="warn" class="allreadyGiven" disableRipple="true">
       Déjà offert
     </mat-label>
-
-    <mat-label
-      color="warn"
-      *ngIf="wishItem.userTake?.length > 0"
-      disableRipple="true"
-      class="userGiven"
-    >
+    } @if (wishItem.userTake?.length > 0) {
+    <mat-label color="warn" disableRipple="true" class="userGiven">
       <span>Sera offert par</span>
-      <span
-        *ngFor="let userGiven of wishItem.userTake; let last = last"
-        matTooltip="{{ userGiven?.name }} : {{ userGiven?.email }}"
-      >
+      @for (userGiven of wishItem.userTake; track userGiven; let last = $last) {
+      <span matTooltip="{{ userGiven?.name }} : {{ userGiven?.email }}">
         <app-avatar
           [name]="userGiven?.name || userGiven?.email"
           [gravatarId]="userGiven?.email"
@@ -333,51 +297,52 @@
         ></app-avatar>
         {{ userGiven?.name }}{{ !last ? "," : "" }}
       </span>
+      }
     </mat-label>
+    } @if (wishItem.given && wishItem.canParticipate && !wishItem.userGiven) {
     <button
       mat-stroked-button
       class="wish-action-button"
       color="accent"
-      *ngIf="wishItem.given && wishItem.canParticipate && !wishItem.userGiven"
       (click)="give(wishItem)"
       [disabled]="readOnly"
       [matTooltip]="'Je souhaite joindre ma participation à cette envie'"
     >
       Je souhaite participer
     </button>
+    } @if (wishItem.canParticipate && wishItem.userGiven) {
     <button
       mat-stroked-button
       class="wish-action-button"
       color="warn"
-      *ngIf="wishItem.canParticipate && wishItem.userGiven"
       (click)="cancelGive(wishItem)"
       [disabled]="readOnly"
       matTooltip="Annulez ma participation à cette envie"
     >
       Annuler ma participation
     </button>
+    } @if ( !wishItem.allreadyGiven && !wishItem.given &&
+    wishItem.canParticipate ) {
     <button
       mat-raised-button
       class="wish-action-button"
       color="accent"
-      *ngIf="
-        !wishItem.allreadyGiven && !wishItem.given && wishItem.canParticipate
-      "
       [disabled]="readOnly"
       (click)="give(wishItem)"
       matTooltip="Indiquez aux autres que vous offrez cette envie, puis à vous de l'acheter et de l'offrir"
     >
       je souhaite l'offrir
     </button>
+    } @if (wishItem.canEdit) {
     <button
       mat-raised-button
       class="wish-action-button"
       color="primary"
-      *ngIf="wishItem.canEdit"
       (click)="editWish(wishItem)"
       [disabled]="readOnly"
     >
       Modifier
     </button>
+    }
   </mat-card-actions>
 </mat-card>

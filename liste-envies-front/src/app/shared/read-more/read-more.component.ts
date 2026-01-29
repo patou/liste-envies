@@ -17,14 +17,15 @@ import { debounce } from "lodash-decorators";
   template: `
     <div class="read-more-box" [style.max-height]="currentMaxHeight">
       <p [innerHTML]="content" #readMoreContent></p>
-      <ng-container *ngIf="hasReadMore">
-        <p class="read-more" [hidden]="opened">
-          <br />
-          <br />
-        </p>
-      </ng-container>
+      @if (hasReadMore) {
+      <p class="read-more" [hidden]="opened">
+        <br />
+        <br />
+      </p>
+      }
     </div>
-    <div *ngIf="hasReadMore">
+    @if (hasReadMore) {
+    <div>
       <button
         mat-button
         color="primary"
@@ -42,6 +43,7 @@ import { debounce } from "lodash-decorators";
         {{ textReadMore }}
       </button>
     </div>
+    }
   `,
   styles: [
     `

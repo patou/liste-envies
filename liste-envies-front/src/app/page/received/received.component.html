@@ -12,12 +12,13 @@
       </mat-card-header>
     </section>
   </mat-card>
-  <div *ngIf="!(loading$ | async); else loading">
+  @if (!(loading$ | async)) {
+  <div>
     <app-list-of-wish [list]="listItems" class="col-12"></app-list-of-wish>
   </div>
-</div>
-<ng-template #loading>
+  } @else {
   <div class="layout-column center-center">
     <mat-spinner></mat-spinner>
   </div>
-</ng-template>
+  }
+</div>
