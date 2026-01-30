@@ -113,7 +113,8 @@ export class UsersController {
   ) {
     // Support 'me' as alias for current user
     const targetEmail = email === 'me' ? currentUser.email : email;
-    return this.wishesService.archived(targetEmail);
+    const targetUser = { email: targetEmail };
+    return this.wishesService.archived(targetUser);
   }
 
   @Get(':email/given')
@@ -129,6 +130,7 @@ export class UsersController {
   ) {
     // Support 'me' as alias for current user
     const targetEmail = email === 'me' ? currentUser.email : email;
-    return this.wishesService.given(targetEmail);
+    const targetUser = { email: targetEmail };
+    return this.wishesService.given(targetUser);
   }
 }

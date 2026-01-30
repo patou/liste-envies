@@ -28,14 +28,18 @@ export class WishListController {
     if (!user || !user.email) {
       return [];
     }
-    return this.wishListService.list(user.email);
+    return this.wishListService.list(user);
   }
 
   @Get('of/:email')
   @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Get wish lists of another user' })
-  async getWishListForOtherUser(@Param('email') email: string) {
-    return this.wishListService.list(email);
+  async getWishListForOtherUser(
+    @Param('email') email: string,
+    @User() user: any,
+  ) {
+    // Retourner les listes d'un autre utilisateur, avec filtrage basé sur l'utilisateur connecté
+    return this.wishListService.list({ email });
   }
 
   @Get('all')
@@ -74,9 +78,9 @@ export class WishListController {
   }
 
   @Get(':name')
-  async getOneWishList(@Param('name') name: string) {
-    // Logic for public/private check should be here or service
-    return this.wishListService.getOrThrow(name);
+  async getOneWishList(@Param('name') name: string, @User() user?: any) {
+    // Appliquer les règles de filtrage selon l'utilisateur (connecté ou anonyme)
+    return this.wishListService.getOrThrow(name, user);
   }
 
   @Get(':name/join')

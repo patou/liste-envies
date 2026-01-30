@@ -15,14 +15,19 @@ import {
   WishState,
 } from './dto/wish-list.dto';
 import { Datastore } from '@google-cloud/datastore';
+import { WishRulesService } from '../../common/services/wish-rules.service';
 
 @Injectable()
 export class WishListService extends BaseRepository<any> {
+  private wishRulesService: WishRulesService;
+
   constructor() {
     super('WishList');
+    this.wishRulesService = new WishRulesService();
   }
 
-  async list(email: string): Promise<WishListDto[]> {
+  async list(user: any): Promise<WishListDto[]> {
+    const email = user?.email || user;
     // Try querying all entities first to debug
     const allQuery = this.datastore.createQuery(this.kind);
     const [allEntities] = await this.datastore.runQuery(allQuery);
@@ -32,14 +37,33 @@ export class WishListService extends BaseRepository<any> {
       return entity.users?.some((u: any) => u.email === email);
     });
 
-    return filtered.map((e) => this.mapToDto(e));
+    const lists = filtered.map((e) => this.mapToDto(e));
+
+    // Appliquer les règles de filtrage
+    return this.wishRulesService.applyRulesToWishLists(user, lists);
   }
 
   async getAll(): Promise<WishListDto[]> {
     return (await super.getAll()).map((e) => this.mapToDto(e));
   }
 
-  async getOrThrow(name: string): Promise<WishListDto> {
+  async getOrThrow(name: string, user?: any): Promise<WishListDto> {
+    const entity = await this.get(name);
+    if (!entity) throw new NotFoundException(`WishList ${name} not found`);
+    const dto = this.mapToDto(entity);
+
+    // Appliquer les règles de filtrage si un utilisateur est fourni
+    if (user) {
+      return this.wishRulesService.applyRulesToWishList(user, dto);
+    }
+    return dto;
+  }
+
+  /**
+   * Récupère une liste sans appliquer les règles de filtrage
+   * Utilisé en interne pour avoir les données complètes
+   */
+  async getUnfiltered(name: string): Promise<WishListDto> {
     const entity = await this.get(name);
     if (!entity) throw new NotFoundException(`WishList ${name} not found`);
     return this.mapToDto(entity);
@@ -132,6 +156,13 @@ export class WishListService extends BaseRepository<any> {
   async join(user: any, name: string) {
     const list = await this.get(name);
     if (!list) throw new NotFoundException();
+    const dto = this.mapToDto(list);
+
+    // Vérifier si l'utilisateur peut rejoindre la liste
+    if (!this.wishRulesService.canGive(dto, user.email, false)) {
+      throw new ForbiddenException('Cannot join this list');
+    }
+
     if (list.privacy === SharingPrivacyType.OPEN) {
       if (!list.users.some((u: UserShareDto) => u.email === user.email)) {
         list.users.push({
@@ -142,7 +173,11 @@ export class WishListService extends BaseRepository<any> {
         await this.save(list, name);
       }
     }
-    return this.mapToDto(list);
+
+    return this.wishRulesService.applyRulesToWishList(
+      user,
+      this.mapToDto(list),
+    );
   }
 
   private mapToDto(entity: any): WishListDto {

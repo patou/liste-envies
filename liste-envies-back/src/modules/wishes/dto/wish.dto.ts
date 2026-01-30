@@ -38,6 +38,18 @@ export class PersonParticipantDto {
   @IsOptional()
   name?: string;
 
+  @IsString()
+  @IsOptional()
+  picture?: string;
+
+  @IsString()
+  @IsOptional()
+  amount?: string;
+
+  @IsString()
+  @IsOptional()
+  message?: string;
+
   @IsBoolean()
   @IsOptional()
   anonymous?: boolean;
@@ -54,6 +66,10 @@ export class CommentDto {
   @ValidateNested()
   @Type(() => PersonDto)
   author: PersonDto;
+
+  @IsString()
+  @IsOptional()
+  type?: string; // CommentType from wish-list.dto
 }
 
 export class WishDto {

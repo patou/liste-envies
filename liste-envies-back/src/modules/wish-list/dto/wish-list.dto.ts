@@ -47,13 +47,25 @@ export enum WishState {
 }
 
 export enum WishListState {
-  // Based on WishListDto.java, though not in enum file list, inferred it might be similar or just property
-  // Actually usually it's derived. Let's make it match Java if possible, but Java didn't show content of `WishListState`.
-  // Checking imports in WishListDto.java: import fr.desaintsteban.liste.envies.enums.WishListState;
-  // I missed reading WishListState.java, but I can infer or just use string for now if not critical.
-  // Let's assume standard states.
-  OPEN = 'OPEN',
-  CLOSED = 'CLOSED',
+  OWNER = 'OWNER',
+  SHARED = 'SHARED',
+  LOGGED = 'LOGGED',
+  ANONYMOUS = 'ANONYMOUS',
+  ARCHIVED = 'ARCHIVED',
+}
+
+export enum WishOptionType {
+  NONE = 'NONE',
+  HIDDEN = 'HIDDEN',
+  ANONYMOUS = 'ANONYMOUS',
+  ALL = 'ALL',
+  ALL_SUGGEST = 'ALL_SUGGEST',
+}
+
+export enum CommentType {
+  PRIVATE = 'PRIVATE',
+  OWNER = 'OWNER',
+  PUBLIC = 'PUBLIC',
 }
 
 export class UserShareDto {
