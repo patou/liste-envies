@@ -61,12 +61,11 @@
                   [attr.aria-describedby]="emailError ? 'email-error' : null"
                 />
                 <mat-icon matPrefix>email</mat-icon>
-                @if (loginForm.get('email')?.hasError('required')) {
+@if (loginForm.get('email')?.hasError('required')) {
                 <mat-error> L'email est requis </mat-error>
-                } @if ( loginForm.get('email')?.hasError('email') &&
-                !loginForm.get('email')?.hasError('required') ) {
+                } @else if (loginForm.get('email')?.hasError('email')) {
                 <mat-error> Email invalide </mat-error>
-                } @if (emailError) {
+                } @else if (emailError) {
                 <mat-error id="email-error">
                   {{ emailError }}
                 </mat-error>
