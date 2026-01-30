@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
-// @ts-ignore
-import Vibrant from "node-vibrant";
+import { Vibrant } from "node-vibrant/browser";
 
 declare const tinycolor: any;
 
@@ -36,7 +35,7 @@ export class ColorManagementService {
       .getPalette()
       .then(palette => {
         if (palette && palette.Muted && palette.Vibrant) {
-          this.setColors(palette.DarkMuted.getHex(), palette.Vibrant.getHex());
+          this.setColors(palette.DarkMuted.hex, palette.Vibrant.hex);
         } else {
           this.applyDefaultColor();
         }
