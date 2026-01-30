@@ -37,6 +37,10 @@ yarn-error.log
 .env.*
 !.env.example
 
+# Firebase Service Account (contains sensitive credentials)
+firebase-service-account.json
+**/firebase-service-account.json
+
 # Front files
 liste-envies-front/dist/
 liste-envies-front/node_modules/

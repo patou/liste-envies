@@ -57,6 +57,43 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Firebase Admin SDK Configuration
+
+This backend uses Firebase Admin SDK for authentication. You need to configure Firebase credentials before running the application.
+
+### Option 1: Using Service Account File (Recommended for production)
+
+1. Download your Firebase service account JSON file from the [Firebase Console](https://console.firebase.google.com/)
+2. Save it as `firebase-service-account.json` in the root of the `liste-envies-back` directory
+3. The file is already added to `.gitignore` to prevent accidental commits
+
+### Option 2: Using Environment Variables (For development)
+
+Add the following variables to your `.env` file:
+
+```env
+FIREBASE_PROJECT_ID=your-project-id
+FIREBASE_CLIENT_EMAIL=your-service-account@your-project.iam.gserviceaccount.com
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYOUR_PRIVATE_KEY_HERE\n-----END PRIVATE KEY-----\n"
+```
+
+For detailed instructions, see [FIREBASE_SETUP.md](../FIREBASE_SETUP.md) in the project root.
+
+## Environment Variables
+
+The following environment variables are required:
+
+- `FIREBASE_API_KEY` - Firebase API key
+- `FIREBASE_AUTH_DOMAIN` - Firebase auth domain
+- `FIREBASE_PROJECT_ID` - Firebase project ID
+- `FIREBASE_STORAGE_BUCKET` - Firebase storage bucket
+- `FIREBASE_MESSAGING_SENDER_ID` - Firebase messaging sender ID
+- `FIREBASE_APP_ID` - Firebase app ID
+- `FIREBASE_DATABASE_URL` - Firebase database URL
+- `FIREBASE_CLIENT_EMAIL` - Firebase service account email (for Admin SDK)
+- `FIREBASE_PRIVATE_KEY` - Firebase service account private key (for Admin SDK)
+- `PORT` - Server port (default: 3000)
+
 ## Deployment
 
 When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.

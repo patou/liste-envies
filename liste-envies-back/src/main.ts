@@ -39,17 +39,18 @@ async function bootstrap() {
     }),
   );
   app.enableCors(); // Configure as needed
+  app.setGlobalPrefix('api');
 
   const config = new DocumentBuilder()
     .setTitle('Liste Envies API')
     .setDescription(
-      'The Liste Envies API description. [Get Token](/tools/login)',
+      'The Liste Envies API description. [Get Token](/api/tools/login)',
     )
     .setVersion('1.0')
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api/docs', app, document);
 
   app.useGlobalPipes(
     new ValidationPipe({
