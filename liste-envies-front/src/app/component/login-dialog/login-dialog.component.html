@@ -40,9 +40,9 @@
         <!-- Onglet Connexion -->
         <mat-tab label="Se connecter">
           <div class="tab-content">
-            @if (!isResetMode) {
+@if (!isResetMode) {
             <h3>Connectez-vous</h3>
-            } @if (isResetMode) {
+            } @else {
             <h3>Réinitialisation du mot de passe</h3>
             }
 
