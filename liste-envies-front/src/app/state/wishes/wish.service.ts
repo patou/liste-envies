@@ -69,7 +69,7 @@ export class WishService extends AkitaFiltersPlugin<WishState> {
     this.displayActive();
   }
 
-  refresh(type: string, listId: string) {
+  refreshList(type: string, listId: string) {
     this.wishStore.setReload();
     if (type === "toOffer") {
       this.get(listId, false);
