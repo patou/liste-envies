@@ -3,7 +3,7 @@ jobs: # a collection of steps
   build-frontend:
     working_directory: ~/liste-envies
     docker:
-      - image: cimg/node:20.12
+      - image: cimg/node:24.13
     steps:
       - checkout
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
