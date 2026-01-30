@@ -190,7 +190,7 @@ export class ListComponent implements OnInit, OnChanges {
 
   public refreshList() {
     if (this.demo) return;
-    this.wishService.refresh(
+    this.wishService.refreshList(
       this.route.snapshot.url.join(""),
       this.route.snapshot.params["listId"]
     );
