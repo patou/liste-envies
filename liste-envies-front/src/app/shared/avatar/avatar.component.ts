@@ -13,7 +13,7 @@ import { Component, Input } from "@angular/core";
     >
       @if (imageUrl) {
       <img [src]="imageUrl" [alt]="name" />
-      } @if (!imageUrl) {
+      } @else {
       <span class="initials">{{ initials }}</span>
       }
     </div>
