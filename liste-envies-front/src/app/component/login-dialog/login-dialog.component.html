@@ -261,9 +261,9 @@
                 class="submit-button"
                 [disabled]="registerForm.invalid || isLoading"
               >
-                @if (isLoading) {
+@if (isLoading) {
                 <mat-spinner diameter="20"></mat-spinner>
-                } @if (!isLoading) {
+                } @else {
                 <span>Créer</span>
                 }
               </button>
