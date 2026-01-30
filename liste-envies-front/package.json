@@ -53,7 +53,7 @@
     "ng-animate": "^0.3.4",
     "ngx-filepond": "^7.0.3",
     "ngx-moment": "^6.0.2",
-    "ngx-quill": "^25.3.1",
+    "ngx-quill": "30.0.1",
     "node-vibrant": "^3.2.1-alpha.1",
     "quill": "^2.0.2",
     "rxjs": "^7.8.1",
