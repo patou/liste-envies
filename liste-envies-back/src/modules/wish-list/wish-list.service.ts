@@ -23,11 +23,16 @@ export class WishListService extends BaseRepository<any> {
   }
 
   async list(email: string): Promise<WishListDto[]> {
-    const query = this.datastore
-      .createQuery(this.kind)
-      .filter('users.email', '=', email);
-    const [entities] = await this.datastore.runQuery(query);
-    return entities.map((e) => this.mapToDto(e));
+    // Try querying all entities first to debug
+    const allQuery = this.datastore.createQuery(this.kind);
+    const [allEntities] = await this.datastore.runQuery(allQuery);
+
+    // Filter manually for now to see the structure
+    const filtered = allEntities.filter((entity) => {
+      return entity.users?.some((u: any) => u.email === email);
+    });
+
+    return filtered.map((e) => this.mapToDto(e));
   }
 
   async getAll(): Promise<WishListDto[]> {

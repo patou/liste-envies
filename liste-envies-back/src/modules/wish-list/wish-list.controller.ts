@@ -22,16 +22,13 @@ export class WishListController {
   constructor(private readonly wishListService: WishListService) {}
 
   @Get()
+  @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Get current user wish lists' })
   async getWishListForUser(@User() user: any) {
-    if (user) {
-      return this.wishListService.list(user.email);
+    if (!user || !user.email) {
+      return [];
     }
-    // Demo fallback if no auth, but Route is mostly guarded or handles null user logic
-    // In NestJS, if AuthGuard is global or on controller, user is present.
-    // If we want optional auth, we need a custom "OptionalAuthGuard" or logic.
-    // For now, assuming authenticated for lists.
-    return [];
+    return this.wishListService.list(user.email);
   }
 
   @Get('of/:email')
