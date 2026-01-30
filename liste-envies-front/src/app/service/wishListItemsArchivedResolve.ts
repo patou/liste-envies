@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import {
   ActivatedRouteSnapshot,
-  Resolve,
   Router,
   RouterStateSnapshot
 } from "@angular/router";
@@ -9,7 +8,7 @@ import {
 import { WishService } from "../state/wishes/wish.service";
 
 @Injectable()
-export class WishListItemsArchivedResolver implements Resolve<boolean> {
+export class WishListItemsArchivedResolver {
   constructor(private router: Router, private wishService: WishService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {

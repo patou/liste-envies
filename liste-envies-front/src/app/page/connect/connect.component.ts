@@ -1,12 +1,16 @@
-import { Component, Inject, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../../service/auth.service";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { UserState } from "../../state/app/user.store";
 import { UserQuery } from "../../state/app/user.query";
 import { Router } from "@angular/router";
-import { AUTH_PROVIDERS } from "../../shared/auth_providers";
-import { AuthProvider, Theme } from "ngx-auth-firebaseui";
 import { LoginPopUpService } from "../../service/login-pop-up.service";
+import {
+  Auth,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  signInWithPopup
+} from "@angular/fire/auth";
 
 @UntilDestroy()
 @Component({
@@ -15,12 +19,11 @@ import { LoginPopUpService } from "../../service/login-pop-up.service";
   styleUrls: ["./connect.component.scss"]
 })
 export class ConnectComponent implements OnInit {
-  theme: Theme = Theme.RAISED;
   constructor(
     private auth: AuthService,
+    private fireAuth: Auth,
     private user: UserQuery,
     private router: Router,
-    @Inject(AUTH_PROVIDERS) public providers: AuthProvider[],
     private loginPopUp: LoginPopUpService
   ) {}
 
@@ -33,6 +36,24 @@ export class ConnectComponent implements OnInit {
           this.router.navigateByUrl("/");
         }
       });
+  }
+
+  async signInWithGoogle() {
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(this.fireAuth, provider);
+    } catch (error) {
+      console.error("Erreur lors de la connexion avec Google:", error);
+    }
+  }
+
+  async signInWithFacebook() {
+    try {
+      const provider = new FacebookAuthProvider();
+      await signInWithPopup(this.fireAuth, provider);
+    } catch (error) {
+      console.error("Erreur lors de la connexion avec Facebook:", error);
+    }
   }
 
   connect() {

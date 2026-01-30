@@ -2,20 +2,25 @@ import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { map, tap, debounceTime } from "rxjs/operators";
 import { AuthService } from "../../service/auth.service";
-import * as firebase from "firebase";
+import type { User } from "firebase/auth";
 import { Observable } from "rxjs";
 import { WishesListQuery } from "../../state/wishes/wishes-list.query";
 import { WishList } from "../../models/WishList";
 import { NotificationsQuery } from "../../state/app/notifications.query";
-import { FormControl } from "@angular/forms";
+import { UntypedFormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 import { WishesListService } from "../../state/wishes/wishes-list.service";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Debounce as DebounceDecorator } from "lodash-decorators";
 import { ID } from "@datorama/akita";
 import { MyWishQuery } from "../../state/wishes/my-wish/my-wish.query";
-import { LinkMenuItem } from "ngx-auth-firebaseui";
 import { LoginPopUpService } from "../../service/login-pop-up.service";
+
+interface LinkMenuItem {
+  icon?: string;
+  text?: string;
+  callback?: () => void;
+}
 
 @UntilDestroy()
 @Component({
@@ -34,7 +39,8 @@ export class PageNavComponent implements OnInit {
 
   isHandset: boolean;
 
-  public userAuth$: Observable<firebase.User>;
+  public user$: Observable<User | null>;
+  public userAuth$: Observable<User | null>;
 
   public myList$: Observable<WishList[]>;
   public otherList$: Observable<WishList[]>;
@@ -47,7 +53,7 @@ export class PageNavComponent implements OnInit {
   public archiveCount$: Observable<number>;
   public trashCount$: Observable<number>;
 
-  public selectListControl = new FormControl("");
+  public selectListControl = new UntypedFormControl("");
   public isOpened: boolean = false;
   public openedRightSideNav: boolean = false;
   public selectedTabsRightSidebar: number = 0;
@@ -71,6 +77,7 @@ export class PageNavComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.user$ = this.auth.user;
     this.userAuth$ = this.auth.user;
     this.myList$ = this.wishListService.selectAllByFilters({
       filterBy: list => list.owner
@@ -108,6 +115,10 @@ export class PageNavComponent implements OnInit {
   }
 
   logout() {
+    this.auth.logout();
+  }
+
+  signOut() {
     this.auth.logout();
   }
 

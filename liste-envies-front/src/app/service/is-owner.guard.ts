@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import {
-  CanActivate,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   Router,
@@ -9,7 +8,7 @@ import {
 import { Observable } from "rxjs";
 import { AuthService } from "./auth.service";
 import { map, take } from "rxjs/operators";
-import { User } from "firebase";
+import type { User } from "firebase/auth";
 import { WishesListQuery } from "../state/wishes/wishes-list.query";
 import { filterNil } from "@datorama/akita";
 import { WishList } from "../models/WishList";
@@ -17,7 +16,7 @@ import { WishList } from "../models/WishList";
 @Injectable({
   providedIn: "root"
 })
-export class IsOwnerGuard implements CanActivate {
+export class IsOwnerGuard {
   constructor(private wishListQuery: WishesListQuery, private router: Router) {}
 
   canActivate(

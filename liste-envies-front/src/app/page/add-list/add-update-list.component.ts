@@ -1,12 +1,12 @@
 import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators
 } from "@angular/forms";
 import { UserShare, WishList } from "../../models/WishList";
-import { LatinizePipe } from "ng-pipes";
+import { LatinizePipe } from "../../shared/pipes/latinize.pipe";
 import { Subject } from "rxjs";
 import { WishItem } from "../../models/WishItem";
 import { DemoService } from "../../state/wishes/demo/demo.service";
@@ -25,7 +25,7 @@ import { merge } from "rxjs";
 
 import { WishesListQuery } from "../../state/wishes/wishes-list.query";
 import { WishQuery } from "../../state/wishes/wish.query";
-import * as moment from "moment";
+import moment from "moment";
 
 @UntilDestroy()
 @Component({
@@ -35,9 +35,9 @@ import * as moment from "moment";
 })
 export class AddUpdateListComponent implements OnInit {
   isLinear = false;
-  nameFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-  addUsers = new FormControl([]);
+  nameFormGroup: UntypedFormGroup;
+  secondFormGroup: UntypedFormGroup;
+  addUsers = new UntypedFormControl([]);
   wishList: WishList = {
     title: "",
     name: "",
@@ -55,13 +55,13 @@ export class AddUpdateListComponent implements OnInit {
   wishListTypeLabelOrder = WishListTypeLabelOrder;
   previewAs: "OWNER" | "REGISTRER" | "PUBLIC" = "OWNER";
   demoWhishs: Subject<WishItem[]> = new Subject<WishItem[]>();
-  startDate = moment().month(1);
+  startDate = moment({ month: 1 });
   public sending: boolean;
-  public wishListFormGroup: FormGroup;
+  public wishListFormGroup: UntypedFormGroup;
   public edit: boolean = false;
 
   constructor(
-    private _formBuilder: FormBuilder,
+    private _formBuilder: UntypedFormBuilder,
     private latinize: LatinizePipe,
     private demoService: DemoService,
     private wishListService: WishesListService,

@@ -1,13 +1,5 @@
 import { Injectable } from "@angular/core";
-import {
-  Body,
-  GET,
-  Path,
-  PathParam,
-  POST,
-  PUT,
-  DELETE
-} from "ngx-http-annotations";
+import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { WishItem } from "../models/WishItem";
 import { Notification } from "../state/app/notification.model";
@@ -15,31 +7,26 @@ import { Notification } from "../state/app/notification.model";
 @Injectable({
   providedIn: "root"
 })
-@Path("/api/utilisateur/")
 export class UserAPIService {
-  constructor() {}
+  private readonly basePath = "/api/utilisateur";
 
-  @GET
-  @Path(":email/notifications")
-  notifications(@PathParam("email") email: string): Observable<Notification[]> {
-    return null;
+  constructor(private http: HttpClient) {}
+
+  notifications(email: string): Observable<Notification[]> {
+    return this.http.get<Notification[]>(
+      `${this.basePath}/${email}/notifications`
+    );
   }
 
-  @GET
-  @Path(":email/given")
-  given(@PathParam("email") email: string): Observable<WishItem[]> {
-    return null;
+  given(email: string): Observable<WishItem[]> {
+    return this.http.get<WishItem[]>(`${this.basePath}/${email}/given`);
   }
 
-  @GET
-  @Path(":email/archived")
-  archived(@PathParam("email") email: string): Observable<WishItem[]> {
-    return null;
+  archived(email: string): Observable<WishItem[]> {
+    return this.http.get<WishItem[]>(`${this.basePath}/${email}/archived`);
   }
 
-  @GET
-  @Path("my")
   my(): Observable<any> {
-    return null;
+    return this.http.get<any>(`${this.basePath}/my`);
   }
 }

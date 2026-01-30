@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import {
-  CanActivate,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   Router,
@@ -13,7 +12,7 @@ import { map } from "rxjs/operators";
 @Injectable({
   providedIn: "root"
 })
-export class IsNotConnectedGuard implements CanActivate {
+export class IsNotConnectedGuard {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(

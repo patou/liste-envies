@@ -1,4 +1,4 @@
-<div fxLayout="row" fxLayoutAlign="space-between center">
+<div class="layout-row space-between-center">
   <mat-form-field appearance="outline" class="col-5 no-padding">
     <mat-label>Url du lien</mat-label>
     <input
@@ -29,11 +29,11 @@
 </mat-error>
 
 <div *ngIf="(newUrls && newUrls.length > 0) || addUrl.url">
-  <mat-chip-list>
+  <mat-chip-listbox>
     <span *ngIf="newUrls.length === 1; else liens">Lien :</span>
     <ng-template #liens>Liens :</ng-template>
 
-    <mat-chip
+    <mat-chip-option
       [removable]="true"
       (removed)="removeLink(i)"
       *ngFor="let url of newUrls; index as i"
@@ -41,13 +41,13 @@
         url.name ? url.name : "lien"
       }}</a>
       <mat-icon matChipRemove>cancel</mat-icon>
-    </mat-chip>
+    </mat-chip-option>
 
-    <mat-chip [removable]="false" *ngIf="addUrl.url"
+    <mat-chip-option [removable]="false" *ngIf="addUrl.url"
       ><a [href]="addUrl.url" target="_blank" [matTooltip]="addUrl.url">{{
         addUrl.name ? addUrl.name : "lien"
       }}</a>
       <mat-icon matChipRemove>hourglass_empty</mat-icon>
-    </mat-chip>
-  </mat-chip-list>
+    </mat-chip-option>
+  </mat-chip-listbox>
 </div>

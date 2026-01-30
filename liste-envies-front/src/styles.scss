@@ -1,26 +1,38 @@
 /* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
 @import "styles/variables";
-@import "~@angular/material/theming";
-@include mat-core();
+// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
+//  The following line adds:
+//    1. Default typography styles for all components
+//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
+//  If you specify typography styles for the components you use elsewhere, you should delete this line.
+//  If you don't need the default component typographies but still want the hierarchy styles,
+//  you can delete this line and instead use:
+//    `@include mat.legacy-typography-hierarchy(mat.define-typography-config());`
+@include mat.all-component-typographies();
+@include mat.core();
 
 // Variables
-@import "~wire.css/src/scss/config";
+@import "wire.css/src/scss/_config";
 
 // Reset (Normalize)
-@import "~wire.css/src/scss/base/normalize";
+@import "wire.css/src/scss/base/_normalize";
 
 // Mixins
-@import "~wire.css/src/scss/base/mixins";
+@import "wire.css/src/scss/base/_mixins";
 
 // Helpers
-@import "~wire.css/src/scss/base/helpers";
+@import "wire.css/src/scss/base/_helpers";
 
 // Global
-@import "~wire.css/src/scss/base/global";
+@import "wire.css/src/scss/base/_global";
 
 // Components
-@import "~wire.css/src/scss/components/grid";
-@import "~wire.css/src/scss/components/images";
+@import "wire.css/src/scss/components/_grid";
+@import "wire.css/src/scss/components/_images";
+
+// Flex Layout Utilities
+@import "styles/flex-utilities";
 
 // define 3 theme color
 
@@ -90,19 +102,24 @@ $dynamic-theme-accent: (
   )
 );
 
-$my-theme-primary: mat-palette($dynamic-theme-primary);
-$my-theme-accent: mat-palette($dynamic-theme-accent);
-$my-theme-warn: mat-palette($mat-deep-orange, A200);
+$my-theme-primary: mat.define-palette($dynamic-theme-primary);
+$my-theme-accent: mat.define-palette($dynamic-theme-accent);
+$my-theme-warn: mat.define-palette(mat.$deep-orange-palette, A200);
 
 // create theme (use mat-dark-theme for themes with dark backgrounds)
-$my-theme: mat-light-theme($my-theme-primary, $my-theme-accent, $my-theme-warn);
+$my-theme: mat.define-light-theme(
+  $my-theme-primary,
+  $my-theme-accent,
+  $my-theme-warn
+);
 
 // mat-palette accepts $palette-name, main, lighter and darker variants
-@include angular-material-theme($my-theme);
+@include mat.all-component-themes($my-theme);
 body {
   font-family: Roboto, Arial, sans-serif;
   margin: 0;
 }
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
 mat-card {
   max-width: 80%;
   margin: 2em auto;
@@ -168,27 +185,30 @@ mat-expansion-panel.badge-expansion-panel {
   }
 }
 
-.comments mat-list.mat-list mat-list-item.comment_item {
+.comments mat-list.mat-mdc-list mat-list-item.comment_item {
   height: auto !important;
+  /* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
   .mat-list-item-content {
     padding: 10px 0;
     align-items: self-start;
   }
-  ngx-avatar.mat-list-avatar {
+  ngx-avatar.mat-mdc-list-item-avatar {
     align-self: flex-start;
   }
+  /* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
   .mat-list-text h6.mat-line {
     white-space: normal;
     overflow-wrap: break-word;
     text-overflow: unset;
   }
   &.odd {
+    /* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
     .mat-list-text {
       align-items: flex-end;
       padding-left: 0 !important;
       padding-right: 16px !important;
     }
-    ngx-avatar.mat-list-avatar {
+    ngx-avatar.mat-mdc-list-item-avatar {
       order: 1;
     }
   }
@@ -196,6 +216,7 @@ mat-expansion-panel.badge-expansion-panel {
     margin-right: 72px;
     width: calc(100% - 72px - 72px);
   }
+  /* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
   &.even .mat-list-text {
     background-color: #e2e2fdb5;
     -moz-border-radius: 10px;
@@ -215,6 +236,7 @@ mat-expansion-panel.badge-expansion-panel {
       transform: rotate(25deg);
     }
   }
+  /* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
   &.odd .mat-list-text {
     background-color: #fbe4d6b5;
     -moz-border-radius: 10px;
@@ -247,6 +269,7 @@ mat-expansion-panel.badge-expansion-panel {
 }
 
 mat-form-field.no-padding {
+  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
   & > .mat-form-field-wrapper {
     padding: 0 !important;
   }
@@ -260,13 +283,15 @@ mat-form-field.no-padding {
   flex: 1 1 auto;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
 mat-button-toggle-group.buttonGroupDemo {
   height: 30px;
   font-size: 14px;
   position: relative;
   top: -6px;
   right: -11px;
-
+  /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
   mat-button-toggle {
     padding-top: 0;
     height: 30px;
@@ -275,7 +300,7 @@ mat-button-toggle-group.buttonGroupDemo {
       font-size: 15px;
     }
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
   button.mat-button-toggle-button
     .mat-button-toggle-appearance-standard
     .mat-button-toggle-label-content {
@@ -283,24 +308,27 @@ mat-button-toggle-group.buttonGroupDemo {
     padding: 2px 12px !important;
     height: 30px !important;
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
   .mat-button-toggle-label-content {
     height: 30px;
     line-height: 30px;
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
   .mat-button-toggle-label-content button {
     height: 30px;
     line-height: 30px;
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
   .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
     line-height: 30px;
     padding: 2px 12px;
   }
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
 mat-card.dateList {
+  /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
   .mat-card-header-text {
     margin: 0 8px;
   }

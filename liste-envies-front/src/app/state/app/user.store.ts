@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Store, StoreConfig } from "@datorama/akita";
-import { User, UserInfo } from "firebase";
+import type { User, UserInfo } from "firebase/auth";
 
 export interface UserState {
   user: UserInfo;

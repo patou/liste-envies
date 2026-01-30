@@ -1,6 +1,6 @@
 <div>
   <div class="page-background"></div>
-  <mat-card class="header-page-card">
+  <mat-card appearance="outlined" class="header-page-card">
     <section class="mat-typography">
       <h3>Cette page n'est accessible que si l'on est connecté</h3>
       <div class="row">
@@ -19,11 +19,26 @@
             Vous pouvez aussi vous connecter ou vous inscrire à partir de vos
             comptes sociaux suivants :
           </p>
-          <ngx-auth-firebaseui-providers
-            [providers]="providers"
-            [theme]="theme"
-            layout="column"
-          ></ngx-auth-firebaseui-providers>
+          <div class="auth-providers">
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="signInWithGoogle()"
+              class="provider-button"
+            >
+              <mat-icon>login</mat-icon>
+              Se connecter avec Google
+            </button>
+            <button
+              mat-raised-button
+              color="accent"
+              (click)="signInWithFacebook()"
+              class="provider-button"
+            >
+              <mat-icon>login</mat-icon>
+              Se connecter avec Facebook
+            </button>
+          </div>
         </div>
       </div>
     </section>

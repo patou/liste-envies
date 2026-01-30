@@ -1,6 +1,6 @@
-import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { WishList } from "../../models/WishList";
-import * as firebase from "firebase";
+import type { User } from "firebase/auth";
 import { AuthService } from "../../service/auth.service";
 import { WishesListQuery } from "../../state/wishes/wishes-list.query";
 import { ColorManagementService } from "../../service/color-management.service";
@@ -12,8 +12,6 @@ import {
 } from "@angular/cdk/layout";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { map } from "rxjs/operators";
-import { AUTH_PROVIDERS } from "../../shared/auth_providers";
-import { AuthProvider, Theme } from "ngx-auth-firebaseui";
 import { LoginPopUpService } from "../../service/login-pop-up.service";
 import { WishesListService } from "../../state/wishes/wishes-list.service";
 
@@ -24,12 +22,11 @@ import { WishesListService } from "../../state/wishes/wishes-list.service";
   styleUrls: ["./home.component.scss"]
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  public userAuth: Observable<firebase.User>;
+  public userAuth: Observable<User | null>;
 
   private list$: Observable<WishList[]>;
   public loading$: Observable<boolean>;
   public column$: Observable<number>;
-  theme: Theme = Theme.RAISED;
 
   constructor(
     private wishesListQuery: WishesListQuery,
@@ -37,7 +34,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     private breakpointObserver: BreakpointObserver,
     private auth: AuthService,
     private colorManagementService: ColorManagementService,
-    @Inject(AUTH_PROVIDERS) public providers: AuthProvider[],
     private loginPopUp: LoginPopUpService
   ) {
     this.column$ = this.breakpointObserver

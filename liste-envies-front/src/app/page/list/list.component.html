@@ -67,7 +67,7 @@
           <p class="owners-list" *ngIf="list?.owners && list?.owners?.length">
             de
             <ng-container *ngFor="let owner of list?.owners; let last = last">
-              <ngx-avatar
+              <app-avatar
                 [gravatarId]="owner?.email"
                 [matTooltip]="owner?.name || owner?.email"
                 [name]="owner?.name"
@@ -76,7 +76,7 @@
                 matTooltipPosition="below"
                 size="15"
               >
-              </ngx-avatar>
+              </app-avatar>
               <span
                 [matTooltip]="owner.email"
                 [title]="owner.email"
@@ -114,7 +114,7 @@
     </mat-expansion-panel-header>
 
     <div (click)="doNothing($event)">
-      <mat-card *ngIf="list.date" class="dateList">
+      <mat-card appearance="outlined" *ngIf="list.date" class="dateList">
         <mat-card-header>
           <mat-card-title>{{
             list.date | amDateFormat: "dddd D"
@@ -212,7 +212,7 @@
   </span>
 </div>
 <ng-template #loading>
-  <div fxLayout="column" fxLayoutAlign="center center">
+  <div class="layout-column center-center">
     <mat-spinner></mat-spinner>
   </div>
 </ng-template>

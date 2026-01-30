@@ -1,11 +1,10 @@
-@import "~@angular/material/theming";
+@use '@angular/material' as mat;
 @import "../../../styles/variables";
-
 
 .menu-wishlist {
   overflow: hidden;
-  @include mat-elevation-transition;
-  @include mat-elevation(1);
+  @include mat.elevation-transition;
+  @include mat.elevation(1);
   cursor: pointer;
 
   img.background-images {
@@ -21,15 +20,15 @@
     opacity: 0.3;
     z-index: 1;
   }
-
+  /*TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.*/
   ::ng-deep .mat-list-text {
     font-weight: 600 !important;
   }
 
   list-type-icon ::ng-deep mat-icon.mat-icon {
     svg.svg-inline--fa {
-      -webkit-filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
-      filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
+      -webkit-filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
+      filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
       color: $theme-accent;
     }
   }
@@ -48,8 +47,9 @@
     cursor: initial;
   }
 
-  &:hover, &.active {
-    @include mat-elevation(3);
+  &:hover,
+  &.active {
+    @include mat.elevation(3);
 
     img.background-images {
       transition: all 0.3s;
@@ -62,7 +62,7 @@
       clip-path: none;
       opacity: 0.1;
     }
-
+    /*TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.*/
     ::ng-deep .mat-list-text {
       transition: all 0.5s;
       text-shadow: 4px 3px 0 white;
@@ -70,20 +70,16 @@
       font-weight: 800 !important;
     }
   }
-
 }
-
-
-
 
 .wish-list-item {
   position: relative;
   display: inline-block;
-  @include mat-elevation-transition;
-  @include mat-elevation(2);
+  @include mat.elevation-transition;
+  @include mat.elevation(2);
 
   &:hover {
-    @include mat-elevation(8);
+    @include mat.elevation(8);
   }
   height: 90%;
   padding: 0.5em;
