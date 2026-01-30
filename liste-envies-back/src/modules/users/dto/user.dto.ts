@@ -24,4 +24,5 @@ export class UserDto {
   birthday: string;
   isNewUser: boolean;
   isAdmin: boolean;
+  lastNotification?: Date;
 }

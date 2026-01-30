@@ -8,6 +8,7 @@ export interface AppUserEntity {
   picture: string;
   birthday: string;
   isAdmin: boolean;
+  lastNotification?: Date;
 }
 
 @Injectable()
@@ -24,7 +25,7 @@ export class UsersService extends BaseRepository<AppUserEntity> {
   async findByEmail(email: string): Promise<UserDto | null> {
     const entity = await this.get(email);
     if (!entity) return null;
-    return this.mapToDto(entity);
+    return this.mapToDto(entity, email);
   }
 
   async createOrUpdate(email: string, dto: CreateUserDto): Promise<UserDto> {
@@ -39,17 +40,21 @@ export class UsersService extends BaseRepository<AppUserEntity> {
     };
 
     await this.save(entity, email);
-    return this.mapToDto(entity);
+    return this.mapToDto(entity, email);
   }
 
-  private mapToDto(entity: AppUserEntity): UserDto {
+  private mapToDto(entity: any, emailFromKey?: string): UserDto {
+    // In Datastore, the email is the key, not a property
+    const email =
+      emailFromKey || entity.email || entity[this.datastore.KEY]?.name;
     return {
-      email: entity.email,
+      email: email,
       name: entity.name,
       picture: entity.picture,
       birthday: entity.birthday,
       isNewUser: !entity.name,
       isAdmin: entity.isAdmin,
+      lastNotification: entity.lastNotification,
     };
   }
 }

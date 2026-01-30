@@ -156,6 +156,23 @@ export class WishesService extends BaseRepository<any> {
     await this.datastore.delete(key);
   }
 
+  async archived(userEmail: string): Promise<WishDto[]> {
+    const query = this.datastore
+      .createQuery('Wish')
+      .filter('userReceived', '=', userEmail);
+    const [entities] = await this.datastore.runQuery(query);
+    return entities.map((e) => this.mapToDto(e));
+  }
+
+  async given(userEmail: string): Promise<WishDto[]> {
+    const query = this.datastore
+      .createQuery('Wish')
+      .filter('userTake.email', '=', userEmail)
+      .filter('state', '=', WishState.ACTIVE);
+    const [entities] = await this.datastore.runQuery(query);
+    return entities.map((e) => this.mapToDto(e));
+  }
+
   private mapToDto(entity: any): WishDto {
     const dto = new WishDto();
     dto.id = entity[this.datastore.KEY]?.id

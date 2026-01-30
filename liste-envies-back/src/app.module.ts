@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './modules/users/users.module';
 import { WishListModule } from './modules/wish-list/wish-list.module';
 import { WishesModule } from './modules/wishes/wishes.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
 import { ToolsController } from './modules/tools/tools.controller';
 
 @Module({
@@ -15,6 +16,7 @@ import { ToolsController } from './modules/tools/tools.controller';
     UsersModule,
     WishListModule,
     WishesModule,
+    NotificationsModule,
   ],
   controllers: [AppController, ToolsController],
   providers: [AppService],
