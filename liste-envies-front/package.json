@@ -39,7 +39,7 @@
     "@ngneat/until-destroy": "^10.0.0",
     "akita-filters-plugin": "^4.0.0",
     "core-js": "^3.38.1",
-    "filepond": "^4.31.3",
+    "filepond": "4.32.11",
     "filepond-plugin-file-encode": "^2.1.14",
     "filepond-plugin-file-validate-type": "^1.2.9",
     "filepond-plugin-image-exif-orientation": "^1.0.11",
