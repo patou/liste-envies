@@ -198,12 +198,11 @@
                   "
                 />
                 <mat-icon matPrefix>email</mat-icon>
-                @if (registerForm.get('email')?.hasError('required')) {
+@if (registerForm.get('email')?.hasError('required')) {
                 <mat-error> L'email est requis </mat-error>
-                } @if ( registerForm.get('email')?.hasError('email') &&
-                !registerForm.get('email')?.hasError('required') ) {
+                } @else if (registerForm.get('email')?.hasError('email')) {
                 <mat-error> Email invalide </mat-error>
-                } @if (emailError) {
+                } @else if (emailError) {
                 <mat-error id="register-email-error">
                   {{ emailError }}
                 </mat-error>
