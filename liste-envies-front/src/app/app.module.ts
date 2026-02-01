@@ -52,6 +52,8 @@ if (environment.production) {
   enableAkitaProdMode();
 }
 
+const app = initializeApp(environment.firebaseConfig);
+
 export function waitFirebaseLoaded(authService: AuthService) {
   return () => authService.init();
 }
@@ -83,9 +85,9 @@ export function waitFirebaseLoaded(authService: AuthService) {
     ReceivedComponent
   ],
   providers: [
-    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
+    provideFirebaseApp(() => app),
+    provideAuth(() => getAuth(app)),
+    provideFirestore(() => getFirestore(app)),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthService,
@@ -110,4 +112,4 @@ export function waitFirebaseLoaded(authService: AuthService) {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
