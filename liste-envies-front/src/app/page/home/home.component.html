@@ -11,10 +11,7 @@
       } @else {
       <div class="row">
         <div class="col-4">
-          <img
-            src="/assets/images/undraw_gift_card_6ekc.png"
-            class="wishlist-img"
-          />
+          <img src="/assets/images/undraw_gift_card_6ekc.png" class="wishlist-img" />
         </div>
         <div class="col-8">
           <h1 class="intro1">
@@ -53,23 +50,11 @@
             comptes sociaux suivants :
           </p>
           <div>
-            <button
-              mat-raised-button
-              color="primary"
-              (click)="connect()"
-              style="margin: 5px"
-            >
-              <mat-icon>login</mat-icon>
-              Se connecter avec Google
+            <button mat-raised-button class="btn-google" (click)="connect()" style="margin: 5px">
+              Google
             </button>
-            <button
-              mat-raised-button
-              color="accent"
-              (click)="connect()"
-              style="margin: 5px"
-            >
-              <mat-icon>login</mat-icon>
-              Se connecter avec Facebook
+            <button mat-raised-button class="btn-facebook" (click)="connect()" style="margin: 5px">
+              Facebook
             </button>
           </div>
         </div>
@@ -80,22 +65,12 @@
 
   @if (userAuth | async) {
   <span class="done">
-    <button
-      mat-fab
-      matTooltip="Créer une nouvelle liste d'envies"
-      matTooltipPosition="left"
-      routerLink="/addList"
-    >
+    <button mat-fab matTooltip="Créer une nouvelle liste d'envies" matTooltipPosition="left" routerLink="/addList">
       <mat-icon>playlist_add</mat-icon>
     </button>
   </span>
   } @if (!(loading$ | async)) {
-  <mat-grid-list
-    [cols]="column$ | async"
-    rowHeight="80"
-    gutterSize="4"
-    class="whishList-Container"
-  >
+  <mat-grid-list [cols]="column$ | async" rowHeight="80" gutterSize="20" class="whishList-Container">
     @for (wishList of list$ | async; track wishList) {
     <mat-grid-tile>
       <wish-list-item class="wishListCard" [wishlist]="wishList">
