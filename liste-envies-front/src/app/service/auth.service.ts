@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AsyncSubject, Observable } from "rxjs";
-import { User } from "@angular/fire/auth";
+import { lastValueFrom, AsyncSubject, Observable } from "rxjs";
 import type { User as FirebaseUser, UserInfo } from "firebase/auth";
 import {
   HttpEvent,
@@ -41,8 +40,8 @@ export class AuthService implements HttpInterceptor {
     this.subscribeToAuthState();
   }
 
-  init(): boolean | Promise<boolean> {
-    return this._init ? true : this.subscribeToAuthState();
+  init(): Promise<boolean> {
+    return this._init ? Promise.resolve(true) : this.subscribeToAuthState();
   }
 
   private subscribeToAuthState(): Promise<boolean> {
@@ -68,7 +67,7 @@ export class AuthService implements HttpInterceptor {
           this.resetCurrentUser();
         }
       );
-    return this.firebaseAuthInit$.toPromise();
+    return lastValueFrom(this.firebaseAuthInit$);
   }
 
   private emitInitEventForFirstTime() {
