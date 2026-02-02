@@ -3,11 +3,6 @@ import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
 import { AppModule } from "./app/app.module";
 import { environment } from "./environments/environment";
 import { hmrBootstrap } from "./hmr";
-import { initializeApp } from "firebase/app";
-import "firebase/auth";
-import "firebase/firestore";
-
-initializeApp(environment.firebaseConfig);
 
 if (environment.production) {
   enableProdMode();
