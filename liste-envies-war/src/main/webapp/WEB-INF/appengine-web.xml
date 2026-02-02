@@ -5,13 +5,17 @@
     <runtime>java25</runtime>
 
     <static-files>
-      <include path="/assets/**.*" />
-      <include path="*.js" />
-      <include path="*.map" />
-      <include path="*.ico" />
-      <include path="*.html" />
-      <include path="*.css" />
-	</static-files>
+      <include path="/assets/**" />
+      <include path="/**.js" />
+      <include path="/**.map" />
+      <include path="/**.ico" />
+      <include path="/**.css" />
+      <include path="/**.png" />
+      <include path="/**.jpg" />
+      <include path="/**.svg" />
+      <include path="/**.txt" />
+      <exclude path="/index.html" />
+    </static-files>
     <resource-files>
         <include path="/**.json" />
         <include path="/index.html" />
