@@ -14,7 +14,15 @@ jobs: # a collection of steps
           key: yarn-packages-{{ checksum "liste-envies-front/yarn.lock" }}
           paths:
             - ~/.cache/yarn
-      - run: cd liste-envies-front && yarn run build-prod
+      - run:
+          name: Build Frontend
+          command: |
+             cd liste-envies-front
+             if [ "$CIRCLE_BRANCH" == "master" ]; then
+               yarn run build-prod
+             else
+               yarn run build-recette
+             fi
       - persist_to_workspace:
           root: ~/liste-envies
           paths:
