@@ -23,6 +23,49 @@ import { bounceInUp } from "ng-animate";
 import { WishService } from "../../state/wishes/wish.service";
 import { WishQuery } from "../../state/wishes/wish.query";
 import { Observable } from "rxjs";
+import {
+  MatCard,
+  MatCardHeader,
+  MatCardContent,
+  MatCardActions
+} from "@angular/material/card";
+import { NgClass, AsyncPipe, DatePipe } from "@angular/common";
+import { MatProgressBar } from "@angular/material/progress-bar";
+import {
+  MatIconButton,
+  MatMiniFabButton,
+  MatButton
+} from "@angular/material/button";
+import { MatIcon } from "@angular/material/icon";
+import { MatTooltip } from "@angular/material/tooltip";
+import { MatMenuTrigger, MatMenu, MatMenuItem } from "@angular/material/menu";
+import { AvatarComponent } from "../../shared/avatar/avatar.component";
+import { MatDivider, MatList, MatListItem } from "@angular/material/list";
+import {
+  MatChipOption,
+  MatChipListbox,
+  MatChipRemove
+} from "@angular/material/chips";
+import { RatingComponent } from "../../shared/rating/rating.component";
+import { ReadMoreComponent } from "../../shared/read-more/read-more.component";
+import {
+  MatExpansionPanel,
+  MatExpansionPanelHeader,
+  MatExpansionPanelTitle,
+  MatExpansionPanelContent,
+  MatExpansionPanelActionRow
+} from "@angular/material/expansion";
+import { MatBadge } from "@angular/material/badge";
+import { MatLine } from "@angular/material/grid-list";
+import {
+  MatFormField,
+  MatLabel,
+  MatSuffix,
+  MatHint
+} from "@angular/material/input";
+import { HtmlEditorComponent } from "../../shared/html-editor/html-editor.component";
+import { MomentModule } from "ngx-moment";
+import { TruncatePipe } from "../../shared/pipes/truncate.pipe";
 
 @Component({
   selector: "app-wish-card",
@@ -39,6 +82,47 @@ import { Observable } from "rxjs";
         )
       ])
     ])
+  ],
+  imports: [
+    MatCard,
+    NgClass,
+    MatProgressBar,
+    MatCardHeader,
+    MatIconButton,
+    MatIcon,
+    MatTooltip,
+    MatMenuTrigger,
+    MatMenu,
+    MatMenuItem,
+    AvatarComponent,
+    MatDivider,
+    MatChipOption,
+    MatCardContent,
+    MatChipListbox,
+    MatChipRemove,
+    RatingComponent,
+    ReadMoreComponent,
+    MatExpansionPanel,
+    MatExpansionPanelHeader,
+    MatExpansionPanelTitle,
+    MatBadge,
+    MatList,
+    MatListItem,
+    MatLine,
+    MatExpansionPanelContent,
+    MatExpansionPanelActionRow,
+    MatFormField,
+    MatLabel,
+    HtmlEditorComponent,
+    MatMiniFabButton,
+    MatSuffix,
+    MatHint,
+    MatCardActions,
+    MatButton,
+    AsyncPipe,
+    DatePipe,
+    MomentModule,
+    TruncatePipe
   ]
 })
 export class WishCardComponent implements OnInit, OnChanges, OnDestroy {

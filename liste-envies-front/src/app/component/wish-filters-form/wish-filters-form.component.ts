@@ -4,13 +4,39 @@ import {
   OnInit,
   ViewEncapsulation
 } from "@angular/core";
-import { UntypedFormControl, UntypedFormGroup } from "@angular/forms";
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  FormsModule,
+  ReactiveFormsModule
+} from "@angular/forms";
 import { WishService } from "../../state/wishes/wish.service";
 import { AkitaFilter, searchFilter } from "akita-filters-plugin";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { WishItem } from "../../models/WishItem";
 import { Observable } from "rxjs";
 import { WishState } from "../../state/wishes/wish.store";
+import {
+  MatButtonToggleGroup,
+  MatButtonToggle
+} from "@angular/material/button-toggle";
+import { MatTooltip } from "@angular/material/tooltip";
+import {
+  MatFormField,
+  MatLabel,
+  MatInput,
+  MatSuffix,
+  MatHint
+} from "@angular/material/input";
+import { MatIcon } from "@angular/material/icon";
+import { MatSelect } from "@angular/material/select";
+import { MatOption } from "@angular/material/autocomplete";
+import {
+  MatChipListbox,
+  MatChipOption,
+  MatChipRemove
+} from "@angular/material/chips";
+import { AsyncPipe } from "@angular/common";
 
 @UntilDestroy()
 @Component({
@@ -18,7 +44,26 @@ import { WishState } from "../../state/wishes/wish.store";
   templateUrl: "./wish-filters-form.component.html",
   styleUrls: ["./wish-filters-form.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatButtonToggleGroup,
+    MatButtonToggle,
+    MatTooltip,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatIcon,
+    MatSuffix,
+    MatHint,
+    MatSelect,
+    MatOption,
+    MatChipListbox,
+    MatChipOption,
+    MatChipRemove,
+    AsyncPipe
+  ]
 })
 export class WishFiltersFormComponent implements OnInit {
   filtersForm = new UntypedFormGroup({

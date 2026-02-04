@@ -200,7 +200,7 @@
                             <targetPath>WEB-INF</targetPath>
                         </resource>
                         <resource>
-                            <directory>../liste-envies-front/dist/</directory>
+                            <directory>../liste-envies-front/dist/browser/</directory>
                         </resource>
                     </webResources>
                 </configuration>

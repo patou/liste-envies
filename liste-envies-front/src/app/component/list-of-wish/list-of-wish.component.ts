@@ -15,6 +15,8 @@ import { Observable } from "rxjs";
 import { WishQuery } from "../../state/wishes/wish.query";
 import { DemoQuery } from "../../state/wishes/demo/demo.query";
 import { WishService } from "../../state/wishes/wish.service";
+import { WishCardComponent } from "../wish-card/wish-card.component";
+import { AsyncPipe } from "@angular/common";
 
 declare var Macy;
 
@@ -26,7 +28,8 @@ declare var Macy;
   animations: [
     trigger("animateColumn", [transition("* => *", useAnimation(fadeInUp))]),
     trigger("animateItems", [transition("* => *", useAnimation(bounceInLeft))])
-  ]
+  ],
+  imports: [WishCardComponent, AsyncPipe]
 })
 export class ListOfWishComponent implements OnInit, OnChanges {
   animateItems: any;
@@ -59,7 +62,7 @@ export class ListOfWishComponent implements OnInit, OnChanges {
     return item.id;
   }
 
-  trackColumn(index: number, item: WishItem) {
+  trackColumn(index: number, item: Observable<WishItem[]>) {
     return index;
   }
 

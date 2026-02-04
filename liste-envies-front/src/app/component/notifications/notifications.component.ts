@@ -7,11 +7,34 @@ import {
   Notification,
   Notification_type
 } from "../../state/app/notification.model";
+import { MatNavList, MatListItem, MatDivider } from "@angular/material/list";
+import { RouterLink } from "@angular/router";
+import { MatIcon } from "@angular/material/icon";
+import { MatLine } from "@angular/material/grid-list";
+import { MatTooltip } from "@angular/material/tooltip";
+import { AsyncPipe, DatePipe } from "@angular/common";
+import { StripTagsPipe } from "../../shared/pipes/strip-tags.pipe";
+import { TruncatePipe } from "../../shared/pipes/truncate.pipe";
+import { MomentModule } from "ngx-moment";
 
 @Component({
   selector: "app-notifications",
   templateUrl: "./notifications.component.html",
-  styleUrls: ["./notifications.component.scss"]
+  styleUrls: ["./notifications.component.scss"],
+  imports: [
+    MatNavList,
+    MatListItem,
+    RouterLink,
+    MatIcon,
+    MatLine,
+    MatTooltip,
+    MatDivider,
+    AsyncPipe,
+    DatePipe,
+    StripTagsPipe,
+    TruncatePipe,
+    MomentModule
+  ]
 })
 export class NotificationsComponent implements OnInit {
   Notification_type = Notification_type;

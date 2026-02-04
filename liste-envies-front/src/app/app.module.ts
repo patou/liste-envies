@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, LOCALE_ID, NgModule } from "@angular/core";
+import { LOCALE_ID, NgModule, provideAppInitializer, inject } from "@angular/core";
 import { registerLocaleData } from "@angular/common";
 import localeFr from "@angular/common/locales/fr";
 
@@ -37,9 +37,12 @@ import { ConnectComponent } from "./page/connect/connect.component";
 import { WishListItemsArchivedResolver } from "./service/wishListItemsArchivedResolve";
 import { ReceivedComponent } from "./page/received/received.component";
 import { WishListItemsReceivedResolver } from "./service/wishListItemsReceivedResolve";
-import { provideFirebaseApp, initializeApp } from "@angular/fire/app";
-import { provideAuth, getAuth } from "@angular/fire/auth";
-import { provideFirestore, getFirestore } from "@angular/fire/firestore";
+import { provideFirebaseApp } from "@angular/fire/app";
+import { provideAuth } from "@angular/fire/auth";
+import { provideFirestore } from "@angular/fire/firestore";
+import { getApp, getApps, initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 akitaConfig({
   resettable: true
@@ -52,13 +55,24 @@ if (environment.production) {
   enableAkitaProdMode();
 }
 
-export function waitFirebaseLoaded(authService: AuthService) {
-  return () => authService.init();
-}
+const app = getApps().length === 0 ? initializeApp(environment.firebaseConfig) : getApp();
+
+
 
 @NgModule({
-  declarations: [
-    AppComponent,
+  declarations: [AppComponent],
+  imports: [
+    AppRoutingModule,
+    SharedModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    MomentModule,
+    ReactiveFormsModule,
+    // environment.production ? [] : AkitaNgDevtools.forRoot()
     PageComponent,
     HomeComponent,
     ListComponent,
@@ -71,23 +85,10 @@ export function waitFirebaseLoaded(authService: AuthService) {
     ConnectComponent,
     ReceivedComponent
   ],
-  imports: [
-    AppRoutingModule,
-    SharedModule,
-    LayoutModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
-    MomentModule,
-    ReactiveFormsModule
-    // environment.production ? [] : AkitaNgDevtools.forRoot()
-  ],
   providers: [
-    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
+    provideFirebaseApp(() => app),
+    provideAuth(() => getAuth(app)),
+    provideFirestore(() => getFirestore(app)),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthService,
@@ -103,13 +104,11 @@ export function waitFirebaseLoaded(authService: AuthService) {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
       useValue: { duration: 2500, horizontalPosition: "right" }
     },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: waitFirebaseLoaded,
-      multi: true,
-      deps: [AuthService]
-    }
+    provideAppInitializer(() => {
+      const authService = inject(AuthService);
+      return authService.init();
+    })
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

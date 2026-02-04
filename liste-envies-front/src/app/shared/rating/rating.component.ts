@@ -11,80 +11,80 @@ import { FocusMonitor } from "@angular/cdk/a11y";
 import { coerceBooleanProperty } from "@angular/cdk/coercion";
 import { MatFormFieldControl } from "@angular/material/form-field";
 import { Subject } from "rxjs";
+import { NgClass, NgTemplateOutlet } from "@angular/common";
+import { MatIconButton } from "@angular/material/button";
+import { MatIcon } from "@angular/material/icon";
+import { MatTooltip } from "@angular/material/tooltip";
 
 @Component({
   selector: "app-rating",
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <span class="rating" [ngClass]="{ pointer: !readonly }" *ngIf="!readonly"
-      ><ng-container *ngFor="let rate of [1, 2, 3, 4, 5]">
-        <button
-          mat-icon-button
-          (click)="selectStar(rate)"
-          [color]="rate === value ? 'accent' : 'primary'"
-        >
-          <ng-container
-            *ngTemplateOutlet="iconTemplate; context: { $implicit: rate }"
-          >
-          </ng-container>
-        </button>
-      </ng-container>
-
-      <mat-icon *ngIf="!readonly" (click)="selectStar(undefined)" class="light"
-        >close</mat-icon
+    @if (!readonly) {
+    <span class="rating" [ngClass]="{ pointer: !readonly }"
+      >@for (rate of [1, 2, 3, 4, 5]; track rate) {
+      <button
+        mat-icon-button
+        (click)="selectStar(rate)"
+        [color]="rate === value ? 'accent' : 'primary'"
       >
+        <ng-container
+          *ngTemplateOutlet="iconTemplate; context: { $implicit: rate }"
+        >
+        </ng-container>
+      </button>
+      } @if (!readonly) {
+      <mat-icon (click)="selectStar(undefined)" class="light">close</mat-icon>
+      }
     </span>
-    <span *ngIf="readonly">
+    } @if (readonly) {
+    <span>
       <ng-container
         *ngTemplateOutlet="iconTemplate; context: { $implicit: value }"
       >
       </ng-container>
     </span>
+    }
 
     <ng-template #iconTemplate let-rate>
-      <ng-container [ngSwitch]="rate">
-        <!-- the same view can be shown in more than one case -->
-        <ng-container *ngSwitchCase="1">
-          <mat-icon
-            class="rating-icon fa-2x"
-            fontSet="fa"
-            matTooltip="Cela me ferait rire"
-            fontIcon="fa-laugh"
-          ></mat-icon>
-        </ng-container>
-        <ng-container *ngSwitchCase="2">
-          <mat-icon
-            class="rating-icon fa-2x"
-            fontSet="fa"
-            matTooltip="Cela me serait utile"
-            fontIcon="fa-toolbox"
-          ></mat-icon>
-        </ng-container>
-        <ng-container *ngSwitchCase="3">
-          <mat-icon
-            class="rating-icon fa-2x"
-            fontSet="fa"
-            matTooltip="Bonne idée"
-            fontIcon="fa-lightbulb"
-          ></mat-icon>
-        </ng-container>
-        <ng-container *ngSwitchCase="4">
-          <mat-icon
-            class="rating-icon fa-2x"
-            fontSet="fa"
-            matTooltip="J'aime"
-            fontIcon="fa-thumbs-up"
-          ></mat-icon>
-        </ng-container>
-        <ng-container *ngSwitchCase="5">
-          <mat-icon
-            class="rating-icon fa-2x"
-            fontSet="fa"
-            matTooltip="J'adore"
-            fontIcon="fa-heart"
-          ></mat-icon>
-        </ng-container>
-      </ng-container>
+      @switch (rate) {
+      <!-- the same view can be shown in more than one case -->
+      @case (1) {
+      <mat-icon
+        class="rating-icon fa-2x"
+        fontSet="fa"
+        matTooltip="Cela me ferait rire"
+        fontIcon="fa-laugh"
+      ></mat-icon>
+      } @case (2) {
+      <mat-icon
+        class="rating-icon fa-2x"
+        fontSet="fa"
+        matTooltip="Cela me serait utile"
+        fontIcon="fa-toolbox"
+      ></mat-icon>
+      } @case (3) {
+      <mat-icon
+        class="rating-icon fa-2x"
+        fontSet="fa"
+        matTooltip="Bonne idée"
+        fontIcon="fa-lightbulb"
+      ></mat-icon>
+      } @case (4) {
+      <mat-icon
+        class="rating-icon fa-2x"
+        fontSet="fa"
+        matTooltip="J'aime"
+        fontIcon="fa-thumbs-up"
+      ></mat-icon>
+      } @case (5) {
+      <mat-icon
+        class="rating-icon fa-2x"
+        fontSet="fa"
+        matTooltip="J'adore"
+        fontIcon="fa-heart"
+      ></mat-icon>
+      } }
     </ng-template>
   `,
   styles: [
@@ -104,7 +104,8 @@ import { Subject } from "rxjs";
       }
     `
   ],
-  providers: [{ provide: MatFormFieldControl, useExisting: RatingComponent }]
+  providers: [{ provide: MatFormFieldControl, useExisting: RatingComponent }],
+  imports: [NgClass, MatIconButton, NgTemplateOutlet, MatIcon, MatTooltip]
 })
 export class RatingComponent implements MatFormFieldControl<number>, OnInit {
   static nextId = 0;

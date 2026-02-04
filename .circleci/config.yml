@@ -3,7 +3,7 @@ jobs: # a collection of steps
   build-frontend:
     working_directory: ~/liste-envies
     docker:
-      - image: cimg/node:20.12
+      - image: cimg/node:24.13
     steps:
       - checkout
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
@@ -14,7 +14,15 @@ jobs: # a collection of steps
           key: yarn-packages-{{ checksum "liste-envies-front/yarn.lock" }}
           paths:
             - ~/.cache/yarn
-      - run: cd liste-envies-front && yarn run build-prod
+      - run:
+          name: Build Frontend
+          command: |
+             cd liste-envies-front
+             if [ "$CIRCLE_BRANCH" == "master" ]; then
+               yarn run build-prod
+             else
+               yarn run build-recette
+             fi
       - persist_to_workspace:
           root: ~/liste-envies
           paths:

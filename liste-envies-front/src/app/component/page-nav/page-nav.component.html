@@ -21,12 +21,13 @@
       </button>
     </mat-toolbar>
 
-    <div *ngIf="!(loading$ | async); else loading" class="content_sidenav">
+    @if (!(loading$ | async)) {
+    <div class="content_sidenav">
       <mat-accordion multi="true" displayMode="flat">
+        @if (myListCount$ | async; as myListCount) {
         <mat-expansion-panel
           class="mat-elevation-z0 badge-expansion-panel"
           expanded="true"
-          *ngIf="myListCount$ | async as myListCount"
         >
           <mat-expansion-panel-header>
             <mat-panel-title
@@ -37,10 +38,10 @@
               Mes listes
             </mat-panel-title>
           </mat-expansion-panel-header>
-
           <mat-nav-list>
+            @for (wishList of myList$ | async; track trackByFn($index,
+            wishList)) {
             <wish-list-nav-item
-              *ngFor="let wishList of myList$ | async; trackBy: trackByFn"
               [wishlist]="wishList"
               [active]="wishList.name === (activeList$ | async)"
               class="wishListCard"
@@ -48,11 +49,12 @@
               (click)="drawer.close()"
             >
             </wish-list-nav-item>
+            }
           </mat-nav-list>
         </mat-expansion-panel>
+        } @if (otherListCount$ | async; as otherListCount) {
         <mat-expansion-panel
           expanded="true"
-          *ngIf="otherListCount$ | async as otherListCount"
           class="mat-elevation-z0 badge-expansion-panel"
         >
           <mat-expansion-panel-header>
@@ -64,10 +66,10 @@
               Autres listes partagées
             </mat-panel-title>
           </mat-expansion-panel-header>
-
           <mat-nav-list>
+            @for (wishList of otherList$ | async; track trackByFn($index,
+            wishList)) {
             <wish-list-nav-item
-              *ngFor="let wishList of otherList$ | async; trackBy: trackByFn"
               [wishlist]="wishList"
               [active]="wishList.name === (activeList$ | async)"
               class="wishListCard"
@@ -75,8 +77,10 @@
               (click)="drawer.close()"
             >
             </wish-list-nav-item>
+            }
           </mat-nav-list>
         </mat-expansion-panel>
+        }
         <mat-expansion-panel
           expanded="true"
           class="mat-elevation-z0 badge-expansion-panel"
@@ -84,20 +88,22 @@
           <mat-expansion-panel-header>
             <mat-panel-title> Autre </mat-panel-title>
           </mat-expansion-panel-header>
-          <mat-nav-list *ngIf="userAuth$ | async as user">
+          @if (userAuth$ | async; as user) {
+          <mat-nav-list>
             <button mat-menu-item routerLink="/received">
               <mat-icon>history</mat-icon>
               Mes cadeaux reçus
             </button>
           </mat-nav-list>
+          }
         </mat-expansion-panel>
       </mat-accordion>
     </div>
-    <ng-template #loading>
-      <div class="layout-column center-center">
-        <mat-spinner></mat-spinner>
-      </div>
-    </ng-template>
+    } @else {
+    <div class="layout-column center-center">
+      <mat-spinner></mat-spinner>
+    </div>
+    }
   </mat-sidenav>
   <mat-sidenav-content id="page">
     <div id="header">
@@ -115,8 +121,10 @@
           Liste d'envies</a
         >
 
-        <div *ngIf="userAuth$ | async as user; else showLogin">
-          <mat-form-field *ngIf="!(loading$ | async) && !(isHandset$ | async)">
+        @if (userAuth$ | async; as user) {
+        <div>
+          @if (!(loading$ | async) && !(isHandset$ | async)) {
+          <mat-form-field>
             <input
               matInput
               placeholder="Rechercher une liste"
@@ -130,15 +138,14 @@
               (optionSelected)="goToList($event)"
             >
               <mat-optgroup label="Mes listes">
-                <mat-option
-                  *ngFor="let wishList of myList$ | async; trackBy: trackByFn"
-                  [value]="wishList.name"
-                >
+                @for (wishList of myList$ | async; track trackByFn($index,
+                wishList)) {
+                <mat-option [value]="wishList.name">
                   <div class="option-whishlist">
                     <list-type-icon [type]="wishList.type"></list-type-icon>
                     <span class="option-title">{{ wishList.title }}</span>
+                    @for (owner of wishList.owners; track owner) {
                     <app-avatar
-                      *ngFor="let owner of wishList.owners"
                       [gravatarId]="owner.email"
                       [matTooltip]="owner.name + ' (' + owner.email + ')'"
                       [name]="owner.name || owner.email"
@@ -148,22 +155,20 @@
                       size="20"
                     >
                     </app-avatar>
+                    }
                   </div>
                 </mat-option>
+                }
               </mat-optgroup>
               <mat-optgroup label="Autres listes">
-                <mat-option
-                  *ngFor="
-                    let wishList of otherList$ | async;
-                    trackBy: trackByFn
-                  "
-                  [value]="wishList.name"
-                >
+                @for ( wishList of otherList$ | async; track trackByFn($index,
+                wishList)) {
+                <mat-option [value]="wishList.name">
                   <div class="option-whishlist">
                     <list-type-icon [type]="wishList.type"></list-type-icon>
                     <span class="option-title">{{ wishList.title }}</span>
+                    @for (owner of wishList.owners; track owner) {
                     <app-avatar
-                      *ngFor="let owner of wishList.owners"
                       [gravatarId]="owner.email"
                       [matTooltip]="owner.name + ' (' + owner.email + ')'"
                       [name]="owner.name || owner.email"
@@ -172,11 +177,14 @@
                       matTooltipPosition="above"
                       size="20"
                     ></app-avatar>
+                    }
                   </div>
                 </mat-option>
+                }
               </mat-optgroup>
             </mat-autocomplete>
           </mat-form-field>
+          }
           <button
             type="button"
             aria-label="Toggle sidenav"
@@ -219,24 +227,21 @@
             >
           </button>
           <!--<button
-            type="button"
-            aria-label="Toggle sidenav"
-            mat-icon-button
-            (click)="openRightSidePanel(3)"
-          >
-            <mat-icon
-              aria-label="notification icon"
-              [matBadge]="trashCount$ | async"
-              matBadgeColor="warn"
-              matTooltip="Archive"
-              >delete</mat-icon
-            >
-          </button>-->
-          <button
-            mat-icon-button
-            [matMenuTriggerFor]="userMenu"
-            *ngIf="user$ | async as user"
-          >
+                  type="button"
+                  aria-label="Toggle sidenav"
+                  mat-icon-button
+                  (click)="openRightSidePanel(3)"
+                  >
+                  <mat-icon
+                    aria-label="notification icon"
+                    [matBadge]="trashCount$ | async"
+                    matBadgeColor="warn"
+                    matTooltip="Archive"
+                    >delete</mat-icon
+                    >
+                  </button>-->
+          @if (user$ | async; as user) {
+          <button mat-icon-button [matMenuTriggerFor]="userMenu">
             <app-avatar
               [name]="user.displayName || user.email"
               [gravatarId]="user.email"
@@ -246,6 +251,7 @@
             >
             </app-avatar>
           </button>
+          }
           <mat-menu #userMenu="matMenu">
             <div mat-menu-item disabled class="user-info">
               <strong>{{
@@ -259,12 +265,12 @@
             </button>
           </mat-menu>
         </div>
-        <ng-template #showLogin>
-          <button mat-button (click)="connect()">
-            <mat-icon>login</mat-icon>
-            Connexion
-          </button>
-        </ng-template>
+        } @else {
+        <button mat-button (click)="connect()">
+          <mat-icon>login</mat-icon>
+          Connexion
+        </button>
+        }
       </mat-toolbar>
     </div>
     <div id="scroll-page">
@@ -385,39 +391,39 @@
         </ng-template>
       </mat-tab>
       <!--<mat-tab data-grid="column">
-        <ng-template mat-tab-label>
-          <mat-icon
-            aria-label="notification icon"
-            [matBadge]="trashCount$ | async"
-            matBadgeColor="warn"
-            matTooltip="Archive"
-            >delete</mat-icon
-          >
-        </ng-template>
+                        <ng-template mat-tab-label>
+                          <mat-icon
+                            aria-label="notification icon"
+                            [matBadge]="trashCount$ | async"
+                            matBadgeColor="warn"
+                            matTooltip="Archive"
+                            >delete</mat-icon
+                            >
+                          </ng-template>
 
-        <ng-template matTabContent>
-          <mat-toolbar color="primary" class="sidenav-top"
-            >Corbeille : Envies supprimées
-            <button
-              type="button"
-              aria-label="Toggle sidenav"
-              mat-icon-button
-              class="closeRightSidePannel"
-              (click)="closeRightSidePanel()"
-            >
-              <mat-icon aria-label="close sidepanel" matTooltip="Fermer"
-                >close</mat-icon
-              >
-            </button>
-          </mat-toolbar>
+                          <ng-template matTabContent>
+                            <mat-toolbar color="primary" class="sidenav-top"
+                              >Corbeille : Envies supprimées
+                              <button
+                                type="button"
+                                aria-label="Toggle sidenav"
+                                mat-icon-button
+                                class="closeRightSidePannel"
+                                (click)="closeRightSidePanel()"
+                                >
+                                <mat-icon aria-label="close sidepanel" matTooltip="Fermer"
+                                  >close</mat-icon
+                                  >
+                                </button>
+                              </mat-toolbar>
 
-          <div class="sidenav-content">
-            <app-side-of-wish typeWish="TRASH"></app-side-of-wish>
-          </div>
-        </ng-template>
+                              <div class="sidenav-content">
+                                <app-side-of-wish typeWish="TRASH"></app-side-of-wish>
+                              </div>
+                            </ng-template>
 
-      </mat-tab>
-      -->
+                          </mat-tab>
+                          -->
     </mat-tab-group>
   </mat-sidenav>
 </mat-sidenav-container>

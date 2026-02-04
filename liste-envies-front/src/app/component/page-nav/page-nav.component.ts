@@ -7,14 +7,57 @@ import { Observable } from "rxjs";
 import { WishesListQuery } from "../../state/wishes/wishes-list.query";
 import { WishList } from "../../models/WishList";
 import { NotificationsQuery } from "../../state/app/notifications.query";
-import { UntypedFormControl } from "@angular/forms";
-import { Router } from "@angular/router";
+import {
+  UntypedFormControl,
+  FormsModule,
+  ReactiveFormsModule
+} from "@angular/forms";
+import { Router, RouterLink } from "@angular/router";
 import { WishesListService } from "../../state/wishes/wishes-list.service";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Debounce as DebounceDecorator } from "lodash-decorators";
 import { ID } from "@datorama/akita";
 import { MyWishQuery } from "../../state/wishes/my-wish/my-wish.query";
 import { LoginPopUpService } from "../../service/login-pop-up.service";
+import {
+  MatSidenavContainer,
+  MatSidenav,
+  MatSidenavContent
+} from "@angular/material/sidenav";
+import { MatToolbar } from "@angular/material/toolbar";
+import { MatIconButton, MatButton } from "@angular/material/button";
+import { MatTooltip } from "@angular/material/tooltip";
+import { MatIcon } from "@angular/material/icon";
+import {
+  MatAccordion,
+  MatExpansionPanel,
+  MatExpansionPanelHeader,
+  MatExpansionPanelTitle
+} from "@angular/material/expansion";
+import { MatBadge } from "@angular/material/badge";
+import { MatNavList, MatDivider } from "@angular/material/list";
+import { WishListNavItemComponent } from "../../shared/wish-list-nav-item/wish-list-nav-item.component";
+import { MatMenuItem, MatMenuTrigger, MatMenu } from "@angular/material/menu";
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { MatFormField, MatInput } from "@angular/material/input";
+import {
+  MatAutocompleteTrigger,
+  MatAutocomplete,
+  MatOptgroup,
+  MatOption
+} from "@angular/material/autocomplete";
+import { ListTypeIcon } from "../../shared/list-type-icon/list-type-icon.component";
+import { AvatarComponent } from "../../shared/avatar/avatar.component";
+import { PageFooterComponent } from "../../shared/page-footer/page-footer.component";
+import {
+  MatTabGroup,
+  MatTab,
+  MatTabLabel,
+  MatTabContent
+} from "@angular/material/tabs";
+import { NotificationsComponent } from "../notifications/notifications.component";
+import { SideOfWishComponent } from "../side_of_wish/side-of-wish.component";
+import { AsyncPipe } from "@angular/common";
 
 interface LinkMenuItem {
   icon?: string;
@@ -27,7 +70,48 @@ interface LinkMenuItem {
   selector: "app-page-nav",
   templateUrl: "./page-nav.component.html",
   styleUrls: ["./page-nav.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    MatSidenavContainer,
+    MatSidenav,
+    MatToolbar,
+    MatIconButton,
+    MatTooltip,
+    RouterLink,
+    MatIcon,
+    MatAccordion,
+    MatExpansionPanel,
+    MatExpansionPanelHeader,
+    MatExpansionPanelTitle,
+    MatBadge,
+    MatNavList,
+    WishListNavItemComponent,
+    MatMenuItem,
+    MatProgressSpinner,
+    MatSidenavContent,
+    MatFormField,
+    MatInput,
+    MatAutocompleteTrigger,
+    FormsModule,
+    ReactiveFormsModule,
+    MatAutocomplete,
+    MatOptgroup,
+    MatOption,
+    ListTypeIcon,
+    AvatarComponent,
+    MatMenuTrigger,
+    MatMenu,
+    MatDivider,
+    MatButton,
+    PageFooterComponent,
+    MatTabGroup,
+    MatTab,
+    MatTabLabel,
+    MatTabContent,
+    NotificationsComponent,
+    SideOfWishComponent,
+    AsyncPipe
+  ]
 })
 export class PageNavComponent implements OnInit {
   isHandset$: Observable<boolean> = this.breakpointObserver

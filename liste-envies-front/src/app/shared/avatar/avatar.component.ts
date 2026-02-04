@@ -1,10 +1,8 @@
 import { Component, Input } from "@angular/core";
-import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "app-avatar",
-  standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div
       class="avatar"
@@ -13,8 +11,11 @@ import { CommonModule } from "@angular/common";
       [style.height.px]="size"
       [style.font-size.px]="size / 2"
     >
-      <img *ngIf="imageUrl" [src]="imageUrl" [alt]="name" />
-      <span *ngIf="!imageUrl" class="initials">{{ initials }}</span>
+      @if (imageUrl) {
+      <img [src]="imageUrl" [alt]="name" />
+      } @else {
+      <span class="initials">{{ initials }}</span>
+      }
     </div>
   `,
   styles: [

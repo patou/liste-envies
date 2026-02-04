@@ -14,13 +14,27 @@ import { WishQuery } from "../../state/wishes/wish.query";
 import { WishService } from "../../state/wishes/wish.service";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ColorManagementService } from "../../service/color-management.service";
+import { MatCard, MatCardHeader, MatCardTitle } from "@angular/material/card";
+import { MatIcon } from "@angular/material/icon";
+import { ListOfWishComponent } from "../../component/list-of-wish/list-of-wish.component";
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { AsyncPipe } from "@angular/common";
 
 @UntilDestroy()
 @Component({
   selector: "app-archive",
   templateUrl: "./received.component.html",
   styleUrls: ["./received.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatIcon,
+    ListOfWishComponent,
+    MatProgressSpinner,
+    AsyncPipe
+  ]
 })
 export class ReceivedComponent implements OnInit {
   listItems: Observable<WishItem[]>;

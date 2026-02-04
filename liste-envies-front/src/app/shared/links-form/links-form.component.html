@@ -24,30 +24,28 @@
     <mat-icon>add</mat-icon>
   </button>
 </div>
-<mat-error *ngIf="addUrl.url">
-  Cliquez sur l'icone + pour ajouter le lien
-</mat-error>
-
-<div *ngIf="(newUrls && newUrls.length > 0) || addUrl.url">
+@if (addUrl.url) {
+<mat-error> Cliquez sur l'icone + pour ajouter le lien </mat-error>
+} @if ((newUrls && newUrls.length > 0) || addUrl.url) {
+<div>
   <mat-chip-listbox>
-    <span *ngIf="newUrls.length === 1; else liens">Lien :</span>
-    <ng-template #liens>Liens :</ng-template>
-
-    <mat-chip-option
-      [removable]="true"
-      (removed)="removeLink(i)"
-      *ngFor="let url of newUrls; index as i"
+    @if (newUrls.length === 1) {
+    <span>Lien :</span>
+    } @else { Liens : } @for (url of newUrls; track url; let i = $index) {
+    <mat-chip-option [removable]="true" (removed)="removeLink(i)"
       ><a [href]="url.url" target="_blank" [matTooltip]="url.url">{{
         url.name ? url.name : "lien"
       }}</a>
       <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip-option>
-
-    <mat-chip-option [removable]="false" *ngIf="addUrl.url"
+    } @if (addUrl.url) {
+    <mat-chip-option [removable]="false"
       ><a [href]="addUrl.url" target="_blank" [matTooltip]="addUrl.url">{{
         addUrl.name ? addUrl.name : "lien"
       }}</a>
       <mat-icon matChipRemove>hourglass_empty</mat-icon>
     </mat-chip-option>
+    }
   </mat-chip-listbox>
 </div>
+}

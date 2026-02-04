@@ -11,7 +11,12 @@ import { WishListApiService } from "../../service/wish-list-api.service";
 import { Observable } from "rxjs";
 import { WishList } from "../../models/WishList";
 import { WishItem } from "../../models/WishItem";
-import { ActivatedRoute, Router } from "@angular/router";
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterLinkActive
+} from "@angular/router";
 import { AuthService } from "../../service/auth.service";
 import type { User } from "firebase/auth";
 import { WishEditComponent } from "../../component/wish-edit/wish-edit.component";
@@ -32,13 +37,78 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ColorManagementService } from "../../service/color-management.service";
 import { WishesListService } from "../../state/wishes/wishes-list.service";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
+import { MatMenu, MatMenuItem, MatMenuTrigger } from "@angular/material/menu";
+import { MatIcon } from "@angular/material/icon";
+import { MatTooltip } from "@angular/material/tooltip";
+import {
+  MatExpansionPanel,
+  MatExpansionPanelHeader,
+  MatExpansionPanelTitle,
+  MatExpansionPanelActionRow
+} from "@angular/material/expansion";
+import { ListTypeIcon } from "../../shared/list-type-icon/list-type-icon.component";
+import {
+  MatCardAvatar,
+  MatCard,
+  MatCardHeader,
+  MatCardTitle,
+  MatCardSubtitle,
+  MatCardContent
+} from "@angular/material/card";
+import {
+  MatIconAnchor,
+  MatIconButton,
+  MatFabButton
+} from "@angular/material/button";
+import { AvatarComponent } from "../../shared/avatar/avatar.component";
+import { ReadMoreComponent } from "../../shared/read-more/read-more.component";
+import { WishFiltersFormComponent } from "../../component/wish-filters-form/wish-filters-form.component";
+import { MatTabNav, MatTabLink } from "@angular/material/tabs";
+import { MatBadge } from "@angular/material/badge";
+import { ListOfWishComponent } from "../../component/list-of-wish/list-of-wish.component";
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { AsyncPipe } from "@angular/common";
+import { MomentModule } from "ngx-moment";
 
 @UntilDestroy()
 @Component({
   selector: "app-list",
   templateUrl: "./list.component.html",
   styleUrls: ["./list.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    MatMenu,
+    MatMenuItem,
+    RouterLink,
+    MatIcon,
+    MatTooltip,
+    MatExpansionPanel,
+    MatExpansionPanelHeader,
+    MatExpansionPanelTitle,
+    ListTypeIcon,
+    MatCardAvatar,
+    MatIconAnchor,
+    AvatarComponent,
+    MatIconButton,
+    MatMenuTrigger,
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardSubtitle,
+    MatCardContent,
+    ReadMoreComponent,
+    MatExpansionPanelActionRow,
+    WishFiltersFormComponent,
+    MatTabNav,
+    MatTabLink,
+    RouterLinkActive,
+    MatBadge,
+    ListOfWishComponent,
+    MatProgressSpinner,
+    MatFabButton,
+    AsyncPipe,
+    MomentModule
+  ]
 })
 export class ListComponent implements OnInit, OnChanges {
   listItems: Observable<WishItem[]>;
@@ -120,7 +190,7 @@ export class ListComponent implements OnInit, OnChanges {
 
   public refreshList() {
     if (this.demo) return;
-    this.wishService.refresh(
+    this.wishService.refreshList(
       this.route.snapshot.url.join(""),
       this.route.snapshot.params["listId"]
     );

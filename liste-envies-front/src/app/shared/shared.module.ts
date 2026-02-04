@@ -2,7 +2,10 @@ import { environment } from "../../environments/environment";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { HttpClientModule } from "@angular/common/http";
+import {
+  provideHttpClient,
+  withInterceptorsFromDi
+} from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { MaterialModule } from "./shared/material.module";
@@ -22,9 +25,6 @@ import { TruncatePipe } from "./pipes/truncate.pipe";
 import { AvatarComponent } from "./avatar/avatar.component";
 import { WishListItemComponent } from "./wish-list-item/wish-list-item.component";
 import { RouterModule } from "@angular/router";
-import { provideFirebaseApp, initializeApp } from "@angular/fire/app";
-import { provideAuth, getAuth } from "@angular/fire/auth";
-import { provideFirestore, getFirestore } from "@angular/fire/firestore";
 import { ImgFormComponent } from "./img-form/img-form.component";
 import { ReadMoreComponent } from "./read-more/read-more.component";
 import { PageFooterComponent } from "./page-footer/page-footer.component";
@@ -34,11 +34,11 @@ import { FilePondModule, registerPlugin } from "ngx-filepond";
 
 /*import { Ng2GridDirective } from './ng2-grid/ng2-grid.directive';*/
 
-import * as FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
-import * as FilePondPluginFileEncode from "filepond-plugin-file-encode";
-import * as FilePondPluginImageResize from "filepond-plugin-image-resize";
-import * as FilePondPluginImageTransform from "filepond-plugin-image-transform";
-import * as FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
+import FilePondPluginFileEncode from "filepond-plugin-file-encode";
+import FilePondPluginImageResize from "filepond-plugin-image-resize";
+import FilePondPluginImageTransform from "filepond-plugin-image-transform";
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 import { WishListNavItemComponent } from "./wish-list-nav-item/wish-list-nav-item.component";
 import { SideOfWishComponent } from "../component/side_of_wish/side-of-wish.component";
 import { AppModule } from "../app.module";
@@ -53,43 +53,9 @@ registerPlugin(
 );
 
 @NgModule({
-  imports: [
-    CommonModule,
-    BrowserModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    MaterialModule,
-    QuillModule.forRoot(),
-    FilePondModule,
-    RouterModule,
-    MomentModule,
-    LatinizePipe,
-    StripTagsPipe,
-    TruncatePipe,
-    AvatarComponent
-  ],
-  declarations: [
-    RatingComponent,
-    FlipCardComponent,
-    HtmlEditorComponent,
-    LinksFormComponent,
-    ImgFormComponent,
-    WishListItemComponent,
-    WishListNavItemComponent,
-    ListTypeIcon,
-    ReadMoreComponent,
-    PageFooterComponent,
-    WishFiltersFormComponent,
-    SideOfWishComponent,
-    WishCardComponent,
-    UserShareComponent
-  ],
   exports: [
     CommonModule,
     BrowserModule,
-    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
@@ -115,6 +81,40 @@ registerPlugin(
     WishCardComponent,
     WishListNavItemComponent
   ],
-  providers: [AuthService, LatinizePipe]
+  imports: [
+    CommonModule,
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    QuillModule.forRoot(),
+    FilePondModule,
+    RouterModule,
+    MomentModule,
+    LatinizePipe,
+    StripTagsPipe,
+    TruncatePipe,
+    AvatarComponent,
+    RatingComponent,
+    FlipCardComponent,
+    HtmlEditorComponent,
+    LinksFormComponent,
+    ImgFormComponent,
+    WishListItemComponent,
+    WishListNavItemComponent,
+    ListTypeIcon,
+    ReadMoreComponent,
+    PageFooterComponent,
+    WishFiltersFormComponent,
+    SideOfWishComponent,
+    WishCardComponent,
+    UserShareComponent
+  ],
+  providers: [
+    AuthService,
+    LatinizePipe,
+    provideHttpClient(withInterceptorsFromDi())
+  ]
 })
 export class SharedModule {}

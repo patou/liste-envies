@@ -1,6 +1,18 @@
 import { Component, Inject, OnInit } from "@angular/core";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+  MatDialogTitle,
+  MatDialogClose,
+  MatDialogContent
+} from "@angular/material/dialog";
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule
+} from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import {
   Auth,
@@ -13,11 +25,50 @@ import {
   updateProfile
 } from "@angular/fire/auth";
 import { FirebaseAuthErrorService } from "../../service/firebase-auth-error.service";
+import { MatIcon } from "@angular/material/icon";
+import { MatIconButton, MatButton } from "@angular/material/button";
+import { MatTooltip } from "@angular/material/tooltip";
+import { CdkScrollable } from "@angular/cdk/scrolling";
+import { MatTabGroup, MatTab } from "@angular/material/tabs";
+import {
+  MatFormField,
+  MatLabel,
+  MatInput,
+  MatPrefix,
+  MatError,
+  MatSuffix,
+  MatHint
+} from "@angular/material/input";
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { MatDivider } from "@angular/material/list";
 
 @Component({
   selector: "app-login-dialog",
   templateUrl: "./login-dialog.component.html",
-  styleUrls: ["./login-dialog.component.scss"]
+  styleUrls: ["./login-dialog.component.scss"],
+  imports: [
+    MatIcon,
+    MatDialogTitle,
+    MatIconButton,
+    MatDialogClose,
+    MatTooltip,
+    CdkScrollable,
+    MatDialogContent,
+    MatTabGroup,
+    MatTab,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatPrefix,
+    MatError,
+    MatSuffix,
+    MatHint,
+    MatButton,
+    MatProgressSpinner,
+    MatDivider
+  ]
 })
 export class LoginDialogComponent implements OnInit {
   loginForm: FormGroup;
