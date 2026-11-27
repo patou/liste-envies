@@ -196,6 +196,11 @@ import { MatIcon } from "@angular/material/icon";
         margin: 5px;
       }
 
+      .mat-icon {
+        vertical-align: top;
+        overflow: visible;
+      }
+
       span.large {
         font-size: 48px;
 
