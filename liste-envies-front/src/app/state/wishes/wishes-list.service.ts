@@ -42,10 +42,22 @@ export class WishesListService {
   @throttle(200)
   updateAllWishlist() {
     this.wishesListStore.setLoading(true);
-    this.wishListService.listAll().subscribe(wishLists => {
-      this.wishesListStore.upsertMany(wishLists);
-      this.wishesListStore.setLoading(false);
-      this.wishesListStore.setHasCache(true);
+    this.wishListService.listAll().subscribe({
+      next: wishLists => {
+        // Le serveur peut répondre 204 (corps vide) : on ne doit pas planter dessus
+        this.wishesListStore.upsertMany(wishLists ?? []);
+        this.wishesListStore.setLoading(false);
+        this.wishesListStore.setHasCache(true);
+      },
+      error: error => {
+        // Sans cela, une erreur serveur laissait l'état "chargement" actif sans aucun message
+        console.error("Impossible de charger les listes", error);
+        this.wishesListStore.setLoading(false);
+        this.snackBar.open("Impossible de charger vos listes d'envies", "ok", {
+          duration: 5000,
+          horizontalPosition: "center"
+        });
+      }
     });
   }
 
