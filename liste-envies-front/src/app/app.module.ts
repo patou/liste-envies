@@ -106,7 +106,12 @@ const app = getApps().length === 0 ? initializeApp(environment.firebaseConfig) :
     },
     provideAppInitializer(() => {
       const authService = inject(AuthService);
-      return authService.init();
+      // Ne pas bloquer l'affichage si Firebase est lent ou injoignable (mobile) :
+      // au-delà de 4 s, l'application démarre, les gardes attendent l'état de connexion.
+      return Promise.race([
+        authService.init(),
+        new Promise<boolean>(resolve => setTimeout(() => resolve(true), 4000))
+      ]);
     })
   ],
   bootstrap: [AppComponent]
