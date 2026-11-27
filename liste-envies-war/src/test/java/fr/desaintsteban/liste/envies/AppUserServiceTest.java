@@ -93,4 +93,32 @@ public class AppUserServiceTest {
         AppUser appUser = AppUserService.get("patrice@desaintsteban.fr");
         assertThat(appUser).isNull();
     }
+
+    @Test
+    public void getAppUserFromJwtWithoutNameClaim() {
+        // Compte email/mot de passe Firebase sans displayName : pas de claim "name" ni "picture"
+        String token = com.auth0.jwt.JWT.create()
+                .withClaim("email", "sans-nom@example.com")
+                .withClaim("iss", "https://securetoken.google.com/test")
+                .sign(com.auth0.jwt.algorithms.Algorithm.HMAC256("secret"));
+        AppUser appUser = AppUserService.getAppUserFromJwt(com.auth0.jwt.JWT.decode(token));
+        assertThat(appUser).isNotNull();
+        assertThat(appUser.getEmail()).isEqualTo("sans-nom@example.com");
+        assertThat(appUser.getName()).isEqualTo("sans-nom");
+        // deuxième connexion du même compte (utilisateur déjà en base)
+        assertThat(AppUserService.getAppUserFromJwt(com.auth0.jwt.JWT.decode(token))).isNotNull();
+    }
+
+    @Test
+    public void getAppUserFromJwtWithNameClaim() {
+        String token = com.auth0.jwt.JWT.create()
+                .withClaim("email", "avec-nom@example.com")
+                .withClaim("name", "Avec Nom")
+                .withClaim("picture", "https://example.com/p.png")
+                .withClaim("iss", "https://securetoken.google.com/test")
+                .sign(com.auth0.jwt.algorithms.Algorithm.HMAC256("secret"));
+        AppUser appUser = AppUserService.getAppUserFromJwt(com.auth0.jwt.JWT.decode(token));
+        assertThat(appUser.getName()).isEqualTo("Avec Nom");
+        assertThat(appUser.getPicture()).isEqualTo("https://example.com/p.png");
+    }
 }
