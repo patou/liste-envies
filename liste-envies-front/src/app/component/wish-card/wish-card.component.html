@@ -95,27 +95,37 @@
         >{{ index + 1 }} / {{ wishItem.pictures.length }}</mat-chip-option
       >
     </div>
-    <div class="swiper-pagination"></div>
-    <swiper [config]="SWIPER_CONFIG" [(index)]="index">
+    <swiper-container
+      slides-per-view="1"
+      navigation="true"
+      pagination="true"
+      pagination-type="progressbar"
+      scrollbar="true"
+      scrollbar-draggable="true"
+      grab-cursor="true"
+      space-between="15"
+      (swiperslidechange)="onSlideChange($event)"
+    >
       @for (picture of wishItem.pictures; track picture) {
-      <div class="swiper-slide">
+      <swiper-slide>
         <img
-          data-src="{{ picture }}"
+          src="{{ picture }}"
           alt="{{ wishItem.label }}"
-          class="swiper-lazy fixed"
+          loading="lazy"
+          class="fixed"
         />
-        <div class="swiper-lazy-preloader"></div>
-      </div>
+      </swiper-slide>
       }
-    </swiper>
+    </swiper-container>
     <div class="scrollbar"></div>
   </div>
   } @else { @if (wishItem.pictures && wishItem.pictures.length == 1) {
   <div class="swiper-slide">
     <img
-      data-src="{{ wishItem.pictures[0] }}"
+      src="{{ wishItem.pictures[0] }}"
       alt="{{ wishItem.label }}"
-      class="swiper-lazy border"
+      loading="lazy"
+      class="border"
     />
   </div>
   } }

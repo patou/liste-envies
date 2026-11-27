@@ -53,11 +53,11 @@ export class AuthService implements HttpInterceptor {
       .subscribe(
         (user: FirebaseUser | null) => {
           if (user) {
-            if (this.isADifferentUserOrIsNotInitialised(user)) {
+            const isNewUser = this.isADifferentUserOrIsNotInitialised(user);
+            AuthService.currentUser = user;
+            if (isNewUser) {
               this.initUser(user);
             }
-
-            AuthService.currentUser = user;
           } else {
             this.resetCurrentUser();
           }
@@ -88,16 +88,27 @@ export class AuthService implements HttpInterceptor {
     );
   }
 
-  private initUser(user: FirebaseUser) {
-    user.getIdToken().then((token: string) => {
+  /**
+   * Après une mise à jour du profil (ex: nom d'affichage à l'inscription), le jeton
+   * déjà émis ne contient pas les nouvelles informations (le backend a besoin du nom).
+   * On force un nouveau jeton et on resynchronise l'utilisateur.
+   */
+  async refreshUser(user: FirebaseUser): Promise<void> {
+    await user.reload();
+    AuthService.currentUser = user;
+    await this.initUser(user, true);
+  }
+
+  private initUser(user: FirebaseUser, forceRefresh = false): Promise<void> {
+    return user.getIdToken(forceRefresh).then((token: string) => {
       AuthService.currentToken = token;
       const currentUserInfo: UserInfo = {
-        displayName: AuthService.currentUser.displayName,
-        email: AuthService.currentUser.email,
-        phoneNumber: AuthService.currentUser.email,
-        photoURL: AuthService.currentUser.photoURL,
-        providerId: AuthService.currentUser.providerId,
-        uid: AuthService.currentUser.uid
+        displayName: user.displayName,
+        email: user.email,
+        phoneNumber: user.email,
+        photoURL: user.photoURL,
+        providerId: user.providerId,
+        uid: user.uid
       };
 
       this.userService.login(currentUserInfo, token);
