@@ -49,7 +49,11 @@ import {
   MatDivider,
   MatList,
   MatListSubheaderCssMatStyler,
-  MatListItem
+  MatListItem,
+  MatListItemAvatar,
+  MatListItemTitle,
+  MatListItemLine,
+  MatListItemMeta
 } from "@angular/material/list";
 import { NgTemplateOutlet } from "@angular/common";
 import { AvatarComponent } from "../avatar/avatar.component";
@@ -85,6 +89,10 @@ import { MatLine } from "@angular/material/grid-list";
     MatListSubheaderCssMatStyler,
     NgTemplateOutlet,
     MatListItem,
+    MatListItemAvatar,
+    MatListItemTitle,
+    MatListItemLine,
+    MatListItemMeta,
     AvatarComponent,
     MatLine,
     MatIconButton

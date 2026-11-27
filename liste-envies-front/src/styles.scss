@@ -430,3 +430,43 @@ mat-icon.mat-icon.fa-2x,
   overflow: visible;
   line-height: 1;
 }
+
+// --- Corrections visuelles de migration Material 3 (revue UI) ---
+// Stepper horizontal : le contenu rogne le libellé flottant des champs outline (6px au-dessus du cadre)
+.mat-horizontal-stepper-content[role="tabpanel"] {
+  padding-top: 12px;
+}
+.mat-horizontal-stepper-content button + button {
+  margin-left: 12px;
+}
+// Préfixe d'URL (champ "Url de la liste") : espace avec le bord du cadre
+.mat-mdc-form-field span[matPrefix],
+.mat-mdc-form-field .mat-mdc-form-field-text-prefix {
+  padding-left: 16px;
+}
+// Icônes de note (formulaire d'envie) : taille adaptée au bouton 40px
+.mat-mdc-icon-button .mat-icon.rating-icon.fa-2x {
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+}
+// Placeholder de l'éditeur : jamais renvoyé à la ligne lettre par lettre
+.ql-editor.ql-blank::before {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  left: 15px;
+  right: 15px;
+}
+// Ligne bas du formulaire d'envie : libellés alignés, prix / interrupteur / note sur une ligne
+.example-form .layout-row.space-between-center {
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.example-form .layout-row > mat-label {
+  display: inline-flex;
+  align-items: center;
+}

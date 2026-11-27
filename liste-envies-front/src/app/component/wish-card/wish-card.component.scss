@@ -88,8 +88,13 @@
     max-width: 60%;
     overflow: hidden;
     text-overflow: ellipsis;
-    height: 14px;
+    min-height: 20px;
+    line-height: 20px;
     white-space: nowrap;
+    app-avatar {
+      display: inline-flex;
+      flex: 0 0 auto;
+    }
     .ownerName {
       flex: 4;
       overflow: hidden;
