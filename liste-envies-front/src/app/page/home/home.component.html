@@ -5,7 +5,7 @@
       @if (userAuth | async; as user) {
       <div>
         <h1>
-          Bonjour {{ user.displayName }}! Bienvenue sur vos listes d'envies
+          Bonjour {{ user.displayName || user.email?.split('@')[0] }}! Bienvenue sur vos listes d'envies
         </h1>
       </div>
       } @else {
