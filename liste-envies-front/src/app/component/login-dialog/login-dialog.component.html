@@ -120,7 +120,7 @@
                   >Mot de passe oublié ?</a
                 >
               </div>
-              } @if (isResetMode) {
+              } @else {
               <div class="forgot-password">
                 <a (click)="switchToLoginMode()" class="link-button"
                   >Retour à la connexion</a
@@ -138,7 +138,7 @@
               >
                 @if (isLoading) {
                 <mat-spinner diameter="20"></mat-spinner>
-                } @if (!isLoading) {
+                } @else {
                 <span>{{
                   isResetMode ? "Réinitialiser" : "Se connecter"
                 }}</span>
