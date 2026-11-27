@@ -470,3 +470,31 @@ mat-icon.mat-icon.fa-2x,
   display: inline-flex;
   align-items: center;
 }
+
+// Barre d'outils : boutons icône 40px (taille Material 2), sinon l'avatar du compte déborde à droite sur mobile
+mat-toolbar .mat-mdc-icon-button.mat-mdc-button-base {
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+}
+@media (max-width: 599px) {
+  mat-toolbar {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
+@media (max-width: 599px) {
+  // grille à colonnes fixes (col-6, col-7, col-4 + offset) : une seule colonne sur mobile
+  .mat-horizontal-stepper-content .col-4,
+  .mat-horizontal-stepper-content .col-6,
+  .mat-horizontal-stepper-content .col-7,
+  .mat-horizontal-stepper-content .col-11 {
+    width: 100%;
+    max-width: 100%;
+    flex-basis: 100%;
+  }
+  .mat-horizontal-stepper-content .col-offset-1 {
+    margin-left: 0;
+  }
+}

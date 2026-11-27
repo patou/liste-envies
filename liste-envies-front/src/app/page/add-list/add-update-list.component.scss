@@ -1,9 +1,8 @@
 .wish-list-url {
-  .mat-form-field-label-wrapper {
-    top: -5px;
-  }
-  ::ng-deep .mat-form-field-prefix {
-    top: 0;
+  // préfixe d'URL sur une seule ligne (sinon les deux lignes se chevauchent sur mobile)
+  ::ng-deep span[matPrefix] {
+    white-space: nowrap;
+    font-size: 14px;
   }
 }
 
@@ -157,4 +156,9 @@ img {
     width: 140px;
     margin: 12px auto;
   }
+}
+
+// Étape Options : le champ image personnalisée touchait la grille et son libellé était rogné
+mat-form-field.field {
+  margin-top: 20px;
 }
