@@ -148,3 +148,13 @@ body {
 img {
   width: 100%;
 }
+
+@media (max-width: 599px) {
+  .privacy-img {
+    float: none;
+    display: block;
+    height: 140px;
+    width: 140px;
+    margin: 12px auto;
+  }
+}

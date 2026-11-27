@@ -38,9 +38,17 @@ mat-divider.mat-divider.divider-withDate.mat-divider-horizontal.mat-divider-inse
       }
       .owners-list {
         display: flex;
+        align-items: center;
+        margin-top: 4px;
+        margin-bottom: 0;
+        line-height: 20px;
 
-        span,
-        ngx-avatar {
+        app-avatar {
+          display: inline-flex;
+          flex: 0 0 auto;
+          margin-left: 6px;
+        }
+        span {
           margin-left: 6px;
         }
       }
