@@ -4,10 +4,7 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
 
-    <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
-    </welcome-file-list>
-
+    <!-- Pas de welcome-file : "/" passe par HistoryApiFallbackFilter (Cache-Control no-cache), sinon le conteneur sert index.html en statique avec max-age=600. -->
     <listener>
         <listener-class>fr.desaintsteban.liste.envies.listener.ObjectifyWebListener</listener-class>
     </listener>
