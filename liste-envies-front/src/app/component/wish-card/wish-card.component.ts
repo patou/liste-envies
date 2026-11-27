@@ -1,5 +1,8 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  CUSTOM_ELEMENTS_SCHEMA,
+  inject,
   Component,
   Input,
   OnChanges,
@@ -9,6 +12,9 @@ import {
   ViewChild
 } from "@angular/core";
 import { WishItem } from "../../models/WishItem";
+import { register as registerSwiper } from "swiper/element/bundle";
+
+registerSwiper();
 import { WishEditComponent } from "../wish-edit/wish-edit.component";
 import { MatDialog } from "@angular/material/dialog";
 import {
@@ -72,6 +78,7 @@ import { TruncatePipe } from "../../shared/pipes/truncate.pipe";
   templateUrl: "./wish-card.component.html",
   styleUrls: ["./wish-card.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   animations: [
     trigger("animateWishCard", [
       transition("* => *", useAnimation(bounceInUp)),
@@ -136,6 +143,15 @@ export class WishCardComponent implements OnInit, OnChanges, OnDestroy {
   edit = false;
 
   public index: number = 0;
+  private cdr = inject(ChangeDetectorRef);
+
+  onSlideChange(event: Event) {
+    const swiper = (event as CustomEvent).detail?.[0];
+    if (swiper) {
+      this.index = swiper.activeIndex;
+      this.cdr.markForCheck();
+    }
+  }
 
   public addComment: string = "";
 

@@ -9,7 +9,6 @@
 //  If you don't need the default component typographies but still want the hierarchy styles,
 //  you can delete this line and instead use:
 //    `@include mat.legacy-typography-hierarchy(mat.define-typography-config());`
-@include mat.all-component-typographies();
 @include mat.elevation-classes();
 @include mat.app-background();
 
@@ -109,13 +108,30 @@ $my-theme-warn: mat.m2-define-palette(mat.$m2-deep-orange-palette, A200);
 
 // create theme (use mat-dark-theme for themes with dark backgrounds)
 $my-theme: mat.m2-define-light-theme(
-  $my-theme-primary,
-  $my-theme-accent,
-  $my-theme-warn
+  (
+    color: (
+      primary: $my-theme-primary,
+      accent: $my-theme-accent,
+      warn: $my-theme-warn
+    ),
+    typography: mat.m2-define-typography-config(
+      $font-family: "Roboto, Arial, sans-serif",
+      $headline-5: mat.m2-define-typography-level(24px, 32px, 400, $letter-spacing: normal),
+      $headline-6: mat.m2-define-typography-level(20px, 32px, 500, $letter-spacing: normal),
+      $subtitle-1: mat.m2-define-typography-level(16px, 28px, 400, $letter-spacing: normal),
+      $subtitle-2: mat.m2-define-typography-level(14px, 22px, 500, $letter-spacing: normal),
+      $body-1: mat.m2-define-typography-level(14px, 20px, 400, $letter-spacing: normal),
+      $body-2: mat.m2-define-typography-level(14px, 20px, 400, $letter-spacing: normal),
+      $caption: mat.m2-define-typography-level(12px, 20px, 400, $letter-spacing: normal),
+      $button: mat.m2-define-typography-level(14px, 14px, 500, $letter-spacing: normal)
+    ),
+    density: 0
+  )
 );
 
 // mat-palette accepts $palette-name, main, lighter and darker variants
 @include mat.all-component-themes($my-theme);
+@include mat.typography-hierarchy($my-theme);
 body {
   font-family: Roboto, Arial, sans-serif;
   margin: 0;
@@ -352,4 +368,22 @@ mat-card.dateList {
 }
 @include mq(huge) {
   // This code shows only on big screen media query
+}
+
+// Compat avec l'ancien rendu Material (legacy) après migration
+mat-card.mat-mdc-card.header-page-card {
+  padding: 16px;
+}
+.mat-mdc-button .mat-icon,
+.mat-mdc-raised-button .mat-icon,
+.mat-mdc-unelevated-button .mat-icon,
+.mat-mdc-outlined-button .mat-icon {
+  font-size: 24px !important;
+  width: 24px !important;
+  height: 24px !important;
+  margin-left: 0 !important;
+  margin-right: 8px !important;
+}
+mat-card-header.mat-mdc-card-header {
+  padding: 0;
 }

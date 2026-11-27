@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import "./legacy-globals";
 import "./js/n2-j.min.js";
 import "./js/nextend-gsap.min.js";
 import "./js/nextend-frontend.min.js";

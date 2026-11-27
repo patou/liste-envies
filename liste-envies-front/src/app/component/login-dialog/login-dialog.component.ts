@@ -24,6 +24,7 @@ import {
   sendPasswordResetEmail,
   updateProfile
 } from "@angular/fire/auth";
+import { AuthService } from "../../service/auth.service";
 import { FirebaseAuthErrorService } from "../../service/firebase-auth-error.service";
 import { MatIcon } from "@angular/material/icon";
 import { MatIconButton, MatButton } from "@angular/material/button";
@@ -88,6 +89,7 @@ export class LoginDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<LoginDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { message?: string },
     private auth: Auth,
+    private authService: AuthService,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private firebaseAuthErrorService: FirebaseAuthErrorService
@@ -217,6 +219,8 @@ export class LoginDialogComponent implements OnInit {
       // Mettre à jour le nom d'affichage
       if (result.user) {
         await updateProfile(result.user, { displayName: name });
+        // Le jeton émis à la création n'a pas le nom : on le renouvelle
+        await this.authService.refreshUser(result.user);
       }
 
       this.showSnackBar("Compte créé avec succès !");

@@ -286,9 +286,8 @@
       <div class="social-buttons">
         <button
           mat-raised-button
-          color="primary"
           (click)="signInWithGoogle()"
-          class="provider-button"
+          class="provider-button btn-google"
           [disabled]="isLoading"
         >
           <mat-icon>login</mat-icon>
@@ -297,9 +296,8 @@
 
         <button
           mat-raised-button
-          color="accent"
           (click)="signInWithFacebook()"
-          class="provider-button"
+          class="provider-button btn-facebook"
           [disabled]="isLoading"
         >
           <mat-icon>login</mat-icon>
