@@ -45,19 +45,33 @@ public final class AppUserService {
         }, appUser -> (!appUser.isAdmin() || !appUser.getEmail().equalsIgnoreCase(user.getEmail()) /*|| !appUser.getPicture() || !appUser.getPicture().equals(user.getPicture())*/));
     }
 
+    private static String claimAsString(Map<String, Claim> claims, String key) {
+        Claim claim = claims.get(key);
+        if (claim == null || claim.isNull()) {
+            return null;
+        }
+        return claim.asString();
+    }
+
     public static AppUser getAppUserFromJwt(DecodedJWT jwt) {
         Map<String, Claim> user = jwt.getClaims();
+        final String email = claimAsString(user, "email");
+        final String picture = claimAsString(user, "picture");
 
-
-        return getAppUser(user.get("email").asString(), newAppUser -> {
-            newAppUser.setEmail(user.get("email").asString());
-            newAppUser.setName(user.get("name").asString());
-            if (user.containsKey("picture")) {
-                newAppUser.setPicture(user.get("picture").asString());
+        return getAppUser(email, newAppUser -> {
+            newAppUser.setEmail(email);
+            // Un compte email/mot de passe sans displayName n'a pas de claim "name" : on prend la partie locale de l'email
+            String name = claimAsString(user, "name");
+            if (name == null || name.trim().isEmpty()) {
+                name = email != null && email.contains("@") ? email.substring(0, email.indexOf('@')) : email;
+            }
+            newAppUser.setName(name);
+            if (picture != null) {
+                newAppUser.setPicture(picture);
             }
             newAppUser.setIsAdmin(false);
-            newAppUser.setLoginProvider(user.get("iss").asString());
-        }, appUser -> (!appUser.isAdmin() || !appUser.getEmail().equalsIgnoreCase(user.get("email").asString()) || appUser.getPicture() == null || (appUser.getPicture() != null && !appUser.getPicture().equals(user.get("picture").asString()) ) ));
+            newAppUser.setLoginProvider(claimAsString(user, "iss"));
+        }, appUser -> (!appUser.isAdmin() || !appUser.getEmail().equalsIgnoreCase(email) || appUser.getPicture() == null || !appUser.getPicture().equals(picture)));
     }
 
 

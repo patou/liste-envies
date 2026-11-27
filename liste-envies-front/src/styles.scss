@@ -387,3 +387,46 @@ mat-card.mat-mdc-card.header-page-card {
 mat-card-header.mat-mdc-card-header {
   padding: 0;
 }
+
+// Barre d'outils : champ de recherche de liste (appearance "fill" de Material 3 -> soulignement blanc comme avant)
+mat-toolbar mat-form-field.mat-mdc-form-field {
+  --mat-form-field-filled-container-color: transparent;
+  --mat-form-field-filled-input-text-color: #fff;
+  --mat-form-field-filled-input-text-placeholder-color: rgba(255, 255, 255, 0.7);
+  --mat-form-field-filled-caret-color: #fff;
+  --mat-form-field-filled-active-indicator-color: #fff;
+  --mat-form-field-filled-hover-active-indicator-color: #fff;
+  --mat-form-field-filled-focus-active-indicator-color: #fff;
+  font-size: 16px;
+  vertical-align: middle;
+
+  .mat-mdc-text-field-wrapper {
+    background: transparent;
+    padding: 0 4px;
+  }
+  .mat-mdc-form-field-infix {
+    min-height: 40px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+}
+
+// Pastille de prix : pas de coche de sélection
+.wish-price .mdc-evolution-chip__graphic {
+  display: none;
+}
+.mat-mdc-chip.wish-price .mdc-evolution-chip__action--primary {
+  padding-inline-start: 12px !important;
+}
+
+// Icônes Font Awesome (fa-2x...) dans mat-icon : Material 3 fixe 24x24 et rogne le contenu
+mat-icon.mat-icon.fa-2x,
+.mat-icon.rating-icon {
+  width: auto;
+  height: auto;
+  overflow: visible;
+  line-height: 1;
+}
