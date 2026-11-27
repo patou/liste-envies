@@ -90,6 +90,9 @@ public class HistoryApiFallbackFilter implements Filter {
 		} else {
 			// Prevent the next request from hitting this filter
 			request.setAttribute(REENTRANCY_KEY, Boolean.TRUE);
+			// index.html référence des fichiers à noms hachés qui disparaissent à chaque déploiement :
+			// on demande aux navigateurs et caches de le revalider (no-cache = revalider, pas "ne jamais stocker").
+			response.setHeader("Cache-Control", "no-cache");
 			request.getRequestDispatcher(forwardPath).forward(request, response);
 		}
 	}
