@@ -103,6 +103,10 @@
   height: 100vh; /* 1 */
   min-height: 100vh; /* 1 */
   max-height: 100vh; /* 1 */
+  // Mobile : 100vh inclut la zone derriere la barre du navigateur, 100dvh suit la zone visible
+  height: 100dvh;
+  min-height: 100dvh;
+  max-height: 100dvh;
   display: flex; /* 2 */
   flex-direction: column; /* 3 */
   overflow: hidden;

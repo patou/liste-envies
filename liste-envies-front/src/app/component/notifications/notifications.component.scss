@@ -26,3 +26,12 @@
     margin: 0;
   }
 }
+
+// Icone de type centree verticalement par rapport au texte (Material 3 la colle en haut)
+.notification-items {
+  ::ng-deep .mdc-list-item__start {
+    align-self: center !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+}
