@@ -20,6 +20,14 @@ import { Component, Input } from "@angular/core";
   `,
   styles: [
     `
+      /* Aligne tous les avatars sur le texte voisin (liste, en-tete, envie) : centre vertical + espace avant/apres */
+      :host {
+        display: inline-flex;
+        align-items: center;
+        vertical-align: middle;
+        flex: 0 0 auto;
+        margin-inline: 4px;
+      }
       .avatar {
         display: inline-flex;
         align-items: center;
