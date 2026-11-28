@@ -168,6 +168,14 @@ mat-toolbar-row {
   opacity: 0.5;
 }
 
+// Barre d'outils Material : 56px sur mobile (64px au-dessus), le fond doit commencer juste dessous
+@media (max-width: 599px) {
+  .page-background {
+    height: calc(100% - 56px);
+    top: 56px;
+  }
+}
+
 .page-all {
   background: none;
   padding: 2em;
