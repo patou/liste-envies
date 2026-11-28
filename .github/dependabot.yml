@@ -1,0 +1,55 @@
+version: 2
+updates:
+  # Front : Angular / yarn (liste-envies-front)
+  - package-ecosystem: "npm"
+    directory: "/liste-envies-front"
+    target-branch: "develop"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+    groups:
+      front:
+        applies-to: version-updates
+        patterns:
+          - "*"
+      front-security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+
+  # Back : Maven (liste-envies-war)
+  - package-ecosystem: "maven"
+    directory: "/liste-envies-war"
+    target-branch: "develop"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+    groups:
+      back:
+        applies-to: version-updates
+        patterns:
+          - "*"
+      back-security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+
+  # CI : GitHub Actions (.github/workflows)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: "develop"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+    groups:
+      ci:
+        applies-to: version-updates
+        patterns:
+          - "*"
+      ci-security:
+        applies-to: security-updates
+        patterns:
+          - "*"
