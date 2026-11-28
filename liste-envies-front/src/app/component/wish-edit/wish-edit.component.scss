@@ -8,5 +8,10 @@ mat-card-actions {
 
 // Le label flottant du champ Titre (focus) depasse en haut : evite qu'il soit rogne par le contenu du dialogue
 mat-dialog-content.example-form {
-  padding-top: 12px;
+  padding-top: 16px !important;
+
+  // libelle flottant lisible : 16px x 0.75 = 12px une fois remonte (10,5px avant)
+  ::ng-deep .mat-mdc-floating-label {
+    font-size: 16px !important;
+  }
 }
