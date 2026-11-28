@@ -3,12 +3,14 @@ package fr.desaintsteban.liste.envies.servlet;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.Logger;
 
 /**
@@ -24,6 +26,7 @@ public class HistoryApiFallbackFilter implements Filter {
 
 	protected static String FORWARD_PATH_CONFIG_PARAMETER = "forwardPath";
     protected static String forwardPath = null;
+    private ServletContext servletContext;
 
 	/** */
 	private boolean isGet(String method) {
@@ -48,6 +51,11 @@ public class HistoryApiFallbackFilter implements Filter {
 	/** */
 	private boolean pathIncludesDot(String path) {
 		return path != null && path.indexOf('.') != -1;
+	}
+
+	/** /index.html demande directement : meme traitement que les routes de l'application. */
+	private boolean isIndexPath(String path) {
+		return "/index.html".equals(path);
 	}
 
 	private boolean pathStart(String path, String prefix) {
@@ -75,7 +83,7 @@ public class HistoryApiFallbackFilter implements Filter {
 			!hasHeader(accept) ||
 			isApplicationJson(accept) ||
 			!acceptsHtml(accept) ||
-			pathIncludesDot(requestURI) ||
+			(pathIncludesDot(requestURI) && !isIndexPath(requestURI)) ||
 			pathStart(requestURI, "api")
 				|| pathStart(requestURI, "user")
 				|| pathStart(requestURI, "_ah")
@@ -93,7 +101,33 @@ public class HistoryApiFallbackFilter implements Filter {
 			// index.html référence des fichiers à noms hachés qui disparaissent à chaque déploiement :
 			// on demande aux navigateurs et caches de le revalider (no-cache = revalider, pas "ne jamais stocker").
 			response.setHeader("Cache-Control", "no-cache");
-			request.getRequestDispatcher(forwardPath).forward(request, response);
+			// Le conteneur date index.html du 01/01/1980 pour tous les deploiements et sans ETag : un navigateur qui
+			// revalide avec If-Modified-Since recevrait toujours 304 et garderait un index perime (fichiers haches
+			// disparus = page blanche). On renvoie donc nous-memes l'index (200 complet, sans Last-Modified).
+			if (!writeIndex(response)) {
+				// Repli : le conteneur sert index.html (Last-Modified fixe = 304 possible sur un index perime) :
+				// no-store empeche le navigateur de garder cette reponse et donc de la revalider.
+				LOGGER.warning("index.html illisible via le ServletContext : repli sur le conteneur avec no-store");
+				response.setHeader("Cache-Control", "no-store");
+				request.getRequestDispatcher(forwardPath).forward(request, response);
+			}
+		}
+	}
+
+	/** Ecrit index.html dans la reponse ; false si la ressource n'est pas lisible (on retombe sur le forward). */
+	private boolean writeIndex(HttpServletResponse response) throws IOException {
+		if (servletContext == null) {
+			return false;
+		}
+		try (InputStream in = servletContext.getResourceAsStream(forwardPath)) {
+			if (in == null) {
+				return false;
+			}
+			byte[] content = in.readAllBytes();
+			response.setContentType("text/html;charset=utf-8");
+			response.setContentLength(content.length);
+			response.getOutputStream().write(content);
+			return true;
 		}
 	}
 
@@ -106,6 +140,7 @@ public class HistoryApiFallbackFilter implements Filter {
 	/** */
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
+		servletContext = filterConfig.getServletContext();
 		forwardPath = filterConfig.getInitParameter(FORWARD_PATH_CONFIG_PARAMETER);
 		if (forwardPath == null) {
 			throw new ServletException("Please set the '" + FORWARD_PATH_CONFIG_PARAMETER + "' servlet filter config as part of the " + REENTRANCY_KEY);
