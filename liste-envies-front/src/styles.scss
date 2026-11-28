@@ -200,9 +200,31 @@ mat-expansion-panel.badge-expansion-panel {
 .content_sidenav mat-expansion-panel {
   padding: 5px 0;
 
+  // Compteur de listes : a cote du libelle, centre verticalement, taille lisible
+  mat-expansion-panel-header mat-panel-title.mat-badge {
+    flex: 0 0 auto;
+    margin-right: 0;
+    align-items: center;
+    display: flex;
+  }
   mat-expansion-panel-header .mat-badge-content.mat-badge-active {
-    top: 1px !important;
-    font-size: 0.8em;
+    position: relative !important;
+    inset: auto !important;
+    transform: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    margin-left: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    min-width: 24px;
+    height: 24px;
+    line-height: 1;
+    border-radius: 12px;
+    padding: 0 6px;
+    box-sizing: border-box;
+    width: auto;
   }
   .mat-expansion-panel-body {
     padding: 0 !important;
