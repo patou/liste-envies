@@ -27,8 +27,11 @@ import java.util.stream.Collectors;
 @Cache
 @Entity()
 public class WishList {
+    // Le champ s'appelle "id" (et non "name") : certaines entites historiques du Datastore ont aussi une
+    // propriete "name", ce qu'Objectify 6 refuse quand elle porte le meme nom que le champ @Id.
+    // La cle reste identique (kind WishList, nom de cle = name) : getName()/setName() sont inchanges.
     @Id
-    private String name;
+    private String id;
 
     private String title;
     private String description;
@@ -54,7 +57,7 @@ public class WishList {
 
     @VisibleForTesting
     public WishList(String name, String title, String owner, String... shared) {
-        this.name = name;
+        this.id = name;
         this.title = title;
         users = new ArrayList<>();
         users.add(new UserShare(owner, UserShareType.OWNER));
@@ -70,7 +73,7 @@ public class WishList {
 
     public WishList(String name, String title, String description, String picture, WishListType type,
             Date date, SharingPrivacyType privacy, String owner, String... shared) {
-        this.name = name;
+        this.id = name;
         this.title = title;
         this.description = description;
         this.picture = picture;
@@ -118,11 +121,11 @@ public class WishList {
     }
 
     public String getName() {
-        return name;
+        return id;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.id = name;
     }
 
     public String getTitle() {
