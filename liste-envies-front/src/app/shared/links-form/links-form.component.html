@@ -1,5 +1,5 @@
-<div class="layout-row space-between-center">
-  <mat-form-field appearance="outline" class="col-5 no-padding">
+<div class="inline-row">
+  <mat-form-field appearance="outline" class="grow no-padding" subscriptSizing="dynamic">
     <mat-label>Url du lien</mat-label>
     <input
       matInput="url"
@@ -11,7 +11,7 @@
     <mat-icon matSuffix>link</mat-icon>
   </mat-form-field>
 
-  <mat-form-field appearance="outline" class="col-5 no-padding">
+  <mat-form-field appearance="outline" class="grow no-padding" subscriptSizing="dynamic">
     <mat-label>Nom du lien</mat-label>
     <input
       matInput="text"
@@ -20,7 +20,7 @@
       [(ngModel)]="addUrl.name"
     />
   </mat-form-field>
-  <button mat-mini-fab (click)="addLink(url.value, name.value)" class="col-1">
+  <button mat-mini-fab (click)="addLink(url.value, name.value)" class="add-btn" aria-label="Ajouter le lien">
     <mat-icon>add</mat-icon>
   </button>
 </div>

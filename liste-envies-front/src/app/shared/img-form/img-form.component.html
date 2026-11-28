@@ -1,4 +1,4 @@
-<div class="layout-row space-between-center gap-5">
+<div class="inline-row">
   <div class="preview-img">
     <img
       [src]="
@@ -12,7 +12,7 @@
     />
   </div>
 
-  <mat-form-field appearance="outline" class="form-add-img no-padding flex-70">
+  <mat-form-field appearance="outline" class="form-add-img no-padding grow" subscriptSizing="dynamic">
     <mat-label>Ajouter une image par Url</mat-label>
     <input
       matInput="url"
@@ -22,11 +22,9 @@
     />
     <mat-icon matSuffix>add_photo_alternate</mat-icon>
   </mat-form-field>
-  <div>
-    <button mat-mini-fab (click)="addImg(name.value)">
-      <mat-icon>add</mat-icon>
-    </button>
-  </div>
+  <button mat-mini-fab class="add-btn" (click)="addImg(name.value)" aria-label="Ajouter l'image">
+    <mat-icon>add</mat-icon>
+  </button>
 </div>
 @if (name.value) {
 <mat-error> Cliquez sur l'icone + pour ajouter l'image </mat-error>
