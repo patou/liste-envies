@@ -1,9 +1,12 @@
+# develop est la branche par defaut du depot : Dependabot la surveille et y ouvre ses PR.
+# On ne met volontairement PAS target-branch : avec target-branch, les options (dont les
+# groupes) ne s'appliquent plus aux mises a jour de securite.
 version: 2
 updates:
   # Front : Angular / yarn (liste-envies-front)
   - package-ecosystem: "npm"
     directory: "/liste-envies-front"
-    target-branch: "develop"
+    open-pull-requests-limit: 1
     schedule:
       interval: "weekly"
     labels:
@@ -21,7 +24,7 @@ updates:
   # Back : Maven (liste-envies-war)
   - package-ecosystem: "maven"
     directory: "/liste-envies-war"
-    target-branch: "develop"
+    open-pull-requests-limit: 1
     schedule:
       interval: "weekly"
     labels:
@@ -39,7 +42,7 @@ updates:
   # CI : GitHub Actions (.github/workflows)
   - package-ecosystem: "github-actions"
     directory: "/"
-    target-branch: "develop"
+    open-pull-requests-limit: 1
     schedule:
       interval: "weekly"
     labels:
