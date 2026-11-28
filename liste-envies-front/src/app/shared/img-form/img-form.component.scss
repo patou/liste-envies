@@ -22,3 +22,23 @@ mat-form-field.form-add-img {
     right: 1px;
   }
 }
+
+// Une seule ligne : apercu + champ Url + bouton d'ajout (aussi sur mobile)
+.inline-row {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 8px;
+
+  .preview-img {
+    flex: 0 0 auto;
+    box-sizing: border-box;
+  }
+  .grow {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .add-btn {
+    flex: 0 0 auto;
+  }
+}
