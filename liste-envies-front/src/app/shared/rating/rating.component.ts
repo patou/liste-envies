@@ -91,9 +91,17 @@ import { MatTooltip } from "@angular/material/tooltip";
     `
       .rating {
         display: flex;
+        align-items: center;
       }
       .light {
         color: #eee;
+        flex: 0 0 auto;
+        width: 24px;
+        height: 24px;
+        margin-left: 4px;
+        line-height: 24px;
+        font-size: 24px;
+        cursor: pointer;
       }
       .rating-icon:hover {
         color: red;
