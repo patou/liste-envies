@@ -1,7 +1,5 @@
 package fr.desaintsteban.liste.envies.service;
 
-import com.auth0.jwt.interfaces.Claim;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -42,36 +40,9 @@ public final class AppUserService {
             newAppUser.setPicture(user.getPicture());
             newAppUser.setIsAdmin(false);
             newAppUser.setLoginProvider(user.getIssuer());
-        }, appUser -> (!appUser.isAdmin() || !appUser.getEmail().equalsIgnoreCase(user.getEmail()) /*|| !appUser.getPicture() || !appUser.getPicture().equals(user.getPicture())*/));
-    }
-
-    private static String claimAsString(Map<String, Claim> claims, String key) {
-        Claim claim = claims.get(key);
-        if (claim == null || claim.isNull()) {
-            return null;
-        }
-        return claim.asString();
-    }
-
-    public static AppUser getAppUserFromJwt(DecodedJWT jwt) {
-        Map<String, Claim> user = jwt.getClaims();
-        final String email = claimAsString(user, "email");
-        final String picture = claimAsString(user, "picture");
-
-        return getAppUser(email, newAppUser -> {
-            newAppUser.setEmail(email);
-            // Un compte email/mot de passe sans displayName n'a pas de claim "name" : on prend la partie locale de l'email
-            String name = claimAsString(user, "name");
-            if (name == null || name.trim().isEmpty()) {
-                name = email != null && email.contains("@") ? email.substring(0, email.indexOf('@')) : email;
-            }
-            newAppUser.setName(name);
-            if (picture != null) {
-                newAppUser.setPicture(picture);
-            }
-            newAppUser.setIsAdmin(false);
-            newAppUser.setLoginProvider(claimAsString(user, "iss"));
-        }, appUser -> (!appUser.isAdmin() || !appUser.getEmail().equalsIgnoreCase(email) || appUser.getPicture() == null || !appUser.getPicture().equals(picture)));
+        // Ne jamais réécrire un utilisateur existant depuis le jeton : isAdmin est une donnée serveur,
+        // le jeton ne doit ni l'accorder ni le retirer à la connexion.
+        }, appUser -> true);
     }
 
 
