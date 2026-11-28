@@ -1,22 +1,33 @@
 ci:
-  - ./.github/workflows/*
-  - ./.github/*
-  - .circleci/*
-  - .travis.yml
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.github/**'
+          - '.circleci/**'
+          - '.travis.yml'
 repo:
-  - ./*
+  - changed-files:
+      - any-glob-to-any-file:
+          - '*'
 back:
-  - liste-envies-war/src/*
-  - liste-envies-war/src/**/*
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'liste-envies-war/src/**'
 front:
-  - liste-envies-front/src/*
-  - liste-envies-front/src/**/*
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'liste-envies-front/src/**'
 style:
-  - liste-envies-front/**/*.scss
-  - liste-envies-front/**/*.css
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'liste-envies-front/**/*.scss'
+          - 'liste-envies-front/**/*.css'
 test:
-  - liste-envies-front/**/*.spec.ts
-  - liste-envies-war/src/test/**/*.java
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'liste-envies-front/**/*.spec.ts'
+          - 'liste-envies-war/src/test/**/*.java'
 dependencies:
-  - liste-envies-front/package.json
-  - liste-envies-war/pom.xml
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'liste-envies-front/package.json'
+          - 'liste-envies-war/pom.xml'
