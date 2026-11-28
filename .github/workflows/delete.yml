@@ -29,7 +29,7 @@ jobs:
           APP_VERSION="${BRANCH:0:63}"
           # Branches protegees (liste de noms, voir aussi les branches deployees en prod dans .circleci/config.yml)
           case "$HEAD_REF" in
-            master|develop|beta|beta/*|preprod|preprod/*) echo "Branche protegee, rien supprime"; exit 0 ;;
+            master|develop|beta*|preprod|preprod/*) echo "Branche protegee, rien supprime"; exit 0 ;;
           esac
           [ -n "$APP_VERSION" ] || { echo "Nom de version vide, rien supprime"; exit 0; }
           echo "Delete version ${APP_VERSION}"
