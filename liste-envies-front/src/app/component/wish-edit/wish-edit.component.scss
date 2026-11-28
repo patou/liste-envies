@@ -5,3 +5,8 @@ mat-form-field.mat-full-width {
 mat-card-actions {
   margin-bottom: 0;
 }
+
+// Le label flottant du champ Titre (focus) depasse en haut : evite qu'il soit rogne par le contenu du dialogue
+mat-dialog-content.example-form {
+  padding-top: 12px;
+}
