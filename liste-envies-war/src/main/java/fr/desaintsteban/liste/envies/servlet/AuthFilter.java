@@ -1,11 +1,11 @@
 package fr.desaintsteban.liste.envies.servlet;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseToken;
 import fr.desaintsteban.liste.envies.service.AppUserService;
 
 import jakarta.servlet.Filter;
@@ -33,64 +33,45 @@ public class AuthFilter implements Filter {
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws ServletException, IOException {
 		HttpServletRequest request = ((HttpServletRequest) servletRequest);
         HttpServletResponse response = ((HttpServletResponse) servletResponse);
-        String authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader != null) {
-            if (!authorizationHeader.startsWith("Bearer")) {
-                AppUserService.removeAppUser();
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authorization Header must be valid");
-                return;
+        try {
+            String authorizationHeader = request.getHeader("Authorization");
+            if (authorizationHeader != null) {
+                if (!authorizationHeader.startsWith("Bearer")) {
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authorization Header must be valid");
+                    return;
+                }
+                String token = authorizationHeader.substring("Bearer".length()).trim();
+                try {
+                    // Vérifie la signature, l'expiration, l'émetteur et l'audience du jeton Firebase.
+                    FirebaseToken decodedToken = verifyIdToken(token);
+                    String email = decodedToken.getEmail();
+                    if (email == null || email.trim().isEmpty()) {
+                        // Jeton valide sans identité exploitable : on refuse plutôt que de poursuivre sans utilisateur.
+                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authorization Header must be valid");
+                        return;
+                    }
+                    AppUserService.getAppUser(decodedToken);
+                } catch (FirebaseAuthException | IllegalArgumentException exception){
+                    // Jeton invalide, expiré ou non signé par Firebase
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authorization Header must be valid");
+                    return;
+                }
             }
-            // todo validate the token
-            String token = authorizationHeader.substring("Bearer".length()).trim();
-            try {
-                DecodedJWT jwt = JWT.decode(token);
-                AppUserService.getAppUserFromJwt(jwt);
-            } catch (JWTDecodeException exception){
-                //Invalid token
-                AppUserService.removeAppUser();
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authorization Header must be valid");
-                return;
-            }
 
-
-            // Extract the token
-            /*String token = authorizationHeader.substring("Bearer".length()).trim();
-
-            RSAPublicKey publicKey = //Get the key instance
-            RSAPrivateKey privateKey = //Get the key instance
-            try {
-                JCEMapper.Algorithm algorithm = Algorithm.RSA256(publicKey, privateKey);
-                JWTVerifier verifier = JWT.require(algorithm)
-                        .withIssuer("auth0")
-                        .build(); //Reusable verifier instance
-                DecodedJWT jwt = verifier.verify(token);
-            } catch (JWTVerificationException exception){
-                //Invalid signature/claims
-            }*/
-            /*FirebaseToken decodedToken;
-            try {
-                //TODO: Valider le token seulement sur l'url pour récupérer les infos d'un utilisateur.
-                LOGGER.info("Validate token");
-                decodedToken = FirebaseAuth.getInstance().verifyIdTokenAsync(token, false).get();
-                AppUserService.getAppUser(decodedToken);
-            } catch (InterruptedException e) {
-                LOGGER.log(Level.FINER, "Interrupted verify id token", e);
-                e.printStackTrace();
-                response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, "Timeout");
-                return;
-            } catch (ExecutionException e) {
-                LOGGER.log(Level.FINE, "Forbidden access data", e);
-                e.printStackTrace();
-                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Forbidden");
-                return;
-            }*/
-        } else {
-            // logout if no auth
+            filterChain.doFilter(servletRequest, servletResponse);
+        } finally {
+            // Ne jamais laisser d'utilisateur sur le thread (threads mutualisés) : anonyme, erreur ou exception aval.
             AppUserService.removeAppUser();
         }
-
-        filterChain.doFilter(servletRequest, servletResponse);
    }
+
+
+    /**
+     * Vérification du jeton auprès de Firebase Auth. Méthode séparée pour être substituée dans les tests.
+     */
+    FirebaseToken verifyIdToken(String token) throws FirebaseAuthException {
+        return FirebaseAuth.getInstance().verifyIdToken(token);
+    }
 
 	@SuppressWarnings("RedundantThrows")
     @Override
