@@ -1,20 +1,37 @@
 name: Supression d'une branche
 
+# Lance depuis la branche de base (develop), sans recuperer le code de la PR.
 on:
-  pull_request:
+  pull_request_target:
     types: [closed]
+
+permissions:
+  contents: read
 
 jobs:
   removeversion:
     name: Suppression d'une branche
     runs-on: ubuntu-latest
+    if: >-
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.head.repo.full_name == github.repository
     steps:
-      - uses: rlespinasse/github-slug-action@v2.x
-      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      - uses: google-github-actions/auth@v3
         with:
-          version: "277.0.0"
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-      - run: |
-          APP_VERSION=${{ env.GITHUB_HEAD_REF_SLUG }}
-          echo Delete version ${APP_VERSION}
-          gcloud app versions delete --project test-liste-envies ${APP_VERSION}
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - uses: google-github-actions/setup-gcloud@v3
+      - name: Suppression de la version App Engine
+        env:
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          # Meme nom que dans .circleci/config.yml
+          BRANCH="${HEAD_REF//[^a-zA-Z0-9]/-}"
+          APP_VERSION="${BRANCH:0:63}"
+          # Branches protegees (liste de noms, voir aussi les branches deployees en prod dans .circleci/config.yml)
+          case "$HEAD_REF" in
+            master|develop|beta*|preprod|preprod/*) echo "Branche protegee, rien supprime"; exit 0 ;;
+          esac
+          [ -n "$APP_VERSION" ] || { echo "Nom de version vide, rien supprime"; exit 0; }
+          echo "Delete version ${APP_VERSION}"
+          # gcloud refuse de supprimer une version qui recoit du trafic
+          gcloud app versions delete --quiet --project test-liste-envies "${APP_VERSION}"
