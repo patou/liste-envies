@@ -1,0 +1,146 @@
+name: Supression d'une branche
+
+# pull_request_target: le workflow vient de la branche de base, le code de la PR
+# n'est jamais recupere ni execute. Rien n'est checkout ici.
+on:
+  pull_request_target:
+    types: [closed]
+  workflow_dispatch:
+    inputs:
+      head_ref:
+        description: "Nom de branche dont on veut la version (test manuel)"
+        required: true
+      dry_run:
+        description: "true = ne supprime rien, affiche seulement"
+        required: true
+        default: "true"
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: delete-version-${{ github.event.pull_request.number || github.event.inputs.head_ref }}
+  cancel-in-progress: false
+
+jobs:
+  removeversion:
+    name: Suppression d'une branche
+    runs-on: ubuntu-latest
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.merged == true &&
+       github.event.pull_request.head.repo.full_name == github.repository &&
+       github.event.pull_request.base.ref == 'develop')
+    env:
+      GCP_PROJECT: test-liste-envies
+      # Mode par defaut: dry-run. Passer a "false" dans une PR separee apres avoir lu un run en dry-run.
+      DEFAULT_DRY_RUN: "true"
+      HEAD_REF: ${{ github.event.pull_request.head.ref || github.event.inputs.head_ref }}
+      PR_NUMBER: ${{ github.event.pull_request.number || '0' }}
+      INPUT_DRY_RUN: ${{ github.event.inputs.dry_run }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Calcul du nom de version (meme regle que .circleci/config.yml)
+        id: version
+        run: |
+          set -euo pipefail
+          skip() { echo "::notice::$1"; echo "skip=true" >> "$GITHUB_OUTPUT"; exit 0; }
+          DRY_RUN="$DEFAULT_DRY_RUN"
+          if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then DRY_RUN="$INPUT_DRY_RUN"; fi
+          [ "$DRY_RUN" = "false" ] || DRY_RUN=true   # tout autre valeur = dry-run
+          echo "dry_run=$DRY_RUN" >> "$GITHUB_OUTPUT"
+
+          BRANCH="${HEAD_REF//[^a-zA-Z0-9]/-}"
+          APP_VERSION="${BRANCH:0:63}"
+          [[ "$APP_VERSION" =~ ^[a-zA-Z0-9][a-zA-Z0-9-]{0,62}$ ]] || { echo "::error::Nom de version invalide"; exit 1; }
+          case "$APP_VERSION" in
+            develop|master|main|preprod*|beta*) skip "Version protegee ($APP_VERSION), rien supprime" ;;
+          esac
+
+          # Lectures GitHub: toute erreur (set -e / pipefail) arrete le job sans suppression.
+          gh pr list --repo "$GITHUB_REPOSITORY" --state open --limit 1000 \
+            --json number,headRefName > /tmp/prs.json
+          jq -e 'type=="array"' /tmp/prs.json > /dev/null
+          [ "$(jq length /tmp/prs.json)" -lt 1000 ] || { echo "::error::Liste de PR possiblement tronquee"; exit 1; }
+          gh api --paginate "repos/$GITHUB_REPOSITORY/branches?per_page=100" --jq '.[].name' > /tmp/branches.txt
+          [ -s /tmp/branches.txt ] || { echo "::error::Liste de branches vide"; exit 1; }
+          grep -qx develop /tmp/branches.txt || { echo "::error::Liste de branches incomplete (develop absente)"; exit 1; }
+
+          # Meme nom de version produit par une autre PR ouverte ou une autre branche existante ?
+          { jq -r --argjson n "$PR_NUMBER" '.[] | select(.number != $n) | .headRefName' /tmp/prs.json
+            grep -vxF -- "$HEAD_REF" /tmp/branches.txt || true; } > /tmp/others.txt
+          while IFS= read -r REF; do
+            [ -n "$REF" ] || continue
+            B="${REF//[^a-zA-Z0-9]/-}"
+            if [ "${B:0:63}" = "$APP_VERSION" ]; then skip "La branche ou PR '$REF' donne la meme version, rien supprime"; fi
+          done < /tmp/others.txt
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+          echo "app_version=$APP_VERSION" >> "$GITHUB_OUTPUT"
+
+      - if: steps.version.outputs.skip == 'false'
+        uses: google-github-actions/auth@v3
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - if: steps.version.outputs.skip == 'false'
+        uses: google-github-actions/setup-gcloud@v3
+
+      - name: Suppression de la version App Engine (fail-closed)
+        if: steps.version.outputs.skip == 'false'
+        env:
+          APP_VERSION: ${{ steps.version.outputs.app_version }}
+          DRY_RUN: ${{ steps.version.outputs.dry_run }}
+        run: |
+          set -euo pipefail
+          # Lecture complete via l'Admin API App Engine (apps.services, apps.services.versions),
+          # avec suivi explicite de nextPageToken. Si une page echoue ou si la pagination ne
+          # se termine pas, le job s'arrete sans rien supprimer.
+          TOKEN=$(gcloud auth print-access-token)
+          API="https://appengine.googleapis.com/v1/apps/${GCP_PROJECT}"
+          # usage: fetch_all URL KEY  -> ecrit un tableau JSON de tous les elements de KEY
+          fetch_all() {
+            local url="$1" key="$2" page_token="" n=0 out="[]" resp
+            while :; do
+              n=$((n+1)); [ "$n" -le 50 ] || { echo "::error::Pagination trop longue" >&2; return 1; }
+              if [ -n "$page_token" ]; then
+                resp=$(curl -fsS -H "Authorization: Bearer ${TOKEN}" -G --data-urlencode "pageSize=100" --data-urlencode "pageToken=${page_token}" "$url")
+              else
+                resp=$(curl -fsS -H "Authorization: Bearer ${TOKEN}" -G --data-urlencode "pageSize=100" "$url")
+              fi
+              echo "$resp" | jq -e 'type=="object"' > /dev/null || return 1
+              out=$(jq -c --argjson a "$out" --arg k "$key" '$a + (.[$k] // [])' <<< "$resp")
+              page_token=$(jq -r '.nextPageToken // ""' <<< "$resp")
+              [ -n "$page_token" ] || break
+            done
+            echo "$out"
+          }
+          SERVICES=$(fetch_all "${API}/services" services)
+          jq -e 'length > 0 and all(.[]; (.id|type=="string") and ((.split.allocations // {})|type=="object"))' <<< "$SERVICES" > /dev/null \
+            || { echo "::error::Services illisibles ou absents, aucune suppression"; exit 1; }
+          # Toutes les versions de tous les services: {service, id, traffic}
+          ALL="[]"
+          for SERVICE in $(jq -r '.[].id' <<< "$SERVICES"); do
+            V=$(fetch_all "${API}/services/${SERVICE}/versions" versions)
+            ALL=$(jq -c --argjson a "$ALL" --arg s "$SERVICE" --argjson svc "$SERVICES" \
+              '($svc | map(select(.id==$s)) | .[0].split.allocations // {}) as $al
+               | $a + [.[] | {service:$s, id:.id, traffic:($al[.id] // 0)}]' <<< "$V") \
+              || { echo "::error::Versions illisibles pour $SERVICE"; exit 1; }
+          done
+          jq -e 'all(.[]; (.id|type=="string") and (.traffic|type=="number"))' <<< "$ALL" > /dev/null \
+            || { echo "::error::Format inattendu, aucune suppression"; exit 1; }
+          # Garde-fou de completude: la version develop doit etre presente ET en trafic ou connue
+          jq -e 'any(.[]; .id=="develop")' <<< "$ALL" > /dev/null \
+            || { echo "::error::Version develop introuvable, lecture incomplete, aucune suppression"; exit 1; }
+
+          MATCHES=$(jq -c --arg v "$APP_VERSION" '[.[] | select(.id==$v)]' <<< "$ALL")
+          if [ "$(jq length <<< "$MATCHES")" -eq 0 ]; then echo "Version $APP_VERSION absente, rien a supprimer"; exit 0; fi
+          echo "Versions trouvees: $MATCHES"
+          jq -e 'all(.[]; .traffic == 0)' <<< "$MATCHES" > /dev/null \
+            || { echo "::error::La version $APP_VERSION recoit du trafic, suppression refusee"; exit 1; }
+          if [ "$DRY_RUN" != "false" ]; then
+            echo "DRY RUN: supprimerait $APP_VERSION dans $GCP_PROJECT, rien supprime"; exit 0
+          fi
+          for SERVICE in $(jq -r '.[].service' <<< "$MATCHES"); do
+            gcloud app versions delete --quiet --project "$GCP_PROJECT" --service "$SERVICE" "$APP_VERSION"
+          done
