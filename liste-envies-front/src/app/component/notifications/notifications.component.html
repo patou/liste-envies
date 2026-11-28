@@ -6,8 +6,8 @@
     class="notification-items"
     [routerLink]="['/', notification.listId]"
   >
-    <mat-icon fontSet="fa" mat-list-icon fontIcon="fa-plus"></mat-icon>
-    <h4 mat-line class="notification-text">
+    <mat-icon fontSet="fa" matListItemIcon fontIcon="fa-plus"></mat-icon>
+    <h4 matListItemTitle class="notification-text">
       <b>{{ notification.actionUserName }}</b> a ajouté une nouvelle envie
       <b>{{ notification.message }}</b> à la liste "<u>{{
         notification.listName
@@ -15,7 +15,7 @@
       >"
     </h4>
     <p
-      mat-line
+      matListItemLine
       matTooltip="{{ notification.date | date: 'long' }}"
       class="date"
     >
@@ -29,15 +29,15 @@
     class="notification-items"
     [routerLink]="['/', notification.listId]"
   >
-    <mat-icon fontSet="far" mat-list-icon fontIcon="fa-edit"></mat-icon>
-    <h4 mat-line class="notification-text">
+    <mat-icon fontSet="far" matListItemIcon fontIcon="fa-edit"></mat-icon>
+    <h4 matListItemTitle class="notification-text">
       L'envie <b>{{ notification.message }}</b> de la liste "<u>{{
         notification.listName
       }}</u
       >" a été mise à jour
     </h4>
     <p
-      mat-line
+      matListItemLine
       matTooltip="{{ notification.date | date: 'long' }}"
       class="date"
     >
@@ -48,15 +48,15 @@
   </mat-list-item>
   } @case (Notification_type.DELETE_WISH) {
   <mat-list-item class="notification-items">
-    <mat-icon fontSet="fa" mat-list-icon fontIcon="fa-trash"></mat-icon>
-    <h4 mat-line class="notification-text">
+    <mat-icon fontSet="fa" matListItemIcon fontIcon="fa-trash"></mat-icon>
+    <h4 matListItemTitle class="notification-text">
       L'envie <b>{{ notification.message }}</b> de la liste "<u>{{
         notification.listName
       }}</u
       >" a été supprimée
     </h4>
     <p
-      mat-line
+      matListItemLine
       matTooltip="{{ notification.date | date: 'long' }}"
       class="date"
     >
@@ -70,15 +70,15 @@
     class="notification-items"
     [routerLink]="['/', notification.listId]"
   >
-    <mat-icon fontSet="fa" mat-list-icon fontIcon="fa-gift"></mat-icon>
-    <h4 mat-line class="notification-text">
+    <mat-icon fontSet="fa" matListItemIcon fontIcon="fa-gift"></mat-icon>
+    <h4 matListItemTitle class="notification-text">
       L'envie <b>{{ notification.message }}</b> de la liste "<u>{{
         notification.listName
       }}</u
       >" sera offerte par <b>{{ notification.actionUserName }}</b>
     </h4>
     <p
-      mat-line
+      matListItemLine
       matTooltip="{{ notification.date | date: 'long' }}"
       class="date"
     >
@@ -92,13 +92,13 @@
     class="notification-items"
     [routerLink]="['/', notification.listId]"
   >
-    <mat-icon fontSet="fa" mat-list-icon fontIcon="fa-list"></mat-icon>
-    <h4 mat-line class="notification-text">
+    <mat-icon fontSet="fa" matListItemIcon fontIcon="fa-list"></mat-icon>
+    <h4 matListItemTitle class="notification-text">
       Une nouvelle liste <i>{{ notification.message }}</i> a été créée par
       <b>{{ notification.actionUserName }}</b>
     </h4>
     <p
-      mat-line
+      matListItemLine
       matTooltip="{{ notification.date | date: 'long' }}"
       class="date"
     >
@@ -112,13 +112,13 @@
     class="notification-items"
     [routerLink]="['/', notification.listId]"
   >
-    <mat-icon fontSet="fa" mat-list-icon fontIcon="fa-user-plus"></mat-icon>
-    <h4 mat-line class="notification-text">
+    <mat-icon fontSet="fa" matListItemIcon fontIcon="fa-user-plus"></mat-icon>
+    <h4 matListItemTitle class="notification-text">
       La liste "<u>{{ notification.listName }}</u
       >" vous a été partagée par <b>{{ notification.actionUserName }}</b>
     </h4>
     <p
-      mat-line
+      matListItemLine
       matTooltip="{{ notification.date | date: 'long' }}"
       class="date"
     >
@@ -128,9 +128,9 @@
     <mat-divider [inset]="true"></mat-divider>
   </mat-list-item>
   } @case (Notification_type.ARCHIVE_WISH) {
-  <mat-list-item>
-    <mat-icon fontSet="fa" mat-list-icon fontIcon="fa-archive"></mat-icon>
-    <h4 mat-line class="notification-text">
+  <mat-list-item class="notification-items">
+    <mat-icon fontSet="fa" matListItemIcon fontIcon="fa-archive"></mat-icon>
+    <h4 matListItemTitle class="notification-text">
       <b>{{ notification.actionUserName }}</b> a archivé une envie
       <i>{{ notification.message }}</i> de la liste "<u>{{
         notification.listName
@@ -138,7 +138,7 @@
       >"
     </h4>
     <p
-      mat-line
+      matListItemLine
       matTooltip="{{ notification.date | date: 'long' }}"
       class="date"
     >
@@ -152,17 +152,17 @@
     class="notification-items"
     [routerLink]="['/', notification.listId]"
   >
-    <mat-icon fontSet="fa" mat-list-icon fontIcon="fa-comment"></mat-icon>
-    <h4 mat-line class="notification-text">
+    <mat-icon fontSet="fa" matListItemIcon fontIcon="fa-comment"></mat-icon>
+    <h4 matListItemTitle class="notification-text">
       <b>{{ notification.actionUserName }}</b> a commenté sur une envie de la
       liste "<u>{{ notification.listName }}</u
       >" :
     </h4>
-    <p mat-line class="comment-line" notification.message>
+    <p matListItemLine class="comment-line">
       {{ notification.message | stripTags | truncate: 60 }}
     </p>
     <p
-      mat-line
+      matListItemLine
       matTooltip="{{ notification.date | date: 'long' }}"
       class="date"
     >

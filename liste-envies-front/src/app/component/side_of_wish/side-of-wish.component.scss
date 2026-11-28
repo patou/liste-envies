@@ -35,3 +35,26 @@
 .wishitems-columns {
   padding: 10px;
 }
+
+// Titre de l'envie sur toute la largeur, nom de la liste en dessous
+.mat-expansion-panel-header {
+  height: auto !important;
+  min-height: 48px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+::ng-deep app-side-of-wish .mat-expansion-panel-header .mat-content {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2px;
+}
+mat-panel-title,
+mat-panel-description {
+  flex: 0 0 auto;
+  width: 100%;
+  margin-right: 0;
+}
+mat-panel-description {
+  font-size: 0.85em;
+}
