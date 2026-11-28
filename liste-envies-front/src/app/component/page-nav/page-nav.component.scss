@@ -10,7 +10,19 @@
     .bottom-tabs {
       max-width: 100%;
       min-width: 100%;
-      ::ng-deep .mat-tab-body-content {
+      // Material 3 : le groupe remplit la hauteur du panneau, onglets fixes en bas,
+      // en-tete bleu fixe en haut, seul .sidenav-content defile (court ou long)
+      height: 100%;
+      ::ng-deep .mat-mdc-tab-body-wrapper {
+        flex: 1 1 0;
+        min-height: 0;
+        height: auto;
+      }
+      ::ng-deep .mat-mdc-tab-body.mat-mdc-tab-body-active {
+        overflow: hidden;
+        height: 100%;
+      }
+      ::ng-deep .mat-mdc-tab-body-content {
         overflow: hidden;
         height: 100%;
         display: flex;
@@ -39,12 +51,16 @@
         height: 70px;
       }
 
+      ::ng-deep mat-toolbar.mat-toolbar.sidenav-top {
+        flex: 0 0 70px;
+      }
+
       ::ng-deep .sidenav-content {
-        flex-grow: 1;
-        overflow-y: scroll;
+        flex: 1 1 0;
+        min-height: 0;
+        overflow-y: auto;
         overflow-x: hidden;
         width: 100%;
-        height: 100%;
       }
       ::ng-deep.mat-mdc-tab-link,
       ::ng-deep.mat-tab-label,
@@ -60,14 +76,6 @@
       display: flex;
       flex: 1;
     }
-    ::ng-deep .mat-tab-body-wrapper {
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      height: 100%;
-      width: 100%;
-    }
-
     button.closeRightSidePannel {
       position: absolute;
       right: 6px;
