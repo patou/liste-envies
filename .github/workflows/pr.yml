@@ -4,7 +4,16 @@ on: [pull_request]
 
 jobs:
   commentpr:
+    # Dependabot et les forks : jeton en lecture seule et pas d'acces aux secrets, job saute.
+    if: github.actor != 'dependabot[bot]' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: [ubuntu-latest]
+    permissions:
+      contents: read
+      statuses: read
+      checks: read
+      pull-requests: write
+    env:
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     steps:
       - name: "Wait for status checks"
         id: waitforstatuschecks
@@ -23,6 +32,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           allow-repeats: false
       - name: Slack notification
+        if: env.SLACK_WEBHOOK != ''
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_AVATAR: repository # Optional. can be (repository, sender, an URL) (defaults to webhook app avatar)
