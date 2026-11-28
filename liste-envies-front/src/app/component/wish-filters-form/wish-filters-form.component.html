@@ -2,6 +2,7 @@
   class="form-filters layout-row space-between-center gap-10 layout-row-lt-lg gap-2-lt-md"
   [formGroup]="filtersForm"
 >
+  <div class="filter-toggles">
   <mat-button-toggle-group
     #typeWishToogle="matButtonToggleGroup"
     formControlName="type"
@@ -40,6 +41,7 @@
       >Commentaires</mat-button-toggle
     >
   </mat-button-toggle-group>
+  </div>
 
   <mat-form-field appearance="fill" class="filters-wish-formfield">
     <mat-label>Recherche</mat-label>
