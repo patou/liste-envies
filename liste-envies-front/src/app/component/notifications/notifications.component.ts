@@ -7,10 +7,16 @@ import {
   Notification,
   Notification_type
 } from "../../state/app/notification.model";
-import { MatNavList, MatListItem, MatDivider } from "@angular/material/list";
+import {
+  MatNavList,
+  MatListItem,
+  MatDivider,
+  MatListItemIcon,
+  MatListItemTitle,
+  MatListItemLine
+} from "@angular/material/list";
 import { RouterLink } from "@angular/router";
 import { MatIcon } from "@angular/material/icon";
-import { MatLine } from "@angular/material/grid-list";
 import { MatTooltip } from "@angular/material/tooltip";
 import { AsyncPipe, DatePipe } from "@angular/common";
 import { StripTagsPipe } from "../../shared/pipes/strip-tags.pipe";
@@ -26,7 +32,9 @@ import { MomentModule } from "ngx-moment";
     MatListItem,
     RouterLink,
     MatIcon,
-    MatLine,
+    MatListItemIcon,
+    MatListItemTitle,
+    MatListItemLine,
     MatTooltip,
     MatDivider,
     AsyncPipe,

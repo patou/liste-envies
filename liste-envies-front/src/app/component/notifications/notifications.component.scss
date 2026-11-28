@@ -12,3 +12,17 @@
     text-overflow: unset !important;
   }
 }
+
+// Date : icone calendrier alignee a gauche du texte, sur la meme ligne
+.notification-items p.date {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  .mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    margin: 0;
+  }
+}
